@@ -1,4 +1,5 @@
 local file = require "utils.file"
+local utils = require "utils.utils"
 
 local M = {}
 
@@ -14,7 +15,7 @@ function M.init()
 end
 
 local function get_pokemon(pokemon)
-	return M.pokedex[pokemon]
+	return utils.shallow_copy(M.pokedex[pokemon])
 end
 
 function M.is_pokemon(pokemon)
@@ -28,7 +29,7 @@ end
 function M.get_pokemons_moves(pokemon, level)
 	level = level or 20
 	local moves = get_pokemon(pokemon)["Moves"]
-	local pick_from = moves["Starting Moves"]
+	local pick_from = utils.shallow_copy(moves["Starting Moves"])
 	for l, move in pairs(moves["Level"]) do
 		if tonumber(l) < level then
 			for _, m in pairs(move) do

@@ -40,7 +40,7 @@ local function redraw(self)
 		local available_at_current_level = pokemon.level_data(self.pokemon.level).ASI
 		local available = (available_at_current_level - available_at_min_level) * 2
 		gui.set_text(spicies_node, self.pokemon.spicies)
-		gui.set_text(max_improve_node, available)
+		gui.set_text(max_improve_node, available - self.ability_score_improvment)
 	end
 	
 	local move_1_node = gui.get_node("move_1")
@@ -72,7 +72,7 @@ local function pick_move(self, number)
 		gui.set_enabled(self.root, false)
 		gui.set_position(self.scrollist, vmath.vector3())
 		self.state = 3
-		local available_moves = utils.shallow_copy(pokedex.get_pokemons_moves(self.pokemon.spicies, self.pokemon.level))
+		local available_moves = pokedex.get_pokemons_moves(self.pokemon.spicies, self.pokemon.level)
 		for _, move in pairs(self.pokemon.moves) do
 			for i, selected_move in pairs(available_moves) do
 				if move == selected_move then
@@ -81,6 +81,7 @@ local function pick_move(self, number)
 			end
 		end
 		self.list_items = available_moves
+
 		self.pokemon.moves[number] = selected_item
 		redraw(self)
 	end
@@ -170,20 +171,20 @@ function init(self)
 			self.pokemon.nature = selected_item
 		elseif self.state == 2 then
 			self.pokemon.spicies = selected_item
-			self.pokemon.moves={"None", "None", "None", "None"}
-			self.pokemon.level = pokedex.minumum_level(selected_item)
+			self.pokemon.moves = {"None", "None", "None", "None"}
+			self.pokemon.level = pokedex.minumum_level(selected_item) > self.pokemon.level and pokedex.minumum_level(selected_item) or self.pokemon.level
 		elseif self.state == 3 then
 			self.pokemon.moves[self.move_button_index] = selected_item
 		end
 		selected_item = "None"
-		gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", {})
+		self.list_items = {}
 		redraw(self)
 	end)
 
 	button.register("scrollist/btn_quit", function()
 		gui.set_enabled(self.root, true)
 		gui.set_position(self.scrollist, vmath.vector3(720, 0, 0))
-		gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", {})
+		self.list_items = {}
 	end)
 	
 	button.register("move_1", function()
