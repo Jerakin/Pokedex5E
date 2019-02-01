@@ -142,9 +142,11 @@ function init(self)
 		end
 	end)
 	button.register("btn_level_reduce", function()
-		if self.pokemon.level > 1 and self.pokemon.level > pokedex.minumum_level(self.pokemon.spicies) then
-			self.pokemon.level = self.pokemon.level - 1
-			redraw(self)
+		if pokedex.is_pokemon(self.pokemon.spicies) then
+			if self.pokemon.level > 1 and self.pokemon.level > pokedex.minumum_level(self.pokemon.spicies) then
+				self.pokemon.level = self.pokemon.level - 1
+				redraw(self)
+			end
 		end
 	end)
 

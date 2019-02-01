@@ -19,7 +19,7 @@ local function get_pokemon(pokemon)
 end
 
 function M.is_pokemon(pokemon)
-	return get_pokemon(pokemon) and true or false
+	return M.pokedex[pokemon] and true or false
 end
 
 function M.minumum_level(pokemon)
