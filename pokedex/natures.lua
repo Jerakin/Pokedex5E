@@ -13,6 +13,10 @@ local function list()
 	return temp_list, total
 end
 
+function M.is_nature(nature)
+	return M.natures[nature] and true or false
+end
+
 function M.init()
 	M.natures = file.load_json_from_resource("/assets/datafiles/natures.json")
 	M.list, M.total = list()

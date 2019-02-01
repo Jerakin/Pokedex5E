@@ -168,25 +168,32 @@ function init(self)
 	button.register("scrollist/btn_okay", function()
 		gui.set_enabled(self.root, true)
 		gui.set_position(self.scrollist, vmath.vector3(720, 0, 0))
-
+		
 		if self.state == 1 then
-			self.pokemon.nature = selected_item
+			if natures.is_nature(selected_item) then
+				self.pokemon.nature = selected_item
+			end
 		elseif self.state == 2 then
-			self.pokemon.spicies = selected_item
-			self.pokemon.moves = {"None", "None", "None", "None"}
-			self.pokemon.level = pokedex.minumum_level(selected_item) > self.pokemon.level and pokedex.minumum_level(selected_item) or self.pokemon.level
+			if pokedex.is_pokemon(selected_item) then
+				self.pokemon.spicies = selected_item
+				self.pokemon.moves = {"None", "None", "None", "None"}
+				self.pokemon.level = pokedex.minumum_level(selected_item) > self.pokemon.level and pokedex.minumum_level(selected_item) or self.pokemon.level
+			end
 		elseif self.state == 3 then
 			self.pokemon.moves[self.move_button_index] = selected_item
 		end
-		selected_item = "None"
 		self.list_items = {}
+		gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", {})
+		selected_item = "None"
 		redraw(self)
 	end)
 
 	button.register("scrollist/btn_quit", function()
 		gui.set_enabled(self.root, true)
 		gui.set_position(self.scrollist, vmath.vector3(720, 0, 0))
+		selected_item = "None"
 		self.list_items = {}
+		gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", {})
 	end)
 	
 	button.register("move_1", function()
