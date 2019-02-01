@@ -1,0 +1,23 @@
+local monarch = require "monarch.monarch"
+local natures = require "pokedex.natures"
+local pokedex = require "pokedex.pokedex"
+local pokemon = require "pokedex.pokemon"
+
+function init(self)
+	natures.init()
+	pokedex.init()
+	pokemon.init()
+	msg.post("#", "show_first_screen")
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("show_first_screen") then
+		monarch.show(hash("splash"))
+	end
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") and action.pressed then
+		print("Touch!")
+	end
+end

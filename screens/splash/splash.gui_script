@@ -1,0 +1,40 @@
+local button = require "utils.button"
+local monarch = require "monarch.monarch"
+
+function init(self)
+	button.acquire()
+	button.register("btn_seen", function()
+		
+	end)
+	button.register("btn_party", function()
+	end)
+	button.register("btn_storage", function()
+	end)
+	button.register("btn_add", function()
+		monarch.show("add")
+	end)
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	-- Add message-handling code here
+	-- Remove this function if not needed
+end
+
+function on_input(self, action_id, action)
+	button.on_input(action_id, action)
+end
+
+function on_reload(self)
+	-- Add input-handling code here
+	-- Remove this function if not needed
+end
