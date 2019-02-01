@@ -4,6 +4,7 @@ local gooey = require "gooey.gooey"
 local natures = require "pokedex.natures"
 local pokemon = require "pokedex.pokemon"
 local pokedex = require "pokedex.pokedex"
+local storage = require "pokedex.storage"
 
 local utils = require "utils.utils"
 
@@ -164,7 +165,6 @@ function init(self)
 		self.list_items = natures.list
 	end)
 
-
 	button.register("scrollist/btn_okay", function()
 		gui.set_enabled(self.root, true)
 		gui.set_position(self.scrollist, vmath.vector3(720, 0, 0))
@@ -214,6 +214,18 @@ function init(self)
 	button.register("move_4", function()
 		self.move_button_index = 4
 		pick_move(self, 4)
+	end)
+
+	button.register("btn_add", function()
+		if self.pokemon.nature ~= "" and self.pokemon.spicies ~= "" then
+			storage.add(self.pokemon)
+			self.pokemon = {spicies="", level=1, nature="", STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0, moves={"None", "None", "None", "None"}}
+			redraw(self)
+		end
+	end)
+
+	button.register("btn_back", function()
+		monarch.show("splash")
 	end)
 	
 	redraw(self)
