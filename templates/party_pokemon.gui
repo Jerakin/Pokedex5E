@@ -1,12 +1,4 @@
-script: "/screens/party/party.gui_script"
-fonts {
-  name: "title"
-  font: "/assets/fonts/title.font"
-}
-fonts {
-  name: "script"
-  font: "/assets/fonts/script.font"
-}
+script: ""
 fonts {
   name: "data"
   font: "/assets/fonts/data.font"
@@ -19,279 +11,6 @@ background_color {
 }
 nodes {
   position {
-    x: 490.0
-    y: 901.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.4
-    y: 0.4
-    z: 0.4
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: ""
-  id: "btn_back"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  layer: "box"
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_AUTO
-}
-nodes {
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Back"
-  font: "script"
-  id: "text1"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "btn_back"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 1.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 720.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 720.0
-    y: 1280.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: ""
-  id: "description_bg"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_SW
-  adjust_mode: ADJUST_MODE_FIT
-  layer: "box"
-  inherit_alpha: false
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 0.8
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: 360.0
-    y: 640.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 720.0
-    y: 640.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "You target a Pokemon with an intimidating growl. The Pokemon must make a WIS save against your Move DC. On a fail, it adds -1 to any attack it makes for the duration. This modifier can be stacked if it fails multiple growl saves, up to a maximum of -5.\t\t\t\t\t"
-  font: "data"
-  id: "description"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: true
-  parent: "description_bg"
-  layer: "data"
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 1.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_TEMPLATE
-  id: "pokemon"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  template: "/templates/party_pokemon.gui"
-  template_node_child: false
-}
-nodes {
-  position {
     x: 0.0
     y: 0.0
     z: 0.0
@@ -324,12 +43,11 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/root"
+  id: "root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon"
   layer: "box"
   inherit_alpha: true
   slice9 {
@@ -342,7 +60,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -380,7 +98,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "LEVEL: 5"
   font: "data"
-  id: "pokemon/level"
+  id: "level"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -398,13 +116,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/root"
+  parent: "root"
   layer: "data"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -442,12 +160,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/tab_3"
+  id: "tab_3"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_SW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/root"
+  parent: "root"
   layer: "box"
   inherit_alpha: true
   slice9 {
@@ -460,7 +178,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -497,12 +215,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/tab_bg_3"
+  id: "tab_bg_3"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_NW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/tab_3"
+  parent: "tab_3"
   layer: "box"
   inherit_alpha: true
   slice9 {
@@ -515,7 +233,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -552,12 +270,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/stat_blocks"
+  id: "stat_blocks"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/tab_bg_3"
+  parent: "tab_bg_3"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -570,7 +288,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -610,7 +328,7 @@ nodes {
   "DEX: +9 WIS: +9\n"
   "CON: +9 CHA: +9"
   font: "data"
-  id: "pokemon/attributes"
+  id: "attributes"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_N
@@ -628,13 +346,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/stat_blocks"
+  parent: "stat_blocks"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -673,7 +391,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Attributes"
   font: "data"
-  id: "pokemon/title_attributes"
+  id: "title_attributes"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_N
@@ -691,13 +409,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/stat_blocks"
+  parent: "stat_blocks"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -738,7 +456,7 @@ nodes {
   "DEX: +9 WIS: +9\n"
   "CON: +9 CHA: +9"
   font: "data"
-  id: "pokemon/savingthrows"
+  id: "savingthrows"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_N
@@ -756,13 +474,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/stat_blocks"
+  parent: "stat_blocks"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -801,7 +519,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Skills"
   font: "data"
-  id: "pokemon/title_skills"
+  id: "title_skills"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_N
@@ -819,13 +537,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/stat_blocks"
+  parent: "stat_blocks"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -864,7 +582,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Athletics, Dancing"
   font: "data"
-  id: "pokemon/skills"
+  id: "skills"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_N
@@ -882,13 +600,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/stat_blocks"
+  parent: "stat_blocks"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -927,7 +645,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Saving Throws"
   font: "data"
-  id: "pokemon/title_saving_throws"
+  id: "title_saving_throws"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_N
@@ -945,13 +663,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/stat_blocks"
+  parent: "stat_blocks"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -990,7 +708,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Prof: 5"
   font: "data"
-  id: "pokemon/prof"
+  id: "prof"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_N
@@ -1008,13 +726,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/stat_blocks"
+  parent: "stat_blocks"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -1053,7 +771,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "STAB: 5"
   font: "data"
-  id: "pokemon/stab"
+  id: "stab"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_N
@@ -1071,13 +789,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/stat_blocks"
+  parent: "stat_blocks"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -1116,7 +834,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Geodude"
   font: "data"
-  id: "pokemon/species"
+  id: "species"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -1134,13 +852,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/root"
+  parent: "root"
   layer: "data"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -1178,12 +896,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/tab_2"
+  id: "tab_2"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_SW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/root"
+  parent: "root"
   layer: "box"
   inherit_alpha: true
   slice9 {
@@ -1196,7 +914,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -1233,12 +951,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/tab_bg_2"
+  id: "tab_bg_2"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_NW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/tab_2"
+  parent: "tab_2"
   layer: "box"
   inherit_alpha: true
   slice9 {
@@ -1251,7 +969,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -1286,13 +1004,13 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "pokemon/ability"
-  parent: "pokemon/tab_bg_2"
+  id: "ability"
+  parent: "tab_bg_2"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
   template: "/templates/ability.gui"
-  template_node_child: true
+  template_node_child: false
 }
 nodes {
   position {
@@ -1328,12 +1046,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/ability/root"
+  id: "ability/root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/ability"
+  parent: "ability"
   layer: "box"
   inherit_alpha: true
   slice9 {
@@ -1384,7 +1102,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Guts"
   font: "data"
-  id: "pokemon/ability/name"
+  id: "ability/name"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_NW
@@ -1402,7 +1120,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/ability/root"
+  parent: "ability/root"
   layer: "data"
   inherit_alpha: true
   alpha: 1.0
@@ -1447,7 +1165,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "When this Pokemon is burned or poisoned, they are not affected by the disadvantage or half damage effects. They still take damage at the end of each of their turns."
   font: "data"
-  id: "pokemon/ability/description"
+  id: "ability/description"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_NW
@@ -1465,7 +1183,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
-  parent: "pokemon/ability/root"
+  parent: "ability/root"
   layer: "data"
   inherit_alpha: true
   alpha: 1.0
@@ -1510,7 +1228,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Ac: 13"
   font: "data"
-  id: "pokemon/ac"
+  id: "ac"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -1528,13 +1246,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/root"
+  parent: "root"
   layer: "data"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -1573,7 +1291,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "HP: 16"
   font: "data"
-  id: "pokemon/hp"
+  id: "hp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -1591,13 +1309,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/root"
+  parent: "root"
   layer: "data"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -1636,7 +1354,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Hasty"
   font: "data"
-  id: "pokemon/nature"
+  id: "nature"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -1654,13 +1372,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/root"
+  parent: "root"
   layer: "data"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -1698,12 +1416,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/tab_1"
+  id: "tab_1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_SW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/root"
+  parent: "root"
   layer: "box"
   inherit_alpha: true
   slice9 {
@@ -1716,7 +1434,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -1753,12 +1471,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/tab_bg_1"
+  id: "tab_bg_1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_NW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/tab_1"
+  parent: "tab_1"
   layer: "box"
   inherit_alpha: true
   slice9 {
@@ -1771,7 +1489,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -1806,13 +1524,13 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "pokemon/move_5"
-  parent: "pokemon/tab_bg_1"
+  id: "move_5"
+  parent: "tab_bg_1"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
   template: "/templates/move.gui"
-  template_node_child: true
+  template_node_child: false
 }
 nodes {
   position {
@@ -1848,12 +1566,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_5/root"
+  id: "move_5/root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_SW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_5"
+  parent: "move_5"
   layer: "box"
   inherit_alpha: true
   slice9 {
@@ -1903,12 +1621,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_5/move"
+  id: "move_5/move"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_SW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_5/root"
+  parent: "move_5/root"
   layer: "box"
   inherit_alpha: false
   slice9 {
@@ -1959,7 +1677,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "-"
   font: "script"
-  id: "pokemon/move_5/duration"
+  id: "move_5/duration"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_E
@@ -1977,7 +1695,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_5/move"
+  parent: "move_5/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -2022,7 +1740,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "AB: 8 "
   font: "script"
-  id: "pokemon/move_5/bonus"
+  id: "move_5/bonus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -2040,7 +1758,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_5/move"
+  parent: "move_5/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -2085,7 +1803,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Growl"
   font: "script"
-  id: "pokemon/move_5/name"
+  id: "move_5/name"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -2103,7 +1821,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_5/move"
+  parent: "move_5/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -2148,7 +1866,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "1 Action"
   font: "script"
-  id: "pokemon/move_5/action"
+  id: "move_5/action"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -2166,7 +1884,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_5/move"
+  parent: "move_5/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -2211,7 +1929,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "1d6+Move"
   font: "script"
-  id: "pokemon/move_5/damage"
+  id: "move_5/damage"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_E
@@ -2229,7 +1947,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_5/move"
+  parent: "move_5/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -2274,7 +1992,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "100 ft"
   font: "script"
-  id: "pokemon/move_5/range"
+  id: "move_5/range"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -2292,7 +2010,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_5/move"
+  parent: "move_5/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -2337,7 +2055,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "PP: 20"
   font: "script"
-  id: "pokemon/move_5/pp"
+  id: "move_5/pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -2355,7 +2073,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_5/move"
+  parent: "move_5/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -2399,12 +2117,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_5/btn_decease_pp"
+  id: "move_5/btn_decease_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_5/move"
+  parent: "move_5/move"
   layer: "box"
   inherit_alpha: false
   slice9 {
@@ -2455,7 +2173,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "-"
   font: "script"
-  id: "pokemon/move_5/text"
+  id: "move_5/text"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -2473,7 +2191,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_5/btn_decease_pp"
+  parent: "move_5/btn_decease_pp"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -2517,12 +2235,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_5/btn_reset_pp"
+  id: "move_5/btn_reset_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_5/move"
+  parent: "move_5/move"
   layer: "box"
   inherit_alpha: false
   slice9 {
@@ -2573,7 +2291,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "R"
   font: "script"
-  id: "pokemon/move_5/text1"
+  id: "move_5/text1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -2591,7 +2309,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_5/btn_reset_pp"
+  parent: "move_5/btn_reset_pp"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -2633,13 +2351,13 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "pokemon/move_4"
-  parent: "pokemon/tab_bg_1"
+  id: "move_4"
+  parent: "tab_bg_1"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
   template: "/templates/move.gui"
-  template_node_child: true
+  template_node_child: false
 }
 nodes {
   position {
@@ -2675,12 +2393,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_4/root"
+  id: "move_4/root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_SW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_4"
+  parent: "move_4"
   layer: "box"
   inherit_alpha: true
   slice9 {
@@ -2730,12 +2448,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_4/move"
+  id: "move_4/move"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_SW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_4/root"
+  parent: "move_4/root"
   layer: "box"
   inherit_alpha: false
   slice9 {
@@ -2786,7 +2504,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "-"
   font: "script"
-  id: "pokemon/move_4/duration"
+  id: "move_4/duration"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_E
@@ -2804,7 +2522,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_4/move"
+  parent: "move_4/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -2849,7 +2567,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "AB: 8 "
   font: "script"
-  id: "pokemon/move_4/bonus"
+  id: "move_4/bonus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -2867,7 +2585,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_4/move"
+  parent: "move_4/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -2912,7 +2630,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Growl"
   font: "script"
-  id: "pokemon/move_4/name"
+  id: "move_4/name"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -2930,7 +2648,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_4/move"
+  parent: "move_4/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -2975,7 +2693,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "1 Action"
   font: "script"
-  id: "pokemon/move_4/action"
+  id: "move_4/action"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -2993,7 +2711,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_4/move"
+  parent: "move_4/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -3038,7 +2756,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "1d6+Move"
   font: "script"
-  id: "pokemon/move_4/damage"
+  id: "move_4/damage"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_E
@@ -3056,7 +2774,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_4/move"
+  parent: "move_4/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -3101,7 +2819,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "100 ft"
   font: "script"
-  id: "pokemon/move_4/range"
+  id: "move_4/range"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -3119,7 +2837,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_4/move"
+  parent: "move_4/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -3164,7 +2882,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "PP: 20"
   font: "script"
-  id: "pokemon/move_4/pp"
+  id: "move_4/pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -3182,7 +2900,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_4/move"
+  parent: "move_4/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -3226,12 +2944,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_4/btn_decease_pp"
+  id: "move_4/btn_decease_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_4/move"
+  parent: "move_4/move"
   layer: "box"
   inherit_alpha: false
   slice9 {
@@ -3282,7 +3000,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "-"
   font: "script"
-  id: "pokemon/move_4/text"
+  id: "move_4/text"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -3300,7 +3018,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_4/btn_decease_pp"
+  parent: "move_4/btn_decease_pp"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -3344,12 +3062,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_4/btn_reset_pp"
+  id: "move_4/btn_reset_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_4/move"
+  parent: "move_4/move"
   layer: "box"
   inherit_alpha: false
   slice9 {
@@ -3400,7 +3118,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "R"
   font: "script"
-  id: "pokemon/move_4/text1"
+  id: "move_4/text1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -3418,7 +3136,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_4/btn_reset_pp"
+  parent: "move_4/btn_reset_pp"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -3460,13 +3178,13 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "pokemon/move_3"
-  parent: "pokemon/tab_bg_1"
+  id: "move_3"
+  parent: "tab_bg_1"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
   template: "/templates/move.gui"
-  template_node_child: true
+  template_node_child: false
 }
 nodes {
   position {
@@ -3502,12 +3220,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_3/root"
+  id: "move_3/root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_SW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_3"
+  parent: "move_3"
   layer: "box"
   inherit_alpha: true
   slice9 {
@@ -3557,12 +3275,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_3/move"
+  id: "move_3/move"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_SW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_3/root"
+  parent: "move_3/root"
   layer: "box"
   inherit_alpha: false
   slice9 {
@@ -3613,7 +3331,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "-"
   font: "script"
-  id: "pokemon/move_3/duration"
+  id: "move_3/duration"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_E
@@ -3631,7 +3349,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_3/move"
+  parent: "move_3/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -3676,7 +3394,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "AB: 8 "
   font: "script"
-  id: "pokemon/move_3/bonus"
+  id: "move_3/bonus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -3694,7 +3412,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_3/move"
+  parent: "move_3/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -3739,7 +3457,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Growl"
   font: "script"
-  id: "pokemon/move_3/name"
+  id: "move_3/name"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -3757,7 +3475,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_3/move"
+  parent: "move_3/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -3802,7 +3520,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "1 Action"
   font: "script"
-  id: "pokemon/move_3/action"
+  id: "move_3/action"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -3820,7 +3538,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_3/move"
+  parent: "move_3/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -3865,7 +3583,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "1d6+Move"
   font: "script"
-  id: "pokemon/move_3/damage"
+  id: "move_3/damage"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_E
@@ -3883,7 +3601,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_3/move"
+  parent: "move_3/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -3928,7 +3646,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "100 ft"
   font: "script"
-  id: "pokemon/move_3/range"
+  id: "move_3/range"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -3946,7 +3664,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_3/move"
+  parent: "move_3/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -3991,7 +3709,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "PP: 20"
   font: "script"
-  id: "pokemon/move_3/pp"
+  id: "move_3/pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -4009,7 +3727,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_3/move"
+  parent: "move_3/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -4053,12 +3771,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_3/btn_decease_pp"
+  id: "move_3/btn_decease_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_3/move"
+  parent: "move_3/move"
   layer: "box"
   inherit_alpha: false
   slice9 {
@@ -4109,7 +3827,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "-"
   font: "script"
-  id: "pokemon/move_3/text"
+  id: "move_3/text"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -4127,7 +3845,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_3/btn_decease_pp"
+  parent: "move_3/btn_decease_pp"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -4171,12 +3889,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_3/btn_reset_pp"
+  id: "move_3/btn_reset_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_3/move"
+  parent: "move_3/move"
   layer: "box"
   inherit_alpha: false
   slice9 {
@@ -4227,7 +3945,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "R"
   font: "script"
-  id: "pokemon/move_3/text1"
+  id: "move_3/text1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -4245,7 +3963,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_3/btn_reset_pp"
+  parent: "move_3/btn_reset_pp"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -4287,13 +4005,13 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "pokemon/move_2"
-  parent: "pokemon/tab_bg_1"
+  id: "move_2"
+  parent: "tab_bg_1"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
   template: "/templates/move.gui"
-  template_node_child: true
+  template_node_child: false
 }
 nodes {
   position {
@@ -4329,12 +4047,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_2/root"
+  id: "move_2/root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_SW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_2"
+  parent: "move_2"
   layer: "box"
   inherit_alpha: true
   slice9 {
@@ -4384,12 +4102,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_2/move"
+  id: "move_2/move"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_SW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_2/root"
+  parent: "move_2/root"
   layer: "box"
   inherit_alpha: false
   slice9 {
@@ -4440,7 +4158,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "-"
   font: "script"
-  id: "pokemon/move_2/duration"
+  id: "move_2/duration"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_E
@@ -4458,7 +4176,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_2/move"
+  parent: "move_2/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -4503,7 +4221,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "AB: 8 "
   font: "script"
-  id: "pokemon/move_2/bonus"
+  id: "move_2/bonus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -4521,7 +4239,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_2/move"
+  parent: "move_2/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -4566,7 +4284,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Growl"
   font: "script"
-  id: "pokemon/move_2/name"
+  id: "move_2/name"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -4584,7 +4302,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_2/move"
+  parent: "move_2/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -4629,7 +4347,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "1 Action"
   font: "script"
-  id: "pokemon/move_2/action"
+  id: "move_2/action"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -4647,7 +4365,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_2/move"
+  parent: "move_2/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -4692,7 +4410,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "1d6+Move"
   font: "script"
-  id: "pokemon/move_2/damage"
+  id: "move_2/damage"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_E
@@ -4710,7 +4428,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_2/move"
+  parent: "move_2/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -4755,7 +4473,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "100 ft"
   font: "script"
-  id: "pokemon/move_2/range"
+  id: "move_2/range"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -4773,7 +4491,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_2/move"
+  parent: "move_2/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -4818,7 +4536,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "PP: 20"
   font: "script"
-  id: "pokemon/move_2/pp"
+  id: "move_2/pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -4836,7 +4554,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_2/move"
+  parent: "move_2/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -4880,12 +4598,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_2/btn_decease_pp"
+  id: "move_2/btn_decease_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_2/move"
+  parent: "move_2/move"
   layer: "box"
   inherit_alpha: false
   slice9 {
@@ -4936,7 +4654,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "-"
   font: "script"
-  id: "pokemon/move_2/text"
+  id: "move_2/text"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -4954,7 +4672,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_2/btn_decease_pp"
+  parent: "move_2/btn_decease_pp"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -4998,12 +4716,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_2/btn_reset_pp"
+  id: "move_2/btn_reset_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_2/move"
+  parent: "move_2/move"
   layer: "box"
   inherit_alpha: false
   slice9 {
@@ -5054,7 +4772,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "R"
   font: "script"
-  id: "pokemon/move_2/text1"
+  id: "move_2/text1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -5072,7 +4790,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_2/btn_reset_pp"
+  parent: "move_2/btn_reset_pp"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -5114,13 +4832,13 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "pokemon/move_1"
-  parent: "pokemon/tab_bg_1"
+  id: "move_1"
+  parent: "tab_bg_1"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
   template: "/templates/move.gui"
-  template_node_child: true
+  template_node_child: false
 }
 nodes {
   position {
@@ -5156,12 +4874,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_1/root"
+  id: "move_1/root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_SW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_1"
+  parent: "move_1"
   layer: "box"
   inherit_alpha: true
   slice9 {
@@ -5211,12 +4929,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_1/move"
+  id: "move_1/move"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_SW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_1/root"
+  parent: "move_1/root"
   layer: "box"
   inherit_alpha: false
   slice9 {
@@ -5267,7 +4985,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "-"
   font: "script"
-  id: "pokemon/move_1/duration"
+  id: "move_1/duration"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_E
@@ -5285,7 +5003,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_1/move"
+  parent: "move_1/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -5330,7 +5048,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "AB: 8 "
   font: "script"
-  id: "pokemon/move_1/bonus"
+  id: "move_1/bonus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -5348,7 +5066,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_1/move"
+  parent: "move_1/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -5393,7 +5111,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Growl"
   font: "script"
-  id: "pokemon/move_1/name"
+  id: "move_1/name"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -5411,7 +5129,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_1/move"
+  parent: "move_1/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -5456,7 +5174,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "1 Action"
   font: "script"
-  id: "pokemon/move_1/action"
+  id: "move_1/action"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -5474,7 +5192,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_1/move"
+  parent: "move_1/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -5519,7 +5237,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "1d6+Move"
   font: "script"
-  id: "pokemon/move_1/damage"
+  id: "move_1/damage"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_E
@@ -5537,7 +5255,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_1/move"
+  parent: "move_1/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -5582,7 +5300,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "100 ft"
   font: "script"
-  id: "pokemon/move_1/range"
+  id: "move_1/range"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -5600,7 +5318,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_1/move"
+  parent: "move_1/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -5645,7 +5363,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "PP: 20"
   font: "script"
-  id: "pokemon/move_1/pp"
+  id: "move_1/pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -5663,7 +5381,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_1/move"
+  parent: "move_1/move"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -5707,12 +5425,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_1/btn_decease_pp"
+  id: "move_1/btn_decease_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_1/move"
+  parent: "move_1/move"
   layer: "box"
   inherit_alpha: false
   slice9 {
@@ -5763,7 +5481,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "-"
   font: "script"
-  id: "pokemon/move_1/text"
+  id: "move_1/text"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -5781,7 +5499,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_1/btn_decease_pp"
+  parent: "move_1/btn_decease_pp"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -5825,12 +5543,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/move_1/btn_reset_pp"
+  id: "move_1/btn_reset_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/move_1/move"
+  parent: "move_1/move"
   layer: "box"
   inherit_alpha: false
   slice9 {
@@ -5881,7 +5599,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "R"
   font: "script"
-  id: "pokemon/move_1/text1"
+  id: "move_1/text1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -5899,7 +5617,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "pokemon/move_1/btn_reset_pp"
+  parent: "move_1/btn_reset_pp"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -5943,12 +5661,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "pokemon/dmg_mod"
+  id: "dmg_mod"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "pokemon/root"
+  parent: "root"
   layer: "box"
   inherit_alpha: true
   slice9 {
@@ -5961,7 +5679,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -5999,7 +5717,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Vulnerabilities:  Fire, Flying, Rock"
   font: "data"
-  id: "pokemon/vulnerabilities"
+  id: "vulnerabilities"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -6017,13 +5735,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
-  parent: "pokemon/dmg_mod"
+  parent: "dmg_mod"
   layer: "data"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -6062,7 +5780,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Resistances:  Grass, Ground, Fighting"
   font: "data"
-  id: "pokemon/resistances"
+  id: "resistances"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -6080,13 +5798,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
-  parent: "pokemon/dmg_mod"
+  parent: "dmg_mod"
   layer: "data"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -6125,7 +5843,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Immunities:"
   font: "data"
-  id: "pokemon/immunities"
+  id: "immunities"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -6143,13 +5861,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
-  parent: "pokemon/dmg_mod"
+  parent: "dmg_mod"
   layer: "data"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -6157,14 +5875,11 @@ layers {
   name: "box"
 }
 layers {
-  name: "title"
+  name: "data"
 }
 layers {
   name: "script"
 }
-layers {
-  name: "data"
-}
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT
-max_nodes: 1024
+max_nodes: 512

@@ -47,7 +47,7 @@ local function setup_inventory(self)
 		if pokemon then
 			gui.set_enabled(gui.get_node(node_prefix .. "/root"), true)
 			gui.set_text(gui.get_node(node_prefix .. "/txt_level"), pokemon.level)
-			gui.set_text(gui.get_node(node_prefix .. "/txt_spicies"), pokemon.spicies)
+			gui.set_text(gui.get_node(node_prefix .. "/txt_spicies"), pokemon.species)
 			local mark_node = gui.get_node(node_prefix .. "/checkmark_mark")
 			gui.set_color(mark_node, BLACK)
 			local b = button.register(gui.get_node(node_prefix .. "/root"), function()
@@ -123,7 +123,7 @@ local function update_list(list)
 				end
 			end
 			gui.set_text(item.nodes[hash(list.id .. "/txt_level")], pokemon.level)
-			gui.set_text(item.nodes[hash(list.id .. "/txt_spicies")], pokemon.spicies)
+			gui.set_text(item.nodes[hash(list.id .. "/txt_spicies")], pokemon.species)
 			if selected_storage[item.data] then
 				gui.set_color(item.nodes[hash(list.id .. "/checkmark_mark")], WHITE)
 			else
@@ -146,4 +146,8 @@ function on_input(self, action_id, action)
 	if self.list_items and next(self.list_items) ~= nil then
 		gooey.dynamic_list("storage_pokemon", "storage", "storage_pokemon/root", self.list_items, action_id, action, on_item_selected, update_list)
 	end
+end
+
+function final(self)
+	button.unregister()
 end

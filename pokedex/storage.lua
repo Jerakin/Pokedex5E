@@ -32,11 +32,11 @@ local function getKeysSortedByValue(tbl, sortFunction)
 end
 
 function M.list_of_ids_in_storage()
-	return getKeysSortedByValue(M.storage, function(a, b) return a.spicies < b.spicies end)
+	return getKeysSortedByValue(M.storage, function(a, b) return a.species < b.species end)
 end
 
 function M.list_of_ids_in_inventory()
-	return getKeysSortedByValue(M.active, function(a, b) return a.spicies < b.spicies end)
+	return getKeysSortedByValue(M.active, function(a, b) return a.species < b.species end)
 end
 
 function M.get(id)

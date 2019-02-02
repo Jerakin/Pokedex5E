@@ -31,16 +31,16 @@ local function redraw(self)
 	local nature_node = gui.get_node("nature")
 	gui.set_text(nature_node, "Nature: " .. self.pokemon.nature)
 
-	local spicies_node = gui.get_node("spicies")
+	local species_node = gui.get_node("spicies")
 	local max_improve_node = gui.get_node("lbl_max_improve")
-	if self.pokemon.spicies == "" then
-		gui.set_text(spicies_node, "CLICK TO SELECT A POKEMON")
+	if self.pokemon.species == "" then
+		gui.set_text(species_node, "CLICK TO SELECT A POKEMON")
 		gui.set_text(max_improve_node, "0")
 	else
-		local available_at_min_level = pokemon.level_data(pokedex.minumum_level(self.pokemon.spicies)).ASI
+		local available_at_min_level = pokemon.level_data(pokedex.minumum_level(self.pokemon.species)).ASI
 		local available_at_current_level = pokemon.level_data(self.pokemon.level).ASI
 		local available = (available_at_current_level - available_at_min_level) * 2
-		gui.set_text(spicies_node, self.pokemon.spicies)
+		gui.set_text(species_node, self.pokemon.species)
 		gui.set_text(max_improve_node, available - self.ability_score_improvment)
 	end
 	
@@ -69,11 +69,11 @@ local function decrease(self, stat)
 end
 
 local function pick_move(self, number)
-	if pokedex.is_pokemon(self.pokemon.spicies) then
+	if pokedex.is_pokemon(self.pokemon.species) then
 		gui.set_enabled(self.root, false)
 		gui.set_position(self.scrollist, vmath.vector3())
 		self.state = 3
-		local available_moves = pokedex.get_pokemons_moves(self.pokemon.spicies, self.pokemon.level)
+		local available_moves = pokedex.get_pokemons_moves(self.pokemon.species, self.pokemon.level)
 		for _, move in pairs(self.pokemon.moves) do
 			for i, selected_move in pairs(available_moves) do
 				if move == selected_move then
@@ -90,7 +90,7 @@ end
 
 function init(self)
 	button.acquire()
-	self.pokemon = {spicies="", level=1, nature="", STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0, moves={"None", "None", "None", "None"}}
+	self.pokemon = {species="", level=1, nature="", STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0, moves={"None", "None", "None", "None"}}
 	self.ability_score_improvment = 0
 	self.list_items = {}
 	self.state = 0
@@ -143,8 +143,8 @@ function init(self)
 		end
 	end)
 	button.register("btn_level_reduce", function()
-		if pokedex.is_pokemon(self.pokemon.spicies) then
-			if self.pokemon.level > 1 and self.pokemon.level > pokedex.minumum_level(self.pokemon.spicies) then
+		if pokedex.is_pokemon(self.pokemon.species) then
+			if self.pokemon.level > 1 and self.pokemon.level > pokedex.minumum_level(self.pokemon.species) then
 				self.pokemon.level = self.pokemon.level - 1
 				redraw(self)
 			end
@@ -175,7 +175,7 @@ function init(self)
 			end
 		elseif self.state == 2 then
 			if pokedex.is_pokemon(selected_item) then
-				self.pokemon.spicies = selected_item
+				self.pokemon.species = selected_item
 				self.pokemon.moves = {"None", "None", "None", "None"}
 				self.pokemon.level = pokedex.minumum_level(selected_item) > self.pokemon.level and pokedex.minumum_level(selected_item) or self.pokemon.level
 			end
@@ -217,9 +217,9 @@ function init(self)
 	end)
 
 	button.register("btn_add", function()
-		if self.pokemon.nature ~= "" and self.pokemon.spicies ~= "" then
+		if self.pokemon.nature ~= "" and self.pokemon.species ~= "" then
 			storage.add(self.pokemon)
-			self.pokemon = {spicies="", level=1, nature="", STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0, moves={"None", "None", "None", "None"}}
+			self.pokemon = {species="", level=1, nature="", STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0, moves={"None", "None", "None", "None"}}
 			redraw(self)
 		end
 	end)
@@ -232,8 +232,7 @@ function init(self)
 end
 
 function final(self)
-	-- Add finalization code here
-	-- Remove this function if not needed
+	button.unregister()
 end
 
 function update(self, dt)

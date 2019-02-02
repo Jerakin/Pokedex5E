@@ -13,6 +13,10 @@ local function list()
 	return temp_list, total
 end
 
+function M.nature_data(nature)
+	return M.natures[nature]
+end
+
 function M.is_nature(nature)
 	return M.natures[nature] and true or false
 end
