@@ -48,14 +48,11 @@ function M.init()
 		M.storage = defsave.get("pokedex5e", "storage")
 		M.active = defsave.get("pokedex5e", "active")
 		M.counter = defsave.get("pokedex5e", "counter")
-		pprint(M.counter)
 	end
 end
 
 function M.move_to_storage(id)
-	pprint(id)
 	local pokemon = utils.deep_copy(M.active[id])
-	pprint(pokemon)
 	M.storage[id] = pokemon
 	M.active[id] = nil
 end

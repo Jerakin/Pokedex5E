@@ -4,7 +4,7 @@ local storage = require "pokedex.storage"
 local gooey = require "gooey.gooey"
 local utils = require "utils.utils"
 
-local STORAGE_ROWS = 10
+local STORAGE_ROWS = 4
 local STORAGE_COLUMNS = 2
 local INVENTORY_COLUMNS = 2
 
@@ -51,11 +51,28 @@ local function add_storage_item(self, node, pokemon_id)
 end
 
 local function add_storage(self)
+	local counter = 0
 	for pokemon_id, pokemon in pairs(storage.storage) do
+		local page = math.floor(counter/ (STORAGE_ROWS * STORAGE_COLUMNS)) + 1
+		if self.number_of_pages < page then
+			self.storage_container = gui.clone(self.storage_container)
+			local p = gui.get_position(self.storage_container)
+			p.x = p.x + 720
+			gui.set_position(self.storage_container, p)
+			self.number_of_pages = page
+		end
 		local storage_node = gui.clone_tree(self.storage_template)
 		gui.set_text(storage_node["storage_pokemon/txt_level"], pokemon.level)
 		gui.set_text(storage_node["storage_pokemon/txt_spicies"], pokemon.spicies)
 		add_storage_item(self, storage_node, pokemon_id)
+		counter = counter + 1
+	end
+	for i=1, (self.number_of_pages-1) do
+		local page = gui.clone_tree(self.page_indicators[i])
+		local p = gui.get_position(self.page_indicators[i])
+		p.x = p.x + 50
+		gui.set_position(page["page_indicator_1"], p)
+		table.insert(self.page_indicators, page)
 	end
 end
 
@@ -83,8 +100,11 @@ function init(self)
 	self.selected_storage_pokemons = {}
 	self.storage_checkboxes = {}
 	self.inventory_checkboxes = {}
+	self.number_of_pages = 1
+	self.active_page = 1
+	self.page_indicators = {gui.get_node("page_indicator_1")}
 	self.storage_template = gui.get_node("storage_pokemon/root")
-	self.storage_container = gui.get_node("storage")
+	self.storage_container = gui.get_node("storage_1")
 	self.inventory_container = gui.get_node("inventory")
 	
 	add_storage(self)
