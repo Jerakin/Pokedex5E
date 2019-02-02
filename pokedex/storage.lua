@@ -35,6 +35,10 @@ function M.list_of_ids_in_storage()
 	return getKeysSortedByValue(M.storage, function(a, b) return a.spicies < b.spicies end)
 end
 
+function M.list_of_ids_in_inventory()
+	return getKeysSortedByValue(M.active, function(a, b) return a.spicies < b.spicies end)
+end
+
 function M.get(id)
 	return M.storage[id] and M.storage[id] or M.active[id]
 end
@@ -80,8 +84,6 @@ function M.move_to_inventory(id)
 	end
 	assert(index < 6, "Your party is full")
 	local pokemon = utils.deep_copy(M.storage[id])
-	pprint(pokemon)
-	pprint(id)
 	M.active[id] = pokemon
 	M.storage[id] = nil
 end
