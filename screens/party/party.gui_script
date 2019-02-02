@@ -18,6 +18,9 @@ local function to_mod(v)
 	return value
 end
 
+local function show_description(desc)
+	monarch.show("info", {}, {txt=desc})
+end
 
 local function setup_moves(self, nodes, pokemon)
 	local index = 0
@@ -38,6 +41,10 @@ local function setup_moves(self, nodes, pokemon)
 		button.register(_get_node("/btn_reset_pp"), function()
 			_pokemon.reset_move_pp(pokemon, name)
 			gui.set_text(pp_node, "PP: " .. pokemon.moves[name].current_pp)
+		end)
+		
+		button.register(_get_node("/name"), function()
+			show_description(data.Description)
 		end)
 		
 		gui.set_text(_get_node("/action"), data["Move Time"])
@@ -180,6 +187,7 @@ function init(self)
 	if next(self.pokemons_list) ~= nil then
 		activate_tab(self, self.pokemons_list[1].nodes, 1)
 	end
+
 	gui.delete_node(self.pokemon_page)
 end
 
