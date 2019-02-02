@@ -6,8 +6,19 @@ local pokedex = require "pokedex.pokedex"
 local pokemon = require "pokedex.pokemon"
 local storage = require "pokedex.storage"
 
+
+local default_savedata = {
+	pokedex5e = {
+		storage = {},
+		active = {},
+		counter = 0
+	}
+}
+
+
 function init(self)
 	defsave.appname = "pokedex5E"
+	defsave.default_data = default_savedata
 	natures.init()
 	pokedex.init()
 	pokemon.init()
