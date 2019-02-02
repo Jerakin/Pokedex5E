@@ -51,6 +51,7 @@ function M.add(pokemon)
 	end
 	M.counter = M.counter + 1
 	pokemon.number = M.counter
+	pokemon.caught_at_level = pokemon.level
 	local id = get_id(pokemon)
 	M.storage[id] = pokemon
 end
