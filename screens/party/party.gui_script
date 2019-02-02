@@ -1,7 +1,7 @@
 local button = require "utils.button"
 local monarch = require "monarch.monarch"
 local storage = require "pokedex.storage"
-local pokemon = require "pokedex.pokemon"
+local _pokemon = require "pokedex.pokemon"
 
 local function join_table(title, T, sep)
 	if T then
@@ -28,14 +28,16 @@ local function setup_moves(self, nodes, pokemon)
 	end
 
 	for name, data in pairs(pokemon.moves) do
-		data.current_pp = data.PP
 		index = index + 1
 		local pp_node = _get_node("/pp")
 		button.register(_get_node("/btn_decease_pp"), function()
-			local data = data
-			data.current_pp = math.max(data.current_pp - 1, 0)
-			gui.set_text(pp_node, "PP: " .. data.current_pp)
-			pprint(storage.get(storage.list_of_ids_in_inventory()[1]))
+			_pokemon.decrease_move_pp(pokemon, name)
+			gui.set_text(pp_node, "PP: " .. pokemon.moves[name].current_pp)
+		end)
+
+		button.register(_get_node("/btn_reset_pp"), function()
+			_pokemon.reset_move_pp(pokemon, name)
+			gui.set_text(pp_node, "PP: " .. pokemon.moves[name].current_pp)
 		end)
 		
 		gui.set_text(_get_node("/action"), data["Move Time"])

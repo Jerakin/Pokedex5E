@@ -21,7 +21,7 @@ local function setup_moves(this)
 	local m = {}
 	for _, move_name in pairs(this.moves) do
 		local move = pokedex.get_move_data(move_name)
-
+		move.current_pp = move.PP
 		move.STAB_MOVE = false
 		local damage
 		local modifier = 0
@@ -103,6 +103,14 @@ local function setup_saving_throws(pokemon)
 end
 
 
+function M.decrease_move_pp(pokemon, move)
+	pokemon.moves[move].current_pp = math.max(pokemon.moves[move].current_pp - 1, 0)
+end
+
+function M.reset_move_pp(pokemon, move)
+	pokemon.moves[move].current_pp = pokemon.moves[move].PP
+end
+
 function M.new(pokemon, id)
 	this = {}
 	this.id = id
@@ -128,7 +136,8 @@ function M.new(pokemon, id)
 	this.HP = this.raw_data.HP
 	this.proficiency = M.level_data(this.level).prof
 	this.STAB = M.level_data(this.level).STAB
-
+	
+	
 	add_score_from_nature(this)
 	setup_saving_throws(this)
 	setup_abilities(this)

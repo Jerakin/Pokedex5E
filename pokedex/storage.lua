@@ -56,7 +56,6 @@ function M.add(pokemon)
 	local id = get_id(pokemon)
 	local poke = _pokemon.new(pokemon, id)
 	M.storage[id] = poke
-	pprint(M.storage)
 end
 
 function M.save()
