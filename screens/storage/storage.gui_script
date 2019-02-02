@@ -9,6 +9,8 @@ local STORAGE_ROWS = 4
 local STORAGE_COLUMNS = 2
 local INVENTORY_COLUMNS = 2
 
+local NUMBER_OF_PAGES = 2
+
 local WHITE = vmath.vector4(1, 1, 1, 1)
 local BLACK = vmath.vector4()
 
@@ -21,19 +23,17 @@ local function set_move_text(self, node, pokemon)
 end
 
 local function update_page_indicator(self)
-	print("UPDATE")
-	for _, page in pairs(self.page_indicators) do
-		gui.set_color(page["indicator_check"], BLACK)
+	for _, n in pairs(self.page_indicators) do
+		gui.set_color(n, BLACK)
 	end
-	
-	local n = self.page_indicators[self.active_page]
-	gui.set_color(n["indicator_check"], WHITE)
+	gui.set_color(self.page_indicators[self.active_page], WHITE)
 end
 
 local function swipe_page(self, direction)
-	if self.active_page + direction > self.number_of_pages or self.active_page + direction < 1 then
+	if self.active_page + direction > NUMBER_OF_PAGES or self.active_page + direction < 1 then
 		return
 	end
+
 	self.active_page = self.active_page + direction
 	local p = gui.get_position(self.page_root)
 	p.x = p.x - (direction * 720)
@@ -77,26 +77,13 @@ local function add_storage(self)
 	local counter = 0
 	for pokemon_id, pokemon in pairs(storage.storage) do
 		local page = math.floor(counter / (STORAGE_ROWS * STORAGE_COLUMNS)) + 1
-		if self.number_of_pages < page then
-			self.storage_container = gui.clone(self.storage_container)
-			local p = gui.get_position(self.storage_container)
-			p.x = p.x + 720
-			gui.set_position(self.storage_container, p)
-			self.number_of_pages = page
-		end
+		self.storage_container = gui.get_node("storage_" .. page)
+		
 		local storage_node = gui.clone_tree(self.storage_template)
 		gui.set_text(storage_node["storage_pokemon/txt_level"], pokemon.level)
 		gui.set_text(storage_node["storage_pokemon/txt_spicies"], pokemon.spicies)
 		add_storage_item(self, storage_node, pokemon_id)
 		counter = counter + 1
-	end
-	for i=1, (self.number_of_pages) do
-		local page = gui.clone_tree(self.page_indicator_template)
-		gui.set_parent(page["page_indicator_root"], gui.get_node("page_center"))
-		local position = vmath.vector3()
-		position.x = #self.page_indicators * 50
-		gui.set_position(page["page_indicator_root"], position)
-		table.insert(self.page_indicators, page)
 	end
 end
 
@@ -109,6 +96,7 @@ local function redraw(self)
 		gui.delete_node(node.node["storage_pokemon/root"])
 	end
 
+	self.active_page = 1
 	self.inventory_checkboxes = {}
 	self.storage_checkboxes = {}
 	self.selected_inventory_pokemons = {}
@@ -129,9 +117,7 @@ function init(self)
 	self.number_of_pages = 1
 	self.active_page = 1
 	self.page_root = gui.get_node("pages")
-
-	self.page_indicator_template = gui.get_node("page_indicator_root")
-	self.page_indicators = {}
+	self.page_indicators = {gui.get_node("indicator_check_1"), gui.get_node("indicator_check_2")}
 	self.storage_template = gui.get_node("storage_pokemon/root")
 	self.storage_container = gui.get_node("storage_1")
 	self.inventory_container = gui.get_node("inventory")
