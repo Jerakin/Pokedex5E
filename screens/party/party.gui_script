@@ -7,7 +7,7 @@ local function join_table(title, T, sep)
 	if T then
 		return title .. table.concat(T, sep)
 	end
-	return title
+	return ""
 end
 
 local function to_mod(v)
@@ -110,14 +110,24 @@ end
 
 local function setup_page(self, nodes, pokemon)
 	gui.set_text(nodes["pokemon/species"], pokemon.species)
-	gui.set_text(nodes["pokemon/level"], pokemon.level)
+	gui.set_text(nodes["pokemon/level"], "lvl: " .. pokemon.level)
 	gui.set_text(nodes["pokemon/nature"], pokemon.nature)
 	gui.set_text(nodes["pokemon/ac"], "AC: " .. pokemon.AC)
-	gui.set_text(nodes["pokemon/hp"], "HP: " .. pokemon.HP)
 
-	gui.set_text(nodes["pokemon/vulnerabilities"], join_table("Vulnerabilities: ", pokemon.vulnerabilities, ", "))
-	gui.set_text(nodes["pokemon/resistances"], join_table("Resistances: ", pokemon.resistances, ", "))
-	gui.set_text(nodes["pokemon/immunities"], join_table("Immunities: ", pokemon.immunities, ", "))
+	gui.set_text(nodes["pokemon/hp"], "HP: " .. pokemon.current_hp .. "/" ..pokemon.HP)
+	local pos = vmath.vector3()
+	local vul = nodes["pokemon/vulnerabilities"]
+	local imm = nodes["pokemon/immunities"]
+	local res = nodes["pokemon/resistances"]
+	gui.set_text(vul, join_table("Vulnerabilities: ", pokemon.vulnerabilities, ", "))
+	
+	pos.y = pos.y - gui.get_text_metrics_from_node(vul).height
+	gui.set_text(res, join_table("Resistances: ", pokemon.resistances, ", "))
+	gui.set_position(res, pos)
+	
+	pos.y = pos.y - gui.get_text_metrics_from_node(res).height
+	gui.set_text(imm, join_table("Immunities: ", pokemon.immunities, ", "))
+	gui.set_position(imm, pos)
 
 	setup_moves(self, nodes, pokemon)
 	setup_abilities(self, nodes, pokemon)

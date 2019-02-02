@@ -111,6 +111,10 @@ function M.reset_move_pp(pokemon, move)
 	pokemon.moves[move].current_pp = pokemon.moves[move].PP
 end
 
+function M.set_current_hp(pokemon, hp)
+	pokemon.current_hp = math.max(hp, 0)
+end
+
 function M.new(pokemon, id)
 	this = {}
 	this.id = id
@@ -129,15 +133,15 @@ function M.new(pokemon, id)
 	
 	this.skills = this.raw_data.Skill or {}
 	this.type = this.raw_data.Type
-	this.resistance = this.raw_data.Res
+	this.resistances = this.raw_data.Res
 	this.vulnerabilities = this.raw_data.Vul
 	this.immunities = this.raw_data.Imm
 	this.abilities = this.raw_data.Abilities
 	this.HP = this.raw_data.HP
+	this.current_hp = this.HP
 	this.proficiency = M.level_data(this.level).prof
 	this.STAB = M.level_data(this.level).STAB
-	
-	
+
 	add_score_from_nature(this)
 	setup_saving_throws(this)
 	setup_abilities(this)
