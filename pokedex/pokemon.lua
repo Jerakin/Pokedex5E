@@ -2,6 +2,7 @@ local file = require "utils.file"
 local natures = require "pokedex.natures"
 local pokedex = require "pokedex.pokedex"
 local utils = require "utils.utils"
+
 local M = {}
 
 local level_data
