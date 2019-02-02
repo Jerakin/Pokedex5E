@@ -9,14 +9,30 @@ M.storage = {}
 M.active = {}
 M.counter = 0
 
-local default_data = {
-
-}
 
 local function get_id(pokemon)
 	local m = md5.new()
 	m:update(json.encode(pokemon))
 	return md5.tohex(m:finish())
+end
+
+
+
+local function getKeysSortedByValue(tbl, sortFunction)
+	local keys = {}
+	for key in pairs(tbl) do
+		table.insert(keys, key)
+	end
+
+	table.sort(keys, function(a, b)
+		return sortFunction(tbl[a], tbl[b])
+	end)
+
+	return keys
+end
+
+function M.list_of_ids_in_storage()
+	return getKeysSortedByValue(M.storage, function(a, b) return a.spicies < b.spicies end)
 end
 
 function M.get(id)
