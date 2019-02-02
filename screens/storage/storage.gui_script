@@ -115,12 +115,14 @@ local function update_list(list)
 		update_listitem(list, item)
 		local pokemon = storage.get(item.data)
 		if pokemon then
-			for i=1, 4 do
-				if pokemon.moves[i] then
-					gui.set_text(item.nodes[hash(list.id .. "/move_" .. i)], pokemon.moves[i])
-				else
-					gui.set_text(item.nodes[hash(list.id .. "/move_" .. i)], "")
-				end
+			local index = 0
+			for name, data in pairs(pokemon.moves) do
+				index = index + 1
+				gui.set_text(item.nodes[hash(list.id .. "/move_" .. index)], name)
+			end
+
+			for i=index, 4 do
+				--gui.set_text(item.nodes[hash(list.id .. "/move_" .. i)], "")
 			end
 			gui.set_text(item.nodes[hash(list.id .. "/txt_level")], pokemon.level)
 			gui.set_text(item.nodes[hash(list.id .. "/txt_spicies")], pokemon.species)

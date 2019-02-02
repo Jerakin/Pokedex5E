@@ -28,7 +28,9 @@ local function setup_moves(this)
 		local STAB = 0
 
 		for _, mod in pairs(move["Move Power"]) do
-			modifier = this[mod] > modifier and this[mod] or modifier
+			if mod ~= "None" then
+				modifier = this[mod] > modifier and this[mod] or modifier
+			end
 		end
 		modifier = math.floor((modifier - 10) / 2)
 
@@ -117,7 +119,7 @@ function M.new(pokemon, id)
 	this.WIS = this.raw_data.WIS + pokemon.WIS
 	this.CHA = this.raw_data.CHA + pokemon.CHA
 	
-	this.skills = this.raw_data.Skill
+	this.skills = this.raw_data.Skill or {}
 	this.type = this.raw_data.Type
 	this.resistance = this.raw_data.Res
 	this.vulnerabilities = this.raw_data.Vul

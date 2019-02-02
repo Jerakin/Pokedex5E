@@ -161,9 +161,9 @@ function init(self)
 	for index, pokemon_id in pairs(storage.list_of_ids_in_inventory()) do
 		local page = add_pokemon_page(self, pokemon_id, index)
 		local pokemon_data = storage.get(pokemon_id)
-		local new_pokemon = pokemon.new(pokemon_data, pokemon_id)
-		table.insert(self.pokemons_list, {pokemon_id=pokemon_id, nodes=page, pokemon=new_pokemon})
-		setup_page(self, page, new_pokemon)
+
+		table.insert(self.pokemons_list, {pokemon_id=pokemon_id, nodes=page, pokemon=pokemon_data})
+		setup_page(self, page, pokemon_data)
 	end
 	if next(self.pokemons_list) ~= nil then
 		activate_tab(self, self.pokemons_list[1].nodes, 1)

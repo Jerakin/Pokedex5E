@@ -2,6 +2,7 @@ local defsave = require "defsave.defsave"
 local json = require "defsave.json"
 local md5 = require "utils.md5"
 local utils = require "utils.utils"
+local _pokemon = require "pokedex.pokemon"
 
 local M = {}
 
@@ -53,7 +54,9 @@ function M.add(pokemon)
 	pokemon.number = M.counter
 	pokemon.caught_at_level = pokemon.level
 	local id = get_id(pokemon)
-	M.storage[id] = pokemon
+	local poke = _pokemon.new(pokemon, id)
+	M.storage[id] = poke
+	pprint(M.storage)
 end
 
 function M.save()
