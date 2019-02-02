@@ -193,10 +193,15 @@ function init(self)
 	self.pokemons_list = {}
 	self.pokemon_index = 0
 	gui.set_text(gui.get_node("pokemon/move_1/name"), "NAME")
+	
 	button.register("btn_back", function()
 		monarch.show("splash")
 	end)
-
+	
+	button.register("btn_edit", function()
+		monarch.show("edit")
+	end)
+	
 	for index, pokemon_id in pairs(storage.list_of_ids_in_inventory()) do
 		local page = add_pokemon_page(self, pokemon_id, index)
 		local pokemon_data = storage.get(pokemon_id)
