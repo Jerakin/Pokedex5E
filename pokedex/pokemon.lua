@@ -21,6 +21,7 @@ local function setup_moves(this)
 	local m = {}
 	for _, move_name in pairs(this.moves) do
 		local move = pokedex.get_move_data(move_name)
+
 		move.STAB_MOVE = false
 		local damage
 		local modifier = 0
@@ -59,6 +60,7 @@ local function setup_moves(this)
 		end
 		m[move_name] = move
 	end
+	
 	this.moves = m
 end
 

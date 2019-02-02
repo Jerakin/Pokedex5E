@@ -26,13 +26,21 @@ local function setup_moves(self, nodes, pokemon)
 		local n = nodes[move_name .. sub]
 		return n
 	end
-	
-	--pprint(nodes)
+
 	for name, data in pairs(pokemon.moves) do
+		data.current_pp = data.PP
 		index = index + 1
+		local pp_node = _get_node("/pp")
+		button.register(_get_node("/btn_decease_pp"), function()
+			local data = data
+			data.current_pp = math.max(data.current_pp - 1, 0)
+			gui.set_text(pp_node, "PP: " .. data.current_pp)
+			pprint(storage.get(storage.list_of_ids_in_inventory()[1]))
+		end)
+		
 		gui.set_text(_get_node("/action"), data["Move Time"])
 		gui.set_text(_get_node("/duration"), data.Duration)
-		gui.set_text(_get_node("/pp"), "PP: " .. data.PP)
+		gui.set_text(pp_node, "PP: " .. data.current_pp)
 
 		if data.Damage then
 			gui.set_text(_get_node("/bonus"), "AB: " .. data["Attack Bonus"])
