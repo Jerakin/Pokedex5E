@@ -113,7 +113,7 @@ function M.reset_move_pp(pokemon, move)
 end
 
 function M.set_current_hp(pokemon, hp)
-	pokemon.current_hp = math.max(hp, 0)
+	pokemon.current_hp = math.min(math.max(hp, 0), pokemon.HP)
 end
 
 function M.new(pokemon, id)

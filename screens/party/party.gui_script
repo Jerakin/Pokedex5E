@@ -116,13 +116,31 @@ local function setup_info(self, nodes, pokemon)
 	gui.set_text(nodes["pokemon/skills"], table.concat(pokemon.skills, ", "))
 end
 
+local function update_hp(self, nodes, pokemon)
+	gui.set_text(nodes["pokemon/hp_current"], "HP: " .. pokemon.current_hp)
+	local p = gui.get_position(nodes["pokemon/hp_current"])
+	p.x = p.x + (gui.get_text_metrics_from_node(nodes["pokemon/hp_current"]).width * 2)
+
+	gui.set_text(nodes["pokemon/hp"], "/" .. pokemon.HP)
+	gui.set_position(nodes["pokemon/hp"], p)
+end
+
 local function setup_page(self, nodes, pokemon)
+	button.register(nodes["pokemon/hp_current"], function()
+		_pokemon.set_current_hp(pokemon, pokemon.current_hp-1)
+		update_hp(self, nodes, pokemon)
+	end)
+	button.register(nodes["pokemon/hp"], function()
+		_pokemon.set_current_hp(pokemon, pokemon.current_hp+1)
+		update_hp(self, nodes, pokemon)
+	end)
+	
 	gui.set_text(nodes["pokemon/species"], pokemon.species)
 	gui.set_text(nodes["pokemon/level"], "lvl: " .. pokemon.level)
 	gui.set_text(nodes["pokemon/nature"], pokemon.nature)
 	gui.set_text(nodes["pokemon/ac"], "AC: " .. pokemon.AC)
 
-	gui.set_text(nodes["pokemon/hp"], "HP: " .. pokemon.current_hp .. "/" ..pokemon.HP)
+	update_hp(self, nodes, pokemon)
 	local pos = vmath.vector3()
 	local vul = nodes["pokemon/vulnerabilities"]
 	local imm = nodes["pokemon/immunities"]
