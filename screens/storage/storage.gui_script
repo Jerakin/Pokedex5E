@@ -13,12 +13,18 @@ local BLACK = vmath.vector4()
 
 local position = vmath.vector3()
 
+local function set_move_text(self, node, pokemon)
+	for i, move in pairs(pokemon.moves) do
+		gui.set_text(node["storage_pokemon/move_" .. i], move)
+	end
+end
 
 
 local function add_inventory_item(self, node, pokemon_id)
 	local item_index = #self.inventory_checkboxes
 	position.x = math.fmod(item_index, STORAGE_COLUMNS) * 360
 	position.y = math.floor(item_index/STORAGE_COLUMNS) * -55
+	gui.set_enabled(node["storage_pokemon/extra_info"], false)
 	gui.set_position(node["storage_pokemon/root"], position)
 	gui.set_parent(node["storage_pokemon/root"], self.inventory_container)
 	table.insert(self.inventory_checkboxes, {node=node, id=pokemon_id})
@@ -36,9 +42,11 @@ end
 local function add_storage_item(self, node, pokemon_id)
 	local item_index = #self.storage_checkboxes
 	position.x = math.fmod(item_index, STORAGE_COLUMNS) * 360
-	position.y = math.floor(item_index/STORAGE_COLUMNS) * -55
+	position.y = math.floor(item_index/STORAGE_COLUMNS) * -155
+	gui.set_enabled(node["storage_pokemon/extra_info"], true)
 	gui.set_position(node["storage_pokemon/root"], position)
 	gui.set_parent(node["storage_pokemon/root"], self.storage_container)
+	set_move_text(self, node, storage.get(pokemon_id))
 	table.insert(self.storage_checkboxes, {node=node, id=pokemon_id})
 end
 

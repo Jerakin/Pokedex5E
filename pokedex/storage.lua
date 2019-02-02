@@ -19,7 +19,16 @@ local function get_id(pokemon)
 	return md5.tohex(m:finish())
 end
 
+function M.get(id)
+	return M.storage[id] and M.storage[id] or M.active[id]
+end
+
 function M.add(pokemon)
+	for i=#pokemon.moves, 1, -1 do
+		if pokemon.moves[i] == "None" then
+			table.remove(pokemon.moves, i)
+		end
+	end
 	M.counter = M.counter + 1
 	pokemon.number = M.counter
 	local id = get_id(pokemon)
