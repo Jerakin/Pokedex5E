@@ -137,9 +137,6 @@ function init(self)
 		selected_storage = {}
 	end)
 
-	button.register("btn_back", function()
-		monarch.show("splash")
-	end)
 	update_list(gooey.dynamic_list("storage_pokemon", "storage", "storage_pokemon/root", self.list_items))
 	setup_inventory(self)
 end

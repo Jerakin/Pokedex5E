@@ -22,16 +22,16 @@ local function redraw(self)
 	gui.set_text(nature_node, "Nature: " .. self.pokemon.nature)
 
 	local species_node = gui.get_node("spicies")
-	local max_improve_node = gui.get_node("lbl_max_improve")
+	local max_improve_node = gui.get_node("asi_title")
 	if self.pokemon.species == "" then
-		gui.set_text(species_node, "CLICK TO SELECT A POKEMON")
-		gui.set_text(max_improve_node, "0")
+		gui.set_text(species_node, "Pokémon")
+		gui.set_text(max_improve_node, "Available Points: 0")
 	else
 		local available_at_min_level = pokemon.level_data(pokedex.minumum_level(self.pokemon.species)).ASI
 		local available_at_current_level = pokemon.level_data(self.pokemon.level).ASI
 		local available = (available_at_current_level - available_at_min_level) * 2
 		gui.set_text(species_node, self.pokemon.species)
-		gui.set_text(max_improve_node, available - self.ability_score_improvment)
+		gui.set_text(max_improve_node, "Available Points: " .. available - self.ability_score_improvment)
 	end
 	
 	local move_1_node = gui.get_node("move_1")
@@ -214,10 +214,6 @@ function init(self)
 		end
 	end)
 
-	button.register("btn_back", function()
-		monarch.show("splash")
-	end)
-	
 	redraw(self)
 end
 

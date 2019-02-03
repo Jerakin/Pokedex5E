@@ -196,11 +196,7 @@ function init(self)
 	self.pokemons_list = {}
 	self.pokemon_index = 0
 	gui.set_text(gui.get_node("pokemon/move_1/name"), "NAME")
-	
-	button.register("btn_back", function()
-		monarch.show("splash")
-	end)
-	
+
 	button.register("btn_edit", function()
 		monarch.show("edit", {}, {id=self.pokemons_list[self.pokemon_index+1].pokemon_id})
 	end)

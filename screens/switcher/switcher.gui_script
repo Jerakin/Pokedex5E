@@ -3,7 +3,18 @@ local monarch = require "monarch.monarch"
 
 function init(self)
 	button.acquire()
-	monarch.show(hash("switcher"), { no_stack = true })
+	
+	button.register("btn_party", function()
+		monarch.show("party")
+	end)
+
+	button.register("btn_storage", function()
+		monarch.show("storage")
+	end)
+
+	button.register("btn_add", function()
+		monarch.show("add")
+	end)
 end
 
 function final(self)
