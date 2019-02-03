@@ -50,4 +50,5 @@ with open(exported, "r") as fp:
         json.dump({"number": order}, f, indent="  ")
 
     with open(output, "w") as f:
-        json.dump(converted, f, indent="  ")
+        json.dump(converted, f, indent="  ", ensure_ascii=False)
+

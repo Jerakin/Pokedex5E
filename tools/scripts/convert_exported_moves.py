@@ -9,7 +9,7 @@ CONVERT_TO_INT = ["PP"]
 
 DAMAGE_LEVEL = re.compile("Dmg lvl (\d+)")
 DAMAGE_DICE = re.compile("(\d+)d(\d+)(\+Move|)")
-
+SAVING_THROW = re.compile("make a (.{3}) saving throw")
 converted = {}
 
 with open(exported, "r") as fp:
@@ -38,6 +38,11 @@ with open(exported, "r") as fp:
                         converted[move]["Damage"] = {}
                     converted[move]["Damage"][str(level)] = dice
                 continue
+            if attribute == "Description":
+                saving_throw = SAVING_THROW.search(value)
+
+                if saving_throw:
+                    converted[move]["Save"] = saving_throw.group(1)
             converted[move][attribute] = value
-    with open(output, "w") as f:
-        json.dump(converted, f, indent="  ")
+    with open(output, "w", "utf-8") as f:
+        json.dump(converted, f, indent="  ", ensure_ascii=False)
