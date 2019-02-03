@@ -19,21 +19,21 @@ local function redraw(self)
 		if self.pokemon[stat] < 0 then
 			gui.set_color(n, vmath.vector3(1, 0, 0, 1))
 		elseif self.pokemon[stat] == 0 then
-			gui.set_color(n, vmath.vector3(1, 1, 1, 1))
+			gui.set_color(n, vmath.vector3(0, 0, 0, 1))
 		else
-			gui.set_color(n, vmath.vector3(1, 1, 0, 1))
+			gui.set_color(n, vmath.vector3(0, 1, 0, 1))
 		end
 	end
 
 	local level_node = gui.get_node("txt_level")
-	gui.set_text(level_node, "Level " .. self.pokemon.level)
+	gui.set_text(level_node, "Lv. " .. self.pokemon.level)
 	
-	local max_improve_node = gui.get_node("lbl_max_improve")
+	local max_improve_node = gui.get_node("asi_title")
 
 	local available_at_current_level = _pokemon.level_data(self.pokemon.old_level).ASI
 	local available_at_new_level = _pokemon.level_data(self.pokemon.level).ASI
 	local available = (available_at_new_level - available_at_current_level) * 2
-	gui.set_text(max_improve_node, available - self.ability_score_improvment)
+	gui.set_text(max_improve_node, "Available Points: " .. available - self.ability_score_improvment)
 	
 	local move_1_node = gui.get_node("move_1")
 	local move_2_node = gui.get_node("move_2")
@@ -66,7 +66,7 @@ local function pick_move(self, number)
 			end
 		end
 	end
-
+	
 	self.list_items = available_moves
 	redraw(self)
 end
@@ -89,8 +89,7 @@ function init(self)
 	button.acquire()
 	self.pokemon = {moves={}, STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
 	self.list_items = {}
-	
-	self.scrollist = gui.get_node("scrollist/root")
+
 	self.root = gui.get_node("root")
 	self.evolve_button = gui.get_node("btn_evolve")
 	gui.set_enabled(self.evolve_button, false)
@@ -123,7 +122,7 @@ function init(self)
 		table.insert(self.pokemon.moves, "Move")
 	end
 
-	gui.set_text(gui.get_node("txt_current_level"), "Level " .. pokemon.level .. "  ->")
+	gui.set_text(gui.get_node("txt_current_level"), "Lv. " .. pokemon.level .. "  ->")
 
 	button.register("btn_level_increase", function()
 		if self.pokemon.level < 20 then
@@ -139,10 +138,6 @@ function init(self)
 				redraw(self)
 			end
 		end
-	end)
-	
-	button.register("btn_back", function()
-		monarch.show("party")
 	end)
 
 	button.register("btn_edit", function()
@@ -207,7 +202,7 @@ function init(self)
 		pick_move(self, 4)
 	end)
 
-	button.register("scrollist/btn_okay", function()
+	--[[button.register("scrollist/btn_okay", function()
 		gui.set_enabled(self.root, true)
 		gui.set_position(self.scrollist, vmath.vector3(720, 0, 0))
 		if self.state == 1 then
@@ -230,7 +225,7 @@ function init(self)
 		selected_item = "None"
 		self.list_items = {}
 		gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", {})
-	end)
+	end)--]]
 
 	button.register(self.evolve_button, function()
 		self.state = 2
@@ -267,47 +262,6 @@ function final(self)
 	button.unregister()
 end
 
-function update(self, dt)
-	-- Add update code here
-	-- Remove this function if not needed
-end
-
-function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Remove this function if not needed
-end
-
-
-local function update_listitem(list, item)
-	if item.index == list.selected_item then
-		gui.set_color(item.nodes[hash(list.id .. "/txt_item")], vmath.vector3(1, 1, 0, 1))
-		selected_item = item.data
-	else
-		gui.set_color(item.nodes[hash(list.id .. "/txt_item")], vmath.vector3(1, 1, 1, 1))
-	end
-end
-
-local function update_list(list)
-	for i,item in ipairs(list.items) do
-		update_listitem(list, item)
-		gui.set_text(item.nodes[hash(list.id .. "/txt_item")], tostring(item.data or "-"))
-	end
-end
-
-local function on_item_selected(list)
-	for i,item in ipairs(list.items) do
-		update_listitem(list, item)
-	end
-end
-
 function on_input(self, action_id, action)
 	button.on_input(action_id, action)
-	if next(self.list_items) ~= nil then
-		gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items, action_id, action, on_item_selected, update_list)
-	end
-end
-
-function on_reload(self)
-	-- Add input-handling code here
-	-- Remove this function if not needed
 end

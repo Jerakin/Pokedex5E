@@ -15,7 +15,6 @@ local default_savedata = {
 	}
 }
 
-
 function init(self)
 	defsave.appname = "pokedex5E"
 	defsave.default_data = default_savedata
@@ -30,7 +29,9 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("show_first_screen") then
-		monarch.show(hash("splash"))
+		monarch.show(hash("splash"), {}, {}, function()
+			monarch.show(hash("switcher"), { no_stack = true })
+		end)
 	end
 end
 

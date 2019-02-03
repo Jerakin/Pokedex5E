@@ -16,7 +16,7 @@ local function redraw(self)
 	end
 
 	local level_node = gui.get_node("txt_level")
-	gui.set_text(level_node, "Level " .. self.pokemon.level)
+	gui.set_text(level_node, "Lv. " .. self.pokemon.level)
 
 	local nature_node = gui.get_node("nature")
 	gui.set_text(nature_node, "Nature: " .. self.pokemon.nature)
@@ -58,11 +58,9 @@ local function decrease(self, stat)
 	end
 end
 
-local function pick_move(self, number)
+local function pick_move(self)
 	if pokedex.is_pokemon(self.pokemon.species) then
 		gui.set_enabled(self.root, false)
-		gui.set_position(self.scrollist, vmath.vector3())
-		self.state = 3
 		local available_moves = pokedex.get_pokemons_moves(self.pokemon.species, self.pokemon.level)
 		for _, move in pairs(self.pokemon.moves) do
 			for i, selected_move in pairs(available_moves) do
@@ -71,10 +69,8 @@ local function pick_move(self, number)
 				end
 			end
 		end
-		self.list_items = available_moves
 
-		self.pokemon.moves[number] = selected_item
-		redraw(self)
+		monarch.show("scrollist", {}, {items=available_moves, message_id="move", sender=msg.url()})
 	end
 end
 
@@ -87,7 +83,6 @@ function init(self)
 	self.move_button_index = 0
 
 	self.root = gui.get_node("root")
-	self.scrollist = gui.get_node("scrollist/root")
 
 	button.register("btn_str_reduce", function()
 		decrease(self, "STR")
@@ -143,67 +138,32 @@ function init(self)
 
 	button.register("btn_spicies", function()
 		gui.set_enabled(self.root, false)
-		gui.set_position(self.scrollist, vmath.vector3())
-		self.list_items = pokedex.list
-		self.state = 2
+		monarch.show("scrollist", {}, {items=pokedex.list, message_id="species", sender=msg.url()})
 	end)
-	
+
 	button.register("btn_nature", function()
 		gui.set_enabled(self.root, false)
-		gui.set_position(self.scrollist, vmath.vector3())
-		self.state = 1
-		self.list_items = natures.list
+		monarch.show("scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url()})
 	end)
 
-	button.register("scrollist/btn_okay", function()
-		gui.set_enabled(self.root, true)
-		gui.set_position(self.scrollist, vmath.vector3(720, 0, 0))
-		
-		if self.state == 1 then
-			if natures.is_nature(selected_item) then
-				self.pokemon.nature = selected_item
-			end
-		elseif self.state == 2 then
-			if pokedex.is_pokemon(selected_item) then
-				self.pokemon.species = selected_item
-				self.pokemon.moves = {"None", "None", "None", "None"}
-				self.pokemon.level = pokedex.minumum_level(selected_item) > self.pokemon.level and pokedex.minumum_level(selected_item) or self.pokemon.level
-			end
-		elseif self.state == 3 then
-			self.pokemon.moves[self.move_button_index] = selected_item
-		end
-		self.list_items = {}
-		gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", {})
-		selected_item = "None"
-		redraw(self)
-	end)
-
-	button.register("scrollist/btn_quit", function()
-		gui.set_enabled(self.root, true)
-		gui.set_position(self.scrollist, vmath.vector3(720, 0, 0))
-		selected_item = "None"
-		self.list_items = {}
-		gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", {})
-	end)
-	
 	button.register("move_1", function()
 		self.move_button_index = 1
-		pick_move(self, 1)
+		pick_move(self)
 	end)
 
 	button.register("move_2", function()
 		self.move_button_index = 2
-		pick_move(self, 2)
+		pick_move(self)
 	end)
 
 	button.register("move_3", function()
 		self.move_button_index = 3
-		pick_move(self, 3)
+		pick_move(self)
 	end)
 
 	button.register("move_4", function()
 		self.move_button_index = 4
-		pick_move(self, 4)
+		pick_move(self)
 	end)
 
 	button.register("btn_add", function()
@@ -227,37 +187,25 @@ function update(self, dt)
 end
 
 function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Remove this function if not needed
-end
-
-local function update_listitem(list, item)
-	if item.index == list.selected_item then
-		gui.set_color(item.nodes[hash(list.id .. "/txt_item")], vmath.vector3(1, 1, 0, 1))
-		selected_item = item.data
+	if message_id == hash("nature") then
+		self.pokemon.nature = message.item
+		gui.set_enabled(self.root, true)
+		redraw(self)
+	elseif message_id == hash("species") then
+		self.pokemon.species = message.item
+		gui.set_enabled(self.root, true)
+		redraw(self)
 	else
-		gui.set_color(item.nodes[hash(list.id .. "/txt_item")], vmath.vector3(1, 1, 1, 1))
-	end
-end
-
-local function update_list(list)
-	for i,item in ipairs(list.items) do
-		update_listitem(list, item)
-		gui.set_text(item.nodes[hash(list.id .. "/txt_item")], tostring(item.data or "-"))
-	end
-end
-
-local function on_item_selected(list)
-	for i,item in ipairs(list.items) do
-		update_listitem(list, item)
+		local n = gui.get_node("move_" .. self.move_button_index)
+		self.pokemon.moves[self.move_button_index] = message.item
+		gui.set_text(n, message.item)
+		gui.set_enabled(self.root, true)
+		redraw(self)
 	end
 end
 
 function on_input(self, action_id, action)
 	button.on_input(action_id, action)
-	if next(self.list_items) ~= nil then
-		gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items, action_id, action, on_item_selected, update_list)
-	end
 end
 
 function on_reload(self)

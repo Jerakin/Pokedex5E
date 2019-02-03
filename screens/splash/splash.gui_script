@@ -3,7 +3,6 @@ local monarch = require "monarch.monarch"
 
 function init(self)
 	button.acquire()
-	monarch.show(hash("switcher"), { no_stack = true })
 end
 
 function final(self)

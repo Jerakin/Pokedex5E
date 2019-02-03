@@ -46,18 +46,18 @@ local function setup_inventory(self)
 		node_prefix = "inventory_pokemon_" .. i
 		if pokemon then
 			gui.set_enabled(gui.get_node(node_prefix .. "/root"), true)
-			gui.set_text(gui.get_node(node_prefix .. "/txt_level"), pokemon.level)
+			gui.set_text(gui.get_node(node_prefix .. "/txt_level"), "Lv. " .. pokemon.level)
 			gui.set_text(gui.get_node(node_prefix .. "/txt_spicies"), pokemon.species)
 			local mark_node = gui.get_node(node_prefix .. "/checkmark_mark")
-			gui.set_color(mark_node, BLACK)
+			gui.set_enabled(mark_node, false)
 			local b = button.register(gui.get_node(node_prefix .. "/root"), function()
 				toggle_inventory(inventory[i])
 				if selected_inventory[inventory[i]] then
 					max_move = max_move + 1
-					gui.set_color(mark_node, WHITE)
+					gui.set_enabled(mark_node, true)
 				else
 					max_move = max_move - 1
-					gui.set_color(mark_node, BLACK)
+					gui.set_enabled(mark_node, false)
 				end
 			end)
 			table.insert(self.inventory_buttons, b)
@@ -98,12 +98,12 @@ local function update_list(list)
 			for i=index, 4 do
 				--gui.set_text(item.nodes[hash(list.id .. "/move_" .. i)], "")
 			end
-			gui.set_text(item.nodes[hash(list.id .. "/txt_level")], pokemon.level)
+			gui.set_text(item.nodes[hash(list.id .. "/txt_level")], "Lv. " .. pokemon.level)
 			gui.set_text(item.nodes[hash(list.id .. "/txt_spicies")], pokemon.species)
 			if selected_storage[item.data] then
-				gui.set_color(item.nodes[hash(list.id .. "/checkmark_mark")], WHITE)
+				gui.set_enabled(item.nodes[hash(list.id .. "/checkmark_mark")], true)
 			else
-				gui.set_color(item.nodes[hash(list.id .. "/checkmark_mark")], BLACK)
+				gui.set_enabled(item.nodes[hash(list.id .. "/checkmark_mark")], false)
 			end
 		end
 	end
