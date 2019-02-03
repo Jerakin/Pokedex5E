@@ -2829,7 +2829,7 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
+    x: -360.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -2869,7 +2869,7 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
+    x: 360.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -2887,7 +2887,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 350.0
+    x: 700.0
     y: 150.0
     z: 0.0
     w: 1.0
@@ -2919,13 +2919,12 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 14
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
-    x: -129.0
+    x: -305.0
     y: -25.0
     z: 0.0
     w: 1.0
@@ -2982,14 +2981,13 @@ nodes {
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  overridden_fields: 1
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
 }
 nodes {
   position {
-    x: 171.0
+    x: 337.0
     y: -25.0
     z: 0.0
     w: 1.0
@@ -3046,14 +3044,13 @@ nodes {
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  overridden_fields: 1
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
 }
 nodes {
   position {
-    x: -152.0
+    x: -325.0
     y: -25.0
     z: 0.0
     w: 1.0
@@ -3103,7 +3100,6 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 1
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -3217,7 +3213,7 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
+    x: -345.0
     y: -50.0
     z: 0.0
     w: 1.0
@@ -3252,7 +3248,7 @@ nodes {
   id: "storage_pokemon/extra_info"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_N
+  pivot: PIVOT_NW
   adjust_mode: ADJUST_MODE_FIT
   parent: "storage_pokemon/root"
   layer: ""
@@ -3267,13 +3263,12 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 14
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
-    x: -171.0
+    x: 38.0
     y: -24.0
     z: 0.0
     w: 1.0
@@ -3304,7 +3299,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: ""
+  text: "<text>"
   font: "data"
   id: "storage_pokemon/move_1"
   xanchor: XANCHOR_NONE
@@ -3330,15 +3325,13 @@ nodes {
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  overridden_fields: 1
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
 }
 nodes {
   position {
-    x: -171.0
+    x: 38.0
     y: -67.0
     z: 0.0
     w: 1.0
@@ -3369,7 +3362,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: ""
+  text: "<text>"
   font: "data"
   id: "storage_pokemon/move_2"
   xanchor: XANCHOR_NONE
@@ -3395,15 +3388,13 @@ nodes {
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  overridden_fields: 1
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
 }
 nodes {
   position {
-    x: 170.0
+    x: 682.0
     y: -24.0
     z: 0.0
     w: 1.0
@@ -3434,7 +3425,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: ""
+  text: "<text>"
   font: "data"
   id: "storage_pokemon/move_3"
   xanchor: XANCHOR_NONE
@@ -3460,15 +3451,13 @@ nodes {
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  overridden_fields: 1
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
 }
 nodes {
   position {
-    x: 170.0
+    x: 682.0
     y: -67.0
     z: 0.0
     w: 1.0
@@ -3499,7 +3488,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: ""
+  text: "<text>"
   font: "data"
   id: "storage_pokemon/move_4"
   xanchor: XANCHOR_NONE
@@ -3525,8 +3514,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  overridden_fields: 1
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
