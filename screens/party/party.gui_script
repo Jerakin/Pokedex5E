@@ -80,7 +80,7 @@ local function setup_abilities(self, nodes, pokemon)
 		local n = nodes[name .. sub]
 		return n
 	end
-
+	local p = vmath.vector3()
 	for name, desc in pairs(pokemon.abilities) do
 		local root_node = gui.clone(nodes["pokemon/ability/root"])
 		local name_node = gui.clone(nodes["pokemon/ability/name"])
@@ -91,9 +91,8 @@ local function setup_abilities(self, nodes, pokemon)
 		
 		gui.set_parent(name_node, root_node)
 		gui.set_parent(desc_node, root_node)
-		local p = gui.get_position(root_node)
-		p.y = p.y - (gui.get_text_metrics_from_node(desc_node).height + gui.get_text_metrics_from_node(name_node).height + 50) * index
 		gui.set_position(root_node, p)
+		p.y = p.y - (gui.get_text_metrics_from_node(desc_node).height + gui.get_text_metrics_from_node(name_node).height + 50)
 		index = index + 1
 	end
 	gui.delete_node(template)
