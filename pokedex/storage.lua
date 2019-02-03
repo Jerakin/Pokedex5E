@@ -17,8 +17,6 @@ local function get_id(pokemon)
 	return md5.tohex(m:finish())
 end
 
-
-
 local function getKeysSortedByValue(tbl, sortFunction)
 	local keys = {}
 	for key in pairs(tbl) do
@@ -30,6 +28,12 @@ local function getKeysSortedByValue(tbl, sortFunction)
 	end)
 
 	return keys
+end
+
+local function update_pokemon_data(data)
+	for id, pokemon in pairs(data) do
+		_pokemon.update_pokemon(pokemon)
+	end
 end
 
 function M.list_of_ids_in_storage()
@@ -71,6 +75,8 @@ function M.init()
 		M.storage = defsave.get("pokedex5e", "storage")
 		M.active = defsave.get("pokedex5e", "active")
 		M.counter = defsave.get("pokedex5e", "counter")
+		update_pokemon_data(M.storage)
+		update_pokemon_data(M.active)
 	end
 end
 

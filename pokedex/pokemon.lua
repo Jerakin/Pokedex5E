@@ -18,48 +18,78 @@ end
 local STATS = {"STR", "DEX", "CON", "INT", "WIS", "CHA"}
 local AVG_HIT_DIE = {[6]=4, [8]=5, [10]=6, [12]=7, [20]=12}
 
+local function level_index(level)
+	if level > 17 then
+		return "17"
+	elseif level > 10 then
+		return "10"
+	elseif level > 5 then
+		return "5"
+	else
+		return "1"
+	end
+end
+
+local function get_damage_mod_stab(pokemon, move)
+	local modifier = 0
+	local damage
+	local ab
+	local stab = false
+	for _, mod in pairs(move.power) do
+		if mod ~= "None" then
+			modifier = pokemon.attributes[mod] > modifier and pokemon.attributes[mod] or modifier
+		end
+	end
+	modifier = math.floor((modifier - 10) / 2)
+
+	for _, t in pairs(pokemon.type) do
+		if move.Type == t then
+			STAB = pokemon.STAB
+			stab = true
+		end
+	end
+	local index  = level_index(pokemon.level)
+
+	if move.Damage then
+		damage = move.Damage[index].amount .. "d" .. move.Damage[index].dice_max
+		if move.Damage[index].move then
+			damage = damage .. "+" .. (modifier+STAB)
+		end
+		ab = modifier + pokemon.proficiency
+	end
+	return damage, modifier, stab
+end
+
+local function copy_move(move_name, old_data)
+	local move = pokedex.get_move_data(move_name)
+	local pokemon_move = old_data or {}
+	pokemon_move.name = move_name
+	pokemon_move.type =  move.Type
+	pokemon_move.PP =  move.PP
+	pokemon_move.duration = move.Duration
+	pokemon_move.range = move.Range
+	pokemon_move.description = move.Description
+	pokemon_move.power = move["Move Power"]
+	pokemon_move.damage = move.Damage
+	pokemon_move.save = move.Save
+	pokemon_move.time = move["Move Time"]
+	return pokemon_move
+end
+
 local function setup_moves(this)
 	local m = {}
 	for _, move_name in pairs(this.moves) do
-		local move = pokedex.get_move_data(move_name)
+		local move = copy_move(move_name)
+		dmg, mod, stab = get_damage_mod_stab(this, move)
+		
 		move.current_pp = move.PP
-		move.STAB_MOVE = false
-		local damage
-		local modifier = 0
-		local STAB = 0
-
-		for _, mod in pairs(move["Move Power"]) do
-			if mod ~= "None" then
-				modifier = this[mod] > modifier and this[mod] or modifier
-			end
+		move.damage = dmg
+		move.stab = stab
+		if move.damage then
+			move.AB = mod + this.proficiency
 		end
-		modifier = math.floor((modifier - 10) / 2)
-
-		for _, t in pairs(this.type) do
-			if move.Type == t then
-				STAB = this.STAB
-				move.STAB_MOVE = true
-			end
-		end
-		local index 
-		if this.level > 17 then
-			index = "17"
-		elseif this.level > 10 then
-			index = "10"
-		elseif this.level > 5 then
-			index = "5"
-		else
-			index = "1"
-		end
-		if move.Damage then
-			damage = move.Damage[index].amount .. "d" .. move.Damage[index].dice_max
-			if move.Damage[index].move then
-				damage = damage .. "+" .. (modifier+STAB)
-			end
-			move.Damage = damage
-			move["Attack Bonus"] = modifier + this.proficiency
-		else
-			move["Save DC"] = 8 + modifier + this.proficiency
+		if move.save then
+			move.save_dc = 8 + mod + this.proficiency
 		end
 		m[move_name] = move
 	end
@@ -67,11 +97,12 @@ local function setup_moves(this)
 	this.moves = m
 end
 
-
 local function add_score_from_nature(pokemon)
 	local data = natures.nature_data(pokemon.nature)
 	for stat, num in pairs(data) do
-		pokemon[stat] = pokemon[stat] + num
+		if pokemon.attributes[stat] then
+			pokemon.attributes[stat] = pokemon.attributes[stat] + num
+		end
 	end
 end
 
@@ -83,14 +114,21 @@ local function setup_abilities(pokemon)
 	pokemon.abilities = a
 end
 
+local function add_ac_from_nature(pokemon)
+	local data = natures.nature_data(pokemon.nature)
+	if data["AC"] then
+		pokemon.AC = pokemon.AC + data["AC"]
+	end
+end
+
 local function setup_saving_throws(pokemon)
 	local this = {}
-	this.STR = pokemon.STR
-	this.DEX = pokemon.DEX
-	this.CON = pokemon.CON
-	this.INT = pokemon.INT
-	this.WIS = pokemon.WIS
-	this.CHA = pokemon.CHA
+	this.STR = pokemon.attributes.STR
+	this.DEX = pokemon.attributes.DEX
+	this.CON = pokemon.attributes.CON
+	this.INT = pokemon.attributes.INT
+	this.WIS = pokemon.attributes.WIS
+	this.CHA = pokemon.attributes.CHA
 	if pokemon.raw_data.ST1 then
 		this[pokemon.raw_data.ST1] = this[pokemon.raw_data.ST1] + pokemon.proficiency
 		if pokemon.raw_data.ST2 then
@@ -103,6 +141,37 @@ local function setup_saving_throws(pokemon)
 	pokemon.saving_throw = this
 end
 
+
+local function update_attributes(pokemon)
+	pokemon.attributes = {}
+	pokemon.attributes.STR = pokemon.increased_attributes.STR + pokemon.base_attributes.STR
+	pokemon.attributes.DEX = pokemon.increased_attributes.DEX + pokemon.base_attributes.DEX
+	pokemon.attributes.CON = pokemon.increased_attributes.CON + pokemon.base_attributes.CON
+	pokemon.attributes.INT = pokemon.increased_attributes.INT + pokemon.base_attributes.INT
+	pokemon.attributes.WIS = pokemon.increased_attributes.WIS + pokemon.base_attributes.WIS
+	pokemon.attributes.CHA = pokemon.increased_attributes.CHA + pokemon.base_attributes.CHA
+	add_score_from_nature(pokemon)
+end
+
+local function update_moves(this)
+	for move_name, data in pairs(this.moves) do
+		data = copy_move(move_name, data)
+		damage, ab, stab = get_damage_mod_stab(this, data)
+		data.damage = damage
+		data.stab = stab
+		if data.damage then
+			data.AB = mod + this.proficiency
+		end
+		if data.save then
+			data.save_dc = 8 + mod + this.proficiency
+		end
+	end
+end
+
+function M.update_pokemon(pokemon)
+	update_attributes(pokemon)
+	update_moves(pokemon)
+end
 
 function M.decrease_move_pp(pokemon, move)
 	pokemon.moves[move].current_pp = math.max(pokemon.moves[move].current_pp - 1, 0)
@@ -125,13 +194,23 @@ function M.new(pokemon, id)
 	this.moves = pokemon.moves
 	this.raw_data = pokedex.get_pokemon(pokemon.species)
 	this.AC = this.raw_data.AC
-	this.STR = this.raw_data.STR + pokemon.STR
-	this.DEX = this.raw_data.DEX + pokemon.DEX
-	this.CON = this.raw_data.CON + pokemon.CON
-	this.INT = this.raw_data.INT + pokemon.INT
-	this.WIS = this.raw_data.WIS + pokemon.WIS
-	this.CHA = this.raw_data.CHA + pokemon.CHA
 	
+	this.base_attributes = {}
+	this.base_attributes.STR = this.raw_data.STR
+	this.base_attributes.DEX = this.raw_data.DEX
+	this.base_attributes.CON = this.raw_data.CON
+	this.base_attributes.INT = this.raw_data.INT
+	this.base_attributes.WIS = this.raw_data.WIS
+	this.base_attributes.CHA = this.raw_data.CHA
+
+	this.increased_attributes = {}
+	this.increased_attributes.STR = pokemon.STR
+	this.increased_attributes.DEX = pokemon.DEX
+	this.increased_attributes.CON = pokemon.CON
+	this.increased_attributes.INT = pokemon.INT
+	this.increased_attributes.WIS = pokemon.WIS
+	this.increased_attributes.CHA = pokemon.CHA
+
 	this.skills = this.raw_data.Skill or {}
 	this.type = this.raw_data.Type
 	this.resistances = this.raw_data.Res
@@ -142,8 +221,9 @@ function M.new(pokemon, id)
 	this.current_hp = this.HP
 	this.proficiency = M.level_data(this.level).prof
 	this.STAB = M.level_data(this.level).STAB
-
-	add_score_from_nature(this)
+	
+	update_attributes(this)
+	add_ac_from_nature(this)
 	setup_saving_throws(this)
 	setup_abilities(this)
 	setup_moves(this)

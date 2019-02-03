@@ -45,26 +45,29 @@ local function setup_moves(self, nodes, pokemon)
 		end)
 		
 		button.register(_get_node("/name"), function()
-			show_description(data.Description)
+			show_description(data.description)
 		end)
 		
-		gui.set_text(_get_node("/action"), data["Move Time"])
-		gui.set_text(_get_node("/duration"), data.Duration)
+		gui.set_text(_get_node("/action"), data.time)
+		gui.set_text(_get_node("/duration"), data.duration)
 		gui.set_text(pp_node, "PP: " .. data.current_pp)
 
-		if data.Damage then
-			gui.set_text(_get_node("/bonus"), "AB: " .. data["Attack Bonus"])
-			gui.set_text(_get_node("/damage"), data.Damage)
-		else
-			gui.set_enabled(_get_node("/bonus"), false)
-			gui.set_text(_get_node("/damage"), "Save DC: " .. data["Save DC"])
+		if data.damage then
+			gui.set_text(_get_node("/bonus"), "AB: " .. data.AB)
+			gui.set_text(_get_node("/damage"), data.damage)
+			if damage.save then
+				if not data.AB then
+					gui.set_enabled(_get_node("/bonus"), false)
+				end
+			end
+			gui.set_text(_get_node("/damage"), "Save DC: " .. data.save_dc)
 		end
 
 		gui.set_text(_get_node("/name"), name)
 		if data.STAB_MOVE then
 			gui.set_color(_get_node("/name"), vmath.vector4(1, 1, .5, 1))
 		end
-		gui.set_text(_get_node("/range"), data.Range)
+		gui.set_text(_get_node("/range"), data.range)
 	end
 	for i=index+1, 5 do
 		local n = nodes["pokemon/move_" .. i .. "/root"]
@@ -99,9 +102,10 @@ local function setup_abilities(self, nodes, pokemon)
 end
 
 local function setup_info(self, nodes, pokemon)
-	local abilities_string ="STR: " .. to_mod(pokemon.STR) .. "  INT: " .. to_mod(pokemon.INT) .. "\n" .. 
-							"DEX: " .. to_mod(pokemon.DEX) .. "  WIS: " .. to_mod(pokemon.WIS) .. "\n" .. 
-							"CON: " .. to_mod(pokemon.CON) .. "  CHA: " .. to_mod(pokemon.CHA) .. "\n"
+	local abilities_string = 
+	"STR: " .. to_mod(pokemon.attributes.STR) .. "  INT: " .. to_mod(pokemon.attributes.INT) .. "\n" .. 
+	"DEX: " .. to_mod(pokemon.attributes.DEX) .. "  WIS: " .. to_mod(pokemon.attributes.WIS) .. "\n" .. 
+	"CON: " .. to_mod(pokemon.attributes.CON) .. "  CHA: " .. to_mod(pokemon.attributes.CHA) .. "\n"
 	gui.set_text(nodes["pokemon/attributes"], abilities_string)
 
 	local saving_throw_string =
