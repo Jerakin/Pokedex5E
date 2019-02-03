@@ -6,6 +6,7 @@ local M = {}
 local pokedex
 local abilities
 local movedata
+local evolvedata
 
 local function list()
 	local ordered = file.load_json_from_resource("/assets/datafiles/pokemon_order.json")
@@ -16,6 +17,7 @@ function M.init()
 	pokedex = file.load_json_from_resource("/assets/datafiles/pokemon.json")
 	abilities = file.load_json_from_resource("/assets/datafiles/abilities.json")
 	movedata = file.load_json_from_resource("/assets/datafiles/moves.json")
+	evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
 	M.list, M.total = list()
 end
 
@@ -37,6 +39,22 @@ end
 
 function M.minumum_level(pokemon)
 	return M.get_pokemon(pokemon)["MIN LVL FD"]
+end
+
+function M.can_evolve(pokemon)
+	return evolvedata[pokemon] or true and false
+end
+
+function M.evolve_level(pokemon)
+	return evolvedata[pokemon].level
+end
+
+function M.evolve_into(pokemon)
+	return evolvedata[pokemon].into
+end
+
+function M.evolve_points(pokemon)
+	return evolvedata[pokemon].points
 end
 
 function M.get_pokemons_moves(pokemon, level)

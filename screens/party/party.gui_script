@@ -141,7 +141,7 @@ local function setup_page(self, nodes, pokemon)
 	gui.set_text(nodes["pokemon/species"], pokemon.species)
 	gui.set_text(nodes["pokemon/level"], "lvl: " .. pokemon.level)
 	gui.set_text(nodes["pokemon/nature"], pokemon.nature)
-	gui.set_text(nodes["pokemon/ac"], "AC: " .. pokemon.AC)
+	gui.set_text(nodes["pokemon/ac"], "AC: " .. pokemon.attributes.AC)
 
 	update_hp(self, nodes, pokemon)
 	local pos = vmath.vector3()

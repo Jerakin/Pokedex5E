@@ -6,21 +6,24 @@ local pokedex = require "pokedex.pokedex"
 local gooey = require "gooey.gooey"
 
 local selected_item
+local HAVE_EVOLVED = false
+
+local STATS = {"STR", "DEX", "CON", "INT", "WIS", "CHA"}
 
 local function redraw(self)
-	local str_node = gui.get_node("str")
-	local dex_node = gui.get_node("dex")
-	local con_node = gui.get_node("con")
-	local int_node = gui.get_node("int")
-	local wis_node = gui.get_node("wis")
-	local cha_node = gui.get_node("cha")
-
-	gui.set_text(str_node, "STR +" .. self.pokemon.STR)
-	gui.set_text(dex_node, "DEX +" .. self.pokemon.DEX)
-	gui.set_text(con_node, "CON +" .. self.pokemon.CON)
-	gui.set_text(int_node, "INT +" .. self.pokemon.INT)
-	gui.set_text(wis_node, "WIS +" .. self.pokemon.WIS)
-	gui.set_text(cha_node, "CHA +" .. self.pokemon.CHA)
+	gui.set_text(gui.get_node("spicies"), self.pokemon.species)
+	
+	for _, stat in pairs(STATS) do
+		local n = gui.get_node(stat)
+		gui.set_text(n, stat .. " " .. self.pokemon.attributes.current[stat] + self.pokemon[stat])
+		if self.pokemon[stat] < 0 then
+			gui.set_color(n, vmath.vector3(1, 0, 0, 1))
+		elseif self.pokemon[stat] == 0 then
+			gui.set_color(n, vmath.vector3(1, 1, 1, 1))
+		else
+			gui.set_color(n, vmath.vector3(1, 1, 0, 1))
+		end
+	end
 
 	local level_node = gui.get_node("txt_level")
 	gui.set_text(level_node, "Level " .. self.pokemon.level)
@@ -43,14 +46,17 @@ local function redraw(self)
 	gui.set_text(move_4_node, self.pokemon.moves[4])
 
 	-- Check Evolve
-
+	if not HAVE_EVOLVED and pokedex.can_evolve(self.pokemon.species) and pokedex.evolve_level(self.pokemon.species) <= self.pokemon.level and self.pokemon.old_level < self.pokemon.level then
+		gui.set_enabled(self.evolve_button, true)
+	else
+		gui.set_enabled(self.evolve_button, false)
+	end
 end
 
 local function pick_move(self, number)
-	
 	gui.set_enabled(self.root, false)
 	gui.set_position(self.scrollist, vmath.vector3())
-	self.state = 3
+	self.state = 1
 	local available_moves = pokedex.get_pokemons_moves(self.pokemon.species, self.pokemon.level)
 	
 	for _, move in pairs(self.pokemon.moves) do
@@ -66,37 +72,49 @@ local function pick_move(self, number)
 end
 
 local function increase(self, stat)
-	self.pokemon[stat] = self.pokemon[stat] + 1
-	self.ability_score_improvment = self.ability_score_improvment + 1
-	redraw(self)
-end
-
-local function decrease(self, stat)
-	if self.pokemon[stat] > 0 then
-		self.pokemon[stat] = self.pokemon[stat] - 1
-		self.ability_score_improvment = self.ability_score_improvment - 1
+	if self.pokemon.attributes.current[stat] + self.pokemon[stat] < self.pokemon.attributes.max[stat] then
+		self.pokemon[stat] = self.pokemon[stat] + 1
+		self.ability_score_improvment = self.ability_score_improvment + 1
 		redraw(self)
 	end
 end
 
+local function decrease(self, stat)
+	self.pokemon[stat] = self.pokemon[stat] - 1
+	self.ability_score_improvment = self.ability_score_improvment - 1
+	redraw(self)
+end
 
 function init(self)
 	button.acquire()
 	self.pokemon = {moves={}, STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
 	self.list_items = {}
+	
 	self.scrollist = gui.get_node("scrollist/root")
 	self.root = gui.get_node("root")
 	self.evolve_button = gui.get_node("btn_evolve")
 	gui.set_enabled(self.evolve_button, false)
-	
+	self.state = 0
+	self.ability_score_improvment = 0
 	
 	local pokemon_id = monarch.data("edit").id
 	local pokemon = storage.get(pokemon_id)
+	self.old_species = pokemon.species
+	self.pokemon.id = pokemon_id
 	self.pokemon.species = pokemon.species
 	self.pokemon.level = pokemon.level
 	self.pokemon.old_level = pokemon.level
-	self.ability_score_improvment = 0
-	index = 0
+	self.pokemon.attributes = {}
+	self.pokemon.attributes.max = {}
+	self.pokemon.attributes.current = pokemon.attributes
+	for _, stat in pairs(STATS) do
+		self.pokemon.attributes.max[stat] = 20
+		if pokemon.nature_attributes[stat] > 0 then
+			self.pokemon.attributes.max[stat] = self.pokemon.attributes.max[stat] + pokemon.nature_attributes[stat]
+		end
+	end
+	
+	local index = 0
 	for name, _ in pairs(pokemon.moves) do
 		index = index + 1
 		table.insert(self.pokemon.moves, name)
@@ -105,7 +123,6 @@ function init(self)
 		table.insert(self.pokemon.moves, "Move")
 	end
 
-	gui.set_text(gui.get_node("spicies"), pokemon.species)
 	gui.set_text(gui.get_node("txt_current_level"), "Level " .. pokemon.level .. "  ->")
 
 	button.register("btn_level_increase", function()
@@ -114,10 +131,13 @@ function init(self)
 			redraw(self)
 		end
 	end)
+	
 	button.register("btn_level_reduce", function()
 		if self.pokemon.level > 1 and self.pokemon.level > self.pokemon.old_level then
-			self.pokemon.level = self.pokemon.level - 1
-			redraw(self)
+			if not HAVE_EVOLVED or (HAVE_EVOLVED and pokedex.evolve_level(self.old_species) < self.pokemon.level) then
+				self.pokemon.level = self.pokemon.level - 1
+				redraw(self)
+			end
 		end
 	end)
 	
@@ -125,6 +145,11 @@ function init(self)
 		monarch.show("party")
 	end)
 
+	button.register("btn_edit", function()
+		_pokemon.edit(pokemon, self.pokemon)
+		monarch.show("party")
+	end)
+	
 	button.register("btn_str_reduce", function()
 		decrease(self, "STR")
 	end)
@@ -185,7 +210,14 @@ function init(self)
 	button.register("scrollist/btn_okay", function()
 		gui.set_enabled(self.root, true)
 		gui.set_position(self.scrollist, vmath.vector3(720, 0, 0))
-		self.pokemon.moves[self.move_button_index] = selected_item
+		if self.state == 1 then
+			self.pokemon.moves[self.move_button_index] = selected_item
+		elseif self.state == 2 then
+			HAVE_EVOLVED = true
+			self.old_species = self.pokemon.species
+			self.ability_score_improvment = self.ability_score_improvment - pokedex.evolve_points(self.pokemon.species)
+			self.pokemon.species = selected_item
+		end
 		self.list_items = {}
 		gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", {})
 		selected_item = "None"
@@ -198,6 +230,34 @@ function init(self)
 		selected_item = "None"
 		self.list_items = {}
 		gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", {})
+	end)
+
+	button.register(self.evolve_button, function()
+		self.state = 2
+		self.pokemon.moves = {}
+		local index = 0
+		for name, _ in pairs(pokemon.moves) do
+			index = index + 1
+			table.insert(self.pokemon.moves, name)
+		end
+		for i=index+1, 4 do
+			table.insert(self.pokemon.moves, "Move")
+		end
+
+		local evolve_into = pokedex.evolve_into(self.pokemon.species)
+		if #evolve_into == 1 then
+			HAVE_EVOLVED = true
+			self.old_species = self.pokemon.species
+			self.ability_score_improvment = self.ability_score_improvment - pokedex.evolve_points(self.pokemon.species)
+			self.pokemon.species = evolve_into[1]
+		else
+			gui.set_enabled(self.root, false)
+			gui.set_position(self.scrollist, vmath.vector3())
+			self.list_items = evolve_into
+		end
+		
+		gui.set_enabled(self.evolve_button, false)
+		redraw(self)
 	end)
 	
 	redraw(self)

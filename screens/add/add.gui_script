@@ -9,21 +9,11 @@ local storage = require "pokedex.storage"
 local utils = require "utils.utils"
 
 local selected_item
-
+local STATS = {"STR", "DEX", "CON", "INT", "WIS", "CHA"}
 local function redraw(self)
-	local str_node = gui.get_node("str")
-	local dex_node = gui.get_node("dex")
-	local con_node = gui.get_node("con")
-	local int_node = gui.get_node("int")
-	local wis_node = gui.get_node("wis")
-	local cha_node = gui.get_node("cha")
-
-	gui.set_text(str_node, "STR +" .. self.pokemon.STR)
-	gui.set_text(dex_node, "DEX +" .. self.pokemon.DEX)
-	gui.set_text(con_node, "CON +" .. self.pokemon.CON)
-	gui.set_text(int_node, "INT +" .. self.pokemon.INT)
-	gui.set_text(wis_node, "WIS +" .. self.pokemon.WIS)
-	gui.set_text(cha_node, "CHA +" .. self.pokemon.CHA)
+	for _, stat in pairs(STATS) do
+		gui.set_text(gui.get_node(stat), stat .." +" .. self.pokemon[stat])
+	end
 
 	local level_node = gui.get_node("txt_level")
 	gui.set_text(level_node, "Level " .. self.pokemon.level)
@@ -137,7 +127,7 @@ function init(self)
 	end)
 
 	button.register("btn_level_increase", function()
-		if self.pokemon.level < 20 then
+		if pokedex.is_pokemon(self.pokemon.species) and self.pokemon.level < 20 then
 			self.pokemon.level = self.pokemon.level + 1
 			redraw(self)
 		end

@@ -97,11 +97,11 @@ local function setup_moves(this)
 	this.moves = m
 end
 
-local function add_score_from_nature(pokemon)
+local function setup_nature_attributes(pokemon)
 	local data = natures.nature_data(pokemon.nature)
 	for stat, num in pairs(data) do
-		if pokemon.attributes[stat] then
-			pokemon.attributes[stat] = pokemon.attributes[stat] + num
+		if pokemon.nature_attributes[stat] then
+			pokemon.nature_attributes[stat] = num
 		end
 	end
 end
@@ -143,14 +143,16 @@ end
 
 
 local function update_attributes(pokemon)
+	setup_nature_attributes(pokemon)
 	pokemon.attributes = {}
-	pokemon.attributes.STR = pokemon.increased_attributes.STR + pokemon.base_attributes.STR
-	pokemon.attributes.DEX = pokemon.increased_attributes.DEX + pokemon.base_attributes.DEX
-	pokemon.attributes.CON = pokemon.increased_attributes.CON + pokemon.base_attributes.CON
-	pokemon.attributes.INT = pokemon.increased_attributes.INT + pokemon.base_attributes.INT
-	pokemon.attributes.WIS = pokemon.increased_attributes.WIS + pokemon.base_attributes.WIS
-	pokemon.attributes.CHA = pokemon.increased_attributes.CHA + pokemon.base_attributes.CHA
-	add_score_from_nature(pokemon)
+	pokemon.attributes.STR = pokemon.increased_attributes.STR + pokemon.base_attributes.STR + pokemon.nature_attributes.STR
+	pokemon.attributes.DEX = pokemon.increased_attributes.DEX + pokemon.base_attributes.DEX + pokemon.nature_attributes.DEX
+	pokemon.attributes.CON = pokemon.increased_attributes.CON + pokemon.base_attributes.CON + pokemon.nature_attributes.CON
+	pokemon.attributes.INT = pokemon.increased_attributes.INT + pokemon.base_attributes.INT + pokemon.nature_attributes.INT
+	pokemon.attributes.WIS = pokemon.increased_attributes.WIS + pokemon.base_attributes.WIS + pokemon.nature_attributes.WIS
+	pokemon.attributes.CHA = pokemon.increased_attributes.CHA + pokemon.base_attributes.CHA + pokemon.nature_attributes.CHA
+	pokemon.attributes.AC = pokemon.base_attributes.AC + pokemon.nature_attributes.AC
+	
 end
 
 local function update_moves(this)
@@ -173,6 +175,39 @@ function M.update_pokemon(pokemon)
 	update_moves(pokemon)
 end
 
+function M.edit(pokemon, pokemon_data)
+	for i=#pokemon_data.moves, 1, -1 do
+		if pokemon_data.moves[i] == "Move" then
+			table.remove(pokemon_data.moves, i)
+		end
+	end
+	
+	pokemon.increased_attributes.STR = pokemon.increased_attributes.STR + pokemon_data.STR
+	pokemon.increased_attributes.DEX = pokemon.increased_attributes.DEX + pokemon_data.DEX
+	pokemon.increased_attributes.CON = pokemon.increased_attributes.CON + pokemon_data.CON
+	pokemon.increased_attributes.INT = pokemon.increased_attributes.INT + pokemon_data.INT
+	pokemon.increased_attributes.WIS = pokemon.increased_attributes.WIS + pokemon_data.WIS
+	pokemon.increased_attributes.CHA = pokemon.increased_attributes.CHA + pokemon_data.CHA
+	pokemon.moves = pokemon_data.moves
+	
+	pokemon.level = pokemon_data.level
+	if pokemon.species ~= pokemon_data.species then
+		pokemon.HP = pokemon.HP + (pokemon.level * 2)
+		pokemon.species = pokemon_data.species
+		
+		local raw_pokemon = pokedex.get_pokemon(pokemon_data.species)
+		pokemon.skills = raw_pokemon.Skill or {}
+		pokemon.type = raw_pokemon.Type
+		pokemon.resistances = raw_pokemon.Res
+		pokemon.vulnerabilities = raw_pokemon.Vul
+		pokemon.immunities = raw_pokemon.Imm
+
+		pokemon.base_attributes.AC = raw_pokemon.AC
+	end
+	setup_moves(pokemon)
+	M.update_pokemon(pokemon)
+end
+
 function M.decrease_move_pp(pokemon, move)
 	pokemon.moves[move].current_pp = math.max(pokemon.moves[move].current_pp - 1, 0)
 end
@@ -193,7 +228,6 @@ function M.new(pokemon, id)
 	this.nature = pokemon.nature
 	this.moves = pokemon.moves
 	this.raw_data = pokedex.get_pokemon(pokemon.species)
-	this.AC = this.raw_data.AC
 	
 	this.base_attributes = {}
 	this.base_attributes.STR = this.raw_data.STR
@@ -202,6 +236,7 @@ function M.new(pokemon, id)
 	this.base_attributes.INT = this.raw_data.INT
 	this.base_attributes.WIS = this.raw_data.WIS
 	this.base_attributes.CHA = this.raw_data.CHA
+	this.base_attributes.AC = this.raw_data.AC
 
 	this.increased_attributes = {}
 	this.increased_attributes.STR = pokemon.STR
@@ -211,6 +246,15 @@ function M.new(pokemon, id)
 	this.increased_attributes.WIS = pokemon.WIS
 	this.increased_attributes.CHA = pokemon.CHA
 
+	this.nature_attributes = {}
+	this.nature_attributes.STR = 0
+	this.nature_attributes.DEX = 0
+	this.nature_attributes.CON = 0
+	this.nature_attributes.INT = 0
+	this.nature_attributes.WIS = 0
+	this.nature_attributes.CHA = 0
+	this.nature_attributes.AC = 0
+	
 	this.skills = this.raw_data.Skill or {}
 	this.type = this.raw_data.Type
 	this.resistances = this.raw_data.Res
@@ -221,9 +265,8 @@ function M.new(pokemon, id)
 	this.current_hp = this.HP
 	this.proficiency = M.level_data(this.level).prof
 	this.STAB = M.level_data(this.level).STAB
-	
+
 	update_attributes(this)
-	add_ac_from_nature(this)
 	setup_saving_throws(this)
 	setup_abilities(this)
 	setup_moves(this)
