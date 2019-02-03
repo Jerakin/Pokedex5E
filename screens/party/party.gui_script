@@ -202,7 +202,7 @@ function init(self)
 	end)
 	
 	button.register("btn_edit", function()
-		monarch.show("edit")
+		monarch.show("edit", {}, {id=self.pokemons_list[self.pokemon_index+1].pokemon_id})
 	end)
 	
 	for index, pokemon_id in pairs(storage.list_of_ids_in_inventory()) do

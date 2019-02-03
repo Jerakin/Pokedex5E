@@ -98,7 +98,7 @@ function init(self)
 
 	self.root = gui.get_node("root")
 	self.scrollist = gui.get_node("scrollist/root")
-	
+
 	button.register("btn_str_reduce", function()
 		decrease(self, "STR")
 	end)
