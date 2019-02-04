@@ -55,12 +55,15 @@ local function setup_moves(self, nodes, pokemon)
 		if data.damage then
 			gui.set_text(_get_node("/bonus"), "AB: " .. data.AB)
 			gui.set_text(_get_node("/damage"), data.damage)
-			if damage.save then
+			if data.damage.save then
 				if not data.AB then
 					gui.set_enabled(_get_node("/bonus"), false)
 				end
 			end
+		elseif data.save_dc then
 			gui.set_text(_get_node("/damage"), "Save DC: " .. data.save_dc)
+		else
+			gui.set_text(_get_node("/damage"), "-")
 		end
 
 		gui.set_text(_get_node("/name"), name)
@@ -95,7 +98,7 @@ local function setup_abilities(self, nodes, pokemon)
 		gui.set_parent(name_node, root_node)
 		gui.set_parent(desc_node, root_node)
 		gui.set_position(root_node, p)
-		p.y = p.y - (gui.get_text_metrics_from_node(desc_node).height + gui.get_text_metrics_from_node(name_node).height) + 50
+		p.y = p.y - gui.get_text_metrics_from_node(desc_node).height - gui.get_text_metrics_from_node(name_node).height
 		index = index + 1
 	end
 	gui.delete_node(template)

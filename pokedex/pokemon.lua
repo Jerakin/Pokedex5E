@@ -35,6 +35,7 @@ local function get_damage_mod_stab(pokemon, move)
 	local damage
 	local ab
 	local stab = false
+	local stab_damage = 0
 	for _, mod in pairs(move.power) do
 		if mod ~= "None" then
 			modifier = pokemon.attributes[mod] > modifier and pokemon.attributes[mod] or modifier
@@ -44,16 +45,16 @@ local function get_damage_mod_stab(pokemon, move)
 
 	for _, t in pairs(pokemon.type) do
 		if move.Type == t then
-			STAB = pokemon.STAB
+			stab_damage = pokemon.STAB
 			stab = true
 		end
 	end
 	local index  = level_index(pokemon.level)
 
-	if move.Damage then
-		damage = move.Damage[index].amount .. "d" .. move.Damage[index].dice_max
-		if move.Damage[index].move then
-			damage = damage .. "+" .. (modifier+STAB)
+	if move.damage then
+		damage = move.damage[index].amount .. "d" .. move.damage[index].dice_max
+		if move.damage[index].move then
+			damage = damage .. "+" .. (modifier+stab_damage)
 		end
 		ab = modifier + pokemon.proficiency
 	end
