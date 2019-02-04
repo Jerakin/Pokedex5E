@@ -10,7 +10,7 @@ def convert_pokemon_data(input_file):
                       "MIN LVL FD"]
     reg_starting_moves = re.compile("Starting Moves: ([A-Za-z, ]*)")
     reg_abilities = re.compile("Abilities: ([A-Za-z, ]*)")
-    reg_level_moves = re.compile("Level (\d+): ([A-Za-z ,]*)")
+    reg_level_moves = re.compile("Level (\d+): ([A-Za-z ,-]*)")
     reg_evolve_points = re.compile(".* gains (\d{1,2})")
     reg_evolve_level = re.compile("level (\d{1,2})")
 
@@ -38,7 +38,6 @@ def convert_pokemon_data(input_file):
 
                 if attribute == "Moves":
                     output_pokemon_data[pokemon]["Moves"]["Starting Moves"] = reg_starting_moves.match(value).group(1).split(", ")
-
                     lvl_moves = reg_level_moves.search(value)
                     if lvl_moves:
                         level = lvl_moves.group(1)
@@ -139,10 +138,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-pokemon.attributes.increased.STR = pokemon.attributes.increased.STR + pokemon_data.attributes.increased.STR
-pokemon.attributes.increased.DEX = pokemon.attributes.increased.DEX + pokemon_data.attributes.increased.DEX
-pokemon.attributes.increased.CON = pokemon.attributes.increased.CON + pokemon_data.attributes.increased.CON
-pokemon.attributes.increased.INT = pokemon.attributes.increased.INT + pokemon_data.attributes.increased.INT
-pokemon.attributes.increased.WIS = pokemon.attributes.increased.WIS + pokemon_data.attributes.increased.WIS
-pokemon.attributes.increased.CHA = pokemon.attributes.increased.CHA + pokemon_data.attributes.increased.CHA
