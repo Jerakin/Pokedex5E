@@ -76,7 +76,7 @@ end
 
 function init(self)
 	button.acquire()
-	self.pokemon = {species="", level=1, nature="", STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0, moves={"None", "None", "None", "None"}}
+	self.pokemon = {species="", level=1, nature="", STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0, moves={"", "", "", ""}}
 	self.ability_score_improvment = 0
 	self.list_items = {}
 	self.state = 0
@@ -146,22 +146,22 @@ function init(self)
 		monarch.show("scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url()})
 	end)
 
-	button.register("move_1", function()
+	button.register("btn_move_1", function()
 		self.move_button_index = 1
 		pick_move(self)
 	end)
 
-	button.register("move_2", function()
+	button.register("btn_move_2", function()
 		self.move_button_index = 2
 		pick_move(self)
 	end)
 
-	button.register("move_3", function()
+	button.register("btn_move_3", function()
 		self.move_button_index = 3
 		pick_move(self)
 	end)
 
-	button.register("move_4", function()
+	button.register("btn_move_4", function()
 		self.move_button_index = 4
 		pick_move(self)
 	end)
@@ -169,7 +169,7 @@ function init(self)
 	button.register("btn_add", function()
 		if self.pokemon.nature ~= "" and self.pokemon.species ~= "" then
 			storage.add(self.pokemon)
-			self.pokemon = {species="", level=1, nature="", STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0, moves={"None", "None", "None", "None"}}
+			self.pokemon = {species="", level=1, nature="", STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0, moves={"", "", "", ""}}
 			redraw(self)
 		end
 	end)
@@ -192,6 +192,15 @@ function on_message(self, message_id, message, sender)
 			self.pokemon.nature = message.item
 		elseif message_id == hash("species") then
 			self.pokemon.species = message.item
+			self.pokemon.moves = {}
+			local m = pokedex.get_starting_moves(message.item)
+			for i=1, 4 do
+				if m[i] then
+					table.insert(self.pokemon.moves, m[i])
+				else
+					table.insert(self.pokemon.moves, "")
+				end
+			end 
 		else
 			local n = gui.get_node("move_" .. self.move_button_index)
 			self.pokemon.moves[self.move_button_index] = message.item

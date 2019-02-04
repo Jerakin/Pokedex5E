@@ -50,7 +50,7 @@ end
 
 function M.add(pokemon)
 	for i=#pokemon.moves, 1, -1 do
-		if pokemon.moves[i] == "None" then
+		if pokemon.moves[i] == "" or pokemon.moves[i] == "None" then
 			table.remove(pokemon.moves, i)
 		end
 	end

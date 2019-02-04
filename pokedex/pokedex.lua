@@ -57,6 +57,10 @@ function M.evolve_points(pokemon)
 	return evolvedata[pokemon].points
 end
 
+function M.get_starting_moves(pokemon)
+	return M.get_pokemon(pokemon)["Moves"]["Starting Moves"]
+end
+
 function M.get_pokemons_moves(pokemon, level)
 	level = level or 20
 	local moves = M.get_pokemon(pokemon)["Moves"]

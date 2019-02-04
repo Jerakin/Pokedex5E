@@ -1,7 +1,7 @@
 script: ""
 fonts {
-  name: "data"
-  font: "/assets/fonts/data.font"
+  name: "script"
+  font: "/assets/fonts/script.font"
 }
 background_color {
   x: 0.0
@@ -65,8 +65,8 @@ nodes {
 }
 nodes {
   position {
-    x: 5.0
-    y: 6.0
+    x: -1.0
+    y: 15.0
     z: 0.0
     w: 1.0
   }
@@ -89,15 +89,15 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.0
+    y: 0.0
+    z: 0.0
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Guts"
-  font: "data"
+  font: "script"
   id: "name"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -120,7 +120,7 @@ nodes {
   layer: "data"
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: false
   text_leading: 1.0
@@ -128,8 +128,8 @@ nodes {
 }
 nodes {
   position {
-    x: 5.0
-    y: -65.0
+    x: -1.0
+    y: -74.0
     z: 0.0
     w: 1.0
   }
@@ -140,27 +140,27 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.75
+    y: 0.75
     z: 1.0
     w: 1.0
   }
   size {
-    x: 720.0
+    x: 980.0
     y: 100.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.0
+    y: 0.0
+    z: 0.0
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "When this Pokemon is burned or poisoned, they are not affected by the disadvantage or half damage effects. They still take damage at the end of each of their turns."
-  font: "data"
+  font: "script"
   id: "description"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -183,10 +183,10 @@ nodes {
   layer: "data"
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: false
-  text_leading: 1.0
+  text_leading: 0.65
   text_tracking: 0.0
 }
 layers {

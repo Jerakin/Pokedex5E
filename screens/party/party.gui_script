@@ -64,6 +64,7 @@ local function setup_moves(self, nodes, pokemon)
 			gui.set_text(_get_node("/damage"), "Save DC: " .. data.save_dc)
 		else
 			gui.set_text(_get_node("/damage"), "-")
+			gui.set_text(_get_node("/bonus"), "-")
 		end
 
 		gui.set_text(_get_node("/name"), name)
