@@ -1,21 +1,18 @@
-# Welcome to Defold
+# Pokedex5E
 
-This project was created from the "mobile" project template. This means that the settings in ["game.project"](defold://open?path=/game.project) have been changed to be suitable for a mobile game:
+Pokedex5E is a companion app to [Pokemon5E](https://www.reddit.com/r/Pokemon5e/) a Homebrew pokemon system for Dungeon and Dragons 5E
 
-- The screen size is set to 640x1136
-- Orientation is fixed vertically
-- Android and iOS icons are set
-- iOS launch images (blank ones) are set
-- Mouse click/single touch is bound to action "touch"
-- A simple script in a game object is set up to receive and react to input
-- Accelerometer input is turned off (for better battery life)
+[Manual](https://drive.google.com/file/d/1xj2sE7hfOM7nRs50Lk_Qb2vR9yC7ev3C/view?usp=drivesdk) for Pokemon5e
+Test it out on [itch.io](https://jerakin.itch.io/pokedex5e)
 
-[Build and run](defold://build) to see it in action. You can of course alter these settings to fit your needs.
+Download the apk
 
-Check out [the documentation pages](https://defold.com/learn) for examples, tutorials, manuals and API docs.
+This apps purpose is to make it easier for you to keep track of all pokemons you have caught.
 
-If you run into trouble, help is available in [our forum](https://forum.defold.com).
+![title](/github/title.png)
+![add_pokemon](/github/add_pokemon.png)
+![someones_pc](/github/someones_pc.png)
+![moves](/github/moves.png)
+![info](/github/info.png)
+![edit_pokemon](/github/edit_pokemon.png)
 
-Happy Defolding!
-
----

@@ -1,7 +1,8 @@
 [project]
-title = Pokedex
+title = Pokedex5E
 dependencies = https://github.com/britzl/monarch/archive/master.zip,https://github.com/subsoap/defos/archive/master.zip,https://github.com/subsoap/defsave/archive/master.zip,https://github.com/Jerakin/gooey/archive/master.zip
 custom_resources = assets/datafiles
+version = 0.1.0
 
 [bootstrap]
 main_collection = /main/main.collectionc
@@ -53,6 +54,7 @@ app_icon_96x96 = /assets/app_icons/icon_96.png
 app_icon_144x144 = /assets/app_icons/icon_144.png
 app_icon_192x192 = /assets/app_icons/icon_192.png
 input_method = HiddenInputField
+package = com.jerakin.pokedex
 
 [script]
 shared_state = 1
