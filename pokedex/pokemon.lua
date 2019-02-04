@@ -44,7 +44,7 @@ local function get_damage_mod_stab(pokemon, move)
 	modifier = math.floor((modifier - 10) / 2)
 
 	for _, t in pairs(pokemon.type) do
-		if move.Type == t then
+		if move.type == t and move.damage then
 			stab_damage = pokemon.STAB
 			stab = true
 		end

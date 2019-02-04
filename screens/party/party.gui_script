@@ -68,7 +68,7 @@ local function setup_moves(self, nodes, pokemon)
 		end
 
 		gui.set_text(_get_node("/name"), name)
-		if data.STAB_MOVE then
+		if data.stab then
 			gui.set_color(_get_node("/name"), vmath.vector4(1, 1, .5, 1))
 		end
 		gui.set_text(_get_node("/range"), data.range)
