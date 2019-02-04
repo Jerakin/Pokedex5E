@@ -37,8 +37,8 @@ local function get_damage_mod_stab(pokemon, move)
 	local stab = false
 	local stab_damage = 0
 	for _, mod in pairs(move.power) do
-		if pokemon.attributes[mod] then
-			modifier = pokemon.attributes[mod] > modifier and pokemon.attributes[mod] or modifier
+		if pokemon.attributes.total[mod] then
+			modifier = pokemon.attributes.total[mod] > modifier and pokemon.attributes.total[mod] or modifier
 		end
 	end
 	modifier = math.floor((modifier - 10) / 2)
@@ -101,8 +101,8 @@ end
 local function setup_nature_attributes(pokemon)
 	local data = natures.nature_data(pokemon.nature)
 	for stat, num in pairs(data) do
-		if pokemon.nature_attributes[stat] then
-			pokemon.nature_attributes[stat] = num
+		if pokemon.attributes.nature[stat] then
+			pokemon.attributes.nature[stat] = num
 		end
 	end
 end
@@ -124,12 +124,12 @@ end
 
 local function setup_saving_throws(pokemon)
 	local this = {}
-	this.STR = pokemon.attributes.STR
-	this.DEX = pokemon.attributes.DEX
-	this.CON = pokemon.attributes.CON
-	this.INT = pokemon.attributes.INT
-	this.WIS = pokemon.attributes.WIS
-	this.CHA = pokemon.attributes.CHA
+	this.STR = pokemon.attributes.total.STR
+	this.DEX = pokemon.attributes.total.DEX
+	this.CON = pokemon.attributes.total.CON
+	this.INT = pokemon.attributes.total.INT
+	this.WIS = pokemon.attributes.total.WIS
+	this.CHA = pokemon.attributes.total.CHA
 	if pokemon.raw_data.ST1 then
 		this[pokemon.raw_data.ST1] = this[pokemon.raw_data.ST1] + pokemon.proficiency
 		if pokemon.raw_data.ST2 then
@@ -150,15 +150,14 @@ end
 
 local function update_attributes(pokemon)
 	setup_nature_attributes(pokemon)
-	pokemon.attributes = {}
-	pokemon.attributes.STR = pokemon.increased_attributes.STR + pokemon.base_attributes.STR + pokemon.nature_attributes.STR
-	pokemon.attributes.DEX = pokemon.increased_attributes.DEX + pokemon.base_attributes.DEX + pokemon.nature_attributes.DEX
-	pokemon.attributes.CON = pokemon.increased_attributes.CON + pokemon.base_attributes.CON + pokemon.nature_attributes.CON
-	pokemon.attributes.INT = pokemon.increased_attributes.INT + pokemon.base_attributes.INT + pokemon.nature_attributes.INT
-	pokemon.attributes.WIS = pokemon.increased_attributes.WIS + pokemon.base_attributes.WIS + pokemon.nature_attributes.WIS
-	pokemon.attributes.CHA = pokemon.increased_attributes.CHA + pokemon.base_attributes.CHA + pokemon.nature_attributes.CHA
-	pokemon.attributes.AC = pokemon.base_attributes.AC + pokemon.nature_attributes.AC
-	
+	pokemon.attributes.total = {}
+	pokemon.attributes.total.STR = pokemon.attributes.increased.STR + pokemon.attributes.base.STR + pokemon.attributes.nature.STR
+	pokemon.attributes.total.DEX = pokemon.attributes.increased.DEX + pokemon.attributes.base.DEX + pokemon.attributes.nature.DEX
+	pokemon.attributes.total.CON = pokemon.attributes.increased.CON + pokemon.attributes.base.CON + pokemon.attributes.nature.CON
+	pokemon.attributes.total.INT = pokemon.attributes.increased.INT + pokemon.attributes.base.INT + pokemon.attributes.nature.INT
+	pokemon.attributes.total.WIS = pokemon.attributes.increased.WIS + pokemon.attributes.base.WIS + pokemon.attributes.nature.WIS
+	pokemon.attributes.total.CHA = pokemon.attributes.increased.CHA + pokemon.attributes.base.CHA + pokemon.attributes.nature.CHA
+	pokemon.attributes.total.AC = pokemon.attributes.base.AC + pokemon.attributes.nature.AC
 end
 
 local function update_moves(this)
@@ -189,12 +188,12 @@ function M.edit(pokemon, pokemon_data)
 		end
 	end
 	
-	pokemon.increased_attributes.STR = pokemon.increased_attributes.STR + pokemon_data.STR
-	pokemon.increased_attributes.DEX = pokemon.increased_attributes.DEX + pokemon_data.DEX
-	pokemon.increased_attributes.CON = pokemon.increased_attributes.CON + pokemon_data.CON
-	pokemon.increased_attributes.INT = pokemon.increased_attributes.INT + pokemon_data.INT
-	pokemon.increased_attributes.WIS = pokemon.increased_attributes.WIS + pokemon_data.WIS
-	pokemon.increased_attributes.CHA = pokemon.increased_attributes.CHA + pokemon_data.CHA
+	pokemon.attributes.increased.STR = pokemon.attributes.increased.STR + pokemon_data.attributes.increased.STR
+	pokemon.attributes.increased.DEX = pokemon.attributes.increased.DEX + pokemon_data.attributes.increased.DEX
+	pokemon.attributes.increased.CON = pokemon.attributes.increased.CON + pokemon_data.attributes.increased.CON
+	pokemon.attributes.increased.INT = pokemon.attributes.increased.INT + pokemon_data.attributes.increased.INT
+	pokemon.attributes.increased.WIS = pokemon.attributes.increased.WIS + pokemon_data.attributes.increased.WIS
+	pokemon.attributes.increased.CHA = pokemon.attributes.increased.CHA + pokemon_data.attributes.increased.CHA
 	pokemon.moves = pokemon_data.moves
 	
 	pokemon.level = pokemon_data.level
@@ -209,7 +208,7 @@ function M.edit(pokemon, pokemon_data)
 		pokemon.vulnerabilities = raw_pokemon.Vul
 		pokemon.immunities = raw_pokemon.Imm
 		pokemon.abilities = raw_pokemon.Abilities
-		pokemon.base_attributes.AC = raw_pokemon.AC
+		pokemon.attributes.base.AC = raw_pokemon.AC
 	end
 	setup_moves(pokemon)
 	M.update_pokemon(pokemon)
@@ -235,32 +234,34 @@ function M.new(pokemon, id)
 	this.nature = pokemon.nature
 	this.moves = pokemon.moves
 	this.raw_data = pokedex.get_pokemon(pokemon.species)
+
+	this.attributes = {}
+
+	this.attributes.base = {}
+	this.attributes.base.STR = this.raw_data.STR
+	this.attributes.base.DEX = this.raw_data.DEX
+	this.attributes.base.CON = this.raw_data.CON
+	this.attributes.base.INT = this.raw_data.INT
+	this.attributes.base.WIS = this.raw_data.WIS
+	this.attributes.base.CHA = this.raw_data.CHA
+	this.attributes.base.AC = this.raw_data.AC
 	
-	this.base_attributes = {}
-	this.base_attributes.STR = this.raw_data.STR
-	this.base_attributes.DEX = this.raw_data.DEX
-	this.base_attributes.CON = this.raw_data.CON
-	this.base_attributes.INT = this.raw_data.INT
-	this.base_attributes.WIS = this.raw_data.WIS
-	this.base_attributes.CHA = this.raw_data.CHA
-	this.base_attributes.AC = this.raw_data.AC
+	this.attributes.increased = {}
+	this.attributes.increased.STR = pokemon.attributes.increased.STR
+	this.attributes.increased.DEX = pokemon.attributes.increased.DEX
+	this.attributes.increased.CON = pokemon.attributes.increased.CON
+	this.attributes.increased.INT = pokemon.attributes.increased.INT
+	this.attributes.increased.WIS = pokemon.attributes.increased.WIS
+	this.attributes.increased.CHA = pokemon.attributes.increased.CHA
 
-	this.increased_attributes = {}
-	this.increased_attributes.STR = pokemon.STR
-	this.increased_attributes.DEX = pokemon.DEX
-	this.increased_attributes.CON = pokemon.CON
-	this.increased_attributes.INT = pokemon.INT
-	this.increased_attributes.WIS = pokemon.WIS
-	this.increased_attributes.CHA = pokemon.CHA
-
-	this.nature_attributes = {}
-	this.nature_attributes.STR = 0
-	this.nature_attributes.DEX = 0
-	this.nature_attributes.CON = 0
-	this.nature_attributes.INT = 0
-	this.nature_attributes.WIS = 0
-	this.nature_attributes.CHA = 0
-	this.nature_attributes.AC = 0
+	this.attributes.nature = {}
+	this.attributes.nature.STR = 0
+	this.attributes.nature.DEX = 0
+	this.attributes.nature.CON = 0
+	this.attributes.nature.INT = 0
+	this.attributes.nature.WIS = 0
+	this.attributes.nature.CHA = 0
+	this.attributes.nature.AC = 0
 	
 	this.skills = this.raw_data.Skill or {}
 	this.type = this.raw_data.Type

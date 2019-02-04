@@ -106,10 +106,11 @@ local function setup_abilities(self, nodes, pokemon)
 end
 
 local function setup_info(self, nodes, pokemon)
+	pprint(pokemon.attributes)
 	local abilities_string = 
-	"STR: " .. to_mod(pokemon.attributes.STR) .. "  INT: " .. to_mod(pokemon.attributes.INT) .. "\n" .. 
-	"DEX: " .. to_mod(pokemon.attributes.DEX) .. "  WIS: " .. to_mod(pokemon.attributes.WIS) .. "\n" .. 
-	"CON: " .. to_mod(pokemon.attributes.CON) .. "  CHA: " .. to_mod(pokemon.attributes.CHA) .. "\n"
+	"STR: " .. to_mod(pokemon.attributes.total.STR) .. "  INT: " .. to_mod(pokemon.attributes.total.INT) .. "\n" .. 
+	"DEX: " .. to_mod(pokemon.attributes.total.DEX) .. "  WIS: " .. to_mod(pokemon.attributes.total.WIS) .. "\n" .. 
+	"CON: " .. to_mod(pokemon.attributes.total.CON) .. "  CHA: " .. to_mod(pokemon.attributes.total.CHA) .. "\n"
 	gui.set_text(nodes["pokemon/attributes"], abilities_string)
 
 	local saving_throw_string =
@@ -145,7 +146,7 @@ local function setup_page(self, nodes, pokemon)
 	gui.set_text(nodes["pokemon/species"], pokemon.species)
 	gui.set_text(nodes["pokemon/level"], "lvl: " .. pokemon.level)
 	gui.set_text(nodes["pokemon/nature"], pokemon.nature)
-	gui.set_text(nodes["pokemon/ac"], "AC: " .. pokemon.attributes.AC)
+	gui.set_text(nodes["pokemon/ac"], "AC: " .. pokemon.attributes.total.AC)
 
 	update_hp(self, nodes, pokemon)
 	local pos = vmath.vector3()

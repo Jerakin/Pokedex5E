@@ -15,26 +15,16 @@ local M = {}
 
 local function redraw(self)
 	for _, stat in pairs(STATS) do
-		local n = gui.get_node(stat)
-		gui.set_text(n, stat .. " " .. self.pokemon.attributes.current[stat] + self.pokemon[stat])
-		if self.pokemon[stat] < 0 then
-			gui.set_color(n, vmath.vector3(1, 0, 0, 1))
-		elseif self.pokemon[stat] == 0 then
-			gui.set_color(n, vmath.vector3(0, 0, 0, 1))
-		else
-			gui.set_color(n, vmath.vector3(0, 1, 0, 1))
-		end
+		local n = gui.get_node("asi/" .. stat)
+		gui.set_text(n, stat .. " " .. self.pokemon.attributes.base[stat] .. "(".. self.pokemon.attributes.increased[stat] + self.pokemon.attributes.nature[stat]..")")
 	end
 	
 
 	local level_node = gui.get_node("txt_level")
 	gui.set_text(level_node, "Lv. " .. self.pokemon.level)
 
-	local nature_node = gui.get_node("nature")
-	gui.set_text(nature_node, "Nature: " .. self.pokemon.nature)
-
 	local species_node = gui.get_node("spicies")
-	local max_improve_node = gui.get_node("asi_title")
+	local max_improve_node = gui.get_node("asi/title")
 	if self.pokemon.species == "" then
 		gui.set_text(species_node, "Pokémon")
 		gui.set_text(max_improve_node, "Available Points: 0")
@@ -44,22 +34,18 @@ local function redraw(self)
 		local available = (available_at_new_level - available_at_current_level) * 2
 		gui.set_text(max_improve_node, "Available Points: " .. available - self.ability_score_improvment)
 		gui.set_text(species_node, self.pokemon.species)
-		--[[local available_at_min_level = pokemon.level_data(pokedex.minumum_level(self.pokemon.species)).ASI
-		local available_at_current_level = pokemon.level_data(self.pokemon.level).ASI
-		local available = (available_at_current_level - available_at_min_level) * 2
-		
-		gui.set_text(max_improve_node, "Available Points: " .. available - self.ability_score_improvment)--]]
 	end
 
-	local move_1_node = gui.get_node("move_1")
-	local move_2_node = gui.get_node("move_2")
-	local move_3_node = gui.get_node("move_3")
-	local move_4_node = gui.get_node("move_4")
+	local move_1_node = gui.get_node("moves/move_1")
+	local move_2_node = gui.get_node("moves/move_2")
+	local move_3_node = gui.get_node("moves/move_3")
+	local move_4_node = gui.get_node("moves/move_4")
 
 	gui.set_text(move_1_node, self.pokemon.moves[1] or "")
 	gui.set_text(move_2_node, self.pokemon.moves[2] or "")
 	gui.set_text(move_3_node, self.pokemon.moves[3] or "")
 	gui.set_text(move_4_node, self.pokemon.moves[4] or "")
+	if self.redraw then self.redraw(self) end
 end
 
 function M.redraw(self)
@@ -67,14 +53,17 @@ function M.redraw(self)
 end
 
 local function increase(self, stat)
-	self.pokemon[stat] = self.pokemon[stat] + 1
-	self.ability_score_improvment = self.ability_score_improvment + 1
-	redraw(self)
+	if self.pokemon.attributes.base[stat] + self.pokemon.attributes.increased[stat] < self.pokemon.attributes.max[stat] then
+		self.pokemon.attributes.increased[stat] = self.pokemon.attributes.increased[stat] + 1
+		self.ability_score_improvment = self.ability_score_improvment + 1
+		redraw(self)
+	end
+	
 end
 
 local function decrease(self, stat)
-	if self.pokemon[stat] > 0 then
-		self.pokemon[stat] = self.pokemon[stat] - 1
+	if self.pokemon.attributes.increased[stat] > 0 then
+		self.pokemon.attributes.increased[stat] = self.pokemon.attributes.increased[stat] - 1
 		self.ability_score_improvment = self.ability_score_improvment - 1
 		redraw(self)
 	end
@@ -97,22 +86,22 @@ local function pick_move(self)
 end
 
 function M.init(self, pokemon)
-	self.pokemon = {moves={}, STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
-	
-	self.pokemon.id = pokemon.id
 	self.old_species = pokemon.species
+	
+	self.pokemon = {moves={}}
+	self.pokemon.id = pokemon.id
 	self.pokemon.species = pokemon.species
 	self.pokemon.level = pokemon.level
 	self.pokemon.min_level = pokemon.min_level or pokemon.level
-	self.pokemon.attributes = {}
+	self.pokemon.attributes = pokemon.attributes
+	self.pokemon.attributes.increased = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
 	self.pokemon.attributes.max = {}
-	self.pokemon.attributes.current = pokemon.attributes
 	self.pokemon.nature = pokemon.nature
 	
 	for _, stat in pairs(STATS) do
 		self.pokemon.attributes.max[stat] = 20
-		if pokemon.nature_attributes[stat] > 0 then
-			self.pokemon.attributes.max[stat] = self.pokemon.attributes.max[stat] + pokemon.nature_attributes[stat]
+		if pokemon.attributes.nature[stat] > 0 then
+			self.pokemon.attributes.max[stat] = self.pokemon.attributes.max[stat] + pokemon.attributes.nature[stat]
 		end
 	end
 	
@@ -124,40 +113,40 @@ function M.init(self, pokemon)
 
 	self.root = gui.get_node("root")
 
-	button.register("btn_str_reduce", function()
+	button.register("asi/btn_str_decrease/btn", function()
 		decrease(self, "STR")
 	end)
-	button.register("btn_str_increase", function()
+	button.register("asi/btn_str_increase/btn", function()
 		increase(self, "STR")
 	end)
-	button.register("btn_dex_reduce", function()
+	button.register("asi/btn_dex_decrease/btn", function()
 		decrease(self, "DEX")
 	end)
-	button.register("btn_dex_increase", function()
+	button.register("asi/btn_dex_increase/btn", function()
 		increase(self, "DEX")
 	end)
-	button.register("btn_con_reduce", function()
+	button.register("asi/btn_con_decrease/btn", function()
 		decrease(self, "CON")
 	end)
-	button.register("btn_con_increase", function()
+	button.register("asi/btn_con_increase/btn", function()
 		increase(self, "CON")
 	end)
-	button.register("btn_int_reduce", function()
+	button.register("asi/btn_int_decrease/btn", function()
 		decrease(self, "INT")
 	end)
-	button.register("btn_int_increase", function()
+	button.register("asi/btn_int_increase/btn", function()
 		increase(self, "INT")
 	end)
-	button.register("btn_wis_reduce", function()
+	button.register("asi/btn_wis_decrease/btn", function()
 		decrease(self, "WIS")
 	end)
-	button.register("btn_wis_increase", function()
+	button.register("asi/btn_wis_increase/btn", function()
 		increase(self, "WIS")
 	end)
-	button.register("btn_cha_reduce", function()
+	button.register("asi/btn_cha_decrease/btn", function()
 		decrease(self, "CHA")
 	end)
-	button.register("btn_cha_increase", function()
+	button.register("asi/btn_cha_increase/btn", function()
 		increase(self, "CHA")
 	end)
 
@@ -176,22 +165,22 @@ function M.init(self, pokemon)
 		end
 	end)
 
-	button.register("btn_move_1", function()
+	button.register("moves/btn_move_1", function()
 		self.move_button_index = 1
 		pick_move(self)
 	end)
 
-	button.register("btn_move_2", function()
+	button.register("moves/btn_move_2", function()
 		self.move_button_index = 2
 		pick_move(self)
 	end)
 
-	button.register("btn_move_3", function()
+	button.register("moves/btn_move_3", function()
 		self.move_button_index = 3
 		pick_move(self)
 	end)
 
-	button.register("btn_move_4", function()
+	button.register("moves/btn_move_4", function()
 		self.move_button_index = 4
 		pick_move(self)
 	end)
@@ -206,10 +195,12 @@ function M.on_message(self, message_id, message, sender)
 	if message.item then
 		if message_id == hash("nature") then
 			self.pokemon.nature = message.item
+			self.pokemon.attributes.nature = natures.get_nature_attributes(message.item)
 		elseif message_id == hash("species") then
 			self.pokemon.species = message.item
 			self.pokemon.moves = {}
 			self.pokemon.min_level = pokedex.minumum_level(message.item)
+			self.pokemon.attributes.base = pokedex.get_base_attributes(message.item)
 			self.pokemon.level = self.pokemon.min_level
 			local m = pokedex.get_starting_moves(message.item)
 			for i=1, 4 do

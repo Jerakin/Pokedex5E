@@ -61,6 +61,19 @@ function M.get_starting_moves(pokemon)
 	return M.get_pokemon(pokemon)["Moves"]["Starting Moves"]
 end
 
+function M.get_base_attributes(pokemon)
+	local attributes = {}
+	local pokemon = M.get_pokemon(pokemon)
+	attributes.STR = pokemon.STR
+	attributes.DEX = pokemon.DEX
+	attributes.CON = pokemon.CON
+	attributes.INT = pokemon.INT
+	attributes.WIS = pokemon.WIS
+	attributes.CHA = pokemon.CHA
+	attributes.AC = pokemon.AC
+	return attributes
+end
+
 function M.get_pokemons_moves(pokemon, level)
 	level = level or 20
 	local moves = M.get_pokemon(pokemon)["Moves"]

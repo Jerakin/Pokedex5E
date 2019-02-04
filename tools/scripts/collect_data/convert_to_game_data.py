@@ -139,3 +139,10 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+pokemon.attributes.increased.STR = pokemon.attributes.increased.STR + pokemon_data.attributes.increased.STR
+pokemon.attributes.increased.DEX = pokemon.attributes.increased.DEX + pokemon_data.attributes.increased.DEX
+pokemon.attributes.increased.CON = pokemon.attributes.increased.CON + pokemon_data.attributes.increased.CON
+pokemon.attributes.increased.INT = pokemon.attributes.increased.INT + pokemon_data.attributes.increased.INT
+pokemon.attributes.increased.WIS = pokemon.attributes.increased.WIS + pokemon_data.attributes.increased.WIS
+pokemon.attributes.increased.CHA = pokemon.attributes.increased.CHA + pokemon_data.attributes.increased.CHA

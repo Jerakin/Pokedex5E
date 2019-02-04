@@ -1,4 +1,4 @@
-local pokemon_edit = require "screens.change_pokemon"
+local pokemon_edit = require "templates.change_pokemon.change_pokemon"
 local monarch = require "monarch.monarch"
 local button = require "utils.button"
 local natures = require "pokedex.natures"
@@ -6,7 +6,19 @@ local _pokemon = require "pokedex.pokemon"
 local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
 
+local HAVE_EVOLVED = false
+
+
+
 function init(self)
+	function self.redraw(self)
+		if not HAVE_EVOLVED and pokedex.can_evolve(self.pokemon.species) and pokedex.evolve_level(self.pokemon.species) <= self.pokemon.level and self.pokemon.min_level < self.pokemon.level then
+			gui.set_enabled(self.evolve_button, true)
+		else
+			gui.set_enabled(self.evolve_button, false)
+		end
+	end
+
 	msg.post(".", "acquire_input_focus")
 	local pokemon_id = monarch.data("edit").id
 	local pokemon = storage.get(pokemon_id)
