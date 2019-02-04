@@ -4,30 +4,55 @@ local monarch = require "monarch.monarch"
 local ENABLED = vmath.vector4(0.34, 0.55, 0.6, 1)
 local DISABLED = vmath.vector4(0.7, 0.7, 0.7, 1)
 
+local function party_active(self)
+	gui.set_color(self.btn_party, ENABLED)
+	gui.set_color(self.btn_storage, DISABLED)
+	gui.set_color(self.btn_add, DISABLED)
+end
+
+local function storage_active(self)
+	gui.set_color(self.btn_party, DISABLED)
+	gui.set_color(self.btn_storage, ENABLED)
+	gui.set_color(self.btn_add, DISABLED)
+end
+
+local function add_active(self)
+	gui.set_color(self.btn_party, DISABLED)
+	gui.set_color(self.btn_storage, DISABLED)
+	gui.set_color(self.btn_add, ENABLED)
+end
+
+
 function init(self)
 	button.acquire()
-	local btn_party = gui.get_node("btn_party")
-	local btn_storage = gui.get_node("btn_storage")
-	local btn_add = gui.get_node("btn_add")
+	self.btn_party = gui.get_node("btn_party")
+	self.btn_storage = gui.get_node("btn_storage")
+	self.btn_add = gui.get_node("btn_add")
+
+	local top = monarch.top()
+	
+	if top == hash("edit") then
+		party_active(self)
+	elseif top == hash("party") then
+		party_active(self)
+	elseif top == hash("storage") then
+		storage_active(self)
+	elseif top == hash("add") then
+		add_active(self)
+	end
 	
 	button.register("btn_party", function()
-		gui.set_color(btn_party, ENABLED)
-		gui.set_color(btn_storage, DISABLED)
-		gui.set_color(btn_add, DISABLED)
+		party_active(self)
 		monarch.show("party")
 	end)
 
 	button.register("btn_storage", function()
-		gui.set_color(btn_party, DISABLED)
-		gui.set_color(btn_storage, ENABLED)
-		gui.set_color(btn_add, DISABLED)
+		storage_active(self)
 		monarch.show("storage")
 	end)
 
 	button.register("btn_add", function()
-		gui.set_color(btn_party, DISABLED)
-		gui.set_color(btn_storage, DISABLED)
-		gui.set_color(btn_add, ENABLED)
+		add_active(self)
 		monarch.show("add")
 	end)
 end

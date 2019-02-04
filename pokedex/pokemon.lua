@@ -158,7 +158,7 @@ end
 local function update_moves(this)
 	for move_name, data in pairs(this.moves) do
 		data = copy_move(move_name, data)
-		damage, ab, stab = get_damage_mod_stab(this, data)
+		damage, mod, stab = get_damage_mod_stab(this, data)
 		data.damage = damage
 		data.stab = stab
 		if data.damage then

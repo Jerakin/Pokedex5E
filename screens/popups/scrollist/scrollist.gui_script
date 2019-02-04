@@ -4,24 +4,6 @@ local gooey = require "gooey.gooey"
 
 local selected_item
 
-function init(self)
-	monarch.hide("switcher")
-	local d = monarch.data("scrollist")
-	self.list_items = d.items
-	gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.list_items)
-	button.acquire()
-	button.register("btn_okay", function()
-		msg.post(d.sender, d.message_id, {item=selected_item})
-		monarch.show("switcher", {no_stack=true}, {}, function()
-			monarch.back()
-		end)
-	end)
-end
-
-function final(self)
-	button.unregister()
-end
-
 local function update_listitem(list, item)
 	if item.index == list.selected_item then
 		gui.set_color(item.nodes["txt_item"], vmath.vector3(1, 1, 0, 1))
@@ -42,6 +24,24 @@ local function on_item_selected(list)
 	for i,item in ipairs(list.items) do
 		update_listitem(list, item)
 	end
+end
+
+function init(self)
+	monarch.hide("switcher")
+	local d = monarch.data("scrollist")
+	self.list_items = d.items
+	update_list(gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.list_items))
+	button.acquire()
+	button.register("btn_okay", function()
+		msg.post(d.sender, d.message_id, {item=selected_item})
+		monarch.show("switcher", {no_stack=true}, {}, function()
+			monarch.back()
+		end)
+	end)
+end
+
+function final(self)
+	button.unregister()
 end
 
 function on_input(self, action_id, action)

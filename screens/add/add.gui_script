@@ -187,21 +187,19 @@ function update(self, dt)
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("nature") then
-		self.pokemon.nature = message.item
-		gui.set_enabled(self.root, true)
-		redraw(self)
-	elseif message_id == hash("species") then
-		self.pokemon.species = message.item
-		gui.set_enabled(self.root, true)
-		redraw(self)
-	else
-		local n = gui.get_node("move_" .. self.move_button_index)
-		self.pokemon.moves[self.move_button_index] = message.item
-		gui.set_text(n, message.item)
-		gui.set_enabled(self.root, true)
-		redraw(self)
+	if message.item then
+		if message_id == hash("nature") then
+			self.pokemon.nature = message.item
+		elseif message_id == hash("species") then
+			self.pokemon.species = message.item
+		else
+			local n = gui.get_node("move_" .. self.move_button_index)
+			self.pokemon.moves[self.move_button_index] = message.item
+			gui.set_text(n, message.item)
+		end
 	end
+	redraw(self)
+	gui.set_enabled(self.root, true)
 end
 
 function on_input(self, action_id, action)
