@@ -36,9 +36,13 @@ local function get_damage_mod_stab(pokemon, move)
 	local ab
 	local stab = false
 	local stab_damage = 0
+	local total = M.get_total_attribute
+	
+	-- Pick the highest of the moves power
+	local total = M.get_total_attributes(pokemon)
 	for _, mod in pairs(move.power) do
-		if pokemon.attributes.total[mod] then
-			modifier = pokemon.attributes.total[mod] > modifier and pokemon.attributes.total[mod] or modifier
+		if total[mod] then
+			modifier = total[mod] > modifier and total[mod] or modifier
 		end
 	end
 	modifier = math.floor((modifier - 10) / 2)
@@ -123,13 +127,7 @@ local function add_ac_from_nature(pokemon)
 end
 
 local function setup_saving_throws(pokemon)
-	local this = {}
-	this.STR = pokemon.attributes.total.STR
-	this.DEX = pokemon.attributes.total.DEX
-	this.CON = pokemon.attributes.total.CON
-	this.INT = pokemon.attributes.total.INT
-	this.WIS = pokemon.attributes.total.WIS
-	this.CHA = pokemon.attributes.total.CHA
+	local this = M.get_total_attributes(pokemon)
 	if pokemon.raw_data.ST1 then
 		this[pokemon.raw_data.ST1] = this[pokemon.raw_data.ST1] + pokemon.proficiency
 		if pokemon.raw_data.ST2 then
@@ -146,18 +144,6 @@ local function update_abilities(pokemon)
 	local raw_pokemon = pokedex.get_pokemon(pokemon.species)
 	pokemon.abilities = raw_pokemon.Abilities
 	setup_abilities(pokemon)
-end
-
-local function update_attributes(pokemon)
-	setup_nature_attributes(pokemon)
-	pokemon.attributes.total = {}
-	pokemon.attributes.total.STR = pokemon.attributes.increased.STR + pokemon.attributes.base.STR + pokemon.attributes.nature.STR
-	pokemon.attributes.total.DEX = pokemon.attributes.increased.DEX + pokemon.attributes.base.DEX + pokemon.attributes.nature.DEX
-	pokemon.attributes.total.CON = pokemon.attributes.increased.CON + pokemon.attributes.base.CON + pokemon.attributes.nature.CON
-	pokemon.attributes.total.INT = pokemon.attributes.increased.INT + pokemon.attributes.base.INT + pokemon.attributes.nature.INT
-	pokemon.attributes.total.WIS = pokemon.attributes.increased.WIS + pokemon.attributes.base.WIS + pokemon.attributes.nature.WIS
-	pokemon.attributes.total.CHA = pokemon.attributes.increased.CHA + pokemon.attributes.base.CHA + pokemon.attributes.nature.CHA
-	pokemon.attributes.total.AC = pokemon.attributes.base.AC + pokemon.attributes.nature.AC
 end
 
 local function update_moves(this)
@@ -177,8 +163,20 @@ end
 
 function M.update_pokemon(pokemon)
 	update_abilities(pokemon)
-	update_attributes(pokemon)
+	setup_nature_attributes(pokemon)
 	update_moves(pokemon)
+end
+
+function M.get_total_attributes(pokemon)
+	local total = {}
+	total.STR = pokemon.attributes.increased.STR + pokemon.attributes.base.STR + pokemon.attributes.nature.STR
+	total.DEX = pokemon.attributes.increased.DEX + pokemon.attributes.base.DEX + pokemon.attributes.nature.DEX
+	total.CON = pokemon.attributes.increased.CON + pokemon.attributes.base.CON + pokemon.attributes.nature.CON
+	total.INT = pokemon.attributes.increased.INT + pokemon.attributes.base.INT + pokemon.attributes.nature.INT
+	total.WIS = pokemon.attributes.increased.WIS + pokemon.attributes.base.WIS + pokemon.attributes.nature.WIS
+	total.CHA = pokemon.attributes.increased.CHA + pokemon.attributes.base.CHA + pokemon.attributes.nature.CHA
+	total.AC = pokemon.attributes.base.AC + pokemon.attributes.nature.AC
+	return total
 end
 
 function M.edit(pokemon, pokemon_data)
@@ -187,7 +185,6 @@ function M.edit(pokemon, pokemon_data)
 			table.remove(pokemon_data.moves, i)
 		end
 	end
-	
 	pokemon.attributes.increased.STR = pokemon.attributes.increased.STR + pokemon_data.attributes.increased.STR
 	pokemon.attributes.increased.DEX = pokemon.attributes.increased.DEX + pokemon_data.attributes.increased.DEX
 	pokemon.attributes.increased.CON = pokemon.attributes.increased.CON + pokemon_data.attributes.increased.CON
@@ -214,17 +211,7 @@ function M.edit(pokemon, pokemon_data)
 	M.update_pokemon(pokemon)
 end
 
-function M.decrease_move_pp(pokemon, move)
-	pokemon.moves[move].current_pp = math.max(pokemon.moves[move].current_pp - 1, 0)
-end
 
-function M.reset_move_pp(pokemon, move)
-	pokemon.moves[move].current_pp = pokemon.moves[move].PP
-end
-
-function M.set_current_hp(pokemon, hp)
-	pokemon.current_hp = math.min(math.max(hp, 0), pokemon.HP)
-end
 
 function M.new(pokemon, id)
 	this = {}
@@ -274,7 +261,6 @@ function M.new(pokemon, id)
 	this.proficiency = M.level_data(this.level).prof
 	this.STAB = M.level_data(this.level).STAB
 
-	update_attributes(this)
 	setup_saving_throws(this)
 	setup_abilities(this)
 	setup_moves(this)

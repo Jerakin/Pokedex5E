@@ -42,7 +42,7 @@ local function setup_inventory(self)
 	local check_node
 
 	for i=1, 6 do
-		pokemon = storage.get(inventory[i])
+		pokemon = storage.get_copy(inventory[i])
 		node_prefix = "inventory_pokemon_" .. i
 		if pokemon then
 			gui.set_enabled(gui.get_node(node_prefix .. "/root"), true)
@@ -87,7 +87,7 @@ end
 local function update_list(list)
 	for i,item in ipairs(list.items) do
 		update_listitem(list, item)
-		local pokemon = storage.get(item.data)
+		local pokemon = storage.get_copy(item.data)
 		if pokemon then
 			local index = 0
 			for name, data in pairs(pokemon.moves) do

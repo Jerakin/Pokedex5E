@@ -1,8 +1,9 @@
 local button = require "utils.button"
 local monarch = require "monarch.monarch"
 local storage = require "pokedex.storage"
-local _pokemon = require "pokedex.pokemon"
 local gesture = require "utils.gesture"
+
+local STATS = {"STR",  "INT", "DEX",  "WIS", "CON", "CHA"}
 
 local function join_table(title, T, sep)
 	if T then
@@ -35,13 +36,13 @@ local function setup_moves(self, nodes, pokemon)
 		index = index + 1
 		local pp_node = _get_node("/pp")
 		button.register(_get_node("/btn_decease_pp"), function()
-			_pokemon.decrease_move_pp(pokemon, name)
-			gui.set_text(pp_node, "PP: " .. pokemon.moves[name].current_pp)
+			local pp = storage.decrease_move_pp(pokemon.id, name)
+			gui.set_text(pp_node, "PP: " .. pp)
 		end)
 
 		button.register(_get_node("/btn_reset_pp"), function()
-			_pokemon.reset_move_pp(pokemon, name)
-			gui.set_text(pp_node, "PP: " .. pokemon.moves[name].current_pp)
+			local pp = storage.reset_move_pp(pokemon.id, name)
+			gui.set_text(pp_node, "PP: " .. pp)
 		end)
 		
 		button.register(_get_node("/name"), function()
@@ -106,19 +107,24 @@ local function setup_abilities(self, nodes, pokemon)
 end
 
 local function setup_info(self, nodes, pokemon)
-	pprint(pokemon.attributes)
-	local abilities_string = 
-	"STR: " .. to_mod(pokemon.attributes.total.STR) .. "  INT: " .. to_mod(pokemon.attributes.total.INT) .. "\n" .. 
-	"DEX: " .. to_mod(pokemon.attributes.total.DEX) .. "  WIS: " .. to_mod(pokemon.attributes.total.WIS) .. "\n" .. 
-	"CON: " .. to_mod(pokemon.attributes.total.CON) .. "  CHA: " .. to_mod(pokemon.attributes.total.CHA) .. "\n"
+	local abilities_string = ""
+	local saving_throw_string = ""
+	for i, stat in pairs(STATS) do
+		local total_attribute = pokemon.attributes.nature[stat] + pokemon.attributes.increased[stat] + pokemon.attributes.base[stat]
+		abilities_string = abilities_string .. stat .. ": " .. total_attribute
+		saving_throw_string = saving_throw_string .. stat .. ": " .. to_mod(pokemon.saving_throw[stat])
+		if math.fmod(i, 2) == 0 then
+			abilities_string = abilities_string .. "\n"
+			saving_throw_string = saving_throw_string .. "\n"
+		else
+			abilities_string = abilities_string .. "  "
+			saving_throw_string = saving_throw_string .. "  "
+		end
+	end	
+	
 	gui.set_text(nodes["pokemon/attributes"], abilities_string)
-
-	local saving_throw_string =
-	"STR: " .. to_mod(pokemon.saving_throw.STR) .. "  INT: " .. to_mod(pokemon.saving_throw.INT) .. "\n" .. 
-	"DEX: " .. to_mod(pokemon.saving_throw.DEX) .. "  WIS: " .. to_mod(pokemon.saving_throw.WIS) .. "\n" .. 
-	"CON: " .. to_mod(pokemon.saving_throw.CON) .. "  CHA: " .. to_mod(pokemon.saving_throw.CHA) .. "\n"
-
 	gui.set_text(nodes["pokemon/savingthrows"], saving_throw_string)
+	
 	gui.set_text(nodes["pokemon/stab"], "STAB: " .. pokemon.STAB)
 	gui.set_text(nodes["pokemon/prof"], "Prof: " .. pokemon.proficiency)
 	gui.set_text(nodes["pokemon/skills"], table.concat(pokemon.skills, ", "))
@@ -126,29 +132,31 @@ end
 
 local function update_hp(self, nodes, pokemon)
 	gui.set_text(nodes["pokemon/hp_current"], "HP: " .. pokemon.current_hp)
-	local p = gui.get_position(nodes["pokemon/hp_current"])
-	p.x = p.x + (gui.get_text_metrics_from_node(nodes["pokemon/hp_current"]).width)
-
-	gui.set_text(nodes["pokemon/hp"], "/" .. pokemon.HP)
-	gui.set_position(nodes["pokemon/hp"], p)
+	gui.set_text(nodes["pokemon/hp"], "/ " .. pokemon.HP)
+	
+	--local p = gui.get_position(nodes["pokemon/hp_current"])
+	--p.x = p.x + (gui.get_text_metrics_from_node(nodes["pokemon/hp_current"]).width)
+	--gui.set_position(nodes["pokemon/hp"], p)
 end
 
 local function setup_page(self, nodes, pokemon)
-	button.register(nodes["pokemon/hp_current"], function()
-		_pokemon.set_current_hp(pokemon, pokemon.current_hp-1)
-		update_hp(self, nodes, pokemon)
+	button.register(nodes["pokemon/btn_hp_current"], function()
+		local hp = storage.set_current_hp(pokemon.id, pokemon.current_hp-1)
+		pokemon.current_hp = hp
+		update_hp(self, nodes, pokemon, hp)
 	end)
-	button.register(nodes["pokemon/hp"], function()
-		_pokemon.set_current_hp(pokemon, pokemon.current_hp+1)
-		update_hp(self, nodes, pokemon)
+	button.register(nodes["pokemon/btn_hp"], function()
+		local hp = storage.set_current_hp(pokemon.id, pokemon.current_hp+1)
+		pokemon.current_hp = hp
+		update_hp(self, nodes, pokemon, hp)
 	end)
 	
 	gui.set_text(nodes["pokemon/species"], pokemon.species)
 	gui.set_text(nodes["pokemon/level"], "lvl: " .. pokemon.level)
 	gui.set_text(nodes["pokemon/nature"], pokemon.nature)
-	gui.set_text(nodes["pokemon/ac"], "AC: " .. pokemon.attributes.total.AC)
+	gui.set_text(nodes["pokemon/ac"], "AC: " .. pokemon.attributes.nature.AC + pokemon.attributes.base.AC)
 
-	update_hp(self, nodes, pokemon)
+	update_hp(self, nodes, pokemon, pokemon.current_hp)
 	local pos = vmath.vector3()
 	local vul = nodes["pokemon/vulnerabilities"]
 	local imm = nodes["pokemon/immunities"]
@@ -208,7 +216,7 @@ function init(self)
 	
 	for index, pokemon_id in pairs(storage.list_of_ids_in_inventory()) do
 		local page = add_pokemon_page(self, pokemon_id, index)
-		local pokemon_data = storage.get(pokemon_id)
+		local pokemon_data = storage.get_copy(pokemon_id)
 
 		table.insert(self.pokemons_list, {pokemon_id=pokemon_id, nodes=page, pokemon=pokemon_data})
 		setup_page(self, page, pokemon_data)

@@ -16,9 +16,9 @@ local M = {}
 local function redraw(self)
 	for _, stat in pairs(STATS) do
 		local n = gui.get_node("asi/" .. stat)
-		gui.set_text(n, stat .. " " .. self.pokemon.attributes.base[stat] .. "(".. self.pokemon.attributes.increased[stat] + self.pokemon.attributes.nature[stat]..")")
+		local total = self.pokemon.attributes.base[stat] + self.pokemon.attributes.increased[stat] + self.pokemon.attributes.nature[stat]
+		gui.set_text(n, stat .. " " .. total .. "(" .. self.increased_attributes[stat] .. ")")
 	end
-	
 
 	local level_node = gui.get_node("txt_level")
 	gui.set_text(level_node, "Lv. " .. self.pokemon.level)
@@ -53,8 +53,9 @@ function M.redraw(self)
 end
 
 local function increase(self, stat)
-	if self.pokemon.attributes.base[stat] + self.pokemon.attributes.increased[stat] < self.pokemon.attributes.max[stat] then
-		self.pokemon.attributes.increased[stat] = self.pokemon.attributes.increased[stat] + 1
+	local total = self.pokemon.attributes.base[stat] + self.pokemon.attributes.increased[stat]
+	if total + self.increased_attributes[stat] < self.pokemon.attributes.max[stat] then
+		self.increased_attributes[stat] = self.increased_attributes[stat] + 1
 		self.ability_score_improvment = self.ability_score_improvment + 1
 		redraw(self)
 	end
@@ -62,8 +63,8 @@ local function increase(self, stat)
 end
 
 local function decrease(self, stat)
-	if self.pokemon.attributes.increased[stat] > 0 then
-		self.pokemon.attributes.increased[stat] = self.pokemon.attributes.increased[stat] - 1
+	if self.increased_attributes[stat] > 0 then
+		self.increased_attributes[stat] = self.increased_attributes[stat] - 1
 		self.ability_score_improvment = self.ability_score_improvment - 1
 		redraw(self)
 	end
@@ -87,14 +88,13 @@ end
 
 function M.init(self, pokemon)
 	self.old_species = pokemon.species
-	
+	self.increased_attributes = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
 	self.pokemon = {moves={}}
 	self.pokemon.id = pokemon.id
 	self.pokemon.species = pokemon.species
 	self.pokemon.level = pokemon.level
 	self.pokemon.min_level = pokemon.min_level or pokemon.level
 	self.pokemon.attributes = pokemon.attributes
-	self.pokemon.attributes.increased = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
 	self.pokemon.attributes.max = {}
 	self.pokemon.nature = pokemon.nature
 	
@@ -211,7 +211,7 @@ function M.on_message(self, message_id, message, sender)
 				end
 			end 
 		else
-			local n = gui.get_node("move_" .. self.move_button_index)
+			local n = gui.get_node("moves/move_" .. self.move_button_index)
 			self.pokemon.moves[self.move_button_index] = message.item
 			gui.set_text(n, message.item)
 		end

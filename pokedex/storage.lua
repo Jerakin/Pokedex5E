@@ -44,8 +44,35 @@ function M.list_of_ids_in_inventory()
 	return getKeysSortedByValue(M.active, function(a, b) return a.species < b.species end)
 end
 
-function M.get(id)
+function M.get_copy(id)
+	return utils.deep_copy(M.storage[id] and M.storage[id] or M.active[id])
+end
+
+local function get(id)
 	return M.storage[id] and M.storage[id] or M.active[id]
+end
+
+function M.edit(id, pokemon_data)
+	local p = get(id)
+	_pokemon.edit(p, pokemon_data)
+end
+
+function M.decrease_move_pp(id, move)
+	local p = get(id)
+	p.moves[move].current_pp = math.max(p.moves[move].current_pp - 1, 0)
+	return p.moves[move].current_pp
+end
+
+function M.reset_move_pp(id, move)
+	local p = get(id)
+	p.moves[move].current_pp = p.moves[move].PP
+	return p.moves[move].current_pp
+end
+
+function M.set_current_hp(id, hp)
+	local p = get(id)
+	p.current_hp = math.min(math.max(hp, 0), p.HP)
+	return p.current_hp
 end
 
 function M.add(pokemon)

@@ -2,10 +2,8 @@ local pokemon_edit = require "templates.change_pokemon.change_pokemon"
 local monarch = require "monarch.monarch"
 local button = require "utils.button"
 local natures = require "pokedex.natures"
-local _pokemon = require "pokedex.pokemon"
 local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
-
 local HAVE_EVOLVED = false
 
 
@@ -21,7 +19,7 @@ function init(self)
 
 	msg.post(".", "acquire_input_focus")
 	local pokemon_id = monarch.data("edit").id
-	local pokemon = storage.get(pokemon_id)
+	local pokemon = storage.get_copy(pokemon_id)
 	pokemon_edit.init(self, pokemon)
 
 	local index = 0
@@ -60,7 +58,8 @@ function init(self)
 	end)
 
 	button.register("btn_edit", function()
-		_pokemon.edit(pokemon, self.pokemon)
+		self.pokemon.attributes.increased = self.increased_attributes
+		storage.edit(pokemon.id, self.pokemon)
 		monarch.show("party")
 	end)
 	
