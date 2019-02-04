@@ -1,0 +1,28 @@
+
+uniform mediump mat4 view_proj;
+uniform mediump mat4 world;
+
+// You need to add all constants that your other shaders are uing here and retrive values for
+// uniform lowp vec4 used_by_other_shader;
+
+
+attribute mediump vec4 position;
+attribute mediump vec2 texcoord0;
+
+varying lowp vec4 var_color;
+
+
+void main()
+{
+    // NOTE: world isn't used here. Sprite positions are already transformed
+    // prior to rendering but the world-transform is set for sorting.
+    gl_Position = view_proj * vec4(position.xyz, 1.0);
+
+    // You need to add all constants that your other shaders are uing here and retrive values for
+    // it will crash if they are not pressent. We also need to 'use' it so the compiler doesn't remove it.
+
+    // used_by_other_shader;
+
+
+    var_color = vec4(1.0, 1.0, 1.0, 1.0); 
+}
