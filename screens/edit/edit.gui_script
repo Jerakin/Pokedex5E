@@ -6,8 +6,6 @@ local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
 local HAVE_EVOLVED = false
 
-
-
 function init(self)
 	function self.redraw(self)
 		if not HAVE_EVOLVED and pokedex.can_evolve(self.pokemon.species) and pokedex.evolve_level(self.pokemon.species) <= self.pokemon.level and self.pokemon.min_level < self.pokemon.level then

@@ -55,23 +55,27 @@ end
 function M.edit(id, pokemon_data)
 	local p = get(id)
 	_pokemon.edit(p, pokemon_data)
+	M.save()
 end
 
 function M.decrease_move_pp(id, move)
 	local p = get(id)
 	p.moves[move].current_pp = math.max(p.moves[move].current_pp - 1, 0)
+	M.save()
 	return p.moves[move].current_pp
 end
 
 function M.reset_move_pp(id, move)
 	local p = get(id)
 	p.moves[move].current_pp = p.moves[move].PP
+	M.save()
 	return p.moves[move].current_pp
 end
 
 function M.set_current_hp(id, hp)
 	local p = get(id)
 	p.current_hp = math.min(math.max(hp, 0), p.HP)
+	M.save()
 	return p.current_hp
 end
 
@@ -87,6 +91,7 @@ function M.add(pokemon)
 	local id = get_id(pokemon)
 	local poke = _pokemon.new(pokemon, id)
 	M.storage[id] = poke
+	M.save()
 end
 
 function M.save()
@@ -111,6 +116,7 @@ function M.move_to_storage(id)
 	local pokemon = utils.deep_copy(M.active[id])
 	M.storage[id] = pokemon
 	M.active[id] = nil
+	M.save()
 end
 
 function M.move_to_inventory(id)
@@ -122,6 +128,7 @@ function M.move_to_inventory(id)
 	local pokemon = utils.deep_copy(M.storage[id])
 	M.active[id] = pokemon
 	M.storage[id] = nil
+	M.save()
 end
 
 return M
