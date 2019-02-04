@@ -141,6 +141,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "50ft line",
+    "Save": "DEX",
     "Description": "You shoot out a powerful vortex of air that shreds through opponents. Any Pokémon caught in a 50 foot line, 5 feet wide, must make a DEX save against your Move DC, taking 4d4 + MOVE flying damage on a fail, and half as much on a save.",
     "Damage": {
       "1": {
@@ -353,6 +354,7 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "Self",
+    "Save": "WIS",
     "Description": "As a reaction, when dealt damage by an attack, you may force an opponent to make a WIS save against your Move DC. On a fail, the creature must roll the damage again and use the lower result."
   },
   "Aurora Beam": {
@@ -990,6 +992,7 @@
     "PP": 10,
     "Duration": "1 minute",
     "Range": "80ft",
+    "Save": "WIS",
     "Description": "You attempt to charm an opponent, sharply decreasing its attack. A target you choose in range must make a WIS save against your Move DC. On a fail, the target adds -2 to all attacks against you for the duration."
   },
   "Clamp": {
@@ -1203,6 +1206,7 @@
     "PP": 20,
     "Duration": "1 minute",
     "Range": "30ft",
+    "Save": "CON",
     "Description": "You unleash spores of thick cotton that covers the opponent. Force a target in range to make a CON save against your Move DC. On a fail, the target’s speed is reduced by 10 for the duration. If this reduction in speed causes their speed to be 0, they are restrained for the duration."
   },
   "Counter": {
@@ -1496,6 +1500,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "100ft",
+    "Save": "WIS",
     "Description": "You create a dark, internal bond with an opponent. Select a target in range, who must make a WIS save against your Move DC. On a fail, if you faint during the combat, the opponent must take damage equal to twice the damage of the same type that caused you to faint."
   },
   "Detect": {
@@ -1813,6 +1818,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "40ft cone",
+    "Save": "DEX",
     "Description": "You release a powerful breath of energy in a 40 foot cone. All targets  caught in the blast must make a DEX save against your Move DC, taking 1d10 + MOVE dragon damage on a fail, and half as much on a save. If an opponent fails the save by 5 or more, it is paralyzed.",
     "Damage": {
       "1": {
@@ -1890,6 +1896,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "100ft line",
+    "Save": "DEX",
     "Description": "You unleash a devastating flow of energy in a 100 foot long line, 5 feet wide. Each creature caught in the blast must make a DEX save against your Move DC, taking 2d10 + MOVE dragon damage on a fail, and half as much on a save.",
     "Damage": {
       "1": {
@@ -2125,6 +2132,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "100ft",
+    "Save": "WIS",
     "Description": "After being targeted by a move, force an opponent to make a WIS save against your Move DC as a reaction. On a fail, the target can only use the move that targeted you for its next turn. At level 10, the number of turns an opponent must use the move changes to 2. At level 17, it changes to 3."
   },
   "Endeavor": {
@@ -2649,6 +2657,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "20ft",
+    "Save": "CON",
     "Description": "You emit an immense flash of light in a 20 foot radius circle, centered on you. Pokémon in the area must make a CON save against your Move DC. On a fail, they are blinded until the end of their next turn. Outside of combat, this move can be used to light a dim area, much like the \"Light\" cantrip."
   },
   "Flatter": {
@@ -3024,6 +3033,7 @@
     "PP": 15,
     "Duration": "Instantaneous",
     "Range": "30ft",
+    "Save": "WIS",
     "Description": "You attempt to put the target to sleep. The target must make a WIS save against your Move DC, falling asleep on a failure."
   },
   "Growl": {
@@ -3036,6 +3046,7 @@
     "PP": 20,
     "Duration": "1 minute",
     "Range": "100ft",
+    "Save": "WIS",
     "Description": "You target a Pokémon with an intimidating growl. The Pokémon must make a WIS save against your Move DC. On a fail, it adds -1 to any attack it makes for the duration. This modifier can be stacked if it fails multiple growl saves, up to a maximum of -5."
   },
   "Growth": {
@@ -3237,6 +3248,7 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "15 foot cone",
+    "Save": "DEX",
     "Description": "You exhale a wave of hot breath in a 15 ft. cone. Creatures caught in the area must make a DEX save against your Move DC, taking 2d8 + MOVE fire damage on failure, or half as much on a success. If the creature fails the save by 5 or more, it is burned.",
     "Damage": {
       "1": {
@@ -3348,6 +3360,7 @@
     "PP": 15,
     "Duration": "Instantaneous",
     "Range": "Melee",
+    "Save": "STR",
     "Description": "You strike at an enemy with your horn. Make a melee attack, doing 1d10 + MOVE on a hit. If you moved 20 feet or more towards an enemy on this turn, force the enemy to make a STR save against your Move DC or be knocked prone.",
     "Damage": {
       "1": {
@@ -3575,6 +3588,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "30ft",
+    "Save": "WIS",
     "Description": "You attempt to put the target to sleep. The target must make a WIS save against your Move DC, falling asleep on a failure."
   },
   "Ice Ball": {
@@ -3621,6 +3635,7 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "120ft",
+    "Save": "CON",
     "Description": "You send a concentrated beam of freezing ice at a single Pokémon in range. Make a ranged attack roll, doing 2d8 + MOVE ice damage on a hit, and forcing the target to make a CON save against your Move DC or become frozen.",
     "Damage": {
       "1": {
@@ -4057,6 +4072,7 @@
     "PP": 15,
     "Duration": "1 minute",
     "Range": "60ft",
+    "Save": "WIS",
     "Description": "You stare down an enemy Pokémon, reducing its will. The Pokémon must make a WIS save against your Move DC. On a fail, allies may add +1 to any attack they target it with for the duration. This modifier can be stacked if it fails multiple leer saves, up to a maximum of +5."
   },
   "Lick": {
@@ -4125,6 +4141,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "60ft",
+    "Save": "CHA",
     "Description": "You blow a kiss to a Pokémon, attempting to put the target to sleep. The target must make a CHA save against your Move DC, falling asleep on a failure."
   },
   "Low Kick": {
@@ -4137,6 +4154,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "Melee",
+    "Save": "STR",
     "Description": "You kick out at a Pokémon’s lower half, dealing damage and attempting to knock it off balance. Make a melee attack, doing 1d8 + MOVE fighting damage on a hit. The target must make a STR save against your Move DC or be knocked prone. If the natural attack roll is 18 or more, the target flinches.",
     "Damage": {
       "1": {
@@ -4260,6 +4278,7 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "40ft",
+    "Save": "DEX",
     "Description": "You shake the ground with an earth-shattering quake. All Pokémon in range must make a DEX save against your Move DC, taking half damage on a success and full damage on a fail. Roll a d100 on the table below to determine damage. \n- \n| d100  | Damage |\n|:---:|:-----------:|\n|  01-05  | 1d4+MOVE |\n|  06-15  | 1d8+MMOVE |\n|  16-35  | 1d10+MOVE |\n|  36-65  | 1d12+MOVE |\n|  66-85  | 2d6+MOVE |\n|  86-95  | 2d8+MOVE |\n|  96-100  | 2d12+MOVE |"
   },
   "Mean Look": {
@@ -4272,6 +4291,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "50ft",
+    "Save": "WIS",
     "Description": "You flash an intimidating look at a Pokémon, attempting to freeze them in fear. Force a target in range to make a WIS save against your Move DC. On a fail, the target cannot flee or be switched out for 3 rounds."
   },
   "Meditate": {
@@ -4395,6 +4415,7 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "Melee",
+    "Save": "STR",
     "Description": "You charge an opponent for a devastating horn attack. Make a melee attack roll, doing 2d10 + MOVE bug damage on a hit. If the user moves at least 20 feet towards a target before using this move, the target is forced to make a STR save against your Move DC or be knocked prone.",
     "Damage": {
       "1": {
@@ -5070,6 +5091,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "30ft",
+    "Save": "CON",
     "Description": "You split pain from your injuries with your attacker. Target a Pokémon in range, forcing them to make a CON save against your Move DC. On a fail, both you and your attacker change your current health points to the average of the two. If this causes either Pokémon to go above maximum health, they take their maximum health instead."
   },
   "Pay Day": {
@@ -5229,6 +5251,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "Melee",
+    "Save": "CON",
     "Description": "You lash forward with poisonous venom. Make a melee attack roll against an opponent, dealing 1d8 + MOVE poison damage on a hit, forcing the opponent to make a CON save against your Move DC. On a failure, the foe is poisoned. A creature poisoned by this move takes double the normal poison damage at the end of each of its turns.",
     "Damage": {
       "1": {
@@ -5601,6 +5624,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "40ft line",
+    "Save": "WIS",
     "Description": "You emit a wave of psychic energy in a 40 foot line, 5 feet wide. Each Pokémon caught in the wave must make a WIS save against your Move DC, becoming confused on a fail."
   },
   "Pursuit": {
@@ -5770,6 +5794,7 @@
     "PP": 5,
     "Duration": "1 round, Concentration",
     "Range": "Self/20ft",
+    "Save": "DEX",
     "Description": "When you use this move, strong winds begin to circle around you, granting +2 to AC. On your next turn, if you keep your concentration, you release those winds as an action in a 20 foot radius, centered on you. Each Pokémon in the area must make a DEX save against your Move DC, taking 2d6 + MOVE normal damage on a fail, or half as much on a success.",
     "Damage": {
       "1": {
@@ -6006,6 +6031,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "100ft",
+    "Save": "CHA",
     "Description": "You release an intimidating roar at a wild Pokémon in range. The target must make a CHA save against your Move DC, fleeing from battle on fail. You gain no experience from a fleeing Pokémon, and the move automatically fails in trainer battles. A creature that succeeds on this saving throw is unaffected by future attempts during this combat."
   },
   "Rock Blast": {
@@ -6050,6 +6076,7 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "80ft",
+    "Save": "DEX",
     "Description": "Large boulders appear above an enemy Pokémon in range, crashing down on top of them. The target must make a DEX save against your Move DC, taking 1d12 + MOVE rock damage and falling prone on a failed save, and half as much without falling prone on a success.",
     "Damage": {
       "1": {
@@ -6308,6 +6335,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "30ft",
+    "Save": "CON",
     "Description": "You kick up a cloud of sand in an attempt to blind a target in range. The target must make a CON save against your Move DC. On a fail, for the remainder of the encounter, they add -1 to all of their attack rolls. This move can be stacked for a maximum of -5 to attack rolls."
   },
   "Sand Tomb": {
@@ -6386,6 +6414,7 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "60ft",
+    "Save": "WIS",
     "Description": "You put on your scariest face, attempting to paralyze an opponent with fear. Force a target in range to make a WIS save against your Move DC. On a fail, the target is paralyzed."
   },
   "Scratch": {
@@ -6432,6 +6461,7 @@
     "PP": 20,
     "Duration": "1 minute",
     "Range": "20ft",
+    "Save": "WIS",
     "Description": "You let out a horrible screech at enemy Pokémon in a 20 foot radius, centered on you, distracting them and opening up their defenses. The Pokémon must make a WIS save against your Move DC. On a fail, allies add +1 to any attack they target an affected Pokémon with for the duration. This modifier can be stacked if a Pokémon fails multiple screech saves, up to a maximum of +5."
   },
   "Secret Power": {
@@ -6488,6 +6518,7 @@
     "PP": 3,
     "Duration": "(Instantaneous",
     "Range": "30ft",
+    "Save": "DEX",
     "Description": "You release a massive explosion in a 30 foot radius, fainting immediately after the attack. Creatures in the area must make a DEX save against your Move DC. If your Pokémon has at least half its hit points left, anyone in range takes 5d6 + MOVE normal damage on a fail, or half as much on a success. If your creature has less than half of its hitpoints left, the damage is halved for a success or fail.",
     "Damage": {
       "1": {
@@ -6990,6 +7021,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "20ft",
+    "Save": "CON",
     "Description": "You spew poisonous sludge at an enemy Pokémon in range. Make a ranged attack on a Pokémon, doing 1d10 + MOVE poison damage on a hit. The creature must make a CON save against your Move DC or become poisoned.",
     "Damage": {
       "1": {
@@ -7123,6 +7155,7 @@
     "PP": 10,
     "Duration": "1 minute, Concentration",
     "Range": "60ft",
+    "Save": "CON",
     "Description": "You conjure a line of smoke on the battlefield, 60 feet long and 5 feet thick. The area on either side is obscured and imposes disadvantage on any ranged attacks made by a Pokémon targeting another on the opposite side. Any Pokémon inside the wall of smoke, when it is conjured, must make a CON save against your Move DC or become blinded for the duration."
   },
   "Snatch": {
@@ -7134,6 +7167,7 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "30ft",
+    "Save": "WIS",
     "Description": "You call upon dark energy to steal an effect from an opponent. When an opponent in range activates a move with a positive effect on itself (curing negative status effect, boosting stats, healing, etc.), force it to make a WIS save against your Move DC. On a failure, you gain the positive effect and the opponent's move fails."
   },
   "Snore": {
@@ -7248,6 +7282,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "20ft",
+    "Save": "CON",
     "Description": "You unleash a deafening sound that harms Pokémon in a 20 foot circle, centered on you. Pokémon in range must make a CON save against your Move DC, taking 20 flat damage on a fail."
   },
   "Spark": {
@@ -7406,6 +7441,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "30ft",
+    "Save": "WIS",
     "Description": "When hit with an attack, you can spend a reaction to attempt to drain the attacker’s PP. Force the attacker to make a WIS save against your Move DC. On a fail, roll a d4. The PP of the move that attacked you is decreased by that number.",
     "Damage": {
       "1": {
@@ -7451,6 +7487,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "Melee",
+    "Save": "WIS",
     "Description": "When you are hit by a melee attack, you can use your reaction to release a spore that attempts to put your attacker to sleep. The Pokémon must make a WIS save against your Move DC, falling asleep on a fail."
   },
   "Spotlight": {
@@ -7463,6 +7500,7 @@
     "PP": 3,
     "Duration": "1 minute, Concentration",
     "Range": "80ft",
+    "Save": "DEX",
     "Description": "You shine a bright light on a Pokémon in range that follows them around the battlefield. The target must make a DEX save against your Move DC. On a fail, attacks against that Pokémon have advantage for the duration."
   },
   "Steel Wing": {
@@ -7553,6 +7591,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "60ft",
+    "Save": "DEX",
     "Description": "The earth moves beneath an enemy’s feet as sharp stone pierce through the ground underneath them. Pokémon in a 10 foot radius centered on a point you choose in range must make a DEX save against your MOVE DC, taking 4d4 + MOVE rock damage on a fail, or half as much on a save.",
     "Damage": {
       "1": {
@@ -7641,6 +7680,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "Melee",
+    "Save": "CON",
     "Description": "When you are hit by a melee attack, you can use your reaction to release a spore that attempts to stun your attacker. The Pokémon must make a CON save against your Move DC, becoming paralyzed on a fail."
   },
   "Submission": {
@@ -7820,6 +7860,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "40ft",
+    "Save": "WIS",
     "Description": "Force a target in range to make a WIS save against your Move DC. On a fail, the target is confused, but it adds +2 to its attack rolls while confused."
   },
   "Swallow": {
@@ -7877,6 +7918,7 @@
     "PP": 10,
     "Duration": "2 turns",
     "Range": "30ft",
+    "Save": "CON",
     "Description": "You release a sweet smell directed at a target in range. The target must make a CON save against your Move DC. On a fail, you have advantage on your next two attacks against that target."
   },
   "Swift": {
@@ -8032,6 +8074,7 @@
     "PP": 15,
     "Duration": "1 minute",
     "Range": "100ft",
+    "Save": "WIS",
     "Description": "You shake your tail at an enemy Pokémon, distracting it and opening up its defenses. The Pokémon must make a WIS save against your Move DC. On a fail, allies add +1 to any attack they target it with for the duration. This modifier can be stacked if it fails multiple tail whip saves, up to a maximum of +5."
   },
   "Take Down": {
@@ -8090,6 +8133,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "20ft",
+    "Save": "WIS",
     "Description": "You start to perform a difficult dance, confusing all creatures in range. Creatures in a 20 foot circle around you must make a WIS save against your Move DC, becoming confused on a fail."
   },
   "Teleport": {
@@ -8112,6 +8156,7 @@
     "PP": 15,
     "Duration": "Instantaneous",
     "Range": "Melee",
+    "Save": "DEX",
     "Description": "You lash out with a quick attack that may steal an opponent’s held item. Make a melee attack against an opponent, doing 1d10 + MOVE dark damage on a hit. If the user does not have an item held, the target must make a DEX save against your Move DC or have their item stolen by the user.",
     "Damage": {
       "1": {
@@ -8179,6 +8224,7 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "20ft",
+    "Save": "DEX",
     "Description": "Powerful electric energy arcs out from you, hitting any Pokémon in a 20 foot radius, centered on you. Pokémon caught in the area must make a DEX save against your Move DC, taking 3d6 + MOVE electric damage on a fail, and half as much on a success. Creatures that fail the saving throw by 5 or more become paralyzed.",
     "Damage": {
       "1": {
@@ -8281,6 +8327,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "60ft",
+    "Save": "CON",
     "Description": "You send a wave of electric energy that surrounds a Pokémon in range. The Pokémon must make a CON save against your Move DC or become paralyzed."
   },
   "Thunderbolt": {
@@ -8351,6 +8398,7 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "30ft",
+    "Save": "CON",
     "Description": "You send a downpour of potent, poisonous rain in a 5 foot radius, centered on a point within range. Targets in the area must make a CON save against your MOVE DC or become poisoned. Pokémon poisoned by this move take double the normal poison damage."
   },
   "Transform": {
@@ -8520,6 +8568,7 @@
     "PP": 5,
     "Duration": "3 Rounds, Contentration",
     "Range": "50ft",
+    "Save": "CON",
     "Description": "You cause an uproar on the battlefield up to 50 feet away from you in any direction for three rounds of combat. During the uproar, you cannot use any other Move, and any creature in range is prevented from falling asleep. (This include creatures that would purposefully fall asleep using moves like Rest, Yawn, etc.) In addition, opponents must make a CON save against your Move DC at the start of each turn. On a fail, the opponent takes 2d8 + MOVE normal damage.",
     "Damage": {
       "1": {
@@ -8799,6 +8848,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "80ft",
+    "Save": "DEX",
     "Description": "You create an intense waterfall that crashes down upon enemy Pokémon in a 10 foot radius, centered on a point within range. Pokémon in the area must make a DEX save against your Move DC or take 2d6 + MOVE water damage and fall prone on a fail, or half as much on a save.",
     "Damage": {
       "1": {
