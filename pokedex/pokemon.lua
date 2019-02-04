@@ -37,7 +37,7 @@ local function get_damage_mod_stab(pokemon, move)
 	local stab = false
 	local stab_damage = 0
 	for _, mod in pairs(move.power) do
-		if mod ~= "None" then
+		if pokemon.attributes[mod] then
 			modifier = pokemon.attributes[mod] > modifier and pokemon.attributes[mod] or modifier
 		end
 	end
