@@ -142,6 +142,11 @@ local function setup_saving_throws(pokemon)
 	pokemon.saving_throw = this
 end
 
+local function update_abilities(pokemon)
+	local raw_pokemon = pokedex.get_pokemon(pokemon.species)
+	pokemon.abilities = raw_pokemon.Abilities
+	setup_abilities(pokemon)
+end
 
 local function update_attributes(pokemon)
 	setup_nature_attributes(pokemon)
@@ -172,6 +177,7 @@ local function update_moves(this)
 end
 
 function M.update_pokemon(pokemon)
+	update_abilities(pokemon)
 	update_attributes(pokemon)
 	update_moves(pokemon)
 end
@@ -202,7 +208,7 @@ function M.edit(pokemon, pokemon_data)
 		pokemon.resistances = raw_pokemon.Res
 		pokemon.vulnerabilities = raw_pokemon.Vul
 		pokemon.immunities = raw_pokemon.Imm
-
+		pokemon.abilities = raw_pokemon.Abilities
 		pokemon.base_attributes.AC = raw_pokemon.AC
 	end
 	setup_moves(pokemon)
