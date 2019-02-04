@@ -18,4 +18,4 @@ Because we are exporting the data to json you need to change the
 Get and save gsheet to json with `python "/scripts/collect_data/fetch_data.py" "/path/to/my/access_file.json"`
 
 ### Convert it
-Convert to the format the app wants with `python "/scripts/collect_data/fetch_data.py" "/path/to/my/access_file.json"`
+Convert to the format the app wants with `python "/scripts/collect_data/convert_to_game_data.py"
