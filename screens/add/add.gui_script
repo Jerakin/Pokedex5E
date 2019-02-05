@@ -10,11 +10,12 @@ local transitions = require "utils.transitions"
 HAVE_EVOLVED = false
 
 function init(self)
+	self.transition = transitions.default(gui.get_node("root"))
 	function self.redraw(self)
 		local nature_node = gui.get_node("nature")
 		gui.set_text(nature_node, "Nature: " .. self.pokemon.nature)
 	end
-	self.transition = transitions.default(gui.get_node("root"))
+	
 	
 	msg.post(url.SWITCHER, "activate", {screen="add"})
 	button.acquire()
@@ -54,11 +55,12 @@ function final(self)
 end
 
 function on_message(self, message_id, message, sender)
+	transitions.on_message(self.transition, message_id, message, sender)
 	pokemon_edit.on_message(self, message_id, message, sender)
 end
 
 function on_input(self, action_id, action)
+	
 	button.on_input(action_id, action)
-	pokemon_edit.on_input(self, action_id, action)
-	transitions.on_message(self.transition, message_id, message, sender)
+	--pokemon_edit.on_input(self, action_id, action)
 end
