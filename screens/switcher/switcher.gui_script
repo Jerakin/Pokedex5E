@@ -52,18 +52,18 @@ function init(self)
 	local top = monarch.top()
 
 	button.register(self.btn_party, function()
-		monarch.show("party")
+		monarch.show("party", {clear=true})
 	end)
 
 	button.register(self.btn_storage, function()
-		monarch.show("storage")
+		monarch.show("storage", {clear=true})
 	end)
 
 	button.register(self.btn_add , function()
-		monarch.show("add")
+		monarch.show("add",{clear=true})
 	end)
 	button.register(self.btn_profiles, function()
-		monarch.show("profiles")
+		monarch.show("profiles", {clear=true})
 	end)
 end
 

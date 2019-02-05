@@ -62,7 +62,7 @@ function init(self)
 	button.register("btn_edit", function()
 		self.pokemon.attributes.increased = self.increased_attributes
 		storage.edit(pokemon.id, self.pokemon)
-		monarch.show("party")
+		monarch.show("party", {clear=true})
 	end)
 	
 	pokemon_edit.redraw(self)

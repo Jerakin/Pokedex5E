@@ -11,10 +11,9 @@ end
 local function activate(profile, slot)
 	if profile then
 		profiles.set_active(slot)
-		monarch.show("party")
+		monarch.show("party", {clear=true})
 	else
 		monarch.show("pick_name", nil, {sender=msg.url(), slot=slot})
-		gui.set_position(gui.get_node("root"), vmath.vector3(720, 0, 0))
 	end
 end
 

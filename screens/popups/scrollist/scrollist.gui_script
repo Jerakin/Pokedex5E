@@ -29,7 +29,7 @@ local function on_item_selected(list)
 end
 
 function init(self)
-	monarch.hide("switcher")
+	monarch.hide(hash("switcher"))
 	self.transition = transitions.default(gui.get_node("root"))
 	local d = monarch.data("scrollist")
 	self.all_items = utils.shallow_copy(d.items)
