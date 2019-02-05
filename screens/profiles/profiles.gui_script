@@ -27,11 +27,15 @@ function init(self)
 	for i=1, 3 do
 		if _profiles[i] then
 			gui.set_text(gui.get_node("trainer_name_" .. i), _profiles[i].name)
-			gui.set_text(gui.get_node("trainer_stats_" .. i), "seen: " .. _profiles[i].seen .. " caught: " ..  _profiles[i].caught)
+			gui.set_text(gui.get_node("trainer_stats_" .. i), " caught: " ..  _profiles[i].caught)
 		end
 		button.register("btn_slot_" .. i, function()
 			activate(_profiles[i], i)
 		end)
+	end
+	if profiles.get_active() ~= nil then
+		local size = vmath.vector3(850, 200, 0)
+		gui.set_size(gui.get_node("btn_slot_" .. profiles.get_active()), size)
 	end
 end
 
@@ -41,7 +45,9 @@ end
 
 function on_input(self, action_id, action)
 	button.on_input(action_id, action)
-	return true
+	if profiles.get_active() == nil then
+		return true
+	end
 end
 
 function on_message(self, message_id, message, sender)
