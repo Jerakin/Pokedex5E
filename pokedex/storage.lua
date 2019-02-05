@@ -93,8 +93,11 @@ function M.add(pokemon)
 	local poke = _pokemon.new(pokemon, id)
 
 	profiles.update(profiles.get_active(), {caught=M.counter})
-
-	M.storage[id] = poke
+	if M.party_is_full() then
+		M.storage[id] = poke
+	else
+		M.active[id] = poke
+	end
 	M.save()
 	profiles.save()
 end
@@ -129,6 +132,14 @@ function M.move_to_storage(id)
 	M.storage[id] = pokemon
 	M.active[id] = nil
 	M.save()
+end
+
+function M.party_is_full()
+	local counter = 0
+	for _, _ in pairs(M.active) do
+		counter = counter + 1
+	end
+	return counter >= 6
 end
 
 function M.move_to_inventory(id)
