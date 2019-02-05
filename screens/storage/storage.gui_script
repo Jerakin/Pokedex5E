@@ -98,8 +98,8 @@ local function update_list(list)
 				gui.set_text(item.nodes[hash(list.id .. "/move_" .. index)], name)
 			end
 
-			for i=index, 4 do
-				--gui.set_text(item.nodes[hash(list.id .. "/move_" .. i)], "")
+			for i=index+1, 4 do
+				gui.set_text(item.nodes[hash(list.id .. "/move_" .. i)], "")
 			end
 			gui.set_text(item.nodes[hash(list.id .. "/txt_level")], "Lv. " .. pokemon.level)
 			gui.set_text(item.nodes[hash(list.id .. "/txt_spicies")], pokemon.species)
