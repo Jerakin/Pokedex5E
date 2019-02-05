@@ -9,24 +9,23 @@ local profiles = require "pokedex.profiles"
 
 local flow = require "utils.flow"
 
-local default_savedata = {
-	pokedex5e = {
-		storage = {},
-		active = {},
-		counter = 0
-	}
-}
 
 function init(self)
-	msg.post(".", "acquire_input_focus")
 	msg.post("@render:", "clear_color", {color=vmath.vector4(0.46, 0.85, 1, 1)})
+
+	--input order
+	msg.post(".", "acquire_input_focus")
+	msg.post("/screens", "acquire_input_focus")
+	msg.post("/popups", "acquire_input_focus")
+	
 	msg.post("#", "show_first_screen")
 	defos.set_window_size(0, 0, 570, 1024)
 	defsave.appname = "pokedex5E"
+	defsave.use_default_data = false
 	profiles.init()
 	flow.start(function()
 		flow.until_true(function()
-			return not profiles.is_new_game()
+			return not profiles.is_new_game() and profiles.get_active()
 		end)
 		natures.init()
 		pokedex.init()
@@ -61,6 +60,5 @@ function on_input(self, action_id, action)
 end
 
 function final(self)
-	flow.
 	storage.save()
 end

@@ -4,6 +4,8 @@ local button = require "utils.button"
 local natures = require "pokedex.natures"
 local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
+local url = require "utils.url"
+
 local HAVE_EVOLVED = false
 
 function init(self)
@@ -14,8 +16,8 @@ function init(self)
 			gui.set_enabled(self.evolve_button, false)
 		end
 	end
-
-	msg.post(".", "acquire_input_focus")
+	msg.post(url.SWITCHER, "activate", {screen="party"})
+	button.acquire()
 	local pokemon_id = monarch.data("edit").id
 	local pokemon = storage.get_copy(pokemon_id)
 	pokemon_edit.init(self, pokemon)
