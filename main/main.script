@@ -36,7 +36,7 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("show_first_screen") then
-		monarch.show(hash("splash"), {}, {}, function()
+		monarch.show(hash("splash"), {}, {clear=true}, function()
 			if profiles.is_new_game() then
 				timer.delay(0.8, false, function() 
 					monarch.show(hash("pick_name"))
@@ -56,6 +56,8 @@ end
 function on_input(self, action_id, action)
 	if action_id == hash("overdraw") and action.released then
 		msg.post("@render:", "toggle_overdraw")
+	elseif action_id == hash("stack") and action.released then
+		print(monarch.dump_stack())
 	end
 end
 

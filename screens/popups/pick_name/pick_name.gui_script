@@ -42,7 +42,7 @@ function init(self)
 		end
 		local _slot = profiles.add(name, slot)
 		profiles.set_active(_slot)
-		monarch.show("add")
+		monarch.show("add", {clear=true})
 	end)
 	
 end
