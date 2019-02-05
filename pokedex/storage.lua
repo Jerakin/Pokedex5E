@@ -3,6 +3,7 @@ local json = require "defsave.json"
 local md5 = require "utils.md5"
 local utils = require "utils.utils"
 local _pokemon = require "pokedex.pokemon"
+local profiles = require "pokedex.profiles"
 
 local M = {}
 
@@ -95,18 +96,24 @@ function M.add(pokemon)
 end
 
 function M.save()
-	defsave.set("pokedex5e", "storage", M.storage)
-	defsave.set("pokedex5e", "active", M.active)
-	defsave.set("pokedex5e", "counter", M.counter)
-	defsave.save("pokedex5e")
+	local profile = profiles.get_active()
+	defsave.set(profile, "storage", M.storage)
+	defsave.set(profile, "active", M.active)
+	defsave.set(profile, "counter", M.counter)
+	defsave.save(profile)
 end
 
 function M.init()
-	local loaded = defsave.load("pokedex5e", default_data)
+	local profile = profiles.get_active()
+	local loaded = defsave.load(profile, {
+		storage = {},
+		active = {},
+		counter = 0
+	})
 	if loaded then
-		M.storage = defsave.get("pokedex5e", "storage")
-		M.active = defsave.get("pokedex5e", "active")
-		M.counter = defsave.get("pokedex5e", "counter")
+		M.storage = defsave.get(profile, "storage")
+		M.active = defsave.get(profile, "active")
+		M.counter = defsave.get(profile, "counter")
 		update_pokemon_data(M.storage)
 		update_pokemon_data(M.active)
 	end
