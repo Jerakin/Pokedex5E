@@ -6,6 +6,7 @@ local utils = require "utils.utils"
 local gesture = require "utils.gesture"
 local url = require "utils.url"
 local profiles = require "pokedex.profiles"
+local transitions = require "utils.transitions"
 
 local STORAGE_ROWS = 4
 local STORAGE_COLUMNS = 2
@@ -123,7 +124,7 @@ function init(self)
 	button.acquire()
 	msg.post(url.SWITCHER, "activate", {screen="storage"})
 	self.list_items = storage.list_of_ids_in_storage()
-	
+	self.transition = transitions.default(gui.get_node("root"))
 	self.inventory_buttons = {}
 	gui.set_text(gui.get_node("title"), profiles.get_active_name() .. "'s PC")
 	button.register("btn_move", function()
@@ -153,4 +154,8 @@ end
 
 function final(self)
 	button.unregister()
+end
+
+function on_message(self, message_id, message, sender)
+	transitions.on_message(self.transition, message_id, message, sender)
 end

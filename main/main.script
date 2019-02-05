@@ -12,7 +12,7 @@ local flow = require "utils.flow"
 
 function init(self)
 	msg.post("@render:", "clear_color", {color=vmath.vector4(0.46, 0.85, 1, 1)})
-
+	
 	--input order
 	msg.post(".", "acquire_input_focus")
 	msg.post("/screens", "acquire_input_focus")
