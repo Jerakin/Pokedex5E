@@ -78,7 +78,7 @@ local function setup_moves(self, nodes, pokemon)
 	end
 	for i=index+1, 5 do
 		local n = nodes["pokemon/move_" .. i .. "/root"]
-		gui.delete_node(n)
+		gui.set_enabled(n, false)
 	end
 end
 
@@ -105,7 +105,7 @@ local function setup_abilities(self, nodes, pokemon)
 		p.y = p.y - gui.get_text_metrics_from_node(desc_node).height - gui.get_text_metrics_from_node(name_node).height
 		index = index + 1
 	end
-	gui.delete_node(template)
+	gui.set_enabled(template, false)
 end
 
 local function setup_info(self, nodes, pokemon)
@@ -220,7 +220,9 @@ function init(self)
 	for index, pokemon_id in pairs(storage.list_of_ids_in_inventory()) do
 		local page = add_pokemon_page(self, pokemon_id, index)
 		local pokemon_data = storage.get_copy(pokemon_id)
-
+		if index ~= 1 then
+			gui.set_enabled(page[hash("pokemon/root")], false)
+		end
 		table.insert(self.pokemons_list, {pokemon_id=pokemon_id, nodes=page, pokemon=pokemon_data})
 		setup_page(self, page, pokemon_data)
 	end
@@ -228,6 +230,7 @@ function init(self)
 		for _, poke in pairs(self.pokemons_list) do
 			activate_tab(self, poke.nodes, 1)
 		end
+		
 	end
 
 	gui.delete_node(self.pokemon_page)
@@ -247,10 +250,17 @@ function on_message(self, message_id, message, sender)
 end
 
 local function change_pokemon(self)
-	local r = gui.get_node("root")
+	local r = gui.get_node("scroll")
 	local p = vmath.vector3()
 	p.x = self.pokemon_index * -720
-	gui.animate(r, "position", p, gui.EASING_INSINE, 0.2)
+	gui.set_enabled(self.pokemons_list[self.pokemon_index+1].nodes[hash("pokemon/root")], true)
+	gui.animate(r, "position", p, gui.EASING_INSINE, 0.2, 0, function()
+		for i, d in pairs(self.pokemons_list) do
+			if i == self.pokemon_index then --else
+				gui.set_enabled(self.pokemons_list[i].nodes[hash("pokemon/root")], false)
+			end
+		end
+	end)
 end
 
 function on_input(self, action_id, action)
