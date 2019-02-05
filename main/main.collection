@@ -40,7 +40,6 @@ embedded_instances {
   children: "add"
   children: "edit"
   children: "party"
-  children: "popups"
   children: "profiles"
   children: "splash"
   children: "storage"
@@ -296,92 +295,6 @@ embedded_instances {
   }
 }
 embedded_instances {
-  id: "popups"
-  children: "info"
-  children: "pick_name"
-  children: "scrollist"
-  data: ""
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-embedded_instances {
-  id: "info"
-  data: "components {\n"
-  "  id: \"screen_proxy\"\n"
-  "  component: \"/monarch/screen_proxy.script\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "  properties {\n"
-  "    id: \"screen_id\"\n"
-  "    value: \"info\"\n"
-  "    type: PROPERTY_TYPE_HASH\n"
-  "  }\n"
-  "  properties {\n"
-  "    id: \"popup\"\n"
-  "    value: \"true\"\n"
-  "    type: PROPERTY_TYPE_BOOLEAN\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"collectionproxy\"\n"
-  "  type: \"collectionproxy\"\n"
-  "  data: \"collection: \\\"/screens/popups/info/info.collection\\\"\\n"
-  "exclude: false\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  ""
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-embedded_instances {
   id: "edit"
   data: "components {\n"
   "  id: \"screen_proxy\"\n"
@@ -498,7 +411,7 @@ embedded_instances {
   }
 }
 embedded_instances {
-  id: "scrollist"
+  id: "profiles"
   data: "components {\n"
   "  id: \"screen_proxy\"\n"
   "  component: \"/monarch/screen_proxy.script\"\n"
@@ -515,19 +428,14 @@ embedded_instances {
   "  }\n"
   "  properties {\n"
   "    id: \"screen_id\"\n"
-  "    value: \"scrollist\"\n"
+  "    value: \"profiles\"\n"
   "    type: PROPERTY_TYPE_HASH\n"
-  "  }\n"
-  "  properties {\n"
-  "    id: \"popup\"\n"
-  "    value: \"true\"\n"
-  "    type: PROPERTY_TYPE_BOOLEAN\n"
   "  }\n"
   "}\n"
   "embedded_components {\n"
   "  id: \"collectionproxy\"\n"
   "  type: \"collectionproxy\"\n"
-  "  data: \"collection: \\\"/screens/popups/scrollist/scrollist.collection\\\"\\n"
+  "  data: \"collection: \\\"/screens/profiles/profiles.collection\\\"\\n"
   "exclude: false\\n"
   "\"\n"
   "  position {\n"
@@ -561,7 +469,30 @@ embedded_instances {
   }
 }
 embedded_instances {
-  id: "profiles"
+  id: "popups"
+  children: "info"
+  children: "pick_name"
+  children: "scrollist"
+  data: ""
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "info"
   data: "components {\n"
   "  id: \"screen_proxy\"\n"
   "  component: \"/monarch/screen_proxy.script\"\n"
@@ -578,14 +509,19 @@ embedded_instances {
   "  }\n"
   "  properties {\n"
   "    id: \"screen_id\"\n"
-  "    value: \"profiles\"\n"
+  "    value: \"info\"\n"
   "    type: PROPERTY_TYPE_HASH\n"
+  "  }\n"
+  "  properties {\n"
+  "    id: \"popup\"\n"
+  "    value: \"true\"\n"
+  "    type: PROPERTY_TYPE_BOOLEAN\n"
   "  }\n"
   "}\n"
   "embedded_components {\n"
   "  id: \"collectionproxy\"\n"
   "  type: \"collectionproxy\"\n"
-  "  data: \"collection: \\\"/screens/profiles/profiles.collection\\\"\\n"
+  "  data: \"collection: \\\"/screens/popups/info/info.collection\\\"\\n"
   "exclude: false\\n"
   "\"\n"
   "  position {\n"
@@ -649,6 +585,69 @@ embedded_instances {
   "  id: \"collectionproxy\"\n"
   "  type: \"collectionproxy\"\n"
   "  data: \"collection: \\\"/screens/popups/pick_name/pick_name.collection\\\"\\n"
+  "exclude: false\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "scrollist"
+  data: "components {\n"
+  "  id: \"screen_proxy\"\n"
+  "  component: \"/monarch/screen_proxy.script\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "  properties {\n"
+  "    id: \"screen_id\"\n"
+  "    value: \"scrollist\"\n"
+  "    type: PROPERTY_TYPE_HASH\n"
+  "  }\n"
+  "  properties {\n"
+  "    id: \"popup\"\n"
+  "    value: \"true\"\n"
+  "    type: PROPERTY_TYPE_BOOLEAN\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"collectionproxy\"\n"
+  "  type: \"collectionproxy\"\n"
+  "  data: \"collection: \\\"/screens/popups/scrollist/scrollist.collection\\\"\\n"
   "exclude: false\\n"
   "\"\n"
   "  position {\n"

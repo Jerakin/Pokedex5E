@@ -4,6 +4,7 @@ local natures = require "pokedex.natures"
 local monarch = require "monarch.monarch"
 local storage = require "pokedex.storage"
 local pokedex = require "pokedex.pokedex"
+local url = require "utils.url"
 
 HAVE_EVOLVED = false
 
@@ -12,8 +13,8 @@ function init(self)
 		local nature_node = gui.get_node("nature")
 		gui.set_text(nature_node, "Nature: " .. self.pokemon.nature)
 	end
-	
-	msg.post(".", "acquire_input_focus")
+	msg.post(url.SWITCHER, "activate", {screen="add"})
+	button.acquire()
 	local pokedata = {species="", level=1, nature="", moves={"", "", "", ""},
 	attributes={
 		total={STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0},

@@ -96,24 +96,25 @@ function M.add(pokemon)
 end
 
 function M.save()
-	local profile = profiles.get_active()
-	defsave.set(profile, "storage", M.storage)
-	defsave.set(profile, "active", M.active)
-	defsave.set(profile, "counter", M.counter)
-	defsave.save(profile)
+	if profiles.get_active() then
+		local profile = profiles.get_active_file_name()
+		defsave.set(profile, "storage", M.storage)
+		defsave.set(profile, "active", M.active)
+		defsave.set(profile, "counter", M.counter)
+		defsave.save(profile)
+	end
 end
 
 function M.init()
-	local profile = profiles.get_active()
-	local loaded = defsave.load(profile, {
-		storage = {},
-		active = {},
-		counter = 0
-	})
+	local profile = profiles.get_active_file_name()
+	local loaded = defsave.load(profile)
 	if loaded then
 		M.storage = defsave.get(profile, "storage")
 		M.active = defsave.get(profile, "active")
 		M.counter = defsave.get(profile, "counter")
+		if not next(M.storage) then
+			M.counter = 0
+		end
 		update_pokemon_data(M.storage)
 		update_pokemon_data(M.active)
 	end
