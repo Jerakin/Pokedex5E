@@ -91,6 +91,9 @@ function M.add(pokemon)
 	pokemon.caught_at_level = pokemon.level
 	local id = get_id(pokemon)
 	local poke = _pokemon.new(pokemon, id)
+
+	profiles.update(profiles.get_active(), {caught=M.counter})
+
 	M.storage[id] = poke
 	M.save()
 end
@@ -112,7 +115,7 @@ function M.init()
 		M.storage = defsave.get(profile, "storage")
 		M.active = defsave.get(profile, "active")
 		M.counter = defsave.get(profile, "counter")
-		if not next(M.storage) then
+		if not next(M.counter) then
 			M.counter = 0
 		end
 		update_pokemon_data(M.storage)

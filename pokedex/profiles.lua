@@ -20,11 +20,9 @@ function M.add(profile_name, slot)
 	return slot
 end
 
-function M.update(profile_name, data)
-	for _, profile in pairs(profiles) do
-		if profile.name == profile_name then
-			profile.caught = data.caught
-		end
+function M.update(slot, data)
+	for key, value in pairs(data) do
+		profiles[slot][key] = value
 	end
 end
 
