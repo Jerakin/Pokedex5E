@@ -5,6 +5,7 @@ local monarch = require "monarch.monarch"
 local storage = require "pokedex.storage"
 local pokedex = require "pokedex.pokedex"
 local url = require "utils.url"
+local transitions = require "utils.transitions"
 
 HAVE_EVOLVED = false
 
@@ -13,6 +14,8 @@ function init(self)
 		local nature_node = gui.get_node("nature")
 		gui.set_text(nature_node, "Nature: " .. self.pokemon.nature)
 	end
+	self.transition = transitions.default(gui.get_node("root"))
+	
 	msg.post(url.SWITCHER, "activate", {screen="add"})
 	button.acquire()
 	local pokedata = {species="", level=1, nature="", moves={"", "", "", ""},
@@ -57,4 +60,5 @@ end
 function on_input(self, action_id, action)
 	button.on_input(action_id, action)
 	pokemon_edit.on_input(self, action_id, action)
+	transitions.on_message(self.transition, message_id, message, sender)
 end

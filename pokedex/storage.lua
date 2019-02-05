@@ -115,7 +115,7 @@ function M.init()
 		M.storage = defsave.get(profile, "storage")
 		M.active = defsave.get(profile, "active")
 		M.counter = defsave.get(profile, "counter")
-		if not next(M.counter) then
+		if not type(M.counter) == "number" then
 			M.counter = 0
 		end
 		update_pokemon_data(M.storage)
