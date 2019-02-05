@@ -96,6 +96,7 @@ function M.add(pokemon)
 
 	M.storage[id] = poke
 	M.save()
+	profiles.save()
 end
 
 function M.save()
