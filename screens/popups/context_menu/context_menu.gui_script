@@ -27,6 +27,7 @@ end
 
 function init(self)
 	button.acquire()
+	gui.set_render_order(15)
 	local d = monarch.data("context_menu")
 	sender = d.sender
 	self.list_items = utils.shallow_copy(d.items)

@@ -80,6 +80,11 @@ function M.set_current_hp(id, hp)
 	return p.current_hp
 end
 
+function M.release_pokemon(id)
+	M.storage[id] = nil
+	M.active[id] = nil
+end
+
 function M.add(pokemon)
 	for i=#pokemon.moves, 1, -1 do
 		if pokemon.moves[i] == "" or pokemon.moves[i] == "None" then
