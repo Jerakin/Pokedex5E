@@ -151,18 +151,17 @@ end
 -- @return true if input a registerd node received input
 function M.on_input(action_id, action)
 	if action_id == M.TOUCH or action_id == M.MULTI_TOUCH then
-		local registered_node
 		if action.pressed then
-			registered_node = find_registered_node(action.x, action.y)
+			local registered_node = find_registered_node(action.x, action.y)
 			if registered_node then
 				registered_node.pressed = true
 				registered_node.pressed_time = socket.gettime()
 				return true
 			end
 		elseif action.released then
-			registered_node = find_registered_node(action.x, action.y)
+			local registered_node = find_registered_node(action.x, action.y)
 			local pressed = registered_node and registered_node.pressed
-			local time = socket.gettime() - (registered_node.pressed_time or 0)
+			local time = registered_node and socket.gettime() - (registered_node.pressed_time or 0) or 0
 			local url = msg.url()
 			for _,registered_node in pairs(registered_nodes) do
 				if registered_node.url == url then
