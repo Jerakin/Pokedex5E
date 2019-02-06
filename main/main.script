@@ -20,7 +20,12 @@ function init(self)
 	msg.post("/debug", "acquire_input_focus")
 	
 	msg.post("#", "show_first_screen")
-	defos.set_window_size(0, 0, 570, 1024)
+
+	local system = sys.get_sys_info().system_name
+	if system == "Windows" then
+		defos.set_window_size(0, 0, 570, 1024)
+	end
+	
 	defsave.appname = "pokedex5E"
 	defsave.use_default_data = false
 	profiles.init()

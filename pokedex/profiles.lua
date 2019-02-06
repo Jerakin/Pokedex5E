@@ -31,7 +31,12 @@ function M.delete(slot)
 end
 
 function M.is_new_game()
-	return not next(profiles)
+	if profiles then
+		if next(profiles) then
+			return false
+		end
+	end
+	return true
 end
 
 function M.get_all_profiles()
