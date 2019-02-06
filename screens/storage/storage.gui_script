@@ -7,6 +7,7 @@ local gesture = require "utils.gesture"
 local url = require "utils.url"
 local profiles = require "pokedex.profiles"
 local transitions = require "utils.transitions"
+local screeninfo = require "utils.screeninfo"
 
 local STORAGE_ROWS = 4
 local STORAGE_COLUMNS = 2
@@ -24,6 +25,8 @@ local selected_inventory = {}
 local max_move = 0
 local pokemon_long_pressed
 local touch = vmath.vector3()
+
+local context_x = screeninfo.get_window_width() * 0.5
 
 local function toggle_inventory(id)
 	if selected_inventory[id] then
@@ -82,8 +85,9 @@ local function toggle_storage(item)
 	end
 end
 
-local function context_menu(position)
-	monarch.show("context_menu", nil, {position = position, sender=msg.url(), items={"Release"}})
+local function context_menu(position, sender_data)
+	position.x = context_x
+	monarch.show("context_menu", nil, {position = position, sender=msg.url(), items={"Release"}, sender_data=sender_data})
 end
 
 local function update_listitem(list, item)
@@ -120,9 +124,9 @@ end
 local function on_item_selected(list)
 	for i,item in ipairs(list.items) do
 		if item.index == list.selected_item then
-			if list.long_pressed then
+			if list.long_pressed and item.data ~= "" then
 				pokemon_long_pressed = item.data
-				context_menu(touch)
+				context_menu(touch, item.data)
 			else
 				toggle_storage(item)
 			end
@@ -172,8 +176,10 @@ end
 function on_message(self, message_id, message, sender)
 	transitions.on_message(self.transition, message_id, message, sender)
 	if message_id == hash("context_menu") then
-		storage.release_pokemon(pokemon_long_pressed)
-		self.list_items = storage.list_of_ids_in_storage()
-		update_list(gooey.dynamic_list("storage_pokemon", "storage", "storage_pokemon/root", self.list_items))
+		if message.item == "Release" then
+			storage.release_pokemon(message.sender_data)
+			self.list_items = storage.list_of_ids_in_storage()
+			update_list(gooey.dynamic_list("storage_pokemon", "storage", "storage_pokemon/root", self.list_items))
+		end
 	end
 end

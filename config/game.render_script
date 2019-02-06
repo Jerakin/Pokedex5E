@@ -1,3 +1,4 @@
+local screeninfo = require "utils.screeninfo"
 --
 -- projection that centers content with maintained aspect ratio and optional zoom
 --
@@ -27,6 +28,7 @@ local function stretch_projection(near, far)
 end
 
 function init(self)
+    screeninfo.init(render.get_window_width(), render.get_window_height())
     self.tile_pred = render.predicate({"tile"})
     self.gui_pred = render.predicate({"gui"})
     self.text_pred = render.predicate({"text"})

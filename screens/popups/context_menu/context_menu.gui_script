@@ -5,6 +5,8 @@ local utils = require "utils.utils"
 
 local selected_item
 local sender
+local item_was_clicked = false
+local sender_data
 
 local function update_listitem(list, item)
 	gui.set_text(item.nodes["txt_item"], tostring(item.data or "-"))
@@ -18,8 +20,8 @@ end
 
 local function on_item_selected(list)
 	for i,item in ipairs(list.items) do
-		if item.index == list.selected_item then
-			msg.post(sender, "context_menu", {item=item.data})
+		if item.index == list.selected_item and item.data ~= "" then
+			msg.post(sender, "context_menu", {item=item.data, sender_data=sender_data})
 			monarch.back()
 		end
 	end
@@ -30,6 +32,7 @@ function init(self)
 	gui.set_render_order(15)
 	local d = monarch.data("context_menu")
 	sender = d.sender
+	sender_data = d.sender_data
 	self.list_items = utils.shallow_copy(d.items)
 	gui.set_position(gui.get_node("root"), d.position)
 	update_list(gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.list_items))
@@ -41,10 +44,9 @@ end
 
 
 function on_input(self, action_id, action)
-	if next(self.list_items) ~= nil then
-		gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.list_items, action_id, action, on_item_selected, update_list)
-	end
-	if action.released and not gui.pick_node(gui.get_node("scroll_area"), action.x, action.y) then
+	local l = gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.list_items, action_id, action, on_item_selected, update_list)
+
+	if action.released and not l.pressed then
 		monarch.back()
 	end
 end

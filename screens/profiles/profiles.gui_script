@@ -30,7 +30,7 @@ function init(self)
 	for i=1, 3 do
 		if _profiles[i] then
 			gui.set_text(gui.get_node("trainer_name_" .. i), _profiles[i].name)
-			gui.set_text(gui.get_node("trainer_stats_" .. i), " caught: " ..  _profiles[i].caught - _profiles[i].released)
+			gui.set_text(gui.get_node("trainer_stats_" .. i), " Own: " .. _profiles[i].caught - _profiles[i].released)
 		end
 		button.register("btn_slot_" .. i, function()
 			activate(_profiles[i], i)
