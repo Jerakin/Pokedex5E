@@ -30,6 +30,7 @@
 local M = {}
 
 M.TOUCH = hash("touch")
+M.MULTI_TOUCH = hash("multitouch")
 
 local EMPTY_HASH = hash("")
 
@@ -148,7 +149,7 @@ end
 -- @param action
 -- @return true if input a registerd node received input
 function M.on_input(action_id, action)
-	if action_id == M.TOUCH then
+	if action_id == M.TOUCH or action_id == M.MULTI_TOUCH then
 		if action.pressed then
 			local registered_node = find_registered_node(action.x, action.y)
 			if registered_node then
