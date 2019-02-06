@@ -1,6 +1,8 @@
 local button = require "utils.button"
 local monarch = require "monarch.monarch"
 local profiles = require "pokedex.profiles"
+local storage = require "pokedex.storage"
+
 local url = require "utils.url"
 local transitions = require "utils.transitions"
 
@@ -11,6 +13,7 @@ end
 local function activate(profile, slot)
 	if profile then
 		profiles.set_active(slot)
+		storage.load()
 		monarch.show("party", {clear=true})
 	else
 		monarch.show("pick_name", nil, {sender=msg.url(), slot=slot})

@@ -7,9 +7,9 @@ local profiles = require "pokedex.profiles"
 
 local M = {}
 
-M.storage = {}
-M.active = {}
-M.counter = 0
+local storage = {}
+local active = {}
+local counters = {}
 
 
 local function get_id(pokemon)
@@ -38,19 +38,19 @@ local function update_pokemon_data(data)
 end
 
 function M.list_of_ids_in_storage()
-	return getKeysSortedByValue(M.storage, function(a, b) return a.species < b.species end)
+	return getKeysSortedByValue(storage, function(a, b) return a.species < b.species end)
 end
 
 function M.list_of_ids_in_inventory()
-	return getKeysSortedByValue(M.active, function(a, b) return a.species < b.species end)
+	return getKeysSortedByValue(active, function(a, b) return a.species < b.species end)
 end
 
 function M.get_copy(id)
-	return utils.deep_copy(M.storage[id] and M.storage[id] or M.active[id])
+	return utils.deep_copy(storage[id] and storage[id] or active[id])
 end
 
 local function get(id)
-	return M.storage[id] and M.storage[id] or M.active[id]
+	return storage[id] and storage[id] or active[id]
 end
 
 function M.edit(id, pokemon_data)
@@ -81,8 +81,8 @@ function M.set_current_hp(id, hp)
 end
 
 function M.release_pokemon(id)
-	M.storage[id] = nil
-	M.active[id] = nil
+	storage[id] = nil
+	active[id] = nil
 end
 
 function M.add(pokemon)
@@ -91,17 +91,17 @@ function M.add(pokemon)
 			table.remove(pokemon.moves, i)
 		end
 	end
-	M.counter = M.counter + 1
-	pokemon.number = M.counter
+	counters.caught = next(counters) ~= nil and counters.caught + 1 or 1
+	pokemon.number = counters.caught
 	pokemon.caught_at_level = pokemon.level
 	local id = get_id(pokemon)
 	local poke = _pokemon.new(pokemon, id)
 
-	profiles.update(profiles.get_active(), {caught=M.counter})
+	profiles.update(profiles.get_active(), {caught=counters.caught })
 	if M.party_is_full() then
-		M.storage[id] = poke
+		storage[id] = poke
 	else
-		M.active[id] = poke
+		active[id] = poke
 	end
 	M.save()
 	profiles.save()
@@ -110,38 +110,44 @@ end
 function M.save()
 	if profiles.get_active() then
 		local profile = profiles.get_active_file_name()
-		defsave.set(profile, "storage", M.storage)
-		defsave.set(profile, "active", M.active)
-		defsave.set(profile, "counter", M.counter)
+		defsave.set(profile, "storage", storage)
+		defsave.set(profile, "active", active)
+		defsave.set(profile, "counter", counters)
+		
+		-- Default counters
+		if next(counters) == nil then
+			counters = {caught=0, released=0, seen=0}
+		end
 		defsave.save(profile)
 	end
 end
 
-function M.init()
+function M.load()
 	local profile = profiles.get_active_file_name()
 	local loaded = defsave.load(profile)
 	if loaded then
-		M.storage = defsave.get(profile, "storage")
-		M.active = defsave.get(profile, "active")
-		M.counter = defsave.get(profile, "counter")
-		if type(M.counter) ~= "number" then
-			M.counter = 0
-		end
-		update_pokemon_data(M.storage)
-		update_pokemon_data(M.active)
+		storage = defsave.get(profile, "storage")
+		active = defsave.get(profile, "active")
+		counters = defsave.get(profile, "counter")
 	end
 end
 
+function M.init()
+	M.load()
+	update_pokemon_data(storage)
+	update_pokemon_data(active)
+end
+
 function M.move_to_storage(id)
-	local pokemon = utils.deep_copy(M.active[id])
-	M.storage[id] = pokemon
-	M.active[id] = nil
+	local pokemon = utils.deep_copy(active[id])
+	storage[id] = pokemon
+	active[id] = nil
 	M.save()
 end
 
 function M.party_is_full()
 	local counter = 0
-	for _, _ in pairs(M.active) do
+	for _, _ in pairs(active) do
 		counter = counter + 1
 	end
 	return counter >= 6
@@ -149,13 +155,13 @@ end
 
 function M.move_to_inventory(id)
 	local index = 0
-	for _, _ in pairs(M.active) do
+	for _, _ in pairs(active) do
 		index = index + 1
 	end
 	assert(index < 6, "Your party is full")
-	local pokemon = utils.deep_copy(M.storage[id])
-	M.active[id] = pokemon
-	M.storage[id] = nil
+	local pokemon = utils.deep_copy(storage[id])
+	active[id] = pokemon
+	storage[id] = nil
 	M.save()
 end
 
