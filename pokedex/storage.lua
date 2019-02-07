@@ -11,6 +11,7 @@ local storage = {}
 local active = {}
 local counters = {}
 
+local initialized = false
 
 local function get_id(pokemon)
 	local m = md5.new()
@@ -135,9 +136,12 @@ function M.load(profile)
 end
 
 function M.init()
-	M.load(profiles.get_active())
-	update_pokemon_data(storage)
-	update_pokemon_data(active)
+	if not initialized then
+		M.load(profiles.get_active())
+		update_pokemon_data(storage)
+		update_pokemon_data(active)
+	end
+	initialized = true
 end
 
 function M.move_to_storage(id)
