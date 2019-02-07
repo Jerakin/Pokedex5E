@@ -2,6 +2,7 @@ local button = require "utils.button"
 local monarch = require "monarch.monarch"
 
 function init(self)
+	gui.set_text(gui.get_node("version_number"), sys.get_config("project.version"))
 	button.acquire()
 end
 
