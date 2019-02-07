@@ -20,7 +20,6 @@ end
 
 function M.save()
 	local data = collect()
-	defsave.load(filename)
 	defsave.set(filename, "data", data)
 	defsave.save(filename)
 end
