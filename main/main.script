@@ -6,7 +6,6 @@ local pokedex = require "pokedex.pokedex"
 local pokemon = require "pokedex.pokemon"
 local storage = require "pokedex.storage"
 local profiles = require "pokedex.profiles"
-local backwards = require "utils.backwards"
 local flow = require "utils.flow"
 
 
@@ -29,7 +28,6 @@ function init(self)
 	defsave.appname = "pokedex5E"
 	defsave.use_default_data = false
 	profiles.init()
-	backwards.convert()
 	flow.start(function()
 		flow.until_true(function()
 			return not profiles.is_new_game() and profiles.get_active_slot()

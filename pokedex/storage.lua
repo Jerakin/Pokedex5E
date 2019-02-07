@@ -38,12 +38,6 @@ local function update_pokemon_data(data)
 	end
 end
 
-function M._overwrite_counters(_counters)
-	for key, value in pairs(_counters) do
-		counters[key] = value
-	end
-end
-
 function M.list_of_ids_in_storage()
 	return getKeysSortedByValue(storage, function(a, b) return a.species < b.species end)
 end
