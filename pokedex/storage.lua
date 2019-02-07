@@ -129,15 +129,15 @@ end
 
 function M.load(profile)
 	local file_name = profile.file_name
-	local loaded = defsave.load(file_name)
-	if loaded then
-		storage = defsave.get(file_name, "storage")
-		active = defsave.get(file_name, "active")
-		counters = defsave.get(file_name, "counters")
-		-- Default counters
-		if next(counters) == nil then
-			counters = {caught=0, released=0, seen=0}
-		end
+	if not defsave.is_loaded(file_name) then
+		local loaded = defsave.load(file_name)
+	end
+	storage = defsave.get(file_name, "storage")
+	active = defsave.get(file_name, "active")
+	counters = defsave.get(file_name, "counters")
+	-- Default counters
+	if next(counters) == nil then
+		counters = {caught=0, released=0, seen=0}
 	end
 end
 
