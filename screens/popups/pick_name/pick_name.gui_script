@@ -3,6 +3,7 @@ local monarch = require "monarch.monarch"
 local gooey = require "gooey.gooey"
 local profiles = require "pokedex.profiles"
 local transitions = require "utils.transitions"
+local storage = require "pokedex.storage"
 
 local function refresh_input(self, input, node_id)
 	if not input.empty and not input.text:sub(-1):match("[%a%d]") then
@@ -42,6 +43,7 @@ function init(self)
 		end
 		local profile = profiles.add(name, slot)
 		profiles.set_active(profile.slot)
+		storage.load(profiles.get_active())
 		monarch.show("add", {clear=true})
 	end)
 	
