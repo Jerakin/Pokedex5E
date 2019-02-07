@@ -180,7 +180,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 850.0
+    y: 639.0
     z: 0.0
     w: 1.0
   }
@@ -203,6 +203,61 @@ nodes {
     w: 1.0
   }
   color {
+    x: 0.9019608
+    y: 0.9019608
+    z: 0.9019608
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/border_frame_1_bg"
+  id: "bg_3"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 30.0
+    y: 30.0
+    z: 30.0
+    w: 30.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 800.0
+    y: 200.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
     x: 1.0
     y: 1.0
     z: 1.0
@@ -211,12 +266,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/border_frame_1"
-  id: "btn_slot_1"
+  id: "btn_slot_3"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "bg_3"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -267,7 +322,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Empty"
   font: "script"
-  id: "trainer_name_1"
+  id: "trainer_name_3"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -285,7 +340,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "btn_slot_1"
+  parent: "btn_slot_3"
   layer: ""
   inherit_alpha: false
   alpha: 1.0
@@ -330,7 +385,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "caught: 0"
   font: "script"
-  id: "trainer_stats_1"
+  id: "trainer_stats_3"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -348,7 +403,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "btn_slot_1"
+  parent: "btn_slot_3"
   layer: ""
   inherit_alpha: false
   alpha: 1.0
@@ -392,12 +447,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/stop"
-  id: "btn_delete_1"
+  id: "btn_delete_3"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "btn_slot_1"
+  parent: "btn_slot_3"
   layer: ""
   inherit_alpha: false
   slice9 {
@@ -446,13 +501,68 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/border_frame_1_bg"
+  id: "bg_2"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 30.0
+    y: 30.0
+    z: 30.0
+    w: 30.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 800.0
+    y: 200.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
   texture: "gui/border_frame_1"
   id: "btn_slot_2"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "bg_2"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -652,7 +762,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 639.0
+    y: 850.0
     z: 0.0
     w: 1.0
   }
@@ -682,13 +792,68 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/border_frame_1"
-  id: "btn_slot_3"
+  texture: "gui/border_frame_1_bg"
+  id: "bg_1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 30.0
+    y: 30.0
+    z: 30.0
+    w: 30.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 800.0
+    y: 200.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/border_frame_1"
+  id: "btn_slot_1"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "bg_1"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -739,7 +904,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Empty"
   font: "script"
-  id: "trainer_name_3"
+  id: "trainer_name_1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -757,7 +922,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "btn_slot_3"
+  parent: "btn_slot_1"
   layer: ""
   inherit_alpha: false
   alpha: 1.0
@@ -802,7 +967,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "caught: 0"
   font: "script"
-  id: "trainer_stats_3"
+  id: "trainer_stats_1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -820,7 +985,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "btn_slot_3"
+  parent: "btn_slot_1"
   layer: ""
   inherit_alpha: false
   alpha: 1.0
@@ -864,12 +1029,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/stop"
-  id: "btn_delete_3"
+  id: "btn_delete_1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "btn_slot_3"
+  parent: "btn_slot_1"
   layer: ""
   inherit_alpha: false
   slice9 {
