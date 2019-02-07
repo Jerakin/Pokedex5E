@@ -2,6 +2,7 @@ local file = require "utils.file"
 
 local M = {}
 
+local initialized = false
 
 local function list()
 	local temp_list = {}
@@ -36,8 +37,11 @@ function M.get_nature_attributes(nature)
 end
 
 function M.init()
-	M.natures = file.load_json_from_resource("/assets/datafiles/natures.json")
-	M.list, M.total = list()
+	if not initialized then
+		M.natures = file.load_json_from_resource("/assets/datafiles/natures.json")
+		M.list, M.total = list()
+		initialized = true
+	end
 end
 
 

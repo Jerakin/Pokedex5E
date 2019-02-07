@@ -6,13 +6,17 @@ local utils = require "utils.utils"
 local M = {}
 
 local level_data
+local initialized = false
 
 function M.level_data(level)
 	return level_data[tostring(level)]
 end
 
 function M.init()
-	level_data = file.load_json_from_resource("/assets/datafiles/leveling.json")
+	if not initialized then
+		level_data = file.load_json_from_resource("/assets/datafiles/leveling.json")
+		initialized = true
+	end
 end
 
 local STATS = {"STR", "DEX", "CON", "INT", "WIS", "CHA"}

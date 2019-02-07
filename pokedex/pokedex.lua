@@ -7,18 +7,21 @@ local pokedex
 local abilities
 local movedata
 local evolvedata
-
+local initialized = false
 local function list()
 	local ordered = file.load_json_from_resource("/assets/datafiles/pokemon_order.json")
 	return ordered.number, #ordered
 end
 
 function M.init()
-	pokedex = file.load_json_from_resource("/assets/datafiles/pokemon.json")
-	abilities = file.load_json_from_resource("/assets/datafiles/abilities.json")
-	movedata = file.load_json_from_resource("/assets/datafiles/moves.json")
-	evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
-	M.list, M.total = list()
+	if not initialized then
+		pokedex = file.load_json_from_resource("/assets/datafiles/pokemon.json")
+		abilities = file.load_json_from_resource("/assets/datafiles/abilities.json")
+		movedata = file.load_json_from_resource("/assets/datafiles/moves.json")
+		evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
+		M.list, M.total = list()
+		initialized = true
+	end
 end
 
 function M.get_ability_description(ability)

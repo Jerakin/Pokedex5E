@@ -38,6 +38,12 @@ local function update_pokemon_data(data)
 	end
 end
 
+function M._overwrite_counters(_counters)
+	for key, value in pairs(_counters) do
+		counters[key] = value
+	end
+end
+
 function M.list_of_ids_in_storage()
 	return getKeysSortedByValue(storage, function(a, b) return a.species < b.species end)
 end
@@ -140,8 +146,8 @@ function M.init()
 		M.load(profiles.get_active())
 		update_pokemon_data(storage)
 		update_pokemon_data(active)
+		initialized = true
 	end
-	initialized = true
 end
 
 function M.move_to_storage(id)
