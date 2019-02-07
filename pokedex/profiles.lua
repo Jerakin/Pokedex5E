@@ -3,7 +3,7 @@ local defsave = require "defsave.defsave"
 local md5 = require "utils.md5"
 local M = {}
 
-local profiles
+local profiles = {}
 local active_slot
 
 local function generate_id()
@@ -14,10 +14,10 @@ end
 
 function M.add(profile_name, slot)
 	slot = slot or 1
-	local profile = {name=profile_name, seen=0, caught=0, released=0, file_name=profile_name .. generate_id()}
+	local profile = {slot=slot, name=profile_name, seen=0, caught=0, released=0, file_name=profile_name .. generate_id()}
 	profiles[slot] = profile
 	M.save()
-	return slot
+	return profile
 end
 
 function M.update(slot, data)
@@ -54,6 +54,10 @@ function M.save()
 end
 
 function M.get_active()
+	return profiles[active_slot]
+end
+
+function M.get_active_slot()
 	return active_slot
 end
 

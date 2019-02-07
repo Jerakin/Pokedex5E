@@ -84,7 +84,7 @@ function M.release_pokemon(id)
 	storage[id] = nil
 	active[id] = nil
 	counters.released = next(counters) ~= nil and counters.released + 1 or 1
-	profiles.update(profiles.get_active(), counters)
+	profiles.update(profiles.get_active_slot(), counters)
 	M.save()
 end
 
@@ -100,7 +100,7 @@ function M.add(pokemon)
 	local id = get_id(pokemon)
 	local poke = _pokemon.new(pokemon, id)
 
-	profiles.update(profiles.get_active(), counters)
+	profiles.update(profiles.get_active_slot(), counters)
 	if M.party_is_full() then
 		storage[id] = poke
 	else
@@ -111,7 +111,7 @@ function M.add(pokemon)
 end
 
 function M.save()
-	if profiles.get_active() then
+	if profiles.get_active_slot() then
 		local profile = profiles.get_active_file_name()
 		defsave.set(profile, "storage", storage)
 		defsave.set(profile, "active", active)
@@ -120,13 +120,13 @@ function M.save()
 	end
 end
 
-function M.load()
-	local profile = profiles.get_active_file_name()
-	local loaded = defsave.load(profile)
+function M.load(profile)
+	local file_name = profile.file_name
+	local loaded = defsave.load(file_name)
 	if loaded then
-		storage = defsave.get(profile, "storage")
-		active = defsave.get(profile, "active")
-		counters = defsave.get(profile, "counters")
+		storage = defsave.get(file_name, "storage")
+		active = defsave.get(file_name, "active")
+		counters = defsave.get(file_name, "counters")
 		-- Default counters
 		if next(counters) == nil then
 			counters = {caught=0, released=0, seen=0}
@@ -135,7 +135,7 @@ function M.load()
 end
 
 function M.init()
-	M.load()
+	M.load(profiles.get_active())
 	update_pokemon_data(storage)
 	update_pokemon_data(active)
 end

@@ -72,7 +72,7 @@ function final(self)
 end
 
 function on_input(self, action_id, action)
-	if action_id == hash("touch") and profiles.get_active() == nil then
+	if action_id == hash("touch") and profiles.get_active_slot() == nil then
 		profiles_active(self)
 		monarch.show("profiles")
 		return true

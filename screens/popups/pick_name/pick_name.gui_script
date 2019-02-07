@@ -5,7 +5,7 @@ local profiles = require "pokedex.profiles"
 local transitions = require "utils.transitions"
 
 local function refresh_input(self, input, node_id)
-	if not input.empty and not input.text:sub(-1):match("%a") then
+	if not input.empty and not input.text:sub(-1):match("[%a%d]") then
 		input.text = input.text:sub(1, -2)
 	end
 
@@ -37,11 +37,11 @@ function init(self)
 	
 	button.register("btn_okay", function()
 		local name = gui.get_text(gui.get_node("name_text"))
-		if not name:sub(-1):match("%a") then
+		if not name:sub(-1):match("[%a%d]") then
 			name = name:sub(1, -2)
 		end
-		local _slot = profiles.add(name, slot)
-		profiles.set_active(_slot)
+		local profile = profiles.add(name, slot)
+		profiles.set_active(profile.slot)
 		monarch.show("add", {clear=true})
 	end)
 	
