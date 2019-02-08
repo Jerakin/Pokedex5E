@@ -117,7 +117,11 @@ function M.get_skills(pokemon)
 end
 
 function M.get_move_pp(pokemon, move)
-	return pokemon.moves[move]
+	return pokemon.moves[move].pp
+end
+
+function M.get_move_pp(pokemon, move)
+	return pokemon.moves[move].index
 end
 
 function M.get_vulnerabilities(pokemon)
@@ -219,8 +223,8 @@ function M.get_move_data(pokemon, move_name)
 	move_data.damage = dmg
 	move_data.stab = stab
 	move_data.name = move_name
-	move_data.type =  move.Type
-	move_data.PP =  move.PP
+	move_data.type = move.Type
+	move_data.PP = move.PP
 	move_data.duration = move.Duration
 	move_data.range = move.Range
 	move_data.description = move.Description

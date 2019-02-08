@@ -37,9 +37,10 @@ local function setup_moves(self, nodes, pokemon)
 		return n
 	end
 
-	for name, current_pp in pairs(_pokemon.get_moves(pokemon)) do
+	for name, move in pairs(_pokemon.get_moves(pokemon)) do
+		local current_pp = move.pp
+		index = move.index
 		local move_data = _pokemon.get_move_data(pokemon, name)
-		index = index + 1
 		local pp_node = _get_node("/pp")
 		button.register(_get_node("/btn_decease_pp"), function()
 			_pokemon.decrease_move_pp(pokemon, name)

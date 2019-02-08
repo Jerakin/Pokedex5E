@@ -190,7 +190,7 @@ function M.on_message(self, message_id, message, sender)
 			for i=1, 4 do
 				if starting_moves[i] then
 					local pp = pokedex.get_move_pp(starting_moves[i])
-					moves[starting_moves[i]] = pp
+					moves[starting_moves[i]] = {pp=pp, index=i}
 				end
 			end 
 			self.pokemon.moves = moves
@@ -203,7 +203,7 @@ function M.on_message(self, message_id, message, sender)
 			local old_move = gui.get_text(n)
 			self.pokemon.moves[old_move] = nil
 			local pp = pokedex.get_move_pp(message.item)
-			self.pokemon.moves[message.item] = pp
+			self.pokemon.moves[message.item] = {pp=pp, index=self.move_button_index}
 			gui.set_text(n, message.item)
 		end
 		redraw(self)
