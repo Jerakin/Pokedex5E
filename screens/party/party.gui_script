@@ -37,22 +37,22 @@ local function setup_moves(self, nodes, pokemon)
 		return n
 	end
 
-	for name, current_pp in pairs(pokemon.moves) do
+	for name, current_pp in pairs(_pokemon.get_moves(pokemon)) do
 		local move_data = _pokemon.get_move_data(pokemon, name)
 		index = index + 1
 		local pp_node = _get_node("/pp")
 		button.register(_get_node("/btn_decease_pp"), function()
-			local pp = storage.decrease_move_pp(pokemon.id, name)
-			gui.set_text(pp_node, "PP: " .. pp)
+			_pokemon.decrease_move_pp(pokemon, name)
+			gui.set_text(pp_node, "PP: " .. _pokemon.get_move_pp(pokemon, name))
 		end)
 
 		button.register(_get_node("/btn_reset_pp"), function()
-			local pp = storage.reset_move_pp(pokemon.id, name)
-			gui.set_text(pp_node, "PP: " .. pp)
+			_pokemon.reset_move_pp(pokemon, name)
+			gui.set_text(pp_node, "PP: " .. _pokemon.get_move_pp(pokemon, name))
 		end)
 		
 		button.register(_get_node("/name"), function()
-			show_description(data.description)
+			show_description(move_data.description)
 		end)
 		
 		gui.set_text(_get_node("/action"), move_data.time)
@@ -152,22 +152,21 @@ end
 local function setup_page(self, nodes, pokemon)
 	button.register(nodes["pokemon/btn_hp_current"], function()
 		local current =_pokemon.get_current_hp(pokemon)
-		local hp = storage.set_current_hp(pokemon.id, current-1)
-		--pokemon.current_hp = hp
-		update_hp(self, nodes, pokemon, hp)
+		_pokemon.set_current_hp(pokemon, current-1)
+		update_hp(self, nodes, pokemon)
 	end)
 	button.register(nodes["pokemon/btn_hp"], function()
-		local hp = storage.set_current_hp(pokemon.id, current+1)
-		--pokemon.current_hp = hp
-		update_hp(self, nodes, pokemon, hp)
+		local current =_pokemon.get_current_hp(pokemon)
+		_pokemon.set_current_hp(pokemon, current+1)
+		update_hp(self, nodes, pokemon)
 	end)
 	
-	gui.set_text(nodes["pokemon/species"], _pokemon.get_caught_species(pokemon))
+	gui.set_text(nodes["pokemon/species"], _pokemon.get_current_species(pokemon))
 	gui.set_text(nodes["pokemon/level"], "lvl: " ..  _pokemon.get_current_level(pokemon))
 	gui.set_text(nodes["pokemon/nature"], _pokemon.get_nature(pokemon))
 	gui.set_text(nodes["pokemon/ac"], "AC: " .. _pokemon.get_AC(pokemon))
 
-	update_hp(self, nodes, pokemon, pokemon.current_hp)
+	update_hp(self, nodes, pokemon)
 	local pos = vmath.vector3()
 	local vul = nodes["pokemon/vulnerabilities"]
 	local imm = nodes["pokemon/immunities"]
@@ -220,7 +219,6 @@ function init(self)
 	self.pokemons_list = {}
 	self.pokemon_index = 0
 	self.transition = transitions.default(gui.get_node("root"))
-	gui.set_text(gui.get_node("pokemon/move_1/name"), "NAME")
 	msg.post(url.SWITCHER, "activate", {screen="party"})
 	button.register("btn_edit", function()
 		monarch.show("edit", {}, {id=self.pokemons_list[self.pokemon_index+1].pokemon_id})

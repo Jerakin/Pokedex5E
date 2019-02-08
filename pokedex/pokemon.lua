@@ -1,6 +1,7 @@
 local utils = require "utils.utils"
 local pokedex = require "pokedex.pokedex"
 local natures = require "pokedex.natures"
+local storage = require "pokedex.storage"
 local M = {}
 
 
@@ -18,16 +19,18 @@ local M = {}
 
 local function add_tables(T1, T2)
 	local copy = utils.shallow_copy(T1)
-	for k,v in pairs(T2) do 
-		copy[k] = copy[k] + v
+	for k,v in pairs(T2) do
+		if copy[k] then
+			copy[k] = copy[k] + v
+		end
 	end
 	return copy
 end
 
 function M.get_attributes(pokemon)
 	local b = pokedex.get_base_attributes(M.get_caught_species(pokemon))
+	local a = M.get_increased_attributes(pokemon) or {}
 	local n = natures.get_nature_attributes(M.get_nature(pokemon)) or {}
-	local a = pokemon.attributes.increased or {}
 	return add_tables(add_tables(b, n), a)
 end
 
@@ -41,19 +44,32 @@ function M.get_max_attributes(pokemon)
 	return t
 end
 
-function M.update(old_pokemon, new_pokemon)
-	return utils.merge(old_pokemon, old_pokemon)
+function M.get_increased_attributes(pokemon)
+	return pokemon.attributes.increased
 end
 
-function M.set_current_hp(pokemon)
+function M.update_increased_attributes(pokemon, increased)
+	local b = M.get_increased_attributes(pokemon)
+	local n = add_tables(b, increased)
+	pokemon.attributes.increased = n
+end
 
+function M.update(pokemon)
+	return storage.update(pokemon)
+end
+
+function M.set_current_hp(pokemon, hp)
+	pokemon.hp.current = hp
+	storage.set_current_hp(M.get_id(pokemon), hp)
 end
 
 function M.get_current_hp(pokemon)
 	return pokemon.hp.current
 end
 
-function M.set_max_hp(pokemon)
+function M.set_max_hp(pokemon, hp)
+	pokemon.hp.max = hp
+	storage.set_max_hp(M.get_id(pokemon), hp)
 end
 
 function M.get_max_hp(pokemon)
@@ -62,6 +78,10 @@ end
 
 function M.get_current_species(pokemon)
 	return pokemon.species.current
+end
+
+function M.set_species(pokemon, species)
+	pokemon.species.current = species
 end
 
 function M.get_caught_species(pokemon)
@@ -84,6 +104,10 @@ function M.get_nature(pokemon)
 	return pokemon.nature
 end
 
+function M.get_id(pokemon)
+	return pokemon.id
+end
+
 function M.get_type(pokemon)
 	return pokedex.get_pokemon_type(M.get_current_species(pokemon))
 end
@@ -97,22 +121,43 @@ function M.get_proficency_bonus(pokemon)
 end
 
 function M.get_abilities(pokemon)
-	return pokedex.get_abilities(M.get_current_species(pokemon))
+	return pokedex.get_abilities(M.get_current_species(pokemon)) or {}
 end
 
 function M.get_skills(pokemon)
-	return pokedex.get_skills(M.get_current_species(pokemon))
+	return pokedex.get_skills(M.get_current_species(pokemon)) or {}
 end
+
+function M.get_move_pp(pokemon, move)
+	return pokemon.moves[move]
+end
+
+function M.decrease_move_pp(pokemon, move)
+	local pp = math.max(M.get_move_pp(pokemon, move) - 1, 0)
+	storage.set_move_pp(M.get_id(pokemon), move, pp)
+	pokemon.moves[move] = pp
+end
+
+function M.reset_move_pp(pokemon, move)
+	local pp = pokedex.get_move_pp(move)
+	storage.set_move_pp(M.get_id(pokemon), move, pp)
+	pokemon.moves[move] = pp
+end
+
 
 function M.get_saving_throw_attributes(pokemon)
 	local prof = M.get_proficency_bonus(pokemon)
 	local b  = M.get_attributes(pokemon)
-	for _, st in pairs(pokedex.get_saving_throw_proficiencies(M.get_current_species(pokemon))) do
+	local st = pokedex.get_saving_throw_proficiencies(M.get_current_species(pokemon)) or {}
+	for _, st in pairs(st) do
 		b[st] = b[st] + prof
 	end
 	return b
 end
 
+function M.get_AC(pokemon)
+	return pokedex.get_AC(M.get_current_species(pokemon)) + natures.get_AC(M.get_nature(pokemon))
+end
 
 local function level_index(level)
 	if level > 17 then
@@ -187,10 +232,6 @@ function M.get_move_data(pokemon, move_name)
 	end
 
 	return move_data
-end
-
-function M.get_AC(pokemon)
-	return pokedex.get_AC(M.get_current_species(pokemon)) + natures.get_AC(M.get_nature(pokemon))
 end
 
 function M.new(data)

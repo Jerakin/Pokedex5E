@@ -2,7 +2,6 @@ local defsave = require "defsave.defsave"
 local json = require "defsave.json"
 local md5 = require "utils.md5"
 local utils = require "utils.utils"
-local _pokemon = require "pokedex.pokemon"
 local profiles = require "pokedex.profiles"
 
 local M = {}
@@ -32,12 +31,6 @@ local function getKeysSortedByValue(tbl, sortFunction)
 	return keys
 end
 
-local function update_pokemon_data(data)
-	for id, pokemon in pairs(data) do
-		_pokemon.update_pokemon(pokemon)
-	end
-end
-
 function M.list_of_ids_in_storage()
 	return getKeysSortedByValue(storage, function(a, b) return a.species.current < b.species.current end)
 end
@@ -54,31 +47,27 @@ local function get(id)
 	return storage[id] and storage[id] or active[id]
 end
 
-function M.edit(id, pokemon_data)
-	local p = get(id)
-	_pokemon.edit(p, pokemon_data)
+function M.update(pokemon)
+	local id = pokemon.id
+	if storage[id] then
+		storage[id] = pokemon
+	elseif active[id] then
+		active[id] = pokemon
+	end
 	M.save()
 end
 
-function M.decrease_move_pp(id, move)
+function M.set_move_pp(id, move, pp)
 	local p = get(id)
-	p.moves[move].current_pp = math.max(p.moves[move].current_pp - 1, 0)
+	p.moves[move] = pp
 	M.save()
-	return p.moves[move].current_pp
-end
-
-function M.reset_move_pp(id, move)
-	local p = get(id)
-	p.moves[move].current_pp = p.moves[move].PP
-	M.save()
-	return p.moves[move].current_pp
+	return p.moves[move]
 end
 
 function M.set_current_hp(id, hp)
 	local p = get(id)
-	p.current_hp = math.min(math.max(hp, 0), p.HP)
+	p.hp.current = hp
 	M.save()
-	return p.current_hp
 end
 
 function M.release_pokemon(id)

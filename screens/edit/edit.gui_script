@@ -8,52 +8,44 @@ local _pokemon = require "pokedex.pokemon"
 local url = require "utils.url"
 local transitions = require "utils.transitions"
 
-local HAVE_EVOLVED = false
-
 function init(self)
-	function self.redraw(self)
-		if not HAVE_EVOLVED and pokedex.can_evolve(self.pokemon.species) and pokedex.evolve_level(self.pokemon.species) <= self.pokemon.level and self.pokemon.min_level < self.pokemon.level then
-			gui.set_enabled(self.evolve_button, true)
-		else
-			gui.set_enabled(self.evolve_button, false)
-		end
-	end
+	self.have_evolved = false
 	self.transition = transitions.default(gui.get_node("root"))
 	msg.post(url.SWITCHER, "activate", {screen="party"})
 	button.acquire()
 	local pokemon_id = monarch.data("edit").id
 	local pokemon = storage.get_copy(pokemon_id)
 	pokemon_edit.init(self, pokemon)
+	self.level = _pokemon.get_current_level(pokemon)
 
-	local index = 0
-	for name, _ in pairs(_pokemon.get_moves(pokemon)) do
+	--[[local index = 0
+	for _, name in pairs(_pokemon.get_moves(pokemon)) do
 		index = index + 1
 		table.insert(self.pokemon.moves, name)
-	end
+	end--]]
 	
 	gui.set_text(gui.get_node("txt_current_level"), "Lv. " .. _pokemon.get_current_level(pokemon) .. "  ->")
 	
 	self.evolve_button = gui.get_node("btn_evolve")
-	
-	button.register(self.evolve_button, function()
-		self.state = 2
-		self.pokemon.moves = {}
-		local index = 0
-		for name, _ in pairs(pokemon.moves) do
-			index = index + 1
-			table.insert(self.pokemon.moves, name)
-		end
 
-		local evolve_into = pokedex.evolve_into(self.pokemon.species)
+	function self.redraw(self)
+		if not self.have_evolved and pokedex.can_evolve(_pokemon.get_current_species(pokemon)) and 
+		pokedex.evolve_level(_pokemon.get_current_species(pokemon)) <= self.level then
+			gui.set_enabled(self.evolve_button, true)
+		else
+			gui.set_enabled(self.evolve_button, false)
+		end
+	end
+
+	button.register(self.evolve_button, function()
+		self.pokemon.moves = _pokemon.get_moves(pokemon)
+		
+		local evolve_into = pokedex.evolve_into(_pokemon.get_current_species(pokemon))
 		if #evolve_into == 1 then
-			HAVE_EVOLVED = true
-			self.old_species = self.pokemon.species
-			self.ability_score_improvment = self.ability_score_improvment - pokedex.evolve_points(self.pokemon.species)
-			self.pokemon.species = evolve_into[1]
+			msg.post("#", "evolve", {item=evolve_into[1]})
 		else
 			gui.set_enabled(self.root, false)
-			gui.set_position(self.scrollist, vmath.vector3())
-			self.list_items = evolve_into
+			monarch.show("scrollist", {}, {items=evolve_into, message_id="evolve", sender=msg.url()})
 		end
 
 		gui.set_enabled(self.evolve_button, false)
@@ -61,8 +53,9 @@ function init(self)
 	end)
 
 	button.register("btn_edit", function()
-		self.pokemon.attributes.increased = self.increased_attributes
-		storage.edit(pokemon.id, self.pokemon)
+		_pokemon.update_increased_attributes(self.pokemon, self.increased_attributes)
+		self.pokemon.level.current = self.level
+		_pokemon.update(self.pokemon)
 		monarch.show("party", {clear=true})
 	end)
 	

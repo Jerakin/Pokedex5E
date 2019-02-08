@@ -23,12 +23,11 @@ function init(self)
 	pokemon_edit.init(self)
 	
 	button.register("btn_add", function()
-		if self.pokemon.nature ~= "" and self.pokemon.species ~= "" then
+		if self.pokemon.nature ~= "" and self.pokemon.species.current ~= "" then
 			self.pokemon.level.caught = self.level
 			self.pokemon.attributes.increased = self.increased_attributes
 			storage.add(self.pokemon)
-			self.pokemon = pokedata
-			pokemon_edit.redraw(self)
+			monarch.show("party", {clear=true})
 		end
 	end)
 

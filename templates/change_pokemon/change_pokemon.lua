@@ -46,9 +46,9 @@ local function redraw(self)
 
 	-- ASI
 	local max_improve_node = gui.get_node("asi/title")
-	local available_at_current_level = pokedex.level_data(self.level).ASI
-	local available_at_caught_level = pokedex.level_data(self.pokemon.level.caught).ASI
-	local available = (available_at_current_level - available_at_caught_level)  * 2
+	local available_at_level = pokedex.level_data(self.level).ASI
+	local available_at_current_level = pokedex.level_data(_pokemon.get_current_level(self.pokemon)).ASI
+	local available = (available_at_level - available_at_current_level)  * 2
 	gui.set_text(max_improve_node, "Available Points: " .. available - self.ability_score_improvment)
 
 	if self.redraw then self.redraw(self) end
@@ -78,19 +78,18 @@ local function decrease(self, stat)
 end
 
 local function pick_move(self)
-	if pokedex.is_pokemon(self.pokemon.species.current) then
-		--gui.set_enabled(self.root, false)
-		local available_moves = pokedex.get_pokemons_moves(self.pokemon.species.current, self.level)
-		for _, move in pairs(self.pokemon.moves) do
-			for i, selected_move in pairs(available_moves) do
-				if move == selected_move then
-					table.remove(available_moves, i)
-				end
+	gui.set_enabled(self.root, false)
+	local available_moves = pokedex.get_pokemons_moves(self.pokemon.species.current, self.level)
+	for move, _ in pairs(self.pokemon.moves) do
+		for i, selected_move in pairs(available_moves) do
+			if move == selected_move then
+				table.remove(available_moves, i)
 			end
 		end
-
-		monarch.show("scrollist", {}, {items=available_moves, message_id="move", sender=msg.url()})
 	end
+
+	monarch.show("scrollist", {}, {items=available_moves, message_id="move", sender=msg.url()})
+
 end
 
 function M.init(self, pokemon)
@@ -101,7 +100,6 @@ function M.init(self, pokemon)
 	self.level = 1
 	self.ability_score_improvment = 0
 	self.list_items = {}
-	self.state = 0
 	self.move_button_index = 0
 
 	self.root = gui.get_node("root")
@@ -185,11 +183,12 @@ end
 function M.on_message(self, message_id, message, sender)
 	if message.item then
 		if message_id == hash("nature") then
+			pprint(self.pokemon)
 			self.pokemon.nature = message.item
 			self.pokemon.attributes.nature = natures.get_nature_attributes(message.item)
 		elseif message_id == hash("species") then
 			self.pokemon = _pokemon.new({species=message.item})
-			self.level = self.pokemon.level.caught
+			self.level = self.pokemon.level.current
 			local starting_moves = pokedex.get_starting_moves(message.item)
 			local moves = {}
 			for i=1, 4 do
@@ -198,16 +197,22 @@ function M.on_message(self, message_id, message, sender)
 					moves[starting_moves[i]] = pp
 				end
 			end 
-			pprint(starting_moves)
 			self.pokemon.moves = moves
+		elseif message_id == hash("evolve") then
+			_pokemon.set_species(self.pokemon, message.item)
+			self.ability_score_improvment = self.ability_score_improvment - pokedex.evolve_points(message.item)
+			self.have_evolved = true
 		else
 			local n = gui.get_node("moves/move_" .. self.move_button_index)
-			self.pokemon.moves[self.move_button_index] = message.item
+			local old_move = gui.get_text(n)
+			self.pokemon.moves[old_move] = nil
+			local pp = pokedex.get_move_pp(message.item)
+			self.pokemon.moves[message.item] = pp
 			gui.set_text(n, message.item)
 		end
-		gui.set_enabled(self.root, true)
 		redraw(self)
 	end
+	gui.set_enabled(self.root, true)
 end
 
 function M.on_input(self, action_id, action)
