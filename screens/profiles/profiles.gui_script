@@ -32,7 +32,7 @@ local function activate(profile, slot)
 	if profile then
 		profiles.set_active(slot)
 		storage.load(profiles.get_active())
-		monarch.show("party", {clear=true})
+		monarch.show("add", {clear=true})
 	else
 		monarch.show("pick_name", nil, {sender=msg.url(), slot=slot})
 	end

@@ -4,6 +4,7 @@ local button = require "utils.button"
 local natures = require "pokedex.natures"
 local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
+local _pokemon = require "pokedex.pokemon"
 local url = require "utils.url"
 local transitions = require "utils.transitions"
 
@@ -25,12 +26,12 @@ function init(self)
 	pokemon_edit.init(self, pokemon)
 
 	local index = 0
-	for name, _ in pairs(pokemon.moves) do
+	for name, _ in pairs(_pokemon.get_moves(pokemon)) do
 		index = index + 1
 		table.insert(self.pokemon.moves, name)
 	end
 	
-	gui.set_text(gui.get_node("txt_current_level"), "Lv. " .. pokemon.level .. "  ->")
+	gui.set_text(gui.get_node("txt_current_level"), "Lv. " .. _pokemon.get_current_level(pokemon) .. "  ->")
 	
 	self.evolve_button = gui.get_node("btn_evolve")
 	

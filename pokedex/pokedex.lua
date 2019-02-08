@@ -7,6 +7,8 @@ local pokedex
 local abilities
 local movedata
 local evolvedata
+local leveldata
+
 local initialized = false
 local function list()
 	local ordered = file.load_json_from_resource("/assets/datafiles/pokemon_order.json")
@@ -19,19 +21,47 @@ function M.init()
 		abilities = file.load_json_from_resource("/assets/datafiles/abilities.json")
 		movedata = file.load_json_from_resource("/assets/datafiles/moves.json")
 		evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
+		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
 		M.list, M.total = list()
 		initialized = true
 	end
+end
+
+function M.level_data(level)
+	return leveldata[tostring(level)]
+end
+
+function M.get_pokemon_type(pokemon)
+	return M.get_pokemon(pokemon).Type
 end
 
 function M.get_ability_description(ability)
 	return abilities[ability].Description
 end
 
+function M.get_abilities(pokemon)
+	return M.get_pokemon(pokemon).Abilities
+end
+
+function M.get_skills(pokemon)
+	return M.get_pokemon(pokemon).Skill
+end
+
+function M.get_base_hp(pokemon)
+	return M.get_pokemon(pokemon).HP
+end
+
 function M.get_move_data(move)
 	return movedata[move]
 end
 
+function M.get_move_pp(move)
+	return movedata[move] and movedata[move].PP
+end
+
+function M.get_AC(pokemon)
+	return M.get_pokemon(pokemon).AC
+end
 function M.get_pokemon(pokemon)
 	return utils.shallow_copy(pokedex[pokemon])
 end
@@ -40,7 +70,7 @@ function M.is_pokemon(pokemon)
 	return pokedex[pokemon] and true or false
 end
 
-function M.minumum_level(pokemon)
+function M.get_minimum_wild_level(pokemon)
 	return M.get_pokemon(pokemon)["MIN LVL FD"]
 end
 
@@ -65,16 +95,11 @@ function M.get_starting_moves(pokemon)
 end
 
 function M.get_base_attributes(pokemon)
-	local attributes = {}
-	local pokemon = M.get_pokemon(pokemon)
-	attributes.STR = pokemon.STR
-	attributes.DEX = pokemon.DEX
-	attributes.CON = pokemon.CON
-	attributes.INT = pokemon.INT
-	attributes.WIS = pokemon.WIS
-	attributes.CHA = pokemon.CHA
-	attributes.AC = pokemon.AC
-	return attributes
+	return M.get_pokemon(pokemon).attributes
+end
+
+function M.get_saving_throw_proficiencies(pokemon)
+	return M.get_pokemon(pokemon).saving_throws
 end
 
 function M.get_pokemons_moves(pokemon, level)

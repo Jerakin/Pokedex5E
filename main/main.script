@@ -3,7 +3,6 @@ local defsave = require "defsave.defsave"
 
 local natures = require "pokedex.natures"
 local pokedex = require "pokedex.pokedex"
-local pokemon = require "pokedex.pokemon"
 local storage = require "pokedex.storage"
 local profiles = require "pokedex.profiles"
 local flow = require "utils.flow"
@@ -34,7 +33,6 @@ function init(self)
 		end)
 		natures.init()
 		pokedex.init()
-		pokemon.init()
 		storage.init()
 	end)
 end

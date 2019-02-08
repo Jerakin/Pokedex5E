@@ -39,11 +39,11 @@ local function update_pokemon_data(data)
 end
 
 function M.list_of_ids_in_storage()
-	return getKeysSortedByValue(storage, function(a, b) return a.species < b.species end)
+	return getKeysSortedByValue(storage, function(a, b) return a.species.current < b.species.current end)
 end
 
 function M.list_of_ids_in_inventory()
-	return getKeysSortedByValue(active, function(a, b) return a.species < b.species end)
+	return getKeysSortedByValue(active, function(a, b) return a.species.current < b.species.current end)
 end
 
 function M.get_copy(id)
@@ -97,15 +97,13 @@ function M.add(pokemon)
 	end
 	counters.caught = next(counters) ~= nil and counters.caught + 1 or 1
 	pokemon.number = counters.caught
-	pokemon.caught_at_level = pokemon.level
 	local id = get_id(pokemon)
-	local poke = _pokemon.new(pokemon, id)
-
+	pokemon.id = id
 	profiles.update(profiles.get_active_slot(), counters)
 	if M.party_is_full() then
-		storage[id] = poke
+		storage[id] = pokemon
 	else
-		active[id] = poke
+		active[id] = pokemon
 	end
 	M.save()
 	profiles.save()
@@ -138,8 +136,8 @@ end
 function M.init()
 	if not initialized then
 		M.load(profiles.get_active())
-		update_pokemon_data(storage)
-		update_pokemon_data(active)
+		--update_pokemon_data(storage)
+		--update_pokemon_data(active)
 		initialized = true
 	end
 end

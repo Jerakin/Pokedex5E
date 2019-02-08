@@ -13,24 +13,19 @@ function init(self)
 	self.transition = transitions.default(gui.get_node("root"))
 	function self.redraw(self)
 		local nature_node = gui.get_node("nature")
-		gui.set_text(nature_node, "Nature: " .. self.pokemon.nature)
+		gui.set_text(nature_node, self.pokemon.nature)
 	end
 	
 	
 	msg.post(url.SWITCHER, "activate", {screen="add"})
 	button.acquire()
-	local pokedata = {species="", level=1, nature="", moves={"", "", "", ""},
-	attributes={
-		total={STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0},
-		base={STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0},
-		increased={STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0},
-		nature={STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0},
-	}}
-		
-	pokemon_edit.init(self, pokedata)
+
+	pokemon_edit.init(self)
 	
 	button.register("btn_add", function()
 		if self.pokemon.nature ~= "" and self.pokemon.species ~= "" then
+			self.pokemon.level.caught = self.level
+			self.pokemon.attributes.increased = self.increased_attributes
 			storage.add(self.pokemon)
 			self.pokemon = pokedata
 			pokemon_edit.redraw(self)

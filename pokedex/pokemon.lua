@@ -1,26 +1,118 @@
-local file = require "utils.file"
-local natures = require "pokedex.natures"
-local pokedex = require "pokedex.pokedex"
 local utils = require "utils.utils"
-
+local pokedex = require "pokedex.pokedex"
+local natures = require "pokedex.natures"
 local M = {}
 
-local level_data
-local initialized = false
 
-function M.level_data(level)
-	return level_data[tostring(level)]
-end
 
-function M.init()
-	if not initialized then
-		level_data = file.load_json_from_resource("/assets/datafiles/leveling.json")
-		initialized = true
+--[[{
+"id"= {
+	species={caught="", current=""},
+	hp={current=10, max=10, edited=true},
+	nature="",
+	level={caught=0, current=0},
+	attributes={modified={}}
+	moves = {Tackle=29}
+}
+}--]]
+
+local function add_tables(T1, T2)
+	local copy = utils.shallow_copy(T1)
+	for k,v in pairs(T2) do 
+		copy[k] = copy[k] + v
 	end
+	return copy
 end
 
-local STATS = {"STR", "DEX", "CON", "INT", "WIS", "CHA"}
-local AVG_HIT_DIE = {[6]=4, [8]=5, [10]=6, [12]=7, [20]=12}
+function M.get_attributes(pokemon)
+	local b = pokedex.get_base_attributes(M.get_caught_species(pokemon))
+	local n = natures.get_nature_attributes(M.get_nature(pokemon)) or {}
+	local a = pokemon.attributes.increased or {}
+	return add_tables(add_tables(b, n), a)
+end
+
+function M.get_max_attributes(pokemon)
+	local m = {STR= 20,DEX= 20,CON= 20,INT= 20,WIS= 20,CHA= 20}
+	local n = natures.get_nature_attributes(M.get_nature(pokemon)) or {}
+	local t = add_tables(m, n)
+	for key, value in pairs(t) do
+		t[key] = value > 20 and value or 20 
+	end
+	return t
+end
+
+function M.update(old_pokemon, new_pokemon)
+	return utils.merge(old_pokemon, old_pokemon)
+end
+
+function M.set_current_hp(pokemon)
+
+end
+
+function M.get_current_hp(pokemon)
+	return pokemon.hp.current
+end
+
+function M.set_max_hp(pokemon)
+end
+
+function M.get_max_hp(pokemon)
+	return pokemon.hp.max
+end
+
+function M.get_current_species(pokemon)
+	return pokemon.species.current
+end
+
+function M.get_caught_species(pokemon)
+	return pokemon.species.caught
+end
+
+function M.get_current_level(pokemon)
+	return pokemon.level.current
+end
+
+function M.get_caught_level(pokemon)
+	return pokemon.level.caught
+end
+
+function M.get_moves(pokemon)
+	return pokemon.moves
+end
+
+function M.get_nature(pokemon)
+	return pokemon.nature
+end
+
+function M.get_type(pokemon)
+	return pokedex.get_pokemon_type(M.get_current_species(pokemon))
+end
+
+function M.get_STAB_bonus(pokemon)
+	return pokedex.level_data(M.get_current_level(pokemon)).STAB
+end
+
+function M.get_proficency_bonus(pokemon)
+	return pokedex.level_data(M.get_current_level(pokemon)).prof
+end
+
+function M.get_abilities(pokemon)
+	return pokedex.get_abilities(M.get_current_species(pokemon))
+end
+
+function M.get_skills(pokemon)
+	return pokedex.get_skills(M.get_current_species(pokemon))
+end
+
+function M.get_saving_throw_attributes(pokemon)
+	local prof = M.get_proficency_bonus(pokemon)
+	local b  = M.get_attributes(pokemon)
+	for _, st in pairs(pokedex.get_saving_throw_proficiencies(M.get_current_species(pokemon))) do
+		b[st] = b[st] + prof
+	end
+	return b
+end
+
 
 local function level_index(level)
 	if level > 17 then
@@ -41,235 +133,88 @@ local function get_damage_mod_stab(pokemon, move)
 	local stab = false
 	local stab_damage = 0
 	local total = M.get_total_attribute
-	
+
 	-- Pick the highest of the moves power
-	local total = M.get_total_attributes(pokemon)
-	for _, mod in pairs(move.power) do
+	local total = M.get_attributes(pokemon)
+	for _, mod in pairs(move["Move Power"]) do
 		if total[mod] then
 			modifier = total[mod] > modifier and total[mod] or modifier
 		end
 	end
 	modifier = math.floor((modifier - 10) / 2)
 
-	for _, t in pairs(pokemon.type) do
-		if move.type == t and move.damage then
-			stab_damage = pokemon.STAB
+	for _, t in pairs(M.get_type(pokemon)) do
+		if move.type == t and move.Damage then
+			stab_damage = M.get_STAB_bonus(pokemon)
 			stab = true
 		end
 	end
-	local index  = level_index(pokemon.level)
-
-	if move.damage then
-		damage = move.damage[index].amount .. "d" .. move.damage[index].dice_max
-		if move.damage[index].move then
+	local index = level_index(M.get_current_level(pokemon))
+	
+	local move_damage = move.Damage
+	if move_damage then
+		damage = move_damage[index].amount .. "d" .. move_damage[index].dice_max
+		if move_damage[index].move then
 			damage = damage .. "+" .. (modifier+stab_damage)
 		end
-		ab = modifier + pokemon.proficiency
+		ab = modifier + M.get_proficency_bonus(pokemon)
 	end
 	return damage, modifier, stab
-end
+end	
 
-local function copy_move(move_name, old_data)
+function M.get_move_data(pokemon, move_name)
 	local move = pokedex.get_move_data(move_name)
-	local pokemon_move = old_data or {}
-	pokemon_move.name = move_name
-	pokemon_move.type =  move.Type
-	pokemon_move.PP =  move.PP
-	pokemon_move.duration = move.Duration
-	pokemon_move.range = move.Range
-	pokemon_move.description = move.Description
-	pokemon_move.power = move["Move Power"]
-	pokemon_move.damage = move.Damage
-	pokemon_move.save = move.Save
-	pokemon_move.time = move["Move Time"]
-	return pokemon_move
-end
-
-local function setup_moves(this)
-	local m = {}
-	for _, move_name in pairs(this.moves) do
-		local move = copy_move(move_name)
-		dmg, mod, stab = get_damage_mod_stab(this, move)
-		
-		move.current_pp = move.PP
-		move.damage = dmg
-		move.stab = stab
-		if move.damage then
-			move.AB = mod + this.proficiency
-		end
-		if move.save then
-			move.save_dc = 8 + mod + this.proficiency
-		end
-		m[move_name] = move
-	end
+	dmg, mod, stab = get_damage_mod_stab(pokemon, move)
 	
-	this.moves = m
-end
-
-local function setup_nature_attributes(pokemon)
-	local data = natures.nature_data(pokemon.nature)
-	for stat, num in pairs(data) do
-		if pokemon.attributes.nature[stat] then
-			pokemon.attributes.nature[stat] = num
-		end
-	end
-end
-
-local function setup_abilities(pokemon)
-	local a = {}
-	for _, ability in pairs(pokemon.abilities) do
-		a[ability] = pokedex.get_ability_description(ability)
-	end
-	pokemon.abilities = a
-end
-
-local function add_ac_from_nature(pokemon)
-	local data = natures.nature_data(pokemon.nature)
-	if data["AC"] then
-		pokemon.AC = pokemon.AC + data["AC"]
-	end
-end
-
-local function setup_saving_throws(pokemon)
-	local this = M.get_total_attributes(pokemon)
-	if pokemon.raw_data.ST1 then
-		this[pokemon.raw_data.ST1] = this[pokemon.raw_data.ST1] + pokemon.proficiency
-		if pokemon.raw_data.ST2 then
-			this[pokemon.raw_data.ST2] = this[pokemon.raw_data.ST2] + pokemon.proficiency
-			if pokemon.raw_data.ST3 then
-				this[pokemon.raw_data.ST3] = this[pokemon.raw_data.ST3] + pokemon.proficiency
-			end
-		end
-	end
-	pokemon.saving_throw = this
-end
-
-local function update_abilities(pokemon)
-	local raw_pokemon = pokedex.get_pokemon(pokemon.species)
-	pokemon.abilities = raw_pokemon.Abilities
-	setup_abilities(pokemon)
-end
-
-local function update_moves(this)
-	for move_name, data in pairs(this.moves) do
-		data = copy_move(move_name, data)
-		damage, mod, stab = get_damage_mod_stab(this, data)
-		data.damage = damage
-		data.stab = stab
-		if data.damage then
-			data.AB = mod + this.proficiency
-		end
-		if data.save then
-			data.save_dc = 8 + mod + this.proficiency
-		end
-	end
-end
-
-function M.update_pokemon(pokemon)
-	update_abilities(pokemon)
-	setup_nature_attributes(pokemon)
-	update_moves(pokemon)
-end
-
-function M.get_total_attributes(pokemon)
-	local total = {}
-	total.STR = pokemon.attributes.increased.STR + pokemon.attributes.base.STR + pokemon.attributes.nature.STR
-	total.DEX = pokemon.attributes.increased.DEX + pokemon.attributes.base.DEX + pokemon.attributes.nature.DEX
-	total.CON = pokemon.attributes.increased.CON + pokemon.attributes.base.CON + pokemon.attributes.nature.CON
-	total.INT = pokemon.attributes.increased.INT + pokemon.attributes.base.INT + pokemon.attributes.nature.INT
-	total.WIS = pokemon.attributes.increased.WIS + pokemon.attributes.base.WIS + pokemon.attributes.nature.WIS
-	total.CHA = pokemon.attributes.increased.CHA + pokemon.attributes.base.CHA + pokemon.attributes.nature.CHA
-	total.AC = pokemon.attributes.base.AC + pokemon.attributes.nature.AC
-	return total
-end
-
-function M.edit(pokemon, pokemon_data)
-	for i=#pokemon_data.moves, 1, -1 do
-		if pokemon_data.moves[i] == "Move" then
-			table.remove(pokemon_data.moves, i)
-		end
-	end
-	pokemon.attributes.increased.STR = pokemon.attributes.increased.STR + pokemon_data.attributes.increased.STR
-	pokemon.attributes.increased.DEX = pokemon.attributes.increased.DEX + pokemon_data.attributes.increased.DEX
-	pokemon.attributes.increased.CON = pokemon.attributes.increased.CON + pokemon_data.attributes.increased.CON
-	pokemon.attributes.increased.INT = pokemon.attributes.increased.INT + pokemon_data.attributes.increased.INT
-	pokemon.attributes.increased.WIS = pokemon.attributes.increased.WIS + pokemon_data.attributes.increased.WIS
-	pokemon.attributes.increased.CHA = pokemon.attributes.increased.CHA + pokemon_data.attributes.increased.CHA
-	pokemon.moves = pokemon_data.moves
+	local move_data = {}
+	move_data.damage = dmg
+	move_data.stab = stab
+	move_data.name = move_name
+	move_data.type =  move.Type
+	move_data.PP =  move.PP
+	move_data.duration = move.Duration
+	move_data.range = move.Range
+	move_data.description = move.Description
+	move_data.power = move["Move Power"]
+	move_data.save = move.Save
+	move_data.time = move["Move Time"]
 	
-	pokemon.level = pokemon_data.level
-	if pokemon.species ~= pokemon_data.species then
-		pokemon.HP = pokemon.HP + (pokemon.level * 2)
-		pokemon.species = pokemon_data.species
-		
-		local raw_pokemon = pokedex.get_pokemon(pokemon_data.species)
-		pokemon.skills = raw_pokemon.Skill or {}
-		pokemon.type = raw_pokemon.Type
-		pokemon.resistances = raw_pokemon.Res
-		pokemon.vulnerabilities = raw_pokemon.Vul
-		pokemon.immunities = raw_pokemon.Imm
-		pokemon.abilities = raw_pokemon.Abilities
-		pokemon.attributes.base.AC = raw_pokemon.AC
+	if move_data.damage then
+		move_data.AB = mod + M.get_proficency_bonus(pokemon)
 	end
-	setup_moves(pokemon)
-	M.update_pokemon(pokemon)
+	if move_data.save then
+		move_data.save_dc = 8 + mod + M.get_proficency_bonus(pokemon)
+	end
+
+	return move_data
 end
 
+function M.get_AC(pokemon)
+	return pokedex.get_AC(M.get_current_species(pokemon)) + natures.get_AC(M.get_nature(pokemon))
+end
 
+function M.new(data)
+	local this = {}
+	this.species = {}
+	this.species.caught = data.species
+	this.species.current = data.species
 
-function M.new(pokemon, id)
-	this = {}
-	this.id = id
-	this.species = pokemon.species
-	this.level = pokemon.level
-	this.nature = pokemon.nature
-	this.moves = pokemon.moves
-	this.raw_data = pokedex.get_pokemon(pokemon.species)
+	this.hp = {}
+	this.hp.current = pokedex.get_base_hp(this.species.caught)
+	this.hp.max = this.hp.current
+	this.hp.edited = false
+
+	this.level = {}
+	this.level.caught = pokedex.get_minimum_wild_level(this.species.caught)
+	this.level.current = this.level.caught
 
 	this.attributes = {}
+	this.attributes.increased = data.attributes or {}
 
-	this.attributes.base = {}
-	this.attributes.base.STR = this.raw_data.STR
-	this.attributes.base.DEX = this.raw_data.DEX
-	this.attributes.base.CON = this.raw_data.CON
-	this.attributes.base.INT = this.raw_data.INT
-	this.attributes.base.WIS = this.raw_data.WIS
-	this.attributes.base.CHA = this.raw_data.CHA
-	this.attributes.base.AC = this.raw_data.AC
-	
-	this.attributes.increased = {}
-	this.attributes.increased.STR = pokemon.attributes.increased.STR
-	this.attributes.increased.DEX = pokemon.attributes.increased.DEX
-	this.attributes.increased.CON = pokemon.attributes.increased.CON
-	this.attributes.increased.INT = pokemon.attributes.increased.INT
-	this.attributes.increased.WIS = pokemon.attributes.increased.WIS
-	this.attributes.increased.CHA = pokemon.attributes.increased.CHA
-
-	this.attributes.nature = {}
-	this.attributes.nature.STR = 0
-	this.attributes.nature.DEX = 0
-	this.attributes.nature.CON = 0
-	this.attributes.nature.INT = 0
-	this.attributes.nature.WIS = 0
-	this.attributes.nature.CHA = 0
-	this.attributes.nature.AC = 0
-	
-	this.skills = this.raw_data.Skill or {}
-	this.type = this.raw_data.Type
-	this.resistances = this.raw_data.Res
-	this.vulnerabilities = this.raw_data.Vul
-	this.immunities = this.raw_data.Imm
-	this.abilities = this.raw_data.Abilities
-	this.HP = this.raw_data.HP
-	this.current_hp = this.HP
-	this.proficiency = M.level_data(this.level).prof
-	this.STAB = M.level_data(this.level).STAB
-
-	setup_saving_throws(this)
-	setup_abilities(this)
-	setup_moves(this)
-	this.raw_data = nil
+	this.moves = data.moves
 	return this
 end
+
+
 
 return M

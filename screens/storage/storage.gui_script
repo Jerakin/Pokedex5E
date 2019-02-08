@@ -1,6 +1,7 @@
 local button = require "utils.button"
 local monarch = require "monarch.monarch"
 local storage = require "pokedex.storage"
+local _pokemon = require "pokedex.pokemon"
 local gooey = require "gooey.gooey"
 local utils = require "utils.utils"
 local gesture = require "utils.gesture"
@@ -54,8 +55,8 @@ local function setup_inventory(self)
 		node_prefix = "inventory_pokemon_" .. i
 		if pokemon then
 			gui.set_enabled(gui.get_node(node_prefix .. "/root"), true)
-			gui.set_text(gui.get_node(node_prefix .. "/txt_level"), "Lv. " .. pokemon.level)
-			gui.set_text(gui.get_node(node_prefix .. "/txt_spicies"), pokemon.species)
+			gui.set_text(gui.get_node(node_prefix .. "/txt_level"), "Lv. " .. _pokemon.get_current_level(pokemon))
+			gui.set_text(gui.get_node(node_prefix .. "/txt_spicies"), _pokemon.get_current_species(pokemon))
 			local mark_node = gui.get_node(node_prefix .. "/checkmark_mark")
 			gui.set_enabled(mark_node, false)
 			local b = button.register(gui.get_node(node_prefix .. "/root"), function()
@@ -94,7 +95,7 @@ local function update_listitem(list, item)
 	local pokemon = storage.get_copy(item.data)
 	if pokemon then
 		local index = 0
-		for name, data in pairs(pokemon.moves) do
+		for name, data in pairs(_pokemon.get_moves(pokemon)) do
 			index = index + 1
 			gui.set_text(item.nodes[hash(list.id .. "/move_" .. index)], name)
 		end
@@ -102,8 +103,8 @@ local function update_listitem(list, item)
 		for i=index+1, 4 do
 			gui.set_text(item.nodes[hash(list.id .. "/move_" .. i)], "")
 		end
-		gui.set_text(item.nodes[hash(list.id .. "/txt_level")], "Lv. " .. pokemon.level)
-		gui.set_text(item.nodes[hash(list.id .. "/txt_spicies")], pokemon.species)
+		gui.set_text(item.nodes[hash(list.id .. "/txt_level")], "Lv. " .. _pokemon.get_current_level(pokemon))
+		gui.set_text(item.nodes[hash(list.id .. "/txt_spicies")], _pokemon.get_current_species(pokemon))
 		if selected_storage[item.data] then
 			gui.set_enabled(item.nodes[hash(list.id .. "/checkmark_mark")], true)
 		else

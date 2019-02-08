@@ -1,6 +1,9 @@
 local button = require "utils.button"
 local monarch = require "monarch.monarch"
 local storage = require "pokedex.storage"
+local _pokemon = require "pokedex.pokemon"
+local pokedex = require "pokedex.pokedex"
+
 local gesture = require "utils.gesture"
 local url = require "utils.url"
 local transitions = require "utils.transitions"
@@ -34,7 +37,8 @@ local function setup_moves(self, nodes, pokemon)
 		return n
 	end
 
-	for name, data in pairs(pokemon.moves) do
+	for name, current_pp in pairs(pokemon.moves) do
+		local move_data = _pokemon.get_move_data(pokemon, name)
 		index = index + 1
 		local pp_node = _get_node("/pp")
 		button.register(_get_node("/btn_decease_pp"), function()
@@ -51,30 +55,30 @@ local function setup_moves(self, nodes, pokemon)
 			show_description(data.description)
 		end)
 		
-		gui.set_text(_get_node("/action"), data.time)
-		gui.set_text(_get_node("/duration"), data.duration)
-		gui.set_text(pp_node, "PP: " .. data.current_pp)
+		gui.set_text(_get_node("/action"), move_data.time)
+		gui.set_text(_get_node("/duration"), move_data.duration)
+		gui.set_text(pp_node, "PP: " .. current_pp)
 
-		if data.damage then
-			gui.set_text(_get_node("/bonus"), "AB: " .. data.AB)
-			gui.set_text(_get_node("/damage"), data.damage)
-			if data.damage.save then
+		if move_data.damage then
+			gui.set_text(_get_node("/bonus"), "AB: " .. move_data.AB)
+			gui.set_text(_get_node("/damage"), move_data.damage)
+			if move_data.damage.save then
 				if not data.AB then
 					gui.set_enabled(_get_node("/bonus"), false)
 				end
 			end
-		elseif data.save_dc then
-			gui.set_text(_get_node("/damage"), "Save DC: " .. data.save_dc)
+		elseif move_data.save_dc then
+			gui.set_text(_get_node("/damage"), "Save DC: " .. move_data.save_dc)
 		else
 			gui.set_text(_get_node("/damage"), "-")
 			gui.set_text(_get_node("/bonus"), "-")
 		end
 
 		gui.set_text(_get_node("/name"), name)
-		if data.stab then
+		if move_data.stab then
 			gui.set_color(_get_node("/name"), vmath.vector4(1, 1, .5, 1))
 		end
-		gui.set_text(_get_node("/range"), data.range)
+		gui.set_text(_get_node("/range"), move_data.range)
 	end
 	for i=index+1, 5 do
 		local n = nodes["pokemon/move_" .. i .. "/root"]
@@ -91,7 +95,8 @@ local function setup_abilities(self, nodes, pokemon)
 		return n
 	end
 	local p = vmath.vector3()
-	for name, desc in pairs(pokemon.abilities) do
+	for _, name in pairs(_pokemon.get_abilities(pokemon)) do
+		local desc = pokedex.get_ability_description(name)
 		local root_node = gui.clone(nodes["pokemon/ability/root"])
 		local name_node = gui.clone(nodes["pokemon/ability/name"])
 		local desc_node = gui.clone(nodes["pokemon/ability/description"])
@@ -111,10 +116,11 @@ end
 local function setup_info(self, nodes, pokemon)
 	local abilities_string = ""
 	local saving_throw_string = ""
+	local st_attributes = _pokemon.get_saving_throw_attributes(pokemon)
+	local total_attributes = _pokemon.get_attributes(pokemon)
 	for i, stat in pairs(STATS) do
-		local total_attribute = pokemon.attributes.nature[stat] + pokemon.attributes.increased[stat] + pokemon.attributes.base[stat]
-		abilities_string = abilities_string .. stat .. ": " .. total_attribute
-		saving_throw_string = saving_throw_string .. stat .. ": " .. to_mod(pokemon.saving_throw[stat])
+		abilities_string = abilities_string .. stat .. ": " .. total_attributes[stat]
+		saving_throw_string = saving_throw_string .. stat .. ": " .. to_mod(st_attributes[stat])
 		if math.fmod(i, 2) == 0 then
 			abilities_string = abilities_string .. "\n"
 			saving_throw_string = saving_throw_string .. "\n"
@@ -127,14 +133,16 @@ local function setup_info(self, nodes, pokemon)
 	gui.set_text(nodes["pokemon/attributes"], abilities_string)
 	gui.set_text(nodes["pokemon/savingthrows"], saving_throw_string)
 	
-	gui.set_text(nodes["pokemon/stab"], "STAB: " .. pokemon.STAB)
-	gui.set_text(nodes["pokemon/prof"], "Prof: " .. pokemon.proficiency)
-	gui.set_text(nodes["pokemon/skills"], table.concat(pokemon.skills, ", "))
+	gui.set_text(nodes["pokemon/stab"], "STAB: " .. _pokemon.get_STAB_bonus(pokemon))
+	gui.set_text(nodes["pokemon/prof"], "Prof: " .. _pokemon.get_proficency_bonus(pokemon))
+	gui.set_text(nodes["pokemon/skills"], table.concat(_pokemon.get_skills(pokemon), ", "))
 end
 
 local function update_hp(self, nodes, pokemon)
-	gui.set_text(nodes["pokemon/hp_current"], "HP: " .. pokemon.current_hp)
-	gui.set_text(nodes["pokemon/hp"], "/ " .. pokemon.HP)
+	local max = _pokemon.get_max_hp(pokemon)
+	local current =_pokemon.get_current_hp(pokemon)
+	gui.set_text(nodes["pokemon/hp_current"], "HP: " .. current)
+	gui.set_text(nodes["pokemon/hp"], "/ " .. max)
 	
 	--local p = gui.get_position(nodes["pokemon/hp_current"])
 	--p.x = p.x + (gui.get_text_metrics_from_node(nodes["pokemon/hp_current"]).width)
@@ -143,20 +151,21 @@ end
 
 local function setup_page(self, nodes, pokemon)
 	button.register(nodes["pokemon/btn_hp_current"], function()
-		local hp = storage.set_current_hp(pokemon.id, pokemon.current_hp-1)
-		pokemon.current_hp = hp
+		local current =_pokemon.get_current_hp(pokemon)
+		local hp = storage.set_current_hp(pokemon.id, current-1)
+		--pokemon.current_hp = hp
 		update_hp(self, nodes, pokemon, hp)
 	end)
 	button.register(nodes["pokemon/btn_hp"], function()
-		local hp = storage.set_current_hp(pokemon.id, pokemon.current_hp+1)
-		pokemon.current_hp = hp
+		local hp = storage.set_current_hp(pokemon.id, current+1)
+		--pokemon.current_hp = hp
 		update_hp(self, nodes, pokemon, hp)
 	end)
 	
-	gui.set_text(nodes["pokemon/species"], pokemon.species)
-	gui.set_text(nodes["pokemon/level"], "lvl: " .. pokemon.level)
-	gui.set_text(nodes["pokemon/nature"], pokemon.nature)
-	gui.set_text(nodes["pokemon/ac"], "AC: " .. pokemon.attributes.nature.AC + pokemon.attributes.base.AC)
+	gui.set_text(nodes["pokemon/species"], _pokemon.get_caught_species(pokemon))
+	gui.set_text(nodes["pokemon/level"], "lvl: " ..  _pokemon.get_current_level(pokemon))
+	gui.set_text(nodes["pokemon/nature"], _pokemon.get_nature(pokemon))
+	gui.set_text(nodes["pokemon/ac"], "AC: " .. _pokemon.get_AC(pokemon))
 
 	update_hp(self, nodes, pokemon, pokemon.current_hp)
 	local pos = vmath.vector3()

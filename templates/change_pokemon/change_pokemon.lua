@@ -14,37 +14,43 @@ local STATS = {"STR", "DEX", "CON", "INT", "WIS", "CHA"}
 local M = {}
 
 local function redraw(self)
+	if not self.pokemon or self.pokemon.species.current == "" then
+		return
+	end
+	local species_node = gui.get_node("spicies")
+	gui.set_text(species_node, self.pokemon.species.current)
+	gui.set_text(gui.get_node("txt_level"), "Lv. " .. self.level)
+	
+	-- Moves
+	local index = 0
+	for move, _ in pairs(self.pokemon.moves) do
+		index = index + 1
+		local move_node = gui.get_node("moves/move_" .. index)
+		gui.set_text(move_node, move)
+	end
+	for i=index+1, 4 do
+		local move_node = gui.get_node("moves/move_" .. i)
+		gui.set_text(move_node, "")
+	end
+
+	-- Natures and attributes
+	if not self.pokemon.nature or self.pokemon.nature == "" then
+		return
+	end
+	
+	local attributes = _pokemon.get_attributes(self.pokemon)
 	for _, stat in pairs(STATS) do
 		local n = gui.get_node("asi/" .. stat)
-		local total = self.pokemon.attributes.base[stat] + self.pokemon.attributes.increased[stat] + self.pokemon.attributes.nature[stat]
-		gui.set_text(n, stat .. " " .. total .. "(" .. self.increased_attributes[stat] .. ")")
+		gui.set_text(n, stat .. " " .. attributes[stat] .. "(" .. self.increased_attributes[stat] .. ")")
 	end
 
-	local level_node = gui.get_node("txt_level")
-	gui.set_text(level_node, "Lv. " .. self.pokemon.level)
-
-	local species_node = gui.get_node("spicies")
+	-- ASI
 	local max_improve_node = gui.get_node("asi/title")
-	if self.pokemon.species == "" then
-		gui.set_text(species_node, "Pokémon")
-		gui.set_text(max_improve_node, "Available Points: 0")
-	else
-		local available_at_current_level = _pokemon.level_data(self.pokemon.min_level).ASI
-		local available_at_new_level = _pokemon.level_data(self.pokemon.level).ASI
-		local available = (available_at_new_level - available_at_current_level) * 2
-		gui.set_text(max_improve_node, "Available Points: " .. available - self.ability_score_improvment)
-		gui.set_text(species_node, self.pokemon.species)
-	end
+	local available_at_current_level = pokedex.level_data(self.level).ASI
+	local available_at_caught_level = pokedex.level_data(self.pokemon.level.caught).ASI
+	local available = (available_at_current_level - available_at_caught_level)  * 2
+	gui.set_text(max_improve_node, "Available Points: " .. available - self.ability_score_improvment)
 
-	local move_1_node = gui.get_node("moves/move_1")
-	local move_2_node = gui.get_node("moves/move_2")
-	local move_3_node = gui.get_node("moves/move_3")
-	local move_4_node = gui.get_node("moves/move_4")
-
-	gui.set_text(move_1_node, self.pokemon.moves[1] or "")
-	gui.set_text(move_2_node, self.pokemon.moves[2] or "")
-	gui.set_text(move_3_node, self.pokemon.moves[3] or "")
-	gui.set_text(move_4_node, self.pokemon.moves[4] or "")
 	if self.redraw then self.redraw(self) end
 end
 
@@ -53,13 +59,14 @@ function M.redraw(self)
 end
 
 local function increase(self, stat)
-	local total = self.pokemon.attributes.base[stat] + self.pokemon.attributes.increased[stat]
-	if total + self.increased_attributes[stat] < self.pokemon.attributes.max[stat] then
+	local max = _pokemon.get_max_attributes(self.pokemon)
+	local attributes = _pokemon.get_attributes(self.pokemon)
+	local m = attributes[stat] + self.increased_attributes[stat]
+	if  m < max[stat] then
 		self.increased_attributes[stat] = self.increased_attributes[stat] + 1
 		self.ability_score_improvment = self.ability_score_improvment + 1
 		redraw(self)
 	end
-	
 end
 
 local function decrease(self, stat)
@@ -71,9 +78,9 @@ local function decrease(self, stat)
 end
 
 local function pick_move(self)
-	if pokedex.is_pokemon(self.pokemon.species) then
-		gui.set_enabled(self.root, false)
-		local available_moves = pokedex.get_pokemons_moves(self.pokemon.species, self.pokemon.level)
+	if pokedex.is_pokemon(self.pokemon.species.current) then
+		--gui.set_enabled(self.root, false)
+		local available_moves = pokedex.get_pokemons_moves(self.pokemon.species.current, self.level)
 		for _, move in pairs(self.pokemon.moves) do
 			for i, selected_move in pairs(available_moves) do
 				if move == selected_move then
@@ -87,25 +94,11 @@ local function pick_move(self)
 end
 
 function M.init(self, pokemon)
-	self.old_species = pokemon.species
-	self.increased_attributes = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
-	self.pokemon = {moves={}}
-	self.pokemon.id = pokemon.id
-	self.pokemon.species = pokemon.species
-	self.pokemon.level = pokemon.level
-	self.pokemon.min_level = pokemon.min_level or pokemon.level
-	self.pokemon.attributes = pokemon.attributes
-	self.pokemon.attributes.max = {}
-	self.pokemon.nature = pokemon.nature
-	
-	for _, stat in pairs(STATS) do
-		self.pokemon.attributes.max[stat] = 20
-		if pokemon.attributes.nature[stat] > 0 then
-			self.pokemon.attributes.max[stat] = self.pokemon.attributes.max[stat] + pokemon.attributes.nature[stat]
-		end
+	if pokemon then
+		self.pokemon = utils.deep_copy(pokemon)
 	end
-	
-	
+	self.increased_attributes = {STR= 0,DEX= 0,CON= 0,INT= 0,WIS= 0,CHA= 0}
+	self.level = 1
 	self.ability_score_improvment = 0
 	self.list_items = {}
 	self.state = 0
@@ -151,17 +144,15 @@ function M.init(self, pokemon)
 	end)
 
 	button.register("btn_lvl_increase/btn", function()
-		if pokedex.is_pokemon(self.pokemon.species) and self.pokemon.level < 20 then
-			self.pokemon.level = self.pokemon.level + 1
+		if self.level < 20 then
+			self.level = self.level + 1
 			redraw(self)
 		end
 	end)
 	button.register("btn_lvl_decrease/btn", function()
-		if pokedex.is_pokemon(self.pokemon.species) then
-			if self.pokemon.level > 1 and self.pokemon.level > pokedex.minumum_level(self.pokemon.species) then
-				self.pokemon.level = self.pokemon.level - 1
-				redraw(self)
-			end
+		if self.level > 1 and self.level > pokedex.get_minimum_wild_level(self.pokemon.species.current) then
+			self.level = self.level - 1
+			redraw(self)
 		end
 	end)
 
@@ -197,27 +188,26 @@ function M.on_message(self, message_id, message, sender)
 			self.pokemon.nature = message.item
 			self.pokemon.attributes.nature = natures.get_nature_attributes(message.item)
 		elseif message_id == hash("species") then
-			self.pokemon.species = message.item
-			self.pokemon.moves = {}
-			self.pokemon.min_level = pokedex.minumum_level(message.item)
-			self.pokemon.attributes.base = pokedex.get_base_attributes(message.item)
-			self.pokemon.level = self.pokemon.min_level
-			local m = pokedex.get_starting_moves(message.item)
+			self.pokemon = _pokemon.new({species=message.item})
+			self.level = self.pokemon.level.caught
+			local starting_moves = pokedex.get_starting_moves(message.item)
+			local moves = {}
 			for i=1, 4 do
-				if m[i] then
-					table.insert(self.pokemon.moves, m[i])
-				else
-					table.insert(self.pokemon.moves, "")
+				if starting_moves[i] then
+					local pp = pokedex.get_move_pp(starting_moves[i])
+					moves[starting_moves[i]] = pp
 				end
 			end 
+			pprint(starting_moves)
+			self.pokemon.moves = moves
 		else
 			local n = gui.get_node("moves/move_" .. self.move_button_index)
 			self.pokemon.moves[self.move_button_index] = message.item
 			gui.set_text(n, message.item)
 		end
+		gui.set_enabled(self.root, true)
+		redraw(self)
 	end
-	redraw(self)
-	gui.set_enabled(self.root, true)
 end
 
 function M.on_input(self, action_id, action)
