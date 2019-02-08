@@ -18,19 +18,13 @@ function init(self)
 	pokemon_edit.init(self, pokemon)
 	self.level = _pokemon.get_current_level(pokemon)
 
-	--[[local index = 0
-	for _, name in pairs(_pokemon.get_moves(pokemon)) do
-		index = index + 1
-		table.insert(self.pokemon.moves, name)
-	end--]]
-	
 	gui.set_text(gui.get_node("txt_current_level"), "Lv. " .. _pokemon.get_current_level(pokemon) .. "  ->")
 	
 	self.evolve_button = gui.get_node("btn_evolve")
 
 	function self.redraw(self)
-		if not self.have_evolved and pokedex.can_evolve(_pokemon.get_current_species(pokemon)) and 
-		pokedex.evolve_level(_pokemon.get_current_species(pokemon)) <= self.level then
+		if not self.have_evolved and pokedex.get_evolution_level(_pokemon.get_current_species(pokemon)) and 
+		pokedex.get_evolution_level(_pokemon.get_current_species(pokemon)) <= self.level then
 			gui.set_enabled(self.evolve_button, true)
 		else
 			gui.set_enabled(self.evolve_button, false)
@@ -40,7 +34,7 @@ function init(self)
 	button.register(self.evolve_button, function()
 		self.pokemon.moves = _pokemon.get_moves(pokemon)
 		
-		local evolve_into = pokedex.evolve_into(_pokemon.get_current_species(pokemon))
+		local evolve_into = pokedex.get_evolutions(_pokemon.get_current_species(pokemon))
 		if #evolve_into == 1 then
 			msg.post("#", "evolve", {item=evolve_into[1]})
 		else
@@ -55,7 +49,7 @@ function init(self)
 	button.register("btn_edit", function()
 		_pokemon.update_increased_attributes(self.pokemon, self.increased_attributes)
 		self.pokemon.level.current = self.level
-		_pokemon.update(self.pokemon)
+		_pokemon.save(self.pokemon)
 		monarch.show("party", {clear=true})
 	end)
 	

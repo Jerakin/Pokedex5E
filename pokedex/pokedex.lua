@@ -39,11 +39,11 @@ function M.get_ability_description(ability)
 	return abilities[ability].Description
 end
 
-function M.get_abilities(pokemon)
+function M.get_pokemon_abilities(pokemon)
 	return M.get_pokemon(pokemon).Abilities
 end
 
-function M.get_skills(pokemon)
+function M.get_pokemon_skills(pokemon)
 	return M.get_pokemon(pokemon).Skill
 end
 
@@ -59,30 +59,26 @@ function M.get_move_pp(move)
 	return movedata[move] and movedata[move].PP
 end
 
-function M.get_AC(pokemon)
+function M.get_pokemon_AC(pokemon)
 	return M.get_pokemon(pokemon).AC
 end
 function M.get_pokemon(pokemon)
 	return utils.shallow_copy(pokedex[pokemon])
 end
 
-function M.is_pokemon(pokemon)
-	return pokedex[pokemon] and true or false
-end
-
 function M.get_minimum_wild_level(pokemon)
 	return M.get_pokemon(pokemon)["MIN LVL FD"]
 end
 
-function M.can_evolve(pokemon)
+function M.get_evolution_possible(pokemon)
 	return evolvedata[pokemon] or true and false
 end
 
-function M.evolve_level(pokemon)
+function M.get_evolution_level(pokemon)
 	return evolvedata[pokemon].level
 end
 
-function M.evolve_into(pokemon)
+function M.get_evolutions(pokemon)
 	return evolvedata[pokemon].into
 end
 

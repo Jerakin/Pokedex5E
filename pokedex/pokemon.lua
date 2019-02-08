@@ -5,18 +5,6 @@ local storage = require "pokedex.storage"
 local M = {}
 
 
-
---[[{
-"id"= {
-	species={caught="", current=""},
-	hp={current=10, max=10, edited=true},
-	nature="",
-	level={caught=0, current=0},
-	attributes={modified={}}
-	moves = {Tackle=29}
-}
-}--]]
-
 local function add_tables(T1, T2)
 	local copy = utils.shallow_copy(T1)
 	for k,v in pairs(T2) do
@@ -54,13 +42,13 @@ function M.update_increased_attributes(pokemon, increased)
 	pokemon.attributes.increased = n
 end
 
-function M.update(pokemon)
-	return storage.update(pokemon)
+function M.save(pokemon)
+	return storage.update_pokemon(pokemon)
 end
 
 function M.set_current_hp(pokemon, hp)
 	pokemon.hp.current = hp
-	storage.set_current_hp(M.get_id(pokemon), hp)
+	storage.set_pokemon_current_hp(M.get_id(pokemon), hp)
 end
 
 function M.get_current_hp(pokemon)
@@ -69,7 +57,7 @@ end
 
 function M.set_max_hp(pokemon, hp)
 	pokemon.hp.max = hp
-	storage.set_max_hp(M.get_id(pokemon), hp)
+	storage.set_pokemon_max_hp(M.get_id(pokemon), hp)
 end
 
 function M.get_max_hp(pokemon)
@@ -121,11 +109,11 @@ function M.get_proficency_bonus(pokemon)
 end
 
 function M.get_abilities(pokemon)
-	return pokedex.get_abilities(M.get_current_species(pokemon)) or {}
+	return pokedex.get_pokemon_abilities(M.get_current_species(pokemon)) or {}
 end
 
 function M.get_skills(pokemon)
-	return pokedex.get_skills(M.get_current_species(pokemon)) or {}
+	return pokedex.get_pokemon_skills(M.get_current_species(pokemon)) or {}
 end
 
 function M.get_move_pp(pokemon, move)
@@ -134,13 +122,13 @@ end
 
 function M.decrease_move_pp(pokemon, move)
 	local pp = math.max(M.get_move_pp(pokemon, move) - 1, 0)
-	storage.set_move_pp(M.get_id(pokemon), move, pp)
+	storage.set_pokemon_move_pp(M.get_id(pokemon), move, pp)
 	pokemon.moves[move] = pp
 end
 
 function M.reset_move_pp(pokemon, move)
 	local pp = pokedex.get_move_pp(move)
-	storage.set_move_pp(M.get_id(pokemon), move, pp)
+	storage.set_pokemon_move_pp(M.get_id(pokemon), move, pp)
 	pokemon.moves[move] = pp
 end
 
@@ -156,7 +144,7 @@ function M.get_saving_throw_attributes(pokemon)
 end
 
 function M.get_AC(pokemon)
-	return pokedex.get_AC(M.get_current_species(pokemon)) + natures.get_AC(M.get_nature(pokemon))
+	return pokedex.get_pokemon_AC(M.get_current_species(pokemon)) + natures.get_AC(M.get_nature(pokemon))
 end
 
 local function level_index(level)

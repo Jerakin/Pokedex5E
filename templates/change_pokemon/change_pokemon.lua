@@ -87,9 +87,7 @@ local function pick_move(self)
 			end
 		end
 	end
-
 	monarch.show("scrollist", {}, {items=available_moves, message_id="move", sender=msg.url()})
-
 end
 
 function M.init(self, pokemon)

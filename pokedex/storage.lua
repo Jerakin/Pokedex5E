@@ -31,6 +31,14 @@ local function getKeysSortedByValue(tbl, sortFunction)
 	return keys
 end
 
+local function party_is_full()
+	local counter = 0
+	for _, _ in pairs(active) do
+		counter = counter + 1
+	end
+	return counter >= 6
+end
+
 function M.list_of_ids_in_storage()
 	return getKeysSortedByValue(storage, function(a, b) return a.species.current < b.species.current end)
 end
@@ -47,7 +55,7 @@ local function get(id)
 	return storage[id] and storage[id] or active[id]
 end
 
-function M.update(pokemon)
+function M.update_pokemon(pokemon)
 	local id = pokemon.id
 	if storage[id] then
 		storage[id] = pokemon
@@ -57,16 +65,23 @@ function M.update(pokemon)
 	M.save()
 end
 
-function M.set_move_pp(id, move, pp)
+function M.set_pokemon_move_pp(id, move, pp)
 	local p = get(id)
 	p.moves[move] = pp
 	M.save()
 	return p.moves[move]
 end
 
-function M.set_current_hp(id, hp)
+function M.set_pokemon_current_hp(id, hp)
 	local p = get(id)
 	p.hp.current = hp
+	M.save()
+end
+
+function M.set_pokemon_max_hp(id, hp)
+	local p = get(id)
+	p.hp.max = hp
+	p.hp.edited = true
 	M.save()
 end
 
@@ -89,7 +104,7 @@ function M.add(pokemon)
 	local id = get_id(pokemon)
 	pokemon.id = id
 	profiles.update(profiles.get_active_slot(), counters)
-	if M.party_is_full() then
+	if party_is_full() then
 		storage[id] = pokemon
 	else
 		active[id] = pokemon
@@ -125,8 +140,6 @@ end
 function M.init()
 	if not initialized then
 		M.load(profiles.get_active())
-		--update_pokemon_data(storage)
-		--update_pokemon_data(active)
 		initialized = true
 	end
 end
@@ -136,14 +149,6 @@ function M.move_to_storage(id)
 	storage[id] = pokemon
 	active[id] = nil
 	M.save()
-end
-
-function M.party_is_full()
-	local counter = 0
-	for _, _ in pairs(active) do
-		counter = counter + 1
-	end
-	return counter >= 6
 end
 
 function M.move_to_inventory(id)
