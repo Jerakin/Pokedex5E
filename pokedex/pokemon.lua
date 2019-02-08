@@ -148,7 +148,7 @@ function M.get_AC(pokemon)
 end
 
 function M.get_index_number(pokemon)
-	return pokemon.index
+	return pokedex.get_get_index_number(M.get_current_species(pokemon))
 end
 
 local function level_index(level)

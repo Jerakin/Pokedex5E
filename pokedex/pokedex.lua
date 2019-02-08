@@ -31,6 +31,10 @@ function M.level_data(level)
 	return leveldata[tostring(level)]
 end
 
+function M.get_get_index_number(pokemon)
+	return M.get_pokemon(pokemon).index
+end
+
 function M.get_pokemon_type(pokemon)
 	return M.get_pokemon(pokemon).Type
 end

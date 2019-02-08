@@ -227,11 +227,12 @@ function init(self)
 	for index, pokemon_id in pairs(storage.list_of_ids_in_inventory()) do
 		local page = add_pokemon_page(self, pokemon_id, index)
 		local pokemon_data = storage.get_copy(pokemon_id)
+		
 		local pokemon_index = _pokemon.get_index_number(pokemon_data)
 		local texture = "pokemon" .. math.floor(pokemon_index/256)
-		local pokemon_sprite = pokemon_sprite .. _pokemon.get_current_species(pokemon_data)
-		gui.set_texture(gui.get_node("pokemon/pokemon_sprite"), texture)
-		gui.play_flipbook(gui.get_node("pokemon/pokemon_sprite"), pokemon_sprite)
+		local pokemon_sprite = pokemon_index .. _pokemon.get_current_species(pokemon_data)
+		gui.set_texture(page["pokemon/pokemon_sprite"], texture)
+		gui.play_flipbook(page["pokemon/pokemon_sprite"], pokemon_sprite)
 		
 		if index ~= 1 then
 			gui.set_enabled(page[hash("pokemon/root")], false)
