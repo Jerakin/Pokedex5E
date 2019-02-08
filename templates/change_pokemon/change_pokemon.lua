@@ -150,13 +150,13 @@ function M.init(self, pokemon)
 		increase(self, "CHA")
 	end)
 
-	button.register("btn_level_increase", function()
+	button.register("btn_lvl_increase/btn", function()
 		if pokedex.is_pokemon(self.pokemon.species) and self.pokemon.level < 20 then
 			self.pokemon.level = self.pokemon.level + 1
 			redraw(self)
 		end
 	end)
-	button.register("btn_level_reduce", function()
+	button.register("btn_lvl_decrease/btn", function()
 		if pokedex.is_pokemon(self.pokemon.species) then
 			if self.pokemon.level > 1 and self.pokemon.level > pokedex.minumum_level(self.pokemon.species) then
 				self.pokemon.level = self.pokemon.level - 1
