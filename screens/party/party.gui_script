@@ -171,14 +171,14 @@ local function setup_page(self, nodes, pokemon)
 	local vul = nodes["pokemon/vulnerabilities"]
 	local imm = nodes["pokemon/immunities"]
 	local res = nodes["pokemon/resistances"]
-	gui.set_text(vul, join_table("Vulnerabilities: ", pokemon.vulnerabilities, ", "))
+	gui.set_text(vul, join_table("Vulnerabilities: ", _pokemon.get_vulnerabilities(pokemon), ", "))
 	
 	pos.y = pos.y - gui.get_text_metrics_from_node(vul).height * 0.7
-	gui.set_text(res, join_table("Resistances: ", pokemon.resistances, ", "))
+	gui.set_text(res, join_table("Resistances: ", _pokemon.get_resistances(pokemon), ", "))
 	gui.set_position(res, pos)
 	
 	pos.y = pos.y - gui.get_text_metrics_from_node(res).height * 0.7
-	gui.set_text(imm, join_table("Immunities: ", pokemon.immunities, ", "))
+	gui.set_text(imm, join_table("Immunities: ", _pokemon.get_immunities(pokemon), ", "))
 	gui.set_position(imm, pos)
 
 	setup_moves(self, nodes, pokemon)

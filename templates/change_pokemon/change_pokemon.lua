@@ -177,11 +177,9 @@ function M.final(self)
 	button.unregister()
 end
 
-
 function M.on_message(self, message_id, message, sender)
 	if message.item then
 		if message_id == hash("nature") then
-			pprint(self.pokemon)
 			self.pokemon.nature = message.item
 			self.pokemon.attributes.nature = natures.get_nature_attributes(message.item)
 		elseif message_id == hash("species") then

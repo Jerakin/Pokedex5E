@@ -120,6 +120,18 @@ function M.get_move_pp(pokemon, move)
 	return pokemon.moves[move]
 end
 
+function M.get_vulnerabilities(pokemon)
+	return pokedex.get_pokemon_vulnerabilities(M.get_current_species(pokemon))
+end
+
+function M.get_immunities(pokemon)
+	return pokedex.get_pokemon_immunities(M.get_current_species(pokemon))
+end
+
+function M.get_resistances(pokemon)
+	return pokedex.get_pokemon_resistances(M.get_current_species(pokemon))
+end
+
 function M.decrease_move_pp(pokemon, move)
 	local pp = math.max(M.get_move_pp(pokemon, move) - 1, 0)
 	storage.set_pokemon_move_pp(M.get_id(pokemon), move, pp)

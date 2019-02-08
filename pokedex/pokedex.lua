@@ -35,6 +35,19 @@ function M.get_get_index_number(pokemon)
 	return M.get_pokemon(pokemon).index
 end
 
+function M.get_pokemon_vulnerabilities(pokemon)
+	return M.get_pokemon(pokemon).Vul
+end
+
+function M.get_pokemon_immunities(pokemon)
+	return M.get_pokemon(pokemon).Imm
+end
+
+function M.get_pokemon_resistances(pokemon)
+	return M.get_pokemon(pokemon).Res
+	
+end
+
 function M.get_pokemon_type(pokemon)
 	return M.get_pokemon(pokemon).Type
 end
