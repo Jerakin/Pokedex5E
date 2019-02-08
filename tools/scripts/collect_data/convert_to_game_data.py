@@ -5,6 +5,7 @@ import re
 input_location = Path(__file__).parent / "data"
 output_location = Path(__file__).parent.parent.parent.parent / "assets" / "datafiles"
 
+
 def convert_pokemon_data(input_file):
     convert_to_int = ["AC", "Hit Dice", "HP", "WSp", "Ssp", "Fsp", "Ev", "MIN LVL FD"]
     convert_to_float = ["CR"]
@@ -23,9 +24,11 @@ def convert_pokemon_data(input_file):
         file_data = json.load(fp)
         for pokemon, _ in file_data.items():     # We are using the list of pokemons for the evolve data so
             output_pokemon_list.append(pokemon)  # need to construct that first
-
+        pokemon_index = 0
         for pokemon, data in file_data.items():
-            output_pokemon_data[pokemon] = {"Moves":{"Level":{}}}
+            pokemon_index += 1
+            output_pokemon_data[pokemon] = {"Moves": {"Level": {}}, "index": pokemon_index}
+
             for attribute, value in data.items():
                 if not value:
                     continue

@@ -147,6 +147,10 @@ function M.get_AC(pokemon)
 	return pokedex.get_pokemon_AC(M.get_current_species(pokemon)) + natures.get_AC(M.get_nature(pokemon))
 end
 
+function M.get_index_number(pokemon)
+	return pokemon.index
+end
+
 local function level_index(level)
 	if level > 17 then
 		return "17"
