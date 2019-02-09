@@ -54,12 +54,16 @@ local function setup_inventory(self)
 		pokemon = storage.get_copy(inventory[i])
 		node_prefix = "inventory_pokemon_" .. i
 		if pokemon then
-			gui.set_enabled(gui.get_node(node_prefix .. "/root"), true)
-			gui.set_text(gui.get_node(node_prefix .. "/txt_level"), "Lv. " .. _pokemon.get_current_level(pokemon))
-			gui.set_text(gui.get_node(node_prefix .. "/txt_spicies"), _pokemon.get_current_species(pokemon))
 			local mark_node = gui.get_node(node_prefix .. "/checkmark_mark")
+			gui.set_enabled(gui.get_node(node_prefix .. "/root"), true)
+			
+			local pokemon_sprite, texture = _pokemon.get_sprite(pokemon)
+			local sprite = gui.get_node(node_prefix .. "/pokemon_sprite")
+			gui.set_texture(sprite, texture)
+			gui.play_flipbook(sprite, pokemon_sprite)
+			
 			gui.set_enabled(mark_node, false)
-			local b = button.register(gui.get_node(node_prefix .. "/root"), function()
+			local b = button.register(sprite, function()
 				toggle_inventory(inventory[i])
 				if selected_inventory[inventory[i]] then
 					max_move = max_move + 1
@@ -103,8 +107,14 @@ local function update_listitem(list, item)
 		for i=index+1, 4 do
 			gui.set_text(item.nodes[hash(list.id .. "/move_" .. i)], "")
 		end
+		local sprite = item.nodes["storage_pokemon/pokemon_sprite"]
+		local pokemon_sprite, texture = _pokemon.get_sprite(pokemon)
+		gui.set_texture(sprite, texture)
+		gui.play_flipbook(sprite, pokemon_sprite)
 		gui.set_text(item.nodes[hash(list.id .. "/txt_level")], "Lv. " .. _pokemon.get_current_level(pokemon))
-		gui.set_text(item.nodes[hash(list.id .. "/txt_spicies")], _pokemon.get_current_species(pokemon))
+		local s = _pokemon.get_current_species(pokemon)
+		local n = string.format("%03d", _pokemon.get_index_number(pokemon))
+		gui.set_text(item.nodes[hash(list.id .. "/txt_spicies")], "#" .. n .. " " .. s)
 		if selected_storage[item.data] then
 			gui.set_enabled(item.nodes[hash(list.id .. "/checkmark_mark")], true)
 		else

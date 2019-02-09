@@ -167,6 +167,14 @@ function M.get_index_number(pokemon)
 	return pokedex.get_get_index_number(M.get_current_species(pokemon))
 end
 
+
+function M.get_sprite(pokemon)
+	local pokemon_index = M.get_index_number(pokemon)
+	local texture = "pokemon" .. math.floor(pokemon_index/256)
+	local pokemon_sprite = pokemon_index .. M.get_current_species(pokemon)
+	return pokemon_sprite, texture
+end
+
 local function level_index(level)
 	if level > 17 then
 		return "17"

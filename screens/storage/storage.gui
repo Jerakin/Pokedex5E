@@ -129,7 +129,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 394.0
+    y: 361.0
     z: 0.0
     w: 1.0
   }
@@ -147,7 +147,7 @@ nodes {
   }
   size {
     x: 720.0
-    y: 150.0
+    y: 120.0
     z: 0.0
     w: 1.0
   }
@@ -183,8 +183,8 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: -10.0
+    x: 88.0
+    y: -55.0
     z: 0.0
     w: 1.0
   }
@@ -241,8 +241,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 350.0
-    y: 35.0
+    x: 200.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -254,11 +254,11 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/pokemon_panel"
+  texture: ""
   id: "inventory_pokemon_1/root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_NW
+  pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "inventory_pokemon_1"
   layer: ""
@@ -278,134 +278,8 @@ nodes {
 }
 nodes {
   position {
-    x: 46.0
-    y: -15.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
     x: 0.0
     y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.7
-    y: 0.7
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 50.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Bulbasaur"
-  font: "script"
-  id: "inventory_pokemon_1/txt_spicies"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "inventory_pokemon_1/root"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: true
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 333.0
-    y: -16.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.7
-    y: 0.7
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 50.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "10"
-  font: "script"
-  id: "inventory_pokemon_1/txt_level"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_E
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "inventory_pokemon_1/root"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: true
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 30.0
-    y: -17.0
     z: 0.0
     w: 1.0
   }
@@ -422,8 +296,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 35.0
-    y: 33.0
+    x: 105.0
+    y: 105.0
     z: 0.0
     w: 1.0
   }
@@ -435,7 +309,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/pokemon_check"
+  texture: ""
   id: "inventory_pokemon_1/checkmark_mark"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -455,12 +329,67 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: true
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
-    x: 361.0
-    y: -10.0
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 100.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "pokemon0/100Voltorb"
+  id: "inventory_pokemon_1/pokemon_sprite"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "inventory_pokemon_1/root"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 198.0
+    y: -55.0
     z: 0.0
     w: 1.0
   }
@@ -517,8 +446,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 350.0
-    y: 35.0
+    x: 200.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -530,11 +459,11 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/pokemon_panel"
+  texture: ""
   id: "inventory_pokemon_2/root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_NW
+  pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "inventory_pokemon_2"
   layer: ""
@@ -554,134 +483,8 @@ nodes {
 }
 nodes {
   position {
-    x: 46.0
-    y: -15.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
     x: 0.0
     y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.7
-    y: 0.7
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 50.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Bulbasaur"
-  font: "script"
-  id: "inventory_pokemon_2/txt_spicies"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "inventory_pokemon_2/root"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: true
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 333.0
-    y: -16.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.7
-    y: 0.7
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 50.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "10"
-  font: "script"
-  id: "inventory_pokemon_2/txt_level"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_E
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "inventory_pokemon_2/root"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: true
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 30.0
-    y: -17.0
     z: 0.0
     w: 1.0
   }
@@ -698,8 +501,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 35.0
-    y: 33.0
+    x: 105.0
+    y: 105.0
     z: 0.0
     w: 1.0
   }
@@ -711,7 +514,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/pokemon_check"
+  texture: ""
   id: "inventory_pokemon_2/checkmark_mark"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -731,12 +534,67 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: true
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
     x: 0.0
-    y: -56.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 100.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "pokemon0/100Voltorb"
+  id: "inventory_pokemon_2/pokemon_sprite"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "inventory_pokemon_2/root"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 308.0
+    y: -55.0
     z: 0.0
     w: 1.0
   }
@@ -793,8 +651,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 350.0
-    y: 35.0
+    x: 200.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -806,11 +664,11 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/pokemon_panel"
+  texture: ""
   id: "inventory_pokemon_3/root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_NW
+  pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "inventory_pokemon_3"
   layer: ""
@@ -830,134 +688,8 @@ nodes {
 }
 nodes {
   position {
-    x: 46.0
-    y: -15.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
     x: 0.0
     y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.7
-    y: 0.7
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 50.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Bulbasaur"
-  font: "script"
-  id: "inventory_pokemon_3/txt_spicies"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "inventory_pokemon_3/root"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: true
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 333.0
-    y: -16.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.7
-    y: 0.7
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 50.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "10"
-  font: "script"
-  id: "inventory_pokemon_3/txt_level"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_E
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "inventory_pokemon_3/root"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: true
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 30.0
-    y: -17.0
     z: 0.0
     w: 1.0
   }
@@ -974,8 +706,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 35.0
-    y: 33.0
+    x: 105.0
+    y: 105.0
     z: 0.0
     w: 1.0
   }
@@ -987,7 +719,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/pokemon_check"
+  texture: ""
   id: "inventory_pokemon_3/checkmark_mark"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1007,12 +739,67 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: true
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
-    x: 361.0
-    y: -56.0
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 100.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "pokemon0/100Voltorb"
+  id: "inventory_pokemon_3/pokemon_sprite"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "inventory_pokemon_3/root"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 418.0
+    y: -55.0
     z: 0.0
     w: 1.0
   }
@@ -1069,8 +856,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 350.0
-    y: 35.0
+    x: 200.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -1082,11 +869,11 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/pokemon_panel"
+  texture: ""
   id: "inventory_pokemon_4/root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_NW
+  pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "inventory_pokemon_4"
   layer: ""
@@ -1106,134 +893,8 @@ nodes {
 }
 nodes {
   position {
-    x: 46.0
-    y: -15.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
     x: 0.0
     y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.7
-    y: 0.7
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 50.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Bulbasaur"
-  font: "script"
-  id: "inventory_pokemon_4/txt_spicies"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "inventory_pokemon_4/root"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: true
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 333.0
-    y: -16.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.7
-    y: 0.7
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 50.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "10"
-  font: "script"
-  id: "inventory_pokemon_4/txt_level"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_E
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "inventory_pokemon_4/root"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: true
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 30.0
-    y: -17.0
     z: 0.0
     w: 1.0
   }
@@ -1250,8 +911,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 35.0
-    y: 33.0
+    x: 105.0
+    y: 105.0
     z: 0.0
     w: 1.0
   }
@@ -1263,7 +924,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/pokemon_check"
+  texture: ""
   id: "inventory_pokemon_4/checkmark_mark"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1283,12 +944,67 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: true
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
     x: 0.0
-    y: -103.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 100.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "pokemon0/100Voltorb"
+  id: "inventory_pokemon_4/pokemon_sprite"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "inventory_pokemon_4/root"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 528.0
+    y: -55.0
     z: 0.0
     w: 1.0
   }
@@ -1345,8 +1061,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 350.0
-    y: 35.0
+    x: 200.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -1358,11 +1074,11 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/pokemon_panel"
+  texture: ""
   id: "inventory_pokemon_5/root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_NW
+  pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "inventory_pokemon_5"
   layer: ""
@@ -1382,134 +1098,8 @@ nodes {
 }
 nodes {
   position {
-    x: 46.0
-    y: -15.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
     x: 0.0
     y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.7
-    y: 0.7
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 50.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Bulbasaur"
-  font: "script"
-  id: "inventory_pokemon_5/txt_spicies"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "inventory_pokemon_5/root"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: true
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 333.0
-    y: -16.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.7
-    y: 0.7
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 50.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "10"
-  font: "script"
-  id: "inventory_pokemon_5/txt_level"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_E
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "inventory_pokemon_5/root"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: true
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 30.0
-    y: -17.0
     z: 0.0
     w: 1.0
   }
@@ -1526,8 +1116,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 35.0
-    y: 33.0
+    x: 105.0
+    y: 105.0
     z: 0.0
     w: 1.0
   }
@@ -1539,7 +1129,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/pokemon_check"
+  texture: ""
   id: "inventory_pokemon_5/checkmark_mark"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1559,12 +1149,67 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: true
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
-    x: 361.0
-    y: -103.0
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 100.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "pokemon0/100Voltorb"
+  id: "inventory_pokemon_5/pokemon_sprite"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "inventory_pokemon_5/root"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 638.0
+    y: -55.0
     z: 0.0
     w: 1.0
   }
@@ -1621,8 +1266,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 350.0
-    y: 35.0
+    x: 200.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -1634,11 +1279,11 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/pokemon_panel"
+  texture: ""
   id: "inventory_pokemon_6/root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_NW
+  pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "inventory_pokemon_6"
   layer: ""
@@ -1658,134 +1303,8 @@ nodes {
 }
 nodes {
   position {
-    x: 46.0
-    y: -15.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
     x: 0.0
     y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.7
-    y: 0.7
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 50.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Bulbasaur"
-  font: "script"
-  id: "inventory_pokemon_6/txt_spicies"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "inventory_pokemon_6/root"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: true
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 333.0
-    y: -16.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.7
-    y: 0.7
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 50.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "10"
-  font: "script"
-  id: "inventory_pokemon_6/txt_level"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_E
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "inventory_pokemon_6/root"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: true
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 30.0
-    y: -17.0
     z: 0.0
     w: 1.0
   }
@@ -1802,8 +1321,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 35.0
-    y: 33.0
+    x: 105.0
+    y: 105.0
     z: 0.0
     w: 1.0
   }
@@ -1815,7 +1334,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/pokemon_check"
+  texture: ""
   id: "inventory_pokemon_6/checkmark_mark"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1835,7 +1354,62 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: true
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 100.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "pokemon0/100Voltorb"
+  id: "inventory_pokemon_6/pokemon_sprite"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "inventory_pokemon_6/root"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
@@ -1858,7 +1432,7 @@ nodes {
   }
   size {
     x: 720.0
-    y: 80.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -2162,7 +1736,7 @@ nodes {
 }
 nodes {
   position {
-    x: 5.0
+    x: 344.0
     y: -95.0
     z: 0.0
     w: 1.0
@@ -2180,7 +1754,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 680.0
+    x: 550.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -2197,7 +1771,7 @@ nodes {
   id: "storage_pokemon/box"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_E
   adjust_mode: ADJUST_MODE_FIT
   parent: "storage_pokemon/root"
   layer: ""
@@ -2272,7 +1846,7 @@ nodes {
 }
 nodes {
   position {
-    x: -286.0
+    x: -279.0
     y: -30.0
     z: 0.0
     w: 1.0
@@ -2453,7 +2027,7 @@ nodes {
 }
 nodes {
   position {
-    x: 36.0
+    x: 169.0
     y: -24.0
     z: 0.0
     w: 1.0
@@ -2517,7 +2091,7 @@ nodes {
 }
 nodes {
   position {
-    x: 36.0
+    x: 169.0
     y: -67.0
     z: 0.0
     w: 1.0
@@ -2764,6 +2338,61 @@ nodes {
 }
 nodes {
   position {
+    x: -268.0
+    y: -98.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 100.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "pokemon0/100Voltorb"
+  id: "storage_pokemon/pokemon_sprite"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "storage_pokemon/root"
+  layer: ""
+  inherit_alpha: false
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
     x: 360.0
     y: 1244.0
     z: 0.0
@@ -2883,7 +2512,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 433.0
+    y: 379.0
     z: 0.0
     w: 1.0
   }
@@ -2894,8 +2523,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.5
-    y: 1.5
+    x: 0.8
+    y: 0.8
     z: 1.0
     w: 1.0
   }
@@ -2913,7 +2542,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Pok\303\251slots"
+  text: "-- Pok\303\251slots --"
   font: "script"
   id: "text2"
   xanchor: XANCHOR_NONE
