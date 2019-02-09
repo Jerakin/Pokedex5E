@@ -3,8 +3,8 @@ local monarch = require "monarch.monarch"
 local profiles = require "pokedex.profiles"
 local url = require "utils.url"
 
-local ENABLED = vmath.vector4(0.34, 0.55, 0.6, 1)
-local DISABLED = vmath.vector4(0.7, 0.7, 0.7, 1)
+local ENABLED = vmath.vector4(236/255, 158/255, 41/255, 1)
+local DISABLED = vmath.vector4(253/255, 241/255, 220/255, 1)
 
 local function party_active(self)
 	gui.set_color(self.btn_party, ENABLED)

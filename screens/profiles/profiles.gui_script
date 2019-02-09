@@ -10,7 +10,7 @@ local function delete(profile)
 	profiles.delete(profile)
 end
 local ACTIVE = vmath.vector3(1)
-local INACTIVE = vmath.vector3(0.8, 0.8, 0.8, 1)
+local INACTIVE = vmath.vector3(0.99, 0.95, 0.86, 1)
 
 
 local function refresh(active_slot)

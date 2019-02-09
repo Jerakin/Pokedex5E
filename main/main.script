@@ -39,7 +39,7 @@ function init(self)
 	nuke_old()
 	metadata.save()
 	
-	msg.post("@render:", "clear_color", {color=vmath.vector4(0.46, 0.85, 1, 1)})
+	msg.post("@render:", "clear_color", {color=vmath.vector4(0.93, 0.83, 0.67, 1)})
 	--input order
 	msg.post(".", "acquire_input_focus")
 	msg.post("/screens", "acquire_input_focus")
