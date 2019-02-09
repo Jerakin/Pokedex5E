@@ -144,10 +144,6 @@ local function update_hp(self, nodes, pokemon)
 	local current =_pokemon.get_current_hp(pokemon)
 	gui.set_text(nodes["pokemon/hp_current"], "HP: " .. current)
 	gui.set_text(nodes["pokemon/hp"], "/ " .. max)
-	
-	--local p = gui.get_position(nodes["pokemon/hp_current"])
-	--p.x = p.x + (gui.get_text_metrics_from_node(nodes["pokemon/hp_current"]).width)
-	--gui.set_position(nodes["pokemon/hp"], p)
 end
 
 local function setup_page(self, nodes, pokemon)
@@ -252,10 +248,6 @@ function final(self)
 	button.unregister()
 end
 
-function update(self, dt)
-	-- Add update code here
-	-- Remove this function if not needed
-end
 
 function on_message(self, message_id, message, sender)
 	transitions.on_message(self.transition, message_id, message, sender)
@@ -287,9 +279,4 @@ function on_input(self, action_id, action)
 			change_pokemon(self)
 		end
 	end
-end
-
-function on_reload(self)
-	-- Add input-handling code here
-	-- Remove this function if not needed
 end

@@ -22,15 +22,11 @@ local function redraw(self)
 	gui.set_text(gui.get_node("txt_level"), "Lv. " .. self.level)
 	
 	-- Moves
-	local index = 0
-	for move, _ in pairs(self.pokemon.moves) do
-		index = index + 1
+	for move, data in pairs(self.pokemon.moves) do
+		local index = data.index
+		table.insert(indexes, value)
 		local move_node = gui.get_node("moves/move_" .. index)
 		gui.set_text(move_node, move)
-	end
-	for i=index+1, 4 do
-		local move_node = gui.get_node("moves/move_" .. i)
-		gui.set_text(move_node, "")
 	end
 
 	-- Natures and attributes
@@ -173,7 +169,6 @@ function M.init(self, pokemon)
 	self.ability_score_improvment = 0
 	self.list_items = {}
 	self.move_button_index = 0
-
 	self.root = gui.get_node("root")
 
 end
@@ -209,10 +204,7 @@ function M.on_message(self, message_id, message, sender)
 			self.have_evolved = true
 		else
 			local n = gui.get_node("moves/move_" .. self.move_button_index)
-			local old_move = gui.get_text(n)
-			self.pokemon.moves[old_move] = nil
-			local pp = pokedex.get_move_pp(message.item)
-			self.pokemon.moves[message.item] = {pp=pp, index=self.move_button_index}
+			_pokemon.set_move(self.pokemon, message.item, self.move_button_index)
 			gui.set_text(n, message.item)
 		end
 		redraw(self)

@@ -84,6 +84,18 @@ function M.get_caught_level(pokemon)
 	return pokemon.level.caught
 end
 
+function M.set_move(pokemon, new_move, index)
+	local pp = pokedex.get_move_pp(new_move)
+	for name, move in pairs(M.get_moves(pokemon)) do
+		if move.index == index then
+			pokemon.moves[name] = nil
+			pokemon.moves[new_move] = {pp=pp, index=index}
+			return
+		end
+	end
+	pokemon.moves[new_move] = {pp=pp, index=index}
+end
+
 function M.get_moves(pokemon)
 	return pokemon.moves
 end
