@@ -1,0 +1,17 @@
+path_settings {
+  path: "/**/*.atlas"
+  profile: "atlas_profile"
+}
+profiles {
+  name: "atlas_profile"
+  platforms {
+    os: OS_ID_GENERIC
+    formats {
+      format: TEXTURE_FORMAT_RGBA
+      compression_level: BEST
+      compression_type: COMPRESSION_TYPE_WEBP
+    }
+    mipmaps: false
+    max_texture_size: 2048
+  }
+}
