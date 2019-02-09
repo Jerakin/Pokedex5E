@@ -6,11 +6,37 @@ local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
 local profiles = require "pokedex.profiles"
 local flow = require "utils.flow"
+local metadata = require "utils.metadata"
 
+
+function mysplit(inputstr, sep)
+	if sep == nil then
+		sep = "%s"
+	end
+	local t={}
+	for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+		table.insert(t, str)
+	end
+	return t
+end
+
+local function nuke_old()
+	if metadata.get("app_version") then
+		local version = mysplit(metadata.get("app_version"), ".")
+		if tonumber(version[1]) == 0 and tonumber(version[2]) <= 2 then
+			print("NUKE")
+		end
+	end
+	--for _, dir_obj  in lfs.dir(path) do
+		
+	--end
+end
 
 function init(self)
-	msg.post("@render:", "clear_color", {color=vmath.vector4(0.46, 0.85, 1, 1)})
+	metadata.load()
+	nuke_old()
 	
+	msg.post("@render:", "clear_color", {color=vmath.vector4(0.46, 0.85, 1, 1)})
 	--input order
 	msg.post(".", "acquire_input_focus")
 	msg.post("/screens", "acquire_input_focus")
@@ -56,5 +82,6 @@ function update(self, dt)
 end
 
 function final(self)
+	metadata.save()
 	storage.save()
 end
