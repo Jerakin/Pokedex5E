@@ -52,7 +52,9 @@ function init(self)
 		_pokemon.save(self.pokemon)
 		monarch.show("party", {clear=true})
 	end)
-	
+
+	pokemon_edit.register_buttons_after_nature(self)
+	pokemon_edit.register_buttons_after_species(self)
 	pokemon_edit.redraw(self)
 end
 

@@ -90,18 +90,7 @@ local function pick_move(self)
 	monarch.show("scrollist", {}, {items=available_moves, message_id="move", sender=msg.url()})
 end
 
-function M.init(self, pokemon)
-	if pokemon then
-		self.pokemon = utils.deep_copy(pokemon)
-	end
-	self.increased_attributes = {STR= 0,DEX= 0,CON= 0,INT= 0,WIS= 0,CHA= 0}
-	self.level = 1
-	self.ability_score_improvment = 0
-	self.list_items = {}
-	self.move_button_index = 0
-
-	self.root = gui.get_node("root")
-
+function M.register_buttons_after_nature(self)
 	button.register("asi/btn_str_decrease/btn", function()
 		decrease(self, "STR")
 	end)
@@ -151,7 +140,9 @@ function M.init(self, pokemon)
 			redraw(self)
 		end
 	end)
+end
 
+function M.register_buttons_after_species(self)
 	button.register("moves/btn_move_1", function()
 		self.move_button_index = 1
 		pick_move(self)
@@ -173,6 +164,20 @@ function M.init(self, pokemon)
 	end)
 end
 
+function M.init(self, pokemon)
+	if pokemon then
+		self.pokemon = utils.deep_copy(pokemon)
+	end
+	self.increased_attributes = {STR= 0,DEX= 0,CON= 0,INT= 0,WIS= 0,CHA= 0}
+	self.level = 1
+	self.ability_score_improvment = 0
+	self.list_items = {}
+	self.move_button_index = 0
+
+	self.root = gui.get_node("root")
+
+end
+
 function M.final(self)
 	button.unregister()
 end
@@ -182,6 +187,8 @@ function M.on_message(self, message_id, message, sender)
 		if message_id == hash("nature") then
 			self.pokemon.nature = message.item
 			self.pokemon.attributes.nature = natures.get_nature_attributes(message.item)
+			M.register_buttons_after_nature(self)
+			if self.register_buttons_after_nature then self.register_buttons_after_nature(self) end
 		elseif message_id == hash("species") then
 			self.pokemon = _pokemon.new({species=message.item})
 			self.level = self.pokemon.level.current
@@ -192,8 +199,10 @@ function M.on_message(self, message_id, message, sender)
 					local pp = pokedex.get_move_pp(starting_moves[i])
 					moves[starting_moves[i]] = {pp=pp, index=i}
 				end
-			end 
+			end
 			self.pokemon.moves = moves
+			M.register_buttons_after_species(self)
+			if self.register_buttons_after_species then self.register_buttons_after_species(self) end
 		elseif message_id == hash("evolve") then
 			_pokemon.set_species(self.pokemon, message.item)
 			self.ability_score_improvment = self.ability_score_improvment - pokedex.evolve_points(message.item)

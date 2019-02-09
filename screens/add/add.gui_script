@@ -11,36 +11,42 @@ HAVE_EVOLVED = false
 
 function init(self)
 	self.transition = transitions.default(gui.get_node("root"))
+	gui.set_color(gui.get_node("spicies"), vmath.vector4(1,0,0,1))
 	function self.redraw(self)
 		local nature_node = gui.get_node("nature")
 		gui.set_text(nature_node, self.pokemon.nature)
 	end
-	
-	
+
+	function self.register_buttons_after_species(self)
+		button.register("btn_nature", function()
+			gui.set_enabled(self.root, false)
+			monarch.show("scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url()})
+			gui.set_color(gui.get_node("nature"), vmath.vector4(0,0,0,1))
+			
+		end)
+
+		button.register("btn_add", function()
+			if self.pokemon.nature ~= "" and self.pokemon.species.current ~= "" then
+				self.pokemon.level.caught = self.level
+				self.pokemon.attributes.increased = self.increased_attributes
+				storage.add(self.pokemon)
+				monarch.show("party", {clear=true})
+			end
+		end)
+		
+	end
 	msg.post(url.SWITCHER, "activate", {screen="add"})
 	button.acquire()
 
 	pokemon_edit.init(self)
-	
-	button.register("btn_add", function()
-		if self.pokemon.nature ~= "" and self.pokemon.species.current ~= "" then
-			self.pokemon.level.caught = self.level
-			self.pokemon.attributes.increased = self.increased_attributes
-			storage.add(self.pokemon)
-			monarch.show("party", {clear=true})
-		end
-	end)
 
 	button.register("btn_spicies", function()
+		gui.set_color(gui.get_node("spicies"), vmath.vector4(0,0,0,1))
+		gui.set_color(gui.get_node("nature"), vmath.vector4(1,0,0,1))
 		gui.set_enabled(self.root, false)
 		monarch.show("scrollist", {}, {items=pokedex.list, message_id="species", sender=msg.url()})
 	end)
 
-	button.register("btn_nature", function()
-		gui.set_enabled(self.root, false)
-		monarch.show("scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url()})
-	end)
-	
 	pokemon_edit.redraw(self)
 end
 
