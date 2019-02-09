@@ -7,7 +7,7 @@ local storage = require "pokedex.storage"
 local profiles = require "pokedex.profiles"
 local flow = require "utils.flow"
 local metadata = require "utils.metadata"
-
+require "utils.lfs_extend"
 
 function mysplit(inputstr, sep)
 	if sep == nil then
@@ -24,17 +24,20 @@ local function nuke_old()
 	if metadata.get("app_version") then
 		local version = mysplit(metadata.get("app_version"), ".")
 		if tonumber(version[1]) == 0 and tonumber(version[2]) <= 2 then
-			print("NUKE")
+			--lfs.rmdirs(sys.get_save_file("pokedex5E", ""):sub(1, -2))
 		end
+	else
+		print("Nuking Save Data")
+		lfs.rmdirs(sys.get_save_file("pokedex5E", ""):sub(1, -2))
 	end
-	--for _, dir_obj  in lfs.dir(path) do
-		
-	--end
 end
 
 function init(self)
+	defsave.appname = "pokedex5E"
+	defsave.use_default_data = false
 	metadata.load()
 	nuke_old()
+	metadata.save()
 	
 	msg.post("@render:", "clear_color", {color=vmath.vector4(0.46, 0.85, 1, 1)})
 	--input order
@@ -49,9 +52,7 @@ function init(self)
 	if system == "Windows" then
 		defos.set_window_size(0, 0, 570, 1024)
 	end
-	
-	defsave.appname = "pokedex5E"
-	defsave.use_default_data = false
+
 	profiles.init()
 	flow.start(function()
 		flow.until_true(function()
@@ -82,6 +83,5 @@ function update(self, dt)
 end
 
 function final(self)
-	metadata.save()
 	storage.save()
 end
