@@ -7,6 +7,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 output_location = os.path.join(os.path.dirname(__file__), "data")
 data_sheets = ["IDATA", "MDATA", "PDATA", "TDATA"]
 
+
 def convert_to_json(worksheet):
     output_file = os.path.join(output_location, worksheet.title + ".json")
     all_values = worksheet.get_all_values()
@@ -26,6 +27,7 @@ def convert_to_json(worksheet):
         data = json.dumps(output_data, ensure_ascii=False)
         f.write(data)
         print("Exported {}".format(output_file))
+
 
 def get_worksheet(cred_file):
     scope = ['https://spreadsheets.google.com/feeds',

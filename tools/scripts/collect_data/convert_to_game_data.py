@@ -39,8 +39,11 @@ def convert_pokemon_data(input_file):
                     output_pokemon_data[pokemon]["attributes"][attribute] = int(value)
                     continue
                 if attribute == "Moves":
-                    output_pokemon_data[pokemon]["Moves"]["Starting Moves"] = reg_starting_moves.match(value).group(
-                        1).split(", ")
+                    starting_moves = reg_starting_moves.match(value)
+                    if starting_moves:
+                        output_pokemon_data[pokemon]["Moves"]["Starting Moves"] = starting_moves.group(1).split(", ")
+                    else:
+                        print("No starting moves found for ", pokemon)
                     lvl_moves = reg_level_moves.search(value)
                     if lvl_moves:
                         level = lvl_moves.group(1)
@@ -88,6 +91,7 @@ def convert_pokemon_data(input_file):
             json.dump(output_evolve_data, f, indent="  ", ensure_ascii=False)
             print("Exported {}".format(output_location / "evolve.json"))
 
+
 def convert_move_data(input_file):
     convert_to_int = ["PP"]
 
@@ -133,12 +137,14 @@ def convert_move_data(input_file):
             json.dump(converted, f, indent="  ", ensure_ascii=False)
             print("Exported {}".format(output_location / "moves.json"))
 
+
 def convert_item_data(input_file):
     with open(input_file, "r") as fp:
         file_data = json.load(fp)
         with open(output_location / "items.json", "w") as f:
             json.dump(file_data, f, indent="  ", ensure_ascii=False)
             print("Exported {}".format(output_location / "items.json"))
+
 
 def convert_ability_data(input_file):
     with open(input_file, "r") as fp:
@@ -147,10 +153,11 @@ def convert_ability_data(input_file):
             json.dump(file_data, f, indent="  ", ensure_ascii=False)
             print("Exported {}".format(output_location / "abilities.json"))
 
-data_sheets = {"IDATA.json":convert_item_data,
+data_sheets = {"IDATA.json": convert_item_data,
                "MDATA.json": convert_move_data,
-               "PDATA.json":convert_pokemon_data,
-               "TDATA.json":convert_ability_data}
+               "PDATA.json": convert_pokemon_data,
+               "TDATA.json": convert_ability_data}
+
 
 def main():
     for data_file in input_location.iterdir():

@@ -105,7 +105,7 @@
       "DEX"
     ],
     "Move Time": "1 action",
-    "PP": 3,
+    "PP": 10,
     "Duration": "Instantaneous",
     "Range": "Melee",
     "Description": "You dive at an opponent with such speed that it is impossible for them to avoid.  This move is guaranteed to hit for 1d4 + MOVE flying damage, unless during the invulnerable stage of Fly, Dig, Bounce, Dive, etc. moves.",
@@ -138,7 +138,7 @@
       "DEX"
     ],
     "Move Time": "1 action",
-    "PP": 10,
+    "PP": 3,
     "Duration": "Instantaneous",
     "Range": "50ft line",
     "Save": "DEX",
@@ -300,6 +300,17 @@
     "Range": "10 ft radius",
     "Description": "You release a pleasant aroma that empowers your allies. All allies within a ten foot circle, centered on you, are cured of all negative status ailments."
   },
+  "Aromatic Mist": {
+    "Type": "Fairy",
+    "Move Power": [
+      "None"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "1 minute",
+    "Range": "5ft",
+    "Description": "You release an aroma that inspires your allies. When you activate this move, you and any ally within 5 feet of you may add a d4 to any saving throw they make for the duration."
+  },
   "Assist": {
     "Type": "Normal",
     "Move Power": [
@@ -391,6 +402,17 @@
       }
     }
   },
+  "Baby-Doll Eyes": {
+    "Type": "Fairy",
+    "Move Power": [
+      "None"
+    ],
+    "Move Time": "1 reaction",
+    "PP": 3,
+    "Duration": "Instantaneous",
+    "Range": "30ft",
+    "Description": "You quickly widen your eyes in an attempt to charm an opponent, decreasing their will to fight. When you or an ally in range are targeted by a Move that requires an attack roll, you may use a reaction to impose disadvantage on the roll."
+  },
   "Barrage": {
     "Type": "Normal",
     "Move Power": [
@@ -411,7 +433,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 minute, Concentration",
-    "Range": "5ft",
+    "Range": "Self, 5ft",
     "Description": "You create a transparent shield of psychic energy. While active, the barrier grants +2 to AC for you and any companions within 5 feet of you for the duration."
   },
   "Baton Pass": {
@@ -502,7 +524,7 @@
     "PP": 15,
     "Duration": "Instantaneous",
     "Range": "Melee",
-    "Description": "You sink your teeth into an enemy Pokémon. Make a melee attack roll, doing 1d10 + MOVE dark damage on a successful hit.",
+    "Description": "You sink your teeth into an enemy Pokémon. Make a melee attack roll, doing 1d10 + MOVE dark damage on a successful hit. On natural attack rolls of 19 or 20, the target flinches",
     "Damage": {
       "1": {
         "amount": 1,
@@ -1309,6 +1331,17 @@
       }
     }
   },
+  "Crafty Shield": {
+    "Type": "Fairy",
+    "Move Power": [
+      "None"
+    ],
+    "Move Time": "1 reacion",
+    "PP": 3,
+    "Duration": "Instantaneous",
+    "Range": "5ft",
+    "Description": "You summon forth a mysterious power that blocks an incoming status condition. When you or an ally within 5 feet of you are subject to a status condition from an enemy move, you may use your reaction to nullify the condition."
+  },
   "Cross Chop": {
     "Type": "Fighting",
     "Move Power": [
@@ -1419,7 +1452,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "1 minute, Concentration",
-    "Range": "10ft",
+    "Range": "10",
     "Save": "WIS",
     "Description": "This Move has a different effect based on your Pokémon type. \nIf you are ghost-type: You attempt to put a curse on an opponent. Force a target in range to make a WIS saving throw against your Move DC. On a fail, the target is cursed. You take 1d6 damage initially and your opponent takes 1d6 ghost damage at the end of each of its turns for the duration. \nIf you are any other type: You place a curse on yourself. For the duration, your STR and CON scores increase by two, but your DEX score decreases by 4.",
     "Damage": {
@@ -1475,6 +1508,41 @@
       "17": {
         "amount": 3,
         "dice_max": 10,
+        "move": true
+      }
+    }
+  },
+  "Dazzling Gleam": {
+    "Type": "Fairy",
+    "Move Power": [
+      "DEX",
+      "CHA"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "20ft",
+    "Save": "CON",
+    "Description": "You emit a powerful flash that damages all creatures in range. Creatures within 20 feet of you must make a CON save against your Move DC, taking 2d6 + MOVE fairy damage on a failure, or half as much on a success.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 6,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 6,
+        "move": true
+      },
+      "17": {
+        "amount": 6,
+        "dice_max": 6,
         "move": true
       }
     }
@@ -1559,6 +1627,39 @@
     "Duration": "1 minute, Concentration",
     "Range": "60ft",
     "Description": "You attempt to disable a Pokémon, hindering its abilities. Choose a target in range. The target must succeed on a WIS saving throw against your Move DC. On a fail, roll a d4. Each of the opponent’s moves is numbered 1 – 4 in alphabetical order. The move corresponding to the number rolled is unable to be activated for one minute. If the target has less than 4 moves, reroll until you get a lower result. If the target has the \"Extra Move\" feat, use a d6 and reroll on 6s."
+  },
+  "Disarming Voice": {
+    "Type": "Fairy",
+    "Move Power": [
+      "CHA"
+    ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "Instantaneous",
+    "Range": "20ft",
+    "Description": "You let out a charming cry, dealing emotional damage to any creature in range that can hear you. This move automatically hits for 1d4 + MOVE fairy damage unless a creature is in the invulnerable stages of Fly, Dig, Bounce, etc.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 4,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 4,
+        "move": true
+      },
+      "10": {
+        "amount": 1,
+        "dice_max": 12,
+        "move": true
+      },
+      "17": {
+        "amount": 4,
+        "dice_max": 4,
+        "move": true
+      }
+    }
   },
   "Discharge": {
     "Type": "Electric",
@@ -1917,6 +2018,40 @@
       "17": {
         "amount": 7,
         "dice_max": 8,
+        "move": true
+      }
+    }
+  },
+  "Draining Kiss": {
+    "Type": "Fairy",
+    "Move Power": [
+      "DEX",
+      "CHA"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You attempt to zap the target's energy with a kiss. Make a melee attack roll on an opponent, dealing 1d8 + MOVE fairy damage on a hit. The user is then healed for half the damage dealt.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 8,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 6,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 4,
+        "move": true
+      },
+      "17": {
+        "amount": 3,
+        "dice_max": 10,
         "move": true
       }
     }
@@ -2305,6 +2440,52 @@
       }
     }
   },
+  "Fairy Lock": {
+    "Type": "Fairy",
+    "Move Power": [
+      "WIS",
+      "CHA"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "1 round",
+    "Range": "40ft",
+    "Description": "You summon forth a mystical power that locks down the battlefield. Creatures within a 40 foot circle, centered on you, may not flee or be switched out on their next turn."
+  },
+  "Fairy Wind": {
+    "Type": "Fairy",
+    "Move Power": [
+      "DEX",
+      "CHA"
+    ],
+    "Move Time": "1 action",
+    "PP": 15,
+    "Duration": "Instantaneous",
+    "Range": "30ft",
+    "Description": "You stir up a series of viscious fairy winds that fly towards an opponent in range. Make a ranged attack roll against a target, dealing 1d6 + MOVE fairy damage on a hit.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 6,
+        "move": true
+      },
+      "5": {
+        "amount": 1,
+        "dice_max": 12,
+        "move": true
+      },
+      "10": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "17": {
+        "amount": 4,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
   "Fake Out": {
     "Type": "Normal",
     "Move Power": [
@@ -2509,7 +2690,7 @@
     ],
     "Move Time": "1 action",
     "PP": 10,
-    "Duration": "Instantaneous",
+    "Duration": "3 turns, Concentration",
     "Range": "40ft",
     "Description": "You release a series of moving flames that dance around a target. Make a ranged attack roll, doing 1d6 + MOVE fire damage on a hit. As long as you maintain concentration, the target takes an additional 1d6 fire damage at the end of each of its next three turns.",
     "Damage": {
@@ -2670,6 +2851,17 @@
     "Duration": "Instantaneous",
     "Range": "30ft",
     "Description": "You send mixed signals to an opponent. Select a target in range. They become confused, but during this confusion, they double their proficiency bonus when making attack rolls."
+  },
+  "Flower Shield": {
+    "Type": "Fairy",
+    "Move Power": [
+      "None"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "1 minute, Concentration",
+    "Range": "15ft",
+    "Description": "Large flowers sprout from any grass-type allies in range, boosting their defense. For one minute, as long as you keep your concentration, grass-type allies in range gain +2 to their AC."
   },
   "Fly": {
     "Type": "Flying",
@@ -2897,8 +3089,8 @@
         "move": true
       },
       "10": {
-        "amount": 1,
-        "dice_max": 8,
+        "amount": 2,
+        "dice_max": 4,
         "move": true
       },
       "17": {
@@ -2975,6 +3167,17 @@
         "move": true
       }
     }
+  },
+  "Geomancy": {
+    "Type": "Fairy",
+    "Move Power": [
+      "None"
+    ],
+    "Move Time": "1 action, charge",
+    "PP": 5,
+    "Duration": "1 round, Concentration",
+    "Range": "Self",
+    "Description": "You spend time to absorb the natural energy around you, sharply increasing your effect in battle. When you activate this move, you charge your energy and your turn is over. At the beginning of your next turn, for one round, your speed increases by 10 feet, and all of your attacks and saving throws are rolled with advantage."
   },
   "Giga Drain": {
     "Type": "Grass",
@@ -4109,6 +4312,40 @@
       }
     }
   },
+  "Light of Ruin": {
+    "Type": "Fairy",
+    "Move Power": [
+      "DEX",
+      "CHA"
+    ],
+    "Move Time": "1 action",
+    "PP": 3,
+    "Duration": "Instantaneous",
+    "Range": "80ft line",
+    "Description": "You draw forth a powerful natural essence, concentrating it into a beam of light 80 ft long and 5 feet wide. Any creature caught in the blast must make DEX saving throw against your Move DC, taking 2d12 + MOVE fairy damage on a failure, or half as much on a success. The user takes recoil damage equal to half the damage dealt.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 12,
+        "move": true
+      },
+      "5": {
+        "amount": 3,
+        "dice_max": 10,
+        "move": true
+      },
+      "10": {
+        "amount": 7,
+        "dice_max": 6,
+        "move": true
+      },
+      "17": {
+        "amount": 8,
+        "dice_max": 8,
+        "move": true
+      }
+    }
+  },
   "Light Screen": {
     "Type": "Psychic",
     "Move Power": [
@@ -4279,7 +4516,7 @@
     "Duration": "Instantaneous",
     "Range": "40ft",
     "Save": "DEX",
-    "Description": "You shake the ground with an earth-shattering quake. All Pokémon in range must make a DEX save against your Move DC, taking half damage on a success and full damage on a fail. Roll a d100 on the table below to determine damage. \n- \n| d100  | Damage |\n|:---:|:-----------:|\n|  01-05  | 1d4+MOVE |\n|  06-15  | 1d8+MMOVE |\n|  16-35  | 1d10+MOVE |\n|  36-65  | 1d12+MOVE |\n|  66-85  | 2d6+MOVE |\n|  86-95  | 2d8+MOVE |\n|  96-100  | 2d12+MOVE |"
+    "Description": "You shake the ground with an earth-shattering quake. All Pokémon in range must make a DEX save against your Move DC, taking half damage on a success and full damage on a fail. Roll a d100 on the table below to determine damage. \n- \n| d100  | Damage |\n|:---:|:-----------:|\n|  01-05  | 1d4+MOVE |\n|  06-15  | 1d8+MOVE |\n|  16-35  | 1d10+MOVE |\n|  36-65  | 1d12+MOVE |\n|  66-85  | 2d6+MOVE |\n|  86-95  | 2d8+MOVE |\n|  96-100  | 2d12+MOVE |"
   },
   "Mean Look": {
     "Type": "Normal",
@@ -4551,7 +4788,7 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "10ft",
-    "Description": "You create a tasty drink that heals your or an ally’s wounds. The recipient gains 2d6 + MOVE hit points.\n",
+    "Description": "You create a tasty drink that heals your or an ally’s wounds. The recipient gains 2d6 + MOVE hit points.",
     "Damage": {
       "1": {
         "amount": 2,
@@ -4699,6 +4936,51 @@
       }
     }
   },
+  "Misty Terrain": {
+    "Type": "Fairy",
+    "Move Power": [
+      "None"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "3 turns",
+    "Range": "60ft",
+    "Description": "You cover the ground in a thin, healing mist. For 3 turns, no grounded creatures inside the mist can suffer from new status conditions. Grounded creatures are those that do not have a flying speed or Levitate ability."
+  },
+  "Moonblast": {
+    "Type": "Fairy",
+    "Move Power": [
+      "DEX",
+      "CHA"
+    ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "Instantaneous",
+    "Range": "30ft",
+    "Description": "You summon forth a powerful moonbeam that strikes an opponent. Make a ranged attack on a taget in range, dealing 2d8 + MOVE fairy damage on a hit. On a natural attack roll of 15 or more, the target has disadvantagew on its next attack.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 10,
+        "move": true
+      },
+      "10": {
+        "amount": 3,
+        "dice_max": 10,
+        "move": true
+      },
+      "17": {
+        "amount": 4,
+        "dice_max": 12,
+        "move": true
+      }
+    }
+  },
   "Moonlight": {
     "Type": "Fairy",
     "Move Power": [
@@ -4808,7 +5090,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 minute",
-    "Range": "5ft",
+    "Range": "5 feet",
     "Description": "You cover yourself and all allies around you with thick mud, reducing the amount of electric damage taken for anyone affected. For the duration, you and any ally in range (when you initially activated this move) have resistance to electric-type attacks. If you were already resistant, you are now immune. If you were vulnerable, you now take normal damage. If you are immune to electric-type moves already, nothing happens."
   },
   "Mud-Slap": {
@@ -4934,7 +5216,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "60ft",
-    "Description": "You hit an enemy with a necrotic wave of dark energy. Make a ranged attack against a target. On a hit, the damage is equal to 1d6 + the user’s level.",
+    "Description": "You hit an enemy with a necrotic wave of dark energy. Make a ranged attack against a target. On a hit, the ghost damage is equal to 1d6 + the user’s level.",
     "Damage": {
       "1": {
         "amount": 1,
@@ -5238,6 +5520,40 @@
       "17": {
         "amount": 4,
         "dice_max": 4,
+        "move": true
+      }
+    }
+  },
+  "Play Rough": {
+    "Type": "Fairy",
+    "Move Power": [
+      "DEX",
+      "CHA"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You fake an opponent out with a playful attack that quickly becomes too rough. Make a melee attack against an opponent, dealing 2d8 + MOVE fairy damage on a hit. On natural attack rolls of 19 or 20, the target adds -1 to any attack it makes for the remainder of combat. This effect can be stacked to a maximum of -5 to hit.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 10,
+        "move": true
+      },
+      "10": {
+        "amount": 3,
+        "dice_max": 10,
+        "move": true
+      },
+      "17": {
+        "amount": 4,
+        "dice_max": 12,
         "move": true
       }
     }
@@ -6256,7 +6572,6 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "Melee",
     "Description": "You roll into a foe, repeatedly making attacks with increasing strength. Make a melee attack on an opponent, doing 1d6 + MOVE rock damage on a hit. If you use this move in back to back turns, double the dice on each hit for a maximum of 5 successive turns. Ex: 1d6 on first hit, 2d6 on second, 4d6, 8d6, 16d6. If any of the attacks miss, the damage resets.",
     "Damage": {
       "1": {
@@ -6474,7 +6789,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "Melee",
-    "Description": "You strike a foe with unknown power. Make a melee attack roll against an opponent, dealing 1d12 + MOVE normal damage on a hit. On a natural attack roll of 15 or higher, roll a d6 and cause the random effect.\n\n| d6  | Effect |\n|:---:|:-----------:|\n|  1  | Posion |\n|  2  | Burn |\n|  3  | Confusion |\n|  4  | Frozen |\n|  5  | Paralysis |\n|  6  | Sleep |",
+    "Description": "You strike a foe with unknown power. Make a melee attack roll against an opponent, dealing 1d12 + MOVE normal damage on a hit. On a natural attack roll of 15 or higher, roll a d6 and cause the random effect.\n\n| d6  | Effect |\n|:---:|:-----------:|\n|  1  | Poison |\n|  2  | Burn |\n|  3  | Confusion |\n|  4  | Frozen |\n|  5  | Paralysis |\n|  6  | Sleep |",
     "Damage": {
       "1": {
         "amount": 1,
@@ -6886,26 +7201,26 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "30ft",
-    "Description": "You strike a foe with unknown power. Make a melee attack roll against an opponent, dealing 1d12 + MOVE normal damage on a hit. On a natural attack roll of 15 or higher, roll a d6 and cause the random effect.\n\n| d6  | Effect |\n|:---:|:-----------:|\n|  1  | Poison |\n|  2  | Burn |\n|  3  | Confusion |\n|  4  | Frozen |\n|  5  | Paralysis |\n|  6  | Sleep |",
+    "Description": "You unleash a devastating uppercutting fist that continues to strike skyward with force. Make a ranged attack roll against an opponent, dealing 2d6 + MOVE fighting damage on a hit. This move can target enemies in the invulnerbale stages of Fly, Bounce and Sky Drop.",
     "Damage": {
       "1": {
-        "amount": 1,
+        "amount": 2,
         "dice_max": 6,
         "move": true
       },
       "5": {
-        "amount": 1,
-        "dice_max": 10,
-        "move": true
-      },
-      "10": {
         "amount": 2,
         "dice_max": 8,
         "move": true
       },
+      "10": {
+        "amount": 4,
+        "dice_max": 6,
+        "move": true
+      },
       "17": {
-        "amount": 5,
-        "dice_max": 4,
+        "amount": 6,
+        "dice_max": 6,
         "move": true
       }
     }
