@@ -20,13 +20,13 @@ end
 
 function M.save()
 	local data = collect()
-	defsave.set(filename, "data", data)
+	defsave.set(filename, "metadata", data)
 	defsave.save(filename)
 end
 	
 function M.load()
 	defsave.load(filename)
-	loaded_data = defsave.get(filename, "data")
+	loaded_data = defsave.get(filename, "metadata")
 end
 
 function M.get_data()
