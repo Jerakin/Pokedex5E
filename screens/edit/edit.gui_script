@@ -48,6 +48,12 @@ function init(self)
 
 	button.register("btn_edit", function()
 		_pokemon.update_increased_attributes(self.pokemon, self.increased_attributes)
+		local max_hp = _pokemon.get_max_hp_at_level(self.pokemon, self.level)
+		if self.have_evolved then
+			max_hp = max_hp + self.level * 2
+			_pokemon.set_evolved(pokemon)
+		end
+		_pokemon.set_max_hp(self.pokemon, max_hp)
 		self.pokemon.level.current = self.level
 		_pokemon.save(self.pokemon)
 		monarch.show("party", {clear=true})

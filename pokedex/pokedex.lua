@@ -115,6 +115,10 @@ function M.get_saving_throw_proficiencies(pokemon)
 	return M.get_pokemon(pokemon).saving_throws
 end
 
+function M.get_pokemon_hit_dice(pokemon)
+	return M.get_pokemon(pokemon)["Hit Dice"]
+end
+
 function M.get_pokemons_moves(pokemon, level)
 	level = level or 20
 	local moves = M.get_pokemon(pokemon)["Moves"]

@@ -5,6 +5,7 @@ local monarch = require "monarch.monarch"
 local storage = require "pokedex.storage"
 local pokedex = require "pokedex.pokedex"
 local url = require "utils.url"
+local _pokemon = require "pokedex.pokemon"
 local transitions = require "utils.transitions"
 
 HAVE_EVOLVED = false
@@ -28,6 +29,8 @@ function init(self)
 		button.register("btn_add", function()
 			if self.pokemon.nature ~= "" and self.pokemon.species.current ~= "" then
 				self.pokemon.level.caught = self.level
+				local max_hp = _pokemon.get_max_hp_at_level(self.pokemon, self.level)
+				self.pokemon.hp.max = max_hp
 				self.pokemon.attributes.increased = self.increased_attributes
 				storage.add(self.pokemon)
 				monarch.show("party", {clear=true})

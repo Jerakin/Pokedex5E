@@ -148,6 +148,10 @@ function M.reset_move_pp(pokemon, move)
 	pokemon.moves[move] = pp
 end
 
+function M.set_evolutuion_at_level(pokemon, level)
+	pokemon.level.evolved = level
+	storage.set_evolutuion_at_level(M.get_id(pokemon), level)
+end
 
 function M.get_saving_throw_attributes(pokemon)
 	local prof = M.get_proficency_bonus(pokemon)
@@ -167,6 +171,25 @@ function M.get_index_number(pokemon)
 	return pokedex.get_get_index_number(M.get_current_species(pokemon))
 end
 
+function M.get_max_hp_at_level(pokemon, level)
+	local current_species = M.get_current_species(pokemon)
+	local caught_level = M.get_caught_level(pokemon)
+	local current_level = M.get_current_level(pokemon) 
+	local evolution_level = M.get_evolution_level(pokemon)
+	
+	local base_con_mod = math.floor((pokedex.get_base_attributes(current_species).CON - 10) / 2)
+	local base_hp = pokedex.get_base_hp(current_species) - base_con_mod
+	local extra_hp_from_evolution = (caught_level - evolution_level) * 2
+	local hit_dice = pokedex.get_pokemon_hit_dice(current_species)
+	local con = M.get_attributes(pokemon).CON
+	local con_mod = math.floor((con - 10) / 2)
+	local levels_gained = current_level - caught_level
+	return extra_hp_from_evolution + base_hp + ((math.ceil(hit_dice / 2)  + con_mod) * levels_gained)
+end
+
+function M.get_evolution_level(pokemon)
+	return pokemon.level.evolved or 0
+end
 
 function M.get_sprite(pokemon)
 	local pokemon_index = M.get_index_number(pokemon)
@@ -264,6 +287,7 @@ function M.new(data)
 	this.level = {}
 	this.level.caught = pokedex.get_minimum_wild_level(this.species.caught)
 	this.level.current = this.level.caught
+	this.level.evolved = 0
 
 	this.attributes = {}
 	this.attributes.increased = data.attributes or {}

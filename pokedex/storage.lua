@@ -65,6 +65,12 @@ function M.update_pokemon(pokemon)
 	M.save()
 end
 
+function M.set_evolutuion_at_level(id, level)
+	local p = get(id)
+	p.level.evolved = level
+	M.save()
+end
+
 function M.set_pokemon_move_pp(id, move, pp)
 	local p = get(id)
 	p.moves[move] = pp
