@@ -24,7 +24,6 @@ local function redraw(self)
 	-- Moves
 	for move, data in pairs(self.pokemon.moves) do
 		local index = data.index
-		table.insert(indexes, value)
 		local move_node = gui.get_node("moves/move_" .. index)
 		gui.set_text(move_node, move)
 	end

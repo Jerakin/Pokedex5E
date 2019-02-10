@@ -207,6 +207,10 @@ function M.get_sprite(pokemon)
 	local pokemon_index = M.get_index_number(pokemon)
 	local texture = "pokemon" .. math.floor(pokemon_index/256)
 	local pokemon_sprite = pokemon_index .. M.get_current_species(pokemon)
+	if pokemon_index == 32 or pokemon_index == 29 then
+		pokemon_sprite = pokemon_sprite:sub(1, -5)
+	end
+	
 	return pokemon_sprite, texture
 end
 
