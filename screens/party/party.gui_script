@@ -50,11 +50,6 @@ local function setup_moves(self, nodes, pokemon)
 			gui.set_text(pp_node, "PP: " .. _pokemon.get_move_pp(pokemon, name))
 		end)
 
-		button.register(_get_node("/btn_reset_pp"), function()
-			_pokemon.reset_move_pp(pokemon, name)
-			gui.set_text(pp_node, "PP: " .. _pokemon.get_move_pp(pokemon, name))
-		end)
-		
 		button.register(_get_node("/name"), function()
 			show_description(move_data.description)
 		end)
@@ -189,9 +184,13 @@ end
 local function activate_tab(self, page, tab_number)
 	for i=1, 3 do
 		if tab_number == i then
+			gui.set_color(page["pokemon/tab_" .. i], vmath.vector4(1))
 			gui.set_enabled(page["pokemon/tab_bg_" .. i], true)
+			gui.set_layer(page["pokemon/tab_" .. i], "tab_active")
 		else
+			gui.set_color(page["pokemon/tab_" .. i], vmath.vector4(0.7, 0.7, 0.7, 1))
 			gui.set_enabled(page["pokemon/tab_bg_" .. i], false)
+			gui.set_layer(page["pokemon/tab_" .. i], "tab_inactive")
 		end
 	end
 end
@@ -218,7 +217,10 @@ function init(self)
 	self.pokemon_page = gui.get_node("pokemon/root")
 	self.pokemons_list = {}
 	self.pokemon_index = 0
-
+	local p = gui.get_position(gui.get_node("pokemon/tab_bg_1"))
+	gui.set_position(gui.get_node("pokemon/tab_bg_2"), p)
+	gui.set_position(gui.get_node("pokemon/tab_bg_3"), p)
+	
 	for index, pokemon_id in pairs(storage.list_of_ids_in_inventory()) do
 		local page = add_pokemon_page(self, pokemon_id, index)
 		local pokemon_data = storage.get_copy(pokemon_id)
