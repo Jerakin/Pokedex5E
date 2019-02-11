@@ -6,6 +6,7 @@ local pokedex = require "pokedex.pokedex"
 local party = require "screens.party.party"
 local gesture = require "utils.gesture"
 local url = require "utils.url"
+local type_data = require "utils.type_data"
 
 local STATS = {"STR",  "INT", "DEX",  "WIS", "CON", "CHA"}
 
@@ -79,9 +80,10 @@ local function setup_moves(self, nodes, pokemon)
 		end
 
 		gui.set_text(_get_node("/name"), name)
-		if move_data.stab then
-			gui.set_color(_get_node("/name"), vmath.vector4(1, 1, .5, 1))
-		end
+		local type = type_data[move_data.type]
+		gui.set_color(_get_node("/name"), type.color)
+		gui.play_flipbook(_get_node("/element"), type.icon)
+		
 		gui.set_text(_get_node("/range"), move_data.range)
 	end
 	for i=index+1, 5 do
@@ -162,7 +164,7 @@ local function setup_page(self, nodes, pokemon)
 	end)
 	
 	gui.set_text(nodes["pokemon/species"], _pokemon.get_current_species(pokemon))
-	gui.set_text(nodes["pokemon/level"], "lvl: " ..  _pokemon.get_current_level(pokemon))
+	gui.set_text(nodes["pokemon/level"], "Lv. " ..  _pokemon.get_current_level(pokemon))
 	gui.set_text(nodes["pokemon/nature"], _pokemon.get_nature(pokemon))
 	gui.set_text(nodes["pokemon/ac"], "AC: " .. _pokemon.get_AC(pokemon))
 
