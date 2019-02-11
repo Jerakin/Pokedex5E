@@ -6,7 +6,6 @@ local pokedex = require "pokedex.pokedex"
 
 local gesture = require "utils.gesture"
 local url = require "utils.url"
-local transitions = require "utils.transitions"
 
 local STATS = {"STR",  "INT", "DEX",  "WIS", "CON", "CHA"}
 
@@ -215,7 +214,6 @@ function init(self)
 	self.pokemon_page = gui.get_node("pokemon/root")
 	self.pokemons_list = {}
 	self.pokemon_index = 0
-	self.transition = transitions.default(gui.get_node("root"))
 	msg.post(url.SWITCHER, "activate", {screen="party"})
 	button.register("btn_edit", function()
 		monarch.show("edit", {}, {id=self.pokemons_list[self.pokemon_index+1].pokemon_id})
@@ -246,11 +244,6 @@ end
 
 function final(self)
 	button.unregister()
-end
-
-
-function on_message(self, message_id, message, sender)
-	transitions.on_message(self.transition, message_id, message, sender)
 end
 
 local function change_pokemon(self)

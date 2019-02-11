@@ -4,7 +4,6 @@ local profiles = require "pokedex.profiles"
 local storage = require "pokedex.storage"
 
 local url = require "utils.url"
-local transitions = require "utils.transitions"
 
 local function delete(profile)
 	profiles.delete(profile)
@@ -45,9 +44,7 @@ end
 function init(self)
 	button.acquire()
 	msg.post(url.SWITCHER, "activate", {screen="profiles"})
-	self.transition = transitions.default(gui.get_node("root"))
-	
-	
+
 	local _profiles = profiles.get_all_profiles()
 	for i=1, 3 do
 		if _profiles[i] then
@@ -77,8 +74,4 @@ function on_input(self, action_id, action)
 	if profiles.get_active_slot() == nil then
 		return true
 	end
-end
-
-function on_message(self, message_id, message, sender)
-	transitions.on_message(self.transition, message_id, message, sender)
 end

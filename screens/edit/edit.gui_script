@@ -6,11 +6,10 @@ local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
 local _pokemon = require "pokedex.pokemon"
 local url = require "utils.url"
-local transitions = require "utils.transitions"
+
 
 function init(self)
 	self.have_evolved = false
-	self.transition = transitions.default(gui.get_node("root"))
 	msg.post(url.SWITCHER, "activate", {screen="party"})
 	button.acquire()
 	local pokemon_id = monarch.data("edit").id
@@ -70,7 +69,6 @@ end
 
 function on_message(self, message_id, message, sender)
 	pokemon_edit.on_message(self, message_id, message, sender)
-	transitions.on_message(self.transition, message_id, message, sender)
 end
 
 function on_input(self, action_id, action)

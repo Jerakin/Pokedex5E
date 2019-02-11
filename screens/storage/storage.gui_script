@@ -3,7 +3,6 @@ local _pokemon = require "pokedex.pokemon"
 
 local url = require "utils.url"
 local button = require "utils.button"
-local transitions = require "utils.transitions"
 
 local inventory = require "screens.storage.inventory"
 local pc = require "screens.storage.pc"
@@ -19,8 +18,7 @@ local selected_inventory = {}
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	msg.post(url.SWITCHER, "activate", {screen="storage"})
-	self.transition = transitions.default(gui.get_node("root"))
-	
+
 	pc.setup(gui.get_node("scrollist"), gui.get_node("scroll"), gui.get_node("pokemon_entry/root"))
 	inventory.setup()
 end
@@ -36,7 +34,6 @@ function final()
 end
 
 function on_message(self, message_id, message, sender)
-	transitions.on_message(self.transition, message_id, message, sender)
 	if message_id == hash("storage_updated") then
 		inventory.redraw()
 	elseif message_id == hash("inventory_updated") then

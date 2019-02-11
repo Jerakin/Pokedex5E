@@ -60,7 +60,7 @@ package = com.jerakin.pokedex
 shared_state = 1
 
 [collection_proxy]
-max_count = 24
+max_count = 1
 
 [native_extension]
 app_manifest = /config/release.appmanifest
@@ -70,4 +70,24 @@ app_id = A771CBA40BFE4741
 
 [graphics]
 texture_profiles = /config/game.texture_profiles
+
+[factory]
+max_count = 1
+
+[particle_fx]
+max_particle_count = 1
+max_count = 1
+
+[label]
+max_count = 1
+
+[gui]
+max_particle_count = 1
+max_particlefx_count = 1
+
+[model]
+max_count = 1
+
+[spine]
+max_count = 1
 
