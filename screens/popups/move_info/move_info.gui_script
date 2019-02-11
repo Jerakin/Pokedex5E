@@ -2,7 +2,7 @@ local button = require "utils.button"
 local monarch = require "monarch.monarch"
 local gro = require "utils.gui_render_order"
 local _pokemon = require "pokedex.pokemon"
-
+local type_data = require "utils.type_data"
 function init(self)
 	gui.set_render_order(gro.POPUP)
 	button.acquire()
@@ -15,7 +15,9 @@ function init(self)
 	gui.set_text(gui.get_node("txt_time"), move_data.time)
 	gui.set_text(gui.get_node("txt_duration"), move_data.duration)
 	gui.set_text(gui.get_node("txt_range"), move_data.range)
-	pprint(move_data)
+	gui.set_text(gui.get_node("txt_type"), move_data.type)
+	gui.play_flipbook(gui.get_node("icon_type"), type_data[move_data.type].icon)
+	
 	gui.set_text(gui.get_node("txt_pp"), data.data.pp .. "/" .. move_data.PP)
 	local dmg = "-"
 	if move_data.damage then
