@@ -9,15 +9,22 @@ function init(self)
 	local data = monarch.data("move_info")
 	local move_data = _pokemon.get_move_data(data.pokemon, data.name)
 	gui.set_text(gui.get_node("txt_name"), data.name)
-	
-	gui.set_text(gui.get_node("txt_desc"), move_data.description)
 
+	gui.set_text(gui.get_node("txt_desc"), move_data.description)
 	gui.set_text(gui.get_node("txt_time"), move_data.time)
 	gui.set_text(gui.get_node("txt_duration"), move_data.duration)
 	gui.set_text(gui.get_node("txt_range"), move_data.range)
-	gui.set_text(gui.get_node("txt_type"), move_data.type)
+
+
+	-- Set type name and image and placements
+	local type_node = gui.get_node("txt_type")
+	gui.set_text(type_node, move_data.type)
+	local p = gui.get_position(type_node)
+	p.x = p.x + gui.get_text_metrics_from_node(type_node).width
+	gui.set_position(gui.get_node("icon_type"), p)
 	gui.play_flipbook(gui.get_node("icon_type"), type_data[move_data.type].icon)
-	
+
+
 	gui.set_text(gui.get_node("txt_pp"), data.data.pp .. "/" .. move_data.PP)
 	local dmg = "-"
 	if move_data.damage then
@@ -34,6 +41,14 @@ function init(self)
 	button.register("btn_close", function()
 		monarch.back()
 	end)
+
+	local color = {"lbl_pp", "lbl_dmg", "lbl_time", "lbl_range", "lbl_duration", "background"}
+	for _, node_name in pairs(color)do
+		local color_name = type_data[move_data.type].color
+		local node = gui.get_node(node_name)
+		gui.set_color(node, color_name)
+	end
+	
 end
 
 function final(self)
