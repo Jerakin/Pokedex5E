@@ -45,7 +45,22 @@ end
 
 function M.get_pokemon_resistances(pokemon)
 	return M.get_pokemon(pokemon).Res
-	
+end
+
+function M.get_walking_speed(pokemon)
+	return M.get_pokemon(pokemon).WSp or 0
+end
+
+function M.get_swimming_speed(pokemon)
+	return M.get_pokemon(pokemon).SSp or 0
+end
+
+function M.get_flying_speed(pokemon)
+	return M.get_pokemon(pokemon).FSp or 0
+end
+
+function M.get_climbing_speed(pokemon)
+	return M.get_pokemon(pokemon)["Climbing Speed"] or 0
 end
 
 function M.get_pokemon_type(pokemon)

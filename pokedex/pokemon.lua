@@ -46,6 +46,24 @@ function M.save(pokemon)
 	return storage.update_pokemon(pokemon)
 end
 
+function M.get_speed_of_type(pokemon)
+	local species = M.get_current_species(pokemon)
+	local type = pokedex.get_pokemon_type(species)[1]
+	if type == "Flying" then
+		return pokedex.get_flying_speed(species), "Flying"
+	elseif type == "Water" then
+		return pokedex.get_swimming_speed(species), "Swimming"
+	else
+		return pokedex.get_walking_speed(species), "Walking"
+	end
+end
+
+function M.get_all_speed(pokemon)
+	local species = M.get_current_species(pokemon)
+	return {Walking=pokedex.get_walking_speed(species), Swimming=pokedex.get_swimming_speed(species), 
+			Flying=pokedex.get_flying_speed(species), Climbing=pokedex.get_climbing_speed(species)}
+end
+
 function M.set_current_hp(pokemon, hp)
 	pokemon.hp.current = hp
 	storage.set_pokemon_current_hp(M.get_id(pokemon), hp)

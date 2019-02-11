@@ -14,7 +14,7 @@ local function join_table(title, T, sep)
 	if T then
 		return title .. table.concat(T, sep)
 	end
-	return ""
+	return title
 end
 
 local function to_mod(v)
@@ -151,8 +151,7 @@ end
 local function update_hp(self, nodes, pokemon)
 	local max = _pokemon.get_max_hp(pokemon)
 	local current =_pokemon.get_current_hp(pokemon)
-	gui.set_text(nodes["pokemon/hp_current"], "HP: " .. current)
-	gui.set_text(nodes["pokemon/hp"], "/ " .. max)
+	gui.set_text(nodes["pokemon/hp"],"HP: " .. current .. "/ " .. max)
 end
 
 local function setup_page(self, nodes, pokemon)
@@ -166,6 +165,8 @@ local function setup_page(self, nodes, pokemon)
 		_pokemon.set_current_hp(pokemon, current+1)
 		update_hp(self, nodes, pokemon)
 	end)
+	local speed, stype = _pokemon.get_speed_of_type(pokemon)
+	gui.set_text(nodes["pokemon/txt_speed"], stype .. ": " .. speed)
 	
 	gui.set_text(nodes["pokemon/species"], _pokemon.get_current_species(pokemon))
 	gui.set_text(nodes["pokemon/level"], "Lv. " ..  _pokemon.get_current_level(pokemon))
@@ -178,14 +179,9 @@ local function setup_page(self, nodes, pokemon)
 	local imm = nodes["pokemon/immunities"]
 	local res = nodes["pokemon/resistances"]
 	gui.set_text(vul, join_table("Vulnerabilities: ", _pokemon.get_vulnerabilities(pokemon), ", "))
-	
-	pos.y = pos.y - gui.get_text_metrics_from_node(vul).height * 0.7
 	gui.set_text(res, join_table("Resistances: ", _pokemon.get_resistances(pokemon), ", "))
-	gui.set_position(res, pos)
-	
-	pos.y = pos.y - gui.get_text_metrics_from_node(res).height * 0.7
 	gui.set_text(imm, join_table("Immunities: ", _pokemon.get_immunities(pokemon), ", "))
-	gui.set_position(imm, pos)
+
 
 	setup_moves(self, nodes, pokemon)
 	setup_abilities(self, nodes, pokemon)
