@@ -25,8 +25,8 @@ local function to_mod(v)
 	return value
 end
 
-local function show_description(desc)
-	monarch.show("info", {}, {txt=desc})
+local function show_description(pokemon, move, data)
+	monarch.show("move_info", {}, {pokemon=pokemon, name=move, data=data})
 end
 
 local function update()
@@ -59,7 +59,7 @@ local function setup_moves(self, nodes, pokemon)
 		end)
 		
 		button.register(_get_node("/name"), function()
-			show_description(move_data.description)
+			show_description(pokemon, name, move)
 		end)
 		
 		gui.set_text(_get_node("/action"), move_data.time)
