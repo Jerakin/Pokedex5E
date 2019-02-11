@@ -104,7 +104,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/border_frame_2_bg"
+  texture: "gui/square"
   id: "box"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -114,10 +114,10 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 30.0
-    y: 35.0
-    z: 30.0
-    w: 35.0
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -159,7 +159,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/border_frame_2"
+  texture: "gui/square"
   id: "popup_bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -169,10 +169,10 @@ nodes {
   layer: ""
   inherit_alpha: false
   slice9 {
-    x: 30.0
-    y: 35.0
-    z: 30.0
-    w: 35.0
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -201,8 +201,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 324.0
-    y: 78.0
+    x: 198.0
+    y: 150.0
     z: 0.0
     w: 1.0
   }
@@ -214,7 +214,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/btn"
+  texture: "gui/common_up"
   id: "btn_okay"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
