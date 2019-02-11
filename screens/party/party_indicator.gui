@@ -1,4 +1,8 @@
 script: ""
+textures {
+  name: "gui"
+  texture: "/assets/gui.atlas"
+}
 background_color {
   x: 0.0
   y: 0.0
@@ -38,7 +42,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/details_backing"
   id: "active"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -47,15 +51,15 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 1.0
+  alpha: 0.7
   template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
