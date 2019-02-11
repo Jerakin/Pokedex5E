@@ -35,11 +35,11 @@ local function menu(self)
 	if top == hash("party") then
 		gui.set_enabled(self.btn_edit, true)
 		gui.set_enabled(self.btn_reset, true)
-		gui.set_position(self.sub, vmath.vector3(0, -289, 0))
+		gui.set_position(self.sub, vmath.vector3(40, -289, 0))
 	else
 		gui.set_enabled(self.btn_edit, false)
 		gui.set_enabled(self.btn_reset, false)
-		gui.set_position(self.sub, vmath.vector3(0, -175, 0))
+		gui.set_position(self.sub, vmath.vector3(40, -175, 0))
 	end
 end
 
@@ -59,7 +59,7 @@ function init(self)
 	self.menu = gui.get_node("menu")
 	gui.set_enabled(self.menu, false)
 	menu(self)
-	
+	gui.set_text(gui.get_node("txt_pc"), profiles.get_active_name() .. "'s PC")
 	button.register(self.btn_menu, function()
 		toggle(self)
 		menu(self)
