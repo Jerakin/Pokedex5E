@@ -1,5 +1,6 @@
 local storage = require "pokedex.storage"
 local _pokemon = require "pokedex.pokemon"
+local profiles = require "pokedex.profiles"
 
 local url = require "utils.url"
 local button = require "utils.button"
@@ -18,6 +19,7 @@ local selected_inventory = {}
 function init(self)
 	url.STORAGE = msg.url()
 	msg.post(".", "acquire_input_focus")
+	gui.set_text(gui.get_node("title"), profiles.get_active_name() .. "'s PC")
 	pc.setup(gui.get_node("scrollist"), gui.get_node("scroll"), gui.get_node("pokemon_entry/root"))
 	inventory.setup()
 end
