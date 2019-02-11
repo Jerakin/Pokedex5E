@@ -1,6 +1,7 @@
 local storage_list = require "screens.storage.storage_list"
 local storage = require "pokedex.storage"
 local _pokemon = require "pokedex.pokemon"
+local monarch = require "monarch.monarch"
 local M = {}
 
 local pokemon_ids = {}
@@ -57,13 +58,7 @@ function M.redraw()
 end
 
 local function select_item(state)
-	if storage.free_space_in_inventory() then
-		local selected_pokemon = pokemon_ids[state.index]
-		gui.delete_node(state.released_item_now)
-		storage.move_to_inventory(selected_pokemon)
-		msg.post("#", "storage_updated")
-		M.redraw()
-	end
+	monarch.show("move_pokemon", {clear=true}, {id=pokemon_ids[state.index], to="inventory"})
 end
 
 

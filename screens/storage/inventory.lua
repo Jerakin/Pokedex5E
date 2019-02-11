@@ -1,6 +1,7 @@
 local storage = require "pokedex.storage"
 local _pokemon = require "pokedex.pokemon"
 local button = require "utils.button"
+local monarch = require "monarch.monarch"
 local M = {}
 
 local inventory_buttons = {}
@@ -20,11 +21,9 @@ function M.redraw()
 	M.setup()
 end
 
-function inventory_button(node, id)
+local function inventory_button(node, id)
 	return button.register(node, function()
-		storage.move_to_storage(id)
-		msg.post("#", "inventory_updated")
-		M.redraw()
+		monarch.show("move_pokemon", {clear=true}, {id=id, to="storage"})
 	end)
 end
 
@@ -48,6 +47,11 @@ end
 function M.on_input(action_id, action)
 	button.on_input(action_id, action)
 end
+
 function M.final()
+	for _, b in pairs(inventory_buttons) do 
+		button.unregister(b)
+	end
 end
+
 return M

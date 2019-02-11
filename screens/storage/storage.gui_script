@@ -16,6 +16,7 @@ local selected_inventory = {}
 
 
 function init(self)
+	url.STORAGE = msg.url()
 	msg.post(".", "acquire_input_focus")
 	msg.post(url.SWITCHER, "activate", {screen="storage"})
 

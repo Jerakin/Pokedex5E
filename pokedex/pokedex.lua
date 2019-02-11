@@ -79,6 +79,7 @@ end
 function M.get_pokemon_AC(pokemon)
 	return M.get_pokemon(pokemon).AC
 end
+
 function M.get_pokemon(pokemon)
 	return utils.shallow_copy(pokedex[pokemon])
 end
