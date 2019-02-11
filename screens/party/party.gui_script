@@ -34,7 +34,8 @@ local function update()
 end
 
 local function setup_moves(self, nodes, pokemon)
-	local index = 0
+	local enabled_moves = {}
+	local index
 	local function _get_node(sub)
 		local move_name = "pokemon/move_" .. index
 		local n = nodes[move_name .. sub]
@@ -44,6 +45,7 @@ local function setup_moves(self, nodes, pokemon)
 	for name, move in pairs(_pokemon.get_moves(pokemon)) do
 		local current_pp = move.pp
 		index = move.index
+		enabled_moves[move.index] = true
 		local move_data = _pokemon.get_move_data(pokemon, name)
 		local pp_node = _get_node("/pp")
 		button.register(_get_node("/btn_decease_pp"), function()
@@ -86,9 +88,11 @@ local function setup_moves(self, nodes, pokemon)
 		
 		gui.set_text(_get_node("/range"), move_data.range)
 	end
-	for i=index+1, 5 do
+	for i=1, 5 do
 		local n = nodes["pokemon/move_" .. i .. "/root"]
-		gui.set_enabled(n, false)
+		if not enabled_moves[i] then
+			gui.set_enabled(n, false)
+		end
 	end
 end
 
