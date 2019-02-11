@@ -1,7 +1,7 @@
 local storage = require "pokedex.storage"
 local _pokemon = require "pokedex.pokemon"
 local profiles = require "pokedex.profiles"
-
+local monarch = require "monarch.monarch"
 local url = require "utils.url"
 local button = require "utils.button"
 
@@ -15,11 +15,23 @@ local distance = vmath.vector3(200, 200, 0)
 local selected_storage = {}
 local selected_inventory = {}
 
+local function setup_button()
+	button.register("btn_sort", function() 
+		monarch.show("sorting", {clear=true})
+	end)
+	button.register("btn_add", function() 
+		monarch.show("add", {clear=true})
+	end)
+end
 
 function init(self)
+	print("init")
 	url.STORAGE = msg.url()
-	msg.post(".", "acquire_input_focus")
+	button.acquire()
 	gui.set_text(gui.get_node("title"), profiles.get_active_name() .. "'s PC")
+	
+	setup_button()
+	
 	pc.setup(gui.get_node("scrollist"), gui.get_node("scroll"), gui.get_node("pokemon_entry/root"))
 	inventory.setup()
 end

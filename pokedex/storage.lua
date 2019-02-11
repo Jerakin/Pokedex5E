@@ -3,13 +3,14 @@ local json = require "defsave.json"
 local md5 = require "utils.md5"
 local utils = require "utils.utils"
 local profiles = require "pokedex.profiles"
+local pokedex = require "pokedex.pokedex"
 
 local M = {}
 
 local storage = {}
 local active = {}
 local counters = {}
-
+local sorting = {}
 local initialized = false
 
 local function get_id(pokemon)
@@ -39,12 +40,35 @@ local function party_is_full()
 	return counter >= 6
 end
 
+local function sort_on_index(a, b)
+	return function(a, b) 
+		local c = pokedex.get_index_number(a.species.current)
+		local d = pokedex.get_index_number(b.species.current)
+		return c < d  
+	end
+end
+
+local function sort_on_caught(a, b)
+	return function(a, b) 
+		return a.number < b.number  
+	end
+end
+
+local function sort_on_level(a, b)
+	return function(a, b) return a.level.current > b.level.current end
+end
+
+local function sort_alphabetical(a, b)
+	return function(a, b) return a.species.current < b.species.current end
+end
+
 function M.list_of_ids_in_storage()
-	return getKeysSortedByValue(storage, function(a, b) return a.species.current < b.species.current end)
+	local f = M.get_sorting_method()
+	return getKeysSortedByValue(storage, f(a, b))
 end
 
 function M.list_of_ids_in_inventory()
-	return getKeysSortedByValue(active, function(a, b) return a.species.current < b.species.current end)
+	return getKeysSortedByValue(active, sort_on_index(a, b))
 end
 
 function M.get_copy(id)
@@ -69,6 +93,24 @@ function M.set_evolutuion_at_level(id, level)
 	local p = get(id)
 	p.level.evolved = level
 	M.save()
+end
+
+function M.get_sorting_method()
+	if sorting.method == "alphabetical" then
+		return sort_alphabetical
+	elseif sorting.method == "level" then
+		return sort_on_level
+	elseif sorting.method == "index" then
+		return sort_on_index
+	elseif sorting.method == "caught" then
+		return sort_on_caught
+	else
+		return sort_on_index
+	end
+end
+
+function M.set_sorting_method(method)
+	sorting.method = method
 end
 
 function M.set_pokemon_move_pp(id, move, pp)
@@ -125,6 +167,7 @@ function M.save()
 		defsave.set(profile, "storage", storage)
 		defsave.set(profile, "active", active)
 		defsave.set(profile, "counters", counters)
+		defsave.set(profile, "sorting", sorting)
 		defsave.save(profile)
 	end
 end
@@ -137,6 +180,7 @@ function M.load(profile)
 	storage = defsave.get(file_name, "storage")
 	active = defsave.get(file_name, "active")
 	counters = defsave.get(file_name, "counters")
+	sorting = defsave.get(file_name, "sorting")
 	-- Default counters
 	if next(counters) == nil then
 		counters = {caught=0, released=0, seen=0}

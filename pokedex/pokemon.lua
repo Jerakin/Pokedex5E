@@ -213,7 +213,7 @@ function M.get_AC(pokemon)
 end
 
 function M.get_index_number(pokemon)
-	return pokedex.get_get_index_number(M.get_current_species(pokemon))
+	return pokedex.get_index_number(M.get_current_species(pokemon))
 end
 
 function M.get_max_hp_at_level(pokemon, level)

@@ -14,7 +14,9 @@ local function set_pokemon_sprite(sprite, pokemon)
 end
 
 function M.redraw()
-	button.unregister()
+	for _, b in pairs(inventory_buttons) do
+		button.unregister(b)
+	end
 
 	inventory_buttons = {}
 	M.setup()
