@@ -132,7 +132,7 @@ function M.get_move_pp(pokemon, move)
 	return pokemon.moves[move].pp
 end
 
-function M.get_move_pp(pokemon, move)
+function M.get_move_index(pokemon, move)
 	return pokemon.moves[move].index
 end
 
@@ -151,13 +151,13 @@ end
 function M.decrease_move_pp(pokemon, move)
 	local pp = math.max(M.get_move_pp(pokemon, move) - 1, 0)
 	storage.set_pokemon_move_pp(M.get_id(pokemon), move, pp)
-	pokemon.moves[move] = pp
+	pokemon.moves[move].pp = pp
 end
 
 function M.reset_move_pp(pokemon, move)
 	local pp = pokedex.get_move_pp(move)
 	storage.set_pokemon_move_pp(M.get_id(pokemon), move, pp)
-	pokemon.moves[move] = pp
+	pokemon.moves[move].pp = pp
 end
 
 function M.set_evolutuion_at_level(pokemon, level)
