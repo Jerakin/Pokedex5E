@@ -157,16 +157,23 @@ function M.move_to_storage(id)
 	M.save()
 end
 
-function M.move_to_inventory(id)
+function M.free_space_in_inventory()
 	local index = 0
 	for _, _ in pairs(active) do
 		index = index + 1
 	end
-	assert(index < 6, "Your party is full")
-	local pokemon = utils.deep_copy(storage[id])
-	active[id] = pokemon
-	storage[id] = nil
-	M.save()
+	return index < 6
+end
+
+function M.move_to_inventory(id)
+	if M.free_space_in_inventory() then
+		local pokemon = utils.deep_copy(storage[id])
+		active[id] = pokemon
+		storage[id] = nil
+		M.save()
+	else
+		assert(false, "Your party is full")
+	end
 end
 
 return M

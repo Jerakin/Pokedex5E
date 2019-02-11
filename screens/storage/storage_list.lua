@@ -4,6 +4,10 @@ M.list_items = {}
 local list_state = {}
 local scroll_node
 local stencil_node
+
+local start_position
+local list_height
+local total_height
 M.long_press_time = 1
 M.TOUCH = hash("touch")
 
@@ -12,14 +16,8 @@ function M.create(stencil, scroll, node_list)
 	stencil_node = stencil
 	scroll_node = scroll
 	M.list_items = node_list
-
-	local last_item = M.list_items[#M.list_items]
-	local total_height = last_item and (math.abs(gui.get_screen_position(last_item).y) + gui.get_size(last_item).y / 2) or 0
-	local list_height = gui.get_size(stencil_node).y
-	list_state.scroll_pos = vmath.vector3(0)
-	list_state.min_y = 0
-	list_state.max_y = total_height + list_height - gui.get_screen_position(stencil_node).y
-	
+	start_position = gui.get_position(scroll_node)
+	pprint(start_position)
 	M.update(M.list_items)
 end
 
@@ -33,6 +31,15 @@ function M.update(node_list)
 	list_state.released_item_now = nil
 	list_state.pressed_item_now = nil
 	list_state.pressed_item = nil
+	list_state.selected_item = nil
+	local last_item = M.list_items[#M.list_items]
+	local item_size = gui.get_size(last_item).y 
+	total_height = last_item and (math.abs(gui.get_position(last_item).y) + item_size / 2) or 0
+	list_height = gui.get_size(stencil_node).y
+	list_state.scroll_pos = vmath.vector3(0)
+	list_state.min_y = start_position.y
+	list_state.max_y = total_height < list_height and start_position.y or 
+	total_height - list_height + start_position.y
 
 end
 
@@ -41,11 +48,10 @@ local function handle_scroll(state)
 	if math.abs(state.action.dy) > 60 then
 		position.y = position.y + state.action.dy * 10
 		position.y = math.min(math.max(position.y, list_state.min_y), list_state.max_y)
-		gui.animate(scroll_node, "position", position, gui.EASING_OUTSINE, 1)
+		gui.animate(scroll_node, "position", position, gui.EASING_OUTSINE, 0.5)
 	else 
 		position.y = position.y + (state.action.dy * 0.2)
 		position.y = math.min(math.max(position.y, list_state.min_y), list_state.max_y)
-		
 		gui.set_position(scroll_node, position)
 	end
 end
@@ -53,7 +59,6 @@ end
 local function handle_input(items, state, action_id, action)
 	-- Long press, Press, scroll
 	local over_stencil = gui.pick_node(stencil_node, action.x, action.y)
-
 	local touch = action_id == M.TOUCH
 	local pressed = touch and action.pressed and over_stencil
 	local released = touch and action.released
@@ -137,9 +142,12 @@ end
 
 
 function M.on_input(action_id, action)
-	list_state = handle_input(M.list_items, list_state, action_id, action)
-	if list_state.scrolling then
-		handle_scroll(list_state)
+	if M.list_items then
+		list_state = handle_input(M.list_items, list_state, action_id, action)
+		if list_state.scrolling then
+			handle_scroll(list_state)
+		end
+		
 	end
 	return list_state
 end

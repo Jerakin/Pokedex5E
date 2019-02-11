@@ -1,13 +1,12 @@
 local storage = require "pokedex.storage"
 local _pokemon = require "pokedex.pokemon"
-local storage_list = require "screen.storage.storage_list"
 
+local url = require "utils.url"
+local button = require "utils.button"
+local transitions = require "utils.transitions"
 
-
-local pokemons = { "Mattias", "Bengt", "Anders", "Peter", "Johan", "Martin", "Olof", "Moria", "Svenson", "Hanson", 
-"Alvis", "Mattias", "Bengt", "Anders", "Peter", "Johan", "Martin", "Olof", "Moria", "Svenson", "Hanson", "Alvis", 
-"Mattias", "Bengt", "Anders", "Peter", "Johan", "Martin", "Olof", "Moria", "Svenson", "Hanson", "Alvis", "Mattias", 
-"Bengt", "Anders", "Peter", "Johan", "Martin", "Olof", "Moria", "Svenson", "Hanson", "Alvis"}
+local inventory = require "screens.storage.inventory"
+local pc = require "screens.storage.pc"
 
 local COLUMNS = 3
 local first_position = vmath.vector3(-375, 800, 0)
@@ -16,85 +15,31 @@ local distance = vmath.vector3(200, 200, 0)
 local selected_storage = {}
 local selected_inventory = {}
 
-local function set_pokemon_sprite(sprite, pokemon)
-	local pokemon_sprite, texture = _pokemon.get_sprite(pokemon)
-	gui.set_texture(sprite, texture)
-	gui.play_flipbook(sprite, pokemon_sprite)
-end
-
-local function set_pokemon_text(nodes, pokemon)
-	local level = _pokemon.get_current_level(pokemon)
-	local species = _pokemon.get_current_species(pokemon)
-	gui.set_text(nodes["pokemon_entry/txt_spicies"], species)
-	gui.set_text(nodes["pokemon_entry/txt_level"], level)
-end
-
-local function create_list(self)
-	for _, n in pairs(self.nodes) do
-		gui.delete_node(n)
-	end
-	pokemons = storage.list_of_ids_in_storage()
-	self.pokemon_ids = {}
-	self.nodes = {}
-	for i, id in pairs(pokemons) do
-		local position = vmath.vector3(-210, 550, 0)
-		local n = gui.clone_tree(self.template_node)
-		local pokemon = storage.get_copy(id)
-		local sprite = n["pokemon_entry/pokemon_sprite"]
-		position.x = position.x + math.fmod(i-1, COLUMNS) * distance.x 
-		position.y = position.y + math.ceil(i/COLUMNS)- math.ceil(i/COLUMNS) * distance.y
-		gui.set_parent(sprite, self.scroll_node)
-		gui.set_position(sprite, position)
-		set_pokemon_text(n, pokemon)
-		set_pokemon_sprite(sprite, pokemon)
-		table.insert(self.pokemon_ids, id)
-		table.insert(self.nodes, sprite)
-	end
-end
-
-local function inventory_button(self)
-end
-
-local function setup_inventory(self)
-	local inventory = storage.list_of_ids_in_inventory()
-	local pokemon
-	
-	for i=1, 6 do
-		pokemon = storage.get_copy(inventory[i])
-		local sprite = gui.get_node("inventory_pokemon_" .. i .. "/pokemon_sprite")
-		if pokemon then
-			set_pokemon_sprite(sprite, pokemon)
-		else
-			gui.set_enabled(sprite, false)
-		end
-	end
-end
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
-	self.template_node = gui.get_node("pokemon_entry/pokemon_sprite")
-	self.scroll_node = gui.get_node("scroll")
-	self.nodes = {}
-	self.pokemon_ids = {}
-	create_list(self)
-	setup_inventory(self)
-	storage_list.create(gui.get_node("scrollist"), self.scroll_node, self.nodes)
-end
-
-local function select_item(self, state)
-	local selected_pokemon = self.pokemon_ids[state.index]
-	gui.delete_node(state.released_item_now)
-	table.remove(pokemons, state.index)
-
-	create_list(self)
-	storage_list.update(self.nodes)
+	msg.post(url.SWITCHER, "activate", {screen="storage"})
+	self.transition = transitions.default(gui.get_node("root"))
+	
+	pc.setup(gui.get_node("scrollist"), gui.get_node("scroll"), gui.get_node("pokemon_entry/root"))
+	inventory.setup()
 end
 
 function on_input(self, action_id, action)
-	local state = storage_list.on_input(action_id, action)
-	if state.long_pressed then
-		
-	elseif state.released_item_now and state.selected_item == state.released_item_now then
-		select_item(self, state)
-	end	
+	pc.on_input(action_id, action)
+	inventory.on_input(action_id, action)
+end
+
+function final()
+	pc.final()
+	inventory.final()
+end
+
+function on_message(self, message_id, message, sender)
+	transitions.on_message(self.transition, message_id, message, sender)
+	if message_id == hash("storage_updated") then
+		inventory.redraw()
+	elseif message_id == hash("inventory_updated") then
+		pc.redraw()
+	end
 end
