@@ -55,6 +55,7 @@ end
 
 function final(self)
 	pokemon_edit.final(self)
+	button.unregister()
 end
 
 function on_message(self, message_id, message, sender)

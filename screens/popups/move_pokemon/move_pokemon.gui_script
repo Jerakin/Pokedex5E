@@ -4,7 +4,7 @@ local storage = require "pokedex.storage"
 local _pokemon = require "pokedex.pokemon"
 local pokedex = require "pokedex.pokedex"
 local inventory = require "screens.storage.inventory"
-
+local gro = require "utils.gui_render_order"
 local url = require "utils.url"
 
 local inventory_buttons = {}
@@ -78,7 +78,7 @@ end
 
 function init(self)
 	button.acquire()
-	gui.set_render_order(5)
+	gui.set_render_order(gro.POPUP)
 	local d = monarch.data("move_pokemon")
 	local to = d.to
 	self.pokemon_id = d.id

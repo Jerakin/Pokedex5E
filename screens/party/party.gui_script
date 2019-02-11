@@ -3,7 +3,7 @@ local monarch = require "monarch.monarch"
 local storage = require "pokedex.storage"
 local _pokemon = require "pokedex.pokemon"
 local pokedex = require "pokedex.pokedex"
-
+local party = require "screens.party.party"
 local gesture = require "utils.gesture"
 local url = require "utils.url"
 
@@ -26,6 +26,10 @@ end
 
 local function show_description(desc)
 	monarch.show("info", {}, {txt=desc})
+end
+
+local function update()
+	gui.set_text(pp_node, "PP: " .. _pokemon.get_move_pp(pokemon, name))
 end
 
 local function setup_moves(self, nodes, pokemon)
@@ -214,11 +218,7 @@ function init(self)
 	self.pokemon_page = gui.get_node("pokemon/root")
 	self.pokemons_list = {}
 	self.pokemon_index = 0
-	msg.post(url.SWITCHER, "activate", {screen="party"})
-	button.register("btn_edit", function()
-		monarch.show("edit", {}, {id=self.pokemons_list[self.pokemon_index+1].pokemon_id})
-	end)
-	
+
 	for index, pokemon_id in pairs(storage.list_of_ids_in_inventory()) do
 		local page = add_pokemon_page(self, pokemon_id, index)
 		local pokemon_data = storage.get_copy(pokemon_id)
@@ -238,7 +238,9 @@ function init(self)
 		end
 		
 	end
-
+	if next(self.pokemons_list) ~= nil then
+		party.current_pokemon = self.pokemons_list[1].pokemon_id
+	end
 	gui.delete_node(self.pokemon_page)
 end
 
@@ -255,6 +257,7 @@ local function change_pokemon(self)
 		for i, d in pairs(self.pokemons_list) do
 			if i == self.pokemon_index then --else
 				gui.set_enabled(self.pokemons_list[i].nodes[hash("pokemon/root")], false)
+				party.current_pokemon = self.pokemons_list[i].pokemon_id
 			end
 		end
 	end)

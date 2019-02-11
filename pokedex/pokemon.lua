@@ -136,6 +136,13 @@ function M.get_move_index(pokemon, move)
 	return pokemon.moves[move].index
 end
 
+function M.reset(pokemon)
+	M.set_current_hp(pokemon, M.get_max_hp(pokemon))
+	for name, move in pairs(M.get_moves(pokemon)) do
+		M.reset_move_pp(pokemon, name)
+	end
+end
+
 function M.get_vulnerabilities(pokemon)
 	return pokedex.get_pokemon_vulnerabilities(M.get_current_species(pokemon))
 end

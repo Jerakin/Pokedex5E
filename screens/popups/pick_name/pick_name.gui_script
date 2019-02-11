@@ -3,6 +3,7 @@ local monarch = require "monarch.monarch"
 local gooey = require "gooey.gooey"
 local profiles = require "pokedex.profiles"
 local storage = require "pokedex.storage"
+local gro = require "utils.gui_render_order"
 
 local function refresh_input(self, input, node_id)
 	if not input.empty and not input.text:sub(-1):match("[%a%d]") then
@@ -29,7 +30,7 @@ end
 function init(self)
 	button.acquire()
 
-	gui.set_render_order(5)
+	gui.set_render_order(gro.POPUP)
 	self.sender = monarch.data("pick_name") and monarch.data("pick_name").sender or nil
 	local slot = monarch.data("pick_name") and monarch.data("pick_name").slot or nil
 	

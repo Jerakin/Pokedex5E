@@ -46,6 +46,8 @@ end
 
 function M.set_active(slot)
 	active_slot = slot
+	profiles.last_used = slot
+	M.save()
 end
 
 function M.save()
@@ -69,20 +71,21 @@ function M.get_active_name()
 	return profiles[active_slot].name
 end
 
+function M.get_latest()
+	return profiles.last_used
+end
+
 function load_profiles()
 	local loaded = defsave.load("profiles")
 	profiles = defsave.get("profiles", "profiles")
-
-	-- Clean up corrupted profiles
-	for k, p in pairs(profiles) do
-		if not defsave.file_exists(p.file_name) then
-			profiles[k] = nil
-		end
-	end
 end
 
 function M.init()
 	load_profiles()
+	local latest = M.get_latest()
+	if latest then
+		M.set_active(latest)
+	end
 end
 
 return M

@@ -42,39 +42,53 @@ function init(self)
 	msg.post("@render:", "clear_color", {color=vmath.vector4(0.93, 0.83, 0.67, 1)})
 	--input order
 	msg.post(".", "acquire_input_focus")
+	
 	msg.post("/screens", "acquire_input_focus")
 	msg.post("/popups", "acquire_input_focus")
 	msg.post("/debug", "acquire_input_focus")
-	
-	msg.post("#", "show_first_screen")
+	msg.post("/menu", "acquire_input_focus")
 
 	local system = sys.get_sys_info().system_name
 	if system == "Windows" then
 		defos.set_window_size(0, 0, 570, 1024)
 	end
-
+	msg.post("#", "show_splash")
 	profiles.init()
 	flow.start(function()
-		flow.until_true(function()
-			return not profiles.is_new_game() and profiles.get_active_slot()
-		end)
+		flow.delay(1)
+
+		if profiles.is_new_game() or not profiles.get_active_slot() then
+			msg.post("#", "show_profile")
+			flow.until_true(function() return profiles.get_active_slot() end)
+		end
 		natures.init()
 		pokedex.init()
 		storage.init()
+		
+		if #storage.list_of_ids_in_inventory() >= 1 then
+			msg.post("#", "show_party")
+		elseif #storage.list_of_ids_in_storage() >= 1 then
+			msg.post("#", "show_storage")
+		else
+			msg.post("#", "show_add")
+		end
 	end)
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("show_first_screen") then
-		monarch.show(hash("splash"), {}, {clear=true}, function()
-			if profiles.is_new_game() then
-				timer.delay(0.8, false, function() 
-					monarch.show(hash("pick_name"))
-				end)
-			else
-				monarch.show(hash("switcher"), { no_stack = true })
-			end
-		end)
+	if message_id == hash("show_profile") then
+		monarch.show("profiles", {clear=true})
+
+	elseif message_id == hash("show_party") then
+		monarch.show(hash("party"), {clear=true})
+		
+	elseif message_id == hash("show_splash") then
+		monarch.show(hash("splash"), {clear=true})
+		collectionfactory.create("/sub#collectionfactory")
+	elseif message_id == hash("show_storage") then
+		monarch.show(hash("storage"), {clear=true})
+	elseif message_id == hash("show_add") then
+		monarch.show(hash("add"), {clear=true})
 	end
 end
 

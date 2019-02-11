@@ -1,8 +1,9 @@
 local button = require "utils.button"
 local monarch = require "monarch.monarch"
+local gro = require "utils.gui_render_order"
 
 function init(self)
-	gui.set_render_order(5)
+	gui.set_render_order(gro.POPUP)
 	button.acquire()
 	local data = monarch.data("info")
 	gui.set_text(gui.get_node("description"), data.txt)

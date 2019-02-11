@@ -22,6 +22,9 @@ end
 
 function M.update(node_list)
 	M.list_items = node_list
+	if next(node_list) == nil then
+		return
+	end
 
 	-- Clear the list state 
 	list_state.out_item_now = nil

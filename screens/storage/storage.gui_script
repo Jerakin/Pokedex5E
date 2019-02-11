@@ -18,8 +18,6 @@ local selected_inventory = {}
 function init(self)
 	url.STORAGE = msg.url()
 	msg.post(".", "acquire_input_focus")
-	msg.post(url.SWITCHER, "activate", {screen="storage"})
-
 	pc.setup(gui.get_node("scrollist"), gui.get_node("scroll"), gui.get_node("pokemon_entry/root"))
 	inventory.setup()
 end
@@ -32,6 +30,7 @@ end
 function final()
 	pc.final()
 	inventory.final()
+	button.unregister()
 end
 
 function on_message(self, message_id, message, sender)

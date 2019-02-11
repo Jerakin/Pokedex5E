@@ -10,7 +10,6 @@ local url = require "utils.url"
 
 function init(self)
 	self.have_evolved = false
-	msg.post(url.SWITCHER, "activate", {screen="party"})
 	button.acquire()
 	local pokemon_id = monarch.data("edit").id
 	local pokemon = storage.get_copy(pokemon_id)
@@ -22,7 +21,7 @@ function init(self)
 	self.evolve_button = gui.get_node("btn_evolve")
 
 	function self.redraw(self)
-		if not self.have_evolved and pokedex.get_evolution_level(_pokemon.get_current_species(pokemon)) and 
+		if not self.have_evolved and pokedex.get_evolution_possible(_pokemon.get_current_species(pokemon)) and 
 		pokedex.get_evolution_level(_pokemon.get_current_species(pokemon)) <= self.level then
 			gui.set_enabled(self.evolve_button, true)
 		else
