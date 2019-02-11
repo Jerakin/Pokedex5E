@@ -49,7 +49,12 @@ local function setup_moves(self, nodes, pokemon)
 			_pokemon.decrease_move_pp(pokemon, name)
 			gui.set_text(pp_node, "PP: " .. _pokemon.get_move_pp(pokemon, name))
 		end)
-
+		
+		button.register(_get_node("/btn_increase_pp"), function()
+			_pokemon.increase_move_pp(pokemon, name)
+			gui.set_text(pp_node, "PP: " .. _pokemon.get_move_pp(pokemon, name))
+		end)
+		
 		button.register(_get_node("/name"), function()
 			show_description(move_data.description)
 		end)

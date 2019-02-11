@@ -161,6 +161,14 @@ function M.decrease_move_pp(pokemon, move)
 	pokemon.moves[move].pp = pp
 end
 
+function M.increase_move_pp(pokemon, move)
+	local max_pp = pokedex.get_move_pp(move)
+	local pp = math.min(M.get_move_pp(pokemon, move) + 1, max_pp)
+	storage.set_pokemon_move_pp(M.get_id(pokemon), move, pp)
+	pokemon.moves[move].pp = pp
+end
+
+
 function M.reset_move_pp(pokemon, move)
 	local pp = pokedex.get_move_pp(move)
 	storage.set_pokemon_move_pp(M.get_id(pokemon), move, pp)
