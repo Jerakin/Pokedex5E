@@ -270,14 +270,25 @@ function init(self)
 		for _, poke in pairs(self.pokemons_list) do
 			activate_tab(self, poke.nodes, 1)
 		end
-		
 	end
 	if next(self.pokemons_list) ~= nil then
 		party.current_pokemon = self.pokemons_list[1].pokemon_id
 	end
 
+	local free_slots = 6 - #storage.list_of_ids_in_inventory()
+	local left_in_storage = #storage.list_of_ids_in_storage()
 	for i=#storage.list_of_ids_in_inventory()+1, 6 do
-		gui.set_enabled(gui.get_node("party_indicator/pokemon_" .. i .. "/pokemon_sprite"), false)
+		local pok_sprite = gui.get_node("party_indicator/pokemon_" .. i .. "/pokemon_sprite")
+		left_in_storage = left_in_storage - 1
+		gui.set_texture(pok_sprite, "gui")
+		if left_in_storage > 0 then
+			gui.play_flipbook(pok_sprite, "pokeball_add")
+			button.register(pok_sprite, function()
+				monarch.show("storage", {clear=true})
+			end)
+		else
+			gui.play_flipbook(pok_sprite, "pokeball")
+		end
 	end
 	gui.delete_node(self.pokemon_page)
 end
