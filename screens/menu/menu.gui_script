@@ -45,7 +45,7 @@ end
 
 function init(self)
 	button.acquire()
-	gui.set_render_order(gro.SWITCHER)
+	gui.set_render_order(gro.MENU)
 	self.toggle = false
 	self.btn_party = gui.get_node("btn_party")
 	self.btn_storage = gui.get_node("btn_storage")

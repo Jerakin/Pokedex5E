@@ -38,7 +38,6 @@ function init(self)
 		end)
 		
 	end
-	msg.post(url.SWITCHER, "activate", {screen="add"})
 	button.acquire()
 
 	pokemon_edit.init(self)

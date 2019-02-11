@@ -787,27 +787,6 @@ embedded_instances {
 }
 embedded_instances {
   id: "menu"
-  children: "sub"
-  data: ""
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-embedded_instances {
-  id: "sub"
   data: "components {\n"
   "  id: \"screen_factory\"\n"
   "  component: \"/monarch/screen_factory.script\"\n"
@@ -824,14 +803,14 @@ embedded_instances {
   "  }\n"
   "  properties {\n"
   "    id: \"screen_id\"\n"
-  "    value: \"switcher\"\n"
+  "    value: \"menu\"\n"
   "    type: PROPERTY_TYPE_HASH\n"
   "  }\n"
   "}\n"
   "embedded_components {\n"
   "  id: \"collectionfactory\"\n"
   "  type: \"collectionfactory\"\n"
-  "  data: \"prototype: \\\"/screens/switcher/switcher.collection\\\"\\n"
+  "  data: \"prototype: \\\"/screens/menu/menu.collection\\\"\\n"
   "load_dynamically: true\\n"
   "\"\n"
   "  position {\n"

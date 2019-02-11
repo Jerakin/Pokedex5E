@@ -40,9 +40,9 @@ function init(self)
 	metadata.save()
 	
 	msg.post("@render:", "clear_color", {color=vmath.vector4(0.93, 0.83, 0.67, 1)})
+	
 	--input order
 	msg.post(".", "acquire_input_focus")
-	
 	msg.post("/screens", "acquire_input_focus")
 	msg.post("/popups", "acquire_input_focus")
 	msg.post("/debug", "acquire_input_focus")
@@ -84,9 +84,11 @@ function on_message(self, message_id, message, sender)
 		
 	elseif message_id == hash("show_splash") then
 		monarch.show(hash("splash"), {clear=true})
-		collectionfactory.create("/sub#collectionfactory")
+		collectionfactory.create("/menu#collectionfactory")
+		
 	elseif message_id == hash("show_storage") then
 		monarch.show(hash("storage"), {clear=true})
+		
 	elseif message_id == hash("show_add") then
 		monarch.show(hash("add"), {clear=true})
 	end
