@@ -11,6 +11,7 @@ local scroll_node
 local stencil_node
 local template_node
 local COLUMNS = 3
+local list_of_pokemons = {}
 
 local DISTANCE = vmath.vector3(200, 200, 0)
 local function set_pokemon_sprite(sprite, pokemon)
@@ -26,12 +27,11 @@ local function set_pokemon_text(text, pokemon)
 end
 
 local function create_storage_list()
-	local pokemons = storage.list_of_ids_in_storage()
 	pokemon_ids = {}
 	nodes = {}
 	local sprite_position = vmath.vector3()
 	local start_position = vmath.vector3(-210, -100, 0)
-	for i, id in pairs(pokemons) do
+	for i, id in pairs(list_of_pokemons) do
 		local n = gui.clone_tree(template_node)
 		local pokemon = storage.get_copy(id)
 		local sprite = n["pokemon_entry/pokemon_sprite"]
@@ -47,6 +47,11 @@ local function create_storage_list()
 		table.insert(pokemon_ids, id)
 		table.insert(nodes,root)
 	end
+end
+
+function M.filtered_pokemons(pokemons)
+	list_of_pokemons = pokemons
+	M.redraw()
 end
 
 function M.redraw()
@@ -66,7 +71,7 @@ function M.setup(stencil, scroll, template)
 	stencil_node = stencil
 	scroll_node = scroll
 	template_node = template
-
+	list_of_pokemons = storage.list_of_ids_in_storage()
 	create_storage_list()
 	
 	storage_list.create(stencil_node, scroll_node, nodes)
