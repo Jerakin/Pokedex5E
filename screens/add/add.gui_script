@@ -47,7 +47,7 @@ function init(self)
 		end)
 	end
 
-	if monarch.top() == hash("splash") or monarch.top() == hash("profiles") then
+	if storage.get_total() == 0 then
 		gui.set_enabled(gui.get_node("change_pokemon/btn_close"), false)
 	end
 	
