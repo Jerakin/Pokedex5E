@@ -11,6 +11,7 @@ end
 
 function init(self)
 	button.acquire()
+	msg.post(url.MENU, "hide")
 	button.register("btn_alphabetical", function() 
 		set_sorting("alphabetical")
 	end)
@@ -29,6 +30,7 @@ function init(self)
 end
 
 function final(self)
+	msg.post(url.MENU, "show")
 	button.unregister()
 end
 
