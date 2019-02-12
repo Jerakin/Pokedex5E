@@ -13,7 +13,7 @@ def main():
         data = json.load(f)
         for i, pokemon in enumerate(data["number"]):
             raw_url = "https://bulbapedia.bulbagarden.net/wiki/File:{:03d}{}.png".format(i+1, pokemon)
-            file_name = "{}{}.png".format(i+1, pokemon)
+            file_name = "raw_images/{}{}.png".format(i+1, pokemon)
 
             r = requests.get(raw_url)
             url = get_url_from_source(r.content)
