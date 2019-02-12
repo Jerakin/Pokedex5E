@@ -8,12 +8,8 @@ textures {
   texture: "/assets/gui.atlas"
 }
 textures {
-  name: "pokemon0"
-  texture: "/assets/pokemon0.atlas"
-}
-textures {
-  name: "pokemon1"
-  texture: "/assets/pokemon1.atlas"
+  name: "sprite0"
+  texture: "/assets/sprite0.atlas"
 }
 background_color {
   x: 0.0
@@ -35,14 +31,14 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 3.0
+    y: 3.0
     z: 1.0
     w: 1.0
   }
   size {
-    x: 100.0
-    y: 100.0
+    x: 40.0
+    y: 30.0
     z: 0.0
     w: 1.0
   }
@@ -54,11 +50,11 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "pokemon0/100Voltorb"
+  texture: "sprite0/100Voltorb"
   id: "pokemon_sprite"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_S
   adjust_mode: ADJUST_MODE_FIT
   layer: ""
   inherit_alpha: true
@@ -73,7 +69,7 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
+  size_mode: SIZE_MODE_AUTO
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT

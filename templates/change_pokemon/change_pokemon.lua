@@ -17,8 +17,9 @@ local M = {}
 
 local function pokemon_image(species)
 	local pokemon_sprite, texture = pokedex.get_sprite(species)
-	gui.set_texture(gui.get_node("change_pokemon/pokemon_sprite"), texture)
+	gui.set_texture(gui.get_node("change_pokemon/pokemon_sprite"), "sprite0")
 	gui.play_flipbook(gui.get_node("change_pokemon/pokemon_sprite"), pokemon_sprite)
+	gui.set_scale(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector3(3))
 end
 
 local function redraw(self)

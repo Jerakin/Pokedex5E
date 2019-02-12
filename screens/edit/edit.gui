@@ -16,12 +16,8 @@ textures {
   texture: "/assets/gui.atlas"
 }
 textures {
-  name: "pokemon0"
-  texture: "/assets/pokemon0.atlas"
-}
-textures {
-  name: "pokemon1"
-  texture: "/assets/pokemon1.atlas"
+  name: "sprite0"
+  texture: "/assets/sprite0.atlas"
 }
 background_color {
   x: 0.0
@@ -1568,8 +1564,8 @@ nodes {
 }
 nodes {
   position {
-    x: 44.0
-    y: 1235.0
+    x: 55.0
+    y: 1199.0
     z: 0.0
     w: 1.0
   }
@@ -1586,8 +1582,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 60.0
-    y: 60.0
+    x: 80.0
+    y: 80.0
     z: 0.0
     w: 1.0
   }
@@ -1603,7 +1599,7 @@ nodes {
   id: "change_pokemon/pokemon_sprite"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_S
   adjust_mode: ADJUST_MODE_FIT
   parent: "change_pokemon/root"
   layer: ""
@@ -1619,7 +1615,7 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: true
-  size_mode: SIZE_MODE_MANUAL
+  size_mode: SIZE_MODE_AUTO
 }
 nodes {
   position {

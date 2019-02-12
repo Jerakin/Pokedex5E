@@ -10,8 +10,9 @@ local gui_colors = require "utils.gui_colors"
 
 local function pokemon_image(pokemon_data)
 	local pokemon_sprite, texture = _pokemon.get_sprite(pokemon_data)
-	gui.set_texture(gui.get_node("change_pokemon/pokemon_sprite"), texture)
+	gui.set_texture(gui.get_node("change_pokemon/pokemon_sprite"), "sprite0")
 	gui.play_flipbook(gui.get_node("change_pokemon/pokemon_sprite"), pokemon_sprite)
+	gui.set_scale(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector3(3))
 end
 
 function init(self)
