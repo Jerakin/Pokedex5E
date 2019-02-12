@@ -140,7 +140,7 @@ function lfs.rmdirs(path)
 			if lfs.attributes(file_path, 'mode') == 'file' then
 				os.remove(file_path)
 			elseif lfs.attributes(file_path, 'mode') == 'directory' then
-				deletedir(file_path)
+				lfs.rmdirs(file_path)
 			end
 		end
 	end
