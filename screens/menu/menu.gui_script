@@ -105,7 +105,6 @@ function init(self)
 
 	button.register(self.btn_reset, function()
 		local pokemon = storage.get_copy(party.current_pokemon)
-		pprint(party.current_pokemon, pokemon)
 		_pokemon.reset(pokemon)
 		toggle(self)
 	end)

@@ -17,7 +17,6 @@ function M.create(stencil, scroll, node_list)
 	scroll_node = scroll
 	M.list_items = node_list
 	start_position = gui.get_position(scroll_node)
-	pprint(start_position)
 	M.update(M.list_items)
 end
 
