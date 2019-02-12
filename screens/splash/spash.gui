@@ -7,10 +7,6 @@ fonts {
   name: "script"
   font: "/assets/fonts/script.font"
 }
-fonts {
-  name: "data"
-  font: "/assets/fonts/data.font"
-}
 background_color {
   x: 0.0
   y: 0.0
@@ -169,7 +165,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "version"
-  font: "data"
+  font: "script"
   id: "version_number"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE

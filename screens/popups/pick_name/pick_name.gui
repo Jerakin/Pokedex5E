@@ -1,9 +1,5 @@
 script: "/screens/popups/pick_name/pick_name.gui_script"
 fonts {
-  name: "data"
-  font: "/assets/fonts/data.font"
-}
-fonts {
   name: "script"
   font: "/assets/fonts/script.font"
 }
@@ -443,7 +439,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Joe"
-  font: "data"
+  font: "script"
   id: "name_text"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -561,7 +557,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "First, what is your name?"
-  font: "data"
+  font: "script"
   id: "text"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE

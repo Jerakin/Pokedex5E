@@ -1,7 +1,7 @@
 script: "/screens/popups/move_info/move_info.gui_script"
 fonts {
-  name: "data"
-  font: "/assets/fonts/data.font"
+  name: "script"
+  font: "/assets/fonts/script.font"
 }
 textures {
   name: "gui"
@@ -211,7 +211,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Reset"
-  font: "data"
+  font: "script"
   id: "text1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -769,7 +769,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "5/5"
-  font: "data"
+  font: "script"
   id: "txt_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -832,7 +832,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Grass"
-  font: "data"
+  font: "script"
   id: "txt_type"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -895,7 +895,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "You target a Pok\303\251mon with an intimidating growl. The Pok\303\251mon must make a WIS save against your Move DC. On a fail, it adds -1 to any attack it makes for the duration. This modifier can be stacked if it fails multiple growl saves, up to a maximum of -5."
-  font: "data"
+  font: "script"
   id: "txt_desc"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -958,7 +958,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "4d6+8"
-  font: "data"
+  font: "script"
   id: "txt_dmg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1021,7 +1021,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "1 Action"
-  font: "data"
+  font: "script"
   id: "txt_time"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1084,7 +1084,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "1 Min"
-  font: "data"
+  font: "script"
   id: "txt_duration"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1147,7 +1147,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "80 ft"
-  font: "data"
+  font: "script"
   id: "txt_range"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1210,7 +1210,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Petal Dance"
-  font: "data"
+  font: "script"
   id: "txt_name"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1383,7 +1383,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Close"
-  font: "data"
+  font: "script"
   id: "text"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1446,7 +1446,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "PP"
-  font: "data"
+  font: "script"
   id: "lbl_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1509,7 +1509,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Dice"
-  font: "data"
+  font: "script"
   id: "lbl_dmg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1572,7 +1572,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Range"
-  font: "data"
+  font: "script"
   id: "lbl_range"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1635,7 +1635,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Casting Time"
-  font: "data"
+  font: "script"
   id: "lbl_time"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1699,7 +1699,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Duration\n"
   ""
-  font: "data"
+  font: "script"
   id: "lbl_duration"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1762,7 +1762,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "STR/DEX"
-  font: "data"
+  font: "script"
   id: "txt_move_power"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1825,7 +1825,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Move Power"
-  font: "data"
+  font: "script"
   id: "lbl_move_power"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
