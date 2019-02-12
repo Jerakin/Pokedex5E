@@ -8,6 +8,12 @@ local _pokemon = require "pokedex.pokemon"
 local url = require "utils.url"
 local gui_colors = require "utils.gui_colors"
 
+local function pokemon_image(pokemon_data)
+	local pokemon_sprite, texture = _pokemon.get_sprite(pokemon_data)
+	gui.set_texture(gui.get_node("change_pokemon/pokemon_sprite"), texture)
+	gui.play_flipbook(gui.get_node("change_pokemon/pokemon_sprite"), pokemon_sprite)
+end
+
 function init(self)
 	self.have_evolved = false
 	button.acquire()
@@ -19,7 +25,8 @@ function init(self)
 	gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. _pokemon.get_current_level(pokemon))
 	gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.GREEN)
 	self.evolve_button = gui.get_node("btn_evolve")
-
+	pokemon_image(pokemon)
+	gui.set_text(gui.get_node("change_pokemon/nature"),  _pokemon.get_nature(pokemon))
 	function self.redraw(self)
 		if not self.have_evolved and pokedex.get_evolution_possible(_pokemon.get_current_species(pokemon)) and 
 		pokedex.get_evolution_level(_pokemon.get_current_species(pokemon)) <= self.level then

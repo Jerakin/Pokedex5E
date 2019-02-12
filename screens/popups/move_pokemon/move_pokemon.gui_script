@@ -56,7 +56,7 @@ local function setup_info(self)
 	local pokemon = storage.get_copy(self.pokemon_id)
 	set_pokemon_sprite(gui.get_node("pokemon_sprite"), pokemon)
 	
-	gui.set_text(gui.get_node("txt_index"), "#" .. _pokemon.get_index_number(pokemon))
+	gui.set_text(gui.get_node("txt_index"), string.format("#%03d", _pokemon.get_index_number(pokemon)))
 	gui.set_text(gui.get_node("txt_lvl"), _pokemon.get_current_level(pokemon))
 	gui.set_text(gui.get_node("txt_ac"), _pokemon.get_AC(pokemon))
 	gui.set_text(gui.get_node("txt_hp"), "HP: " .. _pokemon.get_current_hp(pokemon) .. "/" .. _pokemon.get_max_hp(pokemon))

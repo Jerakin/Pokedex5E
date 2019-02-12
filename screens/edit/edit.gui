@@ -15,6 +15,14 @@ textures {
   name: "gui"
   texture: "/assets/gui.atlas"
 }
+textures {
+  name: "pokemon0"
+  texture: "/assets/pokemon0.atlas"
+}
+textures {
+  name: "pokemon1"
+  texture: "/assets/pokemon1.atlas"
+}
 background_color {
   x: 0.0
   y: 0.0
@@ -78,7 +86,7 @@ nodes {
 nodes {
   position {
     x: 531.0
-    y: 57.0
+    y: 50.0
     z: 0.0
     w: 1.0
   }
@@ -108,7 +116,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/common_green_up"
   id: "btn_edit"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -118,17 +126,17 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 30.0
+    y: 30.0
+    z: 30.0
+    w: 30.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
   template_node_child: false
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
@@ -226,7 +234,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/common_up"
   id: "btn_evolve"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -236,17 +244,17 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 30.0
+    y: 30.0
+    z: 30.0
+    w: 30.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
   template_node_child: false
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
@@ -935,8 +943,8 @@ nodes {
 }
 nodes {
   position {
-    x: 408.0
-    y: 1226.0
+    x: 360.0
+    y: 1242.0
     z: 0.0
     w: 1.0
   }
@@ -985,6 +993,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 0.0
+  overridden_fields: 1
   overridden_fields: 30
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
@@ -1559,8 +1568,8 @@ nodes {
 }
 nodes {
   position {
-    x: 57.0
-    y: 1225.0
+    x: 44.0
+    y: 1235.0
     z: 0.0
     w: 1.0
   }
@@ -1577,8 +1586,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 75.0
-    y: 75.0
+    x: 60.0
+    y: 60.0
     z: 0.0
     w: 1.0
   }
@@ -1614,8 +1623,8 @@ nodes {
 }
 nodes {
   position {
-    x: 664.0
-    y: 1231.0
+    x: 676.0
+    y: 1237.0
     z: 0.0
     w: 1.0
   }
@@ -1632,8 +1641,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 78.0
-    y: 78.0
+    x: 80.0
+    y: 80.0
     z: 0.0
     w: 1.0
   }
@@ -4638,6 +4647,196 @@ nodes {
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_TEMPLATE
+  id: "change_pokemon/bottom_divider"
+  parent: "change_pokemon/root"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  template: "/templates/bottom_divider.gui"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 0.0
+    y: 104.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 720.0
+    y: 6.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.9254902
+    y: 0.61960787
+    z: 0.16078432
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: ""
+  id: "change_pokemon/bottom_divider/box1"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_SW
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "change_pokemon/bottom_divider"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_TEMPLATE
+  id: "top_divider"
+  parent: "root"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  template: "/templates/top_divider.gui"
+  template_node_child: false
+}
+nodes {
+  position {
+    x: 360.0
+    y: 1195.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 700.0
+    y: 6.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/divider"
+  id: "top_divider/box"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "top_divider"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 2.0
+    y: 2.0
+    z: 2.0
+    w: 2.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT

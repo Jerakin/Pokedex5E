@@ -41,17 +41,16 @@ function M.setup()
 		end
 	end
 	
-	local free_slots = 6 - #storage.list_of_ids_in_inventory()
 	local left_in_storage = #storage.list_of_ids_in_storage()
 	for i=#storage.list_of_ids_in_inventory()+1, 6 do
 		local pok_sprite = gui.get_node("inventory_pokemon_" .. i .. "/pokemon_sprite")
-		left_in_storage = left_in_storage - 1
 		gui.set_texture(pok_sprite, "gui")
 		if left_in_storage > 0 then
 			gui.play_flipbook(pok_sprite, "pokeball_add")
 		else
 			gui.play_flipbook(pok_sprite, "pokeball")
 		end
+		left_in_storage = left_in_storage - 1
 	end
 	
 end

@@ -24,10 +24,23 @@ local function storage_active(self)
 	gui.set_color(self.btn_profiles, DISABLED)
 end
 
+local function hide(self)
+	gui.set_enabled(gui.get_node("root"), false)
+end
+
+local function show(self)
+	gui.set_enabled(gui.get_node("root"), true)
+end
+
 local function toggle(self)
 	button.acquire()
 	self.toggle = not self.toggle
 	gui.set_enabled(self.menu, self.toggle)
+	if self.toggle then
+		gui.play_flipbook(self.btn_menu, "close_up")
+	else
+		gui.play_flipbook(self.btn_menu, "menu_up")
+	end
 end
 
 local function menu(self)
@@ -35,17 +48,18 @@ local function menu(self)
 	if top == hash("party") then
 		gui.set_enabled(self.btn_edit, true)
 		gui.set_enabled(self.btn_reset, true)
-		gui.set_position(self.sub, vmath.vector3(0, -375, 0))
+		gui.set_position(self.sub, vmath.vector3(0, -388, 0))
 	else
 		gui.set_enabled(self.btn_edit, false)
 		gui.set_enabled(self.btn_reset, false)
-		gui.set_position(self.sub, vmath.vector3(0, -215, 0))
+		gui.set_position(self.sub, vmath.vector3(0, -225, 0))
 	end
 end
 
 function init(self)
 	button.acquire()
 	gui.set_render_order(gro.MENU)
+	url.MENU = msg.url()
 	self.toggle = false
 	self.btn_party = gui.get_node("btn_party")
 	self.btn_storage = gui.get_node("btn_storage")
@@ -115,6 +129,10 @@ function on_input(self, action_id, action)
 end
 
 function on_message(self, message_id, message)
-	
+	if message_id == hash("show") then
+		show(self)
+	elseif message_id == hash("hide") then
+		hide(self)
+	end
 end
 

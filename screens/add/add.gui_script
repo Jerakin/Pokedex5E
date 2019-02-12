@@ -25,8 +25,6 @@ function init(self)
 		button.register("change_pokemon/nature", function()
 			gui.set_enabled(self.root, false)
 			monarch.show("scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url()})
-			gui.set_color(gui.get_node("change_pokemon/nature"), gui_colors.HERO_TEXT)
-			
 		end)
 
 		button.register("btn_add", function()
@@ -50,7 +48,6 @@ function init(self)
 	pokemon_edit.init(self)
 
 	button.register("change_pokemon/btn_species", function()
-		gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.HERO_TEXT)
 		gui.set_enabled(self.root, false)
 		monarch.show("scrollist", {}, {items=pokedex.list, message_id="species", sender=msg.url()})
 	end)

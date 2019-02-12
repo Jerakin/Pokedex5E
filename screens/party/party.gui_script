@@ -7,6 +7,7 @@ local party = require "screens.party.party"
 local gesture = require "utils.gesture"
 local url = require "utils.url"
 local type_data = require "utils.type_data"
+local gui_colors = require "utils.gui_colors"
 
 local STATS = {"STR",  "INT", "DEX",  "WIS", "CON", "CHA"}
 
@@ -29,8 +30,28 @@ local function show_description(pokemon, move, data)
 	monarch.show("move_info", {}, {pokemon=pokemon, name=move, data=data})
 end
 
-local function update()
-	gui.set_text(pp_node, "PP: " .. _pokemon.get_move_pp(pokemon, name))
+local function update_pp(pp_lbl, pp_current, pp_max, pokemon, name)
+	local current = _pokemon.get_move_pp(pokemon, name) 
+	local max = pokedex.get_move_pp(name)
+	gui.set_text(pp_current, current)
+	gui.set_text(pp_max, "/" .. max)
+	local p = gui.get_position(pp_current)
+	p.x = p.x + gui.get_text_metrics_from_node(pp_current).width
+	gui.set_position(pp_max, p)
+	if current == 0 then
+		gui.set_color(pp_current, gui_colors.RED)
+		gui.set_color(pp_max, gui_colors.RED)
+		gui.set_color(pp_lbl, gui_colors.RED)
+	elseif current < max then
+		gui.set_color(pp_current, gui_colors.RED)
+		gui.set_color(pp_max, gui_colors.GREEN)
+		gui.set_color(pp_lbl, gui_colors.GREEN)
+	else
+		gui.set_color(pp_current, gui_colors.GREEN)
+		gui.set_color(pp_max, gui_colors.GREEN)
+		gui.set_color(pp_lbl, gui_colors.GREEN)
+	end
+
 end
 
 local function setup_moves(self, nodes, pokemon)
@@ -43,19 +64,20 @@ local function setup_moves(self, nodes, pokemon)
 	end
 
 	for name, move in pairs(_pokemon.get_moves(pokemon)) do
-		local current_pp = move.pp
 		index = move.index
 		enabled_moves[move.index] = true
 		local move_data = _pokemon.get_move_data(pokemon, name)
-		local pp_node = _get_node("/txt_pp")
+		local pp_current = _get_node("/txt_pp_current")
+		local pp_max = _get_node("/txt_pp_max")
+		local pp_lbl = _get_node("/lbl_pp")
 		button.register(_get_node("/pp/btn_minus"), function()
 			_pokemon.decrease_move_pp(pokemon, name)
-			gui.set_text(pp_node, "PP: " .. _pokemon.get_move_pp(pokemon, name))
+			update_pp(pp_lbl, pp_current, pp_max, pokemon, name)
 		end)
 		
 		button.register(_get_node("/pp/btn_plus"), function()
 			_pokemon.increase_move_pp(pokemon, name)
-			gui.set_text(pp_node, "PP: " .. _pokemon.get_move_pp(pokemon, name))
+			update_pp(pp_lbl, pp_current, pp_max, pokemon, name)
 		end)
 		
 		button.register(_get_node("/name"), function()
@@ -64,7 +86,7 @@ local function setup_moves(self, nodes, pokemon)
 		
 		gui.set_text(_get_node("/action"), move_data.time)
 		gui.set_text(_get_node("/duration"), move_data.duration)
-		gui.set_text(pp_node, "PP: " .. current_pp)
+		update_pp(pp_lbl, pp_current, pp_max, pokemon, name)
 
 		if move_data.damage then
 			gui.set_text(_get_node("/bonus"), "AB: " .. move_data.AB)
@@ -104,7 +126,7 @@ local function setup_abilities(self, nodes, pokemon)
 		local n = nodes[name .. sub]
 		return n
 	end
-	local p = vmath.vector3()
+	local p = vmath.vector3(10, -10, 0)
 	for _, name in pairs(_pokemon.get_abilities(pokemon)) do
 		local desc = pokedex.get_ability_description(name)
 		local root_node = gui.clone(nodes["pokemon/ability/root"])
@@ -167,7 +189,7 @@ local function setup_page(self, nodes, pokemon)
 	end)
 	local speed, stype = _pokemon.get_speed_of_type(pokemon)
 	gui.set_text(nodes["pokemon/txt_speed"], stype .. ": " .. speed)
-	
+	gui.set_text(nodes["pokemon/index"], string.format("#%03d", _pokemon.get_index_number(pokemon)))
 	gui.set_text(nodes["pokemon/species"], _pokemon.get_current_species(pokemon))
 	gui.set_text(nodes["pokemon/level"], "Lv. " ..  _pokemon.get_current_level(pokemon))
 	gui.set_text(nodes["pokemon/nature"], _pokemon.get_nature(pokemon))
@@ -275,11 +297,9 @@ function init(self)
 		party.current_pokemon = self.pokemons_list[1].pokemon_id
 	end
 
-	local free_slots = 6 - #storage.list_of_ids_in_inventory()
 	local left_in_storage = #storage.list_of_ids_in_storage()
 	for i=#storage.list_of_ids_in_inventory()+1, 6 do
 		local pok_sprite = gui.get_node("party_indicator/pokemon_" .. i .. "/pokemon_sprite")
-		left_in_storage = left_in_storage - 1
 		gui.set_texture(pok_sprite, "gui")
 		if left_in_storage > 0 then
 			gui.play_flipbook(pok_sprite, "pokeball_add")
@@ -289,7 +309,13 @@ function init(self)
 		else
 			gui.play_flipbook(pok_sprite, "pokeball")
 		end
+		left_in_storage = left_in_storage - 1
 	end
+	
+	button.register("btn_edit", function()
+		monarch.show("edit", {clear=true}, {id=party.current_pokemon})
+	end)
+	
 	gui.delete_node(self.pokemon_page)
 end
 

@@ -141,6 +141,10 @@ function M.release_pokemon(id)
 	M.save()
 end
 
+function M.get_total()
+	return counters.caught or 0 - couters.released or 0
+end
+
 function M.add(pokemon)
 	for i=#pokemon.moves, 1, -1 do
 		if pokemon.moves[i] == "" or pokemon.moves[i] == "None" then

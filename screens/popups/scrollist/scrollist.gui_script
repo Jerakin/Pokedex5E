@@ -2,16 +2,19 @@ local button = require "utils.button"
 local monarch = require "monarch.monarch"
 local gooey = require "gooey.gooey"
 local utils = require "utils.utils"
+local gui_colors = require "utils.gui_colors"
 
 local selected_item
+local sender
+local message_id
 
 local function update_listitem(list, item)
 	gui.set_text(item.nodes["txt_item"], tostring(item.data or "-"))
 	if item.index == list.selected_item then
-		gui.set_color(item.nodes["txt_item"], vmath.vector3(1, 1, 0, 1))
+		--gui.set_color(item.nodes["txt_item"], vmath.vector3(1, 1, 0, 1))
 		selected_item = item.data
 	else
-		gui.set_color(item.nodes["txt_item"], vmath.vector3(1, 1, 1, 1))
+		--gui.set_color(item.nodes["txt_item"], vmath.vector3(1, 1, 1, 1))
 	end
 end
 
@@ -24,26 +27,23 @@ end
 local function on_item_selected(list)
 	for i,item in ipairs(list.items) do
 		if item.index == list.selected_item then
-			gui.set_color(item.nodes["txt_item"], vmath.vector3(1, 1, 0, 1))
-			selected_item = item.data
-		else
-			gui.set_color(item.nodes["txt_item"], vmath.vector3(1, 1, 1, 1))
+			msg.post(sender, message_id, {item=item.data})
+			monarch.back()
 		end
 	end
 end
 
 function init(self)
-	monarch.hide(hash("menu"))
+	msg.post(url.MENU, "hide")
 	local d = monarch.data("scrollist")
+	sender = d.sender
+	message_id = d.message_id
 	self.all_items = utils.shallow_copy(d.items)
 	self.list_items = utils.shallow_copy(d.items)
 	update_list(gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.list_items))
 	button.acquire()
-	button.register("btn_okay", function()
-		msg.post(d.sender, d.message_id, {item=selected_item})
-		monarch.show("menu", {no_stack=true}, {}, function()
-			monarch.back()
-		end)
+	button.register("btn_quit", function()
+		monarch.back()
 	end)
 end
 

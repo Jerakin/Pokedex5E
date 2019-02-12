@@ -7,13 +7,19 @@ local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
 local gui_colors = require "utils.gui_colors"
 local type_data = require "utils.type_data"
-
+local url = require "utils.url"
 local utils = require "utils.utils"
 
 local selected_item
 local STATS = {"STR", "DEX", "CON", "INT", "WIS", "CHA"}
 
 local M = {}
+
+local function pokemon_image(species)
+	local pokemon_sprite, texture = pokedex.get_sprite(species)
+	gui.set_texture(gui.get_node("change_pokemon/pokemon_sprite"), texture)
+	gui.play_flipbook(gui.get_node("change_pokemon/pokemon_sprite"), pokemon_sprite)
+end
 
 local function redraw(self)
 	if not self.pokemon or self.pokemon.species.current == "" then
@@ -163,11 +169,12 @@ function M.init(self, pokemon)
 	self.list_items = {}
 	self.move_button_index = 0
 	self.root = gui.get_node("root")
-
+	msg.post(url.MENU, "hide")
 end
 
 function M.final(self)
 	button.unregister()
+	msg.post(url.MENU, "show")
 end
 
 function M.on_message(self, message_id, message, sender)
@@ -175,6 +182,7 @@ function M.on_message(self, message_id, message, sender)
 		if message_id == hash("nature") then
 			self.pokemon.nature = message.item
 			self.pokemon.attributes.nature = natures.get_nature_attributes(message.item)
+			gui.set_color(gui.get_node("change_pokemon/nature"), gui_colors.HERO_TEXT)
 			M.register_buttons_after_nature(self)
 			if self.register_buttons_after_nature then self.register_buttons_after_nature(self) end
 		elseif message_id == hash("species") then
@@ -189,12 +197,15 @@ function M.on_message(self, message_id, message, sender)
 				end
 			end
 			self.pokemon.moves = moves
+			pokemon_image(message.item)
+			gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.HERO_TEXT)
 			M.register_buttons_after_species(self)
 			if self.register_buttons_after_species then self.register_buttons_after_species(self) end
 		elseif message_id == hash("evolve") then
 			_pokemon.set_species(self.pokemon, message.item)
 			self.ability_score_improvment = self.ability_score_improvment - pokedex.evolve_points(message.item)
 			self.have_evolved = true
+			pokemon_image(message.item)
 		else
 			local n = gui.get_node("change_pokemon/move_" .. self.move_button_index)
 			_pokemon.set_move(self.pokemon, message.item, self.move_button_index)
