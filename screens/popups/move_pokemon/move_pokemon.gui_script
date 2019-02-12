@@ -65,7 +65,7 @@ local function setup_move(pokemon, name, index)
 	local pp_lbl = gui.get_node("move_" .. index .. "/lbl_pp")
 	local pp_current = gui.get_node("move_" .. index .. "/txt_pp_current")
 	local pp_max = gui.get_node("move_" .. index .. "/txt_pp_max")
-	
+	gui.set_enabled(gui.get_node("move_" .. index .. "/root"), true)
 	local current = _pokemon.get_move_pp(pokemon, name) 
 	local max = pokedex.get_move_pp(name)
 	gui.set_text(pp_current, current)
@@ -113,6 +113,9 @@ local function setup_info(self)
 	local index = 0
 	local moves_string = ""
 	local pp_string = ""
+	for i=1, 4 do
+		gui.set_enabled(gui.get_node("move_" .. i .. "/root"), false)
+	end
 	for move, data in pairs(_pokemon.get_moves(pokemon)) do
 		index = index + 1
 		setup_move(pokemon, move, index)

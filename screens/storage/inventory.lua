@@ -48,8 +48,8 @@ function M.setup()
 			else
 				gui.play_flipbook(sprite, "pokeball")
 			end
+			left_in_storage = left_in_storage - 1
 		end
-		left_in_storage = left_in_storage - 1
 	end
 end
 
