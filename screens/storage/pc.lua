@@ -12,6 +12,7 @@ local stencil_node
 local template_node
 local COLUMNS = 3
 local list_of_pokemons = {}
+local storage_cache = nil
 
 local DISTANCE = vmath.vector3(200, 200, 0)
 local function set_pokemon_sprite(sprite, pokemon)
@@ -26,7 +27,23 @@ local function set_pokemon_text(text, pokemon)
 	gui.set_text(text, species .. "\n" .. "Lv. " .. level)
 end
 
+local function is_storage_updated(a, b)
+	if #a ~= #b then
+		return true
+	end
+	for i, id in ipairs(a) do
+		if not b[i] == id then
+			return true
+		end
+	end
+	return false
+end
+
 local function create_storage_list()
+	for _, n in pairs(nodes) do
+		gui.delete_node(n)
+	end
+
 	pokemon_ids = {}
 	nodes = {}
 	local sprite_position = vmath.vector3()
@@ -47,6 +64,7 @@ local function create_storage_list()
 		table.insert(pokemon_ids, id)
 		table.insert(nodes,root)
 	end
+	storage_cache = list_of_pokemons
 end
 
 function M.filtered_pokemons(pokemons)
@@ -55,8 +73,8 @@ function M.filtered_pokemons(pokemons)
 end
 
 function M.redraw()
-	for _, n in pairs(nodes) do
-		gui.delete_node(n)
+	if storage_cache and not is_storage_updated(storage_cache, list_of_pokemons) then
+		return
 	end
 	create_storage_list()
 	storage_list.update(nodes)
