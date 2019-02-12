@@ -17,7 +17,7 @@ local M = {
 	
 	Ground		= {icon = "element_ground",		color = vmath.vector3(224/255, 196/255, 104/255, 1)},
 	
-	Psychic		= {icon = "element_pshycic",	color = vmath.vector3(248/255, 88/255, 136/255, 1)},
+	Psychic		= {icon = "element_psychic",	color = vmath.vector3(248/255, 88/255, 136/255, 1)},
 	
 	Rock		= {icon = "element_rock",		color = vmath.vector3(186/255, 160/255, 56/255, 1)},
 	
