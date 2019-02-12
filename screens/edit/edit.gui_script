@@ -6,7 +6,7 @@ local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
 local _pokemon = require "pokedex.pokemon"
 local url = require "utils.url"
-
+local gui_colors = require "utils.gui_colors"
 
 function init(self)
 	self.have_evolved = false
@@ -16,8 +16,8 @@ function init(self)
 	pokemon_edit.init(self, pokemon)
 	self.level = _pokemon.get_current_level(pokemon)
 
-	gui.set_text(gui.get_node("txt_current_level"), "Lv. " .. _pokemon.get_current_level(pokemon) .. "  ->")
-	
+	gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. _pokemon.get_current_level(pokemon))
+	gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.GREEN)
 	self.evolve_button = gui.get_node("btn_evolve")
 
 	function self.redraw(self)
@@ -26,6 +26,12 @@ function init(self)
 			gui.set_enabled(self.evolve_button, true)
 		else
 			gui.set_enabled(self.evolve_button, false)
+		end
+		gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. _pokemon.get_current_level(pokemon))
+		if self.level - _pokemon.get_current_level(pokemon)> 0 then
+			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "+" .. self.level - _pokemon.get_current_level(pokemon))
+		else
+			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "" )
 		end
 	end
 
@@ -56,7 +62,9 @@ function init(self)
 		_pokemon.save(self.pokemon)
 		monarch.show("party", {clear=true})
 	end)
-
+	button.register("change_pokemon/btn_close", function()
+		monarch.back()
+	end)
 	pokemon_edit.register_buttons_after_nature(self)
 	pokemon_edit.register_buttons_after_species(self)
 	pokemon_edit.redraw(self)

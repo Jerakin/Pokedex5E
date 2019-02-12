@@ -98,6 +98,7 @@ function init(self)
 
 	button.register("btn_add", function()
 		monarch.show("add", {clear=true})
+		toggle(self)
 	end)
 end
 

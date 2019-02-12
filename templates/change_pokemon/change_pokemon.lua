@@ -5,6 +5,8 @@ local natures = require "pokedex.natures"
 local _pokemon = require "pokedex.pokemon"
 local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
+local gui_colors = require "utils.gui_colors"
+local type_data = require "utils.type_data"
 
 local utils = require "utils.utils"
 
@@ -17,15 +19,16 @@ local function redraw(self)
 	if not self.pokemon or self.pokemon.species.current == "" then
 		return
 	end
-	local species_node = gui.get_node("spicies")
+	local species_node = gui.get_node("change_pokemon/species")
 	gui.set_text(species_node, self.pokemon.species.current)
-	gui.set_text(gui.get_node("txt_level"), "Lv. " .. self.level)
+	gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. self.level)
 	
 	-- Moves
 	for move, data in pairs(self.pokemon.moves) do
 		local index = data.index
-		local move_node = gui.get_node("moves/move_" .. index)
+		local move_node = gui.get_node("change_pokemon/move_" .. index)
 		gui.set_text(move_node, move)
+		gui.set_color(move_node, pokedex.get_move_color(move))
 	end
 
 	-- Natures and attributes
@@ -35,17 +38,36 @@ local function redraw(self)
 	
 	local attributes = _pokemon.get_attributes(self.pokemon)
 	for _, stat in pairs(STATS) do
-		local n = gui.get_node("asi/" .. stat)
-		gui.set_text(n, stat .. " " .. attributes[stat] .. "(" .. self.increased_attributes[stat] .. ")")
+		local n = gui.get_node("change_pokemon/asi/" .. stat .. "_MOD")
+		
+		gui.set_text(gui.get_node("change_pokemon/asi/" .. stat), attributes[stat])
+		local mod = ""
+		if self.increased_attributes[stat] >= 0 then
+			mod = "+"
+		end
+		if self.increased_attributes[stat] >= 1 then
+			gui.set_color(n, gui_colors.GREEN)
+		else
+			gui.set_color(n, gui_colors.TEXT)
+		end
+		gui.set_text(n, mod .. self.increased_attributes[stat])
 	end
 
 	-- ASI
-	local max_improve_node = gui.get_node("asi/title")
+	local max_improve_node = gui.get_node("change_pokemon/asi/asi_points")
 	local available_at_level = pokedex.level_data(self.level).ASI
 	local available_at_current_level = pokedex.level_data(_pokemon.get_current_level(self.pokemon)).ASI
 	local available = (available_at_level - available_at_current_level)  * 2
-	gui.set_text(max_improve_node, "Available Points: " .. available - self.ability_score_improvment)
-
+	local current = available - self.ability_score_improvment
+	gui.set_text(max_improve_node, current)
+	if current == 0 then
+		gui.set_color(max_improve_node, gui_colors.TEXT)
+	elseif current >= 1 then
+		gui.set_color(max_improve_node, gui_colors.GREEN)
+	else
+		gui.set_color(max_improve_node, gui_colors.RED)
+	end
+	
 	if self.redraw then self.redraw(self) end
 end
 
@@ -86,50 +108,22 @@ local function pick_move(self)
 end
 
 function M.register_buttons_after_nature(self)
-	button.register("asi/btn_str_decrease/btn", function()
-		decrease(self, "STR")
-	end)
-	button.register("asi/btn_str_increase/btn", function()
-		increase(self, "STR")
-	end)
-	button.register("asi/btn_dex_decrease/btn", function()
-		decrease(self, "DEX")
-	end)
-	button.register("asi/btn_dex_increase/btn", function()
-		increase(self, "DEX")
-	end)
-	button.register("asi/btn_con_decrease/btn", function()
-		decrease(self, "CON")
-	end)
-	button.register("asi/btn_con_increase/btn", function()
-		increase(self, "CON")
-	end)
-	button.register("asi/btn_int_decrease/btn", function()
-		decrease(self, "INT")
-	end)
-	button.register("asi/btn_int_increase/btn", function()
-		increase(self, "INT")
-	end)
-	button.register("asi/btn_wis_decrease/btn", function()
-		decrease(self, "WIS")
-	end)
-	button.register("asi/btn_wis_increase/btn", function()
-		increase(self, "WIS")
-	end)
-	button.register("asi/btn_cha_decrease/btn", function()
-		decrease(self, "CHA")
-	end)
-	button.register("asi/btn_cha_increase/btn", function()
-		increase(self, "CHA")
-	end)
+	for _, s in pairs({"str", "dex", "con", "int", "wis", "cha"}) do
+		button.register("change_pokemon/asi/".. s .. "/btn_minus", function()
+			decrease(self, s:upper())
+		end)
+		button.register("change_pokemon/asi/".. s .. "/btn_plus", function()
+			increase(self, s:upper())
+		end)
+	end
 
-	button.register("btn_lvl_increase/btn", function()
+	button.register("change_pokemon/level/btn_plus", function()
 		if self.level < 20 then
 			self.level = self.level + 1
 			redraw(self)
 		end
 	end)
-	button.register("btn_lvl_decrease/btn", function()
+	button.register("change_pokemon/level/btn_minus", function()
 		if self.level > 1 and self.level > pokedex.get_minimum_wild_level(self.pokemon.species.current) then
 			self.level = self.level - 1
 			redraw(self)
@@ -138,22 +132,22 @@ function M.register_buttons_after_nature(self)
 end
 
 function M.register_buttons_after_species(self)
-	button.register("moves/btn_move_1", function()
+	button.register("change_pokemon/btn_move_1", function()
 		self.move_button_index = 1
 		pick_move(self)
 	end)
 
-	button.register("moves/btn_move_2", function()
+	button.register("change_pokemon/btn_move_2", function()
 		self.move_button_index = 2
 		pick_move(self)
 	end)
 
-	button.register("moves/btn_move_3", function()
+	button.register("change_pokemon/btn_move_3", function()
 		self.move_button_index = 3
 		pick_move(self)
 	end)
 
-	button.register("moves/btn_move_4", function()
+	button.register("change_pokemon/btn_move_4", function()
 		self.move_button_index = 4
 		pick_move(self)
 	end)
@@ -202,9 +196,11 @@ function M.on_message(self, message_id, message, sender)
 			self.ability_score_improvment = self.ability_score_improvment - pokedex.evolve_points(message.item)
 			self.have_evolved = true
 		else
-			local n = gui.get_node("moves/move_" .. self.move_button_index)
+			local n = gui.get_node("change_pokemon/move_" .. self.move_button_index)
 			_pokemon.set_move(self.pokemon, message.item, self.move_button_index)
+			
 			gui.set_text(n, message.item)
+			gui.set_color(n, pokedex.get_move_color(message.item))
 		end
 		redraw(self)
 	end

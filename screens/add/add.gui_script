@@ -7,28 +7,32 @@ local pokedex = require "pokedex.pokedex"
 local url = require "utils.url"
 local _pokemon = require "pokedex.pokemon"
 local transitions = require "utils.transitions"
+local gui_colors = require "utils.gui_colors"
 
 HAVE_EVOLVED = false
 
 function init(self)
 	self.transition = transitions.default(gui.get_node("root"))
-	gui.set_color(gui.get_node("spicies"), vmath.vector4(1,0,0,1))
+	button.acquire()
+	gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.HERO_TEXT_FADED)
+	gui.set_color(gui.get_node("change_pokemon/nature"), gui_colors.HERO_TEXT_FADED)
 	function self.redraw(self)
-		local nature_node = gui.get_node("nature")
+		local nature_node = gui.get_node("change_pokemon/nature")
 		gui.set_text(nature_node, self.pokemon.nature)
 	end
 
 	function self.register_buttons_after_species(self)
-		button.register("btn_nature", function()
+		button.register("change_pokemon/nature", function()
 			gui.set_enabled(self.root, false)
 			monarch.show("scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url()})
-			gui.set_color(gui.get_node("nature"), vmath.vector4(0,0,0,1))
+			gui.set_color(gui.get_node("change_pokemon/nature"), gui_colors.HERO_TEXT)
 			
 		end)
 
 		button.register("btn_add", function()
 			if self.pokemon.nature ~= "" and self.pokemon.species.current ~= "" then
 				self.pokemon.level.caught = self.level
+				self.pokemon.level.current = self.level
 				local max_hp = _pokemon.get_max_hp_at_level(self.pokemon, self.level)
 				self.pokemon.hp.max = max_hp
 				self.pokemon.attributes.increased = self.increased_attributes
@@ -36,15 +40,17 @@ function init(self)
 				monarch.show("party", {clear=true})
 			end
 		end)
-		
 	end
-	button.acquire()
+
+	button.register("change_pokemon/btn_close", function()
+		monarch.back()
+	end)
+
 
 	pokemon_edit.init(self)
 
-	button.register("btn_spicies", function()
-		gui.set_color(gui.get_node("spicies"), vmath.vector4(0,0,0,1))
-		gui.set_color(gui.get_node("nature"), vmath.vector4(1,0,0,1))
+	button.register("change_pokemon/btn_species", function()
+		gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.HERO_TEXT)
 		gui.set_enabled(self.root, false)
 		monarch.show("scrollist", {}, {items=pokedex.list, message_id="species", sender=msg.url()})
 	end)

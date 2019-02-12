@@ -1,5 +1,6 @@
 local file = require "utils.file"
 local utils = require "utils.utils"
+local type_data = require "utils.type_data"
 
 local M = {}
 
@@ -29,6 +30,14 @@ end
 
 function M.level_data(level)
 	return leveldata[tostring(level)]
+end
+
+function M.get_move_color(move)
+	return type_data[M.get_move_data(move).Type].color
+end
+
+function M.get_move_icon(move)
+	return type_data[M.get_move_data(move).Type].icon
 end
 
 function M.get_index_number(pokemon)
