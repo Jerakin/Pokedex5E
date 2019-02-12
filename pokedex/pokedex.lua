@@ -72,11 +72,11 @@ function M.get_walking_speed(pokemon)
 end
 
 function M.get_swimming_speed(pokemon)
-	return M.get_pokemon(pokemon).SSp or 0
+	return M.get_pokemon(pokemon).Ssp or 0
 end
 
 function M.get_flying_speed(pokemon)
-	return M.get_pokemon(pokemon).FSp or 0
+	return M.get_pokemon(pokemon).Fsp or 0
 end
 
 function M.get_climbing_speed(pokemon)

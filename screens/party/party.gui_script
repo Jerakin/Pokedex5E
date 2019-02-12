@@ -51,7 +51,6 @@ local function update_pp(pp_lbl, pp_current, pp_max, pokemon, name)
 		gui.set_color(pp_max, gui_colors.GREEN)
 		gui.set_color(pp_lbl, gui_colors.GREEN)
 	end
-
 end
 
 local function setup_moves(self, nodes, pokemon)
