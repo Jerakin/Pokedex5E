@@ -2,6 +2,7 @@ local button = require "utils.button"
 local monarch = require "monarch.monarch"
 local profiles = require "pokedex.profiles"
 local storage = require "pokedex.storage"
+local gui_colors = require "utils.gui_colors"
 
 local url = require "utils.url"
 
@@ -15,14 +16,17 @@ local INACTIVE = vmath.vector3(0.99, 0.95, 0.86, 1)
 local function refresh(active_slot)
 	local _profiles = profiles.get_all_profiles()
 	for i=1, 3 do
-		gui.set_color(gui.get_node("bg_" .. i), INACTIVE)
+		gui.set_color(gui.get_node("btn_slot_" .. i), INACTIVE)
+		gui.set_color(gui.get_node("trainer_name_" .. i), gui_colors.HERO_TEXT_FADED)
+		gui.set_color(gui.get_node("trainer_stats_" .. i), gui_colors.HERO_TEXT_FADED)
 	end
-
-	local size = vmath.vector3(850, 200, 0)
-	gui.set_size(gui.get_node("btn_slot_" .. active_slot), size)
-	gui.set_size(gui.get_node("bg_" .. active_slot), size)
-	gui.set_color(gui.get_node("bg_" .. active_slot), ACTIVE)
-
+	if active_slot then
+		local size = vmath.vector3(850, 200, 0)
+		gui.set_size(gui.get_node("btn_slot_" .. active_slot), size)
+		gui.set_color(gui.get_node("btn_slot_" .. active_slot), ACTIVE)
+		gui.set_color(gui.get_node("trainer_name_" .. active_slot), gui_colors.HERO_TEXT)
+		gui.set_color(gui.get_node("trainer_stats_" .. active_slot), gui_colors.HERO_TEXT)
+	end
 end
 
 
@@ -50,18 +54,12 @@ function init(self)
 			gui.set_text(gui.get_node("trainer_name_" .. i), _profiles[i].name)
 			gui.set_text(gui.get_node("trainer_stats_" .. i), " Own: " .. _profiles[i].caught - _profiles[i].released)
 		end
-		gui.set_color(gui.get_node("bg_" .. i), INACTIVE)
 		button.register("btn_slot_" .. i, function()
 			activate(_profiles[i], i)
 		end)
 	end
 	local slot = profiles.get_active_slot()
-	if slot ~= nil then
-		local size = vmath.vector3(850, 200, 0)
-		gui.set_size(gui.get_node("btn_slot_" .. slot), size)
-		gui.set_size(gui.get_node("bg_" .. slot), size)
-		gui.set_color(gui.get_node("bg_" .. slot), ACTIVE)
-	end
+	refresh(slot)
 end
 
 function final(self)
