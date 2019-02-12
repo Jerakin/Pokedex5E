@@ -17,6 +17,7 @@ function M.create(stencil, scroll, node_list)
 	scroll_node = scroll
 	M.list_items = node_list
 	start_position = gui.get_position(scroll_node)
+	pprint(start_position)
 	M.update(M.list_items)
 end
 
@@ -41,7 +42,7 @@ function M.update(node_list)
 	list_state.scroll_pos = vmath.vector3(0)
 	list_state.min_y = start_position.y
 	list_state.max_y = total_height < list_height and start_position.y or 
-	total_height - list_height + start_position.y
+	total_height - list_height - start_position.y
 
 end
 
