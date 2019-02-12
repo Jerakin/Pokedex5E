@@ -70,8 +70,6 @@ end
 function M.get_active_name()
 	if profiles[active_slot] then
 		return profiles[active_slot].name
-	else
-		return ""
 	end
 end
 

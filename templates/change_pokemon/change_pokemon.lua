@@ -207,8 +207,8 @@ function M.on_message(self, message_id, message, sender)
 			M.register_buttons_after_species(self)
 			if self.register_buttons_after_species then self.register_buttons_after_species(self) end
 		elseif message_id == hash("evolve") then
+			self.ability_score_improvment = self.ability_score_improvment - pokedex.evolve_points(_pokemon.get_current_species(self.pokemon))
 			_pokemon.set_species(self.pokemon, message.item)
-			self.ability_score_improvment = self.ability_score_improvment - pokedex.evolve_points(message.item)
 			self.have_evolved = true
 			pokemon_image(message.item)
 		else

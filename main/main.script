@@ -67,9 +67,9 @@ function init(self)
 		pokedex.init()
 		storage.init()
 		
-		if #storage.list_of_ids_in_inventory() >= 1 then
+		if #storage.list_of_ids_in_inventory() > 0 then
 			msg.post("#", "show_party")
-		elseif #storage.list_of_ids_in_storage() >= 1 then
+		elseif #storage.list_of_ids_in_storage() > 0 then
 			msg.post("#", "show_storage")
 		else
 			msg.post("#", "show_add")
