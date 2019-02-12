@@ -170,7 +170,6 @@ function M.on_input(action_id, action)
 			end
 			if pressed then
 				if time < M.long_press_time then
-					shake(registered_node.node, registered_node.scale)
 					registered_node.callback()
 				else
 					if registered_node.longpress then registered_node.longpress() end

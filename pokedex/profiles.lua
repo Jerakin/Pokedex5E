@@ -68,14 +68,18 @@ function M.get_active_file_name()
 end
 
 function M.get_active_name()
-	return profiles[active_slot].name
+	if profiles[active_slot] then
+		return profiles[active_slot].name
+	else
+		return ""
+	end
 end
 
 function M.get_latest()
 	return profiles.last_used
 end
 
-function load_profiles()
+local function load_profiles()
 	local loaded = defsave.load("profiles")
 	profiles = defsave.get("profiles", "profiles")
 end

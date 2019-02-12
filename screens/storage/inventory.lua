@@ -2,6 +2,7 @@ local storage = require "pokedex.storage"
 local _pokemon = require "pokedex.pokemon"
 local button = require "utils.button"
 local monarch = require "monarch.monarch"
+local flow = require "utils.flow"
 local M = {}
 
 local inventory_buttons = {}
@@ -30,31 +31,26 @@ end
 
 function M.setup()
 	local inventory = storage.list_of_ids_in_inventory()
-
+	local left_in_storage = #storage.list_of_ids_in_storage()
 	for i=1, 6 do
-		local pokemon = storage.get_copy(inventory[i])
 		local sprite = gui.get_node("inventory_pokemon_" .. i .. "/pokemon_sprite")
+		local pokemon = storage.get_copy(inventory[i])
 		if pokemon then
-			gui.set_scale(sprite, vmath.vector3(3))
-			gui.set_enabled(sprite, true)
+			gui.set_scale(sprite, vmath.vector3(3))	
 			set_pokemon_sprite(sprite, pokemon)
 			table.insert(inventory_buttons, inventory_button(sprite, inventory[i]))
-		end
-	end
-	
-	local left_in_storage = #storage.list_of_ids_in_storage()
-	for i=#storage.list_of_ids_in_inventory()+1, 6 do
-		local pok_sprite = gui.get_node("inventory_pokemon_" .. i .. "/pokemon_sprite")
-		gui.set_texture(pok_sprite, "gui")
-		gui.set_scale(pok_sprite, vmath.vector3(1))
-		if left_in_storage > 0 then
-			gui.play_flipbook(pok_sprite, "pokeball_add")
 		else
-			gui.play_flipbook(pok_sprite, "pokeball")
+			gui.set_scale(sprite, vmath.vector3(1))
+			gui.set_texture(sprite, "gui")
+			if left_in_storage > 0 then
+				gui.play_flipbook(sprite, "pokeball_add")
+				gui.set_scale(sprite, vmath.vector3(1, 1, 1))
+			else
+				gui.play_flipbook(sprite, "pokeball")
+			end
 		end
 		left_in_storage = left_in_storage - 1
 	end
-	
 end
 
 

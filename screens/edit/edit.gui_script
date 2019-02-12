@@ -50,7 +50,6 @@ function init(self)
 		if #evolve_into == 1 then
 			msg.post("#", "evolve", {item=evolve_into[1]})
 		else
-			gui.set_enabled(self.root, false)
 			monarch.show("scrollist", {}, {items=evolve_into, message_id="evolve", sender=msg.url()})
 		end
 

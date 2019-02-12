@@ -142,7 +142,7 @@ function M.release_pokemon(id)
 end
 
 function M.get_total()
-	return counters.caught or 0 - couters.released or 0
+	return counters.caught - counters.released
 end
 
 function M.add(pokemon)

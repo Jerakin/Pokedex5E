@@ -4,6 +4,8 @@ function on_input(self, action_id, action)
 	if action_id == hash("overdraw") and action.released then
 		msg.post("@render:", "toggle_overdraw")
 	elseif action_id == hash("stack") and action.released then
-		print(monarch.dump_stack())
+		for n, t in pairs(_G) do
+			print(n)
+		end
 	end
 end

@@ -16,6 +16,9 @@ function init(self)
 	button.acquire()
 	gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.HERO_TEXT_FADED)
 	gui.set_color(gui.get_node("change_pokemon/nature"), gui_colors.HERO_TEXT_FADED)
+	gui.play_flipbook(gui.get_node("btn_add"), "common_down")
+	gui.get_color(gui.get_node("txt_add"), gui_colors.HERO_TEXT_FADED)
+	
 	function self.redraw(self)
 		local nature_node = gui.get_node("change_pokemon/nature")
 		gui.set_text(nature_node, self.pokemon.nature)
@@ -23,12 +26,16 @@ function init(self)
 
 	function self.register_buttons_after_species(self)
 		button.register("change_pokemon/nature", function()
-			gui.set_enabled(self.root, false)
 			monarch.show("scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url()})
 		end)
-
+	end
+	
+	function self.register_buttons_after_nature(self)
+		gui.play_flipbook(gui.get_node("btn_add"), "common_up")
+		gui.get_color(gui.get_node("txt_add"), gui_colors.HERO_TEXT)
+		
 		button.register("btn_add", function()
-			if self.pokemon.nature ~= "" and self.pokemon.species.current ~= "" then
+			if self.pokemon.nature ~= nil and self.pokemon.species.current ~= "" then
 				self.pokemon.level.caught = self.level
 				self.pokemon.level.current = self.level
 				local max_hp = _pokemon.get_max_hp_at_level(self.pokemon, self.level)
@@ -39,16 +46,18 @@ function init(self)
 			end
 		end)
 	end
-
+	
+	if monarch.top() == hash("splash") then
+		gui.set_enabled(gui.get_node("change_pokemon/btn_close"), false)
+	end
+	
 	button.register("change_pokemon/btn_close", function()
 		monarch.back()
 	end)
 
-
 	pokemon_edit.init(self)
 
 	button.register("change_pokemon/btn_species", function()
-		gui.set_enabled(self.root, false)
 		monarch.show("scrollist", {}, {items=pokedex.list, message_id="species", sender=msg.url()})
 	end)
 

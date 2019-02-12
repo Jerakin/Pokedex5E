@@ -3,7 +3,7 @@ local file = require "utils.file"
 local M = {}
 
 local initialized = false
-local nature
+local natures
 
 local function list()
 	local temp_list = {}

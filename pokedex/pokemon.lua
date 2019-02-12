@@ -297,7 +297,7 @@ end
 
 function M.get_move_data(pokemon, move_name)
 	local move = pokedex.get_move_data(move_name)
-	dmg, mod, stab = get_damage_mod_stab(pokemon, move)
+	local dmg, mod, stab = get_damage_mod_stab(pokemon, move)
 	
 	local move_data = {}
 	move_data.damage = dmg

@@ -13,7 +13,7 @@ function M.init(initial_window_width, initial_window_height)
 	window_width = initial_window_width
 	window_height = initial_window_height
 
-	project_widht = sys.get_config("display.width")
+	project_width = sys.get_config("display.width")
 	project_height = sys.get_config("display.height")
 end
 

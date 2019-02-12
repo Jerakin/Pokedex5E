@@ -11,10 +11,7 @@ local message_id
 local function update_listitem(list, item)
 	gui.set_text(item.nodes["txt_item"], tostring(item.data or "-"))
 	if item.index == list.selected_item then
-		--gui.set_color(item.nodes["txt_item"], vmath.vector3(1, 1, 0, 1))
 		selected_item = item.data
-	else
-		--gui.set_color(item.nodes["txt_item"], vmath.vector3(1, 1, 1, 1))
 	end
 end
 
