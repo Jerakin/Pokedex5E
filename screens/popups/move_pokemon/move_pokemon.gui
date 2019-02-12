@@ -31,8 +31,8 @@ background_color {
 }
 nodes {
   position {
-    x: 0.0
-    y: 0.0
+    x: 360.0
+    y: 640.0
     z: 0.0
     w: 1.0
   }
@@ -67,7 +67,7 @@ nodes {
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
+  adjust_mode: ADJUST_MODE_STRETCH
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -120,8 +120,8 @@ nodes {
   id: "dimmer"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_SW
-  adjust_mode: ADJUST_MODE_FIT
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_ZOOM
   parent: "root"
   layer: ""
   inherit_alpha: true
@@ -140,8 +140,8 @@ nodes {
 }
 nodes {
   position {
-    x: 360.0
-    y: 763.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -3281,8 +3281,8 @@ nodes {
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "background"
+  adjust_mode: ADJUST_MODE_STRETCH
+  parent: "root"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -3301,7 +3301,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -123.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -3336,7 +3336,7 @@ nodes {
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
+  adjust_mode: ADJUST_MODE_ZOOM
   parent: "swap"
   layer: ""
   inherit_alpha: true
@@ -3356,7 +3356,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -189.0
+    y: -180.0
     z: 0.0
     w: 1.0
   }
@@ -4044,7 +4044,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -372.0
+    y: -363.0
     z: 0.0
     w: 1.0
   }

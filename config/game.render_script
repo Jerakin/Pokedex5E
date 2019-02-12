@@ -60,7 +60,7 @@ function update(self)
 
     -- default is stretch projection. copy from builtins and change for different projection
     --
-    render.set_projection(stretch_projection(-1, 1))
+    render.set_projection(fixed_projection(-1, 1))
 
     render.draw(self.tile_pred)
     render.draw(self.particle_pred)

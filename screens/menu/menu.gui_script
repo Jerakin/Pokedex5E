@@ -7,23 +7,6 @@ local party = require "screens.party.party"
 local _pokemon = require "pokedex.pokemon"
 local storage = require "pokedex.storage"
 
-local ENABLED = vmath.vector4(236/255, 158/255, 41/255, 1)
-local DISABLED = vmath.vector4(253/255, 241/255, 220/255, 1)
-
-local function party_active(self)
-	gui.set_color(self.btn_party, ENABLED)
-	gui.set_color(self.btn_storage, DISABLED)
-	gui.set_color(self.btn_add, DISABLED)
-	gui.set_color(self.btn_profiles, DISABLED)
-end
-
-local function storage_active(self)
-	gui.set_color(self.btn_party, DISABLED)
-	gui.set_color(self.btn_storage, ENABLED)
-	gui.set_color(self.btn_add, DISABLED)
-	gui.set_color(self.btn_profiles, DISABLED)
-end
-
 local function hide(self)
 	gui.set_enabled(gui.get_node("root"), false)
 end
