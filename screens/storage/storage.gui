@@ -100,7 +100,7 @@ nodes {
   }
   size {
     x: 720.0
-    y: 120.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -725,14 +725,14 @@ nodes {
   }
   size {
     x: 720.0
-    y: 40.0
+    y: 10.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.91764706
-    y: 0.78431374
-    z: 0.5803922
+    x: 0.9254902
+    y: 0.61960787
+    z: 0.16078432
     w: 1.0
   }
   type: TYPE_BOX
@@ -762,70 +762,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 20.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.8
-    y: 0.8
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "-- Pok\303\251slots --"
-  font: "script"
-  id: "text2"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "inventory"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 360.0
-    y: 1244.0
+    y: 1251.0
     z: 0.0
     w: 1.0
   }
@@ -888,7 +825,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 1205.0
+    y: 1203.0
     z: 0.0
     w: 1.0
   }
@@ -905,15 +842,15 @@ nodes {
     w: 1.0
   }
   size {
-    x: 600.0
+    x: 720.0
     y: 5.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.9254902
+    y: 0.61960787
+    z: 0.16078432
     w: 1.0
   }
   type: TYPE_BOX
@@ -943,7 +880,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 796.0
+    y: 725.0
     z: 0.0
     w: 1.0
   }
@@ -961,7 +898,7 @@ nodes {
   }
   size {
     x: 720.0
-    y: 800.0
+    y: 950.0
     z: 0.0
     w: 1.0
   }
@@ -1226,9 +1163,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -1261,13 +1198,13 @@ nodes {
   outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
-  text_leading: 0.6
+  text_leading: 0.8
   text_tracking: 0.0
 }
 nodes {
   position {
-    x: 41.0
-    y: 202.0
+    x: 45.0
+    y: 177.0
     z: 0.0
     w: 1.0
   }
@@ -1297,7 +1234,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/pokemon_sort_up"
   id: "btn_sort"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1321,8 +1258,8 @@ nodes {
 }
 nodes {
   position {
-    x: 676.0
-    y: 202.0
+    x: 672.0
+    y: 177.0
     z: 0.0
     w: 1.0
   }
@@ -1352,7 +1289,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/pokemon_add_up"
   id: "btn_add"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE

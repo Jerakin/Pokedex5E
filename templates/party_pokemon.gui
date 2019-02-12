@@ -211,9 +211,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
@@ -221,7 +221,7 @@ nodes {
   text: "STR: +9 INT: +9\n"
   "DEX: +9 WIS: +9\n"
   "CON: +9 CHA: +9"
-  font: "data"
+  font: "script"
   id: "attributes"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -276,15 +276,15 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Attributes"
-  font: "data"
+  font: "script"
   id: "title_attributes"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -339,9 +339,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
@@ -349,7 +349,7 @@ nodes {
   text: "STR: +9 INT: +9\n"
   "DEX: +9 WIS: +9\n"
   "CON: +9 CHA: +9"
-  font: "data"
+  font: "script"
   id: "savingthrows"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -404,15 +404,15 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Skills"
-  font: "data"
+  font: "script"
   id: "title_skills"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -467,15 +467,15 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Athletics, Dancing"
-  font: "data"
+  font: "script"
   id: "skills"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -530,15 +530,15 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Saving Throws"
-  font: "data"
+  font: "script"
   id: "title_saving_throws"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -593,15 +593,15 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Prof: 5"
-  font: "data"
+  font: "script"
   id: "prof"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -656,15 +656,15 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "STAB: 5"
-  font: "data"
+  font: "script"
   id: "stab"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -719,15 +719,15 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Hasty"
-  font: "data"
+  font: "script"
   id: "nature"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1050,9 +1050,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
@@ -1083,6 +1083,7 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
+  overridden_fields: 10
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -1113,9 +1114,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -1499,9 +1500,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -1562,9 +1563,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -1688,9 +1689,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -1751,9 +1752,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -1814,9 +1815,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -1877,9 +1878,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2405,9 +2406,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2468,9 +2469,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2594,9 +2595,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2657,9 +2658,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2720,9 +2721,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2783,9 +2784,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -3311,9 +3312,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -3374,9 +3375,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -3500,9 +3501,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -3563,9 +3564,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -3626,9 +3627,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -3689,9 +3690,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4217,9 +4218,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4280,9 +4281,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4406,9 +4407,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4469,9 +4470,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4532,9 +4533,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4595,9 +4596,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -5123,9 +5124,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -5186,9 +5187,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -5312,9 +5313,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -5375,9 +5376,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -5438,9 +5439,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -5501,9 +5502,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -6028,7 +6029,7 @@ nodes {
 }
 nodes {
   position {
-    x: 113.0
+    x: 102.0
     y: 900.0
     z: 0.0
     w: 1.0
@@ -6052,9 +6053,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -6107,9 +6108,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
@@ -6146,7 +6147,7 @@ nodes {
 }
 nodes {
   position {
-    x: 311.0
+    x: 322.0
     y: 900.0
     z: 0.0
     w: 1.0
@@ -6170,9 +6171,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -6225,9 +6226,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
@@ -6264,7 +6265,7 @@ nodes {
 }
 nodes {
   position {
-    x: 558.0
+    x: 577.0
     y: 900.0
     z: 0.0
     w: 1.0
@@ -6288,9 +6289,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -6343,9 +6344,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
@@ -6406,9 +6407,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
@@ -6445,8 +6446,8 @@ nodes {
 }
 nodes {
   position {
-    x: 128.0
-    y: 1065.0
+    x: 154.0
+    y: 1058.0
     z: 0.0
     w: 1.0
   }
@@ -6463,15 +6464,15 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
-    y: 200.0
+    x: 255.0
+    y: 255.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -6555,7 +6556,7 @@ nodes {
 }
 nodes {
   position {
-    x: 471.0
+    x: 490.0
     y: 1146.0
     z: 0.0
     w: 1.0
@@ -6579,9 +6580,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -6634,9 +6635,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
@@ -6673,7 +6674,7 @@ nodes {
 }
 nodes {
   position {
-    x: 471.0
+    x: 490.0
     y: 1058.0
     z: 0.0
     w: 1.0
@@ -6697,9 +6698,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -6752,9 +6753,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
@@ -6791,7 +6792,7 @@ nodes {
 }
 nodes {
   position {
-    x: 471.0
+    x: 490.0
     y: 971.0
     z: 0.0
     w: 1.0
@@ -6815,9 +6816,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -6870,9 +6871,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
@@ -7153,9 +7154,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -7208,9 +7209,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT

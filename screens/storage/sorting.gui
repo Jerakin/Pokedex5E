@@ -100,7 +100,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/background_gradient"
   id: "menu"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -110,9 +110,9 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 0.0
+    x: 4.0
     y: 0.0
-    z: 0.0
+    z: 4.0
     w: 0.0
   }
   clipping_mode: CLIPPING_MODE_NONE
@@ -360,8 +360,8 @@ nodes {
 }
 nodes {
   position {
-    x: 71.0
-    y: -1085.0
+    x: 139.0
+    y: -1017.0
     z: 0.0
     w: 1.0
   }
@@ -439,9 +439,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
@@ -478,8 +478,8 @@ nodes {
 }
 nodes {
   position {
-    x: 71.0
-    y: -955.0
+    x: 139.0
+    y: -887.0
     z: 0.0
     w: 1.0
   }
@@ -557,9 +557,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
@@ -596,8 +596,8 @@ nodes {
 }
 nodes {
   position {
-    x: 71.0
-    y: -1019.0
+    x: 139.0
+    y: -951.0
     z: 0.0
     w: 1.0
   }
@@ -675,9 +675,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
   type: TYPE_TEXT
@@ -714,8 +714,173 @@ nodes {
 }
 nodes {
   position {
-    x: 31.0
-    y: -1137.0
+    x: 133.0
+    y: -1015.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 43.0
+    y: 49.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/sort_level"
+  id: "box"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_E
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "menu"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 133.0
+    y: -949.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 45.0
+    y: 49.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/sort_index"
+  id: "box1"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_E
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "menu"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 133.0
+    y: -884.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 74.0
+    y: 37.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/sort_alphabetical"
+  id: "box2"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_E
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "menu"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 6.0
+    y: -1065.0
     z: 0.0
     w: 1.0
   }
@@ -745,7 +910,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/close_up"
   id: "btn_close"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE

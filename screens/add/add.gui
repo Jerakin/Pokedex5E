@@ -108,7 +108,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/common_up"
   id: "btn_add"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -118,17 +118,17 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 20.0
+    y: 20.0
+    z: 20.0
+    w: 20.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
   template_node_child: false
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
@@ -188,7 +188,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: false
   text_leading: 1.0
@@ -370,9 +370,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -456,7 +456,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -488,9 +488,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -574,7 +574,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -606,9 +606,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -692,7 +692,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -724,9 +724,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -810,7 +810,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -818,8 +818,8 @@ nodes {
 }
 nodes {
   position {
-    x: 412.0
-    y: 1232.0
+    x: 408.0
+    y: 1226.0
     z: 0.0
     w: 1.0
   }
@@ -837,14 +837,14 @@ nodes {
   }
   size {
     x: 600.0
-    y: 80.0
+    y: 100.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -904,7 +904,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Pok\303\251mon"
+  text: "PICK POKEMON"
   font: "script"
   id: "change_pokemon/species"
   xanchor: XANCHOR_NONE
@@ -936,8 +936,8 @@ nodes {
 }
 nodes {
   position {
-    x: 199.0
-    y: 1130.0
+    x: 200.0
+    y: 1109.0
     z: 0.0
     w: 1.0
   }
@@ -955,14 +955,14 @@ nodes {
   }
   size {
     x: 380.0
-    y: 80.0
+    y: 60.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -1054,8 +1054,8 @@ nodes {
 }
 nodes {
   position {
-    x: 393.0
-    y: 1125.0
+    x: 435.0
+    y: 1109.0
     z: 0.0
     w: 1.0
   }
@@ -1073,14 +1073,14 @@ nodes {
   }
   size {
     x: 150.0
-    y: 40.0
+    y: 60.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -1109,7 +1109,7 @@ nodes {
 }
 nodes {
   position {
-    x: 10.0
+    x: 14.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -1166,6 +1166,7 @@ nodes {
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
+  overridden_fields: 1
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -1440,8 +1441,8 @@ nodes {
 }
 nodes {
   position {
-    x: 61.0
-    y: 1230.0
+    x: 57.0
+    y: 1225.0
     z: 0.0
     w: 1.0
   }
@@ -1471,7 +1472,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/pokeball"
   id: "change_pokemon/pokemon_sprite"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1495,7 +1496,7 @@ nodes {
 }
 nodes {
   position {
-    x: 71.0
+    x: 52.0
     y: 51.0
     z: 0.0
     w: 1.0
@@ -1526,7 +1527,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/close_up"
   id: "change_pokemon/btn_close"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1550,72 +1551,8 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.3882353
-    y: 0.2784314
-    z: 0.19215687
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "X\n"
-  ""
-  font: "script"
-  id: "change_pokemon/text1"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "change_pokemon/btn_close"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 1.0
-  shadow_alpha: 1.0
-  template_node_child: true
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
     x: 357.0
-    y: 953.0
+    y: 1002.0
     z: 0.0
     w: 1.0
   }
@@ -1875,7 +1812,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -2143,7 +2080,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -2175,9 +2112,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2206,7 +2143,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -2324,7 +2261,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -2592,7 +2529,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -2624,9 +2561,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2655,7 +2592,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -2773,7 +2710,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -3041,7 +2978,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -3073,9 +3010,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -3104,7 +3041,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -3222,7 +3159,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -3490,7 +3427,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -3522,9 +3459,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -3553,7 +3490,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -3671,7 +3608,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -3939,7 +3876,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -3971,9 +3908,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4002,7 +3939,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -4120,7 +4057,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -4388,7 +4325,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -4420,9 +4357,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4451,7 +4388,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
@@ -4460,7 +4397,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 15.0
+    y: 17.0
     z: 0.0
     w: 1.0
   }
@@ -4523,7 +4460,7 @@ nodes {
 nodes {
   position {
     x: 122.0
-    y: 15.0
+    y: 17.0
     z: 0.0
     w: 1.0
   }
@@ -4577,7 +4514,7 @@ nodes {
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 1.0
