@@ -254,7 +254,7 @@ local function change_pokemon(self, index)
 	party.current_pokemon = self.pokemons_list[index+1].pokemon_id
 	gui.animate(r, "position", p, gui.EASING_INSINE, 0.2, 0, function()
 		for i, d in pairs(self.pokemons_list) do
-			if i == index then
+			if i == index+1 then else
 				gui.set_enabled(self.pokemons_list[i].nodes[hash("pokemon/root")], false)
 			end
 		end
