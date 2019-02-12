@@ -79,7 +79,7 @@ local function setup_moves(self, nodes, pokemon)
 			update_pp(pp_lbl, pp_current, pp_max, pokemon, name)
 		end)
 		
-		button.register(_get_node("/name"), function()
+		button.register(_get_node("/move"), function()
 			show_description(pokemon, name, move)
 		end)
 		

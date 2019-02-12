@@ -74,7 +74,7 @@ function init(self)
 	gui.set_enabled(self.menu, false)
 	menu(self)
 	local name = profiles.get_active_name() or "Someone"
-	gui.set_text(gui.get_node("txt_pc"), name .. "'s PC")
+	gui.set_text(self.btn_storage, name .. "'s PC")
 	button.register(self.btn_menu, function()
 		toggle(self)
 		menu(self)
@@ -131,7 +131,7 @@ end
 function on_message(self, message_id, message)
 	if message_id == hash("show") then
 		local name = profiles.get_active_name() or "Someone"
-		gui.set_text(gui.get_node("txt_pc"), name .. "'s PC")
+		gui.set_text(self.btn_storage, name .. "'s PC")
 		show(self)
 	elseif message_id == hash("hide") then
 		hide(self)

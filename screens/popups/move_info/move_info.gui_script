@@ -27,7 +27,7 @@ function init(self)
 	local type_node = gui.get_node("txt_type")
 	gui.set_text(type_node, move_data.type)
 	local p = gui.get_position(type_node)
-	p.x = p.x + gui.get_text_metrics_from_node(type_node).width
+	p.x = p.x + gui.get_text_metrics_from_node(type_node).width * 0.5
 	gui.set_position(gui.get_node("icon_type"), p)
 	gui.play_flipbook(gui.get_node("icon_type"), type_data[move_data.type].icon)
 

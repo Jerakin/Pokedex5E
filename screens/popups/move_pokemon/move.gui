@@ -1,7 +1,7 @@
 script: ""
 fonts {
-  name: "script"
-  font: "/assets/fonts/script.font"
+  name: "script_bold"
+  font: "/assets/fonts/script_bold.font"
 }
 textures {
   name: "gui"
@@ -101,7 +101,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Growl"
-  font: "script"
+  font: "script_bold"
   id: "name"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -164,7 +164,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "10"
-  font: "script"
+  font: "script_bold"
   id: "txt_pp_current"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -282,7 +282,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "PP"
-  font: "script"
+  font: "script_bold"
   id: "lbl_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -345,7 +345,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "/10"
-  font: "script"
+  font: "script_bold"
   id: "txt_pp_max"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE

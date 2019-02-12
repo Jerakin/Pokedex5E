@@ -3,6 +3,10 @@ fonts {
   name: "script"
   font: "/assets/fonts/script.font"
 }
+fonts {
+  name: "title"
+  font: "/assets/fonts/title.font"
+}
 textures {
   name: "gui"
   texture: "/assets/gui.atlas"
@@ -124,7 +128,7 @@ nodes {
 }
 nodes {
   position {
-    x: 209.0
+    x: 181.0
     y: -465.0
     z: 0.0
     w: 1.0
@@ -142,7 +146,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 150.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -155,7 +159,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/common_up"
   id: "btn_reset"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -165,17 +169,17 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 20.0
+    y: 20.0
+    z: 20.0
+    w: 20.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
   template_node_child: false
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
@@ -266,9 +270,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -321,9 +325,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -376,9 +380,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -431,9 +435,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -486,9 +490,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -541,9 +545,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -596,9 +600,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -651,9 +655,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -706,9 +710,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
@@ -800,8 +804,8 @@ nodes {
 }
 nodes {
   position {
-    x: -288.0
-    y: -370.0
+    x: -277.0
+    y: -375.0
     z: 0.0
     w: 1.0
   }
@@ -812,8 +816,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
@@ -824,15 +828,15 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Grass"
-  font: "script"
+  font: "title"
   id: "txt_type"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1179,7 +1183,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 371.0
+    y: 367.0
     z: 0.0
     w: 1.0
   }
@@ -1190,8 +1194,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
@@ -1210,7 +1214,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Petal Dance"
-  font: "script"
+  font: "title"
   id: "txt_name"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1314,8 +1318,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
-    y: 100.0
+    x: 100.0
+    y: 99.0
     z: 0.0
     w: 1.0
   }
@@ -1327,7 +1331,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/close_up"
   id: "btn_close"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1351,71 +1355,8 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Close"
-  font: "script"
-  id: "text"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "btn_close"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 1.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
     x: -150.0
-    y: 303.0
+    y: 299.0
     z: 0.0
     w: 1.0
   }
@@ -1426,8 +1367,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
@@ -1446,7 +1387,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "PP"
-  font: "script"
+  font: "title"
   id: "lbl_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1478,7 +1419,7 @@ nodes {
 nodes {
   position {
     x: 150.0
-    y: 304.0
+    y: 300.0
     z: 0.0
     w: 1.0
   }
@@ -1489,8 +1430,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
@@ -1509,7 +1450,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Dice"
-  font: "script"
+  font: "title"
   id: "lbl_dmg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1541,7 +1482,7 @@ nodes {
 nodes {
   position {
     x: 150.0
-    y: 190.0
+    y: 186.0
     z: 0.0
     w: 1.0
   }
@@ -1552,8 +1493,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
@@ -1572,7 +1513,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Range"
-  font: "script"
+  font: "title"
   id: "lbl_range"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1604,7 +1545,7 @@ nodes {
 nodes {
   position {
     x: -150.0
-    y: 191.0
+    y: 187.0
     z: 0.0
     w: 1.0
   }
@@ -1615,8 +1556,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
@@ -1635,7 +1576,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Casting Time"
-  font: "script"
+  font: "title"
   id: "lbl_time"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1667,7 +1608,7 @@ nodes {
 nodes {
   position {
     x: 150.0
-    y: 77.0
+    y: 73.0
     z: 0.0
     w: 1.0
   }
@@ -1678,8 +1619,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
@@ -1699,7 +1640,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Duration\n"
   ""
-  font: "script"
+  font: "title"
   id: "lbl_duration"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1794,7 +1735,7 @@ nodes {
 nodes {
   position {
     x: -150.0
-    y: 79.0
+    y: 75.0
     z: 0.0
     w: 1.0
   }
@@ -1805,8 +1746,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
@@ -1825,7 +1766,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Move Power"
-  font: "script"
+  font: "title"
   id: "lbl_move_power"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE

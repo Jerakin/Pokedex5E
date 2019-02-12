@@ -3,6 +3,14 @@ fonts {
   name: "script"
   font: "/assets/fonts/script.font"
 }
+fonts {
+  name: "title"
+  font: "/assets/fonts/title.font"
+}
+fonts {
+  name: "script_bold"
+  font: "/assets/fonts/script_bold.font"
+}
 textures {
   name: "pokemon0"
   texture: "/assets/pokemon0.atlas"
@@ -187,8 +195,8 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: 328.0
+    x: 40.0
+    y: 324.0
     z: 0.0
     w: 1.0
   }
@@ -199,8 +207,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.5
-    y: 1.5
+    x: 0.8
+    y: 0.8
     z: 1.0
     w: 1.0
   }
@@ -219,7 +227,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Pokemon"
-  font: "script"
+  font: "title"
   id: "txt_species"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -660,7 +668,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Growl"
-  font: "script"
+  font: "script_bold"
   id: "move_1/name"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -723,7 +731,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "10"
-  font: "script"
+  font: "script_bold"
   id: "move_1/txt_pp_current"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -841,7 +849,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "PP"
-  font: "script"
+  font: "script_bold"
   id: "move_1/lbl_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -904,7 +912,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "/10"
-  font: "script"
+  font: "script_bold"
   id: "move_1/txt_pp_max"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1062,7 +1070,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Growl"
-  font: "script"
+  font: "script_bold"
   id: "move_2/name"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1125,7 +1133,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "10"
-  font: "script"
+  font: "script_bold"
   id: "move_2/txt_pp_current"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1243,7 +1251,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "PP"
-  font: "script"
+  font: "script_bold"
   id: "move_2/lbl_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1306,7 +1314,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "/10"
-  font: "script"
+  font: "script_bold"
   id: "move_2/txt_pp_max"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1464,7 +1472,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Growl"
-  font: "script"
+  font: "script_bold"
   id: "move_3/name"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1527,7 +1535,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "10"
-  font: "script"
+  font: "script_bold"
   id: "move_3/txt_pp_current"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1645,7 +1653,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "PP"
-  font: "script"
+  font: "script_bold"
   id: "move_3/lbl_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1708,7 +1716,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "/10"
-  font: "script"
+  font: "script_bold"
   id: "move_3/txt_pp_max"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1866,7 +1874,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Growl"
-  font: "script"
+  font: "script_bold"
   id: "move_4/name"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1929,7 +1937,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "10"
-  font: "script"
+  font: "script_bold"
   id: "move_4/txt_pp_current"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -2047,7 +2055,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "PP"
-  font: "script"
+  font: "script_bold"
   id: "move_4/lbl_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -2110,7 +2118,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "/10"
-  font: "script"
+  font: "script_bold"
   id: "move_4/txt_pp_max"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -2141,7 +2149,7 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
+    x: 40.0
     y: 280.0
     z: 0.0
     w: 1.0

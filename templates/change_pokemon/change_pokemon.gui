@@ -3,6 +3,10 @@ fonts {
   name: "script"
   font: "/assets/fonts/script.font"
 }
+fonts {
+  name: "script_bold"
+  font: "/assets/fonts/script_bold.font"
+}
 textures {
   name: "gui"
   texture: "/assets/gui.atlas"
@@ -211,7 +215,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Move"
-  font: "script"
+  font: "script_bold"
   id: "move_1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -329,7 +333,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Move"
-  font: "script"
+  font: "script_bold"
   id: "move_2"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -447,7 +451,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Move"
-  font: "script"
+  font: "script_bold"
   id: "move_3"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -565,7 +569,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Move"
-  font: "script"
+  font: "script_bold"
   id: "move_4"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1834,7 +1838,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "STR"
-  font: "script"
+  font: "script_bold"
   id: "asi/STR1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1922,7 +1926,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 5
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -2284,7 +2287,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "DEX"
-  font: "script"
+  font: "script_bold"
   id: "asi/DEX1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -2372,7 +2375,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 5
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -2734,7 +2736,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "CON"
-  font: "script"
+  font: "script_bold"
   id: "asi/CON1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -2822,7 +2824,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 5
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -3184,7 +3185,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "INT"
-  font: "script"
+  font: "script_bold"
   id: "asi/text"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -3272,7 +3273,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 5
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -3634,7 +3634,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "WIS"
-  font: "script"
+  font: "script_bold"
   id: "asi/WIS1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -3722,7 +3722,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 5
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -4084,7 +4083,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "CHA"
-  font: "script"
+  font: "script_bold"
   id: "asi/CHA1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -4172,7 +4171,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 5
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -4180,7 +4178,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 17.0
+    y: 15.0
     z: 0.0
     w: 1.0
   }
@@ -4236,7 +4234,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  overridden_fields: 1
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -4244,7 +4241,7 @@ nodes {
 nodes {
   position {
     x: 122.0
-    y: 17.0
+    y: 15.0
     z: 0.0
     w: 1.0
   }
@@ -4300,7 +4297,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 1
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
