@@ -19,7 +19,6 @@ function M.redraw()
 		button.unregister(b)
 	end
 
-	inventory_buttons = {}
 	M.setup()
 end
 
@@ -32,6 +31,7 @@ end
 function M.setup()
 	local inventory = storage.list_of_ids_in_inventory()
 	local left_in_storage = #storage.list_of_ids_in_storage()
+	inventory_buttons = {}
 	for i=1, 6 do
 		local sprite = gui.get_node("inventory_pokemon_" .. i .. "/pokemon_sprite")
 		local pokemon = storage.get_copy(inventory[i])
@@ -59,7 +59,9 @@ function M.on_input(action_id, action)
 end
 
 function M.final()
-	button.unregister()
+	for _, b in pairs(inventory_buttons) do
+		button.unregister(b)
+	end
 end
 
 return M
