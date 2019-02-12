@@ -11,7 +11,7 @@ def convert_pokemon_data(input_file):
     convert_to_float = ["CR"]
     convert_to_list = ["Skill", "Res", "Vul", "Imm"]
     attributes = ["STR", "CON", "DEX", "INT", "WIS", "CHA"]
-    reg_starting_moves = re.compile("Starting Moves: ([A-Za-z, ]*)")
+    reg_starting_moves = re.compile("Starting Moves: ([A-Za-z ,-]*)")
     reg_abilities = re.compile("Abilities: ([A-Za-z, ]*)")
     reg_level_moves = re.compile("Level (\d+): ([A-Za-z ,-]*)")
     reg_evolve_points = re.compile(".* gains (\d{1,2})")

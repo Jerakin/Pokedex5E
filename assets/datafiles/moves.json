@@ -4097,7 +4097,7 @@
     "PP": 15,
     "Duration": "Instantaneous",
     "Range": "Melee",
-    "Description": "You extend a hand towards an enemy Pokémon for a savage karate chop. Make a melee Attack roll, doing 1d8 + MOVE normal damage on a hit. Karate Chop scores a critical hit on 19s and 20s.",
+    "Description": "You extend a hand towards an enemy Pokémon for a savage karate chop. Make a melee attack roll, doing 1d8 + MOVE fighting damage on a hit. Karate Chop scores a critical hit on 19s and 20s.",
     "Damage": {
       "1": {
         "amount": 1,
@@ -6571,7 +6571,7 @@
     ],
     "Move Time": "1 action",
     "PP": 10,
-    "Duration": "Instantaneous",
+    "Duration": "Instaneous",
     "Description": "You roll into a foe, repeatedly making attacks with increasing strength. Make a melee attack on an opponent, doing 1d6 + MOVE rock damage on a hit. If you use this move in back to back turns, double the dice on each hit for a maximum of 5 successive turns. Ex: 1d6 on first hit, 2d6 on second, 4d6, 8d6, 16d6. If any of the attacks miss, the damage resets.",
     "Damage": {
       "1": {
@@ -6644,6 +6644,7 @@
   "Sand Attack": {
     "Type": "Ground",
     "Move Power": [
+      "DEX",
       "CON"
     ],
     "Move Time": "1 action",
@@ -9287,7 +9288,7 @@
     "PP": 20,
     "Duration": "Instantaneous",
     "Range": "Melee",
-    "Description": "You strike out at an enemy Pokémon with your wings. Make a ranged attack roll, doing 1d10 + MOVE flying damage on a hit.",
+    "Description": "You strike out at an enemy Pokémon with your wings. Make a melee attack roll, doing 1d10 + MOVE flying damage on a hit.",
     "Damage": {
       "1": {
         "amount": 1,
