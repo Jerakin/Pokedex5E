@@ -94,10 +94,8 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("storage_updated") then
-		pc.filtered_pokemons(storage.list_of_ids_in_storage())
 		inventory.redraw()
 	elseif message_id == hash("inventory_updated") then
-		pc.filtered_pokemons(storage.list_of_ids_in_storage())
-		pc.redraw()
+		pc.redraw(storage.list_of_ids_in_storage())
 	end
 end

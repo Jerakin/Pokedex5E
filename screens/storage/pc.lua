@@ -11,7 +11,6 @@ local scroll_node
 local stencil_node
 local template_node
 local COLUMNS = 3
-local list_of_pokemons = {}
 local storage_cache = nil
 
 local DISTANCE = vmath.vector3(200, 200, 0)
@@ -32,14 +31,14 @@ local function is_storage_updated(a, b)
 		return true
 	end
 	for i, id in ipairs(a) do
-		if not b[i] == id then
+		if b[i] ~= id then
 			return true
 		end
 	end
 	return false
 end
 
-local function create_storage_list()
+local function create_storage_list(pokemons)
 	for _, n in pairs(nodes) do
 		gui.delete_node(n)
 	end
@@ -48,7 +47,7 @@ local function create_storage_list()
 	nodes = {}
 	local sprite_position = vmath.vector3()
 	local start_position = vmath.vector3(-210, -100, 0)
-	for i, id in pairs(list_of_pokemons) do
+	for i, id in pairs(pokemons) do
 		local n = gui.clone_tree(template_node)
 		local pokemon = storage.get_copy(id)
 		local sprite = n["pokemon_entry/pokemon_sprite"]
@@ -64,19 +63,18 @@ local function create_storage_list()
 		table.insert(pokemon_ids, id)
 		table.insert(nodes,root)
 	end
-	storage_cache = list_of_pokemons
+	storage_cache = pokemons
 end
 
 function M.filtered_pokemons(pokemons)
-	list_of_pokemons = pokemons
-	M.redraw()
+	M.redraw(pokemons)
 end
 
-function M.redraw()
-	if storage_cache and not is_storage_updated(storage_cache, list_of_pokemons) then
+function M.redraw(pokemons)
+	if storage_cache and not is_storage_updated(storage_cache, pokemons) then
 		return
 	end
-	create_storage_list()
+	create_storage_list(pokemons)
 	storage_list.update(nodes)
 end
 
@@ -89,8 +87,7 @@ function M.setup(stencil, scroll, template)
 	stencil_node = stencil
 	scroll_node = scroll
 	template_node = template
-	list_of_pokemons = storage.list_of_ids_in_storage()
-	create_storage_list()
+	create_storage_list(storage.list_of_ids_in_storage())
 	
 	storage_list.create(stencil_node, scroll_node, nodes)
 end
