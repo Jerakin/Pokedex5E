@@ -102,7 +102,6 @@ local function decrease(self, stat)
 end
 
 local function pick_move(self)
-	gui.set_enabled(self.root, false)
 	local available_moves = pokedex.get_pokemons_moves(self.pokemon.species.current, self.level)
 	for move, _ in pairs(self.pokemon.moves) do
 		for i, selected_move in pairs(available_moves) do
