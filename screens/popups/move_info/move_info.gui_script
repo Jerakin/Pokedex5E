@@ -35,7 +35,7 @@ function init(self)
 	gui.set_text(gui.get_node("txt_pp"), data.data.pp .. "/" .. move_data.PP)
 	local dmg = "-"
 	if move_data.damage then
-		local dmg = move_data.damage
+		dmg = move_data.damage
 	end
 	
 	gui.set_text(gui.get_node("txt_dmg"), dmg)
