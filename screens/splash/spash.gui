@@ -15,8 +15,8 @@ background_color {
 }
 nodes {
   position {
-    x: 0.0
-    y: 0.0
+    x: 360.0
+    y: 640.0
     z: 0.0
     w: 1.0
   }
@@ -50,8 +50,8 @@ nodes {
   id: "background"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_SW
-  adjust_mode: ADJUST_MODE_FIT
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_ZOOM
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -69,15 +69,77 @@ nodes {
 }
 nodes {
   position {
-    x: 354.0
-    y: 907.0
+    x: 720.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
   rotation {
     x: 0.0
     y: 0.0
-    z: 6.312934
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.75
+    y: 0.75
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.9795082
+    y: 0.66237235
+    z: 0.66237235
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "version"
+  font: "script"
+  id: "version_number"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_SE
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 0.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 353.0
+    y: 908.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
     w: 1.0
   }
   scale {
@@ -121,7 +183,6 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "background"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -129,69 +190,6 @@ nodes {
   shadow_alpha: 1.0
   template_node_child: false
   text_leading: 0.8
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 717.0
-    y: 18.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.75
-    y: 0.75
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.9795082
-    y: 0.66237235
-    z: 0.66237235
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "version"
-  font: "script"
-  id: "version_number"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_E
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "background"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
   text_tracking: 0.0
 }
 material: "/builtins/materials/gui.material"
