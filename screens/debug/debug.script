@@ -20,22 +20,24 @@ local function add_random_pokemon()
 			moves[starting_moves[i]] = {pp=pp, index=i}
 		end
 	end
-	--local level = math.random(20)
-	--pokemon.level.caught = level
-	--pokemon.level.current = level
+	local level = math.random(20)
+	pokemon.level.caught = level
+	pokemon.level.current = level
 	pokemon.moves = moves
 	pokemon.nature = nature.list[math.random(#nature.list)]
 	storage.add(pokemon)
 end
 
 function on_input(self, action_id, action)
-	if action_id == hash("overdraw") and action.released then
-		msg.post("@render:", "toggle_overdraw")
-	elseif action_id == hash("stack") and action.released then
-		defsave.save = function() end
-		for i=1, 100 do
-			add_random_pokemon()
+	if sys.get_engine_info().is_debug then
+		if action_id == hash("overdraw") and action.released then
+			msg.post("@render:", "toggle_overdraw")
+		elseif action_id == hash("stack") and action.released then
+			defsave.save = function() end
+			for i=1, 100 do
+				add_random_pokemon()
+			end
+			defsave.save = self.defsave
 		end
-		defsave.save = self.defsave
 	end
 end
