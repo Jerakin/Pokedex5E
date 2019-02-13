@@ -1,0 +1,13 @@
+local monarch = require "monarch.monarch"
+local url = require "utils.url"
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	msg.post(url.MENU, "hide")
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") and action.released then
+		monarch.back()
+	end
+end

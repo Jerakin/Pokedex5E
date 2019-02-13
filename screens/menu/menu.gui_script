@@ -74,7 +74,8 @@ function init(self)
 	end)
 
 	button.register(self.btn_about , function()
-		--monarch.show("about",{clear=true})
+		monarch.show("about",{clear=true})
+		toggle(self)
 	end)
 	
 	button.register(self.btn_profiles, function()
