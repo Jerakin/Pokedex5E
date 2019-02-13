@@ -129,7 +129,7 @@ end
 function init(self)
 	button.acquire()
 	gui.set_render_order(gro.POPUP)
-	local d = monarch.data("move_pokemon")
+	local d = monarch.data("transfer_pokemon")
 	local to = d.to
 	self.pokemon_id = d.id
 
