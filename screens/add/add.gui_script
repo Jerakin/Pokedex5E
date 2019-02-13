@@ -6,13 +6,12 @@ local storage = require "pokedex.storage"
 local pokedex = require "pokedex.pokedex"
 local url = require "utils.url"
 local _pokemon = require "pokedex.pokemon"
-local transitions = require "utils.transitions"
 local gui_colors = require "utils.gui_colors"
 
 HAVE_EVOLVED = false
 
 function init(self)
-	self.transition = transitions.default(gui.get_node("root"))
+	msg.post(url.MENU, "hide")
 	button.acquire()
 	gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.HERO_TEXT_FADED)
 	gui.set_color(gui.get_node("change_pokemon/nature"), gui_colors.HERO_TEXT_FADED)
@@ -70,7 +69,6 @@ function final(self)
 end
 
 function on_message(self, message_id, message, sender)
-	transitions.on_message(self.transition, message_id, message, sender)
 	pokemon_edit.on_message(self, message_id, message, sender)
 end
 

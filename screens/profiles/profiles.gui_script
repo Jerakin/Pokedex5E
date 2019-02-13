@@ -59,6 +59,7 @@ end
 function init(self)
 	button.acquire()
 
+	msg.post(url.MENU, "hide")
 	local _profiles = profiles.get_all_profiles()
 	for i=1, 3 do
 		if _profiles[i] then

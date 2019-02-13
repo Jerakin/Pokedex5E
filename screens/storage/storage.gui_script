@@ -26,6 +26,7 @@ local function setup_button()
 end
 
 function init(self)
+	msg.post(url.MENU, "show")
 	url.STORAGE = msg.url()
 	button.acquire()
 	gui.set_text(gui.get_node("title"), profiles.get_active_name() .. "'s PC")

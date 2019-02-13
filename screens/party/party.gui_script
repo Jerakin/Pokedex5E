@@ -262,6 +262,7 @@ end
 
 function init(self)
 	button.acquire()
+	msg.post(url.MENU, "show")
 	self.pokemon_page = gui.get_node("pokemon/root")
 	self.pokemons_list = {}
 	self.pokemon_index = 0

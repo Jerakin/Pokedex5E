@@ -16,6 +16,7 @@ local function pokemon_image(pokemon_data)
 end
 
 function init(self)
+	msg.post(url.MENU, "hide")
 	self.have_evolved = false
 	button.acquire()
 	local pokemon_id = monarch.data("edit").id
