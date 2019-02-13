@@ -43,6 +43,10 @@ function M.level_data(level)
 	return leveldata[tostring(level)]
 end
 
+function M.get_senses(pokemon)
+	return M.get_pokemon(pokemon).Senses or {}
+end
+
 function M.get_move_color(move)
 	return type_data[M.get_move_data(move).Type].color
 end

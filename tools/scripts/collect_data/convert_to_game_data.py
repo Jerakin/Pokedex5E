@@ -7,9 +7,9 @@ output_location = Path(__file__).parent.parent.parent.parent / "assets" / "dataf
 
 
 def convert_pokemon_data(input_file):
-    convert_to_int = ["AC", "Hit Dice", "HP", "WSp", "Ssp", "Fsp", "Ev", "MIN LVL FD"]
+    convert_to_int = ["AC", "Hit Dice", "HP", "WSp", "Ssp", "Fsp", "Ev", "MIN LVL FD", "Climbing Speed"]
     convert_to_float = ["CR"]
-    convert_to_list = ["Skill", "Res", "Vul", "Imm"]
+    convert_to_list = ["Skill", "Res", "Vul", "Imm", "Senses"]
     attributes = ["STR", "CON", "DEX", "INT", "WIS", "CHA"]
     reg_starting_moves = re.compile("Starting Moves: ([A-Za-z ,-]*)")
     reg_abilities = re.compile("Abilities: ([A-Za-z, ]*)")

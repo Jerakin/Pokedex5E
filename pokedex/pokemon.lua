@@ -15,6 +15,10 @@ local function add_tables(T1, T2)
 	return copy
 end
 
+function M.get_senses(pokemon)
+	return pokedex.get_senses(M.get_current_species(pokemon))
+end
+
 function M.get_attributes(pokemon)
 	local b = pokedex.get_base_attributes(M.get_caught_species(pokemon))
 	local a = M.get_increased_attributes(pokemon) or {}

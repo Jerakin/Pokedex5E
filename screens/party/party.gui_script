@@ -9,7 +9,7 @@ local url = require "utils.url"
 local type_data = require "utils.type_data"
 local gui_colors = require "utils.gui_colors"
 
-local STATS = {"STR",  "INT", "DEX",  "WIS", "CON", "CHA"}
+local STATS = {"STR", "INT", "DEX", "WIS", "CON", "CHA"}
 
 local function join_table(title, T, sep)
 	if T then
@@ -145,28 +145,44 @@ local function setup_abilities(self, nodes, pokemon)
 end
 
 local function setup_info(self, nodes, pokemon)
-	local abilities_string = ""
-	local saving_throw_string = ""
+	local abilities_string1 = ""
+	local saving_throw_string1 = ""
+	local abilities_string2 = ""
+	local saving_throw_string2 = ""
+	
 	local st_attributes = _pokemon.get_saving_throw_attributes(pokemon)
 	local total_attributes = _pokemon.get_attributes(pokemon)
-	for i, stat in pairs(STATS) do
-		abilities_string = abilities_string .. stat .. ": " .. total_attributes[stat]
-		saving_throw_string = saving_throw_string .. stat .. ": " .. to_mod(st_attributes[stat])
-		if math.fmod(i, 2) == 0 then
-			abilities_string = abilities_string .. "\n"
-			saving_throw_string = saving_throw_string .. "\n"
-		else
-			abilities_string = abilities_string .. "  "
-			saving_throw_string = saving_throw_string .. "  "
-		end
+	for i, stat in pairs({"STR", "INT", "DEX"}) do
+		abilities_string1 = abilities_string1 .. total_attributes[stat] .. "\n"
+		saving_throw_string1 = saving_throw_string1 .. to_mod(st_attributes[stat])  .. "\n"
 	end	
+
+	for i, stat in pairs({"WIS", "CON", "CHA"}) do
+		abilities_string2 = abilities_string2 .. total_attributes[stat] .. "\n"
+		saving_throw_string2 = saving_throw_string2 .. to_mod(st_attributes[stat])  .. "\n"
+	end
 	
-	gui.set_text(nodes["pokemon/attributes"], abilities_string)
-	gui.set_text(nodes["pokemon/savingthrows"], saving_throw_string)
+	gui.set_text(nodes["pokemon/attributes_1"], abilities_string1)
+	gui.set_text(nodes["pokemon/savingthrow_1"], saving_throw_string1)
+	gui.set_text(nodes["pokemon/attributes_2"], abilities_string2)
+	gui.set_text(nodes["pokemon/savingthrow_2"], saving_throw_string2)
 	
 	gui.set_text(nodes["pokemon/stab"], "STAB: " .. _pokemon.get_STAB_bonus(pokemon))
 	gui.set_text(nodes["pokemon/prof"], "Prof: " .. _pokemon.get_proficency_bonus(pokemon))
 	gui.set_text(nodes["pokemon/skills"], table.concat(_pokemon.get_skills(pokemon), ", "))
+	
+	local senses = _pokemon.get_senses(pokemon)
+	if next(senses) ~= nil then
+		gui.set_text(nodes["pokemon/txt_senses"], table.concat(_pokemon.get_senses(pokemon), "\n"))
+	end
+	local speeds = _pokemon.get_all_speed(pokemon)
+	local speed_string = ""
+	for name, amount in pairs(speeds) do
+		if amount > 0 then
+			speed_string = speed_string .. amount .. "ft. " .. name .. "\n"
+		end
+	end
+	gui.set_text(nodes["pokemon/txt_speeds"], speed_string)
 end
 
 local function update_hp(self, nodes, pokemon)
