@@ -14,7 +14,14 @@ end
 
 function M.add(profile_name, slot)
 	slot = slot or 1
-	local profile = {slot=slot, name=profile_name, seen=0, caught=0, released=0, file_name=profile_name .. generate_id()}
+	local profile = {
+		slot=slot,
+		name=profile_name,
+		seen=0,
+		caught=0,
+		released=0,
+		file_name=profile_name .. generate_id()
+	}
 	profiles[slot] = profile
 	M.save()
 	return profile

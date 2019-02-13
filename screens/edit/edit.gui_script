@@ -40,6 +40,14 @@ local function evolve(self, species)
 	pokemon_edit.redraw(self)
 end
 
+local function change_hp(self, hp)
+	local max = _pokemon.get_max_hp(self.pokemon)
+	_pokemon.set_max_hp(self.pokemon, max + hp, true)
+	local c = _pokemon.get_current_hp(self.pokemon)
+	_pokemon.set_current_hp(self.pokemon, c + hp)
+	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), "Max Hp: " .. _pokemon.get_max_hp(self.pokemon))
+end
+
 function init(self)
 	msg.post(url.MENU, "hide")
 	self.have_evolved = false
@@ -73,20 +81,24 @@ function init(self)
 		end
 	end
 
+	button.register("change_pokemon/txt_max_hp", function()
+		monarch.show("info", nil, {text="To increase HP\nRoll (or take the average of) the hit die and add your CON modifier."})
+	end)
+	
 	button.register("change_pokemon/hp/btn_minus", function()
-		local max = _pokemon.get_max_hp(self.pokemon)
-		_pokemon.set_max_hp(self.pokemon, max - 1, true)
-		local c = _pokemon.get_current_hp(self.pokemon)
-		_pokemon.set_current_hp(self.pokemon, c - 1)
-		gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), "Max Hp:" .. _pokemon.get_max_hp(self.pokemon))
+		if _pokemon.get_max_hp_edited(self.pokemon) then
+			change_hp(self, -1)
+		else
+			monarch.show("are_you_sure", nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=-1})
+		end
 	end)
 
 	button.register("change_pokemon/hp/btn_plus", function()
-		local max = _pokemon.get_max_hp(self.pokemon)
-		_pokemon.set_max_hp(self.pokemon, max + 1, true)
-		local c = _pokemon.get_current_hp(self.pokemon)
-		_pokemon.set_current_hp(self.pokemon, c + 1)
-		gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), "Max Hp:" .. _pokemon.get_max_hp(self.pokemon))
+		if _pokemon.get_max_hp_edited(self.pokemon) then
+			change_hp(self, 1)
+		else
+			monarch.show("are_you_sure", nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=1})
+		end
 	end)
 	
 	button.register(self.evolve_button, function()
@@ -117,8 +129,11 @@ end
 function on_message(self, message_id, message, sender)
 	pokemon_edit.on_message(self, message_id, message, sender)
 	if message_id == hash("response") and message.response then
-		local species = message.data
-		evolve(self, species)
+		if type(message.data) == "string" then
+			evolve(self, message.data)
+		else
+			change_hp(self, message.data)
+		end
 	end
 end
 
