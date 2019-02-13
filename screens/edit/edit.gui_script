@@ -27,7 +27,11 @@ function init(self)
 	gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.GREEN)
 	self.evolve_button = gui.get_node("btn_evolve")
 	pokemon_image(pokemon)
-	gui.set_text(gui.get_node("change_pokemon/nature"),  _pokemon.get_nature(pokemon))
+	gui.set_text(gui.get_node("change_pokemon/nature"), _pokemon.get_nature(pokemon))
+	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), "Max Hp: " .. _pokemon.get_max_hp(pokemon))
+	gui.set_text(gui.get_node("change_pokemon/txt_hit_dice"), "Hit Dice: d" .. _pokemon.get_hit_dice(pokemon))
+
+	
 	function self.redraw(self)
 		if not self.have_evolved and pokedex.get_evolution_possible(_pokemon.get_current_species(pokemon)) and 
 		pokedex.get_evolution_level(_pokemon.get_current_species(pokemon)) <= self.level then
@@ -43,6 +47,18 @@ function init(self)
 		end
 	end
 
+	button.register("change_pokemon/hp/btn_minus", function()
+		local max = _pokemon.get_max_hp(self.pokemon)
+		_pokemon.set_max_hp(self.pokemon, max - 1)
+		gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), "Max Hp:" .. _pokemon.get_max_hp(self.pokemon))
+	end)
+
+	button.register("change_pokemon/hp/btn_plus", function()
+		local max = _pokemon.get_max_hp(self.pokemon)
+		_pokemon.set_max_hp(self.pokemon, max + 1)
+		gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), "Max Hp:" .. _pokemon.get_max_hp(self.pokemon))
+	end)
+	
 	button.register(self.evolve_button, function()
 		self.pokemon.moves = _pokemon.get_moves(pokemon)
 		
@@ -59,12 +75,14 @@ function init(self)
 
 	button.register("btn_edit", function()
 		_pokemon.update_increased_attributes(self.pokemon, self.increased_attributes)
-		local max_hp = _pokemon.get_max_hp_at_level(self.pokemon, self.level)
-		if self.have_evolved then
-			max_hp = max_hp + self.level * 2
-			_pokemon.set_evolutuion_at_level(pokemon, self.level)
+		if not _pokemon.get_max_hp_edited(self.pokemon) then
+			local max_hp = _pokemon.get_max_hp_at_level(self.pokemon, self.level)
+			if self.have_evolved then
+				max_hp = max_hp + self.level * 2
+				_pokemon.set_evolution_at_level(self.pokemon, self.level)
+			end
+			_pokemon.set_max_hp(self.pokemon, max_hp)
 		end
-		_pokemon.set_max_hp(self.pokemon, max_hp)
 		self.pokemon.level.current = self.level
 		_pokemon.save(self.pokemon)
 		monarch.show("party", {clear=true})

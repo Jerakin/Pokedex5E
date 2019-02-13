@@ -75,7 +75,12 @@ end
 
 function M.set_max_hp(pokemon, hp)
 	pokemon.hp.max = hp
+	pokemon.hp.edited = true
 	storage.set_pokemon_max_hp(M.get_id(pokemon), hp)
+end
+
+function M.get_max_hp_edited(pokemon)
+	return pokemon.hp.edited
 end
 
 function M.get_max_hp(pokemon)
@@ -193,9 +198,9 @@ function M.reset_move_pp(pokemon, move)
 	pokemon.moves[move].pp = pp
 end
 
-function M.set_evolutuion_at_level(pokemon, level)
+function M.set_evolution_at_level(pokemon, level)
 	pokemon.level.evolved = level
-	storage.set_evolutuion_at_level(M.get_id(pokemon), level)
+	storage.set_evolution_at_level(M.get_id(pokemon), level)
 end
 
 function M.get_saving_throw_attributes(pokemon)
@@ -230,6 +235,10 @@ function M.get_max_hp_at_level(pokemon, level)
 	local con_mod = math.floor((con - 10) / 2)
 	local levels_gained = current_level - caught_level
 	return extra_hp_from_evolution + base_hp + ((math.ceil(hit_dice / 2)  + con_mod) * levels_gained)
+end
+
+function M.get_hit_dice(pokemon)
+	return pokedex.get_pokemon_hit_dice(M.get_current_species(pokemon))
 end
 
 function M.get_evolution_level(pokemon)

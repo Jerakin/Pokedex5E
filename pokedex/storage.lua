@@ -89,7 +89,7 @@ function M.update_pokemon(pokemon)
 	M.save()
 end
 
-function M.set_evolutuion_at_level(id, level)
+function M.set_evolution_at_level(id, level)
 	local p = get(id)
 	p.level.evolved = level
 	M.save()
