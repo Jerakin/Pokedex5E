@@ -9,8 +9,8 @@ local gui_colors = require "utils.gui_colors"
 local type_data = require "utils.type_data"
 local url = require "utils.url"
 local utils = require "utils.utils"
-
 local selected_item
+local flow = require "utils.flow"
 local STATS = {"STR", "DEX", "CON", "INT", "WIS", "CHA"}
 
 local M = {}
@@ -29,6 +29,12 @@ local function redraw(self)
 	local species_node = gui.get_node("change_pokemon/species")
 	gui.set_text(species_node, self.pokemon.species.current)
 	gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. self.level)
+	
+	for i=1, 4 do 
+		local move_node = gui.get_node("change_pokemon/move_" .. i)
+		gui.set_text(move_node, "Move")
+		gui.set_color(move_node, gui_colors.HERO_TEXT_FADED)
+	end
 	
 	-- Moves
 	for move, data in pairs(self.pokemon.moves) do
@@ -206,16 +212,18 @@ function M.on_message(self, message_id, message, sender)
 			M.register_buttons_after_species(self)
 			if self.register_buttons_after_species then self.register_buttons_after_species(self) end
 		elseif message_id == hash("evolve") then
-			self.ability_score_improvment = self.ability_score_improvment - pokedex.evolve_points(_pokemon.get_current_species(self.pokemon))
-			_pokemon.set_species(self.pokemon, message.item)
-			self.have_evolved = true
-			pokemon_image(message.item)
+			flow.start(function()
+				flow.until_true(function() return not monarch.is_busy() end)
+				monarch.show("are_you_sure", nil, {title="Evolve at level ".. self.level .. "?", sender=msg.url(), data=message.item})
+			end)
 		else
-			local n = gui.get_node("change_pokemon/move_" .. self.move_button_index)
-			_pokemon.set_move(self.pokemon, message.item, self.move_button_index)
-			
-			gui.set_text(n, message.item)
-			gui.set_color(n, pokedex.get_move_color(message.item))
+			if message.item ~= "" then
+				local n = gui.get_node("change_pokemon/move_" .. self.move_button_index)
+				_pokemon.set_move(self.pokemon, message.item, self.move_button_index)
+				
+				gui.set_text(n, message.item)
+				gui.set_color(n, pokedex.get_move_color(message.item))
+			end
 		end
 		redraw(self)
 	end

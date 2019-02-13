@@ -8,11 +8,36 @@ local _pokemon = require "pokedex.pokemon"
 local url = require "utils.url"
 local gui_colors = require "utils.gui_colors"
 
-local function pokemon_image(pokemon_data)
-	local pokemon_sprite, texture = _pokemon.get_sprite(pokemon_data)
+local function pokemon_image(species)
+	local pokemon_sprite, texture = pokedex.get_sprite(species)
 	gui.set_texture(gui.get_node("change_pokemon/pokemon_sprite"), "sprite0")
 	gui.play_flipbook(gui.get_node("change_pokemon/pokemon_sprite"), pokemon_sprite)
 	gui.set_scale(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector3(3))
+end
+
+local function save_pokemon(self)
+	_pokemon.update_increased_attributes(self.pokemon, self.increased_attributes)
+	if not _pokemon.get_max_hp_edited(self.pokemon) then
+		local max_hp = _pokemon.get_max_hp_at_level(self.pokemon, self.level)
+		if self.have_evolved then
+			max_hp = max_hp + self.level * 2
+			_pokemon.set_evolution_at_level(self.pokemon, self.level)
+		end
+		_pokemon.set_max_hp(self.pokemon, max_hp)
+	end
+	self.pokemon.level.current = self.level
+	_pokemon.save(self.pokemon)
+	monarch.show("party", {clear=true})
+end
+
+local function evolve(self, species)
+	self.pokemon.moves = self.pokemon_copy.moves
+	pokemon_image(species)
+	self.ability_score_improvment = self.ability_score_improvment - pokedex.evolve_points(_pokemon.get_current_species(self.pokemon))
+	_pokemon.set_species(self.pokemon, species)
+	self.have_evolved = true
+	gui.set_enabled(self.evolve_button, false)
+	pokemon_edit.redraw(self)
 end
 
 function init(self)
@@ -20,29 +45,29 @@ function init(self)
 	self.have_evolved = false
 	button.acquire()
 	local pokemon_id = monarch.data("edit").id
-	local pokemon = storage.get_copy(pokemon_id)
-	pokemon_edit.init(self, pokemon)
-	self.level = _pokemon.get_current_level(pokemon)
+	self.pokemon_copy = storage.get_copy(pokemon_id)
+	pokemon_edit.init(self,storage.get_copy(pokemon_id))
+	
+	self.level = _pokemon.get_current_level(self.pokemon_copy)
 
-	gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. _pokemon.get_current_level(pokemon))
+	gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. _pokemon.get_current_level(self.pokemon_copy))
 	gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.GREEN)
 	self.evolve_button = gui.get_node("btn_evolve")
-	pokemon_image(pokemon)
-	gui.set_text(gui.get_node("change_pokemon/nature"), _pokemon.get_nature(pokemon))
-	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), "Max Hp: " .. _pokemon.get_max_hp(pokemon))
-	gui.set_text(gui.get_node("change_pokemon/txt_hit_dice"), "Hit Dice: d" .. _pokemon.get_hit_dice(pokemon))
+	pokemon_image(_pokemon.get_current_species(self.pokemon_copy))
+	gui.set_text(gui.get_node("change_pokemon/nature"), _pokemon.get_nature(self.pokemon_copy))
+	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), "Max Hp: " .. _pokemon.get_max_hp(self.pokemon_copy))
+	gui.set_text(gui.get_node("change_pokemon/txt_hit_dice"), "Hit Dice: d" .. _pokemon.get_hit_dice(self.pokemon_copy))
 
-	
 	function self.redraw(self)
-		if not self.have_evolved and pokedex.get_evolution_possible(_pokemon.get_current_species(pokemon)) and 
-		pokedex.get_evolution_level(_pokemon.get_current_species(pokemon)) <= self.level then
+		if not self.have_evolved and pokedex.get_evolution_possible(_pokemon.get_current_species(self.pokemon_copy)) and 
+		pokedex.get_evolution_level(_pokemon.get_current_species(self.pokemon_copy)) <= self.level then
 			gui.set_enabled(self.evolve_button, true)
 		else
 			gui.set_enabled(self.evolve_button, false)
 		end
-		gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. _pokemon.get_current_level(pokemon))
-		if self.level - _pokemon.get_current_level(pokemon)> 0 then
-			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "+" .. self.level - _pokemon.get_current_level(pokemon))
+		gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. _pokemon.get_current_level(self.pokemon_copy))
+		if self.level - _pokemon.get_current_level(self.pokemon_copy)> 0 then
+			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "+" .. self.level - _pokemon.get_current_level(self.pokemon_copy))
 		else
 			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "" )
 		end
@@ -61,33 +86,18 @@ function init(self)
 	end)
 	
 	button.register(self.evolve_button, function()
-		self.pokemon.moves = _pokemon.get_moves(pokemon)
-		
-		local evolve_into = pokedex.get_evolutions(_pokemon.get_current_species(pokemon))
+		local evolve_into = pokedex.get_evolutions(_pokemon.get_current_species(self.pokemon_copy))
 		if #evolve_into == 1 then
-			msg.post("#", "evolve", {item=evolve_into[1]})
+			monarch.show("are_you_sure", nil, {title="Evolve at level ".. self.level .. "?", sender=msg.url(), data=evolve_into[1]})
 		else
 			monarch.show("scrollist", {}, {items=evolve_into, message_id="evolve", sender=msg.url()})
 		end
-
-		gui.set_enabled(self.evolve_button, false)
-		pokemon_edit.redraw(self)
 	end)
 
 	button.register("btn_edit", function()
-		_pokemon.update_increased_attributes(self.pokemon, self.increased_attributes)
-		if not _pokemon.get_max_hp_edited(self.pokemon) then
-			local max_hp = _pokemon.get_max_hp_at_level(self.pokemon, self.level)
-			if self.have_evolved then
-				max_hp = max_hp + self.level * 2
-				_pokemon.set_evolution_at_level(self.pokemon, self.level)
-			end
-			_pokemon.set_max_hp(self.pokemon, max_hp)
-		end
-		self.pokemon.level.current = self.level
-		_pokemon.save(self.pokemon)
-		monarch.show("party", {clear=true})
+		save_pokemon(self)
 	end)
+	
 	button.register("change_pokemon/btn_close", function()
 		monarch.back()
 	end)
@@ -102,6 +112,11 @@ end
 
 function on_message(self, message_id, message, sender)
 	pokemon_edit.on_message(self, message_id, message, sender)
+	if message_id == hash("response") and message.response then
+		pprint(message)
+		local species = message.data
+		evolve(self, species)
+	end
 end
 
 function on_input(self, action_id, action)
