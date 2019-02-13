@@ -384,7 +384,6 @@ function M.new(data)
 	this.hp = {}
 	this.hp.current = pokedex.get_base_hp(this.species.caught)
 	this.hp.max = this.hp.current
-	pprint(this.species.current, this.hp.max)
 	this.hp.edited = false
 
 	this.level = {}
