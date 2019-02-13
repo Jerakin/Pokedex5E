@@ -36,6 +36,7 @@ end
 
 function init(self)
 	defsave.appname = "pokedex5E"
+	defsave.verbose = false
 	defsave.use_default_data = false
 	metadata.load()
 	nuke_old()
