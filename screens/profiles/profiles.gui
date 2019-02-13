@@ -115,7 +115,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 50.0
@@ -163,14 +163,14 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/square"
   id: "box"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "box1"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -225,7 +225,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 10.0
@@ -294,7 +294,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "btn_slot_3"
-  layer: ""
+  layer: "script_bold"
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 0.0
@@ -357,7 +357,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "btn_slot_3"
-  layer: ""
+  layer: "script"
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 0.0
@@ -406,7 +406,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "btn_slot_3"
-  layer: ""
+  layer: "gui"
   inherit_alpha: false
   slice9 {
     x: 0.0
@@ -461,7 +461,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 10.0
@@ -530,7 +530,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "btn_slot_2"
-  layer: ""
+  layer: "script_bold"
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 0.0
@@ -593,7 +593,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "btn_slot_2"
-  layer: ""
+  layer: "script"
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 0.0
@@ -642,7 +642,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "btn_slot_2"
-  layer: ""
+  layer: "gui"
   inherit_alpha: false
   slice9 {
     x: 0.0
@@ -697,7 +697,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 10.0
@@ -766,7 +766,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "btn_slot_1"
-  layer: ""
+  layer: "script_bold"
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 0.0
@@ -829,7 +829,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "btn_slot_1"
-  layer: ""
+  layer: "script"
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 0.0
@@ -878,7 +878,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "btn_slot_1"
-  layer: ""
+  layer: "gui"
   inherit_alpha: false
   slice9 {
     x: 0.0
@@ -947,7 +947,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "root"
-  layer: ""
+  layer: "script_bold"
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 0.0
@@ -1063,6 +1063,18 @@ nodes {
   alpha: 1.0
   template_node_child: false
   size_mode: SIZE_MODE_AUTO
+}
+layers {
+  name: "gui"
+}
+layers {
+  name: "pokemon"
+}
+layers {
+  name: "script"
+}
+layers {
+  name: "script_bold"
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT

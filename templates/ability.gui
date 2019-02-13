@@ -3,6 +3,14 @@ fonts {
   name: "script"
   font: "/assets/fonts/script.font"
 }
+fonts {
+  name: "title"
+  font: "/assets/fonts/title.font"
+}
+textures {
+  name: "gui"
+  texture: "/assets/gui.atlas"
+}
 background_color {
   x: 0.0
   y: 0.0
@@ -42,13 +50,13 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/background_gradient"
   id: "root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  layer: "box"
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -77,8 +85,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.75
-    y: 1.75
+    x: 0.8
+    y: 0.8
     z: 1.0
     w: 1.0
   }
@@ -97,7 +105,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Guts"
-  font: "script"
+  font: "title"
   id: "name"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -117,7 +125,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "root"
-  layer: "data"
+  layer: "title"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
@@ -180,7 +188,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
   parent: "root"
-  layer: "data"
+  layer: "script"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
@@ -190,10 +198,13 @@ nodes {
   text_tracking: 0.0
 }
 layers {
-  name: "box"
+  name: "gui"
 }
 layers {
-  name: "data"
+  name: "script"
+}
+layers {
+  name: "title"
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT
