@@ -11,6 +11,9 @@ function init(self)
 	local sender = data.sender
 	gui.set_text(gui.get_node("txt_title"), data.title)
 
+	if data.text then
+		gui.set_text(gui.get_node("txt"), data.text)
+	end
 	button.register("btn_confirm", function()
 		msg.post(sender, "response", {response=true, data=data.data})
 		monarch.back()
