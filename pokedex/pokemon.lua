@@ -93,11 +93,11 @@ function M.get_current_hp(pokemon)
 end
 
 function M.set_max_hp(pokemon, hp, force)
-	if force == nil then
-		force = false
+	if force then
+		pokemon.hp.edited = force
 	end
+	
 	pokemon.hp.max = hp
-	pokemon.hp.edited = force
 	storage.set_pokemon_max_hp(M.get_id(pokemon), hp)
 end
 
@@ -226,22 +226,35 @@ local function set_evolution_at_level(pokemon, level)
 end
 
 function M.add_hp_from_levels(pokemon, to_level)
-	local current = M.get_max_hp(pokemon)
-	local hit_dice = M.get_hit_dice(pokemon)
-	local con = M.get_attributes(pokemon).CON
-	local con_mod = math.floor((con - 10) / 2)
-	
-	local levels_gained = to_level - M.get_current_level(pokemon)
-	local from_hit_dice = math.ceil(hit_dice / 2) * levels_gained
-	local from_con_mod = con_mod * levels_gained
+	if not M.get_max_hp_edited(pokemon) then
+		local current = M.get_max_hp(pokemon)
+		local hit_dice = M.get_hit_dice(pokemon)
+		local con = M.get_attributes(pokemon).CON
+		local con_mod = math.floor((con - 10) / 2)
+		
+		local levels_gained = to_level - M.get_current_level(pokemon)
+		local from_hit_dice = math.ceil(hit_dice / 2) * levels_gained
+		local from_con_mod = con_mod * levels_gained
 
-	M.set_max_hp(pokemon, current + from_hit_dice + from_con_mod)
+		M.set_max_hp(pokemon, current + from_hit_dice + from_con_mod)
+
+		-- Also increase current hp
+		local c = M.get_current_hp(pokemon)
+		M.set_current_hp(pokemon, c + from_hit_dice + from_con_mod)
+	end
 end
 
 function M.evolve(pokemon, to_species, level)
+	if not M.get_max_hp_edited(pokemon) then
+		local current = M.get_max_hp(pokemon)
+		local gained = level * 2
+		M.set_max_hp(pokemon, current + gained)
+		
+		-- Also increase current hp
+		local c = M.get_current_hp(pokemon)
+		M.set_current_hp(pokemon, c + gained)
+	end
 	set_evolution_at_level(pokemon, level)
-	local current = M.get_max_hp()
-	M.set_max_hp(pokemon, current + level * 2)
 	set_species(pokemon, to_species)
 end
 
