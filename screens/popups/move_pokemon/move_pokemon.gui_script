@@ -7,6 +7,7 @@ local inventory = require "screens.storage.inventory"
 local gro = require "utils.gui_render_order"
 local url = require "utils.url"
 local gui_colors = require "utils.gui_colors"
+local flow = require "utils.flow"
 
 local inventory_buttons = {}
 
@@ -167,12 +168,23 @@ function init(self)
 	end)
 
 	button.register("btn_release", function()
-		storage.release_pokemon(self.pokemon_id)
-		update_storage()
-		monarch.back()
+		local title = "Release " .. _pokemon.get_current_species(storage.get_copy(self.pokemon_id))
+		monarch.show("are_you_sure", nil, {title=title, data=self.pokemon_id, sender=msg.url()})
 	end)
 end
 
+function on_message(self, message_id, message, sender)
+	if message_id == hash("response") then
+		if message.response then
+			flow.start(function()
+				flow.until_true(function() return not monarch.is_busy() end)
+				storage.release_pokemon(message.data)
+				update_storage()
+				monarch.back()
+			end)
+		end
+	end
+end
 
 function final(self)
 	button.unregister()

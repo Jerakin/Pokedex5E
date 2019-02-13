@@ -1,8 +1,12 @@
 local monarch  = require "monarch.monarch"
 local button = require "utils.button"
+local url = require "utils.url"
+local render_order = require "utils.gui_render_order"
+
 
 function init(self)
 	button.acquire()
+	gui.set_render_order(render_order.POPUP_ON_POPUP)
 	local data = monarch.data("are_you_sure")
 	local sender = data.sender
 	gui.set_text(gui.get_node("txt_title"), data.title)

@@ -5,7 +5,8 @@ M.MENU = 6
 
 M.SPLASH = 10
 
-M.POPUP = 14
+M.POPUP = 13
+M.POPUP_ON_POPUP = 14
 
 
 return M
