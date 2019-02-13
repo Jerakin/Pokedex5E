@@ -79,7 +79,7 @@ function M.redraw(pokemons)
 end
 
 local function select_item(state)
-	monarch.show("transfer_pokemon", {clear=true}, {id=pokemon_ids[state.index], to="inventory"})
+	monarch.show("transfer_pokemon", {}, {id=pokemon_ids[state.index], to="inventory"})
 end
 
 

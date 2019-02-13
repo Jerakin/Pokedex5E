@@ -321,7 +321,7 @@ function init(self)
 			
 			gui.play_flipbook(pok_sprite, "pokeball_add")
 			button.register(pok_sprite, function()
-				monarch.show("storage", {clear=true})
+				monarch.show("storage")
 			end)
 		else
 			gui.play_flipbook(pok_sprite, "pokeball")
@@ -331,7 +331,7 @@ function init(self)
 	end
 	
 	button.register("btn_edit", function()
-		monarch.show("edit", {clear=true}, {id=party.current_pokemon})
+		monarch.show("edit", {}, {id=party.current_pokemon})
 	end)
 	
 	gui.delete_node(self.pokemon_page)

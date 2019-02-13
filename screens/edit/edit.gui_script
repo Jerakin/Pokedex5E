@@ -21,7 +21,7 @@ local function save_pokemon(self)
 
 	self.pokemon.level.current = self.level
 	_pokemon.save(self.pokemon)
-	monarch.show("party", {clear=true})
+	monarch.show("party")
 end
 
 local function evolve(self, species)

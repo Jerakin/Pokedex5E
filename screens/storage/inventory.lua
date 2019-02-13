@@ -24,7 +24,7 @@ end
 
 local function inventory_button(node, id)
 	return button.register(node, function()
-		monarch.show("transfer_pokemon", {clear=true}, {id=id, to="storage"})
+		monarch.show("transfer_pokemon", {}, {id=id, to="storage"})
 	end)
 end
 

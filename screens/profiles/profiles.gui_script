@@ -45,9 +45,9 @@ local function activate(profile, slot)
 		profiles.set_active(slot)
 		storage.load(profiles.get_active())
 		if #storage.list_of_ids_in_inventory() > 0 then
-			monarch.show("party", {clear=true})
+			monarch.show("party")
 		else
-			monarch.show("add", {clear=true})
+			monarch.show("add")
 		end
 	else
 		monarch.show("pick_name", nil, {sender=msg.url(), slot=slot})

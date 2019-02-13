@@ -53,7 +53,7 @@ function init(self)
 				
 				self.pokemon.attributes.increased = self.increased_attributes
 				storage.add(self.pokemon)
-				monarch.show("party", {clear=true})
+				monarch.show("party")
 			end
 		end)
 	end

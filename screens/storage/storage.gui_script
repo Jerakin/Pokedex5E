@@ -18,10 +18,10 @@ local selected_inventory = {}
 
 local function setup_button()
 	button.register("btn_sort", function() 
-		monarch.show("sorting", {clear=true})
+		monarch.show("sorting")
 	end)
 	button.register("btn_add", function() 
-		monarch.show("add", {clear=true})
+		monarch.show("add")
 	end)
 end
 

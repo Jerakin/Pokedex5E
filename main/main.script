@@ -80,20 +80,20 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("show_profile") then
-		monarch.show("profiles", {clear=true})
+		monarch.show("profiles")
 
 	elseif message_id == hash("show_party") then
-		monarch.show(hash("party"), {clear=true})
+		monarch.show("party")
 		
 	elseif message_id == hash("show_splash") then
-		monarch.show(hash("splash"), {clear=true})
+		monarch.show("splash")
 		collectionfactory.create("/menu#collectionfactory")
 		
 	elseif message_id == hash("show_storage") then
-		monarch.show(hash("storage"), {clear=true})
+		monarch.show("storage")
 		
 	elseif message_id == hash("show_add") then
-		monarch.show(hash("add"), {clear=true})
+		monarch.show("add")
 	end
 end
 
