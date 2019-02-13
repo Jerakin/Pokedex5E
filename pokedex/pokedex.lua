@@ -160,7 +160,7 @@ function M.get_pokemons_moves(pokemon, level)
 	local moves = M.get_pokemon(pokemon)["Moves"]
 	local pick_from = utils.shallow_copy(moves["Starting Moves"])
 	for l, move in pairs(moves["Level"]) do
-		if tonumber(l) < level then
+		if level >= tonumber(l) then
 			for _, m in pairs(move) do
 				table.insert(pick_from, m)
 			end
