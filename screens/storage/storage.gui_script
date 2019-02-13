@@ -94,8 +94,10 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("storage_updated") then
+		gui.set_text(gui.get_node("pokemon_total"), "Pokemon Total: " .. storage.get_total())
 		inventory.redraw()
 	elseif message_id == hash("inventory_updated") then
+		gui.set_text(gui.get_node("pokemon_total"), "Pokemon Total: " .. storage.get_total())
 		pc.redraw(storage.list_of_ids_in_storage())
 	end
 end
