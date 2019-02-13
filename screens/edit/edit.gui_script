@@ -16,27 +16,27 @@ local function pokemon_image(species)
 end
 
 local function save_pokemon(self)
+	_pokemon.add_hp_from_levels(self.pokemon, self.level)
 	_pokemon.update_increased_attributes(self.pokemon, self.increased_attributes)
-	if not _pokemon.get_max_hp_edited(self.pokemon) then
-		local max_hp = _pokemon.get_max_hp_at_level(self.pokemon, self.level)
-		if self.have_evolved then
-			max_hp = max_hp + self.level * 2
-			_pokemon.set_evolution_at_level(self.pokemon, self.level)
-		end
-		_pokemon.set_max_hp(self.pokemon, max_hp)
-	end
+
 	self.pokemon.level.current = self.level
 	_pokemon.save(self.pokemon)
 	monarch.show("party", {clear=true})
 end
 
 local function evolve(self, species)
+	-- Set and reset
 	self.pokemon.moves = self.pokemon_copy.moves
 	pokemon_image(species)
-	self.ability_score_improvment = self.ability_score_improvment - pokedex.evolve_points(_pokemon.get_current_species(self.pokemon))
-	_pokemon.set_species(self.pokemon, species)
 	self.have_evolved = true
 	gui.set_enabled(self.evolve_button, false)
+
+	-- Edit pokemon
+	self.ability_score_improvment = self.ability_score_improvment - pokedex.evolve_points(_pokemon.get_current_species(self.pokemon))
+	_pokemon.add_hp_from_levels(self.pokemon, self.level)
+	self.pokemon.level.current = self.level
+	_pokemon.evolve(self.pokemon, species, self.level)
+
 	pokemon_edit.redraw(self)
 end
 
@@ -75,13 +75,13 @@ function init(self)
 
 	button.register("change_pokemon/hp/btn_minus", function()
 		local max = _pokemon.get_max_hp(self.pokemon)
-		_pokemon.set_max_hp(self.pokemon, max - 1)
+		_pokemon.set_max_hp(self.pokemon, max - 1, true)
 		gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), "Max Hp:" .. _pokemon.get_max_hp(self.pokemon))
 	end)
 
 	button.register("change_pokemon/hp/btn_plus", function()
 		local max = _pokemon.get_max_hp(self.pokemon)
-		_pokemon.set_max_hp(self.pokemon, max + 1)
+		_pokemon.set_max_hp(self.pokemon, max + 1, true)
 		gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), "Max Hp:" .. _pokemon.get_max_hp(self.pokemon))
 	end)
 	
@@ -113,7 +113,6 @@ end
 function on_message(self, message_id, message, sender)
 	pokemon_edit.on_message(self, message_id, message, sender)
 	if message_id == hash("response") and message.response then
-		pprint(message)
 		local species = message.data
 		evolve(self, species)
 	end

@@ -20,9 +20,9 @@ local function add_random_pokemon()
 			moves[starting_moves[i]] = {pp=pp, index=i}
 		end
 	end
-	local level = math.random(20)
-	pokemon.level.caught = level
-	pokemon.level.current = level
+	--local level = math.random(20)
+	--pokemon.level.caught = level
+	--pokemon.level.current = level
 	pokemon.moves = moves
 	pokemon.nature = nature.list[math.random(#nature.list)]
 	storage.add(pokemon)

@@ -10,6 +10,18 @@ local gui_colors = require "utils.gui_colors"
 
 HAVE_EVOLVED = false
 
+local function get_max_hp(pokemon, to_level)
+	local current = _pokemon.get_max_hp(pokemon)
+	local hit_dice = _pokemon.get_hit_dice(pokemon)
+	local con = _pokemon.get_attributes(pokemon).CON
+	local con_mod = math.floor((con - 10) / 2)
+
+	local levels_gained = to_level - _pokemon.get_current_level(pokemon)
+	local from_hit_dice = math.ceil(hit_dice / 2) * levels_gained
+	local from_con_mod = con_mod * levels_gained
+	return current + from_hit_dice + from_con_mod
+end
+
 function init(self)
 	msg.post(url.MENU, "hide")
 	button.acquire()
@@ -35,10 +47,10 @@ function init(self)
 		
 		button.register("btn_add", function()
 			if self.pokemon.nature ~= nil and self.pokemon.species.current ~= "" then
+				self.pokemon.hp.max = get_max_hp(self.pokemon, self.level)
 				self.pokemon.level.caught = self.level
 				self.pokemon.level.current = self.level
-				local max_hp = _pokemon.get_max_hp_at_level(self.pokemon, self.level)
-				self.pokemon.hp.max = max_hp
+				
 				self.pokemon.attributes.increased = self.increased_attributes
 				storage.add(self.pokemon)
 				monarch.show("party", {clear=true})
