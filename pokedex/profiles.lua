@@ -28,7 +28,10 @@ function M.update(slot, data)
 end
 
 function M.delete(slot)
+	local f_name = M.get_file_name(slot)
+	defsave.delete(f_name)
 	profiles[slot] = nil
+	M.save()
 end
 
 function M.is_new_game()
@@ -64,7 +67,11 @@ function M.get_active_slot()
 end
 
 function M.get_active_file_name()
-	return profiles[active_slot].file_name
+	return M.get_file_name(active_slot)
+end
+
+function M.get_file_name(slot)
+	return profiles[slot].file_name
 end
 
 function M.get_active_name()
