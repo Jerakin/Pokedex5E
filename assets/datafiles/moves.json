@@ -1087,36 +1087,13 @@
   "Confuse Ray": {
     "Type": "Ghost",
     "Move Power": [
-      "DEX",
-      "INT"
+      "None"
     ],
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "60ft",
-    "Description": "You release a ray of psychic energy meant to confuse an opponent. Choose a target in range. The target must make an INT saving throw against your Move DC or take 1d4 + MOVE ghost damage and become confused.",
-    "Damage": {
-      "1": {
-        "amount": 1,
-        "dice_max": 4,
-        "move": true
-      },
-      "5": {
-        "amount": 1,
-        "dice_max": 6,
-        "move": true
-      },
-      "10": {
-        "amount": 1,
-        "dice_max": 8,
-        "move": true
-      },
-      "17": {
-        "amount": 2,
-        "dice_max": 6,
-        "move": true
-      }
-    }
+    "Description": "You target an opponent in range with a sinister ray of ghostly light. The target becomes confused."
   },
   "Confusion": {
     "Type": "Psychic",
@@ -2007,7 +1984,7 @@
       },
       "5": {
         "amount": 3,
-        "dice_max": 6,
+        "dice_max": 8,
         "move": true
       },
       "10": {
@@ -2650,7 +2627,7 @@
     }
   },
   "Fire Punch": {
-    "Type": "Normal/Fire",
+    "Type": "Fire",
     "Move Power": [
       "STR",
       "DEX"
@@ -2659,27 +2636,27 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "Melee",
-    "Description": "You strike out with fire-infused fists. Make a melee attack roll, doing 2d6 + MOVE normal damage and an additional 1d4 fire damage. On a natural attack roll of 19 or 20, the target is burned.",
+    "Description": "You strike out with fire-infused fists. Make a melee attack roll, doing 1d12 + MOVE fire damage on a hit. On a natural attack roll of 19 or 20, the target is burned.",
     "Damage": {
       "1": {
-        "amount": 2,
-        "dice_max": 6,
-        "move": false
+        "amount": 1,
+        "dice_max": 12,
+        "move": true
       },
       "5": {
         "amount": 2,
-        "dice_max": 6,
-        "move": false
+        "dice_max": 8,
+        "move": true
       },
       "10": {
         "amount": 2,
-        "dice_max": 6,
-        "move": false
+        "dice_max": 12,
+        "move": true
       },
       "17": {
-        "amount": 2,
+        "amount": 6,
         "dice_max": 6,
-        "move": false
+        "move": true
       }
     }
   },
@@ -3864,7 +3841,7 @@
     }
   },
   "Ice Punch": {
-    "Type": "Normal/Ice",
+    "Type": "Ice",
     "Move Power": [
       "STR",
       "DEX"
@@ -3873,25 +3850,25 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "Melee",
-    "Description": "You strike out with ice-infused fists. Make a melee attack roll, doing 2d6 + Move normal damage and an additional 1d4 ice damage. On a natural attack roll of 19 or 20, the target is frozen.",
+    "Description": "You strike out with ice-infused fists. Make a melee attack roll, doing 1d12 + MOVE ice damage on a hit. On a natural attack roll of 19 or 20, the target is frozen.",
     "Damage": {
       "1": {
-        "amount": 2,
-        "dice_max": 6,
+        "amount": 1,
+        "dice_max": 12,
         "move": true
       },
       "5": {
         "amount": 2,
-        "dice_max": 6,
+        "dice_max": 8,
         "move": true
       },
       "10": {
         "amount": 2,
-        "dice_max": 6,
+        "dice_max": 12,
         "move": true
       },
       "17": {
-        "amount": 2,
+        "amount": 6,
         "dice_max": 6,
         "move": true
       }
@@ -6571,7 +6548,7 @@
     ],
     "Move Time": "1 action",
     "PP": 10,
-    "Duration": "Instaneous",
+    "Duration": "Instantaneous",
     "Description": "You roll into a foe, repeatedly making attacks with increasing strength. Make a melee attack on an opponent, doing 1d6 + MOVE rock damage on a hit. If you use this move in back to back turns, double the dice on each hit for a maximum of 5 successive turns. Ex: 1d6 on first hit, 2d6 on second, 4d6, 8d6, 16d6. If any of the attacks miss, the damage resets.",
     "Damage": {
       "1": {
@@ -8124,13 +8101,14 @@
   "Supersonic": {
     "Type": "Normal",
     "Move Power": [
-      "None"
+      "DEX",
+      "WIS"
     ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "80ft",
-    "Description": "You emit a high pitched screech heard only by the target. The target becomes confused."
+    "Description": "You emit a high pitched screech heard only by the target. Choose a target in range. The target must pass a WIS saving throw against your Move DC or become confused."
   },
   "Surf": {
     "Type": "Water",
@@ -8566,7 +8544,7 @@
     }
   },
   "Thunder Punch": {
-    "Type": "Normal/Electric",
+    "Type": "Electric",
     "Move Power": [
       "STR",
       "DEX"
@@ -8575,25 +8553,25 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "Melee",
-    "Description": "Your punches are imbued with electric energy. Make a melee attack on a Pokémon, doing 2d6 + Move normal damage and an additional 1d4 electric damage. On a natural attack roll of 19 or 20, the target is paralyzed.",
+    "Description": "Your punches are imbued with electric energy. Make a melee attack on a Pokémon, doing 1d12 + MOVE electric damage on a hit. On a natural attack roll of 19 or 20, the target is paralyzed.",
     "Damage": {
       "1": {
-        "amount": 2,
-        "dice_max": 6,
+        "amount": 1,
+        "dice_max": 12,
         "move": true
       },
       "5": {
         "amount": 2,
-        "dice_max": 6,
+        "dice_max": 8,
         "move": true
       },
       "10": {
         "amount": 2,
-        "dice_max": 6,
+        "dice_max": 12,
         "move": true
       },
       "17": {
-        "amount": 2,
+        "amount": 6,
         "dice_max": 6,
         "move": true
       }
