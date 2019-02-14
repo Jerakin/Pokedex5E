@@ -11,7 +11,11 @@ def convert_pokemon_data(input_file):
     convert_to_float = ["CR"]
     convert_to_list = ["Skill", "Res", "Vul", "Imm", "Senses"]
     attributes = ["STR", "CON", "DEX", "INT", "WIS", "CHA"]
+    ignore = ["T1", "T2", "Ev"]
     reg_starting_moves = re.compile("Starting Moves: ([A-Za-z ,-]*)")
+    reg_hm_moves = re.compile("HM: (.*)")
+    reg_tm_moves = re.compile("TM: (.*)")
+
     reg_abilities = re.compile("Abilities: ([A-Za-z, ]*)")
     reg_level_moves = re.compile("Level (\d+): ([A-Za-z ,-]*)")
     reg_evolve_points = re.compile(".* gains (\d{1,2})")
@@ -32,7 +36,8 @@ def convert_pokemon_data(input_file):
             for attribute, value in data.items():
                 if not value:
                     continue
-
+                if attribute in ignore:
+                    continue
                 if attribute in attributes:
                     if "attributes" not in output_pokemon_data[pokemon]:
                         output_pokemon_data[pokemon]["attributes"] = {}
@@ -49,7 +54,16 @@ def convert_pokemon_data(input_file):
                         level = lvl_moves.group(1)
                         moves = lvl_moves.group(2).split(", ")
                         output_pokemon_data[pokemon]["Moves"]["Level"][level] = moves
+                    hm_moves = reg_hm_moves.search(value)
+                    if hm_moves:
+                        output_pokemon_data[pokemon]["Moves"]["HM"] = [int(x) for x in hm_moves.group(1).replace(",", "").split(" ") if x]
+                    tm_moves = reg_tm_moves.search(value)
+                    if tm_moves:
+                        output_pokemon_data[pokemon]["Moves"]["TM"] = [int(x) for x in tm_moves.group(1).replace(",", "").split(" ") if x]
+
+
                     abilities = reg_abilities.search(value)
+
                     if abilities:
                         output_pokemon_data[pokemon]["Abilities"] = abilities.group(1).split(", ")
                     continue
