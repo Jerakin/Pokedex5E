@@ -152,12 +152,12 @@ local function setup_info(self, nodes, pokemon)
 	
 	local st_attributes = _pokemon.get_saving_throw_attributes(pokemon)
 	local total_attributes = _pokemon.get_attributes(pokemon)
-	for i, stat in pairs({"STR", "INT", "DEX"}) do
+	for i, stat in pairs({"STR", "DEX", "CON"}) do
 		abilities_string1 = abilities_string1 .. total_attributes[stat] .. "\n"
 		saving_throw_string1 = saving_throw_string1 .. to_mod(st_attributes[stat])  .. "\n"
 	end	
 
-	for i, stat in pairs({"WIS", "CON", "CHA"}) do
+	for i, stat in pairs({"INT", "WIS", "CHA"}) do
 		abilities_string2 = abilities_string2 .. total_attributes[stat] .. "\n"
 		saving_throw_string2 = saving_throw_string2 .. to_mod(st_attributes[stat])  .. "\n"
 	end
