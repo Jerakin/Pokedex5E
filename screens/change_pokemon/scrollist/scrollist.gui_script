@@ -32,26 +32,6 @@ local function on_item_selected(list)
 	end
 end
 
-
-local function update_radio(radio)
-	if not radio then
-		return 
-	end
-	if radio.selected then
-		gui.set_color(radio.node, gui_colors.BLACK)
-	else
-		gui.set_color(radio.node, gui_colors.WHITE)
-	end
-end
-
-local function update_checkbox(checkbox)
-	if checkbox.checked then
-		gui.set_color(checkbox.node, gui_colors.BLACK)
-	else
-		gui.set_color(checkbox.node, gui_colors.WHITE)
-	end
-end
-
 local function filter_out_current_moves(self, list_of_moves)
 	list_of_moves = utils.shallow_copy(list_of_moves)
 	for move, _ in pairs(self.current_moves) do
@@ -62,6 +42,29 @@ local function filter_out_current_moves(self, list_of_moves)
 		end
 	end
 	return list_of_moves
+end
+
+
+local function set_all_moves(self)
+	self.all_items = filter_out_current_moves(self, movedex.list)
+	update_list(gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.all_items))
+end
+
+local function set_current(self)
+	self.all_items = filter_out_current_moves(self, pokedex.get_pokemons_moves(self.species, self.level))
+	update_list(gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.all_items))
+end
+
+
+local function set_max(self)
+	self.all_items = filter_out_current_moves(self, pokedex.get_pokemons_moves(self.species, 20))
+	update_list(gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.all_items))
+end
+
+
+local function set_hm_tm(self)
+	self.all_items = filter_out_current_moves(self,  pokedex.get_move_machines(self.species))
+	update_list(gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.all_items))
 end
 
 function init(self)
@@ -76,15 +79,16 @@ function init(self)
 	local starting_moves = pokedex.get_pokemons_moves(self.species, self.level)
 	self.all_items = filter_out_current_moves(self, starting_moves)
 	self.list_items = utils.shallow_copy(self.all_items)
+
+	gui.set_text(gui.get_node("txt_lvl_current"), "Lv. " .. self.level)
 	
-	pprint(starting_moves)
 	update_list(gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items))
 	button.acquire()
+	
 	button.register("scrollist/btn_quit", function()
 		monarch.back()
 	end)
-	update_radio(gooey.radio("available_mark").set_selected(true))
-	update_radio(gooey.radio("current_mark").set_selected(true))
+
 end
 
 function final(self)
@@ -130,65 +134,13 @@ local function refresh_input(self, input, node_id)
 	filter_list(self, input.text)
 end
 
-local function set_enabled_options(enabled)
-	local color = vmath.vector4(0.5, 0.5, 0.5, 1)
-	if enabled then
-		color = gui_colors.BLACK
-	end
-	gui.set_enabled(gui.get_node("box3"), enabled)
-	gui.set_enabled(gui.get_node("box2"), enabled)
-	gui.set_enabled(gui.get_node("box1"), enabled)
-	gui.set_color(gui.get_node("txt_current_level"), color)
-	gui.set_color(gui.get_node("txt_max_lvl"), color)
-	gui.set_color(gui.get_node("txt_mm"), color)
-end
-
-
-
-local function set_all_moves(self)
-	self.all_items = filter_out_current_moves(self, movedex.list)
-	set_enabled_options(false)
-	update_list(gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.all_items))
-end
-
-local function set_current(self)
-	self.sub_list = "current"
-	self.all_items = filter_out_current_moves(self, pokedex.get_pokemons_moves(self.species, self.level))
-	update_list(gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.all_items))
-end
-
-
-local function set_max(self)
-	self.sub_list = "max"
-	self.all_items = filter_out_current_moves(self, pokedex.get_pokemons_moves(self.species, 20))
-	update_list(gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.all_items))
-end
-
-local function set_available(self)
-	set_enabled_options(true)
-	if self.sub_list == "max" then
-		set_max(self)
-	elseif self.sub_list == "current" then
-		set_current(self)
-	end
-end
-
-local function include_mm(self, checkbox)
-	if checkbox.checked then
-		local move_machines = pokedex.get_move_machines(self.species)
-		for _, m in pairs(move_machines) do
-			local exists = false
-			for _, n in pairs(self.all_items) do
-				if n == m then
-					exists = true
-				end
-			end
-			if not exists then
-				table.insert(self.all_items, m)
-			end
-		end	
-	else
-		set_available(self)
+local function update_button(button)
+	if button.pressed_now then
+		gui.play_flipbook(button.node, hash("common_down"))
+	elseif button.released_now then
+		gui.play_flipbook(button.node, hash("common_up"))
+	elseif not button.pressed and button.out_now then
+		gui.play_flipbook(button.node, hash("common_up"))
 	end
 end
 
@@ -200,13 +152,8 @@ function on_input(self, action_id, action)
 	gooey.input("scrollist/search_text", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, nil, function(input)
 		refresh_input(self, input, "search_text")
 	end)
-	gooey.radiogroup("MAIN", action_id, action, function()
-		gooey.radio("available_mark", "MAIN", action_id, action, function() set_available(self) end, update_radio)
-		gooey.radio("all_mark", "MAIN", action_id, action, function() set_all_moves(self) end, update_radio)
-	end)
-	gooey.radiogroup("SUB", action_id, action, function()
-		gooey.radio("current_mark", "SUB", action_id, action, function() set_current(self) end, update_radio)
-		gooey.radio("max_mark", "SUB", action_id, action, function() set_max(self) end, update_radio)
-	end)
-	gooey.checkbox("mm_mark", action_id, action, function(checkbox) include_mm(self, checkbox) end, update_checkbox)
+	gooey.button("btn_current_lvl", action_id, action, function() set_current(self) end, update_button)
+	gooey.button("btn_hm_tm", action_id, action,  function() set_hm_tm(self) end, update_button)
+	gooey.button("btn_max_lvl", action_id, action,  function() set_max(self) end, update_button)
+	gooey.button("btn_all", action_id, action,  function() set_all_moves(self) end, update_button)
 end
