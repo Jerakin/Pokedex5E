@@ -3,6 +3,7 @@ local monarch = require "monarch.monarch"
 local storage = require "pokedex.storage"
 local _pokemon = require "pokedex.pokemon"
 local pokedex = require "pokedex.pokedex"
+local movedex = require "pokedex.moves"
 local party = require "screens.party.party"
 local gesture = require "utils.gesture"
 local url = require "utils.url"
@@ -32,7 +33,7 @@ end
 
 local function update_pp(pp_lbl, pp_current, pp_max, pokemon, name)
 	local current = _pokemon.get_move_pp(pokemon, name) 
-	local max = pokedex.get_move_pp(name)
+	local max = movedex.get_move_pp(name)
 	gui.set_text(pp_current, current)
 	gui.set_text(pp_max, "/" .. max)
 	local p = gui.get_position(pp_current)

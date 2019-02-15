@@ -2,6 +2,8 @@ local utils = require "utils.utils"
 local pokedex = require "pokedex.pokedex"
 local natures = require "pokedex.natures"
 local storage = require "pokedex.storage"
+local movedex = require "pokedex.moves"
+
 local M = {}
 
 
@@ -349,7 +351,7 @@ local function get_damage_mod_stab(pokemon, move)
 end	
 
 function M.get_move_data(pokemon, move_name)
-	local move = pokedex.get_move_data(move_name)
+	local move = movedex.get_move_data(move_name)
 	local dmg, mod, stab = get_damage_mod_stab(pokemon, move)
 	
 	local move_data = {}

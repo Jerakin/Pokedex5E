@@ -1,6 +1,7 @@
 local monarch = require "monarch.monarch"
 local defsave = require "defsave.defsave"
 
+local movedex = require "pokedex.moves"
 local natures = require "pokedex.natures"
 local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
@@ -63,6 +64,7 @@ function init(self)
 			msg.post("#", "show_profile")
 			flow.until_true(function() return profiles.get_active_slot() end)
 		end
+		movedex.init()
 		natures.init()
 		pokedex.init()
 		storage.init()

@@ -1,12 +1,11 @@
 local file = require "utils.file"
 local utils = require "utils.utils"
-local type_data = require "utils.type_data"
+
 
 local M = {}
 
 local pokedex
 local abilities
-local movedata
 local evolvedata
 local leveldata
 
@@ -20,7 +19,6 @@ function M.init()
 	if not initialized then
 		pokedex = file.load_json_from_resource("/assets/datafiles/pokemon.json")
 		abilities = file.load_json_from_resource("/assets/datafiles/abilities.json")
-		movedata = file.load_json_from_resource("/assets/datafiles/moves.json")
 		evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
 		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
 		M.list, M.total = list()
@@ -45,14 +43,6 @@ end
 
 function M.get_senses(pokemon)
 	return M.get_pokemon(pokemon).Senses or {}
-end
-
-function M.get_move_color(move)
-	return type_data[M.get_move_data(move).Type].color
-end
-
-function M.get_move_icon(move)
-	return type_data[M.get_move_data(move).Type].icon
 end
 
 function M.get_index_number(pokemon)
@@ -107,13 +97,6 @@ function M.get_base_hp(pokemon)
 	return M.get_pokemon(pokemon).HP
 end
 
-function M.get_move_data(move)
-	return movedata[move]
-end
-
-function M.get_move_pp(move)
-	return movedata[move] and movedata[move].PP
-end
 
 function M.get_pokemon_AC(pokemon)
 	return M.get_pokemon(pokemon).AC
