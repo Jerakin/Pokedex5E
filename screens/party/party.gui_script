@@ -9,8 +9,14 @@ local gesture = require "utils.gesture"
 local url = require "utils.url"
 local type_data = require "utils.type_data"
 local gui_colors = require "utils.gui_colors"
+local gooey_buttons = require "utils.gooey_buttons"
+local gooey = require "gooey.gooey"
 
 local STATS = {"STR", "INT", "DEX", "WIS", "CON", "CHA"}
+
+local active_buttons = {}
+
+local node_index = 0
 
 local function join_table(title, T, sep)
 	if T then
@@ -60,6 +66,8 @@ local function setup_moves(self, nodes, pokemon)
 	local function _get_node(sub)
 		local move_name = "pokemon/move_" .. index
 		local n = nodes[move_name .. sub]
+		gui.set_id(n, hash("move" .. node_index))
+		node_index = node_index + 1
 		return n
 	end
 
@@ -70,15 +78,21 @@ local function setup_moves(self, nodes, pokemon)
 		local pp_current = _get_node("/txt_pp_current")
 		local pp_max = _get_node("/txt_pp_max")
 		local pp_lbl = _get_node("/lbl_pp")
-		button.register(_get_node("/pp/btn_minus"), function()
+
+		local m = {node=gui.get_id(_get_node("/pp/btn_minus")), func=function()
 			_pokemon.decrease_move_pp(pokemon, name)
 			update_pp(pp_lbl, pp_current, pp_max, pokemon, name)
-		end)
-		
-		button.register(_get_node("/pp/btn_plus"), function()
+		end, refresh=gooey_buttons.minus_button
+		}
+
+		local p = {node=gui.get_id(_get_node("/pp/btn_plus")), func=function()
 			_pokemon.increase_move_pp(pokemon, name)
 			update_pp(pp_lbl, pp_current, pp_max, pokemon, name)
-		end)
+		end, refresh=gooey_buttons.plus_button
+		}
+		
+		table.insert(active_buttons, m)
+		table.insert(active_buttons, p)
 		
 		button.register(_get_node("/move"), function()
 			show_description(pokemon, name, move)
@@ -186,23 +200,28 @@ local function setup_info(self, nodes, pokemon)
 	gui.set_text(nodes["pokemon/txt_speeds"], speed_string)
 end
 
-local function update_hp(self, nodes, pokemon)
+local function update_hp(self, nodes, pokemon, hp)
+	if hp then
+		local current =_pokemon.get_current_hp(pokemon)
+		_pokemon.set_current_hp(pokemon, current + hp)
+	end
 	local max = _pokemon.get_max_hp(pokemon)
 	local current =_pokemon.get_current_hp(pokemon)
 	gui.set_text(nodes["pokemon/txt_hp"],"HP: " .. current .. "/ " .. max)
 end
 
 local function setup_page(self, nodes, pokemon)
-	button.register(nodes["pokemon/hp/btn_minus"], function()
-		local current =_pokemon.get_current_hp(pokemon)
-		_pokemon.set_current_hp(pokemon, current-1)
-		update_hp(self, nodes, pokemon)
-	end)
-	button.register(nodes["pokemon/hp/btn_plus"], function()
-		local current =_pokemon.get_current_hp(pokemon)
-		_pokemon.set_current_hp(pokemon, current+1)
-		update_hp(self, nodes, pokemon)
-	end)
+	gui.set_id(nodes["pokemon/hp/btn_plus"], hash("page" .. node_index))
+	node_index = node_index + 1
+	local p = {node=gui.get_id(nodes["pokemon/hp/btn_plus"]), func=function() update_hp(self, nodes, pokemon, 1) end, refresh=gooey_buttons.plus_button}
+	
+	gui.set_id(nodes["pokemon/hp/btn_minus"], hash("page" .. node_index))
+	node_index = node_index + 1
+	local m = {node=gui.get_id(nodes["pokemon/hp/btn_minus"]), func=function() update_hp(self, nodes, pokemon, -1) end, refresh=gooey_buttons.minus_button}
+
+	table.insert(active_buttons, p)
+	table.insert(active_buttons, m)
+
 	local speed, stype = _pokemon.get_speed_of_type(pokemon)
 	gui.set_text(nodes["pokemon/txt_speed"], stype .. ": " .. speed)
 	gui.set_text(nodes["pokemon/index"], string.format("#%03d", _pokemon.get_index_number(pokemon)))
@@ -330,11 +349,7 @@ function init(self)
 		gui.set_scale(pok_sprite, vmath.vector3(1))
 		left_in_storage = left_in_storage - 1
 	end
-	
-	button.register("btn_edit", function()
-		monarch.show("edit", {}, {id=party.current_pokemon})
-	end)
-	
+
 	gui.delete_node(self.pokemon_page)
 end
 
@@ -344,6 +359,16 @@ end
 
 function on_input(self, action_id, action)
 	button.on_input(action_id, action)
+
+	for _, button in pairs(active_buttons) do
+		gooey.button(button.node, action_id, action, button.func, button.refresh)
+	end
+	
+	gooey.button("btn_edit", action_id, action, function()
+		monarch.show("edit", {}, {id=party.current_pokemon})
+	end, gooey_buttons.edit_button)
+
+	
 	local g = gesture.on_input(self, action_id, action)
 	if g then
 		if g.swipe_right then

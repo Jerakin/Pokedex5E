@@ -10,6 +10,8 @@ local gui_colors = require "utils.gui_colors"
 local flow = require "utils.flow"
 local movedex = require "pokedex.moves"
 local inventory_buttons = {}
+local gooey_buttons = require "utils.gooey_buttons"
+local gooey = require "gooey.gooey"
 
 local function join_table(title, T, sep)
 	if T then
@@ -130,48 +132,48 @@ function init(self)
 	button.acquire()
 	gui.set_render_order(gro.POPUP)
 	local d = monarch.data("transfer_pokemon")
-	local to = d.to
+	self.to = d.to
 	self.pokemon_id = d.id
 
 	setup_info(self)
 
-	local swap = gui.get_node("swap")
-	local move = gui.get_node("move")
-	gui.set_enabled(swap, false)
-	gui.set_enabled(move, true)
+	self.swap = gui.get_node("swap")
+	self.move = gui.get_node("move")
+	gui.set_enabled(self.swap, false)
+	gui.set_enabled(self.move, true)
+end
 
-	button.register("btn_move", function()
-		if to == "inventory" then
-			if storage.free_space_in_inventory() then
-				storage.move_to_inventory(self.pokemon_id)
-				update_storage()
-				monarch.back()
-			else
-				setup_inventory(self)
-				gui.set_enabled(swap, true)
-				gui.set_enabled(move, false)
-			end
-		elseif to == "storage" then
-			storage.move_to_storage(self.pokemon_id)
+local function move(self)
+	if self.to == "inventory" then
+		if storage.free_space_in_inventory() then
+			storage.move_to_inventory(self.pokemon_id)
 			update_storage()
 			monarch.back()
+		else
+			setup_inventory(self)
+			gui.set_enabled(self.swap, true)
+			gui.set_enabled(self.move, false)
 		end
-	end)
-
-	button.register("btn_close", function()
+	elseif self.to == "storage" then
+		storage.move_to_storage(self.pokemon_id)
+		update_storage()
 		monarch.back()
-	end)
-
-	button.register("btn_cancel", function()
-		gui.set_enabled(swap, false)
-		gui.set_enabled(move, true)
-	end)
-
-	button.register("btn_release", function()
-		local title = "Release " .. _pokemon.get_current_species(storage.get_copy(self.pokemon_id))
-		monarch.show("are_you_sure", nil, {title=title, data=self.pokemon_id, sender=msg.url()})
-	end)
+	end
 end
+local function close()
+	monarch.back()
+end
+
+local function cancel_swap(self)
+	gui.set_enabled(self.swap, false)
+	gui.set_enabled(self.move, true)
+end
+
+local function release(self)
+	local title = "Release " .. _pokemon.get_current_species(storage.get_copy(self.pokemon_id))
+	monarch.show("are_you_sure", nil, {title=title, data=self.pokemon_id, sender=msg.url()})
+end
+
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("response") then
@@ -186,12 +188,12 @@ function on_message(self, message_id, message, sender)
 	end
 end
 
-function final(self)
-	button.unregister()
-end
-
 
 function on_input(self, action_id, action)
 	button.on_input(action_id, action)
+	gooey.button("btn_move", action_id, action, function() move(self) end, gooey_buttons.pokemon_sort_button)
+	gooey.button("btn_close", action_id, action, close, gooey_buttons.close_button)
+	gooey.button("btn_cancel", action_id, action, function() cancel_swap(self) end, gooey_buttons.close_button)
+	gooey.button("btn_release", action_id, action, function() release(self) end, gooey_buttons.common_button)
 	return true
 end

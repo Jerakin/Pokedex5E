@@ -12,9 +12,14 @@ local utils = require "utils.utils"
 local movedex = require "pokedex.moves"
 local selected_item
 local flow = require "utils.flow"
+local gooey_buttons = require "utils.gooey_buttons"
+
+
 local STATS = {"STR", "DEX", "CON", "INT", "WIS", "CHA"}
 
 local M = {}
+
+local active_buttons = {}
 
 local function pokemon_image(species)
 	local pokemon_sprite, texture = pokedex.get_sprite(species)
@@ -114,26 +119,28 @@ end
 
 function M.register_buttons_after_nature(self)
 	for _, s in pairs({"str", "dex", "con", "int", "wis", "cha"}) do
-		button.register("change_pokemon/asi/".. s .. "/btn_minus", function()
-			decrease(self, s:upper())
-		end)
-		button.register("change_pokemon/asi/".. s .. "/btn_plus", function()
-			increase(self, s:upper())
-		end)
+		local plus = {node="change_pokemon/asi/".. s .. "/btn_minus", func=function() decrease(self, s:upper()) end, refresh=gooey_buttons.minus_button}
+		local minus = {node="change_pokemon/asi/".. s .. "/btn_plus", func=function() increase(self, s:upper()) end, refresh=gooey_buttons.plus_button}
+		table.insert(active_buttons, plus)
+		table.insert(active_buttons, minus)
 	end
 
-	button.register("change_pokemon/level/btn_plus", function()
+	local b = {node="change_pokemon/level/btn_plus", func=function()
 		if self.level < 20 then
 			self.level = self.level + 1
 			redraw(self)
-		end
-	end)
-	button.register("change_pokemon/level/btn_minus", function()
+		end 
+	end, refresh=gooey_buttons.plus_button}
+
+	local a = {node="change_pokemon/level/btn_minus", func=function()
 		if self.level > 1 and self.level > pokedex.get_minimum_wild_level(self.pokemon.species.current) then
 			self.level = self.level - 1
 			redraw(self)
 		end
-	end)
+	end, refresh=gooey_buttons.minus_button}
+
+	table.insert(active_buttons, a)
+	table.insert(active_buttons, b)
 end
 
 function M.register_buttons_after_species(self)
@@ -223,8 +230,12 @@ function M.on_message(self, message_id, message, sender)
 	gui.set_enabled(self.root, true)
 end
 
-function M.on_input(self, action_id, action)
+function M.on_input(action_id, action)
 	button.on_input(action_id, action)
+	gooey.button("change_pokemon/btn_close", action_id, action, function() monarch.back() end, gooey_buttons.close_button)
+	for _, button in pairs(active_buttons) do
+		gooey.button(button.node, action_id, action, button.func, button.refresh)
+	end
 end
 
 return M

@@ -6,6 +6,8 @@ local gro = require "utils.gui_render_order"
 local party = require "screens.party.party"
 local _pokemon = require "pokedex.pokemon"
 local storage = require "pokedex.storage"
+local gooey = require "gooey.gooey"
+local gooey_buttons = require "utils.gooey_buttons"
 
 local function hide(self)
 	gui.set_enabled(gui.get_node("root"), false)
@@ -58,10 +60,7 @@ function init(self)
 	menu(self)
 	local name = profiles.get_active_name() or "Someone"
 	gui.set_text(self.btn_storage, name .. "'s PC")
-	button.register(self.btn_menu, function()
-		toggle(self)
-		menu(self)
-	end)
+
 	
 	button.register(self.btn_party, function()
 		monarch.show("party")
@@ -109,6 +108,10 @@ function on_input(self, action_id, action)
 	if self.toggle and not gui.pick_node(gui.get_node("menu"), action.x, action.y) and hash("touch") and action.pressed then
 		toggle(self)
 	end
+	gooey.button("btn_menu", action_id, action, function()
+		toggle(self)
+		menu(self)
+	end, gooey_buttons.menu_button)
 	return self.toggle
 end
 

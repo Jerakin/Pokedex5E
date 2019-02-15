@@ -7,6 +7,8 @@ local storage = require "pokedex.storage"
 local _pokemon = require "pokedex.pokemon"
 local url = require "utils.url"
 local gui_colors = require "utils.gui_colors"
+local gooey_buttons = require "utils.gooey_buttons"
+local gooey = require "gooey.gooey"
 
 local function pokemon_image(species)
 	local pokemon_sprite, texture = pokedex.get_sprite(species)
@@ -84,39 +86,7 @@ function init(self)
 	button.register("change_pokemon/txt_max_hp", function()
 		monarch.show("info", nil, {text="To increase HP\nRoll (or take the average of) the hit die and add your CON modifier."})
 	end)
-	
-	button.register("change_pokemon/hp/btn_minus", function()
-		if _pokemon.get_max_hp_edited(self.pokemon) then
-			change_hp(self, -1)
-		else
-			monarch.show("are_you_sure", nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=-1})
-		end
-	end)
 
-	button.register("change_pokemon/hp/btn_plus", function()
-		if _pokemon.get_max_hp_edited(self.pokemon) then
-			change_hp(self, 1)
-		else
-			monarch.show("are_you_sure", nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=1})
-		end
-	end)
-	
-	button.register(self.evolve_button, function()
-		local evolve_into = pokedex.get_evolutions(_pokemon.get_current_species(self.pokemon_copy))
-		if #evolve_into == 1 then
-			monarch.show("are_you_sure", nil, {title="Evolve at level ".. self.level .. "?", sender=msg.url(), data=evolve_into[1]})
-		else
-			monarch.show("scrollist", {}, {items=evolve_into, message_id="evolve", sender=msg.url()})
-		end
-	end)
-
-	button.register("btn_edit", function()
-		save_pokemon(self)
-	end)
-	
-	button.register("change_pokemon/btn_close", function()
-		monarch.back()
-	end)
 	pokemon_edit.register_buttons_after_nature(self)
 	pokemon_edit.register_buttons_after_species(self)
 	pokemon_edit.redraw(self)
@@ -137,6 +107,40 @@ function on_message(self, message_id, message, sender)
 	end
 end
 
+local function evolve_pokemon(self)
+	local evolve_into = pokedex.get_evolutions(_pokemon.get_current_species(self.pokemon_copy))
+	if #evolve_into == 1 then
+		monarch.show("are_you_sure", nil, {title="Evolve at level ".. self.level .. "?", sender=msg.url(), data=evolve_into[1]})
+	else
+		monarch.show("scrollist", {}, {items=evolve_into, message_id="evolve", sender=msg.url()})
+	end
+end
+
 function on_input(self, action_id, action)
 	button.on_input(action_id, action)
+	pokemon_edit.on_input(action_id, action)
+	gooey.button("change_pokemon/hp/btn_minus", action_id, action, function()
+		if _pokemon.get_max_hp_edited(self.pokemon) then
+			change_hp(self, -1)
+		else
+			monarch.show("are_you_sure", nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=-1})
+		end
+	end, gooey_buttons.minus_button)
+	
+	gooey.button("change_pokemon/hp/btn_plus", action_id, action, function()
+		if _pokemon.get_max_hp_edited(self.pokemon) then
+			change_hp(self, 1)
+		else
+			monarch.show("are_you_sure", nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=1})
+		end
+	end, gooey_buttons.plus_button)
+
+	gooey.button("btn_edit", action_id, action, function()
+		save_pokemon(self)
+	end, gooey_buttons.green_button)
+
+	gooey.button("btn_evolve", action_id, action, function()
+		evolve_pokemon(self)
+	end, gooey_buttons.common_button)
+
 end
