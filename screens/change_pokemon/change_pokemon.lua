@@ -109,15 +109,7 @@ local function decrease(self, stat)
 end
 
 local function pick_move(self)
-	local available_moves = pokedex.get_pokemons_moves(self.pokemon.species.current, self.level)
-	for move, _ in pairs(self.pokemon.moves) do
-		for i, selected_move in pairs(available_moves) do
-			if move == selected_move then
-				table.remove(available_moves, i)
-			end
-		end
-	end
-	monarch.show("moves_scrollist", {}, {items=available_moves, message_id="move", sender=msg.url()})
+	monarch.show("moves_scrollist", {}, {species=self.pokemon.species.current, level=self.level, current_moves=self.pokemon.moves, message_id="move", sender=msg.url()})
 end
 
 function M.register_buttons_after_nature(self)

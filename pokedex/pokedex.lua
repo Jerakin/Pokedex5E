@@ -1,6 +1,6 @@
 local file = require "utils.file"
 local utils = require "utils.utils"
-
+local movedex = require "pokedex.moves"
 
 local M = {}
 
@@ -140,6 +140,25 @@ end
 
 function M.get_pokemon_hit_dice(pokemon)
 	return M.get_pokemon(pokemon)["Hit Dice"]
+end
+
+function M.get_pokemon_HM_numbers(pokemon)
+	return M.get_pokemon(pokemon)["Moves"].HM
+end
+
+function M.get_pokemon_TM_numbers(pokemon)
+	return M.get_pokemon(pokemon)["Moves"].TM
+end
+
+function M.get_move_machines(pokemon)
+	local move_list = {}
+	for _, n in pairs(M.get_pokemon_HM_numbers(pokemon)) do
+		table.insert(move_list, movedex.get_HM(n))
+	end
+	for _, n in pairs(M.get_pokemon_TM_numbers(pokemon)) do
+		table.insert(move_list, movedex.get_TM(n))
+	end
+	return move_list
 end
 
 function M.get_pokemons_moves(pokemon, level)

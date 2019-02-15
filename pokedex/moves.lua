@@ -41,6 +41,13 @@ local function list()
 	return l
 end
 
+function M.get_TM(number)
+	return move_machines.TM[number]
+end
+function M.get_HM(number)
+	return move_machines.HM[number] 
+end
+
 function M.init()
 	if not initialized then
 		movedata = file.load_json_from_resource("/assets/datafiles/moves.json")
