@@ -1,19 +1,15 @@
-script: "/screens/add/add.gui_script"
-fonts {
-  name: "title"
-  font: "/assets/fonts/title.font"
-}
+script: ""
 fonts {
   name: "script"
   font: "/assets/fonts/script.font"
 }
+fonts {
+  name: "script_bold"
+  font: "/assets/fonts/script_bold.font"
+}
 textures {
   name: "gui"
   texture: "/assets/gui.atlas"
-}
-textures {
-  name: "sprite0"
-  texture: "/assets/sprite0.atlas"
 }
 background_color {
   x: 0.0
@@ -77,220 +73,6 @@ nodes {
 }
 nodes {
   position {
-    x: 360.0
-    y: 51.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 324.0
-    y: 78.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/common_up"
-  id: "btn_add"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 20.0
-    y: 20.0
-    z: 20.0
-    w: 20.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.5
-    y: 0.5
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.3882353
-    y: 0.2784314
-    z: 0.19215687
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Add to party\n"
-  ""
-  font: "title"
-  id: "txt_add"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "btn_add"
-  layer: "title"
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_TEMPLATE
-  id: "change_pokemon"
-  parent: "root"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  template: "/templates/change_pokemon/change_pokemon.gui"
-  template_node_child: false
-}
-nodes {
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/background_gradient"
-  id: "change_pokemon/root"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: true
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
     x: 0.0
     y: 487.0
     z: 0.0
@@ -323,12 +105,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/background_gradient"
-  id: "change_pokemon/moves"
+  id: "moves"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/root"
+  parent: "root"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -341,7 +123,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -378,12 +160,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/details_backing"
-  id: "change_pokemon/btn_move_1"
+  id: "btn_move_1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/moves"
+  parent: "moves"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -396,7 +178,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -434,7 +216,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Move"
   font: "script_bold"
-  id: "change_pokemon/move_1"
+  id: "move_1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -452,13 +234,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/btn_move_1"
+  parent: "btn_move_1"
   layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -496,12 +278,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/details_backing"
-  id: "change_pokemon/btn_move_2"
+  id: "btn_move_2"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/moves"
+  parent: "moves"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -514,7 +296,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -552,7 +334,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Move"
   font: "script_bold"
-  id: "change_pokemon/move_2"
+  id: "move_2"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -570,13 +352,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/btn_move_2"
+  parent: "btn_move_2"
   layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -614,12 +396,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/details_backing"
-  id: "change_pokemon/btn_move_3"
+  id: "btn_move_3"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/moves"
+  parent: "moves"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -632,7 +414,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -670,7 +452,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Move"
   font: "script_bold"
-  id: "change_pokemon/move_3"
+  id: "move_3"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -688,13 +470,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/btn_move_3"
+  parent: "btn_move_3"
   layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -732,12 +514,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/details_backing"
-  id: "change_pokemon/btn_move_4"
+  id: "btn_move_4"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/moves"
+  parent: "moves"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -750,7 +532,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -788,7 +570,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Move"
   font: "script_bold"
-  id: "change_pokemon/move_4"
+  id: "move_4"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -806,13 +588,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/btn_move_4"
+  parent: "btn_move_4"
   layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -850,12 +632,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/details_backing"
-  id: "change_pokemon/btn_species"
+  id: "btn_species"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/root"
+  parent: "root"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -868,7 +650,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -906,7 +688,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "PICK POKEMON"
   font: "script"
-  id: "change_pokemon/species"
+  id: "species"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -924,13 +706,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/btn_species"
+  parent: "btn_species"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -968,12 +750,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/details_backing"
-  id: "change_pokemon/btn_nature"
+  id: "btn_nature"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/root"
+  parent: "root"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -986,7 +768,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -1024,7 +806,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Nature"
   font: "script"
-  id: "change_pokemon/nature"
+  id: "nature"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -1042,13 +824,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/btn_nature"
+  parent: "btn_nature"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -1086,12 +868,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/details_backing"
-  id: "change_pokemon/bg_level"
+  id: "bg_level"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/root"
+  parent: "root"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -1104,7 +886,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -1142,7 +924,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Lv. 20"
   font: "script"
-  id: "change_pokemon/txt_level"
+  id: "txt_level"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -1160,13 +942,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/bg_level"
+  parent: "bg_level"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -1202,13 +984,13 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "change_pokemon/level"
-  parent: "change_pokemon/bg_level"
+  id: "level"
+  parent: "bg_level"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
   template: "/templates/plus_minus.gui"
-  template_node_child: true
+  template_node_child: false
 }
 nodes {
   position {
@@ -1244,12 +1026,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/plus_minus_border"
-  id: "change_pokemon/level/bg"
+  id: "level/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/level"
+  parent: "level"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -1299,12 +1081,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/plus_up"
-  id: "change_pokemon/level/btn_plus"
+  id: "level/btn_plus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/level/bg"
+  parent: "level/bg"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -1354,12 +1136,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/minus_up"
-  id: "change_pokemon/level/btn_minus"
+  id: "level/btn_minus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/level/bg"
+  parent: "level/bg"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -1410,7 +1192,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: ""
   font: "script"
-  id: "change_pokemon/txt_level_mod"
+  id: "txt_level_mod"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -1428,13 +1210,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/bg_level"
+  parent: "bg_level"
   layer: ""
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -1472,12 +1254,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/pokeball"
-  id: "change_pokemon/pokemon_sprite"
+  id: "pokemon_sprite"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_S
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/root"
+  parent: "root"
   layer: "sprite"
   inherit_alpha: true
   slice9 {
@@ -1490,7 +1272,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_AUTO
 }
 nodes {
@@ -1527,12 +1309,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/close_up"
-  id: "change_pokemon/btn_close"
+  id: "btn_close"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/root"
+  parent: "root"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -1545,7 +1327,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -1580,13 +1362,13 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "change_pokemon/asi"
-  parent: "change_pokemon/root"
+  id: "asi"
+  parent: "root"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  template: "/templates/change_pokemon/available_points.gui"
-  template_node_child: true
+  template: "/screens/change_pokemon/available_points.gui"
+  template_node_child: false
 }
 nodes {
   position {
@@ -1622,12 +1404,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/background_gradient"
-  id: "change_pokemon/asi/root"
+  id: "asi/root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi"
+  parent: "asi"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -1677,12 +1459,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/details_backing"
-  id: "change_pokemon/asi/asi_root"
+  id: "asi/asi_root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/root"
+  parent: "asi/root"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -1695,6 +1477,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
+  overridden_fields: 1
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -1732,12 +1515,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "change_pokemon/asi/str_stat"
+  id: "asi/str_stat"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/asi_root"
+  parent: "asi/asi_root"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -1789,7 +1572,7 @@ nodes {
   text: "10\n"
   ""
   font: "script"
-  id: "change_pokemon/asi/STR"
+  id: "asi/STR"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -1807,7 +1590,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/str_stat"
+  parent: "asi/str_stat"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -1849,8 +1632,8 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "change_pokemon/asi/str"
-  parent: "change_pokemon/asi/str_stat"
+  id: "asi/str"
+  parent: "asi/str_stat"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -1891,12 +1674,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/plus_minus_border"
-  id: "change_pokemon/asi/str/bg"
+  id: "asi/str/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/str"
+  parent: "asi/str"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -1946,12 +1729,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/plus_up"
-  id: "change_pokemon/asi/str/btn_plus"
+  id: "asi/str/btn_plus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/str/bg"
+  parent: "asi/str/bg"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -2001,12 +1784,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/minus_up"
-  id: "change_pokemon/asi/str/btn_minus"
+  id: "asi/str/btn_minus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/str/bg"
+  parent: "asi/str/bg"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -2057,7 +1840,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "STR"
   font: "script_bold"
-  id: "change_pokemon/asi/STR1"
+  id: "asi/STR1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -2075,7 +1858,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/str_stat"
+  parent: "asi/str_stat"
   layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
@@ -2120,7 +1903,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "+ 0"
   font: "script"
-  id: "change_pokemon/asi/STR_MOD"
+  id: "asi/STR_MOD"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -2138,7 +1921,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/str_stat"
+  parent: "asi/str_stat"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -2182,12 +1965,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "change_pokemon/asi/dex_stat"
+  id: "asi/dex_stat"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/asi_root"
+  parent: "asi/asi_root"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -2238,7 +2021,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "10"
   font: "script"
-  id: "change_pokemon/asi/DEX"
+  id: "asi/DEX"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -2256,7 +2039,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/dex_stat"
+  parent: "asi/dex_stat"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -2298,8 +2081,8 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "change_pokemon/asi/dex"
-  parent: "change_pokemon/asi/dex_stat"
+  id: "asi/dex"
+  parent: "asi/dex_stat"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -2340,12 +2123,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/plus_minus_border"
-  id: "change_pokemon/asi/dex/bg"
+  id: "asi/dex/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/dex"
+  parent: "asi/dex"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -2395,12 +2178,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/plus_up"
-  id: "change_pokemon/asi/dex/btn_plus"
+  id: "asi/dex/btn_plus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/dex/bg"
+  parent: "asi/dex/bg"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -2450,12 +2233,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/minus_up"
-  id: "change_pokemon/asi/dex/btn_minus"
+  id: "asi/dex/btn_minus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/dex/bg"
+  parent: "asi/dex/bg"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -2506,7 +2289,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "DEX"
   font: "script_bold"
-  id: "change_pokemon/asi/DEX1"
+  id: "asi/DEX1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -2524,7 +2307,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/dex_stat"
+  parent: "asi/dex_stat"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -2569,7 +2352,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "+ 0"
   font: "script"
-  id: "change_pokemon/asi/DEX_MOD"
+  id: "asi/DEX_MOD"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -2587,7 +2370,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/dex_stat"
+  parent: "asi/dex_stat"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -2631,12 +2414,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "change_pokemon/asi/con_stat"
+  id: "asi/con_stat"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/asi_root"
+  parent: "asi/asi_root"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -2687,7 +2470,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "10"
   font: "script"
-  id: "change_pokemon/asi/CON"
+  id: "asi/CON"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -2705,7 +2488,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/con_stat"
+  parent: "asi/con_stat"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -2747,8 +2530,8 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "change_pokemon/asi/con"
-  parent: "change_pokemon/asi/con_stat"
+  id: "asi/con"
+  parent: "asi/con_stat"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -2789,12 +2572,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/plus_minus_border"
-  id: "change_pokemon/asi/con/bg"
+  id: "asi/con/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/con"
+  parent: "asi/con"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -2844,12 +2627,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/plus_up"
-  id: "change_pokemon/asi/con/btn_plus"
+  id: "asi/con/btn_plus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/con/bg"
+  parent: "asi/con/bg"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -2899,12 +2682,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/minus_up"
-  id: "change_pokemon/asi/con/btn_minus"
+  id: "asi/con/btn_minus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/con/bg"
+  parent: "asi/con/bg"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -2955,7 +2738,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "CON"
   font: "script_bold"
-  id: "change_pokemon/asi/CON1"
+  id: "asi/CON1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -2973,7 +2756,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/con_stat"
+  parent: "asi/con_stat"
   layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
@@ -3018,7 +2801,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "+ 0"
   font: "script"
-  id: "change_pokemon/asi/CON_MOD"
+  id: "asi/CON_MOD"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -3036,7 +2819,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/con_stat"
+  parent: "asi/con_stat"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -3080,12 +2863,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "change_pokemon/asi/int_stat"
+  id: "asi/int_stat"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/asi_root"
+  parent: "asi/asi_root"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -3136,7 +2919,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "10"
   font: "script"
-  id: "change_pokemon/asi/INT"
+  id: "asi/INT"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -3154,7 +2937,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/int_stat"
+  parent: "asi/int_stat"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -3196,8 +2979,8 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "change_pokemon/asi/int"
-  parent: "change_pokemon/asi/int_stat"
+  id: "asi/int"
+  parent: "asi/int_stat"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -3238,12 +3021,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/plus_minus_border"
-  id: "change_pokemon/asi/int/bg"
+  id: "asi/int/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/int"
+  parent: "asi/int"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -3293,12 +3076,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/plus_up"
-  id: "change_pokemon/asi/int/btn_plus"
+  id: "asi/int/btn_plus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/int/bg"
+  parent: "asi/int/bg"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -3348,12 +3131,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/minus_up"
-  id: "change_pokemon/asi/int/btn_minus"
+  id: "asi/int/btn_minus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/int/bg"
+  parent: "asi/int/bg"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -3404,7 +3187,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "INT"
   font: "script_bold"
-  id: "change_pokemon/asi/text"
+  id: "asi/text"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -3422,7 +3205,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/int_stat"
+  parent: "asi/int_stat"
   layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
@@ -3467,7 +3250,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "+ 0"
   font: "script"
-  id: "change_pokemon/asi/INT_MOD"
+  id: "asi/INT_MOD"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -3485,7 +3268,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/int_stat"
+  parent: "asi/int_stat"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -3529,12 +3312,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "change_pokemon/asi/wis_stat"
+  id: "asi/wis_stat"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/asi_root"
+  parent: "asi/asi_root"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -3585,7 +3368,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "10"
   font: "script"
-  id: "change_pokemon/asi/WIS"
+  id: "asi/WIS"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -3603,7 +3386,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/wis_stat"
+  parent: "asi/wis_stat"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -3645,8 +3428,8 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "change_pokemon/asi/wis"
-  parent: "change_pokemon/asi/wis_stat"
+  id: "asi/wis"
+  parent: "asi/wis_stat"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -3687,12 +3470,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/plus_minus_border"
-  id: "change_pokemon/asi/wis/bg"
+  id: "asi/wis/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/wis"
+  parent: "asi/wis"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -3742,12 +3525,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/plus_up"
-  id: "change_pokemon/asi/wis/btn_plus"
+  id: "asi/wis/btn_plus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/wis/bg"
+  parent: "asi/wis/bg"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -3797,12 +3580,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/minus_up"
-  id: "change_pokemon/asi/wis/btn_minus"
+  id: "asi/wis/btn_minus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/wis/bg"
+  parent: "asi/wis/bg"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -3853,7 +3636,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "WIS"
   font: "script_bold"
-  id: "change_pokemon/asi/WIS1"
+  id: "asi/WIS1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -3871,7 +3654,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/wis_stat"
+  parent: "asi/wis_stat"
   layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
@@ -3916,7 +3699,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "+ 0"
   font: "script"
-  id: "change_pokemon/asi/WIS_MOD"
+  id: "asi/WIS_MOD"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -3934,7 +3717,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/wis_stat"
+  parent: "asi/wis_stat"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -3978,12 +3761,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "change_pokemon/asi/cha_stat"
+  id: "asi/cha_stat"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/asi_root"
+  parent: "asi/asi_root"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -4034,7 +3817,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "10"
   font: "script"
-  id: "change_pokemon/asi/CHA"
+  id: "asi/CHA"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -4052,7 +3835,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/cha_stat"
+  parent: "asi/cha_stat"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -4094,8 +3877,8 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "change_pokemon/asi/cha"
-  parent: "change_pokemon/asi/cha_stat"
+  id: "asi/cha"
+  parent: "asi/cha_stat"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -4136,12 +3919,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/plus_minus_border"
-  id: "change_pokemon/asi/cha/bg"
+  id: "asi/cha/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/cha"
+  parent: "asi/cha"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -4191,12 +3974,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/plus_up"
-  id: "change_pokemon/asi/cha/btn_plus"
+  id: "asi/cha/btn_plus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/cha/bg"
+  parent: "asi/cha/bg"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -4246,12 +4029,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/minus_up"
-  id: "change_pokemon/asi/cha/btn_minus"
+  id: "asi/cha/btn_minus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/cha/bg"
+  parent: "asi/cha/bg"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -4302,7 +4085,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "CHA"
   font: "script_bold"
-  id: "change_pokemon/asi/CHA1"
+  id: "asi/CHA1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -4320,7 +4103,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/cha_stat"
+  parent: "asi/cha_stat"
   layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
@@ -4365,7 +4148,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "+ 0"
   font: "script"
-  id: "change_pokemon/asi/CHA_MOD"
+  id: "asi/CHA_MOD"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -4383,7 +4166,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/cha_stat"
+  parent: "asi/cha_stat"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -4428,7 +4211,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Available Points:"
   font: "script"
-  id: "change_pokemon/asi/title"
+  id: "asi/title"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -4446,12 +4229,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/root"
+  parent: "asi/root"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
+  overridden_fields: 1
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -4491,7 +4275,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "0"
   font: "script"
-  id: "change_pokemon/asi/asi_points"
+  id: "asi/asi_points"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -4509,12 +4293,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/asi/root"
+  parent: "asi/root"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
+  overridden_fields: 1
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -4551,13 +4336,13 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "change_pokemon/bottom_divider"
-  parent: "change_pokemon/root"
+  id: "bottom_divider"
+  parent: "root"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
   template: "/templates/bottom_divider.gui"
-  template_node_child: true
+  template_node_child: false
 }
 nodes {
   position {
@@ -4593,12 +4378,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/square"
-  id: "change_pokemon/bottom_divider/box1"
+  id: "bottom_divider/box1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_SW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/bottom_divider"
+  parent: "bottom_divider"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -4648,12 +4433,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/details_backing"
-  id: "change_pokemon/bg_max_hp"
+  id: "bg_max_hp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/root"
+  parent: "root"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -4666,7 +4451,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -4704,7 +4489,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Max Hp: 20"
   font: "script"
-  id: "change_pokemon/txt_max_hp"
+  id: "txt_max_hp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -4722,13 +4507,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/bg_max_hp"
+  parent: "bg_max_hp"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
@@ -4764,13 +4549,13 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "change_pokemon/hp"
-  parent: "change_pokemon/bg_max_hp"
+  id: "hp"
+  parent: "bg_max_hp"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
   template: "/templates/plus_minus.gui"
-  template_node_child: true
+  template_node_child: false
 }
 nodes {
   position {
@@ -4806,12 +4591,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/plus_minus_border"
-  id: "change_pokemon/hp/bg"
+  id: "hp/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/hp"
+  parent: "hp"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -4861,12 +4646,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/plus_up"
-  id: "change_pokemon/hp/btn_plus"
+  id: "hp/btn_plus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/hp/bg"
+  parent: "hp/bg"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -4916,12 +4701,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/minus_up"
-  id: "change_pokemon/hp/btn_minus"
+  id: "hp/btn_minus"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/hp/bg"
+  parent: "hp/bg"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -4971,12 +4756,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/detail_frame"
-  id: "change_pokemon/bg_hit_dice"
+  id: "bg_hit_dice"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/root"
+  parent: "root"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -4989,7 +4774,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -5027,7 +4812,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Hit Dice:"
   font: "script"
-  id: "change_pokemon/txt_hit_dice"
+  id: "txt_hit_dice"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -5045,13 +4830,13 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "change_pokemon/bg_hit_dice"
+  parent: "bg_hit_dice"
   layer: "sprite"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }

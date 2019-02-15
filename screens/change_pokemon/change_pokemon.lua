@@ -9,6 +9,7 @@ local gui_colors = require "utils.gui_colors"
 local type_data = require "utils.type_data"
 local url = require "utils.url"
 local utils = require "utils.utils"
+local movedex = require "pokedex.moves"
 local selected_item
 local flow = require "utils.flow"
 local STATS = {"STR", "DEX", "CON", "INT", "WIS", "CHA"}
@@ -41,7 +42,7 @@ local function redraw(self)
 		local index = data.index
 		local move_node = gui.get_node("change_pokemon/move_" .. index)
 		gui.set_text(move_node, move)
-		gui.set_color(move_node, pokedex.get_move_color(move))
+		gui.set_color(move_node, movedex.get_move_color(move))
 	end
 
 	-- Natures and attributes
