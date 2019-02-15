@@ -136,7 +136,7 @@ function M.get_caught_level(pokemon)
 end
 
 function M.set_move(pokemon, new_move, index)
-	local pp = pokedex.get_move_pp(new_move)
+	local pp = movedex.get_move_pp(new_move)
 	for name, move in pairs(M.get_moves(pokemon)) do
 		if move.index == index then
 			pokemon.moves[name] = nil
@@ -213,7 +213,7 @@ function M.decrease_move_pp(pokemon, move)
 end
 
 function M.increase_move_pp(pokemon, move)
-	local max_pp = pokedex.get_move_pp(move)
+	local max_pp = movedex.get_move_pp(move)
 	local pp = math.min(M.get_move_pp(pokemon, move) + 1, max_pp)
 	storage.set_pokemon_move_pp(M.get_id(pokemon), move, pp)
 	pokemon.moves[move].pp = pp
@@ -221,7 +221,7 @@ end
 
 
 function M.reset_move_pp(pokemon, move)
-	local pp = pokedex.get_move_pp(move)
+	local pp = movedex.get_move_pp(move)
 	storage.set_pokemon_move_pp(M.get_id(pokemon), move, pp)
 	pokemon.moves[move].pp = pp
 end

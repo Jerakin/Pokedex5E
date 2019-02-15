@@ -117,7 +117,7 @@ local function pick_move(self)
 			end
 		end
 	end
-	monarch.show("scrollist", {}, {items=available_moves, message_id="move", sender=msg.url()})
+	monarch.show("moves_scrollist", {}, {items=available_moves, message_id="move", sender=msg.url()})
 end
 
 function M.register_buttons_after_nature(self)
@@ -199,7 +199,7 @@ function M.on_message(self, message_id, message, sender)
 			local moves = {}
 			for i=1, 4 do
 				if starting_moves[i] then
-					local pp = pokedex.get_move_pp(starting_moves[i])
+					local pp = movedex.get_move_pp(starting_moves[i])
 					moves[starting_moves[i]] = {pp=pp, index=i}
 				else
 					local n = gui.get_node("change_pokemon/move_" .. i)
@@ -223,7 +223,7 @@ function M.on_message(self, message_id, message, sender)
 				_pokemon.set_move(self.pokemon, message.item, self.move_button_index)
 				
 				gui.set_text(n, message.item)
-				gui.set_color(n, pokedex.get_move_color(message.item))
+				gui.set_color(n, movedex.get_move_color(message.item))
 			end
 		end
 		redraw(self)

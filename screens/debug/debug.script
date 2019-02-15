@@ -4,6 +4,7 @@ local storage = require "pokedex.storage"
 local pokedex = require "pokedex.pokedex"
 local nature = require "pokedex.natures"
 local defsave = require "defsave.defsave"
+local movedex = require "pokedex.moves"
 function init(self)
 	math.randomseed(os.clock())
 	self.defsave = defsave.save
@@ -16,7 +17,7 @@ local function add_random_pokemon()
 	local moves = {}
 	for i=1, 4 do
 		if starting_moves[i] then
-			local pp = pokedex.get_move_pp(starting_moves[i])
+			local pp = movedex.get_move_pp(starting_moves[i])
 			moves[starting_moves[i]] = {pp=pp, index=i}
 		end
 	end

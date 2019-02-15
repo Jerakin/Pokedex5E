@@ -8,7 +8,7 @@ local gro = require "utils.gui_render_order"
 local url = require "utils.url"
 local gui_colors = require "utils.gui_colors"
 local flow = require "utils.flow"
-
+local movedex = require "pokedex.moves"
 local inventory_buttons = {}
 
 local function join_table(title, T, sep)
@@ -68,7 +68,7 @@ local function setup_move(pokemon, name, index)
 	local pp_max = gui.get_node("move_" .. index .. "/txt_pp_max")
 	gui.set_enabled(gui.get_node("move_" .. index .. "/root"), true)
 	local current = _pokemon.get_move_pp(pokemon, name) 
-	local max = pokedex.get_move_pp(name)
+	local max = movedex.get_move_pp(name)
 	gui.set_text(pp_current, current)
 	gui.set_text(pp_max, "/" .. max)
 	local p = gui.get_position(pp_current)
@@ -88,8 +88,8 @@ local function setup_move(pokemon, name, index)
 		gui.set_color(pp_lbl, gui_colors.GREEN)
 	end
 	gui.set_text(move_name, name)
-	gui.set_color(move_name, pokedex.get_move_color(name))
-	gui.play_flipbook(move_icon, pokedex.get_move_icon(name))
+	gui.set_color(move_name, movedex.get_move_color(name))
+	gui.play_flipbook(move_icon, movedex.get_move_icon(name))
 end
 
 local function setup_info(self)
