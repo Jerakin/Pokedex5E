@@ -275,6 +275,18 @@ function M.get_saving_throw_attributes(pokemon)
 	return b
 end
 
+function M.set_nickname(pokemon, nickname)
+	local species = M.get_current_species(pokemon)
+	if species ~= nickname then
+		pokemon.nickname = nickname
+		storage.set_nickname(M.get_id(pokemon), nickname)
+	end
+end
+
+function M.get_nickname(pokemon)
+	storage.get_nickname(M.get_id(pokemon))
+end
+
 function M.get_AC(pokemon)
 	return pokedex.get_pokemon_AC(M.get_current_species(pokemon)) + natures.get_AC(M.get_nature(pokemon))
 end

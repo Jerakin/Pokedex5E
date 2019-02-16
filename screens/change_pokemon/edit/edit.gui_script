@@ -20,8 +20,10 @@ end
 local function save_pokemon(self)
 	_pokemon.add_hp_from_levels(self.pokemon, self.level)
 	_pokemon.update_increased_attributes(self.pokemon, self.increased_attributes)
-
+	local nickname = gui.get_text(gui.get_node("name_text"))
+	_pokemon.set_nickname(self.pokemon, nickname)
 	self.pokemon.level.current = self.level
+	
 	_pokemon.save(self.pokemon)
 	monarch.show("party")
 end
@@ -59,7 +61,10 @@ function init(self)
 	pokemon_edit.init(self,storage.get_copy(pokemon_id))
 	
 	self.level = _pokemon.get_current_level(self.pokemon_copy)
+	self.species = _pokemon.get_current_species(self.pokemon)
 
+	gui.set_text(gui.get_node("name_text"), self.species)
+	
 	gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. _pokemon.get_current_level(self.pokemon_copy))
 	gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.GREEN)
 	self.evolve_button = gui.get_node("btn_evolve")
@@ -116,6 +121,26 @@ local function evolve_pokemon(self)
 	end
 end
 
+
+local function refresh_input(self, input, node_id)
+	if input.empty and not input.selected then
+		gui.set_text(input.node, self.species)
+	end
+
+	local cursor = gui.get_node("cursor")
+	if input.selected then
+		gui.set_enabled(cursor, true)
+		gui.set_position(cursor, vmath.vector3(input.total_width, 0, 0))
+		gui.cancel_animation(cursor, gui.PROP_COLOR)
+		gui.set_color(cursor, vmath.vector4(0,0,0,1))
+		gui.animate(cursor, gui.PROP_COLOR, vmath.vector4(1,1,1,0), gui.EASING_INSINE, 0.8, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
+	else
+		gui.set_enabled(cursor, false)
+		gui.cancel_animation(cursor, gui.PROP_COLOR)
+	end
+	--filter_list(self, input.text)
+end
+
 function on_input(self, action_id, action)
 	button.on_input(action_id, action)
 	pokemon_edit.on_input(action_id, action)
@@ -135,6 +160,10 @@ function on_input(self, action_id, action)
 		end
 	end, gooey_buttons.plus_button)
 
+	gooey.input("name_text", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, nil, function(input)
+		refresh_input(self, input, "name_text")
+	end)
+	
 	gooey.button("btn_edit", action_id, action, function()
 		save_pokemon(self)
 	end, gooey_buttons.green_button)

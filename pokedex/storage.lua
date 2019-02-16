@@ -79,6 +79,15 @@ local function get(id)
 	return storage[id] and storage[id] or active[id]
 end
 
+function M.set_nickname(id, nickname)
+	local p = get(id)
+	p.nickname = nickname
+end
+
+function M.get_nickname(id)
+	return get(id).nickname
+end
+
 function M.update_pokemon(pokemon)
 	local id = pokemon.id
 	if storage[id] then
