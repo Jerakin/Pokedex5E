@@ -31,5 +31,5 @@ end
 
 function on_input(self, action_id, action)
 	gooey.button("btn_confirm", action_id, action, confirm, gooey_buttons.common_button)
-	gooey.button("btn_exit", action_id, action, confirm, gooey_buttons.close_button)
+	gooey.button("btn_exit", action_id, action, exit, gooey_buttons.close_button)
 end
