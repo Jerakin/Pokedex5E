@@ -223,10 +223,12 @@ local function setup_page(self, nodes, pokemon)
 	table.insert(active_buttons, m)
 
 	local speed, stype = _pokemon.get_speed_of_type(pokemon)
-	gui.set_text(nodes["pokemon/txt_speed"], stype .. ": " .. speed)
-	gui.set_text(nodes["pokemon/index"], string.format("#%03d", _pokemon.get_index_number(pokemon)))
 	local nickname = _pokemon.get_nickname(pokemon)
-	nickname = nickname or _pokemon.get_current_species(pokemon)
+	local species = _pokemon.get_current_species(pokemon)
+	nickname = nickname or species
+
+	gui.set_text(nodes["pokemon/txt_speed"], stype .. ": " .. speed)
+	gui.set_text(nodes["pokemon/index"], string.format("#%03d", _pokemon.get_index_number(pokemon)) .. " " .. species)
 	gui.set_text(nodes["pokemon/species"], nickname)
 	gui.set_text(nodes["pokemon/level"], "Lv. " ..  _pokemon.get_current_level(pokemon))
 	gui.set_text(nodes["pokemon/nature"], _pokemon.get_nature(pokemon))

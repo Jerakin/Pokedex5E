@@ -284,7 +284,7 @@ function M.set_nickname(pokemon, nickname)
 end
 
 function M.get_nickname(pokemon)
-	storage.get_nickname(M.get_id(pokemon))
+	return storage.get_nickname(M.get_id(pokemon))
 end
 
 function M.get_AC(pokemon)
