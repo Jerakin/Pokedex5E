@@ -61,9 +61,10 @@ function init(self)
 	pokemon_edit.init(self,storage.get_copy(pokemon_id))
 	
 	self.level = _pokemon.get_current_level(self.pokemon_copy)
-	self.species = _pokemon.get_current_species(self.pokemon)
-
-	gui.set_text(gui.get_node("name_text"), self.species)
+	self.nickname = _pokemon.get_nickname(self.pokemon_copy)
+	local species = _pokemon.get_current_species(self.pokemon_copy)
+	self.nickname = self.nickname or species
+	gui.set_text(gui.get_node("name_text"), self.nickname)
 	
 	gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. _pokemon.get_current_level(self.pokemon_copy))
 	gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.GREEN)
@@ -124,7 +125,7 @@ end
 
 local function refresh_input(self, input, node_id)
 	if input.empty and not input.selected then
-		gui.set_text(input.node, self.species)
+		gui.set_text(input.node, self.nickname)
 	end
 
 	local cursor = gui.get_node("cursor")

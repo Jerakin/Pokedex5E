@@ -100,11 +100,20 @@ local function setup_info(self)
 	gui.set_texture(gui.get_node("pokemon_sprite"), texture)
 	gui.play_flipbook(gui.get_node("pokemon_sprite"), pokemon_sprite)
 	
-	gui.set_text(gui.get_node("txt_index"), string.format("#%03d", _pokemon.get_index_number(pokemon)))
+	
 	gui.set_text(gui.get_node("txt_lvl"), "Lv. " .. _pokemon.get_current_level(pokemon))
 	gui.set_text(gui.get_node("txt_ac"), "AC: " .. _pokemon.get_AC(pokemon))
 	gui.set_text(gui.get_node("txt_hp"), "HP: " .. _pokemon.get_current_hp(pokemon) .. "/" .. _pokemon.get_max_hp(pokemon))
-	gui.set_text(gui.get_node("txt_species"), _pokemon.get_current_species(pokemon))
+	
+	self.nickname = _pokemon.get_nickname(pokemon)
+	species = _pokemon.get_current_species(pokemon)
+	if nickname then
+		gui.set_text(gui.get_node("txt_index"), string.format("#%03d", _pokemon.get_index_number(pokemon)) .. " " .. species)
+	else
+		gui.set_text(gui.get_node("txt_index"), string.format("#%03d", _pokemon.get_index_number(pokemon)))
+	end
+	self.nickname = self.nickname or species
+	gui.set_text(gui.get_node("txt_species"), self.nickname)
 	
 	local vul = gui.get_node("vulnerabilities")
 	local imm = gui.get_node("immunities")
@@ -170,13 +179,14 @@ local function cancel_swap(self)
 end
 
 local function release(self)
-	local title = "Release " .. _pokemon.get_current_species(storage.get_copy(self.pokemon_id))
+	local title = "Release " .. self.nickname
 	monarch.show("are_you_sure", nil, {title=title, data=self.pokemon_id, sender=msg.url()})
 end
 
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("response") then
+		pprint( message.response )
 		if message.response then
 			flow.start(function()
 				flow.until_true(function() return not monarch.is_busy() end)
