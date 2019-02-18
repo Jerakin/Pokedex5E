@@ -58,7 +58,7 @@ function init(self)
 	button.acquire()
 	local pokemon_id = monarch.data("edit").id
 	self.pokemon_copy = storage.get_copy(pokemon_id)
-	pokemon_edit.init(self,storage.get_copy(pokemon_id))
+	pokemon_edit.init(self, storage.get_copy(pokemon_id))
 	
 	self.level = _pokemon.get_current_level(self.pokemon_copy)
 	self.nickname = _pokemon.get_nickname(self.pokemon_copy)

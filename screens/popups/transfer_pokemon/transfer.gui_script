@@ -186,7 +186,6 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("response") then
-		pprint( message.response )
 		if message.response then
 			flow.start(function()
 				flow.until_true(function() return not monarch.is_busy() end)

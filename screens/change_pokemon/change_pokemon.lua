@@ -179,6 +179,7 @@ function M.init(self, pokemon)
 end
 
 function M.final(self)
+	active_buttons = {}
 	button.unregister()
 	msg.post(url.MENU, "show")
 end
