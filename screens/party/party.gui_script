@@ -371,7 +371,10 @@ function on_input(self, action_id, action)
 	gooey.button("btn_edit", action_id, action, function()
 		monarch.show("edit", {}, {id=party.current_pokemon})
 	end, gooey_buttons.edit_button)
-
+	
+	gooey.button("btn_storage", action_id, action, function()
+		monarch.show("storage")
+	end, gooey_buttons.common_button)
 	
 	local g = gesture.on_input(self, action_id, action)
 	if g then
