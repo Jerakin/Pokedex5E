@@ -53,7 +53,6 @@ local function change_hp(self, hp)
 end
 
 function init(self)
-	msg.post(url.MENU, "hide")
 	self.have_evolved = false
 	button.acquire()
 	local pokemon_id = monarch.data("edit").id

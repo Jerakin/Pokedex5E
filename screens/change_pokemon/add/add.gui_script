@@ -39,7 +39,6 @@ local function add_pokemon(self)
 end
 
 function init(self)
-	msg.post(url.MENU, "hide")
 	button.acquire()
 	gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.HERO_TEXT_FADED)
 	gui.set_color(gui.get_node("change_pokemon/nature"), gui_colors.HERO_TEXT_FADED)

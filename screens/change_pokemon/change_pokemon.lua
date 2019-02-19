@@ -175,13 +175,11 @@ function M.init(self, pokemon)
 	self.list_items = {}
 	self.move_button_index = 0
 	self.root = gui.get_node("root")
-	msg.post(url.MENU, "hide")
 end
 
 function M.final(self)
 	active_buttons = {}
 	button.unregister()
-	msg.post(url.MENU, "show")
 end
 
 function M.on_message(self, message_id, message, sender)

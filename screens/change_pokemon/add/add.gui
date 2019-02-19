@@ -292,7 +292,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 487.0
+    y: 369.0
     z: 0.0
     w: 1.0
   }
@@ -819,7 +819,7 @@ nodes {
 nodes {
   position {
     x: 408.0
-    y: 1226.0
+    y: 1108.0
     z: 0.0
     w: 1.0
   }
@@ -937,7 +937,7 @@ nodes {
 nodes {
   position {
     x: 200.0
-    y: 1109.0
+    y: 991.0
     z: 0.0
     w: 1.0
   }
@@ -1055,7 +1055,7 @@ nodes {
 nodes {
   position {
     x: 435.0
-    y: 1109.0
+    y: 991.0
     z: 0.0
     w: 1.0
   }
@@ -1441,7 +1441,7 @@ nodes {
 nodes {
   position {
     x: 55.0
-    y: 1180.0
+    y: 1062.0
     z: 0.0
     w: 1.0
   }
@@ -1495,8 +1495,8 @@ nodes {
 }
 nodes {
   position {
-    x: 52.0
-    y: 51.0
+    x: 669.0
+    y: 1230.0
     z: 0.0
     w: 1.0
   }
@@ -1551,7 +1551,7 @@ nodes {
 nodes {
   position {
     x: 357.0
-    y: 1002.0
+    y: 884.0
     z: 0.0
     w: 1.0
   }
@@ -4522,7 +4522,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 0.0
+    y: 21.0
     z: 0.0
     w: 1.0
   }
@@ -4617,7 +4617,7 @@ nodes {
 nodes {
   position {
     x: 342.0
-    y: 1020.0
+    y: 902.0
     z: 0.0
     w: 1.0
   }
@@ -4940,7 +4940,7 @@ nodes {
 nodes {
   position {
     x: 198.0
-    y: 1020.0
+    y: 902.0
     z: 0.0
     w: 1.0
   }
@@ -5051,6 +5051,165 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
+  template_node_child: true
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_TEMPLATE
+  id: "change_pokemon/top_divider"
+  parent: "change_pokemon/root"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  template: "/templates/top_divider.gui"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 360.0
+    y: 1180.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 700.0
+    y: 6.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/divider"
+  id: "change_pokemon/top_divider/box"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "change_pokemon/top_divider"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 2.0
+    y: 2.0
+    z: 2.0
+    w: 2.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 360.0
+    y: 1217.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.8
+    y: 0.8
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "Add Pok\303\251mon"
+  font: "title"
+  id: "change_pokemon/title"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "change_pokemon/root"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 0.0
+  shadow_alpha: 1.0
+  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
