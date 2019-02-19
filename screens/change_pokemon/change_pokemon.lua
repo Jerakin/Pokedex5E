@@ -35,6 +35,8 @@ local function redraw(self)
 	local species_node = gui.get_node("change_pokemon/species")
 	gui.set_text(species_node, self.pokemon.species.current)
 	gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. self.level)
+
+	gui.set_text(gui.get_node("change_pokemon/nature"), self.pokemon.nature or "No Nature")
 	
 	for i=1, 4 do 
 		local move_node = gui.get_node("change_pokemon/move_" .. i)
@@ -139,6 +141,8 @@ function M.register_buttons_after_nature(self)
 		end
 	end, refresh=gooey_buttons.minus_button}
 
+
+	
 	table.insert(active_buttons, a)
 	table.insert(active_buttons, b)
 end
@@ -163,6 +167,10 @@ function M.register_buttons_after_species(self)
 		self.move_button_index = 4
 		pick_move(self)
 	end)
+
+	button.register("change_pokemon/nature", function()
+		monarch.show("scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url()})
+	end)
 end
 
 function M.init(self, pokemon)
@@ -175,6 +183,7 @@ function M.init(self, pokemon)
 	self.list_items = {}
 	self.move_button_index = 0
 	self.root = gui.get_node("root")
+
 end
 
 function M.final(self)
@@ -193,6 +202,7 @@ function M.on_message(self, message_id, message, sender)
 		elseif message_id == hash("species") then
 			self.pokemon = _pokemon.new({species=message.item})
 			self.level = self.pokemon.level.current
+			self.pokemon.nature = "No Nature"
 			local starting_moves = pokedex.get_starting_moves(message.item)
 			local moves = {}
 			for i=1, 4 do

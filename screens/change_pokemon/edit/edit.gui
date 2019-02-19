@@ -1104,8 +1104,7 @@ nodes {
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 0.0
-  overridden_fields: 30
+  alpha: 1.0
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -1142,7 +1141,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Nature"
+  text: "No Nature"
   font: "script"
   id: "change_pokemon/nature"
   xanchor: XANCHOR_NONE
@@ -1615,8 +1614,8 @@ nodes {
 }
 nodes {
   position {
-    x: 657.0
-    y: 1226.0
+    x: 669.0
+    y: 1230.0
     z: 0.0
     w: 1.0
   }
@@ -1665,7 +1664,6 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 1
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
