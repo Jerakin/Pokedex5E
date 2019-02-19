@@ -84,7 +84,7 @@ function on_input(self, action_id, action)
 	local g = gooey.button("btn_menu", action_id, action, function()
 		toggle(self)
 	end, gooey_buttons.menu_button)
-	if b or g.over then return true end
+	if b or g.over then return self.toggle end
 
 	if self.toggle and not b and gui.pick_node(gui.get_node("menu"), action.x, action.y) and action_id == hash("touch") and action.pressed then
 		toggle(self)
