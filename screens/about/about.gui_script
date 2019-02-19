@@ -4,6 +4,7 @@ local url = require "utils.url"
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	msg.post(url.MENU, "hide")
+	gui.set_text(gui.get_node("version"), "Version: " .. sys.get_config("project.version"))
 end
 
 function on_input(self, action_id, action)
