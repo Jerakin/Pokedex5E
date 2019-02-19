@@ -14,13 +14,18 @@ local function hide(self)
 end
 
 local function show(self)
+	button.acquire()
 	gui.set_enabled(gui.get_node("root"), true)
 end
 
 local function toggle(self)
 	button.acquire()
+	self.block_input = true
 	self.toggle = not self.toggle
 	gui.set_enabled(self.menu, self.toggle)
+	if not self.toggle then
+		timer.delay(0.1, false, function() self.block_input = false end)
+	end
 	if self.toggle then
 		gui.play_flipbook(self.btn_menu, "close_up")
 	else
@@ -28,36 +33,23 @@ local function toggle(self)
 	end
 end
 
-local function menu(self)
-	local top = monarch.top()
-	if top == hash("party") then
-		gui.set_enabled(self.btn_edit, true)
-		gui.set_enabled(self.btn_reset, true)
-		gui.set_position(self.sub, vmath.vector3(0, -388, 0))
-	else
-		gui.set_enabled(self.btn_edit, false)
-		gui.set_enabled(self.btn_reset, false)
-		gui.set_position(self.sub, vmath.vector3(0, -225, 0))
-	end
-end
 
 function init(self)
 	button.acquire()
 	gui.set_render_order(gro.MENU)
 	url.MENU = msg.url()
 	self.toggle = false
+	self.block_input = false
 	self.btn_party = gui.get_node("btn_party")
 	self.btn_storage = gui.get_node("btn_storage")
 	self.btn_profiles = gui.get_node("btn_profiles")
 	self.btn_about = gui.get_node("btn_about")
-	self.btn_edit = gui.get_node("btn_edit")
-	self.btn_reset = gui.get_node("btn_reset")
 	self.btn_menu = gui.get_node("btn_menu")
 	
 	self.sub = gui.get_node("sub")
 	self.menu = gui.get_node("menu")
 	gui.set_enabled(self.menu, false)
-	menu(self)
+
 	local name = profiles.get_active_name() or "Someone"
 	gui.set_text(self.btn_storage, name .. "'s PC")
 
@@ -82,17 +74,6 @@ function init(self)
 		toggle(self)
 	end)
 
-	button.register(self.btn_edit, function()
-		monarch.show("edit", {}, {id=party.current_pokemon})
-		toggle(self)
-	end)
-
-	button.register(self.btn_reset, function()
-		local pokemon = storage.get_copy(party.current_pokemon)
-		_pokemon.reset(pokemon)
-		toggle(self)
-	end)
-
 	button.register("btn_add", function()
 		monarch.show("add")
 		toggle(self)
@@ -105,14 +86,14 @@ end
 
 function on_input(self, action_id, action)
 	button.on_input(action_id, action)
-	if self.toggle and not gui.pick_node(gui.get_node("menu"), action.x, action.y) and hash("touch") and action.pressed then
+	if self.toggle and gui.pick_node(gui.get_node("menu"), action.x, action.y) and action_id == hash("touch") and action.pressed then
 		toggle(self)
 	end
 	gooey.button("btn_menu", action_id, action, function()
 		toggle(self)
-		menu(self)
 	end, gooey_buttons.menu_button)
-	return self.toggle
+	
+	return self.block_input
 end
 
 function on_message(self, message_id, message)
