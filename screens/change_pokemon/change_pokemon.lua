@@ -119,33 +119,6 @@ local function pick_move(self)
 	monarch.show("moves_scrollist", {}, {species=self.pokemon.species.current, level=self.level, current_moves=self.pokemon.moves, message_id="move", sender=msg.url()})
 end
 
-function M.register_buttons_after_nature(self)
-	for _, s in pairs({"str", "dex", "con", "int", "wis", "cha"}) do
-		local plus = {node="change_pokemon/asi/".. s .. "/btn_minus", func=function() decrease(self, s:upper()) end, refresh=gooey_buttons.minus_button}
-		local minus = {node="change_pokemon/asi/".. s .. "/btn_plus", func=function() increase(self, s:upper()) end, refresh=gooey_buttons.plus_button}
-		table.insert(active_buttons, plus)
-		table.insert(active_buttons, minus)
-	end
-
-	local b = {node="change_pokemon/level/btn_plus", func=function()
-		if self.level < 20 then
-			self.level = self.level + 1
-			redraw(self)
-		end 
-	end, refresh=gooey_buttons.plus_button}
-
-	local a = {node="change_pokemon/level/btn_minus", func=function()
-		if self.level > 1 and self.level > pokedex.get_minimum_wild_level(self.pokemon.species.current) then
-			self.level = self.level - 1
-			redraw(self)
-		end
-	end, refresh=gooey_buttons.minus_button}
-
-
-	
-	table.insert(active_buttons, a)
-	table.insert(active_buttons, b)
-end
 
 function M.register_buttons_after_species(self)
 	button.register("change_pokemon/btn_move_1", function()
@@ -171,6 +144,30 @@ function M.register_buttons_after_species(self)
 	button.register("change_pokemon/nature", function()
 		monarch.show("scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url()})
 	end)
+
+	for _, s in pairs({"str", "dex", "con", "int", "wis", "cha"}) do
+		local plus = {node="change_pokemon/asi/".. s .. "/btn_minus", func=function() decrease(self, s:upper()) end, refresh=gooey_buttons.minus_button}
+		local minus = {node="change_pokemon/asi/".. s .. "/btn_plus", func=function() increase(self, s:upper()) end, refresh=gooey_buttons.plus_button}
+		table.insert(active_buttons, plus)
+		table.insert(active_buttons, minus)
+	end
+
+	local b = {node="change_pokemon/level/btn_plus", func=function()
+		if self.level < 20 then
+			self.level = self.level + 1
+			redraw(self)
+		end 
+	end, refresh=gooey_buttons.plus_button}
+
+	local a = {node="change_pokemon/level/btn_minus", func=function()
+		if self.level > 1 and self.level > pokedex.get_minimum_wild_level(self.pokemon.species.current) then
+			self.level = self.level - 1
+			redraw(self)
+		end
+	end, refresh=gooey_buttons.minus_button}
+
+	table.insert(active_buttons, a)
+	table.insert(active_buttons, b)
 end
 
 function M.init(self, pokemon)
@@ -197,8 +194,6 @@ function M.on_message(self, message_id, message, sender)
 			self.pokemon.nature = message.item
 			self.pokemon.attributes.nature = natures.get_nature_attributes(message.item)
 			gui.set_color(gui.get_node("change_pokemon/nature"), gui_colors.HERO_TEXT)
-			M.register_buttons_after_nature(self)
-			if self.register_buttons_after_nature then self.register_buttons_after_nature(self) end
 		elseif message_id == hash("species") then
 			self.pokemon = _pokemon.new({species=message.item})
 			self.level = self.pokemon.level.current
