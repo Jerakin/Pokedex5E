@@ -12,10 +12,13 @@ local function join_table(title, T, sep)
 	return "-"
 end
 
+local data
+local move_data
+
 function init(self)
 	gui.set_render_order(gro.POPUP)
-	local data = monarch.data("move_info")
-	local move_data = _pokemon.get_move_data(data.pokemon, data.name)
+	data = monarch.data("move_info")
+	move_data = _pokemon.get_move_data(data.pokemon, data.name)
 	gui.set_text(gui.get_node("txt_name"), data.name)
 	gui.set_text(gui.get_node("txt_desc"), move_data.description)
 	gui.set_text(gui.get_node("txt_time"), move_data.time)
@@ -30,7 +33,6 @@ function init(self)
 	p.x = p.x + gui.get_text_metrics_from_node(type_node).width * 0.5
 	gui.set_position(gui.get_node("icon_type"), p)
 	gui.play_flipbook(gui.get_node("icon_type"), type_data[move_data.type].icon)
-
 
 	gui.set_text(gui.get_node("txt_pp"), data.data.pp .. "/" .. move_data.PP)
 	local dmg = "-"
