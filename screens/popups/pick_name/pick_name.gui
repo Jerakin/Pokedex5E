@@ -95,7 +95,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 175.0
+    x: 300.0
     y: 99.0
     z: 0.0
     w: 1.0
@@ -108,7 +108,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/common_up"
+  texture: "gui/common_green_up"
   id: "btn_okay"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -150,20 +150,21 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 300.0
     y: 100.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.3882353
-    y: 0.2784314
-    z: 0.19215687
+    x: 0.24313726
+    y: 0.3529412
+    z: 0.08627451
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Pick"
+  text: "Confirm\n"
+  ""
   font: "title"
   id: "text1"
   xanchor: XANCHOR_NONE
