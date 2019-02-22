@@ -3,10 +3,12 @@ local render_order = require "utils.gui_render_order"
 local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
 
+local data
+
 function init(self)
 	gooey.acquire_input()
 	gui.set_render_order(render_order.POPUP_ON_POPUP)
-	local data = monarch.data("info")
+	data = monarch.data("info")
 	gui.set_text(gui.get_node("txt_info"), data.text)
 end
 
