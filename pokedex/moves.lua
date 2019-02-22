@@ -1,6 +1,7 @@
 local type_data = require "utils.type_data"
 local file = require "utils.file"
 local utils = require "utils.utils"
+local log = require "utils.log"
 
 local M = {}
 
@@ -11,12 +12,15 @@ local move_machines
 local initialized = false
 
 function M.get_move_data(move)
-	return movedata[move]
+	if movedata[move] then
+		return movedata[move]
+	end
+	log.error("Can not find move data for: " .. tostring(move))
 end
 
 
 function M.get_move_pp(move)
-	return movedata[move] and movedata[move].PP
+	return M.get_move_data(move).PP
 end
 
 
@@ -24,13 +28,19 @@ function M.get_move_type(move)
 	return M.get_move_data(move).Type
 end
 
+local function get_type_data(move)
+	if type_data[M.get_move_type(move)] then
+		return type_data[M.get_move_type(move)]
+	end
+	log.error("Can not find type data for: " .. tostring(move))
+end
 
 function M.get_move_color(move)
-	return type_data[M.get_move_type(move)].color
+	return get_type_data(move).color
 end
 
 function M.get_move_icon(move)
-	return type_data[M.get_move_type(move)].icon
+	return get_type_data(move).icon
 end
 
 local function list()
@@ -42,10 +52,17 @@ local function list()
 end
 
 function M.get_TM(number)
-	return move_machines.TM[number]
+	if move_machines.TM[number] then
+		return move_machines.TM[number]
+	end
+	log.error("Can not find TM: " .. tostring(number))
 end
+
 function M.get_HM(number)
-	return move_machines.HM[number] 
+	if move_machines.HM[number] then
+		return move_machines.HM[number]
+	end
+	log.error("Can not find HM: " .. tostring(number))
 end
 
 function M.init()
