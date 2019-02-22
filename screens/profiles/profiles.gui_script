@@ -22,7 +22,7 @@ local function refresh(active_slot)
 			gui.set_enabled(gui.get_node("btn_delete_" .. i), true)
 		else
 			gui.set_enabled(gui.get_node("btn_delete_" .. i), false)
-			gui.set_text(gui.get_node("trainer_name_" .. i), "Empty")
+			gui.set_text(gui.get_node("trainer_name_" .. i), "New Profile")
 			gui.set_text(gui.get_node("trainer_stats_" .. i), " Own: 0")
 			gui.set_size(gui.get_node("btn_slot_" .. i), INACTIVE_SIZE)
 		end
