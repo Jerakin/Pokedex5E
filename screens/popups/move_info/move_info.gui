@@ -302,7 +302,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 390.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -319,32 +319,32 @@ nodes {
     w: 1.0
   }
   size {
-    x: 580.0
-    y: 50.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/popup_move_desc"
-  id: "box"
+  texture: "gui/background_gradient"
+  id: "box8"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_N
+  pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "background"
-  layer: "gui"
+  layer: ""
   inherit_alpha: true
   slice9 {
-    x: 50.0
-    y: 50.0
-    z: 50.0
+    x: 0.0
+    y: 0.0
+    z: 0.0
     w: 0.0
   }
   clipping_mode: CLIPPING_MODE_NONE
@@ -356,8 +356,8 @@ nodes {
 }
 nodes {
   position {
-    x: -290.0
-    y: -65.0
+    x: -280.0
+    y: 323.0
     z: 0.0
     w: 1.0
   }
@@ -374,7 +374,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 288.0
+    x: 276.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -393,7 +393,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_NW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "box"
+  parent: "box8"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -411,8 +411,8 @@ nodes {
 }
 nodes {
   position {
-    x: 290.0
-    y: -65.0
+    x: 280.0
+    y: 323.0
     z: 0.0
     w: 1.0
   }
@@ -429,7 +429,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 288.0
+    x: 276.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -448,7 +448,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_NE
   adjust_mode: ADJUST_MODE_FIT
-  parent: "box"
+  parent: "box8"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -466,8 +466,8 @@ nodes {
 }
 nodes {
   position {
-    x: -290.0
-    y: -174.0
+    x: -280.0
+    y: 214.0
     z: 0.0
     w: 1.0
   }
@@ -484,7 +484,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 288.0
+    x: 276.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -503,7 +503,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_NW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "box"
+  parent: "box8"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -521,8 +521,8 @@ nodes {
 }
 nodes {
   position {
-    x: 290.0
-    y: -174.0
+    x: 280.0
+    y: 214.0
     z: 0.0
     w: 1.0
   }
@@ -539,7 +539,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 288.0
+    x: 276.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -558,7 +558,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_NE
   adjust_mode: ADJUST_MODE_FIT
-  parent: "box"
+  parent: "box8"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -576,8 +576,8 @@ nodes {
 }
 nodes {
   position {
-    x: -290.0
-    y: -284.0
+    x: -280.0
+    y: 105.0
     z: 0.0
     w: 1.0
   }
@@ -594,7 +594,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 288.0
+    x: 276.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -613,7 +613,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_NW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "box"
+  parent: "box8"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -631,8 +631,8 @@ nodes {
 }
 nodes {
   position {
-    x: 290.0
-    y: -284.0
+    x: 280.0
+    y: 105.0
     z: 0.0
     w: 1.0
   }
@@ -649,7 +649,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 288.0
+    x: 276.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -668,7 +668,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_NE
   adjust_mode: ADJUST_MODE_FIT
-  parent: "box"
+  parent: "box8"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -687,25 +687,25 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -687.0
+    y: -347.0
     z: 0.0
     w: 1.0
   }
   rotation {
     x: 0.0
     y: 0.0
-    z: 0.0
+    z: 180.0
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
   size {
-    x: 580.0
-    y: 50.0
+    x: 1120.0
+    y: 678.0
     z: 0.0
     w: 1.0
   }
@@ -717,74 +717,19 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/popup_move_desc"
+  texture: "gui/desc_half_circle_"
   id: "box7"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
-  parent: "box"
+  parent: "box8"
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 50.0
-    y: 0.0
-    z: 50.0
-    w: 50.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: -290.0
-    y: -697.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 580.0
-    y: 300.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/square"
-  id: "box8"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_SW
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "box"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 44.0
+    y: 44.0
+    z: 44.0
     w: 0.0
   }
   clipping_mode: CLIPPING_MODE_NONE
@@ -796,7 +741,62 @@ nodes {
 }
 nodes {
   position {
-    x: -150.0
+    x: 0.0
+    y: 384.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.5
+    y: 0.5
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 1120.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/desc_half_circle_"
+  id: "box"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_N
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "box8"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 44.0
+    y: 44.0
+    z: 44.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: -132.0
     y: 259.0
     z: 0.0
     w: 1.0
@@ -922,7 +922,7 @@ nodes {
 }
 nodes {
   position {
-    x: -284.0
+    x: -271.0
     y: -11.0
     z: 0.0
     w: 1.0
@@ -940,7 +940,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 750.0
+    x: 730.0
     y: 640.0
     z: 0.0
     w: 1.0
@@ -985,7 +985,7 @@ nodes {
 }
 nodes {
   position {
-    x: 150.0
+    x: 140.0
     y: 258.0
     z: 0.0
     w: 1.0
@@ -1048,7 +1048,7 @@ nodes {
 }
 nodes {
   position {
-    x: -150.0
+    x: -132.0
     y: 150.0
     z: 0.0
     w: 1.0
@@ -1111,7 +1111,7 @@ nodes {
 }
 nodes {
   position {
-    x: 150.0
+    x: 140.0
     y: 40.0
     z: 0.0
     w: 1.0
@@ -1174,7 +1174,7 @@ nodes {
 }
 nodes {
   position {
-    x: 150.0
+    x: 140.0
     y: 147.0
     z: 0.0
     w: 1.0
@@ -1238,7 +1238,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 367.0
+    y: 356.0
     z: 0.0
     w: 1.0
   }
@@ -1410,7 +1410,7 @@ nodes {
 }
 nodes {
   position {
-    x: -150.0
+    x: -132.0
     y: 299.0
     z: 0.0
     w: 1.0
@@ -1473,7 +1473,7 @@ nodes {
 }
 nodes {
   position {
-    x: 150.0
+    x: 140.0
     y: 300.0
     z: 0.0
     w: 1.0
@@ -1536,7 +1536,7 @@ nodes {
 }
 nodes {
   position {
-    x: 150.0
+    x: 140.0
     y: 186.0
     z: 0.0
     w: 1.0
@@ -1599,7 +1599,7 @@ nodes {
 }
 nodes {
   position {
-    x: -150.0
+    x: -132.0
     y: 187.0
     z: 0.0
     w: 1.0
@@ -1662,7 +1662,7 @@ nodes {
 }
 nodes {
   position {
-    x: 150.0
+    x: 140.0
     y: 73.0
     z: 0.0
     w: 1.0
@@ -1726,7 +1726,7 @@ nodes {
 }
 nodes {
   position {
-    x: -150.0
+    x: -132.0
     y: 38.0
     z: 0.0
     w: 1.0
@@ -1789,7 +1789,7 @@ nodes {
 }
 nodes {
   position {
-    x: -150.0
+    x: -132.0
     y: 75.0
     z: 0.0
     w: 1.0
