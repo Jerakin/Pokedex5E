@@ -123,7 +123,7 @@ function M.get_evolution_data(pokemon)
 	if evolvedata[pokemon] then
 		return evolvedata[pokemon]
 	end
-	log.error("Can not find evolution data for pokemon : " .. tostring(pokemon))
+	log.info("Can not find evolution data for pokemon : " .. tostring(pokemon))
 end
 
 function M.get_evolution_possible(pokemon)
