@@ -26,6 +26,7 @@ local function toggle(self)
 	if not self.toggle then
 		timer.delay(0.1, false, function() self.block_input = false end)
 	end
+	gooey_buttons.set_menu_opened(self.toggle)
 end
 
 
