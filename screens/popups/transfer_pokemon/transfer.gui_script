@@ -89,7 +89,7 @@ local function setup_move(pokemon, name, index)
 		gui.set_color(pp_max, gui_colors.GREEN)
 		gui.set_color(pp_lbl, gui_colors.GREEN)
 	end
-	gui.set_text(move_name, name)
+	gui.set_text(move_name, name:upper())
 	gui.set_color(move_name, movedex.get_move_color(name))
 	gui.play_flipbook(move_icon, movedex.get_move_icon(name))
 end

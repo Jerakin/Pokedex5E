@@ -117,7 +117,7 @@ local function setup_moves(self, nodes, pokemon)
 			gui.set_text(_get_node("/bonus"), "-")
 		end
 
-		gui.set_text(_get_node("/name"), name)
+		gui.set_text(_get_node("/name"), name:upper())
 		local type = type_data[move_data.type]
 		gui.set_color(_get_node("/name"), type.color)
 		gui.play_flipbook(_get_node("/element"), type.icon)

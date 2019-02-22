@@ -48,7 +48,7 @@ local function redraw(self)
 	for move, data in pairs(self.pokemon.moves) do
 		local index = data.index
 		local move_node = gui.get_node("change_pokemon/move_" .. index)
-		gui.set_text(move_node, move)
+		gui.set_text(move_node, move:upper())
 		gui.set_color(move_node, movedex.get_move_color(move))
 	end
 
