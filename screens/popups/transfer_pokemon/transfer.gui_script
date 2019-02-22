@@ -138,7 +138,7 @@ end
 
 
 function init(self)
-	button.acquire()
+	gooey.acquire_input()
 	gui.set_render_order(gro.POPUP)
 	local d = monarch.data("transfer_pokemon")
 	self.to = d.to
@@ -218,5 +218,9 @@ function on_input(self, action_id, action)
 	end
 	gooey.button("btn_close", action_id, action, close, gooey_buttons.close_button)
 	gooey.button("btn_cancel", action_id, action, function() cancel_swap(self) end, gooey_buttons.close_button)
+	local g = gooey.button("background", action_id, action, function() end)
+	if not g.over then
+		gooey.button("dimmer", action_id, action, function() monarch.back() end)
+	end
 	return true
 end

@@ -19,4 +19,8 @@ end
 
 function on_input(self, action_id, action)
 	gooey.button("btn_close", action_id, action, exit, gooey_buttons.close_button)
+	local g = gooey.button("info", action_id, action, function() end)
+	if not g.over then
+		gooey.button("dimmer", action_id, action, function() monarch.back() end)
+	end
 end
