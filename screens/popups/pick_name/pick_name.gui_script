@@ -7,10 +7,6 @@ local url = require "utils.url"
 local gooey_buttons = require "utils.gooey_buttons"
 
 local function refresh_input(self, input, node_id)
-	if not input.empty and not input.text:sub(-1):match("[%a%d]") then
-		input.text = input.text:sub(1, -2)
-	end
-
 	if input.empty and not input.selected then
 		gui.set_text(input.node, "Enter Name")
 	end
@@ -38,17 +34,16 @@ end
 
 local function okay()
 	local name = gui.get_text(gui.get_node("name_text"))
-	if not name:sub(-1):match("[%a%d]") then
-		name = name:sub(1, -2)
+	if name ~= "Enter Name" then
+		local profile = profiles.add(name, slot)
+		profiles.set_active(profile.slot)
+		storage.load(profiles.get_active())
+		monarch.show("add")
 	end
-	local profile = profiles.add(name, slot)
-	profiles.set_active(profile.slot)
-	storage.load(profiles.get_active())
-	monarch.show("add")
 end
 
 function on_input(self, action_id, action)
-	gooey.input("name_text", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, {max_length = 10}, function(input)
+	gooey.input("name_text", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, {max_length = 10, allowed_characters="[%a%d]"}, function(input)
 		refresh_input(self, input, "name_text")
 	end)
 	gooey.button("btn_okay", action_id, action, okay, gooey_buttons.common_button)
