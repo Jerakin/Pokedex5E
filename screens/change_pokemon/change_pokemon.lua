@@ -171,6 +171,7 @@ function M.register_buttons_after_species(self)
 end
 
 function M.init(self, pokemon)
+	msg.post(url.MENU, "hide")
 	if pokemon then
 		self.pokemon = utils.deep_copy(pokemon)
 	end
@@ -184,6 +185,7 @@ function M.init(self, pokemon)
 end
 
 function M.final(self)
+	msg.post(url.MENU, "show")
 	active_buttons = {}
 	button.unregister()
 end
