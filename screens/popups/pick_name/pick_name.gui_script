@@ -12,7 +12,7 @@ local function refresh_input(self, input, node_id)
 	end
 
 	if input.empty and not input.selected then
-		gui.set_text(input.node, "Joe")
+		gui.set_text(input.node, "Enter Name")
 	end
 
 	local cursor = gui.get_node("cursor")
