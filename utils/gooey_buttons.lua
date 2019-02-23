@@ -60,13 +60,32 @@ function M.minus_button(button)
 	end
 end
 
+local MENU_UP_CLOSED = "menu_up"
+local MENU_DOWN_CLOSED = "menu_down"
+
+local MENU_UP_OPEN = "close_up"
+local MENU_DOWN_OPEN = "close_down"
+
+local MENU_UP_ACTIVE = MENU_UP_CLOSED
+local MENU_DOWN_ACTIVE = MENU_DOWN_CLOSED
+
+function M.set_menu_opened(state)
+	if state then
+		MENU_UP_ACTIVE = MENU_UP_OPEN
+		MENU_DOWN_ACTIVE = MENU_DOWN_OPEN
+	else
+		MENU_UP_ACTIVE = MENU_UP_CLOSED
+		MENU_DOWN_ACTIVE = MENU_DOWN_CLOSED
+	end
+end
+
 function M.menu_button(button)
 	if button.pressed_now then
-		gui.play_flipbook(button.node, hash("menu_down"))
+		gui.play_flipbook(button.node, hash(MENU_DOWN_ACTIVE))
 	elseif button.released_now then
-		gui.play_flipbook(button.node, hash("menu_up"))
+		gui.play_flipbook(button.node, hash(MENU_UP_ACTIVE))
 	elseif not button.pressed and button.out_now then
-		gui.play_flipbook(button.node, hash("menu_up"))
+		gui.play_flipbook(button.node, hash(MENU_UP_ACTIVE))
 	end
 end
 

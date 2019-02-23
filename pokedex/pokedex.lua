@@ -1,7 +1,7 @@
 local file = require "utils.file"
 local utils = require "utils.utils"
 local movedex = require "pokedex.moves"
-
+local log = require "utils.log"
 local M = {}
 
 local pokedex
@@ -38,7 +38,10 @@ function M.get_sprite(pokemon)
 end
 
 function M.level_data(level)
-	return leveldata[tostring(level)]
+	if leveldata[tostring(level)] then
+		return leveldata[tostring(level)]
+	end
+	log.error("Can not find level data for: " .. tostring(level))
 end
 
 function M.get_senses(pokemon)
@@ -82,7 +85,10 @@ function M.get_pokemon_type(pokemon)
 end
 
 function M.get_ability_description(ability)
-	return abilities[ability].Description
+	if abilities[ability] then
+		return abilities[ability].Description
+	end
+	log.error("Can not find ability description for: " .. tostring(ability))
 end
 
 function M.get_pokemon_abilities(pokemon)
@@ -103,27 +109,37 @@ function M.get_pokemon_AC(pokemon)
 end
 
 function M.get_pokemon(pokemon)
-	return utils.shallow_copy(pokedex[pokemon])
+	if pokedex[pokemon] then
+		return utils.shallow_copy(pokedex[pokemon])
+	end
+	log.error("Can not find pokemon : " .. tostring(pokemon))
 end
 
 function M.get_minimum_wild_level(pokemon)
 	return M.get_pokemon(pokemon)["MIN LVL FD"]
 end
 
+function M.get_evolution_data(pokemon)
+	if evolvedata[pokemon] then
+		return evolvedata[pokemon]
+	end
+	log.info("Can not find evolution data for pokemon : " .. tostring(pokemon))
+end
+
 function M.get_evolution_possible(pokemon)
-	return evolvedata[pokemon] or true and false
+	return M.get_evolution_data(pokemon) or true and false
 end
 
 function M.get_evolution_level(pokemon)
-	return evolvedata[pokemon].level
+	return M.get_evolution_data(pokemon).level
 end
 
 function M.get_evolutions(pokemon)
-	return evolvedata[pokemon].into
+	return M.get_evolution_data(pokemon).into
 end
 
 function M.evolve_points(pokemon)
-	return evolvedata[pokemon].points
+	return M.get_evolution_data(pokemon).points
 end
 
 function M.get_starting_moves(pokemon)

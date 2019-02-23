@@ -40,4 +40,10 @@
 * Can exit
 * Sorting buttons
 
+## Profiles
+* Creating a profile
+* Loading profile
+* Deleting a profile
+* Having no profile
+
 ## Add pokemon

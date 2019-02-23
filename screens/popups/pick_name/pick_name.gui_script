@@ -6,6 +6,8 @@ local gro = require "utils.gui_render_order"
 local url = require "utils.url"
 local gooey_buttons = require "utils.gooey_buttons"
 
+local slot
+
 local function refresh_input(self, input, node_id)
 	if input.empty and not input.selected then
 		gui.set_text(input.node, "Enter Name")
@@ -28,7 +30,7 @@ function init(self)
 	msg.post(url.MENU, "hide")
 	gui.set_render_order(gro.POPUP)
 	self.sender = monarch.data("pick_name") and monarch.data("pick_name").sender or nil
-	local slot = monarch.data("pick_name") and monarch.data("pick_name").slot or nil
+	slot = monarch.data("pick_name") and monarch.data("pick_name").slot or nil
 end
 
 

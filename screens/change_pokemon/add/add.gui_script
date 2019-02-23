@@ -46,6 +46,7 @@ function init(self)
 	gui.get_color(gui.get_node("txt_add"), gui_colors.HERO_TEXT_FADED)
 
 	function self.register_buttons_after_species(self)
+		gui.set_enabled(gui.get_node("blocker"), false)
 		gui.play_flipbook(gui.get_node("btn_add"), "common_up")
 		gui.get_color(gui.get_node("txt_add"), gui_colors.HERO_TEXT)
 		local b = {node="btn_add", func=function() add_pokemon(self) end, refresh=gooey_buttons.common_button}

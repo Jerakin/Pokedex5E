@@ -1,5 +1,5 @@
 local file = require "utils.file"
-
+local log = require "utils.log"
 local M = {}
 
 local initialized = false
@@ -16,15 +16,18 @@ local function list()
 end
 
 function M.is_nature(nature)
-	return natures[nature] and true or false
+	return M.get_nature_attributes(nature) and true or false
 end
 
 function M.get_nature_attributes(nature)
-	return natures[nature]
+	if natures[nature] then
+		return natures[nature]
+	end
+	log.error("Can not find nature: " .. tostring(nature))
 end
 
 function M.get_AC(nature)
-	return natures["AC"] or 0
+	return M.get_nature_attributes(nature)["AC"] or 0
 end
 
 function M.init()

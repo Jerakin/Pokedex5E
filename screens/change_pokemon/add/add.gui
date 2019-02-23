@@ -818,7 +818,7 @@ nodes {
 }
 nodes {
   position {
-    x: 408.0
+    x: 360.0
     y: 1108.0
     z: 0.0
     w: 1.0
@@ -836,7 +836,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 600.0
+    x: 700.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -868,13 +868,15 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
+  overridden_fields: 1
+  overridden_fields: 4
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
     x: 0.0
-    y: 0.0
+    y: -3.0
     z: 0.0
     w: 1.0
   }
@@ -1442,8 +1444,8 @@ nodes {
 }
 nodes {
   position {
-    x: 55.0
-    y: 1062.0
+    x: 64.0
+    y: 1067.0
     z: 0.0
     w: 1.0
   }
@@ -1473,7 +1475,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/pokeball"
+  texture: "gui/pokeball_add"
   id: "change_pokemon/pokemon_sprite"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1492,6 +1494,8 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
+  overridden_fields: 1
+  overridden_fields: 9
   template_node_child: true
   size_mode: SIZE_MODE_AUTO
 }
@@ -5217,6 +5221,61 @@ nodes {
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 720.0
+    y: 1000.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.9254902
+    y: 0.83137256
+    z: 0.67058825
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: ""
+  id: "blocker"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_SW
+  adjust_mode: ADJUST_MODE_ZOOM
+  parent: "root"
+  layer: "sprite"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
 }
 layers {
   name: "tab_inactive"

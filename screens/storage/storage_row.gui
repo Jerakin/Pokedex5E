@@ -1,16 +1,4 @@
-script: "/screens/popups/are_you_sure/are_you _sure.gui_script"
-fonts {
-  name: "script_bold"
-  font: "/assets/fonts/script_bold.font"
-}
-fonts {
-  name: "script"
-  font: "/assets/fonts/script.font"
-}
-fonts {
-  name: "title"
-  font: "/assets/fonts/title.font"
-}
+script: ""
 textures {
   name: "gui"
   texture: "/assets/gui.atlas"
@@ -23,8 +11,8 @@ background_color {
 }
 nodes {
   position {
-    x: 360.0
-    y: 640.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -41,8 +29,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 600.0
+    y: 200.0
     z: 0.0
     w: 1.0
   }
@@ -55,11 +43,11 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/background_gradient"
-  id: "root"
+  id: "row"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_STRETCH
+  pivot: PIVOT_N
+  adjust_mode: ADJUST_MODE_FIT
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -71,14 +59,14 @@ nodes {
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 1.0
+  alpha: 0.0
   template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
-    x: 0.0
-    y: 0.0
+    x: -200.0
+    y: -100.0
     z: 0.0
     w: 1.0
   }
@@ -95,45 +83,30 @@ nodes {
     w: 1.0
   }
   size {
-    x: 720.0
-    y: 1280.0
+    x: 200.0
+    y: 100.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: ""
-  id: "dimmer"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_ZOOM
-  parent: "root"
-  layer: "gui"
+  type: TYPE_TEMPLATE
+  id: "pokemon1"
+  parent: "row"
+  layer: ""
   inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 0.5
+  alpha: 1.0
+  template: "/templates/storage_pokemon.gui"
   template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
     x: 0.0
-    y: 0.0
+    y: 8.0
     z: 0.0
     w: 1.0
   }
@@ -150,8 +123,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 400.0
-    y: 200.0
+    x: 170.0
+    y: 120.0
     z: 0.0
     w: 1.0
   }
@@ -164,14 +137,14 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/details_backing"
-  id: "box"
+  id: "pokemon1/background"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "pokemon1"
   layer: "gui"
-  inherit_alpha: true
+  inherit_alpha: false
   slice9 {
     x: 10.0
     y: 10.0
@@ -182,13 +155,13 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: false
+  template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
-    x: -185.0
-    y: 52.0
+    x: 0.0
+    y: 15.0
     z: 0.0
     w: 1.0
   }
@@ -205,8 +178,63 @@ nodes {
     w: 1.0
   }
   size {
-    x: 380.0
-    y: 180.0
+    x: 150.0
+    y: 150.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "pokemon0/100Voltorb"
+  id: "pokemon1/pokemon_sprite"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "pokemon1/background"
+  layer: "pokemon0"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: -72.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.7
+    y: 0.7
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 50.0
     z: 0.0
     w: 1.0
   }
@@ -218,12 +246,13 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Are you sure?"
+  text: "Bulbasaur\n"
+  "Lv. 10"
   font: "script"
-  id: "txt"
+  id: "pokemon1/txt_pokemon"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_NW
+  pivot: PIVOT_N
   outline {
     x: 1.0
     y: 1.0
@@ -238,20 +267,20 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
-  parent: "box"
+  parent: "pokemon1/pokemon_sprite"
   layer: "script"
-  inherit_alpha: true
+  inherit_alpha: false
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
+  template_node_child: true
+  text_leading: 0.8
   text_tracking: 0.0
 }
 nodes {
   position {
-    x: -191.0
-    y: 74.0
+    x: 0.0
+    y: -100.0
     z: 0.0
     w: 1.0
   }
@@ -270,6 +299,156 @@ nodes {
   size {
     x: 200.0
     y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_TEMPLATE
+  id: "pokemon2"
+  parent: "row"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  template: "/templates/storage_pokemon.gui"
+  template_node_child: false
+}
+nodes {
+  position {
+    x: 0.0
+    y: 8.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 170.0
+    y: 120.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/details_backing"
+  id: "pokemon2/background"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "pokemon2"
+  layer: "gui"
+  inherit_alpha: false
+  slice9 {
+    x: 10.0
+    y: 10.0
+    z: 10.0
+    w: 10.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 15.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 150.0
+    y: 150.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "pokemon0/100Voltorb"
+  id: "pokemon2/pokemon_sprite"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "pokemon2/background"
+  layer: "pokemon0"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: -72.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.7
+    y: 0.7
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 50.0
     z: 0.0
     w: 1.0
   }
@@ -281,12 +460,13 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "<Delete Stuff?>"
-  font: "script_bold"
-  id: "txt_title"
+  text: "Bulbasaur\n"
+  "Lv. 10"
+  font: "script"
+  id: "pokemon2/txt_pokemon"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_N
   outline {
     x: 1.0
     y: 1.0
@@ -300,21 +480,21 @@ nodes {
     w: 1.0
   }
   adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "box"
-  layer: "script_bold"
-  inherit_alpha: true
+  line_break: true
+  parent: "pokemon2/pokemon_sprite"
+  layer: "script"
+  inherit_alpha: false
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
+  template_node_child: true
+  text_leading: 0.8
   text_tracking: 0.0
 }
 nodes {
   position {
-    x: 100.0
-    y: -102.0
+    x: 200.0
+    y: -100.0
     z: 0.0
     w: 1.0
   }
@@ -327,61 +507,6 @@ nodes {
   scale {
     x: 1.0
     y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 120.0
-    y: 60.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/common_up"
-  id: "btn_confirm"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "box"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 20.0
-    y: 20.0
-    z: 20.0
-    w: 20.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: -3.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.6
-    y: 0.6
     z: 1.0
     w: 1.0
   }
@@ -392,47 +517,24 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.3882353
-    y: 0.2784314
-    z: 0.19215687
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Yes"
-  font: "title"
-  id: "text1"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
     x: 1.0
     y: 1.0
     z: 1.0
     w: 1.0
   }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "btn_confirm"
-  layer: "title"
+  type: TYPE_TEMPLATE
+  id: "pokemon3"
+  parent: "row"
+  layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 1.0
-  shadow_alpha: 1.0
+  template: "/templates/storage_pokemon.gui"
   template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
 }
 nodes {
   position {
-    x: -100.0
-    y: -102.0
+    x: 0.0
+    y: 8.0
     z: 0.0
     w: 1.0
   }
@@ -449,45 +551,45 @@ nodes {
     w: 1.0
   }
   size {
-    x: 120.0
-    y: 60.0
+    x: 170.0
+    y: 120.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.99215686
+    y: 0.94509804
+    z: 0.8627451
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/common_up"
-  id: "btn_exit"
+  texture: "gui/details_backing"
+  id: "pokemon3/background"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "box"
+  parent: "pokemon3"
   layer: "gui"
-  inherit_alpha: true
+  inherit_alpha: false
   slice9 {
-    x: 15.0
+    x: 10.0
+    y: 10.0
+    z: 10.0
+    w: 10.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
     y: 15.0
-    z: 15.0
-    w: 15.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: -3.0
-    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -498,31 +600,87 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.6
-    y: 0.6
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 150.0
+    y: 150.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "pokemon0/100Voltorb"
+  id: "pokemon3/pokemon_sprite"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "pokemon3/background"
+  layer: "pokemon0"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: -72.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.7
+    y: 0.7
     z: 1.0
     w: 1.0
   }
   size {
     x: 200.0
-    y: 100.0
+    y: 50.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.3882353
-    y: 0.2784314
-    z: 0.19215687
+    x: 0.14901961
+    y: 0.14117648
+    z: 0.1254902
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "No"
-  font: "title"
-  id: "text"
+  text: "Bulbasaur\n"
+  "Lv. 10"
+  font: "script"
+  id: "pokemon3/txt_pokemon"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_N
   outline {
     x: 1.0
     y: 1.0
@@ -536,28 +694,19 @@ nodes {
     w: 1.0
   }
   adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "btn_exit"
-  layer: "title"
-  inherit_alpha: true
+  line_break: true
+  parent: "pokemon3/pokemon_sprite"
+  layer: "script"
+  inherit_alpha: false
   alpha: 1.0
-  outline_alpha: 1.0
+  outline_alpha: 0.0
   shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
+  template_node_child: true
+  text_leading: 0.8
   text_tracking: 0.0
 }
 layers {
   name: "gui"
-}
-layers {
-  name: "script"
-}
-layers {
-  name: "script_bold"
-}
-layers {
-  name: "title"
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT

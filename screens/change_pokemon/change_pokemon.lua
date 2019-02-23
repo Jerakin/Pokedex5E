@@ -171,6 +171,7 @@ function M.register_buttons_after_species(self)
 end
 
 function M.init(self, pokemon)
+	msg.post(url.MENU, "hide")
 	if pokemon then
 		self.pokemon = utils.deep_copy(pokemon)
 	end
@@ -184,6 +185,7 @@ function M.init(self, pokemon)
 end
 
 function M.final(self)
+	msg.post(url.MENU, "show")
 	active_buttons = {}
 	button.unregister()
 end
@@ -212,7 +214,9 @@ function M.on_message(self, message_id, message, sender)
 			end
 			self.pokemon.moves = moves
 			pokemon_image(message.item)
-			gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.HERO_TEXT)
+			gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.TEXT)
+			gui.set_font(gui.get_node("change_pokemon/species"), "title")
+			gui.set_scale(gui.get_node("change_pokemon/species"), vmath.vector3(0.8))
 			M.register_buttons_after_species(self)
 			if self.register_buttons_after_species then self.register_buttons_after_species(self) end
 		elseif message_id == hash("evolve") then

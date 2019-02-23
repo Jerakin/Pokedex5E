@@ -34,7 +34,7 @@ def convert_pokemon_data(input_file):
             output_pokemon_data[pokemon] = {"Moves": {"Level": {}}, "index": pokemon_index}
 
             for attribute, value in data.items():
-                if not value:
+                if not value or value == "None":
                     continue
                 if attribute in ignore:
                     continue
@@ -65,7 +65,7 @@ def convert_pokemon_data(input_file):
                     abilities = reg_abilities.search(value)
 
                     if abilities:
-                        output_pokemon_data[pokemon]["Abilities"] = abilities.group(1).split(", ")
+                        output_pokemon_data[pokemon]["Abilities"] = [x for x in abilities.group(1).split(", ") if x != "None"]
                     continue
                 if attribute.startswith("ST"):
                     if "saving_throws" not in output_pokemon_data[pokemon]:
