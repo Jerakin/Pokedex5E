@@ -140,23 +140,32 @@ local function setup_abilities(self, nodes, pokemon)
 		local n = nodes[name .. sub]
 		return n
 	end
-	local p = vmath.vector3(10, -10, 0)
-	for _, name in pairs(_pokemon.get_abilities(pokemon)) do
+	local p = vmath.vector3(0, 0, 0)
+	for i, name in pairs(_pokemon.get_abilities(pokemon)) do
 		local desc = pokedex.get_ability_description(name)
-		local root_node = gui.clone(nodes["pokemon/ability/root"])
-		local name_node = gui.clone(nodes["pokemon/ability/name"])
-		local desc_node = gui.clone(nodes["pokemon/ability/description"])
 
+		local root_node
+		local name_node
+		local desc_node
+		if i == 1 then
+			root_node = nodes["pokemon/ability/root"]
+			name_node = nodes["pokemon/ability/name"]
+			desc_node = nodes["pokemon/ability/description"]
+		else
+			root_node = gui.clone(nodes["pokemon/ability/root"])
+			name_node = gui.clone(nodes["pokemon/ability/name"])
+			desc_node = gui.clone(nodes["pokemon/ability/description"])
+			gui.set_parent(name_node, root_node)
+			gui.set_parent(desc_node, root_node)
+			gui.set_position(root_node, p)
+		end
+		
 		gui.set_text(name_node, name)
 		gui.set_text(desc_node, desc)
-		
-		gui.set_parent(name_node, root_node)
-		gui.set_parent(desc_node, root_node)
-		gui.set_position(root_node, p)
+
 		p.y = p.y - gui.get_text_metrics_from_node(desc_node).height - gui.get_text_metrics_from_node(name_node).height
 		index = index + 1
 	end
-	gui.set_enabled(template, false)
 end
 
 local function setup_info(self, nodes, pokemon)
