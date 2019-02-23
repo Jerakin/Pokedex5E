@@ -6,7 +6,7 @@ local url = require "utils.url"
 
 local M = {}
 
-local function filter_list(self, search_string)
+function M.filter_list(self, search_string)
 	local function starts_with(str, start)
 		return string.lower(str):sub(1, #start) == string.lower(start)
 	end
@@ -22,7 +22,7 @@ local function filter_list(self, search_string)
 	else
 		self.filtered_list = self.all_pokemons
 	end
-	msg.post(url.STORAGE, "storage_updated")
+	msg.post(url.STORAGE, "search")
 end
 
 local function refresh_input(self, input, node_id)
@@ -39,7 +39,7 @@ local function refresh_input(self, input, node_id)
 		gui.cancel_animation(cursor, gui.PROP_COLOR)
 		gui.set_color(input.node, gui_colors.HERO_TEXT)
 		gui.animate(cursor, gui.PROP_COLOR, vmath.vector4(1,1,1,0), gui.EASING_INSINE, 0.8, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
-		filter_list(self, input.text)
+		M.filter_list(self, input.text)
 	else
 		gui.set_enabled(cursor, false)
 		gui.cancel_animation(cursor, gui.PROP_COLOR)
