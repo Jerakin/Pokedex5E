@@ -8,7 +8,11 @@ key_trigger {
 }
 key_trigger {
   input: KEY_F3
-  action: "stack"
+  action: "add_random"
+}
+key_trigger {
+  input: KEY_F4
+  action: "add_all"
 }
 mouse_trigger {
   input: MOUSE_BUTTON_1
