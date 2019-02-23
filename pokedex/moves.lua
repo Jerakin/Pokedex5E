@@ -18,7 +18,6 @@ function M.get_move_data(move)
 	log.error("Can not find move data for: " .. tostring(move))
 end
 
-
 function M.get_move_pp(move)
 	return M.get_move_data(move).PP
 end

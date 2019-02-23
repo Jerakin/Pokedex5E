@@ -7,7 +7,7 @@ local gooey = require "gooey.gooey"
 
 local function set_sorting(sorting)
 	storage.set_sorting_method(sorting)
-	msg.post(url.STORAGE, "inventory_updated")
+	msg.post(url.STORAGE, "sorting_updated")
 	monarch.back()
 end
 
