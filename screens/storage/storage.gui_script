@@ -44,14 +44,15 @@ local function update_items(item)
 	for i=1, 3 do
 		local sprite_node = item.nodes["pokemon_row/pokemon" .. i .. "/pokemon_sprite"]
 		local text_node = item.nodes["pokemon_row/pokemon" .. i .. "/txt_pokemon"]
+		local background = item.nodes["pokemon_row/pokemon" .. i .. "/background"]
 		local data = storage_data[item.data]
 		if data and data[i] then
-			gui.set_enabled(sprite_node, true)
+			gui.set_enabled(background, true)
 			gui.set_texture(sprite_node, data[i].texture)
 			gui.play_flipbook(sprite_node, data[i].sprite)
 			gui.set_text(text_node, data[i].species .. "\nLv. " .. data[i].level)
 		else
-			gui.set_enabled(sprite_node, false)
+			gui.set_enabled(background, false)
 		end
 	end
 end
