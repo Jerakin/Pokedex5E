@@ -38,8 +38,7 @@ local function inventory_button(node, id, swap)
 		if not id or not swap then
 			return
 		end
-		storage.move_to_storage(id)
-		storage.move_to_inventory(swap)
+		storage.swap(swap, id)
 		update_storage()
 		monarch.back()
 	end)
