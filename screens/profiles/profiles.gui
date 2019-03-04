@@ -15,6 +15,10 @@ textures {
   name: "pokemon0"
   texture: "/assets/pokemon0.atlas"
 }
+textures {
+  name: "decoration"
+  texture: "/assets/decoration.atlas"
+}
 background_color {
   x: 0.0
   y: 0.0
@@ -78,7 +82,7 @@ nodes {
 nodes {
   position {
     x: 362.0
-    y: 596.0
+    y: 563.0
     z: 0.0
     w: 1.0
   }
@@ -1795,7 +1799,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 940.0
+    y: 907.0
     z: 0.0
     w: 1.0
   }
@@ -1912,14 +1916,14 @@ nodes {
 }
 nodes {
   position {
-    x: 229.0
-    y: 73.0
+    x: 544.0
+    y: 1104.0
     z: 0.0
     w: 1.0
   }
   rotation {
     x: 0.0
-    y: 180.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -1966,14 +1970,14 @@ nodes {
 }
 nodes {
   position {
-    x: 480.0
+    x: 65.0
     y: 73.0
     z: 0.0
     w: 1.0
   }
   rotation {
     x: 0.0
-    y: 0.0
+    y: 180.0
     z: 0.0
     w: 1.0
   }
@@ -2020,14 +2024,14 @@ nodes {
 }
 nodes {
   position {
-    x: 355.0
-    y: 73.0
+    x: 195.0
+    y: 61.0
     z: 0.0
     w: 1.0
   }
   rotation {
     x: 0.0
-    y: 0.0
+    y: 180.0
     z: 0.0
     w: 1.0
   }
@@ -2053,6 +2057,60 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   texture: "pokemon0/1Bulbasaur"
   id: "box2"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 594.0
+    y: 116.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 256.0
+    y: 243.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "decoration/1079px-SM_Ace_Trainers_TOKIYA"
+  id: "box5"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
