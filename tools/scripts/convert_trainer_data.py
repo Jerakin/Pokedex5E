@@ -11,7 +11,7 @@ index = {}
 with open(pokemon_index, "r") as f:
     data = json.load(f)
     for i, p in enumerate(data["number"]):
-        index[i] = p
+        index[i+1] = p
 
 with open(input_path, "r") as f:
     data = json.load(f)
