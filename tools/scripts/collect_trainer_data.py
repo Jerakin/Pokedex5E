@@ -13,8 +13,8 @@ new_json = {}
 
 def clean_content(content):
     pre_removed = content.split('id="Trainer_list">Trainer list', 1)[-1]
-    post_removed = pre_removed.split('''mon Stadium</span></h3>''')
-    return post_removed[-1]
+    post_removed = pre_removed.split('''mon Stadium</span></h3>''')[0]
+    return post_removed
 
 
 def main():
