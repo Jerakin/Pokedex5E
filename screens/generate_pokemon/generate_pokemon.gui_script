@@ -12,6 +12,19 @@ local gooey = require "gooey.gooey"
 local storage_data = {}
 local action_position = vmath.vector3()
 
+
+local img_map = {["Water's-edge"] = "Waters-edge",
+Forest = "Forest",
+Cave = "Cave",
+Sea = "Sea",
+Urban = "Urban",
+["Rough-terrain"] = "Rough",
+Mountain = "Mountain",
+Grassland = "Grassland",
+Rare = "Rare"
+
+}
+
 function on_message(self, message_id, message, sender)
 	-- Add message-handling code here
 	-- Remove this function if not needed
@@ -84,8 +97,8 @@ end
 
 local function set_trainer(self)
 	local list = filters.trainer_class_list()
-	local i = math.random(#list)
-	self.trainer_class = list[i]
+	self.trainer_class_index = (self.trainer_class_index % #list) + 1
+	self.trainer_class = list[self.trainer_class_index]
 	self.filtered_pokemons = filters.get_list(self.trainer_class, self.habitat)
 	gui.set_text(gui.get_node("txt_trainer"), self.trainer_class)
 	update_storage_data(self)
@@ -94,10 +107,11 @@ end
 
 local function set_habitat(self)
 	local list = filters.habitat_list()
-	local i = math.random(#list)
-	self.habitat = list[i]
+	self.habitat_index = (self.habitat_index % #list) + 1
+	self.habitat = list[self.habitat_index]
 	self.filtered_pokemons = filters.get_list(self.trainer_class, self.habitat)
 	gui.set_text(gui.get_node("txt_habitat"), self.habitat)
+	gui.play_flipbook(gui.get_node("habitat"), img_map[self.habitat])
 	update_storage_data(self)
 	update_list(gooey.dynamic_list("storage", "scroll_list", "pokemon/row", self.pokemon_rows))
 end
@@ -105,6 +119,8 @@ end
 
 function init(self)
 	gooey.acquire_input()
+	self.habitat_index = 1
+	self.trainer_class_index = 1
 	self.trainer_class = filters.trainer_class_list()[1]
 	self.habitat = filters.habitat_list()[1]
 

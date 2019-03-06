@@ -34,7 +34,6 @@ local function filter(t1, t2)
 end
 
 function M.get_list(trainer_class, habitat, time_of_day)
-	print(habitat, habitats[habitat])
 	return filter(trainer_classes[trainer_class], habitats[habitat])
 end
 
