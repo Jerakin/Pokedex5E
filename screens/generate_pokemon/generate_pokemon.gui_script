@@ -21,8 +21,8 @@ Urban = "Urban",
 ["Rough-terrain"] = "Rough",
 Mountain = "Mountain",
 Grassland = "Grassland",
-Rare = "Rare"
-
+Rare = "Rare",
+All = "All"
 }
 
 function on_message(self, message_id, message, sender)
@@ -122,7 +122,7 @@ function init(self)
 	self.habitat_index = 1
 	self.trainer_class_index = 1
 	self.trainer_class = filters.trainer_class_list()[1]
-	self.habitat = filters.habitat_list()[1]
+	self.habitat = "All"
 
 	self.filtered_pokemons = filters.get_list(self.trainer_class, self.habitat)
 	gui.set_text(gui.get_node("txt_trainer"), self.trainer_class)

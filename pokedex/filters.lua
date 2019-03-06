@@ -14,6 +14,8 @@ function M.init()
 		trainer_classes = file.load_json_from_resource("/assets/datafiles/trainer_classes.json")
 		trainer_classes_list = file.load_json_from_resource("/assets/datafiles/trainer_classes_list.json")
 		habitats = file.load_json_from_resource("/assets/datafiles/habitat.json")
+		local ordered = file.load_json_from_resource("/assets/datafiles/pokemon_order.json")
+		habitats.All = ordered.number
 		initialized = true
 	end
 end
