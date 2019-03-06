@@ -99,8 +99,10 @@ local function set_trainer(self)
 	local list = filters.trainer_class_list()
 	self.trainer_class_index = (self.trainer_class_index % #list) + 1
 	self.trainer_class = list[self.trainer_class_index]
+
 	self.filtered_pokemons = filters.get_list(self.trainer_class, self.habitat)
 	gui.set_text(gui.get_node("txt_trainer"), self.trainer_class)
+	gui.play_flipbook(gui.get_node("trainer"), self.trainer_class)
 	update_storage_data(self)
 	update_list(gooey.dynamic_list("storage", "scroll_list", "pokemon/row", self.pokemon_rows))
 end

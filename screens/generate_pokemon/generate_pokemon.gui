@@ -7,6 +7,10 @@ textures {
   name: "habitat"
   texture: "/assets/habitat.atlas"
 }
+textures {
+  name: "trainers"
+  texture: "/assets/trainers.atlas"
+}
 background_color {
   x: 0.0
   y: 0.0
@@ -923,8 +927,8 @@ nodes {
 }
 nodes {
   position {
-    x: 606.0
-    y: 888.0
+    x: 678.0
+    y: 861.0
     z: 0.0
     w: 1.0
   }
@@ -941,8 +945,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 100.0
-    y: 220.0
+    x: 68.0
+    y: 252.0
     z: 0.0
     w: 1.0
   }
@@ -954,11 +958,11 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "trainers/Ace Trainer"
   id: "trainer"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_S
+  pivot: PIVOT_SE
   adjust_mode: ADJUST_MODE_FIT
   layer: ""
   inherit_alpha: true
@@ -973,12 +977,12 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
+  size_mode: SIZE_MODE_AUTO
 }
 nodes {
   position {
-    x: 0.0
-    y: 19.0
+    x: -81.0
+    y: 6.0
     z: 0.0
     w: 1.0
   }
