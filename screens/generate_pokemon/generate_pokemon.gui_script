@@ -12,17 +12,11 @@ local gooey = require "gooey.gooey"
 local storage_data = {}
 local action_position = vmath.vector3()
 
+local selected_pokemon = {}
 
-local img_map = {["Water's-edge"] = "Waters-edge",
-Forest = "Forest",
-Cave = "Cave",
-Sea = "Sea",
-Urban = "Urban",
-["Rough-terrain"] = "Rough",
-Mountain = "Mountain",
-Grassland = "Grassland",
-Rare = "Rare",
-All = "All"
+local img_map = {["Water's-edge"] = "Waters-edge", Forest = "Forest", Cave = "Cave", Sea = "Sea", 
+				Urban = "Urban", ["Rough-terrain"] = "Rough", Mountain = "Mountain", Grassland = "Grassland",
+				Rare = "Rare", All = "All"
 }
 
 function on_message(self, message_id, message, sender)
@@ -62,6 +56,12 @@ local function update_items(item)
 		local text_node = item.nodes["pokemon/pokemon" .. i .. "/txt_pokemon"]
 		local background = item.nodes["pokemon/pokemon" .. i .. "/background"]
 		local data = storage_data[item.data]
+		if selected_pokemon[data[i].species] then
+			gui.set_color(background, vmath.vector4(0.4,0.4,0.4,1))
+		else
+			gui.set_color(background, vmath.vector4(1))
+		end
+		
 		if data and data[i] then
 			gui.set_enabled(background, true)
 			gui.set_texture(sprite_node, data[i].texture)
@@ -87,7 +87,12 @@ local function on_item_selected(self, list)
 				if gui.pick_node(sprite_node, action_position.x, action_position.y) then
 					local pokemon_id = self.filtered_pokemons[(list.selected_item-1)*3 + i]
 					if pokemon_id then
-						--monarch.show("transfer_pokemon", {}, {id=pokemon_id, to="inventory"})
+						if selected_pokemon[pokemon_id] == nil or not selected_pokemon[pokemon_id] then
+							selected_pokemon[pokemon_id] = true
+						else
+							selected_pokemon[pokemon_id] = false
+						end
+						gui.set_color(entry.nodes["pokemon/pokemon" .. i .. "/background"], vmath.vector4(0.4,0.4,0.4,1))
 					end
 				end
 			end
