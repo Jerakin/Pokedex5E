@@ -107,7 +107,7 @@ local function on_item_selected(self, list)
 end
 
 local function get_filtered(self)
-	return filters.get_list(self.trainer_class, self.habitat, self.min_sr, self.max_sr)
+	return filters.get_list(self.trainer_class, self.habitat, self.min_sr, self.max_sr, self.level)
 end
 
 local function set_trainer(self)
@@ -142,7 +142,8 @@ function init(self)
 	self.trainer_class = "No Trainer"
 	self.habitat = "All"
 	self.min_sr = 0.25
-	self.max_sr = 1
+	self.max_sr = 15
+	self.level = 1
 	
 	self.filtered_pokemons = get_filtered(self)
 	gui.set_text(gui.get_node("txt_trainer"), self.trainer_class)
@@ -159,9 +160,15 @@ function on_input(self, action_id, action)
 	if a then return true end
 	local b = dropdown.on_input("Trainers", "trainer", "txt_trainer", "scroll_selection", "scroll_text", self.trainer_class_list, action_id, action)
 	if b then return true end
-	local c = dropdown.on_input("sr_min", "min_sr", "txt_min_sr", "scroll_selection", "scroll_text", sr, action_id, action)
+	local c = dropdown.on_input("sr_min", "min_sr", "txt_min_sr", "scroll_selection", "scroll_text", sr, action_id, action, function()
+		local t = gui.get_text(gui.get_node("txt_min_sr"))
+		self.min_sr = number_map[t]
+	end)
 	if c then return true end
-	local d = dropdown.on_input("sr_max", "max_sr", "txt_max_sr", "scroll_selection", "scroll_text", sr, action_id, action)
+	local d = dropdown.on_input("sr_max", "max_sr", "txt_max_sr", "scroll_selection", "scroll_text", sr, action_id, action, function()
+		local t = gui.get_text(gui.get_node("txt_max_sr"))
+		self.max_sr = number_map[t]
+	end)
 	if d then return true end
 	gooey.dynamic_list("storage", "scroll_list", "pokemon/row", self.pokemon_rows, action_id, action, function(list) on_item_selected(self, list) end, update_list)
 	
