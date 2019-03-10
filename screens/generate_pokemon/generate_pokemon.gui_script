@@ -56,10 +56,10 @@ local function update_items(item)
 		local text_node = item.nodes["pokemon/pokemon" .. i .. "/txt_pokemon"]
 		local background = item.nodes["pokemon/pokemon" .. i .. "/background"]
 		local data = storage_data[item.data]
-		if selected_pokemon[data[i].species] then
+		if data and data[i] and selected_pokemon[data[i].species] then
 			gui.set_color(background, vmath.vector4(0.4,0.4,0.4,1))
 		else
-			gui.set_color(background, vmath.vector4(1))
+			gui.set_color(background, vmath.vector4(0.99,0.95,0.86,1))
 		end
 		
 		if data and data[i] then
@@ -107,7 +107,7 @@ local function set_trainer(self)
 
 	self.filtered_pokemons = filters.get_list(self.trainer_class, self.habitat)
 	gui.set_text(gui.get_node("txt_trainer"), self.trainer_class)
-	gui.play_flipbook(gui.get_node("trainer"), self.trainer_class)
+	--gui.play_flipbook(gui.get_node("trainer"), self.trainer_class)
 	update_storage_data(self)
 	update_list(gooey.dynamic_list("storage", "scroll_list", "pokemon/row", self.pokemon_rows))
 end
@@ -118,7 +118,7 @@ local function set_habitat(self)
 	self.habitat = list[self.habitat_index]
 	self.filtered_pokemons = filters.get_list(self.trainer_class, self.habitat)
 	gui.set_text(gui.get_node("txt_habitat"), self.habitat)
-	gui.play_flipbook(gui.get_node("habitat"), img_map[self.habitat])
+	--gui.play_flipbook(gui.get_node("habitat"), img_map[self.habitat])
 	update_storage_data(self)
 	update_list(gooey.dynamic_list("storage", "scroll_list", "pokemon/row", self.pokemon_rows))
 end

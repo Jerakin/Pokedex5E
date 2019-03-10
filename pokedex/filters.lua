@@ -8,6 +8,21 @@ local trainer_classes
 local trainer_classes_list
 local habitats
 local initialized
+local sr = {}
+
+
+local function species_rating()
+	local pokedex = file.load_json_from_resource("/assets/datafiles/pokemon.json")
+	for pokemon, data in pairs(pokedex) do
+		local cr = tostring(data.CR)
+		if sr[cr] then 
+			table.insert(sr[cr], pokemon)
+		else 
+			sr[cr] = {pokemon}
+		end
+	end
+end
+
 
 function M.init()
 	if not initialized then
@@ -15,7 +30,10 @@ function M.init()
 		trainer_classes_list = file.load_json_from_resource("/assets/datafiles/trainer_classes_list.json")
 		habitats = file.load_json_from_resource("/assets/datafiles/habitat.json")
 		local ordered = file.load_json_from_resource("/assets/datafiles/pokemon_order.json")
+		trainer_classes_list.Classes[#trainer_classes_list.Classes + 1] = "No Trainer"
 		habitats.All = ordered.number
+		trainer_classes["No Trainer"] = ordered.number
+		species_rating()
 		initialized = true
 	end
 end
@@ -33,6 +51,18 @@ local function filter(t1, t2)
 	end
 
 	return out
+end
+
+function M.SR_list(min, max)
+	local n = {}
+
+	for cr, list in pairs(sr) do 
+		cr = tonumber(cr)
+		if cr < max and cr > min then
+			table.insert(n, cr)
+		end
+	end
+	return n
 end
 
 function M.get_list(trainer_class, habitat, time_of_day)
