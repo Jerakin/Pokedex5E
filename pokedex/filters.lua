@@ -86,9 +86,12 @@ local number_map = {["1/8"]=0.125, ["1/4"]=0.25, ["1/2"]=0.5, ["1"]=1, ["2"]=2, 
 
 local function minimum_level_list(lvl)
 	local n = {}
+	if lvl == 0 then
+		return habitats.All
+	end
 	for m_lvl, list in pairs(minimum_level) do
 		m_lvl = tonumber(m_lvl)
-		if m_lvl >= lvl then
+		if m_lvl <= lvl then
 			for _, l in pairs(list) do
 				table.insert(n, l)
 			end
@@ -100,7 +103,7 @@ end
 function M.get_list(trainer_class, habitat, sr_min, sr_max, min_level)
 	local class_habitat = filter(trainer_classes[trainer_class], habitats[habitat]) 
 	local class_habitat_sr = filter(class_habitat, SR_list(sr_min, sr_max))
-	local class_habitat_sr_lvl = filter(minimum_level_list(min_level), class_habitat_sr, true)
+	local class_habitat_sr_lvl = filter(class_habitat_sr, minimum_level_list(min_level))
 	return class_habitat_sr_lvl
 end
 
