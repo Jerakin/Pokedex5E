@@ -53,20 +53,23 @@ local function filter(t1, t2)
 	return out
 end
 
-function M.SR_list(min, max)
+local function SR_list(min, max)
 	local n = {}
 
 	for cr, list in pairs(sr) do 
 		cr = tonumber(cr)
 		if cr < max and cr > min then
-			table.insert(n, cr)
+			for _, l in pairs(list) do
+				table.insert(n, l)
+			end
 		end
 	end
+	pprint(n)
 	return n
 end
 
-function M.get_list(trainer_class, habitat, time_of_day)
-	return filter(trainer_classes[trainer_class], habitats[habitat])
+function M.get_list(trainer_class, habitat, sr_min, sr_max)
+	return filter(filter(trainer_classes[trainer_class], habitats[habitat]), SR_list(sr_min, sr_max))
 end
 
 function M.habitat_list()

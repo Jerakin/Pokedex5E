@@ -19,6 +19,8 @@ local img_map = {["Water's-edge"] = "Waters-edge", Forest = "Forest", Cave = "Ca
 				Rare = "Rare", All = "All"
 }
 
+local number_map = {"1/8"=0.125, "1/4"=0.25, "1/2"=0.5}
+
 function on_message(self, message_id, message, sender)
 	-- Add message-handling code here
 	-- Remove this function if not needed
@@ -100,12 +102,16 @@ local function on_item_selected(self, list)
 	end
 end
 
+local function get_filtered(self)
+	return filters.get_list(self.trainer_class, self.habitat, self.min_sr, self.max_sr)
+end
+
 local function set_trainer(self)
 	local list = filters.trainer_class_list()
 	self.trainer_class_index = (self.trainer_class_index % #list) + 1
 	self.trainer_class = list[self.trainer_class_index]
 
-	self.filtered_pokemons = filters.get_list(self.trainer_class, self.habitat)
+	self.filtered_pokemons = get_filtered(self)
 	gui.set_text(gui.get_node("txt_trainer"), self.trainer_class)
 	--gui.play_flipbook(gui.get_node("trainer"), self.trainer_class)
 	update_storage_data(self)
@@ -116,7 +122,7 @@ local function set_habitat(self)
 	local list = filters.habitat_list()
 	self.habitat_index = (self.habitat_index % #list) + 1
 	self.habitat = list[self.habitat_index]
-	self.filtered_pokemons = filters.get_list(self.trainer_class, self.habitat)
+	self.filtered_pokemons = get_filtered(self)
 	gui.set_text(gui.get_node("txt_habitat"), self.habitat)
 	--gui.play_flipbook(gui.get_node("habitat"), img_map[self.habitat])
 	update_storage_data(self)
@@ -130,8 +136,9 @@ function init(self)
 	self.trainer_class_index = 1
 	self.trainer_class = filters.trainer_class_list()[1]
 	self.habitat = "All"
-
-	self.filtered_pokemons = filters.get_list(self.trainer_class, self.habitat)
+	self.min_sr = 0.25
+	self.max_sr = 1
+	self.filtered_pokemons = get_filtered(self)
 	gui.set_text(gui.get_node("txt_trainer"), self.trainer_class)
 	gui.set_text(gui.get_node("txt_habitat"), self.habitat)
 	update_storage_data(self)
