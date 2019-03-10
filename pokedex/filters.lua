@@ -72,7 +72,7 @@ local function SR_list(min, max)
 
 	for cr, list in pairs(sr) do 
 		cr = tonumber(cr)
-		if cr < max and cr > min then
+		if cr <= max and cr >= min then
 			for _, l in pairs(list) do
 				table.insert(n, l)
 			end
