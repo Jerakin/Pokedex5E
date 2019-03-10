@@ -51,19 +51,16 @@ end
 local function setup_state(name, button_id, button_txt_id, scroll_id, item_id, action_id, action, func)
 	local scroll = gui.get_node(scroll_id)
 	local button = gui.get_node(button_id)
+	
 	if not active[name] then
 		active[name] = {active = false, button_id = button_id, button_txt_id = button_txt_id, scroll_id = scroll_id, item_id = item_id, func=func}
 	end
 	if gui.pick_node(scroll, action.x, action.y) then
-		active[name].scroll_over = true
-		if action.pressed then
+		if action.pressed and active[name].active then
 			active[name].scroll_clicked = true
 		end
-		if active[name].scroll_clicked and action.released then
-			--M.active[name].scroll_clicked = false
-		end
+
 	else
-		active[name].scroll_over = false
 		if action.pressed then
 			active[name].scroll_clicked = false
 		end
@@ -72,7 +69,6 @@ local function setup_state(name, button_id, button_txt_id, scroll_id, item_id, a
 	if gui.pick_node(button, action.x, action.y) then
 		active[name].button_over = true
 		if action.released then
-			active[name].button_released = true
 			if active[name].button_pressed then
 				active[name].button_clicked = true
 			end
@@ -81,7 +77,7 @@ local function setup_state(name, button_id, button_txt_id, scroll_id, item_id, a
 			active[name].button_pressed = true
 		end
 	else
-		active[name].button_over = true
+		active[name].button_over = false
 		active[name].button_clicked = false
 	end
 end
@@ -91,6 +87,7 @@ function M.on_input(name, button_id, button_txt_id, scroll_id, item_id, data, ac
 	
 	if active[name].active and action_id == hash("touch") and not active[name].scroll_clicked and action.released then
 		active[name].active = false
+		active.active = false
 		gui.set_enabled(gui.get_node(scroll_id), false)
 	end
 	
