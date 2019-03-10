@@ -64,7 +64,6 @@ local function SR_list(min, max)
 			end
 		end
 	end
-	pprint(n)
 	return n
 end
 
