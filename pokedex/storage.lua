@@ -4,7 +4,7 @@ local md5 = require "utils.md5"
 local utils = require "utils.utils"
 local profiles = require "pokedex.profiles"
 local pokedex = require "pokedex.pokedex"
-
+local log = require "utils.log"
 local M = {}
 
 local storage = {}
@@ -67,8 +67,12 @@ function M.list_of_ids_in_storage()
 	return getKeysSortedByValue(storage, f(a, b))
 end
 
+local function sort_on_slot(a, b)
+	return function(a, b) return (a.slot or 7) < (b.slot or 7) end
+end
+
 function M.list_of_ids_in_inventory()
-	return getKeysSortedByValue(active, sort_on_index(a, b))
+	return getKeysSortedByValue(active, sort_on_slot(a, b))
 end
 
 function M.get_copy(id)
@@ -168,6 +172,7 @@ function M.add(pokemon)
 	if party_is_full() then
 		storage[id] = pokemon
 	else
+		pokemon.slot = #M.list_of_ids_in_inventory() + 1
 		active[id] = pokemon
 	end
 	M.save()
@@ -207,10 +212,46 @@ function M.init()
 	end
 end
 
+local function assign_slot_numbers()
+	log.info("Assigning slot numbers")
+	local index = 1
+	for id, pokemon in pairs(active) do
+		pokemon.slot = index
+		index = index + 1
+	end
+end
+
+function M.swap(storage_id, inventory_id)
+	local storage_pokemon = utils.deep_copy(storage[storage_id])
+	local inventory_pokemon = utils.deep_copy(active[inventory_id])
+	local slot = inventory_pokemon.slot 
+	if not slot then
+		assign_slot_numbers()
+		inventory_pokemon = utils.deep_copy(active[inventory_id])
+		slot = inventory_pokemon.slot 
+	end
+	storage_pokemon.slot = slot
+	storage[inventory_id] = inventory_pokemon
+	active[inventory_id] = nil
+	
+	active[storage_id] = storage_pokemon
+	storage[storage_id] = nil
+	M.save()
+end
+
 function M.move_to_storage(id)
 	local pokemon = utils.deep_copy(active[id])
+	if not pokemon.slot then
+		assign_slot_numbers()
+	end
+	
+	for p_id, data in pairs(active) do
+		data.slot = data.slot - 1
+	end
+	pokemon.slot = nil
 	storage[id] = pokemon
 	active[id] = nil
+
 	M.save()
 end
 
@@ -219,12 +260,14 @@ function M.free_space_in_inventory()
 	for _, _ in pairs(active) do
 		index = index + 1
 	end
-	return index < 6
+	return index < 6, index + 1
 end
 
 function M.move_to_inventory(id)
-	if M.free_space_in_inventory() then
+	local free, slot = M.free_space_in_inventory()
+	if free then
 		local pokemon = utils.deep_copy(storage[id])
+		pokemon.slot = slot
 		active[id] = pokemon
 		storage[id] = nil
 		M.save()

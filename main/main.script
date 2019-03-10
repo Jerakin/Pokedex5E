@@ -6,6 +6,7 @@ local natures = require "pokedex.natures"
 local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
 local profiles = require "pokedex.profiles"
+local filters = require "pokedex.filters"
 local flow = require "utils.flow"
 local metadata = require "utils.metadata"
 local gui_colors = require "utils.gui_colors"
@@ -68,6 +69,7 @@ function init(self)
 		natures.init()
 		pokedex.init()
 		storage.init()
+		filters.init()
 		
 		if #storage.list_of_ids_in_inventory() > 0 then
 			msg.post("#", "show_party")

@@ -125,7 +125,7 @@ local function setup_moves(self, nodes, pokemon)
 		gui.set_text(_get_node("/range"), move_data.range)
 	end
 	for i=1, 5 do
-		local n = nodes["pokemon/move_" .. i .. "/root"]
+		local n = nodes["pokemon/move_" .. i .. "/move"]
 		if not enabled_moves[i] then
 			gui.set_enabled(n, false)
 		end
@@ -289,7 +289,7 @@ local function add_pokemon_page(self, pokemon_id, index)
 	return page
 end
 
-local function change_pokemon(self, index)
+local function change_pokemon(self, index, instant)
 	local r = gui.get_node("scroll")
 	local p = vmath.vector3()
 	p.x = index * -720
@@ -300,13 +300,18 @@ local function change_pokemon(self, index)
 	pos.y = 50
 	gui.set_position(gui.get_node("party_indicator/active"), pos)
 	party.current_pokemon = self.pokemons_list[index+1].pokemon_id
-	gui.animate(r, "position", p, gui.EASING_INSINE, 0.2, 0, function()
-		for i, d in pairs(self.pokemons_list) do
-			if i == index+1 then else
-				gui.set_enabled(self.pokemons_list[i].nodes[hash("pokemon/root")], false)
+	if instant then
+		gui.set_position(r, p)
+	else
+		gui.animate(r, "position", p, gui.EASING_INSINE, 0.2, 0, function()
+			for i, d in pairs(self.pokemons_list) do
+				if i == index+1 then else
+					gui.set_enabled(self.pokemons_list[i].nodes[hash("pokemon/root")], false)
+				end
 			end
-		end
-	end)
+		end)
+	end
+	party.last_active = index
 end
 
 function init(self)
@@ -345,7 +350,8 @@ function init(self)
 	if next(self.pokemons_list) ~= nil then
 		party.current_pokemon = self.pokemons_list[1].pokemon_id
 	end
-
+	
+	change_pokemon(self, party.last_active, true)
 	local left_in_storage = #storage.list_of_ids_in_storage()
 	for i=#storage.list_of_ids_in_inventory()+1, 6 do
 		local pok_sprite = gui.get_node("party_indicator/pokemon_" .. i .. "/pokemon_sprite")

@@ -71,7 +71,7 @@ function init(self)
 	self.evolve_button = gui.get_node("btn_evolve")
 	gui.set_text(gui.get_node("name_text"), self.nickname)
 	gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. _pokemon.get_current_level(self.pokemon_copy))
-	gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.GREEN)
+	
 	gui.set_text(gui.get_node("change_pokemon/nature"), _pokemon.get_nature(self.pokemon_copy))
 	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), "Max Hp: " .. _pokemon.get_max_hp(self.pokemon_copy))
 	gui.set_text(gui.get_node("change_pokemon/txt_hit_dice"), "Hit Dice: d" .. _pokemon.get_hit_dice(self.pokemon_copy))
@@ -88,11 +88,18 @@ function init(self)
 			self.evolve_button_active = false
 			gui.play_flipbook(self.evolve_button, "common_grey_up")
 		end
+		
 		gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. _pokemon.get_current_level(self.pokemon_copy))
-		if self.level - _pokemon.get_current_level(self.pokemon_copy)> 0 then
-			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "+" .. self.level - _pokemon.get_current_level(self.pokemon_copy))
+		local level_dif = self.level - _pokemon.get_current_level(self.pokemon_copy)
+		if level_dif == 0 then
+			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "")
+		elseif level_dif < 0 then
+			gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.RED)
+			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), level_dif)
 		else
-			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "" )
+			gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.GREEN)
+			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "+" .. level_dif)
+			
 		end
 	end
 
