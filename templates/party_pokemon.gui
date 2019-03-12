@@ -108,7 +108,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/info_backing"
+  texture: "gui/details_backing"
   id: "tab_bg_3"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -118,10 +118,10 @@ nodes {
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 15.0
-    y: 15.0
-    z: 30.0
-    w: 35.0
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -1549,7 +1549,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/info_tab"
+  texture: "gui/common_up"
   id: "tab_3"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1559,10 +1559,10 @@ nodes {
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 30.0
-    y: 30.0
-    z: 36.0
-    w: 10.0
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -1667,7 +1667,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/info_backing"
+  texture: "gui/details_backing"
   id: "tab_bg_2"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1677,10 +1677,10 @@ nodes {
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 15.0
-    y: 15.0
-    z: 30.0
-    w: 35.0
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -1943,7 +1943,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/info_tab"
+  texture: "gui/common_up"
   id: "tab_2"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1953,10 +1953,10 @@ nodes {
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 30.0
-    y: 30.0
-    z: 36.0
-    w: 10.0
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -2061,7 +2061,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/info_backing"
+  texture: "gui/details_backing"
   id: "tab_bg_1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -2071,10 +2071,10 @@ nodes {
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 15.0
-    y: 40.0
-    z: 30.0
-    w: 10.0
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -2789,8 +2789,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 1.0
+    y: 1.0
     z: 0.0
     w: 1.0
   }
@@ -2802,7 +2802,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "move_5/pp/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -2826,7 +2826,7 @@ nodes {
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -2844,8 +2844,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -2881,7 +2881,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -2899,8 +2899,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -3821,8 +3821,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 1.0
+    y: 1.0
     z: 0.0
     w: 1.0
   }
@@ -3834,7 +3834,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "move_4/pp/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -3858,7 +3858,7 @@ nodes {
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -3876,8 +3876,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -3913,7 +3913,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -3931,8 +3931,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -4853,8 +4853,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 1.0
+    y: 1.0
     z: 0.0
     w: 1.0
   }
@@ -4866,7 +4866,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "move_3/pp/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -4890,7 +4890,7 @@ nodes {
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -4908,8 +4908,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -4945,7 +4945,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -4963,8 +4963,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -5885,8 +5885,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 1.0
+    y: 1.0
     z: 0.0
     w: 1.0
   }
@@ -5898,7 +5898,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "move_2/pp/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -5922,7 +5922,7 @@ nodes {
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -5940,8 +5940,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -5977,7 +5977,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -5995,8 +5995,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -6917,8 +6917,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 1.0
+    y: 1.0
     z: 0.0
     w: 1.0
   }
@@ -6930,7 +6930,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "move_1/pp/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -6954,7 +6954,7 @@ nodes {
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -6972,8 +6972,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -7009,7 +7009,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -7027,8 +7027,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -7276,7 +7276,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/info_tab"
+  texture: "gui/common_up"
   id: "tab_1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -7286,10 +7286,10 @@ nodes {
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 30.0
-    y: 30.0
-    z: 30.0
-    w: 10.0
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -7921,7 +7921,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/pokeball"
+  texture: "gui/pokemon_open"
   id: "pokemon_sprite"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -8593,8 +8593,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 1.0
+    y: 1.0
     z: 0.0
     w: 1.0
   }
@@ -8606,7 +8606,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "hp/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -8630,7 +8630,7 @@ nodes {
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -8648,8 +8648,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -8685,7 +8685,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -8703,8 +8703,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }

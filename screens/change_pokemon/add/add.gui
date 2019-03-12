@@ -7,6 +7,10 @@ fonts {
   name: "script"
   font: "/assets/fonts/script.font"
 }
+fonts {
+  name: "script_bold"
+  font: "/assets/fonts/script_bold.font"
+}
 textures {
   name: "gui"
   texture: "/assets/gui.atlas"
@@ -54,13 +58,68 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/background_gradient"
+  texture: "gui/transparent"
   id: "root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 364.0
+    y: 53.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.321
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 768.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.23529412
+    y: 0.23529412
+    z: 0.23529412
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/square"
+  id: "btm_bar"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
+  layer: ""
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -95,8 +154,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 324.0
-    y: 78.0
+    x: 500.0
+    y: 80.0
     z: 0.0
     w: 1.0
   }
@@ -118,10 +177,10 @@ nodes {
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 20.0
-    y: 20.0
-    z: 20.0
-    w: 20.0
+    x: 10.0
+    y: 15.0
+    z: 10.0
+    w: 15.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -133,7 +192,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 0.0
+    y: 3.0
     z: 0.0
     w: 1.0
   }
@@ -144,28 +203,27 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.5
-    y: 0.5
+    x: 1.0
+    y: 1.0
     z: 1.0
     w: 1.0
   }
   size {
     x: 200.0
-    y: 100.0
+    y: 75.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.3882353
-    y: 0.2784314
-    z: 0.19215687
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Add to party\n"
-  ""
-  font: "title"
+  text: "ADD TO PARTY"
+  font: "script_bold"
   id: "txt_add"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -267,7 +325,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/background_gradient"
+  texture: "gui/transparent"
   id: "change_pokemon/root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -275,6 +333,61 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   parent: "change_pokemon"
   layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 362.0
+    y: 1283.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 770.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/gradient"
+  id: "change_pokemon/top_bar"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_N
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "change_pokemon/root"
+  layer: ""
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -322,7 +435,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/background_gradient"
+  texture: "gui/transparent"
   id: "change_pokemon/moves"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -346,8 +459,8 @@ nodes {
 }
 nodes {
   position {
-    x: 5.0
-    y: 0.0
+    x: 197.0
+    y: -113.0
     z: 0.0
     w: 1.0
   }
@@ -364,33 +477,33 @@ nodes {
     w: 1.0
   }
   size {
-    x: 352.0
+    x: 330.0
     y: 85.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
+  texture: "gui/add_backing"
   id: "change_pokemon/btn_move_1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "change_pokemon/moves"
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
+    x: 18.0
+    y: 18.0
+    z: 18.0
+    w: 30.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -401,8 +514,8 @@ nodes {
 }
 nodes {
   position {
-    x: 176.0
-    y: 0.0
+    x: 0.0
+    y: 4.0
     z: 0.0
     w: 1.0
   }
@@ -413,9 +526,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.6
+    y: 0.6
+    z: 0.6
     w: 1.0
   }
   size {
@@ -432,7 +545,8 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Move"
+  text: "MOVE\n"
+  ""
   font: "script_bold"
   id: "change_pokemon/move_1"
   xanchor: XANCHOR_NONE
@@ -464,8 +578,8 @@ nodes {
 }
 nodes {
   position {
-    x: 715.0
-    y: 0.0
+    x: 520.0
+    y: -113.0
     z: 0.0
     w: 1.0
   }
@@ -482,33 +596,33 @@ nodes {
     w: 1.0
   }
   size {
-    x: 352.0
+    x: 330.0
     y: 85.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
+  texture: "gui/add_backing"
   id: "change_pokemon/btn_move_2"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "change_pokemon/moves"
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
+    x: 18.0
+    y: 18.0
+    z: 18.0
+    w: 30.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -519,8 +633,8 @@ nodes {
 }
 nodes {
   position {
-    x: 176.0
-    y: 0.0
+    x: 0.0
+    y: 4.0
     z: 0.0
     w: 1.0
   }
@@ -531,9 +645,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: -1.0
-    y: 1.0
-    z: 1.0
+    x: -0.6
+    y: 0.6
+    z: 0.6
     w: 1.0
   }
   size {
@@ -550,7 +664,8 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Move"
+  text: "MOVE\n"
+  ""
   font: "script_bold"
   id: "change_pokemon/move_2"
   xanchor: XANCHOR_NONE
@@ -582,8 +697,8 @@ nodes {
 }
 nodes {
   position {
-    x: 5.0
-    y: -95.0
+    x: 197.0
+    y: -194.0
     z: 0.0
     w: 1.0
   }
@@ -600,33 +715,33 @@ nodes {
     w: 1.0
   }
   size {
-    x: 352.0
+    x: 330.0
     y: 85.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
+  texture: "gui/add_backing"
   id: "change_pokemon/btn_move_3"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "change_pokemon/moves"
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
+    x: 18.0
+    y: 18.0
+    z: 18.0
+    w: 30.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -637,8 +752,8 @@ nodes {
 }
 nodes {
   position {
-    x: 176.0
-    y: 0.0
+    x: 0.0
+    y: 4.0
     z: 0.0
     w: 1.0
   }
@@ -649,9 +764,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.6
+    y: 0.6
+    z: 0.6
     w: 1.0
   }
   size {
@@ -668,7 +783,8 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Move"
+  text: "MOVE\n"
+  ""
   font: "script_bold"
   id: "change_pokemon/move_3"
   xanchor: XANCHOR_NONE
@@ -700,8 +816,8 @@ nodes {
 }
 nodes {
   position {
-    x: 715.0
-    y: -95.0
+    x: 520.0
+    y: -194.0
     z: 0.0
     w: 1.0
   }
@@ -718,33 +834,33 @@ nodes {
     w: 1.0
   }
   size {
-    x: 352.0
+    x: 330.0
     y: 85.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
+  texture: "gui/add_backing"
   id: "change_pokemon/btn_move_4"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "change_pokemon/moves"
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
+    x: 18.0
+    y: 18.0
+    z: 18.0
+    w: 30.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -755,8 +871,8 @@ nodes {
 }
 nodes {
   position {
-    x: 176.0
-    y: 0.0
+    x: 0.0
+    y: 4.0
     z: 0.0
     w: 1.0
   }
@@ -767,9 +883,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: -1.0
-    y: 1.0
-    z: 1.0
+    x: -0.6
+    y: 0.6
+    z: 0.6
     w: 1.0
   }
   size {
@@ -786,7 +902,8 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Move"
+  text: "MOVE\n"
+  ""
   font: "script_bold"
   id: "change_pokemon/move_4"
   xanchor: XANCHOR_NONE
@@ -818,8 +935,72 @@ nodes {
 }
 nodes {
   position {
-    x: 360.0
-    y: 1108.0
+    x: 364.0
+    y: -45.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.75
+    y: 0.75
+    z: 0.75
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "MOVE SET\n"
+  ""
+  font: "title"
+  id: "change_pokemon/title_ability"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "change_pokemon/moves"
+  layer: "script"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 0.0
+  shadow_alpha: 1.0
+  template_node_child: true
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 364.0
+    y: 1115.0
     z: 0.0
     w: 1.0
   }
@@ -836,20 +1017,20 @@ nodes {
     w: 1.0
   }
   size {
-    x: 700.0
+    x: 550.0
     y: 100.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
+  texture: "gui/add_backing"
   id: "change_pokemon/btn_species"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -859,24 +1040,22 @@ nodes {
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
+    x: 18.0
+    y: 18.0
+    z: 18.0
+    w: 30.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 1
-  overridden_fields: 4
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
     x: 0.0
-    y: -3.0
+    y: 5.0
     z: 0.0
     w: 1.0
   }
@@ -887,8 +1066,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.5
-    y: 1.5
+    x: 1.0
+    y: 1.0
     z: 1.0
     w: 1.0
   }
@@ -899,9 +1078,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -938,8 +1117,126 @@ nodes {
 }
 nodes {
   position {
+    x: 278.0
+    y: -24.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.438
+    y: 0.438
+    z: 0.438
+    w: 1.0
+  }
+  size {
     x: 200.0
-    y: 951.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.61960787
+    y: 0.61960787
+    z: 0.61960787
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "###"
+  font: "script"
+  id: "change_pokemon/pokemon_number"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_W
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "change_pokemon/btn_species"
+  layer: "script"
+  inherit_alpha: false
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: true
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: -308.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 62.0
+    y: 63.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.9254902
+    y: 0.56078434
+    z: 0.09411765
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/menu_add"
+  id: "change_pokemon/pokemon_sprite"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "change_pokemon/btn_species"
+  layer: "sprite"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 364.0
+    y: 1038.0
     z: 0.0
     w: 1.0
   }
@@ -957,19 +1254,19 @@ nodes {
   }
   size {
     x: 380.0
-    y: 60.0
+    y: 70.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
+  texture: "gui/add_backing"
   id: "change_pokemon/btn_nature"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -979,23 +1276,22 @@ nodes {
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
+    x: 18.0
+    y: 18.0
+    z: 18.0
+    w: 30.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 1
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
     x: 0.0
-    y: 0.0
+    y: 3.0
     z: 0.0
     w: 1.0
   }
@@ -1006,9 +1302,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.6
+    y: 0.6
+    z: 6.0
     w: 1.0
   }
   size {
@@ -1018,9 +1314,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -1057,8 +1353,8 @@ nodes {
 }
 nodes {
   position {
-    x: 435.0
-    y: 951.0
+    x: 495.0
+    y: 955.0
     z: 0.0
     w: 1.0
   }
@@ -1075,15 +1371,15 @@ nodes {
     w: 1.0
   }
   size {
-    x: 150.0
-    y: 60.0
+    x: 250.0
+    y: 150.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
@@ -1092,7 +1388,7 @@ nodes {
   id: "change_pokemon/bg_level"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "change_pokemon/root"
   layer: "gui"
@@ -1107,13 +1403,12 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 1
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
-    x: 10.0
+    x: 0.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -1125,9 +1420,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.75
+    y: 0.75
+    z: 0.75
     w: 1.0
   }
   size {
@@ -1137,9 +1432,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -1149,7 +1444,7 @@ nodes {
   id: "change_pokemon/txt_level"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -1176,7 +1471,7 @@ nodes {
 }
 nodes {
   position {
-    x: 202.0
+    x: 0.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -1208,7 +1503,7 @@ nodes {
   type: TYPE_TEMPLATE
   id: "change_pokemon/level"
   parent: "change_pokemon/bg_level"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   alpha: 1.0
   template: "/templates/plus_minus.gui"
@@ -1234,8 +1529,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 1.0
+    y: 1.0
     z: 0.0
     w: 1.0
   }
@@ -1247,7 +1542,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "change_pokemon/level/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1271,7 +1566,7 @@ nodes {
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -1289,8 +1584,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -1326,7 +1621,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -1344,8 +1639,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -1444,64 +1739,7 @@ nodes {
 }
 nodes {
   position {
-    x: 64.0
-    y: 1067.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 80.0
-    y: 80.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/pokeball_add"
-  id: "change_pokemon/pokemon_sprite"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_S
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/root"
-  layer: "sprite"
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  overridden_fields: 1
-  overridden_fields: 9
-  template_node_child: true
-  size_mode: SIZE_MODE_AUTO
-}
-nodes {
-  position {
-    x: 669.0
+    x: 44.0
     y: 1230.0
     z: 0.0
     w: 1.0
@@ -1519,8 +1757,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 80.0
-    y: 80.0
+    x: 34.0
+    y: 33.0
     z: 0.0
     w: 1.0
   }
@@ -1552,12 +1790,12 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: true
-  size_mode: SIZE_MODE_MANUAL
+  size_mode: SIZE_MODE_AUTO
 }
 nodes {
   position {
-    x: 357.0
-    y: 884.0
+    x: 364.0
+    y: 798.0
     z: 0.0
     w: 1.0
   }
@@ -1627,7 +1865,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/background_gradient"
+  texture: "gui/transparent"
   id: "change_pokemon/asi/root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1652,7 +1890,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -65.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -1663,14 +1901,14 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.75
-    y: 0.75
+    x: 1.0
+    y: 1.0
     z: 1.0
     w: 1.0
   }
   size {
-    x: 835.0
-    y: 500.0
+    x: 1.0
+    y: 1.0
     z: 0.0
     w: 1.0
   }
@@ -1682,69 +1920,14 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
+  texture: "gui/transparent"
   id: "change_pokemon/asi/asi_root"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_N
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/root"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: true
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: -130.667
-    y: -107.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: ""
-  id: "change_pokemon/asi/str_stat"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/asi/asi_root"
-  layer: ""
+  parent: "change_pokemon/asi/root"
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -1757,12 +1940,12 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: true
-  size_mode: SIZE_MODE_MANUAL
+  size_mode: SIZE_MODE_AUTO
 }
 nodes {
   position {
-    x: -200.0
-    y: 0.0
+    x: -150.0
+    y: -100.0
     z: 0.0
     w: 1.0
   }
@@ -1779,15 +1962,70 @@ nodes {
     w: 1.0
   }
   size {
+    x: 280.0
+    y: 115.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/details_backing"
+  id: "change_pokemon/asi/str_stat"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "change_pokemon/asi/asi_root"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 15.0
+    y: 15.0
+    z: 15.0
+    w: 15.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 17.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.2
+    y: 1.2
+    z: 1.2
+    w: 1.0
+  }
+  size {
     x: 200.0
     y: 100.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -1798,7 +2036,7 @@ nodes {
   id: "change_pokemon/asi/STR"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -1826,7 +2064,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 0.0
+    y: 9.333
     z: 0.0
     w: 1.0
   }
@@ -1883,8 +2121,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 1.0
+    y: 1.0
     z: 0.0
     w: 1.0
   }
@@ -1896,7 +2134,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "change_pokemon/asi/str/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1920,7 +2158,7 @@ nodes {
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -1938,8 +2176,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -1975,7 +2213,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -1993,8 +2231,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -2030,8 +2268,8 @@ nodes {
 }
 nodes {
   position {
-    x: -125.0
-    y: 56.333
+    x: -15.0
+    y: -40.0
     z: 0.0
     w: 1.0
   }
@@ -2042,9 +2280,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.33
+    y: 0.33
+    z: 33.0
     w: 1.0
   }
   size {
@@ -2054,19 +2292,19 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "STR"
-  font: "script_bold"
+  text: "STRENGTH"
+  font: "script"
   id: "change_pokemon/asi/STR1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -2093,8 +2331,8 @@ nodes {
 }
 nodes {
   position {
-    x: -155.0
-    y: 0.0
+    x: 72.0
+    y: -40.0
     z: 0.0
     w: 1.0
   }
@@ -2105,9 +2343,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.33
+    y: 0.33
+    z: 33.0
     w: 1.0
   }
   size {
@@ -2156,8 +2394,8 @@ nodes {
 }
 nodes {
   position {
-    x: -130.667
-    y: -270.333
+    x: -150.0
+    y: -230.0
     z: 0.0
     w: 1.0
   }
@@ -2174,8 +2412,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 280.0
+    y: 115.0
     z: 0.0
     w: 1.0
   }
@@ -2187,7 +2425,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/details_backing"
   id: "change_pokemon/asi/dex_stat"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -2197,10 +2435,10 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 15.0
+    y: 15.0
+    z: 15.0
+    w: 15.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -2211,8 +2449,8 @@ nodes {
 }
 nodes {
   position {
-    x: -200.0
-    y: 0.0
+    x: 0.0
+    y: 17.0
     z: 0.0
     w: 1.0
   }
@@ -2223,9 +2461,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 1.2
+    y: 1.2
+    z: 1.2
     w: 1.0
   }
   size {
@@ -2235,9 +2473,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2247,7 +2485,7 @@ nodes {
   id: "change_pokemon/asi/DEX"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -2332,8 +2570,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 1.0
+    y: 1.0
     z: 0.0
     w: 1.0
   }
@@ -2345,7 +2583,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "change_pokemon/asi/dex/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -2369,7 +2607,7 @@ nodes {
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -2387,8 +2625,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -2424,7 +2662,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -2442,8 +2680,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -2479,8 +2717,8 @@ nodes {
 }
 nodes {
   position {
-    x: -125.0
-    y: 56.333
+    x: -15.0
+    y: -40.0
     z: 0.0
     w: 1.0
   }
@@ -2491,9 +2729,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.33
+    y: 0.33
+    z: 33.0
     w: 1.0
   }
   size {
@@ -2503,19 +2741,19 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "DEX"
-  font: "script_bold"
+  text: "DEXTERITY"
+  font: "script"
   id: "change_pokemon/asi/DEX1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -2542,8 +2780,8 @@ nodes {
 }
 nodes {
   position {
-    x: -155.0
-    y: 0.0
+    x: 42.0
+    y: -40.0
     z: 0.0
     w: 1.0
   }
@@ -2554,9 +2792,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.33
+    y: 0.33
+    z: 33.0
     w: 1.0
   }
   size {
@@ -2605,8 +2843,8 @@ nodes {
 }
 nodes {
   position {
-    x: -130.667
-    y: -433.0
+    x: -150.0
+    y: -360.0
     z: 0.0
     w: 1.0
   }
@@ -2623,8 +2861,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 280.0
+    y: 115.0
     z: 0.0
     w: 1.0
   }
@@ -2636,7 +2874,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/details_backing"
   id: "change_pokemon/asi/con_stat"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -2646,10 +2884,10 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 15.0
+    y: 15.0
+    z: 15.0
+    w: 15.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -2660,8 +2898,8 @@ nodes {
 }
 nodes {
   position {
-    x: -200.0
-    y: 0.0
+    x: 0.0
+    y: 17.0
     z: 0.0
     w: 1.0
   }
@@ -2672,9 +2910,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 1.2
+    y: 1.2
+    z: 1.2
     w: 1.0
   }
   size {
@@ -2684,9 +2922,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2696,7 +2934,7 @@ nodes {
   id: "change_pokemon/asi/CON"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -2781,8 +3019,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 1.0
+    y: 1.0
     z: 0.0
     w: 1.0
   }
@@ -2794,7 +3032,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "change_pokemon/asi/con/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -2818,7 +3056,7 @@ nodes {
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -2836,8 +3074,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -2873,7 +3111,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -2891,8 +3129,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -2928,8 +3166,8 @@ nodes {
 }
 nodes {
   position {
-    x: -125.0
-    y: 56.333
+    x: -15.0
+    y: -40.0
     z: 0.0
     w: 1.0
   }
@@ -2940,9 +3178,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.33
+    y: 0.33
+    z: 33.0
     w: 1.0
   }
   size {
@@ -2952,19 +3190,19 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "CON"
-  font: "script_bold"
+  text: "CONSTITUTION"
+  font: "script"
   id: "change_pokemon/asi/CON1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -2991,8 +3229,8 @@ nodes {
 }
 nodes {
   position {
-    x: -155.0
-    y: 0.0
+    x: 60.0
+    y: -40.0
     z: 0.0
     w: 1.0
   }
@@ -3003,9 +3241,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.33
+    y: 0.33
+    z: 33.0
     w: 1.0
   }
   size {
@@ -3054,8 +3292,8 @@ nodes {
 }
 nodes {
   position {
-    x: 269.333
-    y: -112.333
+    x: 150.0
+    y: -100.0
     z: 0.0
     w: 1.0
   }
@@ -3072,8 +3310,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 280.0
+    y: 115.0
     z: 0.0
     w: 1.0
   }
@@ -3085,7 +3323,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/details_backing"
   id: "change_pokemon/asi/int_stat"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -3095,10 +3333,10 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 15.0
+    y: 15.0
+    z: 15.0
+    w: 15.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -3109,8 +3347,8 @@ nodes {
 }
 nodes {
   position {
-    x: -200.0
-    y: 0.0
+    x: 0.0
+    y: 17.0
     z: 0.0
     w: 1.0
   }
@@ -3121,9 +3359,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 1.2
+    y: 1.2
+    z: 1.2
     w: 1.0
   }
   size {
@@ -3133,9 +3371,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -3145,7 +3383,7 @@ nodes {
   id: "change_pokemon/asi/INT"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -3230,8 +3468,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 1.0
+    y: 1.0
     z: 0.0
     w: 1.0
   }
@@ -3243,7 +3481,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "change_pokemon/asi/int/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -3267,7 +3505,7 @@ nodes {
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -3285,8 +3523,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -3322,7 +3560,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -3340,8 +3578,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -3377,8 +3615,8 @@ nodes {
 }
 nodes {
   position {
-    x: -125.0
-    y: 56.333
+    x: -15.0
+    y: -40.0
     z: 0.0
     w: 1.0
   }
@@ -3389,9 +3627,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.33
+    y: 0.33
+    z: 33.0
     w: 1.0
   }
   size {
@@ -3401,16 +3639,17 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "INT"
-  font: "script_bold"
-  id: "change_pokemon/asi/text"
+  text: "INTELLIGENCE\n"
+  ""
+  font: "script"
+  id: "change_pokemon/asi/INT1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -3440,8 +3679,8 @@ nodes {
 }
 nodes {
   position {
-    x: -155.0
-    y: 0.0
+    x: 57.0
+    y: -40.0
     z: 0.0
     w: 1.0
   }
@@ -3452,9 +3691,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.33
+    y: 0.33
+    z: 33.0
     w: 1.0
   }
   size {
@@ -3503,8 +3742,8 @@ nodes {
 }
 nodes {
   position {
-    x: 269.333
-    y: -275.667
+    x: 150.0
+    y: -230.0
     z: 0.0
     w: 1.0
   }
@@ -3521,8 +3760,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 280.0
+    y: 115.0
     z: 0.0
     w: 1.0
   }
@@ -3534,7 +3773,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/details_backing"
   id: "change_pokemon/asi/wis_stat"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -3544,10 +3783,10 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 15.0
+    y: 15.0
+    z: 15.0
+    w: 15.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -3558,8 +3797,8 @@ nodes {
 }
 nodes {
   position {
-    x: -200.0
-    y: 0.0
+    x: 0.0
+    y: 17.0
     z: 0.0
     w: 1.0
   }
@@ -3582,9 +3821,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -3594,7 +3833,7 @@ nodes {
   id: "change_pokemon/asi/WIS"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -3679,8 +3918,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 1.0
+    y: 1.0
     z: 0.0
     w: 1.0
   }
@@ -3692,7 +3931,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "change_pokemon/asi/wis/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -3716,7 +3955,7 @@ nodes {
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -3734,8 +3973,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -3771,7 +4010,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -3789,8 +4028,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -3826,8 +4065,8 @@ nodes {
 }
 nodes {
   position {
-    x: -125.0
-    y: 56.333
+    x: -15.0
+    y: -40.0
     z: 0.0
     w: 1.0
   }
@@ -3838,9 +4077,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.33
+    y: 0.33
+    z: 33.0
     w: 1.0
   }
   size {
@@ -3850,19 +4089,20 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "WIS"
-  font: "script_bold"
+  text: "WISDOM\n"
+  ""
+  font: "script"
   id: "change_pokemon/asi/WIS1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -3889,8 +4129,8 @@ nodes {
 }
 nodes {
   position {
-    x: -155.0
-    y: 0.0
+    x: 31.0
+    y: -40.0
     z: 0.0
     w: 1.0
   }
@@ -3901,9 +4141,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.33
+    y: 0.33
+    z: 33.0
     w: 1.0
   }
   size {
@@ -3952,8 +4192,8 @@ nodes {
 }
 nodes {
   position {
-    x: 269.333
-    y: -442.333
+    x: 150.0
+    y: -360.0
     z: 0.0
     w: 1.0
   }
@@ -3970,8 +4210,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 280.0
+    y: 115.0
     z: 0.0
     w: 1.0
   }
@@ -3983,7 +4223,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/details_backing"
   id: "change_pokemon/asi/cha_stat"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -3993,10 +4233,10 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 15.0
+    y: 15.0
+    z: 15.0
+    w: 15.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -4007,8 +4247,8 @@ nodes {
 }
 nodes {
   position {
-    x: -200.0
-    y: 0.0
+    x: 0.0
+    y: 17.0
     z: 0.0
     w: 1.0
   }
@@ -4019,9 +4259,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 1.2
+    y: 1.2
+    z: 1.2
     w: 1.0
   }
   size {
@@ -4031,9 +4271,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4043,7 +4283,7 @@ nodes {
   id: "change_pokemon/asi/CHA"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -4128,8 +4368,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 1.0
+    y: 1.0
     z: 0.0
     w: 1.0
   }
@@ -4141,7 +4381,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "change_pokemon/asi/cha/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -4165,7 +4405,7 @@ nodes {
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -4183,8 +4423,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -4220,7 +4460,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -4238,8 +4478,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -4275,8 +4515,8 @@ nodes {
 }
 nodes {
   position {
-    x: -125.0
-    y: 56.333
+    x: -10.0
+    y: -40.0
     z: 0.0
     w: 1.0
   }
@@ -4287,9 +4527,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.33
+    y: 0.33
+    z: 33.0
     w: 1.0
   }
   size {
@@ -4299,19 +4539,19 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "CHA"
-  font: "script_bold"
+  text: "CHARISMA"
+  font: "script"
   id: "change_pokemon/asi/CHA1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -4338,8 +4578,8 @@ nodes {
 }
 nodes {
   position {
-    x: -155.0
-    y: 0.0
+    x: 43.0
+    y: -40.0
     z: 0.0
     w: 1.0
   }
@@ -4350,9 +4590,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.33
+    y: 0.33
+    z: 33.0
     w: 1.0
   }
   size {
@@ -4402,7 +4642,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -50.0
+    y: -13.0
     z: 0.0
     w: 1.0
   }
@@ -4413,9 +4653,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.5
+    y: 0.5
+    z: 0.5
     w: 1.0
   }
   size {
@@ -4425,9 +4665,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4464,8 +4704,8 @@ nodes {
 }
 nodes {
   position {
-    x: 122.0
-    y: -50.0
+    x: 116.0
+    y: -13.0
     z: 0.0
     w: 1.0
   }
@@ -4476,9 +4716,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.5
+    y: 0.5
+    z: 0.5
     w: 1.0
   }
   size {
@@ -4488,9 +4728,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4528,7 +4768,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 21.0
+    y: 28.0
     z: 0.0
     w: 1.0
   }
@@ -4539,9 +4779,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.75
+    y: 0.75
+    z: 0.75
     w: 1.0
   }
   size {
@@ -4551,79 +4791,48 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
-  type: TYPE_TEMPLATE
-  id: "change_pokemon/bottom_divider"
-  parent: "change_pokemon/root"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  template: "/templates/bottom_divider.gui"
-  template_node_child: true
-}
-nodes {
-  position {
-    x: 0.0
-    y: 104.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 720.0
-    y: 6.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.9254902
-    y: 0.61960787
-    z: 0.16078432
-    w: 1.0
-  }
-  type: TYPE_BOX
+  type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/square"
-  id: "change_pokemon/bottom_divider/box1"
+  text: "Ability Modifers\n"
+  ""
+  font: "title"
+  id: "change_pokemon/asi/title_ability"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_SW
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/bottom_divider"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
   }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "change_pokemon/asi/root"
+  layer: "script"
+  inherit_alpha: true
   alpha: 1.0
+  outline_alpha: 0.0
+  shadow_alpha: 1.0
   template_node_child: true
-  size_mode: SIZE_MODE_MANUAL
+  text_leading: 1.0
+  text_tracking: 0.0
 }
 nodes {
   position {
-    x: 342.0
-    y: 902.0
+    x: 78.0
+    y: 953.0
     z: 0.0
     w: 1.0
   }
@@ -4641,14 +4850,14 @@ nodes {
   }
   size {
     x: 250.0
-    y: 60.0
+    y: 150.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
@@ -4657,7 +4866,7 @@ nodes {
   id: "change_pokemon/bg_max_hp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "change_pokemon/root"
   layer: "gui"
@@ -4690,9 +4899,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.75
+    y: 0.75
+    z: 0.75
     w: 1.0
   }
   size {
@@ -4702,9 +4911,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4714,7 +4923,7 @@ nodes {
   id: "change_pokemon/txt_max_hp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -4741,7 +4950,7 @@ nodes {
 }
 nodes {
   position {
-    x: 295.0
+    x: 0.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -4799,8 +5008,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 1.0
+    y: 1.0
     z: 0.0
     w: 1.0
   }
@@ -4812,7 +5021,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "change_pokemon/hp/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -4836,7 +5045,7 @@ nodes {
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -4854,8 +5063,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -4891,7 +5100,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -4909,8 +5118,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -4946,8 +5155,8 @@ nodes {
 }
 nodes {
   position {
-    x: 198.0
-    y: 902.0
+    x: 279.0
+    y: 881.0
     z: 0.0
     w: 1.0
   }
@@ -4970,14 +5179,14 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/detail_frame"
+  texture: "gui/details_backing"
   id: "change_pokemon/bg_hit_dice"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -5014,9 +5223,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.75
+    y: 0.75
+    z: 0.75
     w: 1.0
   }
   size {
@@ -5026,9 +5235,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -5065,8 +5274,72 @@ nodes {
 }
 nodes {
   position {
+    x: 79.0
+    y: 1229.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
     x: 0.0
     y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "Add Pok\303\251mon"
+  font: "title"
+  id: "change_pokemon/title"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_W
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "change_pokemon/root"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 0.0
+  shadow_alpha: 1.0
+  overridden_fields: 8
+  template_node_child: true
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 364.0
+    y: 908.0
     z: 0.0
     w: 1.0
   }
@@ -5095,18 +5368,18 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "change_pokemon/top_divider"
+  id: "change_pokemon/divider"
   parent: "change_pokemon/root"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  template: "/templates/top_divider.gui"
+  template: "/templates/bottom_divider.gui"
   template_node_child: true
 }
 nodes {
   position {
-    x: 360.0
-    y: 1180.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -5117,39 +5390,39 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
+    x: 0.882
     y: 1.0
     z: 1.0
     w: 1.0
   }
   size {
-    x: 700.0
-    y: 6.0
+    x: 780.0
+    y: 3.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.63529414
+    y: 0.6392157
+    z: 0.63529414
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/divider"
-  id: "change_pokemon/top_divider/box"
+  texture: "gui/square"
+  id: "change_pokemon/divider/box1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "change_pokemon/top_divider"
+  parent: "change_pokemon/divider"
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 2.0
-    y: 2.0
-    z: 2.0
-    w: 2.0
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -5160,8 +5433,8 @@ nodes {
 }
 nodes {
   position {
-    x: 360.0
-    y: 1217.0
+    x: 364.0
+    y: 368.0
     z: 0.0
     w: 1.0
   }
@@ -5172,8 +5445,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.8
-    y: 0.8
+    x: 1.0
+    y: 1.0
     z: 1.0
     w: 1.0
   }
@@ -5184,47 +5457,78 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Add Pok\303\251mon"
-  font: "title"
-  id: "change_pokemon/title"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
     x: 1.0
     y: 1.0
     z: 1.0
     w: 1.0
   }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
+  type: TYPE_TEMPLATE
+  id: "change_pokemon/bottom_divider2"
   parent: "change_pokemon/root"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  overridden_fields: 8
+  template: "/templates/bottom_divider.gui"
   template_node_child: true
-  text_leading: 1.0
-  text_tracking: 0.0
 }
 nodes {
   position {
     x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.882
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 780.0
+    y: 3.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.63529414
+    y: 0.6392157
+    z: 0.63529414
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/square"
+  id: "change_pokemon/bottom_divider2/box1"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "change_pokemon/bottom_divider2"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: -1153.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -5248,9 +5552,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.9254902
-    y: 0.83137256
-    z: 0.67058825
+    x: 0.9411765
+    y: 0.9411765
+    z: 0.9411765
     w: 1.0
   }
   type: TYPE_BOX
