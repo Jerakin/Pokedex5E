@@ -165,13 +165,13 @@ function on_input(self, action_id, action)
 
 	gooey.button("level/btn_plus", action_id, action, function()
 		self.level = math.min(self.level + 1, 20)
-		gui.set_text(gui.get_node("txt_level"), "Pokemon Lv. " .. self.level)
+		gui.set_text(gui.get_node("txt_level"), self.level)
 		update_pokemons_list_view(self)
 	end, gooey_buttons.plus_button)
 
 	gooey.button("level/btn_minus", action_id, action, function()
 		self.level = math.max(self.level - 1, 0)
-		gui.set_text(gui.get_node("txt_level"), "Pokemon Lv. " .. self.level)
+		gui.set_text(gui.get_node("txt_level"), self.level)
 		update_pokemons_list_view(self)
 	end, gooey_buttons.minus_button)
 	
