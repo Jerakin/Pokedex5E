@@ -56,6 +56,8 @@ function on_input(self, action_id, action)
 			defsave.save = function() end
 			add_all_pokemon()
 			defsave.save = self.defsave
+		elseif action_id == hash("notify") and action.released then
+			monarch.show("notification", {}, {text="My Notification"})
 		end
 	end
 end
