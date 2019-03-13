@@ -19,7 +19,7 @@ background_color {
 }
 nodes {
   position {
-    x: 5.0
+    x: 0.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -37,7 +37,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 525.0
+    x: 500.0
     y: 120.0
     z: 0.0
     w: 1.0
@@ -73,8 +73,63 @@ nodes {
 }
 nodes {
   position {
+    x: 360.0
+    y: 64.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 710.0
+    y: 120.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: ""
+  id: "box1"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "move"
+  layer: "gui"
+  inherit_alpha: false
+  slice9 {
+    x: 15.0
+    y: 15.0
+    z: 15.0
+    w: 30.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
     x: 450.0
-    y: 31.0
+    y: 27.0
     z: 0.0
     w: 1.0
   }
@@ -137,7 +192,7 @@ nodes {
 nodes {
   position {
     x: 63.0
-    y: 64.0
+    y: 60.0
     z: 0.0
     w: 1.0
   }
@@ -200,7 +255,7 @@ nodes {
 nodes {
   position {
     x: 76.0
-    y: 106.0
+    y: 102.0
     z: 0.0
     w: 1.0
   }
@@ -263,7 +318,7 @@ nodes {
 nodes {
   position {
     x: 228.0
-    y: 64.0
+    y: 60.0
     z: 0.0
     w: 1.0
   }
@@ -326,7 +381,7 @@ nodes {
 nodes {
   position {
     x: 450.0
-    y: 64.0
+    y: 60.0
     z: 0.0
     w: 1.0
   }
@@ -389,7 +444,7 @@ nodes {
 nodes {
   position {
     x: 63.0
-    y: 31.0
+    y: 27.0
     z: 0.0
     w: 1.0
   }
@@ -451,8 +506,8 @@ nodes {
 }
 nodes {
   position {
-    x: 587.0
-    y: 99.0
+    x: 555.0
+    y: 46.0
     z: 0.0
     w: 1.0
   }
@@ -463,9 +518,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.8
-    y: 0.8
-    z: 0.8
+    x: 1.1
+    y: 1.1
+    z: 1.0
     w: 1.0
   }
   size {
@@ -515,7 +570,7 @@ nodes {
 nodes {
   position {
     x: 53.0
-    y: 106.0
+    y: 102.0
     z: 0.0
     w: 1.0
   }
@@ -569,63 +624,8 @@ nodes {
 }
 nodes {
   position {
-    x: 329.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 82.254
-    y: 0.682
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 8.0
-    y: 8.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.9137255
-    y: 0.8235294
-    z: 0.67058825
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/square"
-  id: "divider"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "move"
-  layer: "gui"
-  inherit_alpha: false
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_AUTO
-}
-nodes {
-  position {
     x: 604.0
-    y: 44.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -719,7 +719,7 @@ nodes {
 }
 nodes {
   position {
-    x: 120.0
+    x: 78.75
     y: 0.0
     z: 0.0
     w: 1.0
@@ -769,12 +769,13 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
+  overridden_fields: 1
   template_node_child: true
   size_mode: SIZE_MODE_AUTO
 }
 nodes {
   position {
-    x: -120.0
+    x: -96.25
     y: 0.0
     z: 0.0
     w: 1.0
@@ -824,13 +825,14 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
+  overridden_fields: 1
   template_node_child: true
   size_mode: SIZE_MODE_AUTO
 }
 nodes {
   position {
-    x: 564.0
-    y: 99.0
+    x: 601.0
+    y: 87.0
     z: 0.0
     w: 1.0
   }
@@ -841,9 +843,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.8
-    y: 0.8
-    z: 0.8
+    x: 1.1
+    y: 1.1
+    z: 1.1
     w: 1.0
   }
   size {
@@ -892,8 +894,8 @@ nodes {
 }
 nodes {
   position {
-    x: 618.0
-    y: 99.0
+    x: 600.0
+    y: 43.0
     z: 0.0
     w: 1.0
   }
@@ -956,7 +958,7 @@ nodes {
 nodes {
   position {
     x: 32.0
-    y: 47.0
+    y: 43.0
     z: 0.0
     w: 1.0
   }
