@@ -83,10 +83,8 @@ function init(self)
 	function self.redraw(self)
 		if not self.have_evolved and evolution_possible and evolution_level <= self.level then
 			self.evolve_button_active = true
-			gui.play_flipbook(self.evolve_button, "common_up")
 		else
 			self.evolve_button_active = false
-			gui.play_flipbook(self.evolve_button, "common_grey_up")
 		end
 		
 		gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. _pokemon.get_current_level(self.pokemon_copy))
@@ -180,11 +178,11 @@ function on_input(self, action_id, action)
 	
 	gooey.button("btn_edit", action_id, action, function()
 		save_pokemon(self)
-	end, gooey_buttons.green_button)
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_save")) end)
 	
 	if self.evolve_button_active then
 		gooey.button("btn_evolve", action_id, action, function()
 			evolve_pokemon(self)
-		end, gooey_buttons.common_button)
+		end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_evolve")) end)
 	end
 end

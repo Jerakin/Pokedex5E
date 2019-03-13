@@ -46,7 +46,7 @@ function M.setup()
 				gui.play_flipbook(sprite, "pokeball_add")
 				gui.set_scale(sprite, vmath.vector3(1, 1, 1))
 			else
-				gui.play_flipbook(sprite, "pokeball")
+				gui.play_flipbook(sprite, "sort_type")
 			end
 			left_in_storage = left_in_storage - 1
 		end

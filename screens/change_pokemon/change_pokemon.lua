@@ -34,7 +34,7 @@ local function redraw(self)
 	end
 	local species_node = gui.get_node("change_pokemon/species")
 	gui.set_text(species_node, self.pokemon.species.current)
-	gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. self.level)
+	gui.set_text(gui.get_node("change_pokemon/txt_level"), self.level)
 
 	gui.set_text(gui.get_node("change_pokemon/nature"), self.pokemon.nature or "No Nature")
 	
@@ -60,18 +60,20 @@ local function redraw(self)
 	local attributes = _pokemon.get_attributes(self.pokemon)
 	for _, stat in pairs(STATS) do
 		local n = gui.get_node("change_pokemon/asi/" .. stat .. "_MOD")
-		
-		gui.set_text(gui.get_node("change_pokemon/asi/" .. stat), attributes[stat])
+		local stat_num = gui.get_node("change_pokemon/asi/" .. stat)
+		gui.set_text(stat_num, attributes[stat] + self.increased_attributes[stat])
 		local mod = ""
 		if self.increased_attributes[stat] >= 0 then
 			mod = "+"
 		end
 		if self.increased_attributes[stat] >= 1 then
 			gui.set_color(n, gui_colors.GREEN)
+			gui.set_color(stat_num, gui_colors.GREEN)
 		else
 			gui.set_color(n, gui_colors.TEXT)
+			gui.set_color(stat_num, gui_colors.TEXT)
 		end
-		gui.set_text(n, mod .. self.increased_attributes[stat])
+		gui.set_text(n, "(" .. mod .. self.increased_attributes[stat]..")")
 	end
 
 	-- ASI

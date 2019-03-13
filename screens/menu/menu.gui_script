@@ -26,9 +26,11 @@ local function toggle(self)
 	if not self.toggle then
 		timer.delay(0.1, false, function() self.block_input = false end)
 	end
-	gooey_buttons.set_menu_opened(self.toggle)
+
 	if not self.toggle then
-		gui.play_flipbook(self.btn_menu, "menu_up")
+		gui.set_enabled(self.btn_menu, true)
+	else
+		gui.set_enabled(self.btn_menu, false)
 	end
 end
 

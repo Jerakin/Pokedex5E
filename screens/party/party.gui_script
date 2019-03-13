@@ -363,7 +363,7 @@ function init(self)
 				monarch.show("storage")
 			end)
 		else
-			gui.play_flipbook(pok_sprite, "pokeball")
+			gui.play_flipbook(pok_sprite, "sort_type")
 		end
 		gui.set_scale(pok_sprite, vmath.vector3(1))
 		left_in_storage = left_in_storage - 1
@@ -389,7 +389,7 @@ function on_input(self, action_id, action)
 	
 	gooey.button("btn_storage", action_id, action, function()
 		monarch.show("storage")
-	end, gooey_buttons.common_button)
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("image_storage")) end)
 	
 	local g = gesture.on_input(self, action_id, action)
 	if g then
