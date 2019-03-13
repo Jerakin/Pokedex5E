@@ -10,7 +10,7 @@ local filters = require "pokedex.filters"
 local flow = require "utils.flow"
 local metadata = require "utils.metadata"
 local gui_colors = require "utils.gui_colors"
-
+local notify = require "utils.notify"
 require "utils.lfs_extend"
 
 local function mysplit(inputstr, sep)

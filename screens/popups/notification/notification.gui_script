@@ -10,7 +10,7 @@ end
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
-	self.transition = transitions.notification(gui.get_node("root"))
+	--self.transition = transitions.notification(gui.get_node("root"))
 	gui.set_render_order(render_order.POPUP_ON_POPUP)
 	data = monarch.data("notification")
 	gui.set_text(gui.get_node("txt_info"), data.text)
@@ -18,7 +18,7 @@ function init(self)
 end
 
 function on_message(self, message_id, message, sender)
-	self.transition.handle(message_id, message, sender)
+	--self.transition.handle(message_id, message, sender)
 end
 
 function on_input(self, action_id, action)

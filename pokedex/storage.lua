@@ -32,7 +32,7 @@ local function getKeysSortedByValue(tbl, sortFunction)
 	return keys
 end
 
-local function party_is_full()
+function M.is_party_full()
 	local counter = 0
 	for _, _ in pairs(active) do
 		counter = counter + 1
@@ -169,7 +169,7 @@ function M.add(pokemon)
 	local id = get_id(pokemon)
 	pokemon.id = id
 	profiles.update(profiles.get_active_slot(), counters)
-	if party_is_full() then
+	if M.is_party_full() then
 		storage[id] = pokemon
 	else
 		pokemon.slot = #M.list_of_ids_in_inventory() + 1

@@ -57,6 +57,7 @@ end
 local function reset()
 	_pokemon.reset_move_pp(data.pokemon, data.name)
 	gui.set_text(gui.get_node("txt_pp"), move_data.PP .. "/" .. move_data.PP)
+	notify.notify("PP for " .. data.name .. " have been reseted")
 end
 
 function on_input(self, action_id, action)
