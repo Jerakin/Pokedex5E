@@ -82,7 +82,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 120.0
+    y: 80.0
     z: 0.0
     w: 1.0
   }
@@ -100,19 +100,19 @@ nodes {
   }
   size {
     x: 720.0
-    y: 0.0
+    y: 80.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 0.101960786
+    y: 0.101960786
+    z: 0.101960786
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/background_gradient"
+  texture: "gui/square"
   id: "inventory"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -137,7 +137,7 @@ nodes {
 nodes {
   position {
     x: 88.0
-    y: -113.0
+    y: -86.0
     z: 0.0
     w: 1.0
   }
@@ -232,7 +232,7 @@ nodes {
 nodes {
   position {
     x: 198.0
-    y: -113.0
+    y: -86.0
     z: 0.0
     w: 1.0
   }
@@ -327,7 +327,7 @@ nodes {
 nodes {
   position {
     x: 308.0
-    y: -113.0
+    y: -86.0
     z: 0.0
     w: 1.0
   }
@@ -422,7 +422,7 @@ nodes {
 nodes {
   position {
     x: 418.0
-    y: -113.0
+    y: -86.0
     z: 0.0
     w: 1.0
   }
@@ -517,7 +517,7 @@ nodes {
 nodes {
   position {
     x: 528.0
-    y: -113.0
+    y: -86.0
     z: 0.0
     w: 1.0
   }
@@ -612,7 +612,7 @@ nodes {
 nodes {
   position {
     x: 638.0
-    y: -113.0
+    y: -86.0
     z: 0.0
     w: 1.0
   }
@@ -1804,101 +1804,6 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "top_divider"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: true
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_TEMPLATE
-  id: "bottom_divider"
-  parent: "root"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  template: "/templates/bottom_divider.gui"
-  template_node_child: false
-}
-nodes {
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.882
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 780.0
-    y: 3.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.63529414
-    y: 0.6392157
-    z: 0.63529414
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/square"
-  id: "bottom_divider/box1"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "bottom_divider"
   layer: "gui"
   inherit_alpha: true
   slice9 {
