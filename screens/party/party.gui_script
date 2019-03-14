@@ -147,20 +147,27 @@ local function setup_abilities(self, nodes, pokemon)
 			root_node = nodes["pokemon/ability/root"]
 			name_node = nodes["pokemon/ability/name"]
 			desc_node = nodes["pokemon/ability/description"]
+			background_node = nodes["pokemon/ability/background"]
 		else
 			root_node = gui.clone(nodes["pokemon/ability/root"])
 			name_node = gui.clone(nodes["pokemon/ability/name"])
 			desc_node = gui.clone(nodes["pokemon/ability/description"])
+			background_node = gui.clone(nodes["pokemon/ability/background"])
 			gui.set_parent(name_node, root_node)
 			gui.set_parent(desc_node, root_node)
-			gui.set_position(root_node, p)
+			gui.set_parent(background_node, root_node)
+			
 		end
-		
+		gui.set_position(root_node, p)
 		gui.set_text(name_node, name)
 		gui.set_text(desc_node, desc)
-
-		p.y = p.y - gui.get_text_metrics_from_node(desc_node).height - gui.get_text_metrics_from_node(name_node).height
+		local desc_height, name_height = gui.get_text_metrics_from_node(desc_node).height, gui.get_text_metrics_from_node(name_node).height --* 0.8
+		local size = gui.get_size(background_node)
+		size.y = desc_height + name_height - 5
+		gui.set_size(background_node, size)
+		p.y = p.y - desc_height - name_height --+ -22
 		index = index + 1
+
 	end
 end
 
