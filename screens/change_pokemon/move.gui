@@ -92,7 +92,7 @@ nodes {
   }
   size {
     x: 710.0
-    y: 120.0
+    y: 160.0
     z: 0.0
     w: 1.0
   }
@@ -104,7 +104,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/add_backing"
   id: "box1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -191,7 +191,7 @@ nodes {
 }
 nodes {
   position {
-    x: 63.0
+    x: 76.0
     y: 60.0
     z: 0.0
     w: 1.0
@@ -215,9 +215,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -278,9 +278,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -317,7 +317,7 @@ nodes {
 }
 nodes {
   position {
-    x: 228.0
+    x: 236.0
     y: 60.0
     z: 0.0
     w: 1.0
@@ -341,9 +341,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -404,9 +404,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -443,7 +443,7 @@ nodes {
 }
 nodes {
   position {
-    x: 63.0
+    x: 76.0
     y: 27.0
     z: 0.0
     w: 1.0
@@ -467,9 +467,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -530,9 +530,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -855,9 +855,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -918,9 +918,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -957,7 +957,7 @@ nodes {
 }
 nodes {
   position {
-    x: 32.0
+    x: 44.0
     y: 43.0
     z: 0.0
     w: 1.0
@@ -981,15 +981,15 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.9254902
+    y: 0.56078434
+    z: 0.09411765
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/info"
-  id: "box"
+  id: "info"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -1006,7 +1006,7 @@ nodes {
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 0.12
+  alpha: 0.0
   template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }

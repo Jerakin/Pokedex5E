@@ -4,8 +4,8 @@ fonts {
   font: "/assets/fonts/script.font"
 }
 fonts {
-  name: "title"
-  font: "/assets/fonts/title.font"
+  name: "script_bold"
+  font: "/assets/fonts/script_bold.font"
 }
 textures {
   name: "gui"
@@ -85,8 +85,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.8
-    y: 0.8
+    x: 1.5
+    y: 1.5
     z: 1.0
     w: 1.0
   }
@@ -97,15 +97,15 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Guts"
-  font: "title"
+  text: "GUTS"
+  font: "script_bold"
   id: "name"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -230,7 +230,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/details_backing"
   id: "background"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -240,10 +240,10 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true

@@ -1519,7 +1519,7 @@ nodes {
 nodes {
   position {
     x: 600.0
-    y: 631.0
+    y: 680.0
     z: 0.0
     w: 1.0
   }
@@ -1798,8 +1798,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.8
-    y: 0.8
+    x: 1.5
+    y: 1.5
     z: 1.0
     w: 1.0
   }
@@ -1810,15 +1810,15 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Guts"
-  font: "title"
+  text: "GUTS"
+  font: "script_bold"
   id: "ability/name"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1943,7 +1943,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/details_backing"
   id: "ability/background"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1953,10 +1953,10 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -1968,7 +1968,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 631.0
+    y: 680.0
     z: 0.0
     w: 1.0
   }
@@ -2086,7 +2086,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 595.0
+    y: 599.0
     z: 0.0
     w: 1.0
   }
@@ -2141,7 +2141,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -497.0
+    y: -508.0
     z: 0.0
     w: 1.0
   }
@@ -2254,7 +2254,7 @@ nodes {
   }
   size {
     x: 710.0
-    y: 120.0
+    y: 160.0
     z: 0.0
     w: 1.0
   }
@@ -2266,7 +2266,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/add_backing"
   id: "move_4/box1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -2353,7 +2353,7 @@ nodes {
 }
 nodes {
   position {
-    x: 63.0
+    x: 76.0
     y: 60.0
     z: 0.0
     w: 1.0
@@ -2377,9 +2377,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2440,9 +2440,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2479,7 +2479,7 @@ nodes {
 }
 nodes {
   position {
-    x: 228.0
+    x: 236.0
     y: 60.0
     z: 0.0
     w: 1.0
@@ -2503,9 +2503,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2566,9 +2566,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2605,7 +2605,7 @@ nodes {
 }
 nodes {
   position {
-    x: 63.0
+    x: 76.0
     y: 27.0
     z: 0.0
     w: 1.0
@@ -2629,9 +2629,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2692,9 +2692,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -3015,9 +3015,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -3078,9 +3078,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -3117,7 +3117,7 @@ nodes {
 }
 nodes {
   position {
-    x: 32.0
+    x: 44.0
     y: 43.0
     z: 0.0
     w: 1.0
@@ -3141,15 +3141,15 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.9254902
+    y: 0.56078434
+    z: 0.09411765
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/info"
-  id: "move_4/box"
+  id: "move_4/info"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -3166,14 +3166,14 @@ nodes {
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 0.12
+  alpha: 0.0
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
     x: 0.0
-    y: -372.0
+    y: -361.0
     z: 0.0
     w: 1.0
   }
@@ -3286,7 +3286,7 @@ nodes {
   }
   size {
     x: 710.0
-    y: 120.0
+    y: 160.0
     z: 0.0
     w: 1.0
   }
@@ -3298,7 +3298,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/add_backing"
   id: "move_3/box1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -3385,7 +3385,7 @@ nodes {
 }
 nodes {
   position {
-    x: 63.0
+    x: 76.0
     y: 60.0
     z: 0.0
     w: 1.0
@@ -3409,9 +3409,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -3472,9 +3472,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -3511,7 +3511,7 @@ nodes {
 }
 nodes {
   position {
-    x: 228.0
+    x: 236.0
     y: 60.0
     z: 0.0
     w: 1.0
@@ -3535,9 +3535,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -3598,9 +3598,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -3637,7 +3637,7 @@ nodes {
 }
 nodes {
   position {
-    x: 63.0
+    x: 76.0
     y: 27.0
     z: 0.0
     w: 1.0
@@ -3661,9 +3661,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -3724,9 +3724,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4047,9 +4047,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4110,9 +4110,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4149,7 +4149,7 @@ nodes {
 }
 nodes {
   position {
-    x: 32.0
+    x: 44.0
     y: 43.0
     z: 0.0
     w: 1.0
@@ -4173,15 +4173,15 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.9254902
+    y: 0.56078434
+    z: 0.09411765
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/info"
-  id: "move_3/box"
+  id: "move_3/info"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -4198,14 +4198,14 @@ nodes {
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 0.12
+  alpha: 0.0
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
     x: 0.0
-    y: -247.0
+    y: -215.0
     z: 0.0
     w: 1.0
   }
@@ -4318,7 +4318,7 @@ nodes {
   }
   size {
     x: 710.0
-    y: 120.0
+    y: 160.0
     z: 0.0
     w: 1.0
   }
@@ -4330,7 +4330,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/add_backing"
   id: "move_2/box1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -4417,7 +4417,7 @@ nodes {
 }
 nodes {
   position {
-    x: 63.0
+    x: 76.0
     y: 60.0
     z: 0.0
     w: 1.0
@@ -4441,9 +4441,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4504,9 +4504,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4543,7 +4543,7 @@ nodes {
 }
 nodes {
   position {
-    x: 228.0
+    x: 236.0
     y: 60.0
     z: 0.0
     w: 1.0
@@ -4567,9 +4567,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4630,9 +4630,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4669,7 +4669,7 @@ nodes {
 }
 nodes {
   position {
-    x: 63.0
+    x: 76.0
     y: 27.0
     z: 0.0
     w: 1.0
@@ -4693,9 +4693,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -4756,9 +4756,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -5079,9 +5079,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -5142,9 +5142,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -5181,7 +5181,7 @@ nodes {
 }
 nodes {
   position {
-    x: 32.0
+    x: 44.0
     y: 43.0
     z: 0.0
     w: 1.0
@@ -5205,15 +5205,15 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.9254902
+    y: 0.56078434
+    z: 0.09411765
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/info"
-  id: "move_2/box"
+  id: "move_2/info"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -5230,14 +5230,14 @@ nodes {
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 0.12
+  alpha: 0.0
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
     x: 0.0
-    y: -122.0
+    y: -69.0
     z: 0.0
     w: 1.0
   }
@@ -5350,7 +5350,7 @@ nodes {
   }
   size {
     x: 710.0
-    y: 120.0
+    y: 160.0
     z: 0.0
     w: 1.0
   }
@@ -5362,7 +5362,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/add_backing"
   id: "move_1/box1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -5449,7 +5449,7 @@ nodes {
 }
 nodes {
   position {
-    x: 63.0
+    x: 76.0
     y: 60.0
     z: 0.0
     w: 1.0
@@ -5473,9 +5473,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -5536,9 +5536,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -5575,7 +5575,7 @@ nodes {
 }
 nodes {
   position {
-    x: 228.0
+    x: 236.0
     y: 60.0
     z: 0.0
     w: 1.0
@@ -5599,9 +5599,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -5662,9 +5662,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -5701,7 +5701,7 @@ nodes {
 }
 nodes {
   position {
-    x: 63.0
+    x: 76.0
     y: 27.0
     z: 0.0
     w: 1.0
@@ -5725,9 +5725,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -5788,9 +5788,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -6111,9 +6111,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -6174,9 +6174,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -6213,7 +6213,7 @@ nodes {
 }
 nodes {
   position {
-    x: 32.0
+    x: 44.0
     y: 43.0
     z: 0.0
     w: 1.0
@@ -6237,15 +6237,15 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.9254902
+    y: 0.56078434
+    z: 0.09411765
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/info"
-  id: "move_1/box"
+  id: "move_1/info"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -6262,14 +6262,14 @@ nodes {
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 0.12
+  alpha: 0.0
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
     x: 120.0
-    y: 631.0
+    y: 680.0
     z: 0.0
     w: 1.0
   }
@@ -6387,7 +6387,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 1087.0
+    y: 1032.0
     z: 0.0
     w: 1.0
   }
@@ -6442,7 +6442,7 @@ nodes {
 nodes {
   position {
     x: 135.0
-    y: 780.0
+    y: 1087.0
     z: 0.0
     w: 1.0
   }
@@ -6460,14 +6460,14 @@ nodes {
   }
   size {
     x: 218.0
-    y: 40.0
+    y: 50.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
@@ -6508,8 +6508,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.8
+    y: 0.8
     z: 1.0
     w: 1.0
   }
@@ -6520,9 +6520,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -6560,7 +6560,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 780.0
+    y: 1087.0
     z: 0.0
     w: 1.0
   }
@@ -6578,14 +6578,14 @@ nodes {
   }
   size {
     x: 218.0
-    y: 40.0
+    y: 50.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
@@ -6626,8 +6626,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.8
+    y: 0.8
     z: 1.0
     w: 1.0
   }
@@ -6638,9 +6638,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -6678,7 +6678,7 @@ nodes {
 nodes {
   position {
     x: 581.0
-    y: 780.0
+    y: 1087.0
     z: 0.0
     w: 1.0
   }
@@ -6696,14 +6696,14 @@ nodes {
   }
   size {
     x: 218.0
-    y: 40.0
+    y: 50.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
@@ -6744,8 +6744,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.8
+    y: 0.8
     z: 1.0
     w: 1.0
   }
@@ -6756,9 +6756,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -6796,7 +6796,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 1125.0
+    y: 1146.0
     z: 0.0
     w: 1.0
   }
@@ -6807,8 +6807,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 2.0
-    y: 2.0
+    x: 1.6
+    y: 1.6
     z: 1.0
     w: 1.0
   }
@@ -6819,9 +6819,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -6859,7 +6859,7 @@ nodes {
 nodes {
   position {
     x: 154.0
-    y: 936.0
+    y: 928.0
     z: 0.0
     w: 1.0
   }
@@ -6882,9 +6882,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
@@ -6937,9 +6937,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.9254902
+    y: 0.56078434
+    z: 0.09411765
     w: 1.0
   }
   type: TYPE_BOX
@@ -7032,7 +7032,7 @@ nodes {
 nodes {
   position {
     x: 490.0
-    y: 1024.0
+    y: 1016.0
     z: 0.0
     w: 1.0
   }
@@ -7055,9 +7055,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
@@ -7110,9 +7110,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -7150,7 +7150,7 @@ nodes {
 nodes {
   position {
     x: 490.0
-    y: 936.0
+    y: 928.0
     z: 0.0
     w: 1.0
   }
@@ -7173,9 +7173,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
@@ -7228,9 +7228,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -7268,7 +7268,7 @@ nodes {
 nodes {
   position {
     x: 490.0
-    y: 849.0
+    y: 841.0
     z: 0.0
     w: 1.0
   }
@@ -7291,9 +7291,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
@@ -7346,9 +7346,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -7386,7 +7386,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 715.0
+    y: 767.0
     z: 0.0
     w: 1.0
   }
@@ -7459,14 +7459,14 @@ nodes {
   }
   size {
     x: 666.0
-    y: 70.0
+    y: 55.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
@@ -7507,8 +7507,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.8
+    y: 0.8
     z: 1.0
     w: 1.0
   }
@@ -7519,9 +7519,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -7844,9 +7844,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.9254902
+    y: 0.56078434
+    z: 0.09411765
     w: 1.0
   }
   type: TYPE_BOX
@@ -7916,7 +7916,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 1230.0
+    y: 1239.0
     z: 0.0
     w: 1.0
   }
@@ -7934,19 +7934,19 @@ nodes {
   }
   size {
     x: 720.0
-    y: 100.0
+    y: 120.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.6
-    y: 0.3019608
-    z: 0.0
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/title_backing"
   id: "top_divider/box"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
