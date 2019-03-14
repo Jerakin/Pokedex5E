@@ -85,7 +85,9 @@ end
 
 function M.set_nickname(id, nickname)
 	local p = get(id)
-	p.nickname = nickname
+	if not nickname == p.species.current then
+		p.nickname = nickname
+	end
 end
 
 function M.get_nickname(id)

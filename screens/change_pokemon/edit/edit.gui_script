@@ -68,7 +68,7 @@ function init(self)
 	self.level = _pokemon.get_current_level(self.pokemon_copy)
 	local species = _pokemon.get_current_species(self.pokemon_copy)
 	self.nickname = _pokemon.get_nickname(self.pokemon_copy)
-	self.nickname = self.nickname or species
+	self.nickname = self.nickname or species:upper()
 	self.evolve_button = gui.get_node("btn_evolve")
 	gui.set_text(gui.get_node("change_pokemon/species"), self.nickname)
 	gui.set_text(gui.get_node("change_pokemon/txt_level"), self.level)
