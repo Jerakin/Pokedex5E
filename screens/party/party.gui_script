@@ -38,7 +38,7 @@ local function update_hp_meter(nodes, max, current)
 	local percent = current/max
 	local size = gui.get_size(nodes["pokemon/hp_bar_bg1"])
 	
-	size.x = percent * max_size.x
+	size.x = math.min(percent * max_size.x, max_size.x)
 	gui.set_size(nodes["pokemon/hp_bar_bg1"], size)
 end
 
