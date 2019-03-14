@@ -20,7 +20,7 @@ end
 local function save_pokemon(self)
 	_pokemon.add_hp_from_levels(self.pokemon, self.level)
 	_pokemon.update_increased_attributes(self.pokemon, self.increased_attributes)
-	local nickname = gui.get_text(gui.get_node("name_text"))
+	local nickname = gui.get_text(gui.get_node("change_pokemon/species"))
 	
 	self.pokemon.level.current = self.level
 	_pokemon.save(self.pokemon)
@@ -46,16 +46,18 @@ end
 
 local function change_hp(self, hp)
 	local max = _pokemon.get_max_hp(self.pokemon)
+	self.max_hp_increase =  self.max_hp_increase + hp
 	_pokemon.set_max_hp(self.pokemon, max + hp, true)
 	local c = _pokemon.get_current_hp(self.pokemon)
 	_pokemon.set_current_hp(self.pokemon, c + hp)
-	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), "Max Hp: " .. _pokemon.get_max_hp(self.pokemon))
+	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), _pokemon.get_max_hp(self.pokemon))
+	gui.set_text(gui.get_node("change_pokemon/txt_max_hp_mod"), "MAX HP: " .. self.max_hp_increase)
 end
 
 function init(self)
 	self.have_evolved = false
 	self.evolve_button_active = false
-	
+	self.max_hp_increase = 0
 	button.acquire()
 	local pokemon_id = monarch.data("edit").id
 	self.pokemon_copy = storage.get_copy(pokemon_id)
@@ -69,13 +71,14 @@ function init(self)
 	self.nickname = _pokemon.get_nickname(self.pokemon_copy)
 	self.nickname = self.nickname or species
 	self.evolve_button = gui.get_node("btn_evolve")
-	gui.set_text(gui.get_node("name_text"), self.nickname)
-	gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. _pokemon.get_current_level(self.pokemon_copy))
+	gui.set_text(gui.get_node("change_pokemon/species"), self.nickname)
+	gui.set_text(gui.get_node("change_pokemon/txt_level"), self.level)
 	
 	gui.set_text(gui.get_node("change_pokemon/nature"), _pokemon.get_nature(self.pokemon_copy))
-	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), "Max Hp: " .. _pokemon.get_max_hp(self.pokemon_copy))
+	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), _pokemon.get_max_hp(self.pokemon_copy))
+	gui.set_text(gui.get_node("change_pokemon/txt_max_hp_mod"), "MAX HP")
 	gui.set_text(gui.get_node("change_pokemon/txt_hit_dice"), "Hit Dice: d" .. _pokemon.get_hit_dice(self.pokemon_copy))
-	
+	gui.set_text(gui.get_node("change_pokemon/pokemon_number"), string.format("#%03d", _pokemon.get_index_number(self.pokemon_copy)))
 	if not evolution_possible then
 		gui.set_enabled(self.evolve_button, false)
 	end
@@ -87,16 +90,17 @@ function init(self)
 			self.evolve_button_active = false
 		end
 		
-		gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. _pokemon.get_current_level(self.pokemon_copy))
+		gui.set_text(gui.get_node("change_pokemon/txt_level"), self.level)
 		local level_dif = self.level - _pokemon.get_current_level(self.pokemon_copy)
 		if level_dif == 0 then
-			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "")
+			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "Lv.")
+			gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.TEXT)
 		elseif level_dif < 0 then
 			gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.RED)
-			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), level_dif)
+			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "Lv. " .. level_dif)
 		else
 			gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.GREEN)
-			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "+" .. level_dif)
+			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "Lv. +" .. level_dif)
 			
 		end
 	end
@@ -139,7 +143,7 @@ local function refresh_input(self, input, node_id)
 		gui.set_text(input.node, self.nickname)
 	end
 
-	local cursor = gui.get_node("cursor")
+	local cursor = gui.get_node("change_pokemon/cursor")
 	if input.selected then
 		gui.set_enabled(cursor, true)
 		gui.set_position(cursor, vmath.vector3(input.total_width, 0, 0))
@@ -172,7 +176,7 @@ function on_input(self, action_id, action)
 		end
 	end, gooey_buttons.plus_button)
 
-	gooey.input("name_text", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, nil, function(input)
+	gooey.input("change_pokemon/species", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, nil, function(input)
 		refresh_input(self, input, "name_text")
 	end)
 	
