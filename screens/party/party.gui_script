@@ -33,6 +33,15 @@ local function to_mod(v)
 	return value
 end
 
+local function update_hp_meter(nodes, max, current)
+	local max_size = gui.get_size(nodes["pokemon/hp_bar_bg"])
+	local percent = current/max
+	local size = gui.get_size(nodes["pokemon/hp_bar_bg1"])
+	
+	size.x = percent * max_size.x
+	gui.set_size(nodes["pokemon/hp_bar_bg1"], size)
+end
+
 local function show_description(pokemon, move, data)
 	monarch.show("move_info", {}, {pokemon=pokemon, name=move, data=data})
 end
@@ -219,6 +228,7 @@ local function update_hp(self, nodes, pokemon, hp)
 	end
 	local max = _pokemon.get_max_hp(pokemon)
 	local current =_pokemon.get_current_hp(pokemon)
+	update_hp_meter(nodes, max, current)
 	gui.set_text(nodes["pokemon/txt_hp"],"HP: " .. current .. "/ " .. max)
 end
 
@@ -318,6 +328,7 @@ end
 function init(self)
 	button.acquire()
 	msg.post(url.MENU, "show")
+
 	self.pokemon_page = gui.get_node("pokemon/root")
 	self.pokemons_list = {}
 	self.pokemon_index = 0
@@ -331,7 +342,7 @@ function init(self)
 		local pokemon_sprite, texture = _pokemon.get_sprite(pokemon_data)
 		gui.set_texture(page["pokemon/pokemon_sprite"], texture)
 		gui.play_flipbook(page["pokemon/pokemon_sprite"], pokemon_sprite)
-		
+		update_hp_meter(page, _pokemon.get_max_hp(pokemon_data), _pokemon.get_current_hp(pokemon_data))
 		local indicator_node = gui.get_node("party_indicator/pokemon_" .. index .. "/pokemon_sprite")
 		button.register(indicator_node, function()
 			change_pokemon(self, index-1)
@@ -353,6 +364,7 @@ function init(self)
 	end
 	
 	change_pokemon(self, party.last_active, true)
+	
 	local left_in_storage = #storage.list_of_ids_in_storage()
 	for i=#storage.list_of_ids_in_inventory()+1, 6 do
 		local pok_sprite = gui.get_node("party_indicator/pokemon_" .. i .. "/pokemon_sprite")

@@ -32,6 +32,14 @@ local function set_pokemon_sprite(sprite, pokemon)
 	gui.play_flipbook(sprite, pokemon_sprite)
 end
 
+local function update_hp_meter(max, current)
+	local max_size = gui.get_size(gui.get_node("hp_bar_bg"))
+	local percent = current/max
+	local size = gui.get_size(gui.get_node("hp_bar_bg1"))
+
+	size.x = percent * max_size.x
+	gui.set_size(gui.get_node("hp_bar_bg1"), size)
+end
 
 local function inventory_button(node, id, swap)
 	return button.register(node, function()
@@ -103,11 +111,14 @@ local function setup_info(self)
 	local pokemon_sprite, texture = _pokemon.get_sprite(pokemon)
 	gui.set_texture(gui.get_node("pokemon_sprite"), texture)
 	gui.play_flipbook(gui.get_node("pokemon_sprite"), pokemon_sprite)
-	
-	
+
 	gui.set_text(gui.get_node("txt_lvl"), "Lv. " .. _pokemon.get_current_level(pokemon))
 	gui.set_text(gui.get_node("txt_ac"), "AC: " .. _pokemon.get_AC(pokemon))
-	gui.set_text(gui.get_node("txt_hp"), "HP: " .. _pokemon.get_current_hp(pokemon) .. "/" .. _pokemon.get_max_hp(pokemon))
+	
+	local c = _pokemon.get_current_hp(pokemon)
+	local m = _pokemon.get_max_hp(pokemon)
+	gui.set_text(gui.get_node("txt_hp"), "HP: " .. c .. "/" .. m)
+	update_hp_meter(m, c)
 	
 	self.nickname = _pokemon.get_nickname(pokemon)
 	species = _pokemon.get_current_species(pokemon)
