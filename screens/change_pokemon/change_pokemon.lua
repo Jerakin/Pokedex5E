@@ -68,6 +68,9 @@ local function redraw(self)
 		if self.increased_attributes[stat] >= 1 then
 			gui.set_color(n, gui_colors.GREEN)
 			gui.set_color(stat_num, gui_colors.GREEN)
+		elseif self.increased_attributes[stat] <= -1 then
+			gui.set_color(n, gui_colors.RED)
+			gui.set_color(stat_num, gui_colors.RED)
 		else
 			gui.set_color(n, gui_colors.TEXT)
 			gui.set_color(stat_num, gui_colors.TEXT)
@@ -109,7 +112,9 @@ local function increase(self, stat)
 end
 
 local function decrease(self, stat)
-	if self.increased_attributes[stat] > 0 then
+	local attributes = _pokemon.get_attributes(self.pokemon)
+	local m = attributes[stat] + self.increased_attributes[stat]
+	if m > 0 then
 		self.increased_attributes[stat] = self.increased_attributes[stat] - 1
 		self.ability_score_improvment = self.ability_score_improvment - 1
 		redraw(self)
