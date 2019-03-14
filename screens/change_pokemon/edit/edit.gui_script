@@ -33,7 +33,6 @@ local function evolve(self, species)
 	self.pokemon.moves = self.pokemon_copy.moves
 	pokemon_image(species)
 	self.have_evolved = true
-	gui.play_flipbook(self.evolve_button, "common_grey_up")
 
 	-- Edit pokemon
 	self.ability_score_improvment = self.ability_score_improvment - pokedex.evolve_points(_pokemon.get_current_species(self.pokemon))
@@ -86,8 +85,12 @@ function init(self)
 	function self.redraw(self)
 		if not self.have_evolved and evolution_possible and evolution_level <= self.level then
 			self.evolve_button_active = true
+			gui.set_color(gui.get_node("txt_evolve"), gui_colors.BUTTON_TEXT)
+			gui.play_flipbook(self.evolve_button, "common_up")
 		else
 			self.evolve_button_active = false
+			gui.set_color(gui.get_node("txt_evolve"), gui_colors.BUTTON_TEXT_DISABLED)
+			gui.play_flipbook(self.evolve_button, "common_disabled")
 		end
 		
 		gui.set_text(gui.get_node("change_pokemon/txt_level"), self.level)

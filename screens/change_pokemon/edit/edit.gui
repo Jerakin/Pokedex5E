@@ -81,7 +81,7 @@ nodes {
 }
 nodes {
   position {
-    x: 364.0
+    x: 360.0
     y: 53.0
     z: 0.0
     w: 1.0
@@ -99,7 +99,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 768.0
+    x: 720.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -286,7 +286,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/common_up"
+  texture: "gui/common_disabled"
   id: "btn_evolve"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -297,9 +297,9 @@ nodes {
   inherit_alpha: true
   slice9 {
     x: 10.0
-    y: 15.0
+    y: 0.0
     z: 10.0
-    w: 15.0
+    w: 0.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
