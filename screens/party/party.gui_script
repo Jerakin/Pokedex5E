@@ -249,7 +249,7 @@ local function setup_page(self, nodes, pokemon)
 	local species = _pokemon.get_current_species(pokemon)
 	nickname = nickname or species:upper()
 
-	gui.set_text(nodes["pokemon/txt_speed"], stype .. ": " .. speed)
+	gui.set_text(nodes["pokemon/txt_speed"], stype:upper() .. ": " .. speed)
 	gui.set_text(nodes["pokemon/index"], string.format("#%03d", _pokemon.get_index_number(pokemon)) .. " " .. species)
 	gui.set_text(nodes["pokemon/species"], nickname)
 	gui.set_text(nodes["pokemon/level"], "Lv. " ..  _pokemon.get_current_level(pokemon))
@@ -275,9 +275,11 @@ local function activate_tab(self, page, tab_number)
 	for i=1, 3 do
 		if tab_number == i then
 			gui.play_flipbook(page["pokemon/tab_" .. i], "common_down")
+			gui.set_color(page["pokemon/text" .. i], gui_colors.BUTTON_TEXT_PRESSED)
 			gui.set_enabled(page["pokemon/tab_bg_" .. i], true)
 		else
 			gui.play_flipbook(page["pokemon/tab_" .. i], "common_up")
+			gui.set_color(page["pokemon/text" .. i], gui_colors.BUTTON_TEXT)
 			gui.set_enabled(page["pokemon/tab_bg_" .. i], false)
 		end
 	end

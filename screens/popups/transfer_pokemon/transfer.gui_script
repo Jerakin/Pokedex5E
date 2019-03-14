@@ -166,7 +166,7 @@ function init(self)
 	gui.set_enabled(self.swap, false)
 	gui.set_enabled(self.move, true)
 	local n = gui.get_node("txt_move")
-	gui.set_text(n, "Move to " .. self.to)
+	gui.set_text(n, "MOVE TO " .. self.to:upper())
 	
 	self.move_button_enabled = true
 	if self.to == "storage" and #storage.list_of_ids_in_inventory() == 1 then
