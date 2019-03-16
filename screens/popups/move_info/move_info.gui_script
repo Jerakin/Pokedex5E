@@ -4,6 +4,7 @@ local _pokemon = require "pokedex.pokemon"
 local type_data = require "utils.type_data"
 local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
+local url = require "utils.url"
 
 local function join_table(title, T, sep)
 	if T then
@@ -57,13 +58,15 @@ end
 local function reset()
 	_pokemon.reset_move_pp(data.pokemon, data.name)
 	gui.set_text(gui.get_node("txt_pp"), move_data.PP .. "/" .. move_data.PP)
+	msg.post(url.PARTY, "refresh")
 end
 
 function on_input(self, action_id, action)
 	gooey.button("btn_close", action_id, action, close, gooey_buttons.close_button)
-	local a = gooey.button("btn_reset", action_id, action, reset, function(b) gooey_buttons.common_button(b, gui.get_node("txt_reset")) end)
+	local a = gooey.button("btn_reset", action_id, action, reset)
 	local g = gooey.button("background", action_id, action, function() end)
 	if not g.over and not a.over then
 		gooey.button("dimmer", action_id, action, function() monarch.back() end)
 	end
+	return true
 end

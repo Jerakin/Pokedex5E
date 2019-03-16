@@ -334,7 +334,7 @@ end
 function init(self)
 	button.acquire()
 	msg.post(url.MENU, "show")
-
+	url.PARTY = msg.url()
 	self.pokemon_page = gui.get_node("pokemon/root")
 	self.pokemons_list = {}
 	self.pokemon_index = 0
@@ -394,6 +394,34 @@ end
 
 function final(self)
 	button.unregister()
+end
+
+local function refresh_moves(self)
+	local function _get_node(sub)
+		local move_name = "pokemon/move_" .. index
+		local n = nodes[move_name .. sub]
+		gui.set_id(n, hash("move" .. node_index))
+		node_index = node_index + 1
+		return n
+	end
+	for i, pokemon_d in pairs(self.pokemons_list) do
+		nodes = pokemon_d.nodes
+		pokemon = pokemon_d.pokemon
+		for name, move in pairs(_pokemon.get_moves(pokemon)) do
+			index = move.index
+			local move_data = _pokemon.get_move_data(pokemon, name)
+			local pp_current = _get_node("/txt_pp_current")
+			local pp_max = _get_node("/txt_pp_max")
+			local pp_lbl = _get_node("/lbl_pp")
+			update_pp(pp_lbl, pp_current, pp_max, pokemon, name)
+		end
+	end
+end
+
+function on_message(self, message_id, message)
+	if message_id == hash("refresh") then
+		refresh_moves(self)
+	end
 end
 
 function on_input(self, action_id, action)
