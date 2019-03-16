@@ -148,7 +148,7 @@ function M.register_buttons_after_species(self)
 	end)
 
 	button.register("change_pokemon/nature", function()
-		monarch.show("scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url()})
+		monarch.show("scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url(), title="Pick nature"})
 	end)
 
 	for _, s in pairs({"str", "dex", "con", "int", "wis", "cha"}) do
@@ -220,6 +220,7 @@ function M.on_message(self, message_id, message, sender)
 			end
 			self.pokemon.moves = moves
 			pokemon_image(message.item)
+			gui.set_color(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector4(1))
 			gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.TEXT)
 			gui.set_text(gui.get_node("change_pokemon/species"), self.pokemon.species.current:upper())
 			gui.set_scale(gui.get_node("change_pokemon/species"), vmath.vector3(0.8))

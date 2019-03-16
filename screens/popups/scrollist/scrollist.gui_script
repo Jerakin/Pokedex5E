@@ -37,6 +37,7 @@ function init(self)
 	local d = monarch.data("scrollist")
 	sender = d.sender
 	message_id = d.message_id
+	gui.set_text(gui.get_node("title"), d.title)
 	self.all_items = utils.shallow_copy(d.items)
 	self.list_items = utils.shallow_copy(d.items)
 	update_list(gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.list_items))

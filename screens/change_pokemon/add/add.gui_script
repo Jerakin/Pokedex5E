@@ -60,7 +60,7 @@ function init(self)
 	end
 	
 	button.register("change_pokemon/btn_species", function()
-		monarch.show("scrollist", {}, {items=pokedex.list, message_id="species", sender=msg.url()})
+		monarch.show("scrollist", {}, {items=pokedex.list, message_id="species", sender=msg.url(), title="Pick your Pokemon"})
 	end)
 	
 	pokemon_edit.init(self)
