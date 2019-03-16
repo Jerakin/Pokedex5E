@@ -293,6 +293,9 @@ local function change_pokemon(self, index, instant)
 	local r = gui.get_node("scroll")
 	local p = vmath.vector3()
 	p.x = index * -720
+	if self.pokemons_list[index+1] == nil then
+		return
+	end
 	gui.set_enabled(self.pokemons_list[index+1].nodes[hash("pokemon/root")], true)
 
 	local n = gui.get_node("party_indicator/pokemon_" .. index+1 .. "/pokemon_sprite")
