@@ -25,12 +25,16 @@ local function join_table(title, T, sep)
 	return title
 end
 
-local function to_mod(v)
-	local value = math.floor((v - 10) / 2)
+local function add_operation(value)
 	if value >= 0 then
 		value = "+" .. value
 	end
 	return value
+end
+
+local function to_mod(v)
+	local value = math.floor((v - 10) / 2)
+	return add_operation(value)
 end
 
 local function update_hp_meter(nodes, max, current)
@@ -186,16 +190,16 @@ local function setup_info(self, nodes, pokemon)
 	local abilities_string2 = ""
 	local saving_throw_string2 = ""
 	
-	local st_attributes = _pokemon.get_saving_throw_attributes(pokemon)
+	local st_attributes = _pokemon.get_saving_throw_modifier(pokemon)
 	local total_attributes = _pokemon.get_attributes(pokemon)
 	for i, stat in pairs({"STR", "DEX", "CON"}) do
 		abilities_string1 = abilities_string1 .. total_attributes[stat] .. "\n"
-		saving_throw_string1 = saving_throw_string1 .. to_mod(st_attributes[stat])  .. "\n"
+		saving_throw_string1 = saving_throw_string1 .. add_operation(st_attributes[stat])  .. "\n"
 	end	
 
 	for i, stat in pairs({"INT", "WIS", "CHA"}) do
 		abilities_string2 = abilities_string2 .. total_attributes[stat] .. "\n"
-		saving_throw_string2 = saving_throw_string2 .. to_mod(st_attributes[stat])  .. "\n"
+		saving_throw_string2 = saving_throw_string2 .. add_operation(st_attributes[stat])  .. "\n"
 	end
 	
 	gui.set_text(nodes["pokemon/attributes_1"], abilities_string1)

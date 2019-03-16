@@ -265,14 +265,18 @@ function M.evolve(pokemon, to_species, level)
 end
 
 
-function M.get_saving_throw_attributes(pokemon)
+function M.get_saving_throw_modifier(pokemon)
 	local prof = M.get_proficency_bonus(pokemon)
-	local b  = M.get_attributes(pokemon)
-	local st = pokedex.get_saving_throw_proficiencies(M.get_current_species(pokemon)) or {}
-	for _, st in pairs(st) do
-		b[st] = b[st] + prof
+	local b = M.get_attributes(pokemon)
+	local saving_throws = pokedex.get_saving_throw_proficiencies(M.get_current_species(pokemon)) or {}
+	local modifiers = {}
+	for name, mod in pairs(b) do
+		modifiers[name] = math.floor((b[name] - 10) / 2)
 	end
-	return b
+	for _, st in pairs(saving_throws) do
+		modifiers[st] = modifiers[st] + prof
+	end
+	return modifiers
 end
 
 function M.set_nickname(pokemon, nickname)
