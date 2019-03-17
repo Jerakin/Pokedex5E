@@ -27,8 +27,117 @@ background_color {
 }
 nodes {
   position {
+    x: 360.0
+    y: 640.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
     x: 0.0
     y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/add_backing"
+  id: "root"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_STRETCH
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 720.0
+    y: 1280.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: ""
+  id: "box"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_STRETCH
+  parent: "root"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 0.75
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: -360.0
+    y: -640.0
     z: 0.0
     w: 1.0
   }
@@ -58,6 +167,7 @@ nodes {
   }
   type: TYPE_TEMPLATE
   id: "template"
+  parent: "root"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -176,8 +286,8 @@ nodes {
 }
 nodes {
   position {
-    x: 50.0
-    y: 1237.0
+    x: -310.0
+    y: 597.0
     z: 0.0
     w: 1.0
   }
@@ -213,6 +323,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -230,8 +341,8 @@ nodes {
 }
 nodes {
   position {
-    x: 538.0
-    y: 372.0
+    x: 178.0
+    y: -372.0
     z: 0.0
     w: 1.0
   }
@@ -267,6 +378,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -347,8 +459,8 @@ nodes {
 }
 nodes {
   position {
-    x: 197.0
-    y: 372.0
+    x: -163.0
+    y: -372.0
     z: 0.0
     w: 1.0
   }
@@ -384,6 +496,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -464,8 +577,8 @@ nodes {
 }
 nodes {
   position {
-    x: 360.0
-    y: 707.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -501,6 +614,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
   layer: "gui"
   inherit_alpha: false
   slice9 {
@@ -637,8 +751,8 @@ nodes {
 }
 nodes {
   position {
-    x: 111.0
-    y: 1230.0
+    x: -249.0
+    y: 590.0
     z: 0.0
     w: 1.0
   }
@@ -688,6 +802,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
+  parent: "root"
   layer: "title"
   inherit_alpha: true
   alpha: 1.0
@@ -696,60 +811,6 @@ nodes {
   template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 360.0
-    y: 640.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 720.0
-    y: 1280.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: ""
-  id: "box"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  layer: ""
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 0.75
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
 }
 layers {
   name: "gui"
