@@ -63,9 +63,9 @@ local function update_items(item)
 		local background = item.nodes["pokemon/pokemon" .. i .. "/background"]
 		local data = storage_data[item.data]
 		if data and data[i] and selected_pokemon[data[i].species] then
-			gui.set_color(background, vmath.vector4(0.4,0.4,0.4,1))
+			gui.set_color(background, vmath.vector4(0.9, 1, 0.9,1))
 		else
-			gui.set_color(background, vmath.vector4(0.99,0.95,0.86,1))
+			gui.set_color(background, vmath.vector4(1))
 		end
 		
 		if data and data[i] then
@@ -118,6 +118,7 @@ end
 
 function init(self)
 	gooey.acquire_input()
+	msg.post(url.MENU, "hide")
 	self.habitat_index = 1
 	self.trainer_class_index = 1
 	self.trainer_class_list = filters.trainer_class_list()
@@ -169,6 +170,10 @@ function on_input(self, action_id, action)
 		update_pokemons_list_view(self)
 	end, gooey_buttons.plus_button)
 
+	gooey.button("btn_back", action_id, action, function()
+		monarch.back()
+	end)
+	
 	gooey.button("level/btn_minus", action_id, action, function()
 		self.level = math.max(self.level - 1, 0)
 		gui.set_text(gui.get_node("txt_level"), self.level)
@@ -181,6 +186,9 @@ function on_input(self, action_id, action)
 		end
 		selected_pokemon = {}
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_add")) end)
+
+	gooey.button("btn_random", action_id, action, function()
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_random")) end)
 end
 
 function on_reload(self)
