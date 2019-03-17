@@ -386,7 +386,7 @@ function init(self)
 			end)
 		else
 			gui.set_color(pok_sprite, gui_colors.INACTIVE)
-			gui.play_flipbook(pok_sprite, "pokemon_open")
+			gui.play_flipbook(pok_sprite, "sort_type")
 		end
 		gui.set_scale(pok_sprite, vmath.vector3(1))
 		left_in_storage = left_in_storage - 1

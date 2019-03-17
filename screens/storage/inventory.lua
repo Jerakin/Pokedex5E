@@ -49,7 +49,7 @@ function M.setup()
 				gui.set_scale(sprite, vmath.vector3(1, 1, 1))
 			else
 				gui.set_color(sprite, gui_colors.INACTIVE)
-				gui.play_flipbook(sprite, "pokemon_open")
+				gui.play_flipbook(sprite, "sort_type")
 			end
 			left_in_storage = left_in_storage - 1
 		end
