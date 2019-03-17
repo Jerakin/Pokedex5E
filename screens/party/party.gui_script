@@ -313,7 +313,7 @@ local function change_pokemon(self, index, instant)
 
 	local n = gui.get_node("party_indicator/pokemon_" .. index+1 .. "/pokemon_sprite")
 	local pos = gui.get_position(n)
-	pos.y = 50
+	pos.y = 40
 	gui.set_position(gui.get_node("party_indicator/active"), pos)
 	party.current_pokemon = self.pokemons_list[index+1].pokemon_id
 	if instant then
