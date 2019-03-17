@@ -1,6 +1,7 @@
 local button = require "utils.button"
 local monarch = require "monarch.monarch"
 local profiles = require "pokedex.profiles"
+local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
 local gui_colors = require "utils.gui_colors"
 local url = require "utils.url"
@@ -9,7 +10,7 @@ local function delete(profile)
 	profiles.delete(profile)
 end
 local ACTIVE = vmath.vector3(1)
-local INACTIVE = vmath.vector3(0.99, 0.95, 0.86, 1)
+local INACTIVE = vmath.vector3(0.96, 0.96, 0.96, 1)
 local ACTIVE_SIZE = vmath.vector3(850, 200, 0)
 local INACTIVE_SIZE = vmath.vector3(800, 200, 0)
 
@@ -67,11 +68,24 @@ local function delete_profile(slot)
 	refresh(profiles.get_active_slot())
 end
 
+local function setup_pokemon_images(_profiles, slot)
+	for i=1, 6 do
+		local img_node = gui.get_node("profile_slot" .. slot .. "/pokemon" .. i)
+		if _profiles[slot] and _profiles[slot].party and _profiles[slot].party[i] then
+			local pokemon_sprite, _ = pokedex.get_sprite(_profiles[slot].party[i])
+			gui.play_flipbook(img_node, pokemon_sprite)
+		else
+			gui.set_enabled(img_node, false)
+		end
+	end
+end
+
 function init(self)
 	button.acquire()
 	msg.post(url.MENU, "hide")
 	self.initial_size = gui.get_size(gui.get_node("profile_slot1/btn_slot"))
 	local _profiles = profiles.get_all_profiles()
+
 	for i=1, 6 do
 		if _profiles[i] then
 			gui.set_text(gui.get_node("profile_slot" .. i .."/trainer_name"), _profiles[i].name)
@@ -80,6 +94,7 @@ function init(self)
 				monarch.show("are_you_sure", nil, {sender=msg.url(), data=i, title="Delete Profile"})
 			end)
 		end
+		setup_pokemon_images(_profiles, i)
 		button.register("profile_slot" .. i .."/btn_slot", function()
 			activate(_profiles[i], i)
 		end)
