@@ -176,11 +176,10 @@ local function setup_abilities(self, nodes, pokemon)
 		gui.set_text(desc_node, desc)
 		local desc_height, name_height = gui.get_text_metrics_from_node(desc_node).height, gui.get_text_metrics_from_node(name_node).height --* 0.8
 		local size = gui.get_size(background_node)
-		size.y = desc_height + name_height - 5
+		size.y = desc_height + name_height + 10
 		gui.set_size(background_node, size)
-		p.y = p.y - desc_height - name_height --+ -22
+		p.y = p.y - desc_height - name_height + -15
 		index = index + 1
-
 	end
 end
 

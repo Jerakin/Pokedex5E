@@ -125,7 +125,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "root"
-  layer: "title"
+  layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
@@ -136,8 +136,8 @@ nodes {
 }
 nodes {
   position {
-    x: 28.0
-    y: -55.0
+    x: 38.0
+    y: -53.0
     z: 0.0
     w: 1.0
   }
@@ -167,7 +167,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "When this Pokemon is burned or poisoned, they are not affected by the disadvantage or half damage effects. They still take damage at the end of each of their turns."
+  text: "When this Pokemon is burned or poisoned, they are not affected by the disadvantage or half damage effects. They still take damage at the end of each of their turns. 1 1 1 1 1 1 11"
   font: "script"
   id: "description"
   xanchor: XANCHOR_NONE
@@ -237,7 +237,7 @@ nodes {
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 8.0
@@ -259,7 +259,7 @@ layers {
   name: "script"
 }
 layers {
-  name: "title"
+  name: "script_bold"
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT
