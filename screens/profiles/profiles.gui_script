@@ -14,6 +14,19 @@ local INACTIVE = vmath.vector3(0.96, 0.96, 0.96, 1)
 local ACTIVE_SIZE = vmath.vector3(850, 200, 0)
 local INACTIVE_SIZE = vmath.vector3(800, 200, 0)
 
+local function setup_pokemon_images(_profiles, slot)
+	for i=1, 6 do
+		local img_node = gui.get_node("profile_slot" .. slot .. "/pokemon" .. i)
+		if _profiles[slot] and _profiles[slot].party and _profiles[slot].party[i] then
+			local pokemon_sprite, _ = pokedex.get_sprite(_profiles[slot].party[i])
+			gui.play_flipbook(img_node, pokemon_sprite)
+		else
+			gui.set_enabled(img_node, false)
+		end
+	end
+end
+
+
 local function refresh(active_slot)
 	local _profiles = profiles.get_all_profiles()
 	for i=1, 6 do
@@ -31,7 +44,7 @@ local function refresh(active_slot)
 			gui.set_text(stats, " Own: 0")
 			gui.set_size(button, INACTIVE_SIZE)
 		end
-		
+		setup_pokemon_images(_profiles, i)
 		gui.set_color(button, INACTIVE)
 		gui.set_color(name, gui_colors.HERO_TEXT_FADED)
 		gui.set_color(stats, gui_colors.HERO_TEXT_FADED)
@@ -66,18 +79,6 @@ local function delete_profile(slot)
 	end
 	profiles.delete(slot)
 	refresh(profiles.get_active_slot())
-end
-
-local function setup_pokemon_images(_profiles, slot)
-	for i=1, 6 do
-		local img_node = gui.get_node("profile_slot" .. slot .. "/pokemon" .. i)
-		if _profiles[slot] and _profiles[slot].party and _profiles[slot].party[i] then
-			local pokemon_sprite, _ = pokedex.get_sprite(_profiles[slot].party[i])
-			gui.play_flipbook(img_node, pokemon_sprite)
-		else
-			gui.set_enabled(img_node, false)
-		end
-	end
 end
 
 function init(self)
