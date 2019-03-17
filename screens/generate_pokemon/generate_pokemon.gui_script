@@ -98,7 +98,7 @@ local function on_item_selected(self, list)
 						else
 							selected_pokemon[pokemon_id] = false
 						end
-						gui.set_color(entry.nodes["pokemon/pokemon" .. i .. "/background"], vmath.vector4(0.4,0.4,0.4,1))
+						gui.set_color(entry.nodes["pokemon/pokemon" .. i .. "/background"], vmath.vector4(0.9, 1, 0.9,1))
 					end
 				end
 			end
@@ -136,27 +136,32 @@ function init(self)
 	update_list(gooey.dynamic_list("storage", "scroll_list", "pokemon/row", self.pokemon_rows))
 end
 
+local function filtred_ids(self)
+
+end
+
+
 function on_input(self, action_id, action)
 	action_position.x = action.x
 	action_position.y = action.y
 	
-	local a = dropdown.on_input("Habitatadsasd", "habitat", "txt_habitat", "scroll_selection", "scroll_text", self.habitat_list, action_id, action, function()
+	local a = dropdown.on_input("Habitatadsasd", "habitat", "txt_habitat", "scroll_selection", "scroll_bg", "scroll_text", self.habitat_list, action_id, action, function()
 		self.habitat = gui.get_text(gui.get_node("txt_habitat"))
 		update_pokemons_list_view(self)
 	end)
 	if a then return true end
-	local b = dropdown.on_input("Trainers", "trainer", "txt_trainer", "scroll_selection", "scroll_text", self.trainer_class_list, action_id, action, function()
+	local b = dropdown.on_input("Trainers", "trainer", "txt_trainer", "scroll_selection", "scroll_bg", "scroll_text", self.trainer_class_list, action_id, action, function()
 		self.trainer_class = gui.get_text(gui.get_node("txt_trainer"))
 		update_pokemons_list_view(self)
 	end)
 	if b then return true end
-	local c = dropdown.on_input("sr_min", "min_sr", "txt_min_sr", "scroll_selection", "scroll_text", sr, action_id, action, function()
+	local c = dropdown.on_input("sr_min", "min_sr", "txt_min_sr", "scroll_selection", "scroll_bg", "scroll_text", sr, action_id, action, function()
 		local t = gui.get_text(gui.get_node("txt_min_sr"))
 		self.min_sr = number_map[t]
 		update_pokemons_list_view(self)
 	end)
 	if c then return true end
-	local d = dropdown.on_input("sr_max", "max_sr", "txt_max_sr", "scroll_selection", "scroll_text", sr, action_id, action, function()
+	local d = dropdown.on_input("sr_max", "max_sr", "txt_max_sr", "scroll_selection", "scroll_bg", "scroll_text", sr, action_id, action, function()
 		local t = gui.get_text(gui.get_node("txt_max_sr"))
 		self.max_sr = number_map[t]
 		update_pokemons_list_view(self)
@@ -188,6 +193,9 @@ function on_input(self, action_id, action)
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_add")) end)
 
 	gooey.button("btn_random", action_id, action, function()
+		local index = math.random(#self.filtered_pokemons)
+		local species = self.filtered_pokemons[index]
+		monarch.show("random_pokemon", {}, {species=species, level=self.level, pokemons=self.filtered_pokemons})
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_random")) end)
 end
 

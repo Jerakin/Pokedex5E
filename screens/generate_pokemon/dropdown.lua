@@ -7,15 +7,16 @@ local active = {active=false}
 
 local function button_click(name, button_id, scroll_id)
 	if active.active then return true end
+	local scroll_bg_id = gui.get_node(active[name].scroll_bg_id)
 	local button_id = gui.get_node(active[name].button_id)
 	local scroll_id = gui.get_node(active[name].scroll_id)
 	local b = gui.get_size(button_id)
-	local s = gui.get_size(scroll_id)
+	local s = gui.get_size(scroll_bg_id)
 	s.x = b.x 
-	gui.set_size(scroll_id, s)
-	gui.set_enabled(scroll_id, true)
+	gui.set_size(scroll_bg_id, s)
+	gui.set_enabled(scroll_bg_id, true)
 	local p = gui.get_position(button_id)
-	gui.set_position(scroll_id, p)
+	gui.set_position(scroll_bg_id, p)
 	active[name].active = true
 	active.active = true
 end
@@ -34,12 +35,12 @@ end
 
 local function on_item_selected(list, name)
 	local scroll_id = active[list.id].scroll_id
+	local scroll_bg_id = active[list.id].scroll_bg_id
 	local button_txt_id = active[list.id].button_txt_id
 	for i, entry in pairs(list.items) do
 		if entry.index == list.selected_item then
-			---pprint(button_txt_id)
 			gui.set_text(gui.get_node(button_txt_id), entry.data)
-			gui.set_enabled(gui.get_node(scroll_id), false)
+			gui.set_enabled(gui.get_node(scroll_bg_id), false)
 			active[list.id].active = false
 			active[list.id].selected_item = entry.data
 			active.active = false
@@ -48,12 +49,12 @@ local function on_item_selected(list, name)
 	end
 end
 
-local function setup_state(name, button_id, button_txt_id, scroll_id, item_id, action_id, action, func)
+local function setup_state(name, button_id, button_txt_id, scroll_id, scroll_bg_id, item_id, action_id, action, func)
 	local scroll = gui.get_node(scroll_id)
 	local button = gui.get_node(button_id)
 	
 	if not active[name] then
-		active[name] = {active = false, button_id = button_id, button_txt_id = button_txt_id, scroll_id = scroll_id, item_id = item_id, func=func}
+		active[name] = {active = false, button_id = button_id, button_txt_id = button_txt_id, scroll_id = scroll_id, item_id = item_id, func=func, scroll_bg_id = scroll_bg_id}
 	end
 	if gui.pick_node(scroll, action.x, action.y) then
 		if action.pressed and active[name].active then
@@ -82,13 +83,13 @@ local function setup_state(name, button_id, button_txt_id, scroll_id, item_id, a
 	end
 end
 
-function M.on_input(name, button_id, button_txt_id, scroll_id, item_id, data, action_id, action, func)
-	setup_state(name, button_id, button_txt_id, scroll_id, item_id, action_id, action, func)
+function M.on_input(name, button_id, button_txt_id, scroll_id, scroll_bg_id, item_id, data, action_id, action, func)
+	setup_state(name, button_id, button_txt_id, scroll_id, scroll_bg_id, item_id, action_id, action, func)
 	
 	if active[name].active and action_id == hash("touch") and not active[name].scroll_clicked and action.released then
 		active[name].active = false
 		active.active = false
-		gui.set_enabled(gui.get_node(scroll_id), false)
+		gui.set_enabled(gui.get_node(scroll_bg_id), false)
 	end
 	
 	local b = gooey.button(button_id, action_id, action, function() button_click(name) end)
