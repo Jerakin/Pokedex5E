@@ -42,7 +42,10 @@ function init(self)
 	defsave.use_default_data = false
 	metadata.load()
 	metadata.save()
-	
+	math.randomseed(os.clock())
+	math.random()
+	math.random()
+	math.random()
 	msg.post("@render:", "clear_color", {color=gui_colors.BACKGROUND})
 	
 	--input order

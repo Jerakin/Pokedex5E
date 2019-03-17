@@ -3,6 +3,7 @@ local _pokemon = require "pokedex.pokemon"
 local button = require "utils.button"
 local monarch = require "monarch.monarch"
 local flow = require "utils.flow"
+local gui_colors = require "utils.gui_colors"
 local M = {}
 
 local inventory_buttons = {}
@@ -43,10 +44,12 @@ function M.setup()
 			gui.set_scale(sprite, vmath.vector3(1))
 			gui.set_texture(sprite, "gui")
 			if left_in_storage > 0 then
-				gui.play_flipbook(sprite, "pokeball_add")
+				gui.play_flipbook(sprite, "menu_add")
+				gui.set_color(sprite, vmath.vector4(1))
 				gui.set_scale(sprite, vmath.vector3(1, 1, 1))
 			else
-				gui.play_flipbook(sprite, "pokeball")
+				gui.set_color(sprite, gui_colors.INACTIVE)
+				gui.play_flipbook(sprite, "pokemon_open")
 			end
 			left_in_storage = left_in_storage - 1
 		end

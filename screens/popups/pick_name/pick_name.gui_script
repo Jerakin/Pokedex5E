@@ -10,7 +10,7 @@ local slot
 
 local function refresh_input(self, input, node_id)
 	if input.empty and not input.selected then
-		gui.set_text(input.node, "Enter Name")
+		gui.set_text(input.node, "ENTER NAME")
 	end
 
 	local cursor = gui.get_node("cursor")
@@ -48,6 +48,6 @@ function on_input(self, action_id, action)
 	gooey.input("name_text", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, {max_length = 10, allowed_characters="[%a%d]"}, function(input)
 		refresh_input(self, input, "name_text")
 	end)
-	gooey.button("btn_okay", action_id, action, okay, gooey_buttons.green_button)
+	gooey.button("btn_okay", action_id, action, okay, function(b) gooey_buttons.common_button(b, gui.get_node("btn_text")) end)
 	return true
 end

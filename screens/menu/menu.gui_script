@@ -9,6 +9,15 @@ local storage = require "pokedex.storage"
 local gooey = require "gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
 
+local map = {
+	[hash("party")] = "btn_party",
+	[hash("storage")] = "btn_storage",
+	[hash("add")] = "btn_add",
+	[hash("profiles")] = "btn_profiles",
+	[hash("about")] = "btn_about",
+	[hash("generate_pokemon")] = "btn_generate"
+}
+
 local function hide(self)
 	gui.set_enabled(gui.get_node("root"), false)
 end
@@ -19,6 +28,16 @@ local function show(self)
 end
 
 local function toggle(self)
+	local active = monarch.top()
+	for scene, id in pairs(map) do
+		if active == scene then
+			gui.set_color(gui.get_node(id), vmath.vector4(1))
+			gui.play_flipbook(gui.get_node(id), "gradient")
+		else
+			gui.set_color(gui.get_node(id), vmath.vector4(0.192, 0.192, 0.192, 1))
+			gui.play_flipbook(gui.get_node(id), "square")
+		end
+	end
 	button.acquire()
 	self.block_input = true
 	self.toggle = not self.toggle
@@ -26,9 +45,11 @@ local function toggle(self)
 	if not self.toggle then
 		timer.delay(0.1, false, function() self.block_input = false end)
 	end
-	gooey_buttons.set_menu_opened(self.toggle)
+
 	if not self.toggle then
-		gui.play_flipbook(self.btn_menu, "menu_up")
+		gui.set_enabled(self.btn_menu, true)
+	else
+		gui.set_enabled(self.btn_menu, false)
 	end
 end
 
@@ -44,8 +65,7 @@ function init(self)
 	self.btn_profiles = gui.get_node("btn_profiles")
 	self.btn_about = gui.get_node("btn_about")
 	self.btn_menu = gui.get_node("btn_menu")
-	
-	self.sub = gui.get_node("sub")
+	self.btn_generate = gui.get_node("btn_generate")
 	self.menu = gui.get_node("menu")
 	gui.set_enabled(self.menu, false)
 
@@ -64,10 +84,15 @@ function init(self)
 	end)
 
 	button.register(self.btn_about , function()
+		monarch.show("about")
+		toggle(self)
+	end)
+
+	button.register(self.btn_generate , function()
 		monarch.show("generate_pokemon")
 		toggle(self)
 	end)
-	
+
 	button.register(self.btn_profiles, function()
 		monarch.show("profiles")
 		toggle(self)
@@ -88,7 +113,8 @@ function on_input(self, action_id, action)
 	local g = gooey.button("btn_menu", action_id, action, function()
 		toggle(self)
 	end, gooey_buttons.menu_button)
-	if b or g.over then return self.toggle end
+	
+	if b or g.over_now then return self.toggle end
 
 	if self.toggle and not b and gui.pick_node(gui.get_node("menu"), action.x, action.y) and action_id == hash("touch") and action.pressed then
 		toggle(self)

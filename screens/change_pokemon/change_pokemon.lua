@@ -19,6 +19,7 @@ local STATS = {"STR", "DEX", "CON", "INT", "WIS", "CHA"}
 
 local M = {}
 
+
 local active_buttons = {}
 
 local function pokemon_image(species)
@@ -33,8 +34,7 @@ local function redraw(self)
 		return
 	end
 	local species_node = gui.get_node("change_pokemon/species")
-	gui.set_text(species_node, self.pokemon.species.current)
-	gui.set_text(gui.get_node("change_pokemon/txt_level"), "Lv. " .. self.level)
+	gui.set_text(gui.get_node("change_pokemon/txt_level"), self.level)
 
 	gui.set_text(gui.get_node("change_pokemon/nature"), self.pokemon.nature or "No Nature")
 	
@@ -60,20 +60,23 @@ local function redraw(self)
 	local attributes = _pokemon.get_attributes(self.pokemon)
 	for _, stat in pairs(STATS) do
 		local n = gui.get_node("change_pokemon/asi/" .. stat .. "_MOD")
-		
-		gui.set_text(gui.get_node("change_pokemon/asi/" .. stat), attributes[stat])
+		local stat_num = gui.get_node("change_pokemon/asi/" .. stat)
+		gui.set_text(stat_num, attributes[stat] + self.increased_attributes[stat])
 		local mod = ""
 		if self.increased_attributes[stat] >= 0 then
 			mod = "+"
 		end
 		if self.increased_attributes[stat] >= 1 then
 			gui.set_color(n, gui_colors.GREEN)
+			gui.set_color(stat_num, gui_colors.GREEN)
 		elseif self.increased_attributes[stat] <= -1 then
 			gui.set_color(n, gui_colors.RED)
+			gui.set_color(stat_num, gui_colors.RED)
 		else
 			gui.set_color(n, gui_colors.TEXT)
+			gui.set_color(stat_num, gui_colors.TEXT)
 		end
-		gui.set_text(n, mod .. self.increased_attributes[stat])
+		gui.set_text(n, "(" .. mod .. self.increased_attributes[stat]..")")
 	end
 
 	-- ASI
@@ -146,7 +149,7 @@ function M.register_buttons_after_species(self)
 	end)
 
 	button.register("change_pokemon/nature", function()
-		monarch.show("scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url()})
+		monarch.show("scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url(), title="Pick nature"})
 	end)
 
 	for _, s in pairs({"str", "dex", "con", "int", "wis", "cha"}) do
@@ -218,8 +221,9 @@ function M.on_message(self, message_id, message, sender)
 			end
 			self.pokemon.moves = moves
 			pokemon_image(message.item)
+			gui.set_color(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector4(1))
 			gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.TEXT)
-			gui.set_font(gui.get_node("change_pokemon/species"), "title")
+			gui.set_text(gui.get_node("change_pokemon/species"), self.pokemon.species.current:upper())
 			gui.set_scale(gui.get_node("change_pokemon/species"), vmath.vector3(0.8))
 			M.register_buttons_after_species(self)
 			if self.register_buttons_after_species then self.register_buttons_after_species(self) end

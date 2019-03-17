@@ -87,6 +87,11 @@ function M.get_active_name()
 	end
 end
 
+function M.set_party(party)
+	profiles[active_slot].party = party
+	M.save()
+end
+
 function M.get_latest()
 	return profiles.last_used
 end

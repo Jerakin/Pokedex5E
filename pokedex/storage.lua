@@ -83,9 +83,19 @@ local function get(id)
 	return storage[id] and storage[id] or active[id]
 end
 
+local function get_party()
+	local p = {}
+	for _, pokemon in pairs(active) do
+		table.insert(p, pokemon.species.current)
+	end
+	return p
+end
+
 function M.set_nickname(id, nickname)
 	local p = get(id)
-	p.nickname = nickname
+	if not nickname == p.species.current then
+		p.nickname = nickname
+	end
 end
 
 function M.get_nickname(id)
@@ -151,6 +161,7 @@ function M.release_pokemon(id)
 	active[id] = nil
 	counters.released = next(counters) ~= nil and counters.released + 1 or 1
 	profiles.update(profiles.get_active_slot(), counters)
+	profiles.set_party(get_party())
 	M.save()
 end
 
@@ -175,6 +186,7 @@ function M.add(pokemon)
 		pokemon.slot = #M.list_of_ids_in_inventory() + 1
 		active[id] = pokemon
 	end
+	profiles.set_party(get_party())
 	M.save()
 	profiles.save()
 end
@@ -236,6 +248,7 @@ function M.swap(storage_id, inventory_id)
 	
 	active[storage_id] = storage_pokemon
 	storage[storage_id] = nil
+	profiles.set_party(get_party())
 	M.save()
 end
 
@@ -251,7 +264,7 @@ function M.move_to_storage(id)
 	pokemon.slot = nil
 	storage[id] = pokemon
 	active[id] = nil
-
+	profiles.set_party(get_party())
 	M.save()
 end
 
@@ -270,6 +283,7 @@ function M.move_to_inventory(id)
 		pokemon.slot = slot
 		active[id] = pokemon
 		storage[id] = nil
+		profiles.set_party(get_party())
 		M.save()
 	else
 		assert(false, "Your party is full")

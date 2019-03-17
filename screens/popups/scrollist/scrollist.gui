@@ -3,6 +3,10 @@ fonts {
   name: "script"
   font: "/assets/fonts/script.font"
 }
+fonts {
+  name: "title"
+  font: "/assets/fonts/title.font"
+}
 textures {
   name: "gui"
   texture: "/assets/gui.atlas"
@@ -12,6 +16,60 @@ background_color {
   y: 0.0
   z: 0.0
   w: 0.0
+}
+nodes {
+  position {
+    x: 360.0
+    y: 640.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.9411765
+    y: 0.9411765
+    z: 0.9411765
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/square"
+  id: "root"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_SW
+  adjust_mode: ADJUST_MODE_STRETCH
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 2.0
+    y: 2.0
+    z: 2.0
+    w: 2.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
@@ -39,26 +97,27 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.9254902
-    y: 0.83137256
-    z: 0.67058825
+    x: 0.9411765
+    y: 0.9411765
+    z: 0.9411765
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/square"
-  id: "root"
+  id: "box"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_SW
-  adjust_mode: ADJUST_MODE_FIT
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_STRETCH
+  parent: "root"
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 2.0
-    y: 2.0
-    z: 2.0
-    w: 2.0
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -69,8 +128,158 @@ nodes {
 }
 nodes {
   position {
+    x: -360.0
+    y: -640.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_TEMPLATE
+  id: "template1"
+  parent: "root"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  template: "/templates/top_divider.gui"
+  template_node_child: false
+}
+nodes {
+  position {
+    x: 364.0
+    y: 1180.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.66
+    w: 1.0
+  }
+  size {
+    x: 720.0
+    y: 30.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/shadow"
+  id: "template1/shadow"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_STRETCH
+  parent: "template1"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
     x: 360.0
-    y: 705.0
+    y: 1239.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 720.0
+    y: 120.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/title_backing"
+  id: "template1/box"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_STRETCH
+  parent: "template1"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 5.0
+    y: 5.0
+    z: 5.0
+    w: 5.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: -49.0
     z: 0.0
     w: 1.0
   }
@@ -88,14 +297,14 @@ nodes {
   }
   size {
     x: 500.0
-    y: 900.0
+    y: 1000.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 0.9411765
+    y: 0.9411765
+    z: 0.9411765
     w: 1.0
   }
   type: TYPE_BOX
@@ -125,7 +334,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 406.0
+    y: 455.0
     z: 0.0
     w: 1.0
   }
@@ -155,7 +364,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/background_gradient"
+  texture: "gui/add_backing"
   id: "btn_item"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -165,22 +374,22 @@ nodes {
   layer: "gui"
   inherit_alpha: false
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 15.0
+    y: 15.0
+    z: 15.0
+    w: 30.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 0.0
+  alpha: 1.0
   template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
     x: 0.0
-    y: 0.0
+    y: 6.0
     z: 0.0
     w: 1.0
   }
@@ -203,9 +412,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.0
+    y: 0.0
+    z: 0.0
     w: 1.0
   }
   type: TYPE_TEXT
@@ -232,7 +441,7 @@ nodes {
   line_break: false
   parent: "btn_item"
   layer: "script"
-  inherit_alpha: false
+  inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
@@ -242,8 +451,8 @@ nodes {
 }
 nodes {
   position {
-    x: 360.0
-    y: 53.0
+    x: -306.0
+    y: 596.0
     z: 0.0
     w: 1.0
   }
@@ -254,14 +463,14 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 2.0
+    y: 2.0
     z: 1.0
     w: 1.0
   }
   size {
-    x: 80.0
-    y: 80.0
+    x: 34.0
+    y: 33.0
     z: 0.0
     w: 1.0
   }
@@ -293,12 +502,12 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
+  size_mode: SIZE_MODE_AUTO
 }
 nodes {
   position {
-    x: 360.0
-    y: 1204.0
+    x: 0.0
+    y: 491.0
     z: 0.0
     w: 1.0
   }
@@ -315,20 +524,20 @@ nodes {
     w: 1.0
   }
   size {
-    x: 400.0
-    y: 64.0
+    x: 600.0
+    y: 80.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
+  texture: "gui/add_backing"
   id: "bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -338,10 +547,10 @@ nodes {
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
+    x: 15.0
+    y: 15.0
+    z: 15.0
+    w: 30.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -352,8 +561,8 @@ nodes {
 }
 nodes {
   position {
-    x: -195.0
-    y: 0.0
+    x: -282.0
+    y: 8.0
     z: 0.0
     w: 1.0
   }
@@ -431,9 +640,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.0
+    y: 0.0
+    z: 0.0
     w: 1.0
   }
   type: TYPE_TEXT
@@ -525,8 +734,8 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: 0.0
+    x: -233.0
+    y: 589.0
     z: 0.0
     w: 1.0
   }
@@ -549,80 +758,51 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
     w: 1.0
   }
-  type: TYPE_TEMPLATE
-  id: "template"
-  parent: "root"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  template: "/templates/bottom_divider.gui"
-  template_node_child: false
-}
-nodes {
-  position {
-    x: 0.0
-    y: 104.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 720.0
-    y: 6.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.9254902
-    y: 0.61960787
-    z: 0.16078432
-    w: 1.0
-  }
-  type: TYPE_BOX
+  type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/square"
-  id: "template/box1"
+  text: "Title"
+  font: "title"
+  id: "title"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_SW
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "template"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+  pivot: PIVOT_W
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
   }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "root"
+  layer: "title"
+  inherit_alpha: true
   alpha: 1.0
-  template_node_child: true
-  size_mode: SIZE_MODE_MANUAL
+  outline_alpha: 0.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
 }
 layers {
   name: "gui"
 }
 layers {
   name: "script"
+}
+layers {
+  name: "title"
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT

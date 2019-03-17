@@ -1,12 +1,17 @@
+local gui_colors = require "utils.gui_colors"
+
 local M = {}
 
-function M.common_button(button)
+function M.common_button(button, text_node)
 	if button.pressed_now then
 		gui.play_flipbook(button.node, hash("common_down"))
+		gui.set_color(text_node, gui_colors.BUTTON_TEXT_PRESSED)
 	elseif button.released_now then
 		gui.play_flipbook(button.node, hash("common_up"))
+		gui.set_color(text_node, gui_colors.BUTTON_TEXT)
 	elseif not button.pressed and button.out_now then
 		gui.play_flipbook(button.node, hash("common_up"))
+		gui.set_color(text_node, gui_colors.BUTTON_TEXT)
 	end
 end
 
