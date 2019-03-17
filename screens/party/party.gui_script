@@ -311,12 +311,13 @@ local function change_pokemon(self, index, instant)
 	end
 	local r = gui.get_node("scroll")
 	local p = vmath.vector3()
-	p.x = index * -720
+	p.x = p.x + index * -720
+	
 	gui.set_enabled(self.pokemons_list[index+1].nodes[hash("pokemon/root")], true)
 
 	local n = gui.get_node("party_indicator/pokemon_" .. index+1 .. "/pokemon_sprite")
 	local pos = gui.get_position(n)
-	pos.y = 40
+	pos.y = 0
 	gui.set_position(gui.get_node("party_indicator/active"), pos)
 	party.current_pokemon = self.pokemons_list[index+1].pokemon_id
 	if instant then
