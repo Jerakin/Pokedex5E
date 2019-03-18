@@ -50,7 +50,7 @@ local function update_items(item)
 			gui.set_enabled(background, true)
 			gui.set_texture(sprite_node, data[i].texture)
 			gui.play_flipbook(sprite_node, data[i].sprite)
-			gui.set_text(text_node, data[i].species .. "\nLv. " .. data[i].level)
+			gui.set_text(text_node, data[i].species:upper() .. "\nLv. " .. data[i].level)
 		else
 			gui.set_enabled(background, false)
 		end
@@ -89,7 +89,7 @@ local function on_item_selected(self, list)
 				if gui.pick_node(sprite_node, action_position.x, action_position.y) then
 					local pokemon_id = self.filtered_list[(list.selected_item-1)*3 + i]
 					if pokemon_id then
-						monarch.show("transfer_pokemon", {}, {id=pokemon_id, to="inventory"})
+						monarch.show("transfer_pokemon", {}, {id=pokemon_id, to="PARTY"})
 					end
 				end
 			end

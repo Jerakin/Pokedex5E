@@ -37,9 +37,9 @@ local function add_pokemon(self)
 		self.pokemon.attributes.increased = self.increased_attributes
 		storage.add(self.pokemon)
 		if storage.is_party_full() then
-			notify.notify(self.pokemon.species.current .. " added to storage")
+			notify.notify(self.pokemon.species.current .. " added to PC")
 		else
-			notify.notify(self.pokemon.species.current .. " added to inventory")
+			notify.notify(self.pokemon.species.current .. " added to party")
 		end
 		monarch.show("party")
 	end

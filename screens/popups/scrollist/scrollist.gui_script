@@ -11,7 +11,7 @@ local sender
 local message_id
 
 local function update_listitem(list, item)
-	gui.set_text(item.nodes["txt_item"], tostring(item.data or "-"))
+	gui.set_text(item.nodes["txt_item"], tostring(item.data or "-"):upper())
 	if item.index == list.selected_item then
 		selected_item = item.data
 	end

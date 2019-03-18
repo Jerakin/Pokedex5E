@@ -43,9 +43,9 @@ function M.init()
 		habitats = file.load_json_from_resource("/assets/datafiles/habitat.json")
 		
 		local ordered = file.load_json_from_resource("/assets/datafiles/pokemon_order.json")
-		trainer_classes_list.Classes[#trainer_classes_list.Classes + 1] = "No Trainer"
-		habitats.All = ordered.number
-		trainer_classes["No Trainer"] = ordered.number
+		trainer_classes_list.Classes[#trainer_classes_list.Classes + 1] = "Optional"
+		habitats.Optional = ordered.number
+		trainer_classes.Optional = ordered.number
 		species_rating()
 		minimum_found_level()
 		initialized = true
@@ -87,7 +87,7 @@ local number_map = {["1/8"]=0.125, ["1/4"]=0.25, ["1/2"]=0.5, ["1"]=1, ["2"]=2, 
 local function minimum_level_list(lvl)
 	local n = {}
 	if lvl == 0 then
-		return habitats.All
+		return habitats.Optional
 	end
 	for m_lvl, list in pairs(minimum_level) do
 		m_lvl = tonumber(m_lvl)

@@ -51,8 +51,8 @@ local function inventory_button(self, node, id, swap)
 		local other_pokemon = storage.get_copy(id)
 		local other_nickname = _pokemon.get_nickname(other_pokemon)
 		local other_species = _pokemon.get_current_species(other_pokemon)
-		other_nickname = other_nickname or other_species
-		notify.notify(self.nickname .. " moved to inventory\n" .. other_nickname .. " moved to storage")
+		other_nickname = other_nickname or other_species:upper()
+		notify.notify(self.nickname .. " MOVED TO PARTY\n" .. other_nickname .. " MOVED TO PC")
 		update_storage()
 		monarch.back()
 	end)
@@ -70,7 +70,7 @@ local function setup_inventory(self)
 		local sprite = gui.get_node("row" .. row .."/pokemon" .. p .. "/pokemon_sprite")
 		local text = gui.get_node("row" .. row .."/pokemon" .. p .. "/txt_pokemon")
 		if pokemon then
-			gui.set_text(text, _pokemon.get_current_species(pokemon) .. "\nLv. " .. _pokemon.get_current_level(pokemon))
+			gui.set_text(text, _pokemon.get_current_species(pokemon):upper() .. "\nLv. " .. _pokemon.get_current_level(pokemon))
 			gui.set_enabled(sprite, true)
 			set_pokemon_sprite(sprite, pokemon)
 			table.insert(inventory_buttons, inventory_button(self, sprite, inventory[i], self.pokemon_id))
@@ -127,7 +127,7 @@ local function setup_info(self)
 	update_hp_meter(m, c)
 	
 	self.nickname = _pokemon.get_nickname(pokemon)
-	local species = _pokemon.get_current_species(pokemon)
+	local species = _pokemon.get_current_species(pokemon):upper()
 	if nickname then
 		gui.set_text(gui.get_node("txt_index"), string.format("#%03d", _pokemon.get_index_number(pokemon)) .. " " .. species)
 	else
@@ -172,7 +172,7 @@ function init(self)
 	gui.set_enabled(self.swap, false)
 	gui.set_enabled(self.move, true)
 	local n = gui.get_node("txt_move")
-	gui.set_text(n, "MOVE TO " .. self.to:upper())
+	gui.set_text(n, "MOVE TO " .. self.to)
 	
 	self.move_button_enabled = true
 	if self.to == "storage" and #storage.list_of_ids_in_inventory() == 1 then
@@ -183,9 +183,10 @@ function init(self)
 end
 
 local function move(self)
-	if self.to == "inventory" then
+	
+	if self.to == "PARTY" then
 		if storage.free_space_in_inventory() then
-			notify.notify(self.nickname .. " moved to inventory")
+			notify.notify(self.nickname .. " MOVED TO " .. self.to)
 			storage.move_to_inventory(self.pokemon_id)
 			update_storage()
 			monarch.back()
@@ -194,10 +195,9 @@ local function move(self)
 			gui.set_enabled(self.swap, true)
 			gui.set_enabled(self.move, false)
 		end
-	elseif self.to == "storage" then
+	elseif self.to == "PC" then
 		if #storage.list_of_ids_in_inventory() ~= 1 then
-			notify.notify(self.nickname .. " moved to storage")
-			storage.move_to_storage(self.pokemon_id)
+			notify.notify(self.nickname .. " MOVED TO " .. self.to)
 			update_storage()
 			monarch.back()
 		end
@@ -213,7 +213,7 @@ local function cancel_swap(self)
 end
 
 local function release(self)
-	local title = "Release " .. self.nickname
+	local title = "RELEASE " .. self.nickname
 	monarch.show("are_you_sure", nil, {title=title, data=self.pokemon_id, sender=msg.url()})
 end
 
@@ -224,7 +224,7 @@ function on_message(self, message_id, message, sender)
 			flow.start(function()
 				flow.until_true(function() return not monarch.is_busy() end)
 				storage.release_pokemon(message.data)
-				notify.notify(self.nickname .. " were released")
+				notify.notify(self.nickname .. " WERE RELEASED")
 				update_storage()
 				monarch.back()
 			end)

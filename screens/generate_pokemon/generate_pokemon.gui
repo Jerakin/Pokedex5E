@@ -27,6 +27,60 @@ background_color {
 }
 nodes {
   position {
+    x: 360.0
+    y: 40.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 720.0
+    y: 80.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.23529412
+    y: 0.23529412
+    z: 0.23529412
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: ""
+  id: "bottom_bar"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_STRETCH
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
     x: 0.0
     y: 0.0
     z: 0.0
@@ -177,7 +231,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 494.0
+    y: 405.0
     z: 0.0
     w: 1.0
   }
@@ -195,7 +249,7 @@ nodes {
   }
   size {
     x: 700.0
-    y: 800.0
+    y: 650.0
     z: 0.0
     w: 1.0
   }
@@ -231,7 +285,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 397.0
+    y: 293.0
     z: 0.0
     w: 1.0
   }
@@ -1063,7 +1117,7 @@ nodes {
 nodes {
   position {
     x: 194.858
-    y: -7.143
+    y: -200.001
     z: 0.0
     w: 1.0
   }
@@ -1120,7 +1174,7 @@ nodes {
 nodes {
   position {
     x: -208.572
-    y: -7.143
+    y: -200.001
     z: 0.0
     w: 1.0
   }
@@ -1176,8 +1230,62 @@ nodes {
 }
 nodes {
   position {
+    x: 360.0
+    y: 730.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 700.0
+    y: 1.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.7019608
+    y: 0.7019608
+    z: 0.7019608
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: ""
+  id: "box2"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
     x: 497.0
-    y: 932.0
+    y: 797.0
     z: 0.0
     w: 1.0
   }
@@ -1294,7 +1402,7 @@ nodes {
 nodes {
   position {
     x: 538.0
-    y: 46.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -1411,7 +1519,7 @@ nodes {
 nodes {
   position {
     x: 409.0
-    y: 1081.0
+    y: 946.0
     z: 0.0
     w: 1.0
   }
@@ -1495,7 +1603,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "1/8"
+  text: "Min"
   font: "script_bold"
   id: "txt_min_sr"
   xanchor: XANCHOR_NONE
@@ -1528,7 +1636,7 @@ nodes {
 nodes {
   position {
     x: 589.0
-    y: 1081.0
+    y: 946.0
     z: 0.0
     w: 1.0
   }
@@ -1612,7 +1720,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "15"
+  text: "Max"
   font: "script_bold"
   id: "txt_max_sr"
   xanchor: XANCHOR_NONE
@@ -1645,7 +1753,7 @@ nodes {
 nodes {
   position {
     x: 499.0
-    y: 1019.0
+    y: 884.0
     z: 0.0
     w: 1.0
   }
@@ -1729,7 +1837,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Any"
+  text: "Optional"
   font: "script_bold"
   id: "txt_habitat"
   xanchor: XANCHOR_NONE
@@ -1762,7 +1870,7 @@ nodes {
 nodes {
   position {
     x: 499.0
-    y: 958.0
+    y: 823.0
     z: 0.0
     w: 1.0
   }
@@ -1846,7 +1954,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "No Trainer"
+  text: "Optional"
   font: "script_bold"
   id: "txt_trainer"
   xanchor: XANCHOR_NONE
@@ -2051,7 +2159,7 @@ nodes {
 nodes {
   position {
     x: 297.0
-    y: 1113.0
+    y: 978.0
     z: 0.0
     w: 1.0
   }
@@ -2113,7 +2221,7 @@ nodes {
 nodes {
   position {
     x: 297.0
-    y: 1053.0
+    y: 918.0
     z: 0.0
     w: 1.0
   }
@@ -2175,7 +2283,7 @@ nodes {
 nodes {
   position {
     x: 297.0
-    y: 993.0
+    y: 858.0
     z: 0.0
     w: 1.0
   }
@@ -2237,7 +2345,7 @@ nodes {
 nodes {
   position {
     x: 297.0
-    y: 933.0
+    y: 798.0
     z: 0.0
     w: 1.0
   }
@@ -2415,7 +2523,7 @@ nodes {
 nodes {
   position {
     x: 197.0
-    y: 46.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -2528,6 +2636,239 @@ nodes {
   template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 609.0
+    y: 1081.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.8
+    y: 0.8
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 250.0
+    y: 40.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.9254902
+    y: 0.56078434
+    z: 0.09411765
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: ""
+  id: "btn_reset"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 0.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.9254902
+    y: 0.56078434
+    z: 0.09411765
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "RESET FILTERS"
+  font: "script_bold"
+  id: "txt_reset"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "btn_reset"
+  layer: ""
+  inherit_alpha: false
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 212.0
+    y: 1085.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.25
+    y: 1.25
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "FITLER ATTRIBUTES"
+  font: "script_bold"
+  id: "title2"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 360.0
+    y: 1061.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 700.0
+    y: 1.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.7019608
+    y: 0.7019608
+    z: 0.7019608
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: ""
+  id: "box1"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
 }
 layers {
   name: "gui"
