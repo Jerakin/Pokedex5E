@@ -104,7 +104,7 @@ function on_input(self, action_id, action)
 	gooey.dynamic_list("storage", "scrollist", "pokemon_row/row", self.pokemon_rows, action_id, action, function(list) on_item_selected(self, list) end, update_list)
 	
 	gooey.button("btn_sort", action_id, action, function() monarch.show("sorting") end, gooey_buttons.pokemon_sort_button)
-	gooey.button("btn_add", action_id, action, function() monarch.show("add") end, gooey_buttons.pokemon_add_button)
+	gooey.button("btn_add", action_id, action, function() monarch.show("add") end)
 	searchbar.on_input(self, action_id, action)
 end
 

@@ -7,6 +7,10 @@ fonts {
   name: "script_bold"
   font: "/assets/fonts/script_bold.font"
 }
+fonts {
+  name: "title"
+  font: "/assets/fonts/title.font"
+}
 textures {
   name: "gui"
   texture: "/assets/gui.atlas"
@@ -50,7 +54,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/background_gradient"
+  texture: "gui/transparent"
   id: "root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -85,14 +89,14 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.75
-    y: 0.75
+    x: 1.0
+    y: 1.0
     z: 1.0
     w: 1.0
   }
   size {
-    x: 835.0
-    y: 500.0
+    x: 1.0
+    y: 1.0
     z: 0.0
     w: 1.0
   }
@@ -104,69 +108,14 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
+  texture: "gui/transparent"
   id: "asi_root"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_N
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: -130.667
-    y: -107.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: ""
-  id: "str_stat"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "asi_root"
-  layer: ""
+  parent: "root"
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -179,12 +128,12 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
+  size_mode: SIZE_MODE_AUTO
 }
 nodes {
   position {
-    x: -200.0
-    y: 0.0
+    x: -150.0
+    y: -100.0
     z: 0.0
     w: 1.0
   }
@@ -201,15 +150,70 @@ nodes {
     w: 1.0
   }
   size {
+    x: 280.0
+    y: 115.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/details_backing"
+  id: "str_stat"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "asi_root"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 15.0
+    y: 15.0
+    z: 15.0
+    w: 15.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 17.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.4
+    y: 1.4
+    z: 1.2
+    w: 1.0
+  }
+  size {
     x: 200.0
     y: 100.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -220,7 +224,7 @@ nodes {
   id: "STR"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -248,7 +252,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 0.0
+    y: 10.0
     z: 0.0
     w: 1.0
   }
@@ -305,8 +309,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -318,7 +322,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "str/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -338,11 +342,11 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: true
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -360,8 +364,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -397,7 +401,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -415,8 +419,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -452,8 +456,8 @@ nodes {
 }
 nodes {
   position {
-    x: -125.0
-    y: 56.333
+    x: -10.0
+    y: -38.0
     z: 0.0
     w: 1.0
   }
@@ -464,9 +468,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.5
+    y: 0.5
+    z: 0.5
     w: 1.0
   }
   size {
@@ -476,19 +480,19 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "STR"
-  font: "script_bold"
+  text: "STRENGTH"
+  font: "script"
   id: "STR1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -515,8 +519,8 @@ nodes {
 }
 nodes {
   position {
-    x: -155.0
-    y: 0.0
+    x: 39.0
+    y: -38.0
     z: 0.0
     w: 1.0
   }
@@ -527,9 +531,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.4
+    y: 0.4
+    z: 33.0
     w: 1.0
   }
   size {
@@ -578,8 +582,8 @@ nodes {
 }
 nodes {
   position {
-    x: -130.667
-    y: -270.333
+    x: -150.0
+    y: -230.0
     z: 0.0
     w: 1.0
   }
@@ -596,8 +600,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 280.0
+    y: 115.0
     z: 0.0
     w: 1.0
   }
@@ -609,7 +613,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/details_backing"
   id: "dex_stat"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -619,10 +623,10 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 15.0
+    y: 15.0
+    z: 15.0
+    w: 15.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -633,8 +637,8 @@ nodes {
 }
 nodes {
   position {
-    x: -200.0
-    y: 0.0
+    x: 0.0
+    y: 17.0
     z: 0.0
     w: 1.0
   }
@@ -645,9 +649,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 1.4
+    y: 1.4
+    z: 1.2
     w: 1.0
   }
   size {
@@ -657,9 +661,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -669,7 +673,7 @@ nodes {
   id: "DEX"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -697,7 +701,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 0.0
+    y: 10.0
     z: 0.0
     w: 1.0
   }
@@ -754,8 +758,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -767,7 +771,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "dex/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -787,11 +791,11 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: true
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -809,8 +813,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -846,7 +850,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -864,8 +868,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -901,8 +905,8 @@ nodes {
 }
 nodes {
   position {
-    x: -125.0
-    y: 56.333
+    x: -10.0
+    y: -38.0
     z: 0.0
     w: 1.0
   }
@@ -913,9 +917,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.5
+    y: 0.5
+    z: 0.5
     w: 1.0
   }
   size {
@@ -925,19 +929,19 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "DEX"
-  font: "script_bold"
+  text: "DEXTERITY"
+  font: "script"
   id: "DEX1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -964,8 +968,8 @@ nodes {
 }
 nodes {
   position {
-    x: -155.0
-    y: 0.0
+    x: 41.0
+    y: -38.0
     z: 0.0
     w: 1.0
   }
@@ -976,9 +980,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.4
+    y: 0.4
+    z: 33.0
     w: 1.0
   }
   size {
@@ -1027,8 +1031,8 @@ nodes {
 }
 nodes {
   position {
-    x: -130.667
-    y: -433.0
+    x: -150.0
+    y: -360.0
     z: 0.0
     w: 1.0
   }
@@ -1045,8 +1049,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 280.0
+    y: 115.0
     z: 0.0
     w: 1.0
   }
@@ -1058,7 +1062,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/details_backing"
   id: "con_stat"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1068,10 +1072,10 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 15.0
+    y: 15.0
+    z: 15.0
+    w: 15.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -1082,8 +1086,8 @@ nodes {
 }
 nodes {
   position {
-    x: -200.0
-    y: 0.0
+    x: 0.0
+    y: 17.0
     z: 0.0
     w: 1.0
   }
@@ -1094,9 +1098,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 1.4
+    y: 1.4
+    z: 1.2
     w: 1.0
   }
   size {
@@ -1106,9 +1110,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -1118,7 +1122,7 @@ nodes {
   id: "CON"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -1146,7 +1150,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 0.0
+    y: 10.0
     z: 0.0
     w: 1.0
   }
@@ -1203,8 +1207,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -1216,7 +1220,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "con/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1236,11 +1240,11 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: true
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -1258,8 +1262,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -1295,7 +1299,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -1313,8 +1317,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -1350,8 +1354,8 @@ nodes {
 }
 nodes {
   position {
-    x: -125.0
-    y: 56.333
+    x: -10.0
+    y: -38.0
     z: 0.0
     w: 1.0
   }
@@ -1362,9 +1366,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.5
+    y: 0.5
+    z: 0.5
     w: 1.0
   }
   size {
@@ -1374,19 +1378,19 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "CON"
-  font: "script_bold"
+  text: "CONSTITUTION"
+  font: "script"
   id: "CON1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -1413,8 +1417,8 @@ nodes {
 }
 nodes {
   position {
-    x: -155.0
-    y: 0.0
+    x: 61.0
+    y: -38.0
     z: 0.0
     w: 1.0
   }
@@ -1425,9 +1429,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.4
+    y: 0.4
+    z: 33.0
     w: 1.0
   }
   size {
@@ -1476,8 +1480,8 @@ nodes {
 }
 nodes {
   position {
-    x: 269.333
-    y: -112.333
+    x: 150.0
+    y: -100.0
     z: 0.0
     w: 1.0
   }
@@ -1494,8 +1498,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 280.0
+    y: 115.0
     z: 0.0
     w: 1.0
   }
@@ -1507,7 +1511,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/details_backing"
   id: "int_stat"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1517,10 +1521,10 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 15.0
+    y: 15.0
+    z: 15.0
+    w: 15.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -1531,8 +1535,8 @@ nodes {
 }
 nodes {
   position {
-    x: -200.0
-    y: 0.0
+    x: 0.0
+    y: 17.0
     z: 0.0
     w: 1.0
   }
@@ -1543,9 +1547,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 1.4
+    y: 1.4
+    z: 1.2
     w: 1.0
   }
   size {
@@ -1555,9 +1559,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -1567,7 +1571,7 @@ nodes {
   id: "INT"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -1595,7 +1599,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 0.0
+    y: 10.0
     z: 0.0
     w: 1.0
   }
@@ -1652,8 +1656,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -1665,7 +1669,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "int/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1685,11 +1689,11 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: true
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -1707,8 +1711,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -1744,7 +1748,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -1762,8 +1766,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -1799,8 +1803,8 @@ nodes {
 }
 nodes {
   position {
-    x: -125.0
-    y: 56.333
+    x: -10.0
+    y: -38.0
     z: 0.0
     w: 1.0
   }
@@ -1811,9 +1815,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.5
+    y: 0.5
+    z: 0.5
     w: 1.0
   }
   size {
@@ -1823,16 +1827,17 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "INT"
-  font: "script_bold"
-  id: "text"
+  text: "INTELLIGENCE\n"
+  ""
+  font: "script"
+  id: "INT1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -1862,8 +1867,8 @@ nodes {
 }
 nodes {
   position {
-    x: -155.0
-    y: 0.0
+    x: 55.0
+    y: -38.0
     z: 0.0
     w: 1.0
   }
@@ -1874,9 +1879,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.4
+    y: 0.4
+    z: 33.0
     w: 1.0
   }
   size {
@@ -1925,8 +1930,8 @@ nodes {
 }
 nodes {
   position {
-    x: 269.333
-    y: -275.667
+    x: 150.0
+    y: -230.0
     z: 0.0
     w: 1.0
   }
@@ -1943,8 +1948,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 280.0
+    y: 115.0
     z: 0.0
     w: 1.0
   }
@@ -1956,7 +1961,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/details_backing"
   id: "wis_stat"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1966,10 +1971,10 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 15.0
+    y: 15.0
+    z: 15.0
+    w: 15.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -1980,8 +1985,8 @@ nodes {
 }
 nodes {
   position {
-    x: -200.0
-    y: 0.0
+    x: 0.0
+    y: 17.0
     z: 0.0
     w: 1.0
   }
@@ -1992,8 +1997,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 1.4
+    y: 1.4
     z: 1.0
     w: 1.0
   }
@@ -2004,9 +2009,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2016,7 +2021,7 @@ nodes {
   id: "WIS"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -2044,7 +2049,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 0.0
+    y: 10.0
     z: 0.0
     w: 1.0
   }
@@ -2101,8 +2106,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -2114,7 +2119,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "wis/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -2134,11 +2139,11 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: true
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -2156,8 +2161,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -2193,7 +2198,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -2211,8 +2216,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -2248,8 +2253,8 @@ nodes {
 }
 nodes {
   position {
-    x: -125.0
-    y: 56.333
+    x: -10.0
+    y: -38.0
     z: 0.0
     w: 1.0
   }
@@ -2260,9 +2265,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.5
+    y: 0.5
+    z: 0.5
     w: 1.0
   }
   size {
@@ -2272,19 +2277,20 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "WIS"
-  font: "script_bold"
+  text: "WISDOM\n"
+  ""
+  font: "script"
   id: "WIS1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -2311,8 +2317,8 @@ nodes {
 }
 nodes {
   position {
-    x: -155.0
-    y: 0.0
+    x: 31.0
+    y: -38.0
     z: 0.0
     w: 1.0
   }
@@ -2323,9 +2329,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.4
+    y: 0.4
+    z: 33.0
     w: 1.0
   }
   size {
@@ -2374,8 +2380,8 @@ nodes {
 }
 nodes {
   position {
-    x: 269.333
-    y: -442.333
+    x: 150.0
+    y: -360.0
     z: 0.0
     w: 1.0
   }
@@ -2392,8 +2398,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 280.0
+    y: 115.0
     z: 0.0
     w: 1.0
   }
@@ -2405,7 +2411,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/details_backing"
   id: "cha_stat"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -2415,10 +2421,10 @@ nodes {
   layer: ""
   inherit_alpha: true
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 15.0
+    y: 15.0
+    z: 15.0
+    w: 15.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -2429,8 +2435,8 @@ nodes {
 }
 nodes {
   position {
-    x: -200.0
-    y: 0.0
+    x: 0.0
+    y: 17.0
     z: 0.0
     w: 1.0
   }
@@ -2441,9 +2447,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 1.4
+    y: 1.4
+    z: 1.2
     w: 1.0
   }
   size {
@@ -2453,9 +2459,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2465,7 +2471,7 @@ nodes {
   id: "CHA"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -2493,7 +2499,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 0.0
+    y: 10.0
     z: 0.0
     w: 1.0
   }
@@ -2550,8 +2556,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 173.0
-    y: 92.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -2563,7 +2569,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/plus_minus_border"
+  texture: "gui/transparent"
   id: "cha/bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -2583,11 +2589,11 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: true
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
-    x: 35.0
+    x: 120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -2605,8 +2611,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -2642,7 +2648,7 @@ nodes {
 }
 nodes {
   position {
-    x: -35.0
+    x: -120.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -2660,8 +2666,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 79.0
-    y: 78.0
+    x: 68.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -2697,8 +2703,8 @@ nodes {
 }
 nodes {
   position {
-    x: -125.0
-    y: 56.333
+    x: -10.0
+    y: -38.0
     z: 0.0
     w: 1.0
   }
@@ -2709,9 +2715,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.5
+    y: 0.5
+    z: 0.5
     w: 1.0
   }
   size {
@@ -2721,19 +2727,19 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "CHA"
-  font: "script_bold"
+  text: "CHARISMA"
+  font: "script"
   id: "CHA1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -2760,8 +2766,8 @@ nodes {
 }
 nodes {
   position {
-    x: -155.0
-    y: 0.0
+    x: 39.0
+    y: -38.0
     z: 0.0
     w: 1.0
   }
@@ -2772,9 +2778,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.4
+    y: 0.4
+    z: 33.0
     w: 1.0
   }
   size {
@@ -2823,8 +2829,8 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: 15.0
+    x: -13.0
+    y: -13.0
     z: 0.0
     w: 1.0
   }
@@ -2835,9 +2841,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.6
+    y: 0.6
+    z: 0.6
     w: 1.0
   }
   size {
@@ -2847,9 +2853,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2886,8 +2892,8 @@ nodes {
 }
 nodes {
   position {
-    x: 122.0
-    y: 15.0
+    x: 68.0
+    y: -13.0
     z: 0.0
     w: 1.0
   }
@@ -2898,9 +2904,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.6
+    y: 0.6
+    z: 0.6
     w: 1.0
   }
   size {
@@ -2910,9 +2916,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -2923,6 +2929,70 @@ nodes {
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "root"
+  layer: "script"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 0.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 0.0
+    y: 28.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.75
+    y: 0.75
+    z: 0.75
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "Ability Modifers\n"
+  ""
+  font: "title"
+  id: "title_ability"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0

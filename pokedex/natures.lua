@@ -5,6 +5,23 @@ local M = {}
 local initialized = false
 local natures
 
+local function sort_alphabetical(a, b)
+	return function(a, b) return a < b end
+end
+
+local function getKeysSortedByValue(tbl, sortFunction)
+	local keys = {}
+	for key in pairs(tbl) do
+		table.insert(keys, key)
+	end
+
+	table.sort(keys, function(a, b)
+		return sortFunction(tbl[a], tbl[b])
+	end)
+
+	return keys
+end
+
 local function list()
 	local temp_list = {}
 	local total = 1
@@ -12,6 +29,7 @@ local function list()
 		total = total + 1
 		table.insert(temp_list, name)
 	end
+	sort_alphabetical = getKeysSortedByValue(temp_list, sort_alphabetical(a, b))
 	return temp_list, total
 end
 

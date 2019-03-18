@@ -49,11 +49,10 @@ def convert_pokemon_data(input_file):
                         output_pokemon_data[pokemon]["Moves"]["Starting Moves"] = starting_moves.group(1).split(", ")
                     else:
                         print("No starting moves found for ", pokemon)
-                    lvl_moves = reg_level_moves.search(value)
+                    lvl_moves = reg_level_moves.findall(value)
                     if lvl_moves:
-                        level = lvl_moves.group(1)
-                        moves = lvl_moves.group(2).split(", ")
-                        output_pokemon_data[pokemon]["Moves"]["Level"][level] = moves
+                        for level, moves in lvl_moves:
+                            output_pokemon_data[pokemon]["Moves"]["Level"][level] = moves.split(", ")
                     hm_moves = reg_hm_moves.search(value)
                     if hm_moves:
                         output_pokemon_data[pokemon]["Moves"]["HM"] = [int(x) for x in hm_moves.group(1).replace(",", "").split(" ") if x]

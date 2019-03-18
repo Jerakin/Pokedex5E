@@ -7,7 +7,6 @@ local defsave = require "defsave.defsave"
 local movedex = require "pokedex.moves"
 
 function init(self)
-	math.randomseed(os.clock())
 	self.defsave = defsave.save
 end
 

@@ -4,8 +4,8 @@ fonts {
   font: "/assets/fonts/script.font"
 }
 fonts {
-  name: "title"
-  font: "/assets/fonts/title.font"
+  name: "script_bold"
+  font: "/assets/fonts/script_bold.font"
 }
 textures {
   name: "gui"
@@ -74,7 +74,7 @@ nodes {
 nodes {
   position {
     x: 13.0
-    y: 0.0
+    y: 5.0
     z: 0.0
     w: 1.0
   }
@@ -85,27 +85,27 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.8
-    y: 0.8
+    x: 1.5
+    y: 1.5
     z: 1.0
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 700.0
     y: 100.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Guts"
-  font: "title"
+  text: "GUTS"
+  font: "script_bold"
   id: "name"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -125,7 +125,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "root"
-  layer: "title"
+  layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
@@ -136,8 +136,8 @@ nodes {
 }
 nodes {
   position {
-    x: 13.0
-    y: -63.0
+    x: 38.0
+    y: -53.0
     z: 0.0
     w: 1.0
   }
@@ -154,7 +154,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 910.0
+    x: 900.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -167,7 +167,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "When this Pokemon is burned or poisoned, they are not affected by the disadvantage or half damage effects. They still take damage at the end of each of their turns."
+  text: "When this Pokemon is burned or poisoned, they are not affected by the disadvantage or half damage effects. They still take damage at the end of each of their turns. 1 1 1 1 1 1 11"
   font: "script"
   id: "description"
   xanchor: XANCHOR_NONE
@@ -197,6 +197,61 @@ nodes {
   text_leading: 0.8
   text_tracking: 0.0
 }
+nodes {
+  position {
+    x: 360.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 710.0
+    y: 400.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/details_backing"
+  id: "background"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_N
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
 layers {
   name: "gui"
 }
@@ -204,7 +259,7 @@ layers {
   name: "script"
 }
 layers {
-  name: "title"
+  name: "script_bold"
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT

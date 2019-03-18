@@ -1,4 +1,4 @@
-script: "/screens/popups/are_you_sure/are_you _sure.gui_script"
+script: "/screens/popups/are_you_sure/are_you_sure.gui_script"
 fonts {
   name: "script_bold"
   font: "/assets/fonts/script_bold.font"
@@ -54,7 +54,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/background_gradient"
+  texture: "gui/transparent"
   id: "root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -150,15 +150,15 @@ nodes {
     w: 1.0
   }
   size {
-    x: 400.0
-    y: 200.0
+    x: 665.0
+    y: 400.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.99215686
-    y: 0.94509804
-    z: 0.8627451
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
@@ -187,8 +187,8 @@ nodes {
 }
 nodes {
   position {
-    x: -185.0
-    y: 52.0
+    x: -314.0
+    y: 117.0
     z: 0.0
     w: 1.0
   }
@@ -250,8 +250,8 @@ nodes {
 }
 nodes {
   position {
-    x: -191.0
-    y: 74.0
+    x: 0.0
+    y: 171.0
     z: 0.0
     w: 1.0
   }
@@ -286,7 +286,7 @@ nodes {
   id: "txt_title"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -313,8 +313,8 @@ nodes {
 }
 nodes {
   position {
-    x: 100.0
-    y: -102.0
+    x: 182.0
+    y: -249.0
     z: 0.0
     w: 1.0
   }
@@ -331,7 +331,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 120.0
+    x: 300.0
     y: 60.0
     z: 0.0
     w: 1.0
@@ -354,10 +354,10 @@ nodes {
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 20.0
-    y: 20.0
-    z: 20.0
-    w: 20.0
+    x: 10.0
+    y: 10.0
+    z: 10.0
+    w: 10.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -392,16 +392,16 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.3882353
-    y: 0.2784314
-    z: 0.19215687
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Yes"
   font: "title"
-  id: "text1"
+  id: "txt_confim"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -431,8 +431,8 @@ nodes {
 }
 nodes {
   position {
-    x: -100.0
-    y: -102.0
+    x: -182.0
+    y: -249.0
     z: 0.0
     w: 1.0
   }
@@ -449,7 +449,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 120.0
+    x: 300.0
     y: 60.0
     z: 0.0
     w: 1.0
@@ -472,10 +472,10 @@ nodes {
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 15.0
-    y: 15.0
-    z: 15.0
-    w: 15.0
+    x: 10.0
+    y: 10.0
+    z: 10.0
+    w: 10.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -510,16 +510,16 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.3882353
-    y: 0.2784314
-    z: 0.19215687
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "No"
   font: "title"
-  id: "text"
+  id: "txt_exit"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
