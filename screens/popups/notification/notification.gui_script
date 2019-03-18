@@ -1,28 +1,50 @@
 local monarch  = require "monarch.monarch"
 local render_order = require "utils.gui_render_order"
 local transitions = require "utils.transitions"
-
+local notify = require "utils.notify"
 local data
 
-local function exit()
-	monarch.back()
+local anim_status = {STARTED = 1, INIT = 2, STARTED_DONE = 3, EXIT = 4, EXIT_DONE = 5}
+
+local function exit(self)
+	local delay = notify.stay_time
+	self.status = anim_status.EXIT
+	if self.instant ~= nil then
+		delay = self.instant
+	end
+
+	gui.animate(self.root, "position", self.start_pos, gui.EASING_OUTSINE, notify.out_time, delay, function()
+		self.status = anim_status.EXIT_DONE
+		notify.done()
+	end)
+end
+
+local function start(self)
+	self.status = anim_status.STARTED
+	gui.animate(self.root, "position", self.end_pos, gui.EASING_INSINE, notify.in_time, 0, function() 
+		self.status = anim_status.STARTED_DONE
+		exit(self)
+	end)
 end
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
-	--self.transition = transitions.notification(gui.get_node("root"))
+	self.end_pos = vmath.vector3(0, 580, 0)
+	self.start_pos = vmath.vector3(0, 700, 0)
+	self.instant = nil
+	self.root = gui.get_node("info")
 	gui.set_render_order(render_order.POPUP_ON_POPUP)
-	data = monarch.data("notification")
-	gui.set_text(gui.get_node("txt_info"), data.text)
-	timer.delay(2.5, false, exit)
-end
-
-function on_message(self, message_id, message, sender)
-	--self.transition.handle(message_id, message, sender)
+	self.status = anim_status.INIT
+	gui.set_text(gui.get_node("txt_info"), notify.get_text())
+	start(self)
 end
 
 function on_input(self, action_id, action)
-	if action_id == hash("touch") then
-		exit()
+	if action_id == hash("touch") and action.pressed and gui.pick_node(self.root, action.x, action.y) and self.status == anim_status.EXIT then
+		self.instant = 0
+		gui.cancel_animation(self.root, "position")
+		exit(self)
+		return true
 	end
 end
+

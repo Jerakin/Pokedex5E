@@ -1,34 +1,21 @@
 local notify = require "utils.notify"
 
+local notify_factory
 
 function init(self)
-	notify.url = msg.url("/notification#collectionfactory")
-	print(notify.url)
-	-- Add initialization code here
-	-- Remove this function if not needed
+	notify.url = msg.url()
 end
 
-function final(self)
-	-- Add finalization code here
-	-- Remove this function if not needed
-end
 
-function update(self, dt)
-	-- Add update code here
-	-- Remove this function if not needed
-end
-
-function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Remove this function if not needed
-end
-
-function on_input(self, action_id, action)
-	-- Add input-handling code here
-	-- Remove this function if not needed
-end
-
-function on_reload(self)
-	-- Add reload-handling code here
-	-- Remove this function if not needed
+function on_message(self, message_id, message)
+	if message_id == hash("notify") then
+		if not notify_factory then
+			notify_factory = collectionfactory.create("/notification#collectionfactory")
+		end
+	elseif message_id == hash("done") then
+		if notify_factory then
+			go.delete(notify_factory)
+			notify_factory = nil
+		end
+	end
 end

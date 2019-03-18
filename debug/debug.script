@@ -5,6 +5,7 @@ local pokedex = require "pokedex.pokedex"
 local nature = require "pokedex.natures"
 local defsave = require "defsave.defsave"
 local movedex = require "pokedex.moves"
+local notify = require "utils.notify"
 
 function init(self)
 	self.defsave = defsave.save
@@ -56,7 +57,8 @@ function on_input(self, action_id, action)
 			add_all_pokemon()
 			defsave.save = self.defsave
 		elseif action_id == hash("notify") and action.released then
-			monarch.show("notification", {}, {text="My Notification"})
+			notify.notify("My Notification")
+			
 		end
 	end
 end
