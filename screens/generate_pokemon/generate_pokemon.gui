@@ -1022,7 +1022,7 @@ nodes {
 nodes {
   position {
     x: 503.0
-    y: 934.0
+    y: 877.0
     z: 0.0
     w: 1.0
   }
@@ -1117,7 +1117,7 @@ nodes {
 nodes {
   position {
     x: 194.858
-    y: -200.001
+    y: -144.287
     z: 0.0
     w: 1.0
   }
@@ -1174,7 +1174,7 @@ nodes {
 nodes {
   position {
     x: -208.572
-    y: -200.001
+    y: -144.287
     z: 0.0
     w: 1.0
   }
@@ -1285,7 +1285,7 @@ nodes {
 nodes {
   position {
     x: 497.0
-    y: 797.0
+    y: 779.0
     z: 0.0
     w: 1.0
   }
@@ -1519,7 +1519,7 @@ nodes {
 nodes {
   position {
     x: 409.0
-    y: 946.0
+    y: 985.0
     z: 0.0
     w: 1.0
   }
@@ -1636,7 +1636,7 @@ nodes {
 nodes {
   position {
     x: 589.0
-    y: 946.0
+    y: 985.0
     z: 0.0
     w: 1.0
   }
@@ -1753,7 +1753,7 @@ nodes {
 nodes {
   position {
     x: 499.0
-    y: 884.0
+    y: 923.0
     z: 0.0
     w: 1.0
   }
@@ -1870,7 +1870,7 @@ nodes {
 nodes {
   position {
     x: 499.0
-    y: 823.0
+    y: 862.0
     z: 0.0
     w: 1.0
   }
@@ -1975,6 +1975,123 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "trainer"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 0.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 499.0
+    y: 802.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 330.0
+    y: 60.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/add_backing"
+  id: "type"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_S
+  adjust_mode: ADJUST_MODE_FIT
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 18.0
+    y: 10.0
+    z: 18.0
+    w: 18.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 37.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "Optional"
+  font: "script_bold"
+  id: "txt_type"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 0.6
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "type"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -2159,7 +2276,7 @@ nodes {
 nodes {
   position {
     x: 297.0
-    y: 978.0
+    y: 1017.0
     z: 0.0
     w: 1.0
   }
@@ -2221,7 +2338,7 @@ nodes {
 nodes {
   position {
     x: 297.0
-    y: 918.0
+    y: 957.0
     z: 0.0
     w: 1.0
   }
@@ -2283,7 +2400,7 @@ nodes {
 nodes {
   position {
     x: 297.0
-    y: 858.0
+    y: 897.0
     z: 0.0
     w: 1.0
   }
@@ -2345,7 +2462,7 @@ nodes {
 nodes {
   position {
     x: 297.0
-    y: 798.0
+    y: 780.0
     z: 0.0
     w: 1.0
   }
@@ -2775,7 +2892,7 @@ nodes {
   }
   size {
     x: 200.0
-    y: 100.0
+    y: 50.0
     z: 0.0
     w: 1.0
   }
@@ -2869,6 +2986,68 @@ nodes {
   alpha: 1.0
   template_node_child: false
   size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 297.0
+    y: 837.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "POKEMON TYPE:"
+  font: "script_bold"
+  id: "desc_type"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_E
+  outline {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  layer: "script_bold"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
 }
 layers {
   name: "gui"

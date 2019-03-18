@@ -8,10 +8,16 @@ local trainer_classes
 local trainer_classes_list
 local habitats
 local initialized
+local pokemon_types
 local sr = {}
 local minimum_level = {}
 
 local _pokedex
+
+
+function compare(a,b)
+	return a < b
+end
 
 local function species_rating()
 	for pokemon, data in pairs(_pokedex) do
@@ -41,10 +47,12 @@ function M.init()
 		trainer_classes = file.load_json_from_resource("/assets/datafiles/trainer_classes.json")
 		trainer_classes_list = file.load_json_from_resource("/assets/datafiles/trainer_classes_list.json")
 		habitats = file.load_json_from_resource("/assets/datafiles/habitat.json")
+		pokemon_types = file.load_json_from_resource("/assets/datafiles/pokemon_types.json")
 		
 		local ordered = file.load_json_from_resource("/assets/datafiles/pokemon_order.json")
 		trainer_classes_list.Classes[#trainer_classes_list.Classes + 1] = "Optional"
 		habitats.Optional = ordered.number
+		pokemon_types.Optional = ordered.number
 		trainer_classes.Optional = ordered.number
 		species_rating()
 		minimum_found_level()
@@ -100,11 +108,12 @@ local function minimum_level_list(lvl)
 	return n
 end
 
-function M.get_list(trainer_class, habitat, sr_min, sr_max, min_level)
+function M.get_list(trainer_class, habitat, sr_min, sr_max, min_level, type)
 	local class_habitat = filter(trainer_classes[trainer_class], habitats[habitat]) 
 	local class_habitat_sr = filter(class_habitat, SR_list(sr_min, sr_max))
 	local class_habitat_sr_lvl = filter(class_habitat_sr, minimum_level_list(min_level))
-	return class_habitat_sr_lvl
+	local class_habitat_sr_lvl_type = filter(class_habitat_sr_lvl, pokemon_types[type])
+	return class_habitat_sr_lvl_type
 end
 
 function M.habitat_list()
@@ -112,14 +121,25 @@ function M.habitat_list()
 	for t,_ in pairs(habitats) do
 		table.insert(l, t)
 	end
-
+	table.sort(l, compare)
 	return l
 end
 
 function M.trainer_class_list()
+	table.sort(trainer_classes_list.Classes, compare)
 	return trainer_classes_list.Classes
 end
 
+
+function M.type_list()
+	local l = {}
+	
+	for t,_ in pairs(pokemon_types) do
+		table.insert(l, t)
+	end
+	table.sort(l, compare)
+	return l
+end
 
 
 return M
