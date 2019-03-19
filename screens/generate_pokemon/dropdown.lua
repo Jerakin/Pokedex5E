@@ -86,7 +86,7 @@ end
 function M.on_input(name, button_id, button_txt_id, scroll_id, scroll_bg_id, item_id, data, action_id, action, func)
 	setup_state(name, button_id, button_txt_id, scroll_id, scroll_bg_id, item_id, action_id, action, func)
 	
-	if active[name].active and action_id == hash("touch") and not active[name].scroll_clicked and action.released then
+	if active[name].active and not active[name].scroll_clicked and action_id==hash("touch") and action.released and not active[name].button_over then
 		active[name].active = false
 		active.active = false
 		gui.set_enabled(gui.get_node(scroll_bg_id), false)
