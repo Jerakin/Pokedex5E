@@ -56,6 +56,10 @@ function on_input(self, action_id, action)
 			defsave.save = function() end
 			add_all_pokemon()
 			defsave.save = self.defsave
+		elseif action_id == hash("add_one") and action.released then
+			defsave.save = function() end
+			add_random_pokemon()
+			defsave.save = self.defsave
 		elseif action_id == hash("notify") and action.released then
 			notify.notify("My Notification")
 			

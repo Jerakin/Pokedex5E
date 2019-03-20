@@ -18,6 +18,10 @@ key_trigger {
   input: KEY_F5
   action: "notify"
 }
+key_trigger {
+  input: KEY_A
+  action: "add_one"
+}
 mouse_trigger {
   input: MOUSE_BUTTON_1
   action: "touch"
