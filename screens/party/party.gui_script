@@ -396,6 +396,9 @@ function init(self)
 end
 
 function final(self)
+	active_buttons = {}
+
+	node_index = 0
 	button.unregister()
 end
 
