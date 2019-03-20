@@ -75,6 +75,7 @@ function init(self)
 end
 
 function final(self)
+	active_buttons = {}
 	pokemon_edit.final(self)
 	button.unregister()
 end
