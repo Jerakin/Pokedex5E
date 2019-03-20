@@ -12,14 +12,14 @@ background_color {
 nodes {
   position {
     x: 360.0
-    y: 1180.0
+    y: 80.0
     z: 0.0
     w: 1.0
   }
   rotation {
     x: 0.0
     y: 0.0
-    z: 0.0
+    z: 180.0
     w: 1.0
   }
   scale {
@@ -30,7 +30,7 @@ nodes {
   }
   size {
     x: 720.0
-    y: 30.0
+    y: 20.0
     z: 0.0
     w: 1.0
   }
@@ -46,7 +46,7 @@ nodes {
   id: "shadow"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_STRETCH
   layer: "gui"
   inherit_alpha: true
@@ -66,7 +66,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 1230.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -84,20 +84,20 @@ nodes {
   }
   size {
     x: 720.0
-    y: 100.0
+    y: 80.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.23529412
+    y: 0.23529412
+    z: 0.23529412
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/title_backing"
-  id: "box"
+  texture: "gui/square"
+  id: "btm_bar"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -105,10 +105,10 @@ nodes {
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 5.0
-    y: 5.0
-    z: 5.0
-    w: 5.0
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true

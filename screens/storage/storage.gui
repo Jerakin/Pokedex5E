@@ -99,8 +99,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 720.0
-    y: 80.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -136,8 +136,48 @@ nodes {
 }
 nodes {
   position {
+    x: -360.0
+    y: -80.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
     x: 0.0
-    y: 4.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_TEMPLATE
+  id: "template"
+  parent: "inventory"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  template: "/templates/bottom_bar.gui"
+  template_node_child: false
+}
+nodes {
+  position {
+    x: 360.0
+    y: 80.0
     z: 0.0
     w: 1.0
   }
@@ -155,7 +195,7 @@ nodes {
   }
   size {
     x: 720.0
-    y: 30.0
+    y: 20.0
     z: 0.0
     w: 1.0
   }
@@ -168,13 +208,13 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/shadow"
-  id: "shadow"
+  id: "template/shadow"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_STRETCH
-  parent: "inventory"
-  layer: ""
+  parent: "template"
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -186,7 +226,62 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: false
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 360.0
+    y: 40.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 720.0
+    y: 80.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.23529412
+    y: 0.23529412
+    z: 0.23529412
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/square"
+  id: "template/btm_bar"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_STRETCH
+  parent: "template"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -1749,7 +1844,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_STRETCH
   parent: "top_divider"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 0.0
