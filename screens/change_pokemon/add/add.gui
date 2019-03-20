@@ -27,8 +27,8 @@ background_color {
 }
 nodes {
   position {
-    x: 360.0
-    y: 640.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -81,8 +81,8 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: -600.0
+    x: 360.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -136,8 +136,8 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: -600.0
+    x: 360.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -169,8 +169,8 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/common_up"
   id: "btn_add"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
+  xanchor: XANCHOR_LEFT
+  yanchor: YANCHOR_BOTTOM
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
@@ -254,8 +254,8 @@ nodes {
 }
 nodes {
   position {
-    x: -360.0
-    y: -640.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -1128,7 +1128,7 @@ nodes {
   texture: "gui/add_backing"
   id: "change_pokemon/btn_species"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
+  yanchor: YANCHOR_TOP
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "change_pokemon/root"
@@ -1144,6 +1144,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
+  overridden_fields: 13
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -1503,8 +1504,8 @@ nodes {
 }
 nodes {
   position {
-    x: 364.0
-    y: 978.0
+    x: 135.0
+    y: 332.0
     z: 0.0
     w: 1.0
   }
@@ -1553,7 +1554,6 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 1
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -1924,7 +1924,7 @@ nodes {
   texture: "gui/close_up"
   id: "change_pokemon/btn_close"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
+  yanchor: YANCHOR_TOP
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "change_pokemon/root"
@@ -5031,8 +5031,7 @@ nodes {
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 0.0
-  overridden_fields: 30
+  alpha: 1.0
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -5418,8 +5417,7 @@ nodes {
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 0.0
-  overridden_fields: 30
+  alpha: 1.0
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -5519,11 +5517,12 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Add Pok\303\251mon"
+  text: "Pick Pokemon\n"
+  ""
   font: "title"
   id: "change_pokemon/title"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
+  yanchor: YANCHOR_TOP
   pivot: PIVOT_CENTER
   outline {
     x: 1.0
@@ -5545,7 +5544,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -5742,8 +5740,8 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: -640.0
+    x: 360.0
+    y: 1091.0
     z: 0.0
     w: 1.0
   }
@@ -5776,9 +5774,9 @@ nodes {
   texture: ""
   id: "blocker"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_S
-  adjust_mode: ADJUST_MODE_ZOOM
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_N
+  adjust_mode: ADJUST_MODE_STRETCH
   parent: "root"
   layer: "sprite"
   inherit_alpha: true

@@ -19,8 +19,8 @@ background_color {
 }
 nodes {
   position {
-    x: 0.0
-    y: 1280.0
+    x: 360.0
+    y: 640.0
     z: 0.0
     w: 1.0
   }
@@ -73,8 +73,8 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: 0.0
+    x: -360.0
+    y: 640.0
     z: 0.0
     w: 1.0
   }
@@ -1222,8 +1222,8 @@ nodes {
 }
 nodes {
   position {
-    x: 53.0
-    y: -48.0
+    x: -317.0
+    y: 600.0
     z: 0.0
     w: 1.0
   }
@@ -1256,7 +1256,7 @@ nodes {
   texture: "gui/menu_up"
   id: "btn_menu"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
+  yanchor: YANCHOR_TOP
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
