@@ -15,7 +15,8 @@ local function button_click(name, button_id, scroll_id)
 	s.x = b.x 
 	gui.set_size(scroll_bg_id, s)
 	gui.set_enabled(scroll_bg_id, true)
-	local p = gui.get_position(button_id)
+	local p = gui.get_screen_position(button_id)
+	p.y = p.y - gui.get_size(button_id).y * 0.25
 	gui.set_position(scroll_bg_id, p)
 	active[name].active = true
 	active.active = true
@@ -85,7 +86,6 @@ end
 
 function M.on_input(name, button_id, button_txt_id, scroll_id, scroll_bg_id, item_id, data, action_id, action, func)
 	setup_state(name, button_id, button_txt_id, scroll_id, scroll_bg_id, item_id, action_id, action, func)
-	
 	if active[name].active and not active[name].scroll_clicked and action_id==hash("touch") and action.released and not active[name].button_over then
 		active[name].active = false
 		active.active = false
