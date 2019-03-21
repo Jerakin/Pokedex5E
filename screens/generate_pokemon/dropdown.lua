@@ -14,10 +14,17 @@ local function button_click(name, button_id, scroll_id)
 	local s = gui.get_size(scroll_bg_id)
 	s.x = b.x 
 	gui.set_size(scroll_bg_id, s)
+	local n = gui.get_node("scroll_selection")
+	local s2 = gui.get_size(n)
+	s2.x = s.x
+	gui.set_size(n, s2)
+	
+	gui.set_position(gui.get_node("offset"), vmath.vector3(s.x*0.5, 0, 0))
 	gui.set_enabled(scroll_bg_id, true)
-	local p = gui.get_screen_position(button_id)
-	p.y = p.y - gui.get_size(button_id).y * 0.25
-	gui.set_position(scroll_bg_id, p)
+	local p = gui.get_position(button_id)
+	local a = gui.get_position(gui.get_node("filters"))
+	local size = gui.get_size(button_id)
+	gui.set_position(scroll_bg_id, p + a)
 	active[name].active = true
 	active.active = true
 end
@@ -29,6 +36,7 @@ local function update_items(item, name)
 end
 
 local function update_list(list, name)
+	gooey.vertical_scrollbar("handle", "bar").scroll_to(0, list.scroll.y)
 	for i,item in ipairs(list.items) do
 		update_items(item, name)
 	end
@@ -84,6 +92,11 @@ local function setup_state(name, button_id, button_txt_id, scroll_id, scroll_bg_
 	end
 end
 
+local function on_scrolled(scrollbar, name, scroll_id, item_id, data)
+	gooey.dynamic_list(name, scroll_id, item_id, data).scroll_to(0, scrollbar.scroll.y)
+end
+
+
 function M.on_input(name, button_id, button_txt_id, scroll_id, scroll_bg_id, item_id, data, action_id, action, func)
 	setup_state(name, button_id, button_txt_id, scroll_id, scroll_bg_id, item_id, action_id, action, func)
 	if active[name].active and not active[name].scroll_clicked and action_id==hash("touch") and action.released and not active[name].button_over then
@@ -97,7 +110,10 @@ function M.on_input(name, button_id, button_txt_id, scroll_id, scroll_bg_id, ite
 		return false
 	end
 	if active[name] then
-		gooey.dynamic_list(name, scroll_id, item_id, data, action_id, action, function(list) on_item_selected(list) end, function(list) update_list(list, name) end)
+		local list = gooey.dynamic_list(name, scroll_id, item_id, data, action_id, action, function(list) on_item_selected(list) end, function(list) update_list(list, name) end)
+		if list.max_y and list.max_y > 0 then
+			gooey.vertical_scrollbar("handle", "bar", action_id, action, function(scrollbar) on_scrolled(scrollbar, name, scroll_id, item_id, data) end)
+		end
 	end
 	return active[name].active
 end

@@ -18,9 +18,7 @@ local function update_listitem(list, item)
 end
 
 local function update_list(list)
-	if list.scroll and list.scroll.y ~= 0 then
-		gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar").scroll_to(0, list.scroll.y)
-	end
+	gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar").scroll_to(0, list.scroll.y)
 	for i,item in ipairs(list.items) do
 		update_listitem(list, item)
 	end

@@ -58,9 +58,7 @@ local function update_items(item)
 end
 
 local function update_list(list)
-	if list.scroll and list.scroll.y ~= 0 then
-		gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar").scroll_to(0, list.scroll.y)
-	end
+	gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar").scroll_to(0, list.scroll.y)
 	for i,item in ipairs(list.items) do
 		update_items(item)
 	end
@@ -78,7 +76,6 @@ function init(self)
 	
 	gui.set_text(gui.get_node("title"), profiles.get_active_name() .. "'s PC")
 	gui.set_text(gui.get_node("pokemon_total"), "Pokemon Total: " .. storage.get_total())
-	gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar", nil, {x=0, y=0})
 	update_list(gooey.dynamic_list("storage", "scrollist", "pokemon_row/row", self.pokemon_rows))
 	inventory.setup()
 end
