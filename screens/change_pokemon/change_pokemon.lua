@@ -204,6 +204,9 @@ function M.on_message(self, message_id, message, sender)
 			self.pokemon.attributes.nature = natures.get_nature_attributes(message.item)
 			gui.set_color(gui.get_node("change_pokemon/nature"), gui_colors.HERO_TEXT)
 		elseif message_id == hash("species") then
+			if message.item == "" then
+				return
+			end
 			self.pokemon = _pokemon.new({species=message.item})
 			self.level = self.pokemon.level.current
 			self.pokemon.nature = "No Nature"
