@@ -24,12 +24,6 @@ local number_map = {["1/8"]=0.125, ["1/4"]=0.25, ["1/2"]=0.5, ["1"]=1, ["2"]=2, 
 ["9"]=9, ["10"]=10, ["11"]=11, ["12"]=12, ["13"]=13, ["14"]=14, ["15"]=15}
 local sr = {"1/8", "1/4", "1/2", "1", "2", "3", "4", "5", "6", "7","8", "9", "10", "11", "12", "13", "14", "15"}
 
-
-function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Remove this function if not needed
-end
-
 local function table_of_rows(self)
 	local l = {}
 	for i=1, math.ceil(#self.filtered_pokemons / 3) do
