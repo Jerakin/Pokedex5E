@@ -93,7 +93,32 @@ local function redraw(self)
 	else
 		gui.set_color(max_improve_node, gui_colors.RED)
 	end
-	
+
+	-- Abilities
+	for name, entry in pairs(self.abilities) do
+		if not entry.position == 1 then
+			gui.delete_node(entry.root)
+		end
+	end
+	self.abilities = {}
+	local ability_position
+	for i, ability in pairs(_pokemon.get_abilities(self.pokemon)) do
+		local text_node
+		local root_node
+		if i == 1 then
+			text_node = gui.get_node("change_pokemon/ability/ability")
+			root_node = gui.get_node("change_pokemon/ability/bg_ability")
+			ability_position = gui.get_position(root_node) 
+		else
+			local ability_nodes = gui.clone_tree(gui.get_node("change_pokemon/ability/bg_ability"))
+			root_node = ability_nodes["change_pokemon/ability/bg_ability"]
+			text_node = ability_nodes["change_pokemon/ability/ability"]
+		end
+		self.abilities[ability] = {root=root_node, text=text_node, position=i, active=true}
+		gui.set_text(text_node, ability)
+		gui.set_position(root_node, ability_position)
+		ability_position.y = ability_position.y - 40
+	end
 	if self.redraw then self.redraw(self) end
 end
 
@@ -188,7 +213,7 @@ function M.init(self, pokemon)
 	self.list_items = {}
 	self.move_button_index = 0
 	self.root = gui.get_node("root")
-
+	self.abilities = {}
 end
 
 function M.final(self)
