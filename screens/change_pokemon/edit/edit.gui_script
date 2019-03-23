@@ -21,7 +21,14 @@ local function save_pokemon(self)
 	_pokemon.add_hp_from_levels(self.pokemon, self.level)
 	_pokemon.update_increased_attributes(self.pokemon, self.increased_attributes)
 	local nickname = gui.get_text(gui.get_node("change_pokemon/species"))
-	
+	local abilities = {}
+	for ability, data in pairs(self.ability_data) do
+		if data.add then
+			table.insert(abilities, ability)
+		end
+	end
+	_pokemon.update_abilities(self.pokemon, abilities)
+	--self.pokemon.abilities = abilities
 	self.pokemon.level.current = self.level
 	_pokemon.save(self.pokemon)
 	_pokemon.set_nickname(self.pokemon, nickname)
@@ -30,7 +37,7 @@ end
 
 local function evolve(self, species)
 	-- Set and reset
-	self.pokemon.moves = self.pokemon_copy.moves
+	self.pokemon.moves = self.pokemon.moves
 	pokemon_image(species)
 	self.have_evolved = true
 
@@ -59,25 +66,25 @@ function init(self)
 	self.max_hp_increase = 0
 	button.acquire()
 	local pokemon_id = monarch.data("edit").id
-	self.pokemon_copy = storage.get_copy(pokemon_id)
-	pokemon_edit.init(self, storage.get_copy(pokemon_id))
-	pokemon_image(_pokemon.get_current_species(self.pokemon_copy))
+	self.pokemon = storage.get_copy(pokemon_id)
+	pokemon_edit.init(self)
+	pokemon_image(_pokemon.get_current_species(self.pokemon))
 	
-	local evolution_possible = pokedex.get_evolution_possible(_pokemon.get_current_species(self.pokemon_copy))
-	local evolution_level = evolution_possible and pokedex.get_evolution_level(_pokemon.get_current_species(self.pokemon_copy))
-	self.level = _pokemon.get_current_level(self.pokemon_copy)
-	local species = _pokemon.get_current_species(self.pokemon_copy)
-	self.nickname = _pokemon.get_nickname(self.pokemon_copy)
+	local evolution_possible = pokedex.get_evolution_possible(_pokemon.get_current_species(self.pokemon))
+	local evolution_level = evolution_possible and pokedex.get_evolution_level(_pokemon.get_current_species(self.pokemon))
+	self.level = _pokemon.get_current_level(self.pokemon)
+	local species = _pokemon.get_current_species(self.pokemon)
+	self.nickname = _pokemon.get_nickname(self.pokemon)
 	self.nickname = self.nickname or species:upper()
 	self.evolve_button = gui.get_node("btn_evolve")
 	gui.set_text(gui.get_node("change_pokemon/species"), self.nickname)
 	gui.set_text(gui.get_node("change_pokemon/txt_level"), self.level)
 	gui.set_color(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector4(1))
-	gui.set_text(gui.get_node("change_pokemon/nature"), _pokemon.get_nature(self.pokemon_copy))
-	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), _pokemon.get_max_hp(self.pokemon_copy))
+	gui.set_text(gui.get_node("change_pokemon/nature"), _pokemon.get_nature(self.pokemon))
+	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), _pokemon.get_max_hp(self.pokemon))
 	gui.set_text(gui.get_node("change_pokemon/txt_max_hp_mod"), "MAX HP")
-	gui.set_text(gui.get_node("change_pokemon/txt_hit_dice"), "Hit Dice: d" .. _pokemon.get_hit_dice(self.pokemon_copy))
-	gui.set_text(gui.get_node("change_pokemon/pokemon_number"), string.format("#%03d", _pokemon.get_index_number(self.pokemon_copy)))
+	gui.set_text(gui.get_node("change_pokemon/txt_hit_dice"), "Hit Dice: d" .. _pokemon.get_hit_dice(self.pokemon))
+	gui.set_text(gui.get_node("change_pokemon/pokemon_number"), string.format("#%03d", _pokemon.get_index_number(self.pokemon)))
 	if not evolution_possible then
 		gui.set_enabled(self.evolve_button, false)
 	end
@@ -94,7 +101,7 @@ function init(self)
 		end
 		
 		gui.set_text(gui.get_node("change_pokemon/txt_level"), self.level)
-		local level_dif = self.level - _pokemon.get_current_level(self.pokemon_copy)
+		local level_dif = self.level - _pokemon.get_current_level(self.pokemon)
 		if level_dif == 0 then
 			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "Lv.")
 			gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.TEXT)
@@ -132,7 +139,7 @@ function on_message(self, message_id, message, sender)
 end
 
 local function evolve_pokemon(self)
-	local evolve_into = pokedex.get_evolutions(_pokemon.get_current_species(self.pokemon_copy))
+	local evolve_into = pokedex.get_evolutions(_pokemon.get_current_species(self.pokemon))
 	if #evolve_into == 1 then
 		monarch.show("are_you_sure", nil, {title="Evolve at level ".. self.level .. "?", sender=msg.url(), data=evolve_into[1]})
 	else
@@ -162,7 +169,7 @@ end
 
 function on_input(self, action_id, action)
 	button.on_input(action_id, action)
-	pokemon_edit.on_input(action_id, action)
+	pokemon_edit.on_input(self, action_id, action)
 	gooey.button("change_pokemon/hp/btn_minus", action_id, action, function()
 		if _pokemon.get_max_hp_edited(self.pokemon) then
 			change_hp(self, -1)

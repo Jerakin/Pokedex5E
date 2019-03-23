@@ -171,8 +171,12 @@ function M.get_proficency_bonus(pokemon)
 	return pokedex.level_data(M.get_current_level(pokemon)).prof
 end
 
+function M.update_abilities(pokemon, abilities)
+	pokemon.abilities = abilities
+end
+
 function M.get_abilities(pokemon)
-	return pokedex.get_pokemon_abilities(M.get_current_species(pokemon)) or {}
+	return pokemon.abilities or pokedex.get_pokemon_abilities(M.get_current_species(pokemon)) or {}
 end
 
 function M.get_skills(pokemon)
@@ -412,6 +416,8 @@ function M.new(data)
 	this.attributes = {}
 	this.attributes.increased = data.attributes or {}
 
+	this.abilities = {}
+	
 	this.moves = data.moves
 	return this
 end
