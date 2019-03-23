@@ -60,7 +60,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_STRETCH
-  layer: "gui"
+  layer: ""
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -1930,7 +1930,7 @@ nodes {
   }
   size {
     x: 720.0
-    y: 0.0
+    y: 600.0
     z: 0.0
     w: 1.0
   }
@@ -1957,8 +1957,8 @@ nodes {
     z: 0.0
     w: 0.0
   }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
+  clipping_mode: CLIPPING_MODE_STENCIL
+  clipping_visible: false
   clipping_inverted: false
   alpha: 1.0
   template_node_child: false
@@ -2006,7 +2006,7 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
+    x: 360.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -2024,8 +2024,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 710.0
+    y: 400.0
     z: 0.0
     w: 1.0
   }
@@ -2037,20 +2037,20 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/background_gradient"
-  id: "ability/root"
+  texture: "gui/details_backing"
+  id: "ability/background"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
   parent: "ability"
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -2061,7 +2061,7 @@ nodes {
 }
 nodes {
   position {
-    x: 13.0
+    x: -352.0
     y: 5.0
     z: 0.0
     w: 1.0
@@ -2112,7 +2112,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "ability/root"
+  parent: "ability/background"
   layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
@@ -2124,7 +2124,7 @@ nodes {
 }
 nodes {
   position {
-    x: 38.0
+    x: -330.0
     y: -53.0
     z: 0.0
     w: 1.0
@@ -2175,7 +2175,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
-  parent: "ability/root"
+  parent: "ability/background"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -2184,61 +2184,6 @@ nodes {
   template_node_child: true
   text_leading: 0.8
   text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 360.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 710.0
-    y: 400.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
-  id: "ability/background"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_N
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "ability/root"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: true
-  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
