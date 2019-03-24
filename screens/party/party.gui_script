@@ -163,16 +163,17 @@ local function update_list(list, pokemon_id)
 end
 
 local function setup_abilities(self, nodes, pokemon)
-	local index = 0
-	local template = nodes["pokemon/ability/root"]
+	--local index = 0
+	--local template = nodes["pokemon/ability/root"]
 	local function _get_node(sub)
 		local name = "pokemon/ability_" .. index
 		local n = nodes[name .. sub]
 		return n
 	end
-	local p = vmath.vector3(0, 0, 0)
-	local list = {}
-	list.id = _pokemon.get_id(pokemon)
+	local p = vmath.vector3(360, 0, 0)
+	
+	
+	--[[list.id = _pokemon.get_id(pokemon)
 	gui.set_id(nodes["pokemon/tab_bg_2"], list.id .. "tab")
 	gui.set_id(nodes["pokemon/ability/name"], list.id .. "name")
 	gui.set_id(nodes["pokemon/ability/description"], list.id .. "description")
@@ -182,6 +183,45 @@ local function setup_abilities(self, nodes, pokemon)
 	list.item = gui.get_id(nodes["pokemon/ability/background"])
 	list.stencil = gui.get_id(nodes["pokemon/tab_bg_2"])
 	list.refresh = function(list) update_list(list, list.id) end
+	table.insert(active_lists, list)--]]
+	local list = {}
+	list.data = {}
+	list.id = _pokemon.get_id(pokemon)
+	gui.set_id(nodes["pokemon/tab_stencil_2"], list.id .. "tab")
+	list.stencil = gui.get_id(nodes["pokemon/tab_stencil_2"])
+	for i, name in pairs(_pokemon.get_abilities(pokemon)) do
+		local desc = pokedex.get_ability_description(name)
+		
+
+		local root_node
+		local name_node
+		local desc_node
+		if i == 1 then
+			root_node = nodes["pokemon/ability/root"]
+			name_node = nodes["pokemon/ability/name"]
+			desc_node = nodes["pokemon/ability/description"]
+			background_node = nodes["pokemon/ability/background"]
+		else
+			root_node = gui.clone(nodes["pokemon/ability/root"])
+			name_node = gui.clone(nodes["pokemon/ability/name"])
+			desc_node = gui.clone(nodes["pokemon/ability/description"])
+			background_node = gui.clone(nodes["pokemon/ability/background"])
+			gui.set_parent(background_node, root_node)
+			gui.set_parent(name_node, root_node)
+			gui.set_parent(desc_node, root_node)
+		end
+		local id = list.id .. name
+		table.insert(list.data, id)
+		gui.set_id(background_node, id)
+		gui.set_position(root_node, p)
+		gui.set_text(name_node, name:upper())
+		gui.set_text(desc_node, desc)
+		local desc_height, name_height = gui.get_text_metrics_from_node(desc_node).height, gui.get_text_metrics_from_node(name_node).height --* 0.8
+		local size = gui.get_size(background_node)
+		size.y = desc_height + name_height + 10
+		gui.set_size(background_node, size)
+		p.y = p.y - desc_height - name_height + -505
+	end
 	table.insert(active_lists, list)
 
 end
@@ -449,7 +489,8 @@ function on_input(self, action_id, action)
 	end)
 	
 	for _, list in pairs(active_lists) do
-		gooey.dynamic_list(list.id, list.stencil, list.item, list.data, action_id, action, function() end, list.refresh)
+		gooey.static_list(list.id, list.stencil, list.data, action_id, action, function() end, function() end)
+		--gooey.dynamic_list(list.id, list.stencil, list.item, list.data, action_id, action, function() end, list.refresh)
 	end
 	
 	local g = gesture.on_input(self, action_id, action)
