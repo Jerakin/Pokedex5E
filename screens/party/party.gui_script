@@ -209,18 +209,24 @@ local function setup_abilities(self, nodes, pokemon)
 			gui.set_parent(background_node, root_node)
 			gui.set_parent(name_node, root_node)
 			gui.set_parent(desc_node, root_node)
+			gui.set_inherit_alpha(background_node, false)
+			gui.set_inherit_alpha(name_node, false)
+			gui.set_inherit_alpha(desc_node, false)
 		end
 		local id = list.id .. name
 		table.insert(list.data, id)
-		gui.set_id(background_node, id)
+		gui.set_id(root_node, id)
 		gui.set_position(root_node, p)
 		gui.set_text(name_node, name:upper())
 		gui.set_text(desc_node, desc)
 		local desc_height, name_height = gui.get_text_metrics_from_node(desc_node).height, gui.get_text_metrics_from_node(name_node).height --* 0.8
 		local size = gui.get_size(background_node)
-		size.y = desc_height + name_height + 10
+		size.y = desc_height + name_height --+ 20
 		gui.set_size(background_node, size)
-		p.y = p.y - desc_height - name_height + -505
+		size.y = size.y + 10
+		gui.set_size(root_node, size)
+		
+		p.y = p.y - desc_height - name_height --+ 505
 	end
 	table.insert(active_lists, list)
 
