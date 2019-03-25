@@ -136,12 +136,12 @@ local function reset_filters(self)
 	self.min_sr = 0.25
 	self.max_sr = 15
 	self.level = 0
-	gui.set_text(gui.get_node("txt_trainer"), self.trainer_class)
-	gui.set_text(gui.get_node("txt_habitat"), self.habitat)
-	gui.set_text(gui.get_node("txt_min_sr"), "Min")
-	gui.set_text(gui.get_node("txt_max_sr"), "Max")
+	gui.set_text(gui.get_node("txt_trainer"), self.trainer_class:upper())
+	gui.set_text(gui.get_node("txt_habitat"), self.habitat:upper())
+	gui.set_text(gui.get_node("txt_min_sr"), "MIN")
+	gui.set_text(gui.get_node("txt_max_sr"), "MAX")
 	gui.set_text(gui.get_node("txt_level"), self.level)
-	gui.set_text(gui.get_node("txt_type"), self.type)
+	gui.set_text(gui.get_node("txt_type"), self.type:upper())
 	
 	update_pokemons_list_view(self)
 end
