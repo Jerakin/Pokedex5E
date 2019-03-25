@@ -161,9 +161,13 @@ local function redraw(self)
 		gui.set_id(root_node, root_id)
 	end
 
-	gui.set_text(text_node, "Add Other")
-	gui.set_position(root_node, ability_position)
-	self.ability_data["Add Other"] = {node=root_node, root_id=root_id, text=text_node, position=amount, active=true}
+	if #self.abilities < 6 then  -- No more than 6 abilites for now!
+		gui.set_text(text_node, "Add Other")
+		gui.set_position(root_node, ability_position)
+		self.ability_data["Add Other"] = {node=root_node, root_id=root_id, text=text_node, position=amount, active=true}
+	else
+		gui.set_enabled(root_node, false)
+	end
 	
 	if self.redraw then self.redraw(self) end
 end
