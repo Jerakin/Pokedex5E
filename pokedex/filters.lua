@@ -63,6 +63,9 @@ end
 local function filter(t1, t2)
 	local out = {}
 	local cache = {}
+	if not t1 or not t2 then
+		return out
+	end
 	for _, v in pairs(t1) do
 		for _, b  in pairs(t2) do
 			if v == b and not cache[b] then
