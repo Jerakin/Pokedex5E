@@ -221,14 +221,18 @@ local function setup_abilities(self, nodes, pokemon)
 	list.id = _pokemon.get_id(pokemon)
 	gui.set_id(nodes["pokemon/tab_stencil_2"], list.id .. "tab")
 	list.stencil = gui.get_id(nodes["pokemon/tab_stencil_2"])
-	for i, name in pairs(_pokemon.get_abilities(pokemon)) do
-		local root_node = setup_ability(nodes, name, p, i)
-		local id = list.id .. name
-		table.insert(list.data, id)
-		gui.set_id(root_node, id)
+	local abilities = _pokemon.get_abilities(pokemon)
+	if next(abilities) then
+		for i, name in pairs(abilities) do
+			local root_node = setup_ability(nodes, name, p, i)
+			local id = list.id .. name
+			table.insert(list.data, id)
+			gui.set_id(root_node, id)
+		end
+		table.insert(active_lists, list)
+	else
+		gui.delete_node(nodes["pokemon/ability/root"])
 	end
-	table.insert(active_lists, list)
-
 end
 
 local function setup_info(self, nodes, pokemon)
@@ -494,8 +498,9 @@ function on_input(self, action_id, action)
 	end)
 	
 	for _, list in pairs(active_lists) do
-		gooey.static_list(list.id, list.stencil, list.data, action_id, action, function() end, function() end)
-		--gooey.dynamic_list(list.id, list.stencil, list.item, list.data, action_id, action, function() end, list.refresh)
+		if next(list.data) ~= nil then
+			gooey.static_list(list.id, list.stencil, list.data, action_id, action, function() end, function() end)
+		end
 	end
 	
 	local g = gesture.on_input(self, action_id, action)
