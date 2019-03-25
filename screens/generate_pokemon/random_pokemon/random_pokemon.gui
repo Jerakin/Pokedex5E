@@ -130,7 +130,7 @@ nodes {
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 0.75
+  alpha: 0.95
   template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
@@ -287,7 +287,7 @@ nodes {
 nodes {
   position {
     x: -310.0
-    y: 597.0
+    y: 592.0
     z: 0.0
     w: 1.0
   }
@@ -298,8 +298,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 2.0
-    y: 2.0
+    x: 1.5
+    y: 1.5
     z: 1.0
     w: 1.0
   }
@@ -359,8 +359,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 250.0
-    y: 50.0
+    x: 270.0
+    y: 70.0
     z: 0.0
     w: 1.0
   }
@@ -477,8 +477,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 250.0
-    y: 50.0
+    x: 270.0
+    y: 70.0
     z: 0.0
     w: 1.0
   }
@@ -608,7 +608,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/add_backing"
+  texture: "gui/details_backing"
   id: "background"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -618,10 +618,10 @@ nodes {
   layer: "gui"
   inherit_alpha: false
   slice9 {
-    x: 18.0
-    y: 18.0
-    z: 18.0
-    w: 30.0
+    x: 10.0
+    y: 10.0
+    z: 10.0
+    w: 10.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -688,7 +688,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -91.222
+    y: -110.111
     z: 0.0
     w: 1.0
   }

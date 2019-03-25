@@ -25,7 +25,7 @@ function init(self)
 	gui.set_text(gui.get_node("txt_desc"), move_data.description)
 	gui.set_text(gui.get_node("txt_time"), move_data.time)
 	gui.set_text(gui.get_node("txt_duration"), move_data.duration)
-	gui.set_text(gui.get_node("txt_range"), move_data.range)
+	gui.set_text(gui.get_node("txt_range"), move_data.range or "")
 	gui.set_text(gui.get_node("txt_move_power"), join_table("", move_data.power, "/"))
 
 	-- Set type name and image and placements

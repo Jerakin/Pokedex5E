@@ -101,9 +101,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_BOX
@@ -126,7 +126,7 @@ nodes {
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 0.5
+  alpha: 0.9
   template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
@@ -150,15 +150,15 @@ nodes {
     w: 1.0
   }
   size {
-    x: 665.0
-    y: 400.0
+    x: 800.0
+    y: 200.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.9411765
+    y: 0.9411765
+    z: 0.9411765
     w: 1.0
   }
   type: TYPE_BOX
@@ -187,8 +187,8 @@ nodes {
 }
 nodes {
   position {
-    x: -314.0
-    y: 117.0
+    x: 0.0
+    y: -23.0
     z: 0.0
     w: 1.0
   }
@@ -211,9 +211,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -223,7 +223,7 @@ nodes {
   id: "txt"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_NW
+  pivot: PIVOT_CENTER
   outline {
     x: 1.0
     y: 1.0
@@ -251,7 +251,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 171.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -262,8 +262,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 1.25
+    y: 1.25
     z: 1.0
     w: 1.0
   }
@@ -274,9 +274,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.14901961
-    y: 0.14117648
-    z: 0.1254902
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
@@ -313,8 +313,8 @@ nodes {
 }
 nodes {
   position {
-    x: 182.0
-    y: -249.0
+    x: 160.0
+    y: -157.0
     z: 0.0
     w: 1.0
   }
@@ -331,8 +331,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 300.0
-    y: 60.0
+    x: 250.0
+    y: 70.0
     z: 0.0
     w: 1.0
   }
@@ -380,8 +380,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.6
-    y: 0.6
+    x: 1.0
+    y: 1.0
     z: 1.0
     w: 1.0
   }
@@ -399,8 +399,8 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Yes"
-  font: "title"
+  text: "YES"
+  font: "script_bold"
   id: "txt_confim"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -431,8 +431,8 @@ nodes {
 }
 nodes {
   position {
-    x: -182.0
-    y: -249.0
+    x: -163.0
+    y: -157.0
     z: 0.0
     w: 1.0
   }
@@ -449,8 +449,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 300.0
-    y: 60.0
+    x: 250.0
+    y: 70.0
     z: 0.0
     w: 1.0
   }
@@ -498,8 +498,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.6
-    y: 0.6
+    x: 1.0
+    y: 1.0
     z: 1.0
     w: 1.0
   }
@@ -517,8 +517,8 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "No"
-  font: "title"
+  text: "NO"
+  font: "script_bold"
   id: "txt_exit"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
