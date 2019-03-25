@@ -343,19 +343,31 @@ function M.on_message(self, message_id, message, sender)
 	gui.set_enabled(self.root, true)
 end
 
-local function add_ability()
-	monarch.show("scrollist", {}, {items=pokedex.ability_list(), message_id="abilities", sender=msg.url(), title="Pick Ability"})
+local function add_ability(self)
+	local a = utils.deep_copy(pokedex.ability_list())
+	local filtered = {}
+	local add
+	for _, new_ability in pairs(a) do 
+		add = true
+		for _, ability in pairs(self.abilities) do
+			if new_ability == ability then
+				add = false
+			end
+		end
+		if add then
+			table.insert(filtered, new_ability)
+		end
+		
+	end
+	monarch.show("scrollist", {}, {items=filtered, message_id="abilities", sender=msg.url(), title="Pick Ability"})
 end
 
 function M.on_input(self, action_id, action)
 	button.on_input(action_id, action)
 	gooey.button("change_pokemon/btn_close", action_id, action, function() monarch.back() end, gooey_buttons.close_button)
-	for _, button in pairs(active_buttons) do
-		gooey.button(button.node, action_id, action, add_ability)
-	end
 	for ability, data in pairs(self.ability_data) do
 		if ability == "Add Other" then
-			gooey.button(data.root_id, action_id, action, add_ability)
+			gooey.button(data.root_id, action_id, action, function() add_ability(self) end)
 		else
 			gooey.checkbox(data.root_id, action_id, action, function(c) ability_checkbox_toggle(self, c, ability) end, function(c) ability_checkbox_refresh(c, data.checkbox) end)
 		end

@@ -207,8 +207,6 @@ local function setup_ability(nodes, name, p, i)
 end
 
 local function setup_abilities(self, nodes, pokemon)
-	--local index = 0
-	--local template = nodes["pokemon/ability/root"]
 	local function _get_node(sub)
 		local name = "pokemon/ability_" .. index
 		local n = nodes[name .. sub]
