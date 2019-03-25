@@ -131,7 +131,7 @@ local function setup_moves(self, nodes, pokemon)
 		gui.set_color(_get_node("/name"), type.color)
 		gui.play_flipbook(_get_node("/element"), type.icon)
 		
-		gui.set_text(_get_node("/range"), move_data.range)
+		gui.set_text(_get_node("/range"), move_data.range or "")
 	end
 	for i=1, 4 do
 		local n = nodes["pokemon/move_" .. i .. "/move"]
