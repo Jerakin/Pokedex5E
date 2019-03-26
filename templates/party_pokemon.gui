@@ -6497,7 +6497,7 @@ nodes {
 nodes {
   position {
     x: -225.0
-    y: 447.0
+    y: 468.0
     z: 0.0
     w: 1.0
   }
@@ -6615,7 +6615,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 447.0
+    y: 468.0
     z: 0.0
     w: 1.0
   }
@@ -6733,7 +6733,7 @@ nodes {
 nodes {
   position {
     x: 221.0
-    y: 447.0
+    y: 468.0
     z: 0.0
     w: 1.0
   }
@@ -6851,7 +6851,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 506.0
+    y: 527.0
     z: 0.0
     w: 1.0
   }
@@ -6914,7 +6914,7 @@ nodes {
 nodes {
   position {
     x: -206.0
-    y: 288.0
+    y: 303.0
     z: 0.0
     w: 1.0
   }
@@ -7087,7 +7087,7 @@ nodes {
 nodes {
   position {
     x: 130.0
-    y: 315.0
+    y: 303.0
     z: 0.0
     w: 1.0
   }
@@ -7105,7 +7105,7 @@ nodes {
   }
   size {
     x: 400.0
-    y: 200.0
+    y: 255.0
     z: 0.0
     w: 1.0
   }
@@ -7142,7 +7142,7 @@ nodes {
 nodes {
   position {
     x: -190.0
-    y: 92.0
+    y: 122.0
     z: 0.0
     w: 1.0
   }
@@ -7204,8 +7204,8 @@ nodes {
 }
 nodes {
   position {
-    x: 130.0
-    y: 288.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -7241,7 +7241,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "bg_vul"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -7322,63 +7322,8 @@ nodes {
 }
 nodes {
   position {
-    x: 130.0
-    y: 201.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 400.0
-    y: 80.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
-  id: "bg_imm"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
     x: -190.0
-    y: 35.0
+    y: -44.0
     z: 0.0
     w: 1.0
   }
@@ -7428,7 +7373,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
-  parent: "bg_imm"
+  parent: "bg_vul"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -7441,7 +7386,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 127.0
+    y: 134.0
     z: 0.0
     w: 1.0
   }

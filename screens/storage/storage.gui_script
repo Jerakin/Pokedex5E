@@ -77,6 +77,7 @@ function init(self)
 	gui.set_text(gui.get_node("top_divider/title"), profiles.get_active_name() .. "'s PC")
 	update_list(gooey.dynamic_list("storage", "scrollist", "pokemon_row/row", self.pokemon_rows))
 	inventory.setup()
+	gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar").refresh()
 end
 
 
