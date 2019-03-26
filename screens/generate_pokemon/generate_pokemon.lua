@@ -19,6 +19,7 @@ function M.add_pokemon(species, level)
 			moves[starting_moves[i]] = {pp=pp, index=i}
 		end
 	end
+	pokemon.abilities = pokedex.get_pokemon_abilities(species)
 	pokemon.level.caught = level
 	pokemon.level.current = level
 	pokemon.moves = moves
