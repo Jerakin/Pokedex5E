@@ -87,17 +87,12 @@ end
 function on_message(self, message_id, message, sender)
 	if message_id == hash("show_profile") then
 		monarch.show("profiles")
-
 	elseif message_id == hash("show_party") then
 		monarch.show("party")
-		
 	elseif message_id == hash("show_splash") then
 		monarch.show("splash")
-		collectionfactory.create("/menu#collectionfactory")
-		
 	elseif message_id == hash("show_storage") then
 		monarch.show("storage")
-		
 	elseif message_id == hash("show_add") then
 		monarch.show("add")
 	end

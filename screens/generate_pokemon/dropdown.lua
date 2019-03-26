@@ -27,12 +27,13 @@ local function button_click(name, button_id, scroll_id)
 	gui.set_position(scroll_bg_id, p + a)
 	active[name].active = true
 	active.active = true
+	active.name = name
 end
 
 
 local function update_items(item, name)
 	local item_id = active[name].item_id
-	gui.set_text(item.nodes[item_id], item.data)
+	gui.set_text(item.nodes[item_id], item.data:upper())
 end
 
 local function update_list(list, name)
@@ -48,7 +49,7 @@ local function on_item_selected(list, name)
 	local button_txt_id = active[list.id].button_txt_id
 	for i, entry in pairs(list.items) do
 		if entry.index == list.selected_item then
-			gui.set_text(gui.get_node(button_txt_id), entry.data)
+			gui.set_text(gui.get_node(button_txt_id), entry.data:upper())
 			gui.set_enabled(gui.get_node(scroll_bg_id), false)
 			active[list.id].active = false
 			active[list.id].selected_item = entry.data
@@ -105,7 +106,12 @@ function M.on_input(name, button_id, button_txt_id, scroll_id, scroll_bg_id, ite
 		gui.set_enabled(gui.get_node(scroll_bg_id), false)
 	end
 	
-	local b = gooey.button(button_id, action_id, action, function() button_click(name) end)
+	local b = gooey.button(button_id, action_id, action, function() 
+		if active.name ~= name then
+			gooey.vertical_scrollbar("handle", "bar").scroll_to(0, 0)
+			gooey.dynamic_list(name, scroll_id, item_id, data).scroll_to(0, 0)
+		end
+		button_click(name, scroll_id) end)
 	if not active[name].active then
 		return false
 	end

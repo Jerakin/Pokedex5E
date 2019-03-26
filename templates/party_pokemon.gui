@@ -6552,7 +6552,7 @@ nodes {
 nodes {
   position {
     x: -225.0
-    y: 447.0
+    y: 468.0
     z: 0.0
     w: 1.0
   }
@@ -6670,7 +6670,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 447.0
+    y: 468.0
     z: 0.0
     w: 1.0
   }
@@ -6788,7 +6788,7 @@ nodes {
 nodes {
   position {
     x: 221.0
-    y: 447.0
+    y: 468.0
     z: 0.0
     w: 1.0
   }
@@ -6906,7 +6906,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 506.0
+    y: 527.0
     z: 0.0
     w: 1.0
   }
@@ -6969,7 +6969,7 @@ nodes {
 nodes {
   position {
     x: -206.0
-    y: 288.0
+    y: 303.0
     z: 0.0
     w: 1.0
   }
@@ -7142,7 +7142,7 @@ nodes {
 nodes {
   position {
     x: 130.0
-    y: 315.0
+    y: 303.0
     z: 0.0
     w: 1.0
   }
@@ -7160,7 +7160,7 @@ nodes {
   }
   size {
     x: 400.0
-    y: 200.0
+    y: 255.0
     z: 0.0
     w: 1.0
   }
@@ -7197,7 +7197,7 @@ nodes {
 nodes {
   position {
     x: -190.0
-    y: 92.0
+    y: 122.0
     z: 0.0
     w: 1.0
   }
@@ -7259,8 +7259,8 @@ nodes {
 }
 nodes {
   position {
-    x: 130.0
-    y: 288.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -7296,7 +7296,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "bg_vul"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -7377,63 +7377,8 @@ nodes {
 }
 nodes {
   position {
-    x: 130.0
-    y: 201.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 400.0
-    y: 80.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
-  id: "bg_imm"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
     x: -190.0
-    y: 35.0
+    y: -44.0
     z: 0.0
     w: 1.0
   }
@@ -7483,7 +7428,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
-  parent: "bg_imm"
+  parent: "bg_vul"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -7496,7 +7441,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 127.0
+    y: 134.0
     z: 0.0
     w: 1.0
   }
@@ -7981,156 +7926,6 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: -360.0
-    y: -640.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_TEMPLATE
-  id: "top_divider"
-  parent: "root"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  template: "/templates/top_divider.gui"
-  template_node_child: false
-}
-nodes {
-  position {
-    x: 360.0
-    y: 1180.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.66
-    w: 1.0
-  }
-  size {
-    x: 720.0
-    y: 30.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/shadow"
-  id: "top_divider/shadow"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_STRETCH
-  parent: "top_divider"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: true
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: 360.0
-    y: 1230.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 720.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/title_backing"
-  id: "top_divider/box"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_STRETCH
-  parent: "top_divider"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 5.0
-    y: 5.0
-    z: 5.0
-    w: 5.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
 layers {

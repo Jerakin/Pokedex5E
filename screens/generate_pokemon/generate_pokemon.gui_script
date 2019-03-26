@@ -101,14 +101,56 @@ local function on_item_selected(self, list)
 	end
 end
 
+function titleCase( first, rest )
+	return first:upper()..rest:lower()
+end
+
+
 local function get_filtered(self)
+	self.trainer_class = string.gsub(self.trainer_class, "(%a)([%w_']*)", titleCase)
+	self.habitat = string.gsub(self.habitat, "(%a)([%w_']*)", titleCase)
+	self.type = string.gsub(self.type, "(%a)([%w_']*)", titleCase)
 	return filters.get_list(self.trainer_class, self.habitat, self.min_sr, self.max_sr, self.level, self.type)
+end
+
+
+local function update_colors(self)
+	if self.habitat == "Optional" then
+		gui.set_color(gui.get_node("txt_habitat"), gui_colors.HERO_TEXT_FADED)
+	else
+		gui.set_color(gui.get_node("txt_habitat"), gui_colors.HERO_TEXT)
+	end
+	
+	if self.trainer_class == "Optional" then
+		gui.set_color(gui.get_node("txt_trainer"), gui_colors.HERO_TEXT_FADED)
+	else
+		gui.set_color(gui.get_node("txt_trainer"), gui_colors.HERO_TEXT)
+	end
+	
+	if self.type == "Optional" then
+		gui.set_color(gui.get_node("txt_type"), gui_colors.HERO_TEXT_FADED)
+	else
+		gui.set_color(gui.get_node("txt_type"), gui_colors.HERO_TEXT)
+	end
+	
+	if self.min_sr == 0.25 then
+		gui.set_color(gui.get_node("txt_min_sr"), gui_colors.HERO_TEXT_FADED)
+	else
+		gui.set_color(gui.get_node("txt_min_sr"), gui_colors.HERO_TEXT)
+	end
+	
+	if self.max_sr == 15 then
+		gui.set_color(gui.get_node("txt_max_sr"), gui_colors.HERO_TEXT_FADED)
+	else
+		gui.set_color(gui.get_node("txt_max_sr"), gui_colors.HERO_TEXT)
+	end
 end
 
 local function update_pokemons_list_view(self)
 	self.filtered_pokemons = get_filtered(self)
 	update_storage_data(self)
 	update_list(gooey.dynamic_list("storage", "scroll_list", "pokemon/row", self.pokemon_rows))
+	update_colors(self)
 end
 
 function init(self)
@@ -125,9 +167,12 @@ function init(self)
 	self.level = 0
 	
 	self.filtered_pokemons = get_filtered(self)
+	update_colors(self)
 	update_storage_data(self)
 	update_list(gooey.dynamic_list("storage", "scroll_list", "pokemon/row", self.pokemon_rows))
 end
+
+
 
 local function reset_filters(self)
 	self.trainer_class = "Optional"
@@ -136,13 +181,15 @@ local function reset_filters(self)
 	self.min_sr = 0.25
 	self.max_sr = 15
 	self.level = 0
-	gui.set_text(gui.get_node("txt_trainer"), self.trainer_class)
-	gui.set_text(gui.get_node("txt_habitat"), self.habitat)
-	gui.set_text(gui.get_node("txt_min_sr"), "Min")
-	gui.set_text(gui.get_node("txt_max_sr"), "Max")
-	gui.set_text(gui.get_node("txt_level"), self.level)
-	gui.set_text(gui.get_node("txt_type"), self.type)
+
 	
+	gui.set_text(gui.get_node("txt_trainer"), self.trainer_class:upper())
+	gui.set_text(gui.get_node("txt_habitat"), self.habitat:upper())
+	gui.set_text(gui.get_node("txt_min_sr"), "MIN")
+	gui.set_text(gui.get_node("txt_max_sr"), "MAX")
+	gui.set_text(gui.get_node("txt_level"), self.level)
+	gui.set_text(gui.get_node("txt_type"), self.type:upper())
+
 	update_pokemons_list_view(self)
 end
 
@@ -154,33 +201,38 @@ end
 function on_input(self, action_id, action)
 	action_position.x = action.x
 	action_position.y = action.y
-	local x = dropdown.on_input("Type", "type", "txt_type", "scroll_selection", "scroll_bg", "scroll_text", self.type_list, action_id, action, function()
-		self.type = gui.get_text(gui.get_node("txt_type"))
-		update_pokemons_list_view(self)
-	end)
-	if x then return true end
-	local a = dropdown.on_input("Habitatadsasd", "habitat", "txt_habitat", "scroll_selection", "scroll_bg", "scroll_text", self.habitat_list, action_id, action, function()
-		self.habitat = gui.get_text(gui.get_node("txt_habitat"))
-		update_pokemons_list_view(self)
-	end)
-	if a then return true end
-	local b = dropdown.on_input("Trainers", "trainer", "txt_trainer", "scroll_selection", "scroll_bg", "scroll_text", self.trainer_class_list, action_id, action, function()
-		self.trainer_class = gui.get_text(gui.get_node("txt_trainer"))
-		update_pokemons_list_view(self)
-	end)
-	if b then return true end
 	local c = dropdown.on_input("sr_min", "min_sr", "txt_min_sr", "scroll_selection", "scroll_bg", "scroll_text", sr, action_id, action, function()
 		local t = gui.get_text(gui.get_node("txt_min_sr"))
 		self.min_sr = number_map[t]
 		update_pokemons_list_view(self)
 	end)
 	if c then return true end
+
 	local d = dropdown.on_input("sr_max", "max_sr", "txt_max_sr", "scroll_selection", "scroll_bg", "scroll_text", sr, action_id, action, function()
 		local t = gui.get_text(gui.get_node("txt_max_sr"))
 		self.max_sr = number_map[t]
 		update_pokemons_list_view(self)
 	end)
+	
 	if d then return true end
+		local a = dropdown.on_input("Habitat", "habitat", "txt_habitat", "scroll_selection", "scroll_bg", "scroll_text", self.habitat_list, action_id, action, function()
+		self.habitat = gui.get_text(gui.get_node("txt_habitat"))
+		update_pokemons_list_view(self)
+	end)
+	if a then return true end
+		
+	local b = dropdown.on_input("Trainers", "trainer", "txt_trainer", "scroll_selection", "scroll_bg", "scroll_text", self.trainer_class_list, action_id, action, function()
+		self.trainer_class = gui.get_text(gui.get_node("txt_trainer"))
+		update_pokemons_list_view(self)
+	end)
+	if b then return true end
+	
+	local x = dropdown.on_input("Type", "type", "txt_type", "scroll_selection", "scroll_bg", "scroll_text", self.type_list, action_id, action, function()
+		self.type = gui.get_text(gui.get_node("txt_type"))
+		update_pokemons_list_view(self)
+	end)
+	if x then return true end
+
 
 	if next(self.pokemon_rows) ~= nil then
 		local list = gooey.dynamic_list("storage", "scroll_list", "pokemon/row", self.pokemon_rows, action_id, action, function(list) on_item_selected(self, list) end, update_list)

@@ -323,11 +323,11 @@ function M.get_sprite(pokemon)
 end
 
 local function level_index(level)
-	if level > 17 then
+	if level >= 17 then
 		return "17"
-	elseif level > 10 then
+	elseif level >= 10 then
 		return "10"
-	elseif level > 5 then
+	elseif level >= 5 then
 		return "5"
 	else
 		return "1"
