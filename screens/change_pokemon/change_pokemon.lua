@@ -293,7 +293,7 @@ function M.on_message(self, message_id, message, sender)
 				return
 			end
 			self.pokemon = _pokemon.new({species=message.item})
-			self.abilities = _pokemon.get_abilities(self.pokemon)
+			self.abilities = pokedex.get_pokemon_abilities(message.item)
 			self.level = self.pokemon.level.current
 			self.pokemon.nature = "No Nature"
 			local starting_moves = pokedex.get_starting_moves(message.item)

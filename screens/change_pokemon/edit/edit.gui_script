@@ -28,7 +28,6 @@ local function save_pokemon(self)
 		end
 	end
 	_pokemon.update_abilities(self.pokemon, abilities)
-	--self.pokemon.abilities = abilities
 	self.pokemon.level.current = self.level
 	_pokemon.save(self.pokemon)
 	_pokemon.set_nickname(self.pokemon, nickname)
