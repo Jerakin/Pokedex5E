@@ -41,7 +41,7 @@ local function add_pokemon(self)
 		else
 			notify.notify(self.pokemon.species.current .. " added to party")
 		end
-		monarch.show("party")
+		monarch.back()
 	end
 end
 
