@@ -177,7 +177,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 1180.0
+    y: 1202.0
     z: 0.0
     w: 1.0
   }
@@ -195,7 +195,7 @@ nodes {
   }
   size {
     x: 720.0
-    y: 30.0
+    y: 20.0
     z: 0.0
     w: 1.0
   }
@@ -232,7 +232,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 1230.0
+    y: 1245.0
     z: 0.0
     w: 1.0
   }
@@ -250,7 +250,7 @@ nodes {
   }
   size {
     x: 720.0
-    y: 100.0
+    y: 70.0
     z: 0.0
     w: 1.0
   }
@@ -286,8 +286,8 @@ nodes {
 }
 nodes {
   position {
-    x: -310.0
-    y: 592.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -298,14 +298,78 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.5
-    y: 1.5
+    x: 1.0
+    y: 1.0
     z: 1.0
     w: 1.0
   }
   size {
-    x: 34.0
-    y: 33.0
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.4745098
+    y: 0.11764706
+    z: 0.043137256
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "Random Pokemon"
+  font: "title"
+  id: "template/title"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "template/box"
+  layer: "title"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 0.0
+  shadow_alpha: 1.0
+  overridden_fields: 8
+  template_node_child: true
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: -310.0
+    y: 605.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 60.0
+    y: 60.0
     z: 0.0
     w: 1.0
   }
@@ -337,7 +401,7 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: false
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
@@ -747,69 +811,6 @@ nodes {
   shadow_alpha: 1.0
   template_node_child: false
   text_leading: 0.8
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: -249.0
-    y: 590.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.9
-    y: 0.9
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.4745098
-    y: 0.11764706
-    z: 0.043137256
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Random Pokemon"
-  font: "title"
-  id: "screen_title"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "root"
-  layer: "title"
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 1.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
   text_tracking: 0.0
 }
 layers {

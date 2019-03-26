@@ -74,7 +74,7 @@ function init(self)
 	self.filtered_list = storage.list_of_ids_in_storage()
 	update_storage_data(self)
 	
-	gui.set_text(gui.get_node("title"), profiles.get_active_name() .. "'s PC")
+	gui.set_text(gui.get_node("top_divider/title"), profiles.get_active_name() .. "'s PC")
 	update_list(gooey.dynamic_list("storage", "scrollist", "pokemon_row/row", self.pokemon_rows))
 	inventory.setup()
 end
