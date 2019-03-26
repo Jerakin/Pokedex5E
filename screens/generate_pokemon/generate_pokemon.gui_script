@@ -190,6 +190,8 @@ local function reset_filters(self)
 	gui.set_text(gui.get_node("txt_level"), self.level)
 	gui.set_text(gui.get_node("txt_type"), self.type:upper())
 
+	selected_pokemon = {}
+
 	update_pokemons_list_view(self)
 end
 
