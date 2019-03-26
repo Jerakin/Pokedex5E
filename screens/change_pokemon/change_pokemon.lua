@@ -365,6 +365,9 @@ end
 function M.on_input(self, action_id, action)
 	button.on_input(action_id, action)
 	gooey.button("change_pokemon/btn_close", action_id, action, function() monarch.back() end, gooey_buttons.close_button)
+	for _, button in pairs(active_buttons) do
+		gooey.button(button.node, action_id, action, button.func, button.refresh)
+	end
 	for ability, data in pairs(self.ability_data) do
 		if ability == "Add Other" then
 			gooey.button(data.root_id, action_id, action, function() add_ability(self) end)
