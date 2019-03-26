@@ -51,7 +51,7 @@ local function add_pokemon(self)
 			notify.notify(self.pokemon.species.current .. " added to party")
 		end
 		local from = monarch.top(-1)
-		if from == hash("pick_name") then
+		if from == hash("pick_name") or from == hash("add") then
 			monarch.show("party")
 		else
 			monarch.back()
