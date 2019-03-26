@@ -146,6 +146,6 @@ function on_input(self, action_id, action)
 	gooey.button("btn_max_lvl", action_id, action,  function() set_max(self) end, function(b) gooey_button.common_button(b, gui.get_node("txt_max_lvl")) end)
 	gooey.button("btn_all", action_id, action,  function() set_all_moves(self) end, function(b) gooey_button.common_button(b, gui.get_node("txt_all")) end)
 	gooey.button("scrollist/btn_quit", action_id, action, function()
-		monarch.back()
+		monarch.show(monarch.top(-1), {clear=true})
 	end, gooey_button.close_button)
 end

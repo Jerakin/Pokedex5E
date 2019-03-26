@@ -84,7 +84,7 @@ local function refresh_input(self, input, node_id)
 end
 
 local function close()
-	monarch.back()
+	monarch.show(monarch.top(-1), {clear=true})
 end
 
 local function on_scrolled(self, scrollbar)
