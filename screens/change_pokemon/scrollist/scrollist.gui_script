@@ -82,7 +82,7 @@ function init(self)
 	local starting_moves = pokedex.get_pokemons_moves(self.species, self.level)
 	self.all_items = filter_out_current_moves(self, starting_moves)
 	self.list_items = utils.shallow_copy(self.all_items)
-	gui.set_text(gui.get_node("scrollist/title"), "Choose new move")
+	gui.set_text(gui.get_node("scrollist/topbar/title"), "Choose new move")
 	gui.set_text(gui.get_node("txt_current_lvl"), "Lv. " .. self.level)
 	
 	update_list(gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items))
