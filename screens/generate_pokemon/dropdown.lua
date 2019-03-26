@@ -97,6 +97,10 @@ local function on_scrolled(scrollbar, name, scroll_id, item_id, data)
 	gooey.dynamic_list(name, scroll_id, item_id, data).scroll_to(0, scrollbar.scroll.y)
 end
 
+function M.final()
+	active = {active=false}
+end
+	
 
 function M.on_input(name, button_id, button_txt_id, scroll_id, scroll_bg_id, item_id, data, action_id, action, func)
 	setup_state(name, button_id, button_txt_id, scroll_id, scroll_bg_id, item_id, action_id, action, func)
