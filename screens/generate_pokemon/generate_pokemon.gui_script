@@ -88,10 +88,10 @@ local function on_item_selected(self, list)
 				if gui.pick_node(sprite_node, action_position.x, action_position.y) then
 					local pokemon_id = self.filtered_pokemons[(list.selected_item-1)*3 + i]
 					if pokemon_id then
-						if selected_pokemon[pokemon_id] == nil or not selected_pokemon[pokemon_id] then
+						if selected_pokemon[pokemon_id] == nil then
 							selected_pokemon[pokemon_id] = true
 						else
-							selected_pokemon[pokemon_id] = false
+							selected_pokemon[pokemon_id] = nil
 						end
 						gui.set_color(entry.nodes["pokemon/pokemon" .. i .. "/background"], vmath.vector4(0.9, 1, 0.9,1))
 					end
