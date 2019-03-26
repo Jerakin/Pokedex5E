@@ -33,7 +33,7 @@ local function update_storage_data(self)
 			if pokemon then
 				local sprite, texture = _pokemon.get_sprite(pokemon)
 				local species = _pokemon.get_current_species(pokemon)
-				local level = _pokemon.get_caught_level(pokemon)
+				local level = _pokemon.get_current_level(pokemon)
 				storage_data[i][a] = {sprite=sprite, texture=texture, species=species, level=level}
 			end
 		end
