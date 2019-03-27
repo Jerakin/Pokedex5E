@@ -7,12 +7,12 @@ output_location = Path(__file__).parent.parent.parent.parent / "assets" / "dataf
 
 
 def get_pokemon_index(pokemon_list, pokemon):
+    pokemon = pokemon.strip()
     for i, p in enumerate(pokemon_list):
-        if pokemon.startswith("Nido"):
-            if pokemon == p:
-                return i
+        if (pokemon.startswith("Nidoran") and p.startswith("Nidoran")) or (pokemon.startswith("Farfetch") and p.startswith("Farfetch")) or (pokemon.lower() == p.lower()):
+            return i + 1
         elif pokemon.split(" ")[0] == p.split(" ")[0]:
-            return i
+            return i + 1
     print("Something went wrong for", pokemon)
 
 def convert_pokemon_data(input_file):
@@ -30,14 +30,13 @@ def convert_pokemon_data(input_file):
     reg_evolve_move = re.compile("'(.*)'")
     reg_evolve_holding = re.compile("while holding a (.*)\.")
 
-    output_pokemon_data = {}
-
-    output_pokemon_list = []
     with open(output_location / "pokemon_order.json", "r") as f:
         data = json.load(f)
         output_pokemon_list = data["number"]
 
+    output_pokemon_data = {}
     output_evolve_data = {}
+
     with open(input_file, "r") as fp:
         file_data = json.load(fp)
         # for pokemon, _ in file_data.items():     # We are using the list of pokemons for the evolve data so
@@ -169,13 +168,6 @@ def convert_move_data(input_file):
 
                     if saving_throw:
                         converted[move]["Save"] = saving_throw.group(1)
-                if attribute == "Range":
-                    if "cone" in value.lower() or "line" in value or "circle" in value or "Melee" in value or "Self" in value or "radius" in value:
-                        pass
-                        # print(move, value)
-                    else:
-                        if "ft" in value:
-                            print(move)
                 converted[move][attribute] = value
 
         with open(output_location / "moves.json", "w") as f:
