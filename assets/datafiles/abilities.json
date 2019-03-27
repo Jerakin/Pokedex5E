@@ -6,16 +6,25 @@
     "Description": "This Pokémon deals damage to an attacker equal to half of the damage received when knocked out by a melee move."
   },
   "Air Lock": {
-    "Description": "While this Pokémon enters battle, weather-related abilities have no effect on the Pokémon that have them."
+    "Description": "While this Pokémon is in battle, weather-related abilities have no effect on the Pokémon that have them."
+  },
+  "Analytic": {
+    "Description": "After this Pokémon misses an attack, its next attack is done at advantage."
   },
   "Anger Point": {
     "Description": "After suffering a critical hit, this Pokémon adds proficiency to its damage if its next attack hits."
+  },
+  "Anticipation": {
+    "Description": "When this Pokémon enters the battle, an opponent must reveal if it has a move that the Pokémon is vulnerable to. The move does not have to be revealed - only that there is such a move."
   },
   "Aqua Camoflauge": {
     "Description": "Once per short rest, this Pokémon gains temporary hit points equal to its level when battling in coastal and swampy areas, or in rainy conditions."
   },
   "Arena Trap": {
-    "Description": "Wild Pokémon cannot flee from this Pokémon if it is active in battle, except if they are flying-type, or use the Levitate ability,."
+    "Description": "Wild Pokémon cannot flee from this Pokémon if it is active in battle, except if they are flying-type, or use the Levitate ability."
+  },
+  "Bad Dreams": {
+    "Description": "If an opponent in battle with this Pokémon falls asleep, they take an amount of damage equal to this Pokémon's proficeincy bonus at the end of each of their turns."
   },
   "Battle Armor": {
     "Description": "This Pokémon is immune to extra damage dealt by a Critical Hit."
@@ -50,6 +59,9 @@
   "Compound Eyes": {
     "Description": "This Pokémon gets an additional +1 to attack rolls."
   },
+  "Contrary": {
+    "Description": "Moves that affect this Pokémon's stats have the opposite effect. (For example, Defense Curl would lower AC by 4. Growl would increase its attack by +1)"
+  },
   "Cursed Body": {
     "Description": "When hit by a melee attack, this Pokémon may roll 1d4. On a result of 4, the opponent who made the attack cannot use the same move on its next turn."
   },
@@ -71,20 +83,35 @@
   "Drought": {
     "Description": "When this Pokémon enters an outside battle, the weather immediately changes to bright sunlight. In the case of another Pokémon with a similar weather ability, the tie goes to the Pokémon with the highest DEX score."
   },
+  "Dry Skin": {
+    "Description": "At the end of each of this Pokémon's turns, it takes an amount of damage equal to its proficiency modifier in strong sunlight, or heals for the same amount during rain."
+  },
   "Early Bird": {
-    "Description": "This  Pokémon has advantage on rolls to wake from sleep."
+    "Description": "This Pokémon has advantage on rolls to wake from sleep."
   },
   "Effect Spore": {
     "Description": "When hit by a melee attack, roll a d4. On a 4, deal an amount of grass damage equal to your proficiency modifier to your attacker."
   },
+  "Filter": {
+    "Description": "When hit by a move type this Pokémon is vulnerable to, it may roll a d4. In a result of 4, it does not take the additional damage."
+  },
   "Flame Body": {
     "Description": "The flames from this Pokémon's body shine dim light in a 15 ft radius. In addition, when hit by a melee attack, roll a d10. On a 10, the attacker is burned."
+  },
+  "Flare Boost": {
+    "Description": "This Pokémon adds proficiency to its damage rolls while burned."
   },
   "Flash Fire": {
     "Description": "This Pokémon takes no damage from fire. Instead, immediately after taking a hit from a fire-type move, or in open flames, double the STAB bonus on the next fire-type move."
   },
+  "Flower Gift": {
+    "Description": "During strong sunlight, ally Pokémon within 30 feet of this Pokémon add their proficiency bonus to damage rolls."
+  },
   "Forecast": {
     "Description": "This Pokémon changes form with the weather. In rain it becomes water-type, in bright sun it becomes fire-type, in cold and snowy conditions it becomes ice-type. In all other conditions it is normal-type. Its STAB, resistance, immunities, and vulnerabilities change to match the form it takes.v"
+  },
+  "Forewarn": {
+    "Description": "When this Pokémon enters battle, it reveals the move it knows with the most damage output. In the case of a tie, it can choose which one it reveals."
   },
   "Friend Guard": {
     "Description": "Once per long rest, when an ally within 15 feet of this Pokémon is hit by an attack, it may choose to halve the damage dealt."
@@ -106,6 +133,15 @@
   },
   "Healing Rain": {
     "Description": "This Pokémon can use its action to heal hit points equal to its level, in rainy conditions."
+  },
+  "Heatproof": {
+    "Description": "This Pokémon takes quarter damage from fire-type moves and is immune to the burning condition."
+  },
+  "Heavy Metal": {
+    "Description": "This Pokémon is especially heavy. Once per long rest, after being targeted by an attack, it may increase its AC by 2 if it would cause an attack to miss."
+  },
+  "Honey Gather": {
+    "Description": "At the end of each battle, this Pokémon may roll a d20. On a result of 20, its trainer adds a Honey to its inventory."
   },
   "Huge Power": {
     "Description": "Once per short rest, this Pokémon may double the damage it does on a single move that requires an attack roll. The player must announce that they are using this ability before the attack roll."
@@ -143,17 +179,26 @@
   "Intimidate": {
     "Description": "Once per short rest, you can impose disadvantage on an enemy attack roll of your choice."
   },
+  "Iron Fist": {
+    "Description": "When attacking with a punch-based move (Mega Punch, Dynamic Punch, Ice/Fire/Thunder Punch, etc.), this Pokémon doubles its STAB bonus."
+  },
   "Justified": {
     "Description": "When this Pokémon is hit by a dark-type move, it gets advantage on its next attack."
   },
   "Keen Eye": {
     "Description": "This Pokémon ignores disadvantage when it relates to sight."
   },
+  "Klutz": {
+    "Description": "This Pokémon cannot hold an item."
+  },
   "Leaf Guard": {
     "Description": "This Pokémon does not suffer from any negative status ailments in bright sunlight."
   },
   "Levitate": {
     "Description": "This Pokémon is immune to ground moves."
+  },
+  "Light Metal": {
+    "Description": "This Pokémon is especially light for its species. Once per long rest, it may impose disadvantage on an attack roll against it."
   },
   "Lightning Rod": {
     "Description": "If an ally within 30 feet is attacked with an electric type move, this Pokémon can choose to use a reaction to redirect that attack to themselves instead. This does not work on area of effect moves."
@@ -163,6 +208,9 @@
   },
   "Liquid Ooze": {
     "Description": "If an enemy uses a leeching or absorb move against this Pokémon, the Pokémon must make a DC 12 CON save or become poisoned."
+  },
+  "Magic Bounce": {
+    "Description": "Once per long rest, when succumbing to a negative status effect, this Pokémon can instead reflect the effect back on the attacker."
   },
   "Magic Guard": {
     "Description": "If this Pokémon is subjected to a move that forces it to make a saving throw to take only half damage, it instead takes no damage on a success."
@@ -179,8 +227,14 @@
   "Minus": {
     "Description": "This Pokémon boosts its attack and damage rolls by 2 if an ally also has a Plus or Minus ability"
   },
+  "Mold Breaker": {
+    "Description": "This Pokémon's moves ignore any abilities or moves that would lessen their effect  or ability to hit an opponent (Due to things like Water Absorb, Snow Cloak, Thick Fat, etc.)"
+  },
   "Moody": {
     "Description": "At the end of each long rest, this Pokémon rerolls on the nature table, replacing its nature with the result until the next long rest."
+  },
+  "Motor Drive": {
+    "Description": "When hit by an electric-type move, if not immune, this Pokémon's speed increases by 10 feet until the end of combat (up to a max of 50 additional feet)."
   },
   "Moxie": {
     "Description": "Upon causing an opponent to faint, this Pokémon may immediately take another action."
@@ -188,8 +242,14 @@
   "Multiscale": {
     "Description": "If this Pokémon is at full health, the first attack that hits it deals half damage."
   },
+  "Multitype": {
+    "Description": "This Pokémon's type and form change to match the type of Elemental Plate this Pokémon holds. The Plate cannot be effected by any item-removing ability or move."
+  },
   "Natural Cure": {
     "Description": "This Pokémon is cured of negative status ailments upon returning to its Pokeball."
+  },
+  "No Guard": {
+    "Description": "Any attack made by or against this Pokémon has advantage."
   },
   "Normalize": {
     "Description": "Every move this Pokémon makes is Normal type."
@@ -209,11 +269,11 @@
   "Paper Thin": {
     "Description": "This Pokémon always has a maximum HP of 1."
   },
-  "Pick Up": {
-    "Description": "If an opponent uses a consumable held item in battle, this Pokémon gains a copy of it if it is not currently holding an item."
-  },
   "Pickpocket": {
     "Description": "As a bonus action, this Pokémon can make a DEX check contested by the opponent’s WIS to attempt to steal a held item. After the first attempt, all other attempts against the same opponent are rolled at disadvantage."
+  },
+  "Pickup": {
+    "Description": "If an opponent uses a consumable held item in battle, this Pokémon gains a copy of it if it is not currently holding an item."
   },
   "Plus": {
     "Description": "This Pokémon boosts its attack and damage rolls by 2 if an ally also has a Plus or Minus ability"
@@ -248,6 +308,9 @@
   "Rattled": {
     "Description": "When this Pokémon is hit by a damaging Dark, Bug, or Ghost move, it makes its next attack at advantage."
   },
+  "Reckless": {
+    "Description": "When attacking with moves with recoil damage, this Pokémon doubles its STAB bonus."
+  },
   "Regenerator": {
     "Description": "Once per long rest, this Pokémon regains hit points equal to its level when it returns to its Pokéball."
   },
@@ -258,7 +321,7 @@
     "Description": "This Pokémon takes no recoil damage."
   },
   "Rough Skin": {
-    "Description": "When hit by a melee attack roll a d4. On a 4, deal an amount of normal damage eaual to your proficiency modifier to your attacker."
+    "Description": "When this Pokémon is hit by a melee attack, it may roll a d4. On a 4, deal an amount of normal damage equal to its proficiency modifier to its attacker."
   },
   "Run Away": {
     "Description": "While this Pokémon is active, the trainer automatically succeeds on their DEX roll to run away from a wild Pokémon encounter."
@@ -305,11 +368,17 @@
   "Skill Link": {
     "Description": "On combo moves like Fury Swipes, Comet Punch, etc., this Pokémon is guaranteed to hit at least twice."
   },
+  "Slow Start": {
+    "Description": "This Pokémon's speed is halved and its attacks are made at disadvantage for the first two rounds of every combat."
+  },
   "Sniper": {
     "Description": "On a critical hit made by this Pokémon, triple the dice roll instead of doubling it."
   },
   "Snow Cloak": {
     "Description": "This Pokémon's AC is increased by 2 in arctic conditions, or when it is snowing or hailing."
+  },
+  "Snow Warning": {
+    "Description": "When this Pokémon enters an outside battle, the weather immediately changes to hail. In the case of another Pokémon with a similar weather ability, the tie goes to the Pokémon with the highest DEX score."
   },
   "Solar Power": {
     "Description": "Damage rolls for this Pokémon get an additional +2 during bright sunlight."
@@ -322,6 +391,9 @@
   },
   "Speed Boost": {
     "Description": "While this Pokémon is active and in an environment related to its type (DM Discretion), its trainer gets advantage on initiative rolls."
+  },
+  "Stall": {
+    "Description": "This Pokémon is always last in initiative order."
   },
   "Static": {
     "Description": "When this Pokémon is hit by a melee attack, roll a d4. On a result of 4, the attacker takes an amount of electric damage equal to this Pokemon's proficiency bonus."
@@ -389,6 +461,9 @@
   "Truant": {
     "Description": "This Pokémon cannot use the same move in back to back rounds."
   },
+  "Unaware": {
+    "Description": "When this Pokémon attacks an opponent, it ignores any stat boosts the opponent has been affected with since the start of battle. This includes boosts to AC or saving throws the Pokémon has to make."
+  },
   "Unburden": {
     "Description": "While this Pokémon is active and not holding an item, its trainer gets advantage on initiative rolls."
   },
@@ -409,6 +484,9 @@
   },
   "Water Weight": {
     "Description": "Once per short rest, this Pokémon gains temporary hit points equal to its level when battling in coastal and swampy areas, or in rainy conditions."
+  },
+  "Weak Armor": {
+    "Description": "When an attack hits this Pokémon, its speed increases by 5 feet, but its AC is temporarily reduced by 1 until the end of battle (for a maximum reduction of -5)."
   },
   "White Smoke": {
     "Description": "Other Pokémon's moves or abilities cannot lower this Pokémon stats."

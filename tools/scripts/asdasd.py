@@ -98,5 +98,4 @@
   97 : "Dark Pulse",
   98 : "Waterfall",
   99 : "Dazzling Gleam",
-  100 : "Confide"
-}
+

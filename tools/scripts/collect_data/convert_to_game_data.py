@@ -6,44 +6,57 @@ input_location = Path(__file__).parent / "data"
 output_location = Path(__file__).parent.parent.parent.parent / "assets" / "datafiles"
 
 
+def get_pokemon_index(pokemon_list, pokemon):
+    for i, p in enumerate(pokemon_list):
+        if pokemon.startswith("Nido"):
+            if pokemon == p:
+                return i
+        elif pokemon.split(" ")[0] == p.split(" ")[0]:
+            return i
+    print("Something went wrong for", pokemon)
+
 def convert_pokemon_data(input_file):
     convert_to_int = ["AC", "Hit Dice", "HP", "WSp", "Ssp", "Fsp", "Ev", "MIN LVL FD", "Climbing Speed"]
-    convert_to_float = ["CR"]
+    convert_to_float = ["SR"]
     convert_to_list = ["Skill", "Res", "Vul", "Imm", "Senses"]
     attributes = ["STR", "CON", "DEX", "INT", "WIS", "CHA"]
-    ignore = ["T1", "T2", "Ev"]
+    ignore = ["Ev"]
     reg_starting_moves = re.compile("Starting Moves: ([A-Za-z ,-]*)")
-    reg_hm_moves = re.compile("HM: (.*)")
     reg_tm_moves = re.compile("TM: (.*)")
 
-    reg_abilities = re.compile("Abilities: ([A-Za-z, ]*)")
     reg_level_moves = re.compile("Level (\d+): ([A-Za-z ,-]*)")
-    reg_evolve_points = re.compile(".* gains (\d{1,2})")
+    reg_evolve_points = re.compile("gains (\d{1,2})")
     reg_evolve_level = re.compile("level (\d{1,2})")
+    reg_evolve_move = re.compile("'(.*)'")
+    reg_evolve_holding = re.compile("while holding a (.*)\.")
 
     output_pokemon_data = {}
+
     output_pokemon_list = []
+    with open(output_location / "pokemon_order.json", "r") as f:
+        data = json.load(f)
+        output_pokemon_list = data["number"]
+
     output_evolve_data = {}
     with open(input_file, "r") as fp:
         file_data = json.load(fp)
-        for pokemon, _ in file_data.items():     # We are using the list of pokemons for the evolve data so
-            output_pokemon_list.append(pokemon)  # need to construct that first
+        # for pokemon, _ in file_data.items():     # We are using the list of pokemons for the evolve data so
+
+            # output_pokemon_list.append(pokemon)  # need to construct that first
         pokemon_index = 0
         for pokemon, data in file_data.items():
             pokemon_index += 1
-            output_pokemon_data[pokemon] = {"Moves": {"Level": {}}, "index": pokemon_index}
+            output_pokemon_data[pokemon] = {"Moves": {"Level": {}}, "index": get_pokemon_index(output_pokemon_list, pokemon), "Abilities":[]}
 
             for attribute, value in data.items():
-                if not value or value == "None":
-                    continue
-                if attribute in ignore:
+                if not value or value == "None" or attribute in ignore:
                     continue
                 if attribute in attributes:
                     if "attributes" not in output_pokemon_data[pokemon]:
                         output_pokemon_data[pokemon]["attributes"] = {}
                     output_pokemon_data[pokemon]["attributes"][attribute] = int(value)
                     continue
-                if attribute == "Moves":
+                elif attribute == "Moves":
                     starting_moves = reg_starting_moves.match(value)
                     if starting_moves:
                         output_pokemon_data[pokemon]["Moves"]["Starting Moves"] = starting_moves.group(1).split(", ")
@@ -53,26 +66,23 @@ def convert_pokemon_data(input_file):
                     if lvl_moves:
                         for level, moves in lvl_moves:
                             output_pokemon_data[pokemon]["Moves"]["Level"][level] = moves.split(", ")
-                    hm_moves = reg_hm_moves.search(value)
-                    if hm_moves:
-                        output_pokemon_data[pokemon]["Moves"]["HM"] = [int(x) for x in hm_moves.group(1).replace(",", "").split(" ") if x]
                     tm_moves = reg_tm_moves.search(value)
                     if tm_moves:
-                        output_pokemon_data[pokemon]["Moves"]["TM"] = [int(x) for x in tm_moves.group(1).replace(",", "").split(" ") if x]
-
-
-                    abilities = reg_abilities.search(value)
-
-                    if abilities:
-                        output_pokemon_data[pokemon]["Abilities"] = [x for x in abilities.group(1).split(", ") if x != "None"]
+                        if "EVERY TM" in value:
+                            output_pokemon_data[pokemon]["Moves"]["TM"] = [int(x+1) for x in range(100)]
+                        else:
+                            output_pokemon_data[pokemon]["Moves"]["TM"] = [int(x) for x in tm_moves.group(1).replace(",", "").split(" ") if x]
                     continue
-                if attribute.startswith("ST"):
+                elif "Ability" in attribute:
+                    output_pokemon_data[pokemon]["Abilities"].append(value)
+                    continue
+                elif attribute.startswith("ST"):
                     if "saving_throws" not in output_pokemon_data[pokemon]:
                         output_pokemon_data[pokemon]["saving_throws"] = []
                     output_pokemon_data[pokemon]["saving_throws"].append(value)
                     continue
                     
-                if attribute in convert_to_float:
+                elif attribute in convert_to_float:
                     value = float(value)
                 elif attribute in convert_to_int:
                     value = int(value)
@@ -82,19 +92,34 @@ def convert_pokemon_data(input_file):
                 elif attribute == "Type":
                     value = value.split("/")
 
-                if attribute == "Evolution for sheet" and not value == "":
+                elif attribute == "Evolution for sheet" and not value == "":
                     output_evolve_data[pokemon] = {"into": [], "points": 0}
+                    false_positive = False
                     for poke in output_pokemon_list:
                         if not poke == pokemon and " {} ".format(poke) in value:
                             output_evolve_data[pokemon]["into"].append(poke)
-                    output_evolve_data[pokemon]["points"] = int(reg_evolve_points.search(value).group(1))
-                    output_evolve_data[pokemon]["level"] = int(reg_evolve_level.search(value).group(1))
+                    match = reg_evolve_points.search(value)
+                    if match:
+                        output_evolve_data[pokemon]["points"] = int(match.group(1))
+
+                    match = reg_evolve_level.search(value)
+                    if match:
+                        output_evolve_data[pokemon]["level"] = int(match.group(1))
+                    else:
+                        output_evolve_data[pokemon]["level"] = 0
+                        match = reg_evolve_move.search(value)
+                        if match:
+                            output_evolve_data[pokemon]["move"] = match.group(1)
+                        else:
+                            match = reg_evolve_holding.search(value)
+                            if match:
+                                output_evolve_data[pokemon]["holding"] = match.group(1)
+                            else:
+                                false_positive = True
+                    if false_positive:
+                        output_evolve_data.pop(pokemon, None)
                     continue
                 output_pokemon_data[pokemon][attribute] = value
-
-        with open(output_location / "pokemon_order.json", "w") as f:
-            json.dump({"number": output_pokemon_list}, f, indent="  ", ensure_ascii=False)
-            print("Exported {}".format(output_location / "pokemon_order.json"))
 
         with open(output_location / "pokemon.json", "w") as f:
             json.dump(output_pokemon_data, f, indent="  ", ensure_ascii=False)
@@ -144,6 +169,13 @@ def convert_move_data(input_file):
 
                     if saving_throw:
                         converted[move]["Save"] = saving_throw.group(1)
+                if attribute == "Range":
+                    if "cone" in value.lower() or "line" in value or "circle" in value or "Melee" in value or "Self" in value or "radius" in value:
+                        pass
+                        # print(move, value)
+                    else:
+                        if "ft" in value:
+                            print(move)
                 converted[move][attribute] = value
 
         with open(output_location / "moves.json", "w") as f:
@@ -166,15 +198,18 @@ def convert_ability_data(input_file):
             json.dump(file_data, f, indent="  ", ensure_ascii=False)
             print("Exported {}".format(output_location / "abilities.json"))
 
-data_sheets = {"IDATA.json": convert_item_data,
-               "MDATA.json": convert_move_data,
-               "PDATA.json": convert_pokemon_data,
-               "TDATA.json": convert_ability_data}
+data_sheets = {
+    "IDATA.json": convert_item_data,
+    "MDATA.json": convert_move_data,
+    "PDATA.json": convert_pokemon_data,
+    "TDATA.json": convert_ability_data
+}
 
 
 def main():
     for data_file in input_location.iterdir():
-        data_sheets[data_file.name](data_file)
+        if data_file.name in data_sheets:
+            data_sheets[data_file.name](data_file)
 
 if __name__ == '__main__':
     main()
