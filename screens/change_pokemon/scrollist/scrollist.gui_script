@@ -46,27 +46,34 @@ local function filter_out_current_moves(self, list_of_moves)
 	return list_of_moves
 end
 
-
+local function refresh_list(self)
+	self.list_items = utils.shallow_copy(self.all_items)
+	local list = gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items)
+	list.scroll_to(0, 0)
+	update_list(list)
+	gooey.vertical_scrollbar("scrollist/scrollbar/handle", "scrollist/scrollbar/bar").scroll_to(0, 0)
+end
+	
 local function set_all_moves(self)
 	self.all_items = filter_out_current_moves(self, movedex.list)
-	update_list(gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.all_items))
+	refresh_list(self)
 end
 
 local function set_current(self)
 	self.all_items = filter_out_current_moves(self, pokedex.get_pokemons_moves(self.species, self.level))
-	update_list(gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.all_items))
+	refresh_list(self)
 end
 
 
 local function set_max(self)
 	self.all_items = filter_out_current_moves(self, pokedex.get_pokemons_moves(self.species, 20))
-	update_list(gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.all_items))
+	refresh_list(self)
 end
 
 
 local function set_hm_tm(self)
 	self.all_items = filter_out_current_moves(self,  pokedex.get_move_machines(self.species))
-	update_list(gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.all_items))
+	refresh_list(self)
 end
 
 function init(self)
@@ -82,8 +89,7 @@ function init(self)
 	local starting_moves = pokedex.get_pokemons_moves(self.species, self.level)
 	self.all_items = filter_out_current_moves(self, starting_moves)
 	self.list_items = utils.shallow_copy(self.all_items)
-	gui.set_text(gui.get_node("scrollist/topbar/title"), "Choose new move")
-	gui.set_text(gui.get_node("txt_current_lvl"), "Lv. " .. self.level)
+	gui.set_text(gui.get_node("scrollist/topbar/title"), "Choose New Move")
 	
 	update_list(gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items))
 end

@@ -51,17 +51,10 @@ local function list()
 end
 
 function M.get_TM(number)
-	if move_machines.TM[number] then
-		return move_machines.TM[number]
+	if move_machines[number] then
+		return move_machines[number]
 	end
 	log.error("Can not find TM: " .. tostring(number))
-end
-
-function M.get_HM(number)
-	if move_machines.HM[number] then
-		return move_machines.HM[number]
-	end
-	log.error("Can not find HM: " .. tostring(number))
 end
 
 function M.init()

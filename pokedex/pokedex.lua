@@ -180,11 +180,6 @@ end
 
 function M.get_move_machines(pokemon)
 	local move_list = {}
-	if M.get_pokemon_HM_numbers(pokemon) then
-		for _, n in pairs(M.get_pokemon_HM_numbers(pokemon)) do
-			table.insert(move_list, movedex.get_HM(n))
-		end
-	end
 	if M.get_pokemon_TM_numbers(pokemon) then
 		for _, n in pairs(M.get_pokemon_TM_numbers(pokemon)) do
 			table.insert(move_list, movedex.get_TM(n))
