@@ -21,7 +21,7 @@ end
 
 local function species_rating()
 	for pokemon, data in pairs(_pokedex) do
-		local cr = tostring(data.CR)
+		local cr = tostring(data.SR)
 		if sr[cr] then 
 			table.insert(sr[cr], pokemon)
 		else 
