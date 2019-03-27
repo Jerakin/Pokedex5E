@@ -30,22 +30,21 @@ def convert_pokemon_data(input_file):
     reg_evolve_move = re.compile("'(.*)'")
     reg_evolve_holding = re.compile("while holding a (.*)\.")
 
-    with open(output_location / "pokemon_order.json", "r") as f:
+    with open(output_location / "pokemon_numbers.json", "r") as f:
         data = json.load(f)
-        output_pokemon_list = data["number"]
+        pokedex_numbers = data["number"]
 
+    output_pokemon_list = []
     output_pokemon_data = {}
     output_evolve_data = {}
 
     with open(input_file, "r") as fp:
         file_data = json.load(fp)
-        # for pokemon, _ in file_data.items():     # We are using the list of pokemons for the evolve data so
+        for pokemon, _ in file_data.items():  # We are using the list of pokemons for the evolve data so
+            output_pokemon_list.append(pokemon)  # need to construct that first
 
-            # output_pokemon_list.append(pokemon)  # need to construct that first
-        pokemon_index = 0
         for pokemon, data in file_data.items():
-            pokemon_index += 1
-            output_pokemon_data[pokemon] = {"Moves": {"Level": {}}, "index": get_pokemon_index(output_pokemon_list, pokemon), "Abilities":[]}
+            output_pokemon_data[pokemon] = {"Moves": {"Level": {}}, "index": get_pokemon_index(pokedex_numbers, pokemon), "Abilities":[]}
 
             for attribute, value in data.items():
                 if not value or value == "None" or attribute in ignore:
@@ -123,6 +122,10 @@ def convert_pokemon_data(input_file):
         with open(output_location / "pokemon.json", "w") as f:
             json.dump(output_pokemon_data, f, indent="  ", ensure_ascii=False)
             print("Exported {}".format(output_location / "pokemon.json"))
+
+        with open(output_location / "pokemon_order.json", "w") as f:
+            json.dump({"number": output_pokemon_list}, f, indent="  ", ensure_ascii=False)
+            print("Exported {}".format(output_location / "pokemon_order.json"))
 
         with open(output_location / "evolve.json", "w") as f:
             json.dump(output_evolve_data, f, indent="  ", ensure_ascii=False)
