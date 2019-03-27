@@ -16,10 +16,6 @@ textures {
   texture: "/assets/pokemon0.atlas"
 }
 textures {
-  name: "pokemon1"
-  texture: "/assets/pokemon1.atlas"
-}
-textures {
   name: "gui"
   texture: "/assets/gui.atlas"
 }
@@ -3730,7 +3726,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "row1/pokemon1"
-  layer: "pokemon0"
+  layer: "gui"
   inherit_alpha: false
   slice9 {
     x: 18.0
@@ -3742,7 +3738,6 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 20
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -3856,12 +3851,11 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
   parent: "row1/pokemon1/pokemon_sprite"
-  layer: "script_over"
+  layer: "script"
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 20
   template_node_child: true
   text_leading: 0.8
   text_tracking: 0.0
@@ -3946,7 +3940,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "row1/pokemon2"
-  layer: "pokemon0"
+  layer: "gui"
   inherit_alpha: false
   slice9 {
     x: 18.0
@@ -3958,7 +3952,6 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 20
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -4072,12 +4065,11 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
   parent: "row1/pokemon2/pokemon_sprite"
-  layer: "script_over"
+  layer: "script"
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 20
   template_node_child: true
   text_leading: 0.8
   text_tracking: 0.0
@@ -4162,7 +4154,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "row1/pokemon3"
-  layer: "pokemon0"
+  layer: "gui"
   inherit_alpha: false
   slice9 {
     x: 18.0
@@ -4174,7 +4166,6 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 20
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -4288,12 +4279,11 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
   parent: "row1/pokemon3/pokemon_sprite"
-  layer: "script_over"
+  layer: "script"
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 20
   template_node_child: true
   text_leading: 0.8
   text_tracking: 0.0
@@ -4473,7 +4463,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "row2/pokemon1"
-  layer: "pokemon0"
+  layer: "gui"
   inherit_alpha: false
   slice9 {
     x: 18.0
@@ -4485,7 +4475,6 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 20
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -4599,12 +4588,11 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
   parent: "row2/pokemon1/pokemon_sprite"
-  layer: "script_over"
+  layer: "script"
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 20
   template_node_child: true
   text_leading: 0.8
   text_tracking: 0.0
@@ -4689,7 +4677,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "row2/pokemon2"
-  layer: "pokemon0"
+  layer: "gui"
   inherit_alpha: false
   slice9 {
     x: 18.0
@@ -4701,7 +4689,6 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 20
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -4815,12 +4802,11 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
   parent: "row2/pokemon2/pokemon_sprite"
-  layer: "script_over"
+  layer: "script"
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 20
   template_node_child: true
   text_leading: 0.8
   text_tracking: 0.0
@@ -4905,7 +4891,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "row2/pokemon3"
-  layer: "pokemon0"
+  layer: "gui"
   inherit_alpha: false
   slice9 {
     x: 18.0
@@ -4917,7 +4903,6 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 20
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -5031,12 +5016,11 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
   parent: "row2/pokemon3/pokemon_sprite"
-  layer: "script_over"
+  layer: "script"
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 20
   template_node_child: true
   text_leading: 0.8
   text_tracking: 0.0
