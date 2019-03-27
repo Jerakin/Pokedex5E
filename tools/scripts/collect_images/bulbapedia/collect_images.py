@@ -3,7 +3,8 @@ import time
 import requests
 import shutil
 import re
-p = r"D:\repositories\Pokedex5E\assets\datafiles\pokemon_order.json"
+from pathlib import Path
+p = r"D:\Repo\Pokedex\assets\datafiles\pokemon_numbers.json"
 
 dirty_reg = re.compile("filehistory-selected[^\"]*.*?(cdn\.bulbagarden\.net/upload[^\"]*)")
 
@@ -12,8 +13,11 @@ def main():
     with open(p, "r") as f:
         data = json.load(f)
         for i, pokemon in enumerate(data["number"]):
+            if i < 385:
+                continue
+            print(pokemon)
             raw_url = "https://bulbapedia.bulbagarden.net/wiki/File:{:03d}{}.png".format(i+1, pokemon)
-            file_name = "raw_images/{}{}.png".format(i+1, pokemon)
+            file_name = Path("./raw_images/{}{}.png".format(i+1, pokemon)).absolute()
 
             r = requests.get(raw_url)
             url = get_url_from_source(r.content)
