@@ -325,14 +325,8 @@ function M.get_evolution_level(pokemon)
 end
 
 function M.get_sprite(pokemon)
-	local pokemon_index = M.get_index_number(pokemon)
-	local texture = "pokemon" .. math.floor(pokemon_index/257)
-	local pokemon_sprite = pokemon_index .. M.get_current_species(pokemon)
-	if pokemon_index == 32 or pokemon_index == 29 then
-		pokemon_sprite = pokemon_sprite:sub(1, -5)
-	end
-	
-	return pokemon_sprite, texture
+	local species = M.get_current_species(pokemon)
+	return pokedex.get_sprite(species)
 end
 
 local function level_index(level)

@@ -4,18 +4,19 @@ import requests
 import shutil
 from pathlib import Path
 
-p = Path(__file__).parent.parent.parent.parent.parent / "assets/datafiles/pokemon_order.json"
+p = Path(__file__).parent.parent.parent.parent.parent / "assets/datafiles/pokemon_numbers.json"
 
 def main():
     with open(p, "r") as f:
         data = json.load(f)
         for i, pokemon in enumerate(data["number"]):
-
+            if i < 385:
+                continue
             # raw_url = "https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/{}.png".format(pokemon.lower())
             # raw_url = "https://img.pokemondb.net/sprites/x-y/normal/{}.png".format(pokemon.lower())
             raw_url = "https://img.pokemondb.net/sprites/sun-moon/icon/{}.png".format(pokemon.lower())
 
-            file_name = "{}{}.png".format(i+1, pokemon)
+            file_name = "images/{}{}.png".format(i+1, pokemon)
             download_image(raw_url, file_name)
             time.sleep(0.5)
 

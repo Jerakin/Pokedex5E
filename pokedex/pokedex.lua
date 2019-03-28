@@ -28,13 +28,14 @@ end
 
 function M.get_sprite(pokemon)
 	local pokemon_index = M.get_index_number(pokemon)
-	local texture = "pokemon" .. math.floor(pokemon_index/257)
 	local pokemon_sprite = pokemon_index .. pokemon
 	if pokemon_index == 32 or pokemon_index == 29 then
 		pokemon_sprite = pokemon_sprite:sub(1, -5)
+	elseif pokemon_index == 493 then
+		return "493Arceus", "pokemon0"
 	end
 
-	return pokemon_sprite, texture
+	return pokemon_sprite, "pokemon0"
 end
 
 function M.level_data(level)
