@@ -153,6 +153,10 @@ function M.get_pokemon_exp(id)
 	return get(id).exp
 end
 
+function M.get_pokemon_current_hp(id)
+	return get(id).hp.current
+end
+
 function M.set_pokemon_current_hp(id, hp)
 	local p = get(id)
 	p.hp.current = hp

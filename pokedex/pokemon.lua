@@ -424,6 +424,8 @@ function M.new(data)
 	this.attributes.increased = data.attributes or {}
 
 	this.abilities = {}
+
+	this.exp = pokedex.get_experience_for_level(this.level.caught-1)
 	
 	this.moves = data.moves
 	return this

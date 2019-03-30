@@ -414,6 +414,7 @@ function init(self)
 		local page = add_pokemon_page(self, pokemon_id, index)
 		local pokemon_data = storage.get_copy(pokemon_id)
 		local pokemon_sprite, texture = _pokemon.get_sprite(pokemon_data)
+		local exp = _pokemon.get_exp(pokemon_data)
 		gui.set_texture(page["pokemon/pokemon_sprite"], texture)
 		gui.play_flipbook(page["pokemon/pokemon_sprite"], pokemon_sprite)
 		update_hp_meter(page, _pokemon.get_max_hp(pokemon_data), _pokemon.get_current_hp(pokemon_data))
@@ -428,7 +429,11 @@ function init(self)
 		end
 
 		button.register(page["pokemon/exp_bg"], function()
-			monarch.show("input", {}, {sender=msg.url(), message="update_exp", allowed_characters="[%W]"})
+			monarch.show("input", {}, {sender=msg.url(), message="update_exp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_exp(pokemon_id)})
+		end)
+		
+		button.register(page["pokemon/hp_bar_bg"], function()
+			monarch.show("input", {}, {sender=msg.url(), message="update_hp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_current_hp(pokemon_id)})
 		end)
 		
 		table.insert(self.pokemons_list, {pokemon_id=pokemon_id, nodes=page, pokemon=pokemon_data})
@@ -499,7 +504,25 @@ function on_message(self, message_id, message)
 	if message_id == hash("refresh") then
 		refresh_moves(self)
 	elseif message_id == hash("update_exp") then
-		update_exp(self, message.str)
+		local current = self.pokemons_list[self.pokemon_index+1]
+		local current_exp = _pokemon.get_exp(current.pokemon)
+		local exp
+		if string.find(message.str, "[+-]") ~= nil then
+			exp = loadstring("return " .. current_exp .. message.str)()
+		else
+			exp = tonumber(message.str)
+		end
+		update_exp(self, exp)
+	elseif message_id == hash("update_hp") then
+		local current = self.pokemons_list[self.pokemon_index+1]
+		local current_hp = _pokemon.get_current_hp(current.pokemon)
+		local hp
+		if string.find(message.str, "[+-]") ~= nil then
+			hp = loadstring("return " .. current_hp .. message.str)() - current_hp
+		else
+			hp = tonumber(message.str) - current_hp
+		end
+		update_hp(self, current.nodes, current.pokemon, hp)
 	end
 end
 
