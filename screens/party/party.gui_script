@@ -42,7 +42,7 @@ local function update_hp_meter(nodes, max, current)
 	local percent = current/max
 	local size = gui.get_size(nodes["pokemon/hp_bar_bg1"])
 	
-	size.x = math.min(percent * max_size.x, max_size.x)
+	size.x = math.max(math.min(percent * max_size.x, max_size.x), 0)
 	gui.set_size(nodes["pokemon/hp_bar_bg1"], size)
 end
 
@@ -53,16 +53,18 @@ end
 local function update_exp(self, exp, index)
 	index = index or self.pokemon_index
 	local current = self.pokemons_list[index+1]
-	local max = _pokemon.get_experience_for_level(current.pokemon)
+	local current_level = _pokemon.get_current_level(current.pokemon)
+	local max = pokedex.get_experience_for_level(current_level)
+	local offset = pokedex.get_experience_for_level(current_level - 1)
 	_pokemon.set_exp(current.pokemon, exp)
 	local node_text = current.nodes[hash("pokemon/txt_exp")]
 	local node_bar = current.nodes[hash("pokemon/exp_bar")]
 	local node_max = current.nodes[hash("pokemon/exp_bar_bg")]
 	local max_size = gui.get_size(node_max)
-	local percent = exp/max
+	local percent = (exp-offset)/(max-offset)
 	local size = gui.get_size(node_bar)
 
-	size.x = math.min(percent * max_size.x, max_size.x)
+	size.x = math.max(math.min(percent * max_size.x, max_size.x), 0)
 	gui.set_size(node_bar, size)
 	gui.set_text(node_text, "EXP: " .. exp .. "/" .. max)
 end
