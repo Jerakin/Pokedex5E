@@ -143,6 +143,16 @@ function M.set_pokemon_move_pp(id, move, pp)
 	return p.moves[move].pp
 end
 
+function M.set_pokemon_exp(id, exp)
+	local p = get(id)
+	p.exp = exp
+	M.save()
+end
+
+function M.get_pokemon_exp(id)
+	return get(id).exp
+end
+
 function M.set_pokemon_current_hp(id, hp)
 	local p = get(id)
 	p.hp.current = hp

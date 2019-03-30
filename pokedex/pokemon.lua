@@ -42,6 +42,19 @@ function M.get_increased_attributes(pokemon)
 	return pokemon.attributes.increased
 end
 
+function M.get_experience_for_level(pokemon)
+	return pokedex.get_experience_for_level(M.get_current_level(pokemon))
+end
+
+function M.get_exp(pokemon)
+	return pokemon.exp or 0
+end
+
+function M.set_exp(pokemon, exp)
+	pokemon.exp = exp
+	storage.set_pokemon_exp(M.get_id(pokemon), exp)
+end
+
 function M.update_increased_attributes(pokemon, increased)
 	local function get_hp_from_con(pokemon)
 		local level = M.get_current_level(pokemon)

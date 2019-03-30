@@ -44,6 +44,10 @@ function M.level_data(level)
 	log.error("Can not find level data for: " .. tostring(level))
 end
 
+function M.get_experience_for_level(level)
+	return M.level_data(level).exp
+end
+
 function M.get_senses(pokemon)
 	return M.get_pokemon(pokemon).Senses or {}
 end

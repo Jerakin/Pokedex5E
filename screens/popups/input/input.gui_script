@@ -1,0 +1,53 @@
+local monarch  = require "monarch.monarch"
+local render_order = require "utils.gui_render_order"
+local gooey_buttons = require "utils.gooey_buttons"
+local gooey = require "gooey.gooey"
+
+local data
+
+function init(self)
+	gooey.acquire_input()
+	gui.set_render_order(render_order.POPUP_ON_POPUP)
+	data = monarch.data("input")
+	--self.allowed_characters = data.allowed_characters or "[%a%d]"
+	self.sender = data.sender
+	self.message = data.message
+	self.default_text = data.default_text or ""
+	self.text_node = gui.get_node("txt")
+end
+
+local function exit(self)
+	msg.post(self.sender, self.message, {str=gui.get_text(self.text_node)})
+	monarch.back()
+end
+
+
+local function refresh_input(self, input, node_id)
+	if input.empty and not input.selected then
+		gui.set_text(self.text_node, self.default_text)
+	end
+
+	local cursor = gui.get_node("cursor")
+	if input.selected then
+		gui.set_enabled(cursor, true)
+		gui.set_position(cursor, vmath.vector3(input.total_width*0.5, 0, 0))
+		gui.cancel_animation(cursor, gui.PROP_COLOR)
+		gui.set_color(cursor, vmath.vector4(0,0,0,1))
+		gui.animate(cursor, gui.PROP_COLOR, vmath.vector4(1,1,1,0), gui.EASING_INSINE, 0.8, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
+	else
+		gui.set_enabled(cursor, false)
+		gui.cancel_animation(cursor, gui.PROP_COLOR)
+	end
+end
+
+function on_input(self, action_id, action)
+	gooey.button("btn_okay", action_id, action, function() exit(self) end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_okay")) end)
+	local g = gooey.button("background", action_id, action, function() end)
+	if not g.over then
+		gooey.button("dimmer", action_id, action, function() monarch.back() end)
+	end
+	--allowed_characters=self.allowed_characters
+	gooey.input("txt", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, {max_length = 10, }, function(input)
+		refresh_input(self, input)
+	end)
+end

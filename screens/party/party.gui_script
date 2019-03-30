@@ -50,6 +50,23 @@ local function show_description(pokemon, move, data)
 	monarch.show("move_info", {}, {pokemon=pokemon, name=move, data=data})
 end
 
+local function update_exp(self, exp, index)
+	index = index or self.pokemon_index
+	local current = self.pokemons_list[index+1]
+	local max = _pokemon.get_experience_for_level(current.pokemon)
+	_pokemon.set_exp(current.pokemon, exp)
+	local node_text = current.nodes[hash("pokemon/txt_exp")]
+	local node_bar = current.nodes[hash("pokemon/exp_bar")]
+	local node_max = current.nodes[hash("pokemon/exp_bar_bg")]
+	local max_size = gui.get_size(node_max)
+	local percent = exp/max
+	local size = gui.get_size(node_bar)
+
+	size.x = math.min(percent * max_size.x, max_size.x)
+	gui.set_size(node_bar, size)
+	gui.set_text(node_text, "EXP: " .. exp .. "/" .. max)
+end
+
 local function update_pp(pp_lbl, pp_current, pp_max, pokemon, name)
 	local current = _pokemon.get_move_pp(pokemon, name) 
 	local max = movedex.get_move_pp(name)
@@ -283,7 +300,7 @@ local function update_hp(self, nodes, pokemon, hp)
 	gui.set_text(nodes["pokemon/txt_hp"],"HP: " .. current .. "/ " .. max)
 end
 
-local function setup_page(self, nodes, pokemon)
+local function setup_page(self, nodes, pokemon, index)
 	gui.set_id(nodes["pokemon/hp/btn_plus"], hash("page" .. node_index))
 	node_index = node_index + 1
 	local p = {node=gui.get_id(nodes["pokemon/hp/btn_plus"]), func=function() update_hp(self, nodes, pokemon, 1) end, refresh=gooey_buttons.plus_button}
@@ -316,7 +333,7 @@ local function setup_page(self, nodes, pokemon)
 	gui.set_text(res, join_table("Resistances: ", _pokemon.get_resistances(pokemon), ", "))
 	gui.set_text(imm, join_table("Immunities: ", _pokemon.get_immunities(pokemon), ", "))
 
-
+	update_exp(self, _pokemon.get_exp(pokemon), index)
 	setup_moves(self, nodes, pokemon)
 	setup_abilities(self, nodes, pokemon)
 	setup_info(self, nodes, pokemon)
@@ -402,14 +419,20 @@ function init(self)
 		update_hp_meter(page, _pokemon.get_max_hp(pokemon_data), _pokemon.get_current_hp(pokemon_data))
 		local indicator_node = gui.get_node("party_indicator/pokemon_" .. index .. "/pokemon_sprite")
 		button.register(indicator_node, function()
+			self.pokemon_index = index-1
 			change_pokemon(self, index-1)
 		end)
 		gui.play_flipbook(gui.get_node("party_indicator/pokemon_" .. index .. "/pokemon_sprite"), pokemon_sprite)
 		if index ~= 1 then
 			gui.set_enabled(page[hash("pokemon/root")], false)
 		end
+
+		button.register(page["pokemon/exp_bg"], function()
+			monarch.show("input", {}, {sender=msg.url(), message="update_exp", allowed_characters="[%W]"})
+		end)
+		
 		table.insert(self.pokemons_list, {pokemon_id=pokemon_id, nodes=page, pokemon=pokemon_data})
-		setup_page(self, page, pokemon_data)
+		setup_page(self, page, pokemon_data, index-1)
 	end
 	if next(self.pokemons_list) ~= nil then
 		for _, poke in pairs(self.pokemons_list) do
@@ -475,6 +498,8 @@ end
 function on_message(self, message_id, message)
 	if message_id == hash("refresh") then
 		refresh_moves(self)
+	elseif message_id == hash("update_exp") then
+		update_exp(self, message.str)
 	end
 end
 
