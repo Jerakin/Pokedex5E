@@ -6,63 +6,19 @@ local nature = require "pokedex.natures"
 local defsave = require "defsave.defsave"
 local movedex = require "pokedex.moves"
 local notify = require "utils.notify"
+local debug = require "screens.debug.debug"
 
-function init(self)
-	self.defsave = defsave.save
-end
-
-local function add_pokemon(species)
-	local starting_moves = pokedex.get_starting_moves(species)
-	local pokemon = _pokemon.new({species=species})
-	local moves = {}
-	for i=1, 4 do
-		if starting_moves[i] then
-			local pp = movedex.get_move_pp(starting_moves[i])
-			moves[starting_moves[i]] = {pp=pp, index=i}
-		end
-	end
-	local level = math.random(20)
-	pokemon.level.caught = level
-	pokemon.level.current = level
-	pokemon.moves = moves
-	pokemon.nature = nature.list[math.random(#nature.list)]
-	storage.add(pokemon)
-end
-
-
-local function add_random_pokemon()
-	local random_pokemon = pokedex.list[math.random(#pokedex.list)]
-	add_pokemon(random_pokemon)
-end
-
-
-local function add_all_pokemon()
-	for _, species in pairs(pokedex.list) do
-		add_pokemon(species)
-	end
-end
 
 function on_input(self, action_id, action)
 	if sys.get_engine_info().is_debug then
 		if action_id == hash("overdraw") and action.released then
 			msg.post("@render:", "toggle_overdraw")
-		elseif action_id == hash("add_random") and action.released then
-			defsave.save = function() end
-			for i=1, 100 do
-				add_random_pokemon()
-			end
-			defsave.save = self.defsave
-		elseif action_id == hash("add_all") and action.released then
-			defsave.save = function() end
-			add_all_pokemon()
-			defsave.save = self.defsave
-		elseif action_id == hash("add_one") and action.released then
-			defsave.save = function() end
-			add_random_pokemon()
-			defsave.save = self.defsave
-		elseif action_id == hash("notify") and action.released then
-			notify.notify("My Notification")
-			
+		elseif action_id == hash("key_f5") and action.released then
+			debug.add_pokemon(100)
+		elseif action_id == hash("key_f4") and action.released then
+			debug.add_all_pokemon()
+		elseif action_id == hash("key_f3") and action.released then
+			debug.add_pokemon()
 		end
 	end
 end

@@ -1,0 +1,36 @@
+local monarch = require "monarch.monarch"
+local url = require "utils.url"
+local gooey = require "gooey.gooey"
+local gooey_buttons = require "utils.gooey_buttons"
+local debug = require "screens.debug.debug"
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	msg.post(url.MENU, "hide")
+end
+
+function final(self)
+	msg.post(url.MENU, "show")
+end
+
+function on_input(self, action_id, action)
+	gooey.button("btn_back", action_id, action, function()
+		monarch.back()
+	end)
+	
+	gooey.button("add_one/btn", action_id, action, function()
+		debug.add_pokemon()
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("add_one/txt")) end)
+	
+	gooey.button("add_5/btn", action_id, action, function()
+		debug.add_pokemon(5)
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("add_5/txt")) end)
+	
+	gooey.button("add_100/btn", action_id, action, function()
+		debug.add_pokemon(100)
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("add_100/txt")) end)
+	
+	gooey.button("add_all/btn", action_id, action, function()
+		debug.add_all_pokemon()
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("add_all/txt")) end)
+end

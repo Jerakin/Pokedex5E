@@ -15,6 +15,7 @@ local map = {
 	[hash("add")] = "btn_add",
 	[hash("profiles")] = "btn_profiles",
 	[hash("about")] = "btn_about",
+	[hash("debug")] = "btn_debug",
 	[hash("generate_pokemon")] = "btn_generate"
 }
 
@@ -66,6 +67,7 @@ function init(self)
 	self.btn_about = gui.get_node("btn_about")
 	self.btn_menu = gui.get_node("btn_menu")
 	self.btn_generate = gui.get_node("btn_generate")
+	self.btn_debug = gui.get_node("btn_debug")
 	self.menu = gui.get_node("menu")
 	gui.set_enabled(self.menu, false)
 
@@ -102,6 +104,14 @@ function init(self)
 		monarch.show("add")
 		toggle(self)
 	end)
+	if sys.get_engine_info().is_debug then
+		button.register("btn_debug", function()
+			monarch.show("debug")
+			toggle(self)
+		end)
+	else
+		gui.set_enabled(self.btn_debug, false)
+	end
 end
 
 function final(self)
