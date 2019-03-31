@@ -72,6 +72,9 @@ def convert_pokemon_data(input_file):
                             output_pokemon_data[pokemon]["Moves"]["TM"] = [int(x) for x in tm_moves.group(1).replace(",", "").split(" ") if x]
                     continue
                 elif "Ability" in attribute:
+                    if "Hidden" in attribute:
+                        output_pokemon_data[pokemon]["Hidden Ability"] = value
+                        continue
                     output_pokemon_data[pokemon]["Abilities"].append(value)
                     continue
                 elif attribute.startswith("ST"):
