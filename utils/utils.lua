@@ -40,6 +40,15 @@ function M.shuffle(T)
 	return T
 end
 
+function M.shuffle2(tbl)
+	size = #tbl
+	for i = size, 1, -1 do
+		local rand = math.random(i)
+		tbl[i], tbl[rand] = tbl[rand], tbl[i]
+	end
+	return tbl
+end
+
 function M.merge(T1, T2)
 	local copy = M.shallow_copy(T1)
 	for k,v in pairs(T2) do copy[k] = v end

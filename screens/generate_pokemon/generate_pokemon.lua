@@ -4,13 +4,13 @@ local pokedex = require "pokedex.pokedex"
 local nature = require "pokedex.natures"
 local movedex = require "pokedex.moves"
 local notify = require "utils.notify"
+local utils = require "utils.utils"
 
 local M = {}
 
 function M.add_pokemon(species, level)
 	notify.notify(species .. " was added to your team!")
-	level = level or 5
-	local starting_moves = pokedex.get_starting_moves(species)
+	local starting_moves = utils.shuffle2(pokedex.get_starting_moves(species))
 	local pokemon = _pokemon.new({species=species})
 	local moves = {}
 	for i=1, 4 do
