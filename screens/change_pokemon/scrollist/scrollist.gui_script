@@ -90,7 +90,7 @@ function init(self)
 	self.all_items = filter_out_current_moves(self, starting_moves)
 	self.list_items = utils.shallow_copy(self.all_items)
 	gui.set_text(gui.get_node("scrollist/topbar/title"), "Choose New Move")
-	
+	gui.set_enabled(gui.get_node("scrollist/search_text"), false)
 	update_list(gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items))
 end
 
@@ -121,6 +121,9 @@ local function refresh_input(self, input, node_id)
 
 	local cursor = gui.get_node("scrollist/cursor")
 	if input.selected then
+		if input.empty then
+			gui.set_text(input.node, "")
+		end
 		gui.set_enabled(cursor, true)
 		gui.set_position(cursor, vmath.vector3(input.total_width*0.5, 0, 0))
 		gui.cancel_animation(cursor, gui.PROP_COLOR)

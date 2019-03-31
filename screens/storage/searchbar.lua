@@ -33,6 +33,9 @@ local function refresh_input(self, input, node_id)
 
 	local cursor = gui.get_node("cursor")
 	if input.selected then
+		if input.empty then
+			gui.set_text(self.text_node, "")
+		end
 		self.all_pokemons = storage.list_of_ids_in_storage()
 		gui.set_enabled(cursor, true)
 		gui.set_position(cursor, vmath.vector3(input.total_width, 0, 0))
