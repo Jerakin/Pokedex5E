@@ -21,7 +21,7 @@ def convert_pokemon_data(input_file):
     convert_to_list = ["Skill", "Res", "Vul", "Imm", "Senses"]
     attributes = ["STR", "CON", "DEX", "INT", "WIS", "CHA"]
     ignore = ["Ev"]
-    reg_starting_moves = re.compile("Starting Moves: ([A-Za-z ,-]*)")
+    reg_starting_moves = re.compile("Starting Moves: ([A-Za-z ,-12]*)")
     reg_tm_moves = re.compile("TM: (.*)")
 
     reg_level_moves = re.compile("Level (\d+): ([A-Za-z ,-]*)")
@@ -75,6 +75,9 @@ def convert_pokemon_data(input_file):
                     output_pokemon_data[pokemon]["Abilities"].append(value)
                     continue
                 elif attribute.startswith("ST"):
+                    if "All" in value:
+                        output_pokemon_data[pokemon]["saving_throws"] = attributes
+                        continue
                     if "saving_throws" not in output_pokemon_data[pokemon]:
                         output_pokemon_data[pokemon]["saving_throws"] = []
                     output_pokemon_data[pokemon]["saving_throws"].append(value)
