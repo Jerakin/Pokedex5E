@@ -67,7 +67,7 @@ end
 
 local function refresh_input(self, input, node_id)
 	if input.empty and not input.selected then
-		gui.set_text(input.node, "search")
+		gui.set_text(input.node, "SEARCH")
 	end
 
 	local cursor = gui.get_node("cursor")
