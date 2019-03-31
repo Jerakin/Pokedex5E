@@ -50,8 +50,8 @@ local function refresh(active_slot)
 		gui.set_color(stats, gui_colors.HERO_TEXT_FADED)
 	end
 	if active_slot then
-		gui.set_size(gui.get_node("profile_slot" .. active_slot .."/btn_slot"), ACTIVE_SIZE)
-		gui.set_color(gui.get_node("profile_slot" .. active_slot .."/btn_slot"), ACTIVE)
+		gui.set_size(gui.get_node("profile_slot" .. active_slot .."/btn_root"), ACTIVE_SIZE)
+		gui.set_color(gui.get_node("profile_slot" .. active_slot .."/btn_root"), ACTIVE)
 		gui.set_color(gui.get_node("profile_slot" .. active_slot .."/trainer_name"), gui_colors.HERO_TEXT)
 		gui.set_color(gui.get_node("profile_slot" .. active_slot .."/trainer_stats"), gui_colors.HERO_TEXT)
 	end
