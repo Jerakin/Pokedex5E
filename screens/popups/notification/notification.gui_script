@@ -29,7 +29,7 @@ end
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
-	self.end_pos = vmath.vector3(0, 580, 0)
+	self.end_pos = vmath.vector3(0, 500, 0)
 	self.start_pos = vmath.vector3(0, 700, 0)
 	self.instant = nil
 	self.root = gui.get_node("info")
