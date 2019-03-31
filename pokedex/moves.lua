@@ -15,7 +15,7 @@ function M.get_move_data(move)
 	if movedata[move] then
 		return movedata[move]
 	end
-	log.error("Can not find move data for: " .. tostring(move))
+	log.error(string.format("Can not find move data for: '%s'", tostring(move)))
 end
 
 function M.get_move_pp(move)
@@ -31,7 +31,7 @@ local function get_type_data(move)
 	if type_data[M.get_move_type(move)] then
 		return type_data[M.get_move_type(move)]
 	end
-	log.error("Can not find type data for: " .. tostring(move))
+	log.error(string.format("Can not find type data for: '%s'", tostring(move)))
 end
 
 function M.get_move_color(move)

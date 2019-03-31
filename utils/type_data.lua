@@ -32,6 +32,8 @@ local M = {
 	Dark		= {icon = "element_dark",		color = vmath.vector3(112/255, 88/255, 72/255, 1)},
 	
 	Steel		= {icon = "element_steel",		color = vmath.vector3(184/255, 184/255, 208/255, 1)},
+
+	Varies		= {icon = "element_normal",		color = vmath.vector3(128/255, 128/255, 128/255, 1)},
 	
 	Fairy		= {icon = "element_fairy",		color = vmath.vector3(138/255, 153/255, 172/255, 1)}
 }
