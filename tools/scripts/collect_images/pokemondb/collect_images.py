@@ -3,7 +3,7 @@ import time
 import requests
 import shutil
 from pathlib import Path
-
+from PIL import Image
 p = Path(__file__).parent.parent.parent.parent.parent / "assets/datafiles/pokemon_numbers.json"
 
 def main():
@@ -30,4 +30,13 @@ def download_image(url, name):
     else:
         print("Error ", name)
 
-main()
+def convert(path):
+    for i in path.iterdir():
+        if i.suffix == ".png":
+            im = Image.open(i)
+            if im.mode == "P":
+                im.convert("RGBA").save(i)
+            else:
+                print(im.mode)
+
+convert(Path(r"D:\Repo\Pokedex\assets\textures\sprites"))
