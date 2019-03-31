@@ -297,6 +297,9 @@ function M.on_message(self, message_id, message, sender)
 			self.level = self.pokemon.level.current
 			self.pokemon.nature = "No Nature"
 			local starting_moves = pokedex.get_starting_moves(message.item)
+			if #starting_moves > 4 then
+				starting_moves = utils.shuffle2(starting_moves)
+			end
 			local moves = {}
 			for i=1, 4 do
 				if starting_moves[i] then
