@@ -51,7 +51,7 @@ local function redraw(self)
 	local species_node = gui.get_node("change_pokemon/species")
 	gui.set_text(gui.get_node("change_pokemon/txt_level"), self.level)
 
-	gui.set_text(gui.get_node("change_pokemon/nature"), self.pokemon.nature or "No Nature")
+	gui.set_text(gui.get_node("change_pokemon/nature"), self.pokemon.nature:upper() or "No Nature")
 	
 	for i=1, 4 do 
 		local move_node = gui.get_node("change_pokemon/move_" .. i)
@@ -138,7 +138,7 @@ local function redraw(self)
 		end
 
 		self.ability_data[ability] = {node=root_node, root_id=root_id, text=text_node, position=i, active=true, checkbox=checkbox_node, add=true}
-		gui.set_text(text_node, ability)
+		gui.set_text(text_node, ability:upper())
 		gui.set_position(root_node, ability_position)
 		ability_position.x = math.mod(i, 2) * 340
 		ability_position.y = math.ceil((i-1)/2) * -40
