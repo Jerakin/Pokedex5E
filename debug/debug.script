@@ -9,8 +9,16 @@ local notify = require "utils.notify"
 local debug = require "screens.debug.debug"
 
 
+function init(self)
+	self.is_debug = sys.get_engine_info().is_debug
+	if self.is_debug then
+		gameanalytics.setEnabledInfoLog(true)
+	end
+end
+
+
 function on_input(self, action_id, action)
-	if sys.get_engine_info().is_debug then
+	if self.is_debug then
 		if action_id == hash("overdraw") and action.released then
 			msg.post("@render:", "toggle_overdraw")
 		elseif action_id == hash("key_f5") and action.released then

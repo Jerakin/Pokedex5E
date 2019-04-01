@@ -1,6 +1,6 @@
 [project]
 title = Pokedex5E
-dependencies = https://github.com/britzl/monarch/archive/2.17.1.zip,https://github.com/subsoap/defos/archive/master.zip,https://github.com/Jerakin/gooey/archive/no_click_after_scroll.zip,https://github.com/Jerakin/defsave/archive/master.zip,https://github.com/britzl/defold-lfs/archive/master.zip
+dependencies = https://github.com/britzl/monarch/archive/2.17.1.zip,https://github.com/subsoap/defos/archive/master.zip,https://github.com/Jerakin/gooey/archive/no_click_after_scroll.zip,https://github.com/Jerakin/defsave/archive/master.zip,https://github.com/britzl/defold-lfs/archive/master.zip,https://github.com/GameAnalytics/GA-SDK-LUMBERYARD/archive/master.zip
 custom_resources = assets/datafiles
 version = 0.8.1
 
@@ -91,4 +91,12 @@ max_count = 1
 
 [spine]
 max_count = 1
+
+[gameanalytics]
+
+
+
+
+custom_dimensions_01 = live,debug
+build_android = 0.8.1
 
