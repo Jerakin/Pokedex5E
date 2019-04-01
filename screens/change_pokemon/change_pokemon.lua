@@ -22,6 +22,34 @@ local M = {}
 
 local active_buttons = {}
 
+
+local config = {
+	order={[1]=hash("change_pokemon/extra"), [2]=hash("change_pokemon/asi/root"), [3]=hash("change_pokemon/moves"), [4]=hash("change_pokemon/abilities")},
+	start = vmath.vector3(0, 376, 0),
+	[hash("change_pokemon/asi/root")] = {open=vmath.vector3(720, 420, 0), closed=vmath.vector3(720, 85, 0), active=true},
+	[hash("change_pokemon/abilities")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=true},
+	[hash("change_pokemon/moves")] = {open=vmath.vector3(720, 190, 0), closed=vmath.vector3(720, 50, 0), active=true},
+	[hash("change_pokemon/extra")] = {open=vmath.vector3(720, 150, 0), closed=vmath.vector3(720, 0, 0), active=true},
+	[hash("change_pokemon/nature")] = {open=vmath.vector3(720, 70, 0), closed=vmath.vector3(720, 0, 0), active=true}
+}
+
+
+local function update_sections()
+	local position = vmath.vector3(config.start)
+	for _, node in ipairs(config.order) do 
+		
+		gui.set_position(gui.get_node(node), position)
+		local size
+		if config[node].active then
+			size = config[node].open
+		else
+			size = config[node].closed
+		end
+		gui.set_size(gui.get_node(node), size)
+		position.y = position.y - size.y
+	end
+end
+
 local function pokemon_image(species)
 	local pokemon_sprite, texture = pokedex.get_sprite(species)
 	gui.set_texture(gui.get_node("change_pokemon/pokemon_sprite"), "sprite0")
@@ -203,58 +231,7 @@ end
 
 
 function M.register_buttons_after_species(self)
-	button.register("change_pokemon/btn_move_1", function()
-		self.move_button_index = 1
-		pick_move(self)
-	end)
 
-	button.register("change_pokemon/btn_move_2", function()
-		self.move_button_index = 2
-		pick_move(self)
-	end)
-
-	button.register("change_pokemon/btn_move_3", function()
-		self.move_button_index = 3
-		pick_move(self)
-	end)
-
-	button.register("change_pokemon/btn_move_4", function()
-		self.move_button_index = 4
-		pick_move(self)
-	end)
-
-	button.register("change_pokemon/nature", function()
-		monarch.show("scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url(), title="Pick Nature"})
-	end)
-
-	button.register("change_pokemon/btn_reset_abilities", function()
-		self.abilities = pokedex.get_pokemon_abilities(_pokemon.get_current_species(self.pokemon))
-		redraw(self)
-	end)
-	
-	for _, s in pairs({"str", "dex", "con", "int", "wis", "cha"}) do
-		local plus = {node="change_pokemon/asi/".. s .. "/btn_minus", func=function() decrease(self, s:upper()) end, refresh=gooey_buttons.minus_button}
-		local minus = {node="change_pokemon/asi/".. s .. "/btn_plus", func=function() increase(self, s:upper()) end, refresh=gooey_buttons.plus_button}
-		table.insert(active_buttons, plus)
-		table.insert(active_buttons, minus)
-	end
-
-	local b = {node="change_pokemon/level/btn_plus", func=function()
-		if self.level < 20 then
-			self.level = self.level + 1
-			redraw(self)
-		end 
-	end, refresh=gooey_buttons.plus_button}
-
-	local a = {node="change_pokemon/level/btn_minus", func=function()
-		if self.level > 1 and self.level > pokedex.get_minimum_wild_level(self.pokemon.species.current) then
-			self.level = self.level - 1
-			redraw(self)
-		end
-	end, refresh=gooey_buttons.minus_button}
-
-	table.insert(active_buttons, a)
-	table.insert(active_buttons, b)
 end
 
 function M.init(self, pokemon)
@@ -274,6 +251,7 @@ function M.init(self, pokemon)
 		self.abilities = {}
 	end	
 	self.ability_data = {}
+	update_sections()
 end
 
 function M.final(self)
@@ -287,6 +265,7 @@ function M.on_message(self, message_id, message, sender)
 		if message_id == hash("nature") then
 			self.pokemon.nature = message.item
 			self.pokemon.attributes.nature = natures.get_nature_attributes(message.item)
+			gui.set_text(gui.get_node("change_pokemon/nature"), message.item)
 			gui.set_color(gui.get_node("change_pokemon/nature"), gui_colors.HERO_TEXT)
 		elseif message_id == hash("species") then
 			if message.item == "" then
@@ -365,12 +344,11 @@ local function add_ability(self)
 	monarch.show("scrollist", {}, {items=filtered, message_id="abilities", sender=msg.url(), title="Pick Ability"})
 end
 
-function M.on_input(self, action_id, action)
-	button.on_input(action_id, action)
-	gooey.button("change_pokemon/btn_close", action_id, action, function() monarch.back() end, gooey_buttons.close_button)
-	for _, button in pairs(active_buttons) do
-		gooey.button(button.node, action_id, action, button.func, button.refresh)
-	end
+local function ability_buttons(self, action_id, action)
+	gooey.button("change_pokemon/btn_reset_abilities", action_id, action, function()
+		self.abilities = pokedex.get_pokemon_abilities(_pokemon.get_current_species(self.pokemon))
+		redraw(self)
+	end)
 	for ability, data in pairs(self.ability_data) do
 		if ability == "Add Other" then
 			gooey.button(data.root_id, action_id, action, function() add_ability(self) end)
@@ -378,6 +356,91 @@ function M.on_input(self, action_id, action)
 			gooey.checkbox(data.root_id, action_id, action, function(c) ability_checkbox_toggle(self, c, ability) end, function(c) ability_checkbox_refresh(c, data.checkbox) end)
 		end
 	end
+end
+
+local function extra_buttons(self, action_id, action)
+	gooey.button("change_pokemon/level/btn_plus", action_id, action, function()
+		if self.level < 20 then
+			self.level = self.level + 1
+			redraw(self)
+		end 
+	end, gooey_buttons.plus_button)
+
+	gooey.button("change_pokemon/level/btn_minus", action_id, action, function()
+		if self.level > 1 and self.level > pokedex.get_minimum_wild_level(self.pokemon.species.current) then
+			self.level = self.level - 1
+			redraw(self)
+		end
+	end, gooey_buttons.minus_button)
+end
+
+local function move_buttons(self, action_id, action)
+	gooey.button("change_pokemon/btn_move_1", action_id, action, function()
+		self.move_button_index = 1
+		pick_move(self)
+	end)
+
+	gooey.button("change_pokemon/btn_move_2", action_id, action, function()
+		self.move_button_index = 2
+		pick_move(self)
+	end)
+
+	gooey.button("change_pokemon/btn_move_3", action_id, action, function()
+		self.move_button_index = 3
+		pick_move(self)
+	end)
+
+	gooey.button("change_pokemon/btn_move_4", action_id, action, function()
+		self.move_button_index = 4
+		pick_move(self)
+	end)
+end
+
+local function attribute_buttons(self, action_id, action)
+	gooey.button("change_pokemon/asi/str/btn_minus", action_id, action, function() decrease(self, "STR") end,gooey_buttons.minus_button)
+	gooey.button("change_pokemon/asi/str/btn_plus", action_id, action, function() increase(self, "STR") end, gooey_buttons.plus_button)
+	
+	gooey.button("change_pokemon/asi/con/btn_minus", action_id, action, function() decrease(self, "CON") end,gooey_buttons.minus_button)
+	gooey.button("change_pokemon/asi/con/btn_plus", action_id, action, function() increase(self, "CON") end, gooey_buttons.plus_button)
+	
+	gooey.button("change_pokemon/asi/dex/btn_minus", action_id, action, function() decrease(self, "DEX") end,gooey_buttons.minus_button)
+	gooey.button("change_pokemon/asi/dex/btn_plus", action_id, action, function() increase(self, "DEX") end, gooey_buttons.plus_button)
+	
+	gooey.button("change_pokemon/asi/int/btn_minus", action_id, action, function() decrease(self, "INT") end,gooey_buttons.minus_button)
+	gooey.button("change_pokemon/asi/int/btn_plus", action_id, action, function() increase(self, "INT") end, gooey_buttons.plus_button)
+	
+	gooey.button("change_pokemon/asi/wis/btn_minus", action_id, action, function() decrease(self, "WIS") end, gooey_buttons.minus_button)
+	gooey.button("change_pokemon/asi/wis/btn_plus", action_id, action, function() increase(self, "WIS") end, gooey_buttons.plus_button)
+	
+	gooey.button("change_pokemon/asi/cha/btn_minus", action_id, action, function() decrease(self, "CHA") end, gooey_buttons.minus_button)
+	gooey.button("change_pokemon/asi/cha/btn_plus", action_id, action, function() increase(self, "CHA") end, gooey_buttons.plus_button)
+end
+
+function M.on_input(self, action_id, action)
+	button.on_input(action_id, action)
+	gooey.button("change_pokemon/btn_close", action_id, action, function() monarch.back() end, gooey_buttons.close_button)
+	
+	for _, button in pairs(active_buttons) do
+		gooey.button(button.node, action_id, action, button.func, button.refresh)
+	end
+	if config[hash("change_pokemon/abilities")].active then
+		ability_buttons(self, action_id, action)
+	end
+	if config[hash("change_pokemon/asi/root")].active then
+		attribute_buttons(self, action_id, action)
+	end
+	if config[hash("change_pokemon/moves")].active then
+		move_buttons(self, action_id, action)
+	end
+	if config[hash("change_pokemon/extra")].active then
+		extra_buttons(self, action_id, action)
+	end
+	if config[hash("change_pokemon/nature")].active then
+		gooey.button("change_pokemon/nature", action_id, action, function()
+			monarch.show("scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url(), title="Pick Nature"})
+		end)
+	end
+	
 end
 
 return M

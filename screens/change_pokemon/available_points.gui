@@ -41,8 +41,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 720.0
+    y: 420.0
     z: 0.0
     w: 1.0
   }
@@ -58,7 +58,7 @@ nodes {
   id: "root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
   layer: "gui"
   inherit_alpha: true
@@ -68,7 +68,7 @@ nodes {
     z: 0.0
     w: 0.0
   }
-  clipping_mode: CLIPPING_MODE_NONE
+  clipping_mode: CLIPPING_MODE_STENCIL
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
@@ -78,7 +78,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 0.0
+    y: -57.0
     z: 0.0
     w: 1.0
   }
@@ -2830,7 +2830,7 @@ nodes {
 nodes {
   position {
     x: -13.0
-    y: -13.0
+    y: -70.0
     z: 0.0
     w: 1.0
   }
@@ -2893,7 +2893,7 @@ nodes {
 nodes {
   position {
     x: 68.0
-    y: -13.0
+    y: -70.0
     z: 0.0
     w: 1.0
   }
@@ -2956,7 +2956,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 28.0
+    y: -29.0
     z: 0.0
     w: 1.0
   }

@@ -62,7 +62,7 @@ end
 function init(self)
 	button.acquire()
 	gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.HERO_TEXT_FADED)
-	gui.set_color(gui.get_node("change_pokemon/nature"), gui_colors.HERO_TEXT_FADED)
+	gui.set_color(gui.get_node("change_pokemon/txt_nature"), gui_colors.HERO_TEXT_FADED)
 	gui.play_flipbook(gui.get_node("btn_add"), "common_down")
 	gui.get_color(gui.get_node("txt_add"), gui_colors.HERO_TEXT_FADED)
 	gui.set_enabled(gui.get_node("change_pokemon/cursor"), false)
