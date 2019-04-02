@@ -266,12 +266,14 @@ function M.init(self, pokemon)
 	self.root = gui.get_node("root")
 	if self.pokemon then
 		self.abilities = _pokemon.get_abilities(self.pokemon)
+		self.feats = _pokemon.get_feats(self.pokemon)
 	else
+		self.feats = {}
 		self.abilities = {}
 	end	
 	self.ability_data = {}
 	self.feats_data = {}
-	self.feats = {}
+	
 	update_sections(true)
 end
 
@@ -389,6 +391,7 @@ local function add_feat(self)
 		end
 
 	end
+	print("shjow")
 	monarch.show("scrollist", {}, {items=filtered, message_id="feats", sender=msg.url(), title="Pick Feat"})
 end
 
@@ -421,6 +424,7 @@ local function ability_buttons(self, action_id, action)
 	end)
 	for ability, data in pairs(self.ability_data) do
 		if ability == "Add Other" then
+			print(data.root_id)
 			gooey.button(data.root_id, action_id, action, function() add_ability(self) end)
 		else
 			gooey.button(data.delete, action_id, action, function(c) delete_ability(self, ability) end, gooey_buttons.cross_button)

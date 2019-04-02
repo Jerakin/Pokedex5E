@@ -46,6 +46,16 @@ function M.get_experience_for_level(pokemon)
 	return pokedex.get_experience_for_level(M.get_current_level(pokemon))
 end
 
+function M.have_feat(pokemon, feat)
+	local count = 0
+	for _, f in pairs(M.get_feats(pokemon)) do
+		if f == feat then
+			count = count + 1
+		end
+	end
+	return count > 0, count
+end
+
 function M.get_exp(pokemon)
 	return pokemon.exp or 0
 end
@@ -197,7 +207,14 @@ function M.get_feats(pokemon)
 end
 
 function M.get_abilities(pokemon)
-	return pokemon.abilities or pokedex.get_pokemon_abilities(M.get_current_species(pokemon)) or {}
+	local species = M.get_current_species(pokemon)
+	local t = {}
+	t = pokemon.abilities or pokedex.get_pokemon_abilities(species) or {}
+	if M.have_feat(pokemon, "Hidden Ability") then
+		local hidden = pokedex.get_pokemon_hidden_ability(species)
+		table.insert(t, hidden)
+	end
+	return t
 end
 
 function M.get_skills(pokemon)
@@ -317,7 +334,8 @@ function M.get_nickname(pokemon)
 end
 
 function M.get_AC(pokemon)
-	return pokedex.get_pokemon_AC(M.get_current_species(pokemon)) + natures.get_AC(M.get_nature(pokemon))
+	local _, AC_UP = M.have_feat(pokemon, "AC UP")
+	return pokedex.get_pokemon_AC(M.get_current_species(pokemon)) + natures.get_AC(M.get_nature(pokemon)) + AC_UP
 end
 
 function M.get_index_number(pokemon)

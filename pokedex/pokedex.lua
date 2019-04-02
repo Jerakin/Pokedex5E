@@ -105,6 +105,10 @@ function M.get_ability_description(ability)
 	return ""
 end
 
+function M.get_pokemon_hidden_ability(pokemon)
+	return M.get_pokemon(pokemon)["Hidden Ability"]
+end
+
 function M.get_pokemon_abilities(pokemon)
 	return M.get_pokemon(pokemon).Abilities
 end
