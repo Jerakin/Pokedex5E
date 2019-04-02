@@ -24,12 +24,17 @@ local active_buttons = {}
 
 
 local config = {
-	order={[1]=hash("change_pokemon/extra"), [2]=hash("change_pokemon/asi/root"), [3]=hash("change_pokemon/moves"), [4]=hash("change_pokemon/abilities")},
+	order={
+		[1]=hash("change_pokemon/extra"), [2]=hash("change_pokemon/asi/root"), 
+		[3]=hash("change_pokemon/moves"), [4]=hash("change_pokemon/abilities"),
+		[5]=hash("change_pokemon/feats")
+	},
 	start = vmath.vector3(0, 376, 0),
 	[hash("change_pokemon/asi/root")] = {open=vmath.vector3(720, 420, 0), closed=vmath.vector3(720, 85, 0), active=true},
 	[hash("change_pokemon/abilities")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
 	[hash("change_pokemon/moves")] = {open=vmath.vector3(720, 190, 0), closed=vmath.vector3(720, 50, 0), active=false},
 	[hash("change_pokemon/extra")] = {open=vmath.vector3(720, 150, 0), closed=vmath.vector3(720, 0, 0), active=false},
+	[hash("change_pokemon/feats")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
 	[hash("change_pokemon/nature")] = {open=vmath.vector3(720, 70, 0), closed=vmath.vector3(720, 0, 0), active=false}
 }
 
@@ -61,23 +66,20 @@ local function pokemon_image(species)
 	gui.set_scale(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector3(3))
 end
 
-local function redraw_abilities(self)
-	local text_id = "change_pokemon/ability/ability"
-	local bg_id = "change_pokemon/ability/bg_ability"
-	local del_id = "change_pokemon/ability/btn_delete"
-	for name, entry in pairs(self.ability_data) do
+local function redraw_list(data_table, entry_table, text_id, bg_id, del_id)
+	for name, entry in pairs(data_table) do
 		if entry.position ~= 1 then
 			gui.delete_node(entry.node)
 		end
 	end
-	self.ability_data = {}
+	data_table = {}
 	local ability_position
 	local amount = 1
 	local text_node
 	local root_node
 	local root_id
 	local delete_id
-	for i, ability in pairs(self.abilities) do
+	for i, ability in pairs(entry_table) do
 		if i == 1 then
 			text_node = gui.get_node(text_id)
 			root_node = gui.get_node(bg_id)
@@ -90,14 +92,14 @@ local function redraw_abilities(self)
 			root_node = ability_nodes[bg_id]
 			text_node = ability_nodes[text_id]
 			checkbox_node = ability_nodes[del_id]
-			root_id = "ability_root_" .. amount
-			delete_id = "ability_delete_" .. amount
+			root_id = "root_" .. amount
+			delete_id = "delete_" .. amount
 			gui.set_id(root_node, root_id)
 			gui.set_id(checkbox_node, delete_id)
 		end
 		gui.set_color(text_node, gui_colors.BLACK)
 		gui.set_enabled(checkbox_node, true)
-		self.ability_data[ability] = {node=root_node, root_id=root_id, text=text_node, position=i, active=true, delete=delete_id, add=true}
+		data_table[ability] = {node=root_node, root_id=root_id, text=text_node, position=i, active=true, delete=delete_id, add=true}
 		gui.set_text(text_node, ability:upper())
 		gui.set_position(root_node, ability_position)
 		ability_position.x = math.mod(i, 2) * 340
@@ -106,7 +108,7 @@ local function redraw_abilities(self)
 		amount = amount + 1
 	end
 
-	if next(self.abilities) == nil then
+	if next(entry_table) == nil then
 		text_node = gui.get_node(text_id)
 		root_node = gui.get_node(bg_id)
 		checkbox_node = gui.get_node(del_id)
@@ -117,20 +119,23 @@ local function redraw_abilities(self)
 		root_node = ability_nodes[bg_id]
 		text_node = ability_nodes[text_id]
 		checkbox_node = ability_nodes[del_id]
-		root_id = "ability_root_" .. amount
+		root_id = "root_" .. amount
 		gui.set_id(root_node, root_id)
 	end
 
-	if #self.abilities < 6 then  -- No more than 6 abilites for now!
+	if #entry_table < 6 then  -- No more than 6 abilites for now!
 		gui.set_text(text_node, "ADD NEW")
 		gui.set_color(text_node, gui_colors.HERO_TEXT_FADED)
 		gui.set_position(root_node, ability_position)
 		gui.set_enabled(checkbox_node, false)
-		self.ability_data["Add Other"] = {node=root_node, root_id=root_id, text=text_node, position=amount, active=true}
+		data_table["Add Other"] = {node=root_node, root_id=root_id, text=text_node, position=amount, active=true}
 	else
 		gui.set_enabled(root_node, false)
 	end
+	return data_table, entry_table
 end
+
+
 
 
 local function redraw(self)
@@ -199,8 +204,17 @@ local function redraw(self)
 	end
 
 	-- Abilities
-	redraw_abilities(self)
-	
+	local text_id = "change_pokemon/ability/ability"
+	local bg_id = "change_pokemon/ability/bg_ability"
+	local del_id = "change_pokemon/ability/btn_delete"
+	self.ability_data, self.abilities = redraw_list(self.ability_data, self.abilities, text_id, bg_id, del_id)
+
+	-- Feats
+	local text_id = "change_pokemon/feat/ability"
+	local bg_id = "change_pokemon/feat/bg_ability"
+	local del_id = "change_pokemon/feat/btn_delete"
+	self.feats_data, self.feats = redraw_list(self.feats_data, self.feats, text_id, bg_id, del_id)
+
 	if self.redraw then self.redraw(self) end
 end
 
@@ -255,6 +269,8 @@ function M.init(self, pokemon)
 		self.abilities = {}
 	end	
 	self.ability_data = {}
+	self.feats_data = {}
+	self.feats = {}
 	update_sections(true)
 end
 
@@ -315,7 +331,16 @@ function M.on_message(self, message_id, message, sender)
 			end
 			table.insert(self.abilities, message.item)
 			redraw(self)
+		elseif message_id == hash("feat") then
+			for _, ability in pairs(self.feats) do 
+				if ability == message.item then
+					return
+				end
+			end
+			table.insert(self.feats, message.item)
+			redraw(self)
 		else
+			
 			if message.item ~= "" then
 				local n = gui.get_node("change_pokemon/move_" .. self.move_button_index)
 				_pokemon.set_move(self.pokemon, message.item, self.move_button_index)
@@ -348,6 +373,25 @@ local function add_ability(self)
 	monarch.show("scrollist", {}, {items=filtered, message_id="abilities", sender=msg.url(), title="Pick Ability"})
 end
 
+local function add_feat(self)
+	local a = utils.deep_copy(pokedex.feat_list())
+	local filtered = {}
+	local add
+	for _, new_ability in pairs(a) do 
+		add = true
+		for _, ability in pairs(self.feats) do
+			if new_ability == ability then
+				add = false
+			end
+		end
+		if add then
+			table.insert(filtered, new_ability)
+		end
+
+	end
+	monarch.show("scrollist", {}, {items=filtered, message_id="feats", sender=msg.url(), title="Pick Feat"})
+end
+
 local function delete_ability(self, ability)
 	local index
 	for i, name in pairs(self.abilities) do
@@ -356,6 +400,17 @@ local function delete_ability(self, ability)
 		end
 	end
 	table.remove(self.abilities, index)
+	redraw(self)
+end
+
+local function delete_feat(self, feat)
+	local index
+	for i, name in pairs(self.feats) do
+		if name == feat then
+			index = i
+		end
+	end
+	table.remove(self.feats, index)
 	redraw(self)
 end
 
@@ -369,6 +424,16 @@ local function ability_buttons(self, action_id, action)
 			gooey.button(data.root_id, action_id, action, function() add_ability(self) end)
 		else
 			gooey.button(data.delete, action_id, action, function(c) delete_ability(self, ability) end, gooey_buttons.cross_button)
+		end
+	end
+end
+
+local function feats_buttons(self, action_id, action)
+	for feat, data in pairs(self.feats_data) do
+		if feat == "Add Other" then
+			gooey.button(data.root_id, action_id, action, function() add_feat(self) end)
+		else
+			gooey.button(data.delete, action_id, action, function(c) delete_feat(self, feat) end, gooey_buttons.cross_button)
 		end
 	end
 end
@@ -444,6 +509,7 @@ function M.on_input(self, action_id, action)
 		if config[hash("change_pokemon/asi/root")].active then
 			config[hash("change_pokemon/moves")].active = false
 			config[hash("change_pokemon/abilities")].active = false
+			config[hash("change_pokemon/feats")].active = false
 		end
 		update_sections()
 	end)
@@ -453,6 +519,7 @@ function M.on_input(self, action_id, action)
 		if config[hash("change_pokemon/moves")].active then
 			config[hash("change_pokemon/abilities")].active = false
 			config[hash("change_pokemon/asi/root")].active = false
+			config[hash("change_pokemon/feats")].active = false
 		end
 		update_sections()
 	end)
@@ -460,6 +527,17 @@ function M.on_input(self, action_id, action)
 	gooey.button("change_pokemon/btn_collapse_abilities", action_id, action, function()
 		config[hash("change_pokemon/abilities")].active = not config[hash("change_pokemon/abilities")].active
 		if config[hash("change_pokemon/abilities")].active then
+			config[hash("change_pokemon/asi/root")].active = false
+			config[hash("change_pokemon/moves")].active = false
+			config[hash("change_pokemon/feats")].active = false
+		end
+		update_sections()
+	end)
+
+	gooey.button("change_pokemon/btn_collapse_feats", action_id, action, function()
+		config[hash("change_pokemon/feats")].active = not config[hash("change_pokemon/feats")].active
+		if config[hash("change_pokemon/feats")].active then
+			config[hash("change_pokemon/abilities")].active = false
 			config[hash("change_pokemon/asi/root")].active = false
 			config[hash("change_pokemon/moves")].active = false
 		end
@@ -477,6 +555,9 @@ function M.on_input(self, action_id, action)
 	end
 	if config[hash("change_pokemon/extra")].active then
 		extra_buttons(self, action_id, action)
+	end
+	if config[hash("change_pokemon/feats")].active then
+		feats_buttons(self, action_id, action)
 	end
 	if config[hash("change_pokemon/nature")].active then
 		gooey.button("change_pokemon/nature", action_id, action, function()
