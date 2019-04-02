@@ -27,25 +27,29 @@ local config = {
 	order={[1]=hash("change_pokemon/extra"), [2]=hash("change_pokemon/asi/root"), [3]=hash("change_pokemon/moves"), [4]=hash("change_pokemon/abilities")},
 	start = vmath.vector3(0, 376, 0),
 	[hash("change_pokemon/asi/root")] = {open=vmath.vector3(720, 420, 0), closed=vmath.vector3(720, 85, 0), active=true},
-	[hash("change_pokemon/abilities")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=true},
-	[hash("change_pokemon/moves")] = {open=vmath.vector3(720, 190, 0), closed=vmath.vector3(720, 50, 0), active=true},
-	[hash("change_pokemon/extra")] = {open=vmath.vector3(720, 150, 0), closed=vmath.vector3(720, 0, 0), active=true},
-	[hash("change_pokemon/nature")] = {open=vmath.vector3(720, 70, 0), closed=vmath.vector3(720, 0, 0), active=true}
+	[hash("change_pokemon/abilities")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
+	[hash("change_pokemon/moves")] = {open=vmath.vector3(720, 190, 0), closed=vmath.vector3(720, 50, 0), active=false},
+	[hash("change_pokemon/extra")] = {open=vmath.vector3(720, 150, 0), closed=vmath.vector3(720, 0, 0), active=false},
+	[hash("change_pokemon/nature")] = {open=vmath.vector3(720, 70, 0), closed=vmath.vector3(720, 0, 0), active=false}
 }
 
 
-local function update_sections()
+local function update_sections(instant)
 	local position = vmath.vector3(config.start)
 	for _, node in ipairs(config.order) do 
-		
-		gui.set_position(gui.get_node(node), position)
 		local size
 		if config[node].active then
 			size = config[node].open
 		else
 			size = config[node].closed
 		end
-		gui.set_size(gui.get_node(node), size)
+		if instant then
+			gui.set_size(gui.get_node(node), size)
+			gui.set_position(gui.get_node(node), position)
+		else
+			gui.animate(gui.get_node(node), "position", position, gui.EASING_INSINE, 0.3)
+			gui.animate(gui.get_node(node), "size", size, gui.EASING_INSINE, 0.3)
+		end
 		position.y = position.y - size.y
 	end
 end
@@ -251,7 +255,7 @@ function M.init(self, pokemon)
 		self.abilities = {}
 	end	
 	self.ability_data = {}
-	update_sections()
+	update_sections(true)
 end
 
 function M.final(self)
@@ -423,6 +427,34 @@ function M.on_input(self, action_id, action)
 	for _, button in pairs(active_buttons) do
 		gooey.button(button.node, action_id, action, button.func, button.refresh)
 	end
+
+	gooey.button("change_pokemon/asi/btn_collapse", action_id, action, function()
+		config[hash("change_pokemon/asi/root")].active = not config[hash("change_pokemon/asi/root")].active
+		if config[hash("change_pokemon/asi/root")].active then
+			config[hash("change_pokemon/moves")].active = false
+			config[hash("change_pokemon/abilities")].active = false
+		end
+		update_sections()
+	end)
+
+	gooey.button("change_pokemon/btn_collapse_moves", action_id, action, function()
+		config[hash("change_pokemon/moves")].active = not config[hash("change_pokemon/moves")].active
+		if config[hash("change_pokemon/moves")].active then
+			config[hash("change_pokemon/abilities")].active = false
+			config[hash("change_pokemon/asi/root")].active = false
+		end
+		update_sections()
+	end)
+
+	gooey.button("change_pokemon/btn_collapse_abilities", action_id, action, function()
+		config[hash("change_pokemon/abilities")].active = not config[hash("change_pokemon/abilities")].active
+		if config[hash("change_pokemon/abilities")].active then
+			config[hash("change_pokemon/asi/root")].active = false
+			config[hash("change_pokemon/moves")].active = false
+		end
+		update_sections()
+	end)
+	
 	if config[hash("change_pokemon/abilities")].active then
 		ability_buttons(self, action_id, action)
 	end

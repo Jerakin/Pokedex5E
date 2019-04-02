@@ -12,7 +12,6 @@ local metadata = require "utils.metadata"
 local gui_colors = require "utils.gui_colors"
 local notify = require "utils.notify"
 require "utils.lfs_extend"
-local lua_json = require "utils.json"
 
 local function send_crash_on_start()
 	crash.write_dump()
