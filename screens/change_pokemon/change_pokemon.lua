@@ -61,20 +61,77 @@ local function pokemon_image(species)
 	gui.set_scale(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector3(3))
 end
 
-local function ability_checkbox_refresh(checkbox, node)
-	if checkbox.released_now then
-		if checkbox.checked then
-			gui.set_enabled(node, true)
-			gui.play_flipbook(node, hash("check_mark"))
-		else
-			gui.set_enabled(node, false)
+local function redraw_abilities(self)
+	local text_id = "change_pokemon/ability/ability"
+	local bg_id = "change_pokemon/ability/bg_ability"
+	local del_id = "change_pokemon/ability/btn_delete"
+	for name, entry in pairs(self.ability_data) do
+		if entry.position ~= 1 then
+			gui.delete_node(entry.node)
 		end
+	end
+	self.ability_data = {}
+	local ability_position
+	local amount = 1
+	local text_node
+	local root_node
+	local root_id
+	local delete_id
+	for i, ability in pairs(self.abilities) do
+		if i == 1 then
+			text_node = gui.get_node(text_id)
+			root_node = gui.get_node(bg_id)
+			checkbox_node = gui.get_node(del_id)
+			root_id = bg_id
+			delete_id = del_id
+			ability_position = gui.get_position(root_node)
+		else
+			local ability_nodes = gui.clone_tree(gui.get_node(bg_id))
+			root_node = ability_nodes[bg_id]
+			text_node = ability_nodes[text_id]
+			checkbox_node = ability_nodes[del_id]
+			root_id = "ability_root_" .. amount
+			delete_id = "ability_delete_" .. amount
+			gui.set_id(root_node, root_id)
+			gui.set_id(checkbox_node, delete_id)
+		end
+		gui.set_color(text_node, gui_colors.BLACK)
+		gui.set_enabled(checkbox_node, true)
+		self.ability_data[ability] = {node=root_node, root_id=root_id, text=text_node, position=i, active=true, delete=delete_id, add=true}
+		gui.set_text(text_node, ability:upper())
+		gui.set_position(root_node, ability_position)
+		ability_position.x = math.mod(i, 2) * 340
+		ability_position.y = math.ceil((i-1)/2) * -40
+		gooey.checkbox(root_id).set_checked(true)
+		amount = amount + 1
+	end
+
+	if next(self.abilities) == nil then
+		text_node = gui.get_node(text_id)
+		root_node = gui.get_node(bg_id)
+		checkbox_node = gui.get_node(del_id)
+		root_id = bg_id
+		ability_position = gui.get_position(root_node)
+	else
+		local ability_nodes = gui.clone_tree(gui.get_node(bg_id))
+		root_node = ability_nodes[bg_id]
+		text_node = ability_nodes[text_id]
+		checkbox_node = ability_nodes[del_id]
+		root_id = "ability_root_" .. amount
+		gui.set_id(root_node, root_id)
+	end
+
+	if #self.abilities < 6 then  -- No more than 6 abilites for now!
+		gui.set_text(text_node, "ADD NEW")
+		gui.set_color(text_node, gui_colors.HERO_TEXT_FADED)
+		gui.set_position(root_node, ability_position)
+		gui.set_enabled(checkbox_node, false)
+		self.ability_data["Add Other"] = {node=root_node, root_id=root_id, text=text_node, position=amount, active=true}
+	else
+		gui.set_enabled(root_node, false)
 	end
 end
 
-local function ability_checkbox_toggle(self, checkbox, ability)
-	self.ability_data[ability].add = checkbox.checked
-end
 
 local function redraw(self)
 	if not self.pokemon or self.pokemon.species.current == "" then
@@ -82,7 +139,7 @@ local function redraw(self)
 	end
 	local species_node = gui.get_node("change_pokemon/species")
 	gui.set_text(gui.get_node("change_pokemon/txt_level"), self.level)
-
+	
 	gui.set_text(gui.get_node("change_pokemon/nature"), self.pokemon.nature:upper() or "No Nature")
 	
 	for i=1, 4 do 
@@ -142,64 +199,7 @@ local function redraw(self)
 	end
 
 	-- Abilities
-	for name, entry in pairs(self.ability_data) do
-		if entry.position ~= 1 then
-			gui.delete_node(entry.node)
-		end
-	end
-	self.ability_data = {}
-	local ability_position
-	local amount = 1
-	local text_node
-	local root_node
-	local root_id
-	for i, ability in pairs(self.abilities) do
-		if i == 1 then
-			text_node = gui.get_node("change_pokemon/ability/ability")
-			root_node = gui.get_node("change_pokemon/ability/bg_ability")
-			checkbox_node = gui.get_node("change_pokemon/ability/checkmark")
-			root_id = "change_pokemon/ability/bg_ability"
-			ability_position = gui.get_position(root_node)
-		else
-			local ability_nodes = gui.clone_tree(gui.get_node("change_pokemon/ability/bg_ability"))
-			root_node = ability_nodes["change_pokemon/ability/bg_ability"]
-			text_node = ability_nodes["change_pokemon/ability/ability"]
-			checkbox_node = ability_nodes["change_pokemon/ability/checkmark"]
-			root_id = "ability_root_" .. amount
-			gui.set_id(root_node, root_id)
-		end
-
-		self.ability_data[ability] = {node=root_node, root_id=root_id, text=text_node, position=i, active=true, checkbox=checkbox_node, add=true}
-		gui.set_text(text_node, ability:upper())
-		gui.set_position(root_node, ability_position)
-		ability_position.x = math.mod(i, 2) * 340
-		ability_position.y = math.ceil((i-1)/2) * -40
-		gooey.checkbox(root_id).set_checked(true)
-		amount = amount + 1
-	end
-
-	if next(self.abilities) == nil then
-		text_node = gui.get_node("change_pokemon/ability/ability")
-		root_node = gui.get_node("change_pokemon/ability/bg_ability")
-		checkbox_node = gui.get_node("change_pokemon/ability/checkmark")
-		root_id = "change_pokemon/ability/bg_ability"
-		ability_position = gui.get_position(root_node)
-	else
-		local ability_nodes = gui.clone_tree(gui.get_node("change_pokemon/ability/bg_ability"))
-		root_node = ability_nodes["change_pokemon/ability/bg_ability"]
-		text_node = ability_nodes["change_pokemon/ability/ability"]
-		checkbox_node = ability_nodes["change_pokemon/ability/checkmark"]
-		root_id = "ability_root_" .. amount
-		gui.set_id(root_node, root_id)
-	end
-
-	if #self.abilities < 6 then  -- No more than 6 abilites for now!
-		gui.set_text(text_node, "Add Other")
-		gui.set_position(root_node, ability_position)
-		self.ability_data["Add Other"] = {node=root_node, root_id=root_id, text=text_node, position=amount, active=true}
-	else
-		gui.set_enabled(root_node, false)
-	end
+	redraw_abilities(self)
 	
 	if self.redraw then self.redraw(self) end
 end
@@ -348,6 +348,17 @@ local function add_ability(self)
 	monarch.show("scrollist", {}, {items=filtered, message_id="abilities", sender=msg.url(), title="Pick Ability"})
 end
 
+local function delete_ability(self, ability)
+	local index
+	for i, name in pairs(self.abilities) do
+		if name == ability then
+			index = i
+		end
+	end
+	table.remove(self.abilities, index)
+	redraw(self)
+end
+
 local function ability_buttons(self, action_id, action)
 	gooey.button("change_pokemon/btn_reset_abilities", action_id, action, function()
 		self.abilities = pokedex.get_pokemon_abilities(_pokemon.get_current_species(self.pokemon))
@@ -357,7 +368,7 @@ local function ability_buttons(self, action_id, action)
 		if ability == "Add Other" then
 			gooey.button(data.root_id, action_id, action, function() add_ability(self) end)
 		else
-			gooey.checkbox(data.root_id, action_id, action, function(c) ability_checkbox_toggle(self, c, ability) end, function(c) ability_checkbox_refresh(c, data.checkbox) end)
+			gooey.button(data.delete, action_id, action, function(c) delete_ability(self, ability) end, gooey_buttons.cross_button)
 		end
 	end
 end

@@ -15,6 +15,16 @@ function M.common_button(button, text_node)
 	end
 end
 
+function M.cross_button(button)
+	if button.pressed_now then
+		gui.play_flipbook(button.node, hash("cross_down"))
+	elseif button.released_now then
+		gui.play_flipbook(button.node, hash("cross_up"))
+	elseif not button.pressed and button.out_now then
+		gui.play_flipbook(button.node, hash("cross_up"))
+	end
+end
+
 function M.green_button(button)
 	if button.pressed_now then
 		gui.play_flipbook(button.node, hash("common_green_down"))
