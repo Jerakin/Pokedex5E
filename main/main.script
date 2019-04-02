@@ -4,6 +4,7 @@ local defsave = require "defsave.defsave"
 local movedex = require "pokedex.moves"
 local natures = require "pokedex.natures"
 local pokedex = require "pokedex.pokedex"
+local feats = require "pokedex.feats"
 local storage = require "pokedex.storage"
 local profiles = require "pokedex.profiles"
 local filters = require "pokedex.filters"
@@ -72,6 +73,7 @@ function init(self)
 		pokedex.init()
 		storage.init()
 		filters.init()
+		feats.init()
 		
 		if #storage.list_of_ids_in_inventory() > 0 then
 			msg.post("#", "show_party")

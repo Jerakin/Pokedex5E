@@ -188,6 +188,14 @@ function M.update_abilities(pokemon, abilities)
 	pokemon.abilities = abilities
 end
 
+function M.update_feats(pokemon, feats)
+	pokemon.feats = feats
+end
+
+function M.get_feats(pokemon)
+	return pokemon.feats or {}
+end
+
 function M.get_abilities(pokemon)
 	return pokemon.abilities or pokedex.get_pokemon_abilities(M.get_current_species(pokemon)) or {}
 end

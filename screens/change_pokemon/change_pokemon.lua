@@ -3,6 +3,7 @@ local monarch = require "monarch.monarch"
 local gooey = require "gooey.gooey"
 local natures = require "pokedex.natures"
 local _pokemon = require "pokedex.pokemon"
+local _feats = require "pokedex.feats"
 local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
 local gui_colors = require "utils.gui_colors"
@@ -23,7 +24,7 @@ local M = {}
 local active_buttons = {}
 
 
-local config = {
+M.config = {
 	order={
 		[1]=hash("change_pokemon/extra"), [2]=hash("change_pokemon/asi/root"), 
 		[3]=hash("change_pokemon/moves"), [4]=hash("change_pokemon/abilities"),
@@ -33,20 +34,20 @@ local config = {
 	[hash("change_pokemon/asi/root")] = {open=vmath.vector3(720, 420, 0), closed=vmath.vector3(720, 85, 0), active=true},
 	[hash("change_pokemon/abilities")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
 	[hash("change_pokemon/moves")] = {open=vmath.vector3(720, 190, 0), closed=vmath.vector3(720, 50, 0), active=false},
-	[hash("change_pokemon/extra")] = {open=vmath.vector3(720, 150, 0), closed=vmath.vector3(720, 0, 0), active=false},
+	[hash("change_pokemon/extra")] = {open=vmath.vector3(720, 150, 0), closed=vmath.vector3(720, 0, 0), active=true},
 	[hash("change_pokemon/feats")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
 	[hash("change_pokemon/nature")] = {open=vmath.vector3(720, 70, 0), closed=vmath.vector3(720, 0, 0), active=false}
 }
 
 
 local function update_sections(instant)
-	local position = vmath.vector3(config.start)
-	for _, node in ipairs(config.order) do 
+	local position = vmath.vector3(M.config.start)
+	for _, node in ipairs(M.config.order) do 
 		local size
-		if config[node].active then
-			size = config[node].open
+		if M.config[node].active then
+			size = M.config[node].open
 		else
-			size = config[node].closed
+			size = M.config[node].closed
 		end
 		if instant then
 			gui.set_size(gui.get_node(node), size)
@@ -331,7 +332,7 @@ function M.on_message(self, message_id, message, sender)
 			end
 			table.insert(self.abilities, message.item)
 			redraw(self)
-		elseif message_id == hash("feat") then
+		elseif message_id == hash("feats") then
 			for _, ability in pairs(self.feats) do 
 				if ability == message.item then
 					return
@@ -340,7 +341,6 @@ function M.on_message(self, message_id, message, sender)
 			table.insert(self.feats, message.item)
 			redraw(self)
 		else
-			
 			if message.item ~= "" then
 				local n = gui.get_node("change_pokemon/move_" .. self.move_button_index)
 				_pokemon.set_move(self.pokemon, message.item, self.move_button_index)
@@ -374,7 +374,7 @@ local function add_ability(self)
 end
 
 local function add_feat(self)
-	local a = utils.deep_copy(pokedex.feat_list())
+	local a = utils.deep_copy(_feats.list)
 	local filtered = {}
 	local add
 	for _, new_ability in pairs(a) do 
@@ -505,61 +505,61 @@ function M.on_input(self, action_id, action)
 	end
 
 	gooey.button("change_pokemon/asi/btn_collapse", action_id, action, function()
-		config[hash("change_pokemon/asi/root")].active = not config[hash("change_pokemon/asi/root")].active
-		if config[hash("change_pokemon/asi/root")].active then
-			config[hash("change_pokemon/moves")].active = false
-			config[hash("change_pokemon/abilities")].active = false
-			config[hash("change_pokemon/feats")].active = false
+		M.config[hash("change_pokemon/asi/root")].active = not M.config[hash("change_pokemon/asi/root")].active
+		if M.config[hash("change_pokemon/asi/root")].active then
+			M.config[hash("change_pokemon/moves")].active = false
+			M.config[hash("change_pokemon/abilities")].active = false
+			M.config[hash("change_pokemon/feats")].active = false
 		end
 		update_sections()
 	end)
 
 	gooey.button("change_pokemon/btn_collapse_moves", action_id, action, function()
-		config[hash("change_pokemon/moves")].active = not config[hash("change_pokemon/moves")].active
-		if config[hash("change_pokemon/moves")].active then
-			config[hash("change_pokemon/abilities")].active = false
-			config[hash("change_pokemon/asi/root")].active = false
-			config[hash("change_pokemon/feats")].active = false
+		M.config[hash("change_pokemon/moves")].active = not M.config[hash("change_pokemon/moves")].active
+		if M.config[hash("change_pokemon/moves")].active then
+			M.config[hash("change_pokemon/abilities")].active = false
+			M.config[hash("change_pokemon/asi/root")].active = false
+			M.config[hash("change_pokemon/feats")].active = false
 		end
 		update_sections()
 	end)
 
 	gooey.button("change_pokemon/btn_collapse_abilities", action_id, action, function()
-		config[hash("change_pokemon/abilities")].active = not config[hash("change_pokemon/abilities")].active
-		if config[hash("change_pokemon/abilities")].active then
-			config[hash("change_pokemon/asi/root")].active = false
-			config[hash("change_pokemon/moves")].active = false
-			config[hash("change_pokemon/feats")].active = false
+		M.config[hash("change_pokemon/abilities")].active = not M.config[hash("change_pokemon/abilities")].active
+		if M.config[hash("change_pokemon/abilities")].active then
+			M.config[hash("change_pokemon/asi/root")].active = false
+			M.config[hash("change_pokemon/moves")].active = false
+			M.config[hash("change_pokemon/feats")].active = false
 		end
 		update_sections()
 	end)
 
 	gooey.button("change_pokemon/btn_collapse_feats", action_id, action, function()
-		config[hash("change_pokemon/feats")].active = not config[hash("change_pokemon/feats")].active
-		if config[hash("change_pokemon/feats")].active then
-			config[hash("change_pokemon/abilities")].active = false
-			config[hash("change_pokemon/asi/root")].active = false
-			config[hash("change_pokemon/moves")].active = false
+		M.config[hash("change_pokemon/feats")].active = not M.config[hash("change_pokemon/feats")].active
+		if M.config[hash("change_pokemon/feats")].active then
+			M.config[hash("change_pokemon/abilities")].active = false
+			M.config[hash("change_pokemon/asi/root")].active = false
+			M.config[hash("change_pokemon/moves")].active = false
 		end
 		update_sections()
 	end)
 	
-	if config[hash("change_pokemon/abilities")].active then
+	if M.config[hash("change_pokemon/abilities")].active then
 		ability_buttons(self, action_id, action)
 	end
-	if config[hash("change_pokemon/asi/root")].active then
+	if M.config[hash("change_pokemon/asi/root")].active then
 		attribute_buttons(self, action_id, action)
 	end
-	if config[hash("change_pokemon/moves")].active then
+	if M.config[hash("change_pokemon/moves")].active then
 		move_buttons(self, action_id, action)
 	end
-	if config[hash("change_pokemon/extra")].active then
+	if M.config[hash("change_pokemon/extra")].active then
 		extra_buttons(self, action_id, action)
 	end
-	if config[hash("change_pokemon/feats")].active then
+	if M.config[hash("change_pokemon/feats")].active then
 		feats_buttons(self, action_id, action)
 	end
-	if config[hash("change_pokemon/nature")].active then
+	if M.config[hash("change_pokemon/nature")].active then
 		gooey.button("change_pokemon/nature", action_id, action, function()
 			monarch.show("scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url(), title="Pick Nature"})
 		end)

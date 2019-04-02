@@ -3,6 +3,7 @@ local monarch = require "monarch.monarch"
 local storage = require "pokedex.storage"
 local _pokemon = require "pokedex.pokemon"
 local pokedex = require "pokedex.pokedex"
+local _feats = require "pokedex.feats"
 local movedex = require "pokedex.moves"
 local party = require "screens.party.party"
 local gesture = require "utils.gesture"
@@ -179,8 +180,7 @@ local function update_list(list, pokemon_id)
 	end
 end
 
-local function setup_ability(nodes, name, p, i)
-	local desc = pokedex.get_ability_description(name)
+local function setup_ability(nodes, name, desc, p, i)
 	local root_node
 	local name_node
 	local desc_node
@@ -230,6 +230,51 @@ local function setup_abilities(self, nodes, pokemon)
 		return n
 	end
 	local p = vmath.vector3(0, 0, 0)
+	local index
+	local list = {}
+	list.data = {}
+	list.id = _pokemon.get_id(pokemon)
+	gui.set_id(nodes["pokemon/tab_stencil_2"], list.id .. "tab")
+	list.stencil = gui.get_id(nodes["pokemon/tab_stencil_2"])
+	
+	local abilities = _pokemon.get_abilities(pokemon)
+	local feats = _pokemon.get_feats(pokemon)
+	if next(abilities) then
+		for i, name in pairs(abilities) do
+			index = i
+			local desc = pokedex.get_ability_description(name)
+			local root_node = setup_ability(nodes, name, desc, p, index)
+			local id = list.id .. name
+			table.insert(list.data, id)
+			gui.set_id(root_node, id)
+		end
+		table.insert(active_lists, list)
+	end
+	if next(feats) then
+		for i, name in pairs(feats) do
+			index = index + 1
+			local desc = _feats.get_feat_description(name)
+			pprint(name, desc)
+			local root_node = setup_ability(nodes, name, desc, p, index)
+			local id = list.id .. name
+			table.insert(list.data, id)
+			gui.set_id(root_node, id)
+		end
+		table.insert(active_lists, list)
+	end
+	
+	if next(abilities) == nil and next(feats) == nil then
+		gui.delete_node(nodes["pokemon/ability/root"])
+	end
+end
+
+--[[local function setup_abilities(self, nodes, pokemon)
+	local function _get_node(sub)
+		local name = "pokemon/ability_" .. index
+		local n = nodes[name .. sub]
+		return n
+	end
+	local p = vmath.vector3(0, 0, 0)
 
 	local list = {}
 	list.data = {}
@@ -239,7 +284,7 @@ local function setup_abilities(self, nodes, pokemon)
 	local abilities = _pokemon.get_abilities(pokemon)
 	if next(abilities) then
 		for i, name in pairs(abilities) do
-			local root_node = setup_ability(nodes, name, p, i)
+			local root_node = setup_ability(nodes, name, desc, p, i)
 			local id = list.id .. name
 			table.insert(list.data, id)
 			gui.set_id(root_node, id)
@@ -248,7 +293,7 @@ local function setup_abilities(self, nodes, pokemon)
 	else
 		gui.delete_node(nodes["pokemon/ability/root"])
 	end
-end
+end--]]
 
 local function setup_info(self, nodes, pokemon)
 	local abilities_string1 = ""

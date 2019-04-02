@@ -23,11 +23,20 @@ local function save_pokemon(self)
 	local nickname = gui.get_text(gui.get_node("change_pokemon/species"))
 	local abilities = {}
 	for ability, data in pairs(self.ability_data) do
-		if data.add then
+		if ability ~= "Add Other" then
 			table.insert(abilities, ability)
 		end
 	end
 	_pokemon.update_abilities(self.pokemon, abilities)
+
+	local feats = {}
+	for feat, data in pairs(self.feats_data) do
+		if feat ~= "Add Other" then
+			table.insert(feats, feat)
+		end
+	end
+	_pokemon.update_feats(self.pokemon, feats)
+	
 	self.pokemon.level.current = self.level
 	_pokemon.save(self.pokemon)
 	_pokemon.set_nickname(self.pokemon, nickname)

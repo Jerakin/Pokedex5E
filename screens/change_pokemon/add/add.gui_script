@@ -38,11 +38,20 @@ local function add_pokemon(self)
 
 		local abilities = {}
 		for ability, data in pairs(self.ability_data) do
-			if data.add then
+			if ability ~= "Add Other" then
 				table.insert(abilities, ability)
 			end
 		end
 		_pokemon.update_abilities(self.pokemon, abilities)
+
+		local feats = {}
+		for feat, data in pairs(self.feats_data) do
+			if feat ~= "Add Other" then
+				table.insert(feats, feat)
+			end
+		end
+		_pokemon.update_feats(self.pokemon, feats)
+
 		
 		storage.add(self.pokemon)
 		if storage.is_party_full() then
@@ -66,6 +75,8 @@ function init(self)
 	gui.play_flipbook(gui.get_node("btn_add"), "common_down")
 	gui.get_color(gui.get_node("txt_add"), gui_colors.HERO_TEXT_FADED)
 	gui.set_enabled(gui.get_node("change_pokemon/cursor"), false)
+	pokemon_edit.config[hash("change_pokemon/extra")].active = false
+	
 	function self.register_buttons_after_species(self)
 		gui.set_enabled(gui.get_node("blocker"), false)
 		gui.set_text(gui.get_node("change_pokemon/pokemon_number"), string.format("#%03d", _pokemon.get_index_number(self.pokemon)))

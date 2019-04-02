@@ -102,6 +102,7 @@ function M.get_ability_description(ability)
 		return abilities[ability].Description
 	end
 	log.error("Can not find ability description for: " .. tostring(ability))
+	return ""
 end
 
 function M.get_pokemon_abilities(pokemon)
