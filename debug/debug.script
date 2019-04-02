@@ -12,7 +12,9 @@ local debug = require "screens.debug.debug"
 function init(self)
 	self.is_debug = sys.get_engine_info().is_debug
 	if self.is_debug then
-		gameanalytics.setEnabledInfoLog(true)
+		gameanalytics.setCustomDimension01("debug")
+	else
+		gameanalytics.setCustomDimension01("live")
 	end
 end
 

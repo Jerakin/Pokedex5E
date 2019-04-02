@@ -12,31 +12,31 @@ local metadata = require "utils.metadata"
 local gui_colors = require "utils.gui_colors"
 local notify = require "utils.notify"
 require "utils.lfs_extend"
+local lua_json = require "utils.json"
 
-local function mysplit(inputstr, sep)
-	if sep == nil then
-		sep = "%s"
+local function send_crash_on_start()
+	crash.write_dump()
+	local handle = crash.load_previous()
+	if handle then
+		gameanalytics.addErrorEvent {
+			severity = "Error",
+			message =  crash.get_extra_data(handle)
+		}
+		crash.release(handle)
 	end
-	local t={}
-	for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
-		table.insert(t, str)
-	end
-	return t
 end
 
-local function nuke_old()
-	if metadata.get("app_version") then
-		local version = mysplit(metadata.get("app_version"), ".")
-		if tonumber(version[1]) == 0 and tonumber(version[2]) <= 2 then
-			--lfs.rmdirs(sys.get_save_file("pokedex5E", ""):sub(1, -2))
-		end
-	else
-		print("Nuking Save Data")
-		lfs.rmdirs(sys.get_save_file("pokedex5E", ""):sub(1, -2))
-	end
+local function send_crash_analytics(source, message, traceback)
+	gameanalytics.addErrorEvent {
+		severity = "Critical",
+		message = message .. "\n" .. traceback
+	}
 end
+
 
 function init(self)
+	send_crash_on_start()
+	sys.set_error_handler(send_crash_analytics)
 	defsave.appname = "pokedex5E"
 	defsave.verbose = false
 	defsave.use_default_data = false
