@@ -118,19 +118,34 @@ end
 function M.get_speed_of_type(pokemon)
 	local species = M.get_current_species(pokemon)
 	local type = pokedex.get_pokemon_type(species)[1]
+	local mobile_feet = 0
+	if M.have_feat(pokemon, "Mobile") then
+		mobile_feet = 10
+	end
 	if type == "Flying" then
-		return pokedex.get_flying_speed(species), "Flying"
+		local speed = pokedex.get_flying_speed(species) 
+		return speed ~= 0 and speed+mobile_feet or speed, "Flying"
 	elseif type == "Water" then
-		return pokedex.get_swimming_speed(species), "Swimming"
+		local speed = pokedex.get_swimming_speed(species) 
+		return speed ~= 0 and speed+mobile_feet or speed, "Swimming"
 	else
-		return pokedex.get_walking_speed(species), "Walking"
+		local speed = pokedex.get_walking_speed(species) 
+		return speed ~= 0 and speed+mobile_feet or speed, "Walking"
 	end
 end
 
 function M.get_all_speed(pokemon)
 	local species = M.get_current_species(pokemon)
-	return {Walking=pokedex.get_walking_speed(species), Swimming=pokedex.get_swimming_speed(species), 
-			Flying=pokedex.get_flying_speed(species), Climbing=pokedex.get_climbing_speed(species)}
+	local mobile_feet = 0
+	if M.have_feat(pokemon, "Mobile") then
+		mobile_feet = 10
+	end
+	local w = pokedex.get_walking_speed(species) 
+	local s = pokedex.get_swimming_speed(species) 
+	local c = pokedex.get_climbing_speed(species) 
+	local f = pokedex.get_flying_speed(species) 
+	return {Walking= w ~= 0 and w+mobile_feet or w, Swimming=s ~= 0 and s+mobile_feet or s, 
+	Flying= f ~= 0 and f+mobile_feet or f, Climbing=c ~= 0 and c+mobile_feet or c}
 end
 
 function M.set_current_hp(pokemon, hp)
