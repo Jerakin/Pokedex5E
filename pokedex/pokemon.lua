@@ -13,6 +13,29 @@ local feat_to_skill = {
 	["Quick-Fingered"]="Sleight of Hand",
 	Stealthy="Stealth"
 }
+local resilient = {
+	["Resilient (STR)"]= "STR",
+	["Resilient (CON)"]= "CON",
+	["Resilient (DEX)"]= "DEX",
+	["Resilient (INT)"]= "INT",
+	["Resilient (WIS)"]= "WIS",
+	["Resilient (CHA)"]= "CHA",
+}
+local feat_to_attribute = {
+	["Resilient (STR)"]= "STR",
+	["Resilient (CON)"]= "CON",
+	["Resilient (DEX)"]= "DEX",
+	["Resilient (INT)"]= "INT",
+	["Resilient (WIS)"]= "WIS",
+	["Resilient (CHA)"]= "CHA",
+	["Athlete (STR)"]= "STR",
+	["Athlete (DEX)"]="DEX",
+	["Quick-Fingered"]= "DEX",
+	Stealthy="DEX",
+	Brawny="STR",
+	Perceptive="WIS",
+	Acrobat="DEX"
+}
 
 local function add_tables(T1, T2)
 	local copy = utils.shallow_copy(T1)
@@ -30,16 +53,12 @@ end
 
 local function get_attributes_from_feats(pokemon)
 	local m = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
-	local _, s = M.have_feat(pokemon, "Brawny")
-	local _, w = M.have_feat(pokemon, "Perceptive")
-	local _, c = M.have_feat(pokemon, "Durable")
-	local _, d1 = M.have_feat(pokemon, "Acrobat")
-	local _, d2 = M.have_feat(pokemon, "Quick-Fingered")
-	local _, d3 = M.have_feat(pokemon, "Stealthy")
-	m.STR = s 
-	m.WIS = w
-	m.CON = c
-	m.DEX = d1 + d2 + d3
+	for _, feat in pairs(M.get_feats(pokemon)) do
+		local attr = feat_to_attribute[feat]
+		if attr then
+			m[attr] = m[attr] + 1
+		end
+	end
 	return m
 end
 
@@ -375,6 +394,21 @@ function M.get_saving_throw_modifier(pokemon)
 	local prof = M.get_proficency_bonus(pokemon)
 	local b = M.get_attributes(pokemon)
 	local saving_throws = pokedex.get_saving_throw_proficiencies(M.get_current_species(pokemon)) or {}
+	for _, feat in pairs(M.get_feats(pokemon)) do
+		local is_resilient = resilient[feat]
+		local got_save = false
+		if is_resilient then
+			for _, save in pairs(saving_throws) do
+				if save == is_resilient then
+					got_save = true
+				end
+			end
+			if not got_save then
+				table.insert(saving_throws, is_resilient)
+			end
+		end
+	end
+	
 	local modifiers = {}
 	for name, mod in pairs(b) do
 		modifiers[name] = math.floor((b[name] - 10) / 2)
@@ -382,6 +416,7 @@ function M.get_saving_throw_modifier(pokemon)
 	for _, st in pairs(saving_throws) do
 		modifiers[st] = modifiers[st] + prof
 	end
+
 	return modifiers
 end
 
