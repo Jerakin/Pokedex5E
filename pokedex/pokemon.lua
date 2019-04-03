@@ -6,6 +6,13 @@ local movedex = require "pokedex.moves"
 
 local M = {}
 
+local feat_to_skill = {
+	Brawny="Athletics",
+	Perceptive="Perception",
+	Acrobat= "Acrobatics",
+	["Quick-Fingered"]="Sleight of Hand",
+	Stealthy="Stealth"
+}
 
 local function add_tables(T1, T2)
 	local copy = utils.shallow_copy(T1)
@@ -21,11 +28,25 @@ function M.get_senses(pokemon)
 	return pokedex.get_senses(M.get_current_species(pokemon))
 end
 
+local function get_attributes_from_feats(pokemon)
+	local m = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
+	local _, s = M.have_feat(pokemon, "Brawny")
+	local _, w = M.have_feat(pokemon, "Perceptive")
+	local _, d1 = M.have_feat(pokemon, "Acrobat")
+	local _, d2 = M.have_feat(pokemon, "Quick-Fingered")
+	local _, d3 = M.have_feat(pokemon, "Stealthy")
+	m.STR = s 
+	m.WIS = w 
+	m.DEX = d1 + d2 + d3
+	return m
+end
+
 function M.get_attributes(pokemon)
 	local b = pokedex.get_base_attributes(M.get_caught_species(pokemon))
 	local a = M.get_increased_attributes(pokemon) or {}
 	local n = natures.get_nature_attributes(M.get_nature(pokemon)) or {}
-	return add_tables(add_tables(b, n), a)
+	local f = get_attributes_from_feats(pokemon)
+	return add_tables(add_tables(add_tables(b, n), a), f)
 end
 
 function M.get_max_attributes(pokemon)
@@ -218,7 +239,24 @@ function M.get_abilities(pokemon, as_raw)
 end
 
 function M.get_skills(pokemon)
-	return pokedex.get_pokemon_skills(M.get_current_species(pokemon)) or {}
+	local skills = pokedex.get_pokemon_skills(M.get_current_species(pokemon)) or {}
+	for feat, skill in pairs(feat_to_skill) do
+		local added = false
+		if M.have_feat(pokemon, feat) then
+			for i=#skills, -1, -1 do
+				if skill == skills[i] then
+					table.remove(skills, i)
+					table.insert(skills, skill .. " (e)")
+					added = true
+				end
+			end
+			if not added then
+				table.insert(skills, skill)
+			end
+		end
+	end
+
+	return skills
 end
 
 function M.get_move_pp(pokemon, move)
