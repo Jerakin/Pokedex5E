@@ -35,8 +35,8 @@ function init(self)
 	p.x = p.x + gui.get_text_metrics_from_node(type_node).width * 0.5
 	gui.set_position(gui.get_node("icon_type"), p)
 	gui.play_flipbook(gui.get_node("icon_type"), type_data[move_data.type].icon)
-
-	gui.set_text(gui.get_node("txt_pp"), data.data.pp .. "/" .. move_data.PP)
+	local max = _pokemon.get_move_pp_max(data.pokemon, data.name)
+	gui.set_text(gui.get_node("txt_pp"), data.data.pp .. "/" ..max)
 	local dmg = "-"
 	if move_data.damage then
 		dmg = move_data.damage

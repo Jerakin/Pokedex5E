@@ -72,7 +72,7 @@ end
 
 local function update_pp(pp_lbl, pp_current, pp_max, pokemon, name)
 	local current = _pokemon.get_move_pp(pokemon, name) 
-	local max = movedex.get_move_pp(name)
+	local max = _pokemon.get_move_pp_max(pokemon, name)
 	gui.set_text(pp_current, current)
 	gui.set_text(pp_max, "/" .. max)
 	local p = gui.get_position(pp_current)
@@ -420,6 +420,7 @@ local function change_pokemon(self, index, instant)
 end
 
 function init(self)
+	monarch.add_listener()
 	button.acquire()
 	msg.post(url.MENU, "show")
 	url.PARTY = msg.url()
@@ -492,6 +493,7 @@ function init(self)
 end
 
 function final(self)
+	monarch.remove_listener()
 	active_buttons = {}
 	active_lists = {}
 	node_index = 0
@@ -543,6 +545,8 @@ function on_message(self, message_id, message)
 			hp = tonumber(message.str) - current_hp
 		end
 		update_hp(self, current.nodes, current.pokemon, hp)
+	elseif message_id == monarch.SCREEN_TRANSITION_IN_FINISHED then
+		msg.post(".", "refresh")
 	end
 end
 

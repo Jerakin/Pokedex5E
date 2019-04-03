@@ -225,6 +225,11 @@ function M.get_move_pp(pokemon, move)
 	return pokemon.moves[move].pp
 end
 
+function M.get_move_pp_max(pokemon, move)
+	local _, pp_extra = M.have_feat(pokemon, "Tireless")
+	return movedex.get_move_pp(move) + pp_extra
+end
+
 function M.get_move_index(pokemon, move)
 	return pokemon.moves[move].index
 end
@@ -255,7 +260,7 @@ function M.decrease_move_pp(pokemon, move)
 end
 
 function M.increase_move_pp(pokemon, move)
-	local max_pp = movedex.get_move_pp(move)
+	local max_pp = M.get_move_pp_max(pokemon, move)
 	local pp = math.min(M.get_move_pp(pokemon, move) + 1, max_pp)
 	storage.set_pokemon_move_pp(M.get_id(pokemon), move, pp)
 	pokemon.moves[move].pp = pp
@@ -263,7 +268,7 @@ end
 
 
 function M.reset_move_pp(pokemon, move)
-	local pp = movedex.get_move_pp(move)
+	local pp = M.get_move_pp_max(pokemon, move)
 	storage.set_pokemon_move_pp(M.get_id(pokemon), move, pp)
 	pokemon.moves[move].pp = pp
 end
