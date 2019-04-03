@@ -32,11 +32,13 @@ local function get_attributes_from_feats(pokemon)
 	local m = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
 	local _, s = M.have_feat(pokemon, "Brawny")
 	local _, w = M.have_feat(pokemon, "Perceptive")
+	local _, c = M.have_feat(pokemon, "Durable")
 	local _, d1 = M.have_feat(pokemon, "Acrobat")
 	local _, d2 = M.have_feat(pokemon, "Quick-Fingered")
 	local _, d3 = M.have_feat(pokemon, "Stealthy")
 	m.STR = s 
-	m.WIS = w 
+	m.WIS = w
+	m.CON = c
 	m.DEX = d1 + d2 + d3
 	return m
 end
