@@ -334,7 +334,7 @@ function M.get_nickname(pokemon)
 end
 
 function M.get_AC(pokemon)
-	local _, AC_UP = M.have_feat(pokemon, "AC UP")
+	local _, AC_UP = M.have_feat(pokemon, "AC Up")
 	return pokedex.get_pokemon_AC(M.get_current_species(pokemon)) + natures.get_AC(M.get_nature(pokemon)) + AC_UP
 end
 
