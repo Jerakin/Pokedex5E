@@ -173,7 +173,11 @@ function M.get_max_hp_edited(pokemon)
 end
 
 function M.get_max_hp(pokemon)
-	return pokemon.hp.max
+	local tough_feat = 0
+	if M.have_feat(pokemon, "Tough") then
+		tough_feat = M.get_current_level(pokemon) * 2
+	end
+	return pokemon.hp.max + tough_feat
 end
 
 function M.get_current_species(pokemon)
