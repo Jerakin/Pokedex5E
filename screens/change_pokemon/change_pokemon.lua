@@ -265,7 +265,7 @@ function M.init(self, pokemon)
 	self.move_button_index = 0
 	self.root = gui.get_node("root")
 	if self.pokemon then
-		self.abilities = _pokemon.get_abilities(self.pokemon)
+		self.abilities = _pokemon.get_abilities(self.pokemon, true)
 		self.feats = _pokemon.get_feats(self.pokemon)
 	else
 		self.feats = {}

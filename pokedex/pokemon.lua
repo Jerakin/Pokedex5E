@@ -206,11 +206,11 @@ function M.get_feats(pokemon)
 	return pokemon.feats or {}
 end
 
-function M.get_abilities(pokemon)
+function M.get_abilities(pokemon, as_raw)
 	local species = M.get_current_species(pokemon)
 	local t = {}
 	t = pokemon.abilities or pokedex.get_pokemon_abilities(species) or {}
-	if M.have_feat(pokemon, "Hidden Ability") then
+	if not as_raw and M.have_feat(pokemon, "Hidden Ability") then
 		local hidden = pokedex.get_pokemon_hidden_ability(species)
 		table.insert(t, hidden)
 	end
