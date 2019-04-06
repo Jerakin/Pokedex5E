@@ -22,7 +22,7 @@ local M = {}
 
 
 local active_buttons = {}
-
+local move_buttons_list = {}
 
 M.config = {
 	order={
@@ -137,6 +137,39 @@ local function redraw_list(data_table, entry_table, text_id, bg_id, del_id)
 end
 
 
+local function redraw_moves(self)
+	local position = vmath.vector3()
+	M.config[hash("change_pokemon/moves")].open.y = M.config[hash("change_pokemon/moves")].closed.y + math.ceil(self.move_count / 2) * 60
+
+	--pprint(move_buttons_list)
+	for _, b in pairs(move_buttons_list) do
+		gui.delete_node(gui.get_node(b.node))
+		gui.delete_node(b.text)
+	end
+
+	move_buttons_list = {}
+	for i=1, self.move_count do
+		local nodes = gui.clone_tree(self.move_node)
+		local txt = nodes["change_pokemon/txt_move"]
+		local btn = nodes["change_pokemon/btn_move"]
+		gui.set_id(txt, "move_txt" .. i)
+		gui.set_id(btn, "move_btn" .. i)
+		gui.set_position(btn, position)
+		gui.set_enabled(btn, true)
+		gui.set_color(txt, gui_colors.HERO_TEXT_FADED)
+		table.insert(move_buttons_list, {node="move_btn" .. i, text=txt})
+		position.x = math.mod(i, 2) * 320
+		position.y = math.ceil((i-1)/2) * -60
+	end
+	local index = 1
+	for move, data in pairs(self.pokemon.moves) do
+		--local index = data.index
+		local move_node = move_buttons_list[index].text
+		gui.set_text(move_node, move:upper())
+		gui.set_color(move_node, movedex.get_move_color(move))
+		index = index + 1
+	end
+end
 
 
 local function redraw(self)
@@ -147,20 +180,9 @@ local function redraw(self)
 	gui.set_text(gui.get_node("change_pokemon/txt_level"), self.level)
 	
 	gui.set_text(gui.get_node("change_pokemon/nature"), self.pokemon.nature:upper() or "No Nature")
-	
-	for i=1, 4 do 
-		local move_node = gui.get_node("change_pokemon/move_" .. i)
-		gui.set_text(move_node, "Move")
-		gui.set_color(move_node, gui_colors.HERO_TEXT_FADED)
-	end
-	
+
 	-- Moves
-	for move, data in pairs(self.pokemon.moves) do
-		local index = data.index
-		local move_node = gui.get_node("change_pokemon/move_" .. index)
-		gui.set_text(move_node, move:upper())
-		gui.set_color(move_node, movedex.get_move_color(move))
-	end
+	redraw_moves(self)
 
 	-- Natures and attributes
 	if not self.pokemon.nature or self.pokemon.nature == "" then
@@ -258,12 +280,15 @@ function M.init(self, pokemon)
 	if pokemon then
 		self.pokemon = utils.deep_copy(pokemon)
 	end
+	self.move_count = 4
 	self.increased_attributes = {STR= 0,DEX= 0,CON= 0,INT= 0,WIS= 0,CHA= 0}
 	self.level = 1
 	self.ability_score_improvment = 0
 	self.list_items = {}
 	self.move_button_index = 0
 	self.root = gui.get_node("root")
+	self.move_node = gui.get_node("change_pokemon/btn_move")
+	gui.set_enabled(self.move_node, false)
 	if self.pokemon then
 		self.abilities = _pokemon.get_abilities(self.pokemon, true)
 		self.feats = _pokemon.get_feats(self.pokemon)
@@ -280,6 +305,7 @@ end
 function M.final(self)
 	msg.post(url.MENU, "show")
 	active_buttons = {}
+	move_buttons_list = {}
 	button.unregister()
 end
 
@@ -299,11 +325,11 @@ function M.on_message(self, message_id, message, sender)
 			self.level = self.pokemon.level.current
 			self.pokemon.nature = "No Nature"
 			local starting_moves = pokedex.get_starting_moves(message.item)
-			if #starting_moves > 4 then
+			if #starting_moves > self.move_count then
 				starting_moves = utils.shuffle2(starting_moves)
 			end
 			local moves = {}
-			for i=1, 4 do
+			for i=1, self.move_count do
 				if starting_moves[i] then
 					local pp = movedex.get_move_pp(starting_moves[i])
 					moves[starting_moves[i]] = {pp=pp, index=i}
@@ -327,26 +353,25 @@ function M.on_message(self, message_id, message, sender)
 				monarch.show("are_you_sure", nil, {title="Evolve at level ".. self.level .. "?", sender=msg.url(), data=message.item})
 			end)
 		elseif message_id == hash("abilities") then
-			for _, ability in pairs(self.abilities) do 
-				if ability == message.item then
-					return
-				end
-			end
 			table.insert(self.abilities, message.item)
 			redraw(self)
 		elseif message_id == hash("feats") then
-			for _, ability in pairs(self.feats) do 
-				if ability == message.item then
-					return
+			local count = 0
+			table.insert(self.feats, message.item)
+			if message.item == "Extra Move" then
+				for _, f in pairs(self.feats) do
+					if f == "Extra Move" then
+						count = count + 1
+					end
 				end
 			end
-			table.insert(self.feats, message.item)
+			self.move_count = 4 + count
 			redraw(self)
 		else
 			if message.item ~= "" then
-				local n = gui.get_node("change_pokemon/move_" .. self.move_button_index)
+				local n = move_buttons_list[self.move_button_index].text
 				_pokemon.set_move(self.pokemon, message.item, self.move_button_index)
-				
+				--redraw(self)
 				gui.set_text(n, message.item)
 				gui.set_color(n, movedex.get_move_color(message.item))
 			end
@@ -370,14 +395,13 @@ local function add_ability(self)
 		if add then
 			table.insert(filtered, new_ability)
 		end
-		
 	end
 	monarch.show("scrollist", {}, {items=filtered, message_id="abilities", sender=msg.url(), title="Pick Ability"})
 end
 
 local function add_feat(self)
 	local a = utils.deep_copy(_feats.list)
-	local filtered = {}
+	--[[local filtered = {}
 	local add
 	for _, new_ability in pairs(a) do 
 		add = true
@@ -390,9 +414,8 @@ local function add_feat(self)
 			table.insert(filtered, new_ability)
 		end
 
-	end
-	print("shjow")
-	monarch.show("scrollist", {}, {items=filtered, message_id="feats", sender=msg.url(), title="Pick Feat"})
+	end--]]
+	monarch.show("scrollist", {}, {items=_feats.list, message_id="feats", sender=msg.url(), title="Pick Feat"})
 end
 
 local function delete_ability(self, ability)
@@ -459,25 +482,12 @@ local function extra_buttons(self, action_id, action)
 end
 
 local function move_buttons(self, action_id, action)
-	gooey.button("change_pokemon/btn_move_1", action_id, action, function()
-		self.move_button_index = 1
-		pick_move(self)
-	end)
-
-	gooey.button("change_pokemon/btn_move_2", action_id, action, function()
-		self.move_button_index = 2
-		pick_move(self)
-	end)
-
-	gooey.button("change_pokemon/btn_move_3", action_id, action, function()
-		self.move_button_index = 3
-		pick_move(self)
-	end)
-
-	gooey.button("change_pokemon/btn_move_4", action_id, action, function()
-		self.move_button_index = 4
-		pick_move(self)
-	end)
+	for i, button in pairs(move_buttons_list) do
+		gooey.button(button.node, action_id, action, function()
+			self.move_button_index = i
+			pick_move(self)
+		end)
+	end
 end
 
 local function attribute_buttons(self, action_id, action)
