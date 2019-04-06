@@ -77,8 +77,1290 @@ nodes {
 }
 nodes {
   position {
+    x: -360.0
+    y: 392.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/background_gradient"
+  id: "dmg_mod"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: -225.0
+    y: 473.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 218.0
+    y: 45.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/details_backing"
+  id: "bg_level"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.8
+    y: 0.8
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "Lv. 20"
+  font: "script"
+  id: "level"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "bg_level"
+  layer: "script"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 0.0
+    y: 473.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 218.0
+    y: 45.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/details_backing"
+  id: "bg_ac"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.8
+    y: 0.8
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "Ac: 13"
+  font: "script"
+  id: "ac"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "bg_ac"
+  layer: "script"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 221.0
+    y: 473.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 218.0
+    y: 45.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/details_backing"
+  id: "bg_speed"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.8
+    y: 0.8
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "Speed: 30"
+  font: "script"
+  id: "txt_speed"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "bg_speed"
+  layer: "script"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 0.0
+    y: 532.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.6
+    y: 1.6
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "Pok\303\251mon"
+  font: "script_bold"
+  id: "species"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "root"
+  layer: "title"
+  inherit_alpha: false
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: -206.0
+    y: 272.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 255.0
+    y: 250.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/details_backing"
+  id: "bg_pokemon"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 10.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 200.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/pokemon_open"
+  id: "pokemon_sprite"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "bg_pokemon"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: -113.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.5
+    y: 0.5
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "#003"
+  font: "script"
+  id: "index"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "bg_pokemon"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 130.0
+    y: 272.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 400.0
+    y: 250.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/details_backing"
+  id: "bg_vul"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: -190.0
+    y: 122.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.6
+    y: 0.6
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 565.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "Vulnerabilities:  Fire, Flying, Rock"
+  font: "script"
+  id: "vulnerabilities"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_NW
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: true
+  parent: "bg_vul"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 0.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 0.8
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 390.0
+    y: 80.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.92941177
+    y: 0.92941177
+    z: 0.92941177
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/details_backing"
+  id: "bg_res"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "bg_vul"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: -190.0
+    y: 35.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.6
+    y: 0.6
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 550.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "Resistances:  Grass, Ground, Fighting,  Grass, Ground, Fighting,  Grass, Ground, Fighting"
+  font: "script"
+  id: "resistances"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_NW
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: true
+  parent: "bg_res"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 0.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 0.8
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: -190.0
+    y: -44.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.6
+    y: 0.6
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 565.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "Immunities: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1  1 1 1 1 1 1 1 1 1"
+  font: "script"
+  id: "immunities"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_NW
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: true
+  parent: "bg_vul"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 0.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 0.8
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 0.0
+    y: 424.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/background_gradient"
+  id: "exp_root"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 666.0
+    y: 45.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/details_backing"
+  id: "exp_bg"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "exp_root"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.5
+    y: 0.5
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "EXP: 120/160"
+  font: "script"
+  id: "txt_exp"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "exp_bg"
+  layer: "script"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 640.0
+    y: 20.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.9019608
+    y: 0.9019608
+    z: 0.9019608
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/square"
+  id: "exp_bar_bg"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "exp_root"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: -320.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 300.0
+    y: 20.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.9254902
+    y: 0.56078434
+    z: 0.09411765
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/square"
+  id: "exp_bar"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_W
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "exp_bar_bg"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 140.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 720.0
+    y: 1000.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.9411765
+    y: 0.9411765
+    z: 0.9411765
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/square"
+  id: "more_info"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_N
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
     x: 1103.0
-    y: 31.0
+    y: -109.0
     z: 0.0
     w: 1.0
   }
@@ -114,7 +1396,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_NW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "more_info"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -1794,7 +3076,7 @@ nodes {
 nodes {
   position {
     x: 240.0
-    y: 63.0
+    y: -77.0
     z: 0.0
     w: 1.0
   }
@@ -1830,7 +3112,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "more_info"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -1912,7 +3194,7 @@ nodes {
 nodes {
   position {
     x: 363.0
-    y: 30.0
+    y: -110.0
     z: 0.0
     w: 1.0
   }
@@ -1948,7 +3230,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_NW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "more_info"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -2298,7 +3580,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 63.0
+    y: -77.0
     z: 0.0
     w: 1.0
   }
@@ -2334,7 +3616,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "more_info"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -2416,7 +3698,7 @@ nodes {
 nodes {
   position {
     x: -360.0
-    y: 29.0
+    y: -111.0
     z: 0.0
     w: 1.0
   }
@@ -2452,7 +3734,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_NW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "more_info"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -2541,7 +3823,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/square"
   id: "move_4/move"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -3518,7 +4800,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/square"
   id: "move_3/move"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -4495,7 +5777,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/square"
   id: "move_2/move"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -5472,7 +6754,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/square"
   id: "move_1/move"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -6379,7 +7661,7 @@ nodes {
 nodes {
   position {
     x: -240.0
-    y: 63.0
+    y: -77.0
     z: 0.0
     w: 1.0
   }
@@ -6415,7 +7697,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "more_info"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -6496,952 +7778,8 @@ nodes {
 }
 nodes {
   position {
-    x: -360.0
-    y: 392.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
     x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/background_gradient"
-  id: "dmg_mod"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: -225.0
-    y: 473.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 218.0
-    y: 45.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
-  id: "bg_level"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.8
-    y: 0.8
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.24313726
-    y: 0.24313726
-    z: 0.24313726
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Lv. 20"
-  font: "script"
-  id: "level"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "bg_level"
-  layer: "script"
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 1.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 0.0
-    y: 473.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 218.0
-    y: 45.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
-  id: "bg_ac"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.8
-    y: 0.8
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.24313726
-    y: 0.24313726
-    z: 0.24313726
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Ac: 13"
-  font: "script"
-  id: "ac"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "bg_ac"
-  layer: "script"
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 1.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 221.0
-    y: 473.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 218.0
-    y: 45.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
-  id: "bg_speed"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.8
-    y: 0.8
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.24313726
-    y: 0.24313726
-    z: 0.24313726
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Speed: 30"
-  font: "script"
-  id: "txt_speed"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "bg_speed"
-  layer: "script"
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 1.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 0.0
-    y: 532.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.6
-    y: 1.6
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.24313726
-    y: 0.24313726
-    z: 0.24313726
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Pok\303\251mon"
-  font: "script_bold"
-  id: "species"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "root"
-  layer: "title"
-  inherit_alpha: false
-  alpha: 1.0
-  outline_alpha: 1.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: -206.0
-    y: 272.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 255.0
-    y: 250.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
-  id: "bg_pokemon"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: 0.0
-    y: 10.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 200.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.9254902
-    y: 0.56078434
-    z: 0.09411765
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/pokemon_open"
-  id: "pokemon_sprite"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "bg_pokemon"
-  layer: "pokemon"
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: 0.0
-    y: -105.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.5
-    y: 0.5
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.24313726
-    y: 0.24313726
-    z: 0.24313726
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "#003"
-  font: "script"
-  id: "index"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "bg_pokemon"
-  layer: "script"
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 1.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 130.0
-    y: 272.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 400.0
-    y: 250.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
-  id: "bg_vul"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: -190.0
-    y: 122.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.6
-    y: 0.6
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 565.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.24313726
-    y: 0.24313726
-    z: 0.24313726
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Vulnerabilities:  Fire, Flying, Rock"
-  font: "script"
-  id: "vulnerabilities"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_NW
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: true
-  parent: "bg_vul"
-  layer: "script"
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 0.8
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 390.0
-    y: 80.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.92941177
-    y: 0.92941177
-    z: 0.92941177
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
-  id: "bg_res"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "bg_vul"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: -190.0
-    y: 35.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.6
-    y: 0.6
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 550.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.24313726
-    y: 0.24313726
-    z: 0.24313726
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Resistances:  Grass, Ground, Fighting,  Grass, Ground, Fighting,  Grass, Ground, Fighting"
-  font: "script"
-  id: "resistances"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_NW
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: true
-  parent: "bg_res"
-  layer: "script"
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 0.8
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: -190.0
-    y: -44.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.6
-    y: 0.6
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 565.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.24313726
-    y: 0.24313726
-    z: 0.24313726
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Immunities: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1  1 1 1 1 1 1 1 1 1"
-  font: "script"
-  id: "immunities"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_NW
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: true
-  parent: "bg_vul"
-  layer: "script"
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 0.8
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 0.0
-    y: 119.0
+    y: -21.0
     z: 0.0
     w: 1.0
   }
@@ -7477,7 +7815,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "more_info"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -7928,288 +8266,14 @@ nodes {
   template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
-nodes {
-  position {
-    x: 0.0
-    y: 424.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/background_gradient"
-  id: "exp_root"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
+layers {
+  name: "gui_back"
 }
-nodes {
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 666.0
-    y: 45.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
-  id: "exp_bg"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "exp_root"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
+layers {
+  name: "script_back"
 }
-nodes {
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.5
-    y: 0.5
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.24313726
-    y: 0.24313726
-    z: 0.24313726
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "EXP: 120/160"
-  font: "script"
-  id: "txt_exp"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "exp_bg"
-  layer: "script"
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 1.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 640.0
-    y: 20.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.9019608
-    y: 0.9019608
-    z: 0.9019608
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/square"
-  id: "exp_bar_bg"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "exp_root"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: -320.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 300.0
-    y: 20.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.9254902
-    y: 0.56078434
-    z: 0.09411765
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/square"
-  id: "exp_bar"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "exp_bar_bg"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
+layers {
+  name: "pokemon"
 }
 layers {
   name: "gui"
@@ -8222,9 +8286,6 @@ layers {
 }
 layers {
   name: "script_bold"
-}
-layers {
-  name: "pokemon"
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT
