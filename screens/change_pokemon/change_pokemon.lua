@@ -163,11 +163,12 @@ local function redraw_moves(self)
 	end
 	local index = 1
 	for move, data in pairs(self.pokemon.moves) do
-		--local index = data.index
-		local move_node = move_buttons_list[index].text
-		gui.set_text(move_node, move:upper())
-		gui.set_color(move_node, movedex.get_move_color(move))
-		index = index + 1
+		if move_buttons_list[index] then
+			local move_node = move_buttons_list[index].text
+			gui.set_text(move_node, move:upper())
+			gui.set_color(move_node, movedex.get_move_color(move))
+			index = index + 1
+		end
 	end
 end
 
