@@ -8,10 +8,10 @@ local gooey = require "gooey.gooey"
 local monarch = require "monarch.monarch"
 
 local party_utils = require "screens.party.utils"
-local features = require "screens.party.features"
-local moves = require "screens.party.moves"
-local information = require "screens.party.information"
-local meters = require "screens.party.meters"
+local features = require "screens.party.components.features"
+local moves = require "screens.party.components.moves"
+local information = require "screens.party.components.information"
+local meters = require "screens.party.components.meters"
 
 local M = {}
 
