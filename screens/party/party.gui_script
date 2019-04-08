@@ -9,8 +9,15 @@ local monarch = require "monarch.monarch"
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	self.pokemons_in_party = storage.list_of_ids_in_inventory()
+	local id
+	if party.last_active ~= nil then
+		id = party.last_active
+	else
+		id = self.pokemons_in_party[1]
+	end
+
 	party.create()
-	party.show(self.pokemons_in_party[party.last_active])
+	party.show(id)
 	inventory.create()
 end
 

@@ -98,7 +98,7 @@ end
 
 local function on_item_selected(list)
 	for i,item in ipairs(list.items) do
-		if item.index == list.selected_item then
+		if item.index == list.selected_item and item.data ~= "" then
 			monarch.show("move_info", {}, {pokemon=current_pokemon, name=item.data, data=_pokemon.get_moves(current_pokemon)[item.data]})
 		end
 	end

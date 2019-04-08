@@ -15,9 +15,7 @@ local meters = require "screens.party.meters"
 
 local M = {}
 
-M.current_pokemon = ""
-
-M.last_active = 1
+M.last_active = nil
 
 local active_page = 1
 
@@ -57,6 +55,7 @@ end
 
 
 function M.show(id)
+	M.last_active = id
 	active_pokemon_id = id
 	local pokemon = storage.get_copy(id)
 	local nodes = pokemon_pages[active_page].nodes
@@ -75,16 +74,18 @@ function M.show(id)
 end
 
 local function reset()
+	active_page = 1
 	pokemon_pages = {}
-	active_pokemon_id = nil
+	--active_pokemon_id = nil
 end
 
 function M.switch_to_slot(index)
+	last_active = index
 	local pos_index = -1
 	local id = storage.list_of_ids_in_inventory()[index]
 	if active_pokemon_id == id then
 		return
-	elseif active_page - index >= 1 then
+	elseif active_page - index < 0 then
 		pos_index = 1
 	end
 	active_pokemon_id = id
@@ -93,7 +94,6 @@ function M.switch_to_slot(index)
 	local active = pokemon_pages[old_page].nodes["pokemon/root"]
 	local new = pokemon_pages[active_page].nodes["pokemon/root"]
 
---	moves.clear(old_page)
 	M.show(id)
 	gui.set_position(new, vmath.vector3(720*pos_index, 0, 0))
 	
@@ -156,7 +156,6 @@ local function parse_number(str, current)
 		value = tonumber(str) - current
 	end
 	return value
-	
 end
 
 function M.on_message(message_id, message)
