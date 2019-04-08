@@ -334,10 +334,6 @@ function M.on_message(self, message_id, message, sender)
 				if starting_moves[i] then
 					local pp = movedex.get_move_pp(starting_moves[i])
 					moves[starting_moves[i]] = {pp=pp, index=i}
-				else
-					local n = gui.get_node("change_pokemon/move_" .. i)
-					gui.set_text(n, "Move")
-					gui.set_color(n, gui_colors.HERO_TEXT_FADED)
 				end
 			end
 			self.pokemon.moves = moves
