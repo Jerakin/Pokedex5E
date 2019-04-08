@@ -6,6 +6,8 @@ local storage = require "pokedex.storage"
 local gui_colors = require "utils.gui_colors"
 local url = require "utils.url"
 
+local party = require "screens.party.party"
+
 local function delete(profile)
 	profiles.delete(profile)
 end
@@ -82,6 +84,7 @@ local function delete_profile(slot)
 end
 
 function init(self)
+	party.last_active = nil
 	button.acquire()
 	msg.post(url.MENU, "hide")
 	self.initial_size = gui.get_size(gui.get_node("profile_slot1/btn_slot"))

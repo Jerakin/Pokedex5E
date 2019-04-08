@@ -12,6 +12,17 @@ local function activate_pokemon(index)
 	party.switch_to_slot(index)
 end
 
+function M.set_active(index, instant)
+	local n = gui.get_node("party_indicator/pokemon_" .. index .. "/pokemon_sprite")
+	local t = gui.get_node("party_indicator/active")
+	local pos = gui.get_position(n)
+	pos.y = 0
+	if instant then
+		gui.set_position(t, pos)
+	else
+		gui.animate(t, "position", pos, gui.EASING_INSINE, 0.5)
+	end
+end
 
 local function create_party_indicators(pokemons_in_party)
 	for i=1, 6 do
@@ -36,6 +47,7 @@ end
 function M.create()
 	local party_pokemons = storage.list_of_ids_in_inventory()
 	create_party_indicators(party_pokemons)
+	M.set_active(1)
 end
 
 function M.on_input(action_id, action)

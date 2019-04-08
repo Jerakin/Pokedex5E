@@ -1,5 +1,6 @@
 local party = require "screens.party.party"
 local inventory = require "screens.party.components.inventory"
+local url = require "utils.url"
 
 local storage = require "pokedex.storage"
 local gooey = require "gooey.gooey"
@@ -8,6 +9,7 @@ local monarch = require "monarch.monarch"
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
+	msg.post(url.MENU, "show")
 	self.pokemons_in_party = storage.list_of_ids_in_inventory()
 	local id
 	if party.last_active ~= nil then
@@ -15,7 +17,7 @@ function init(self)
 	else
 		id = self.pokemons_in_party[1]
 	end
-
+	inventory.set_active(1, true)
 	party.create()
 	party.show(id)
 	inventory.create()
@@ -37,4 +39,7 @@ end
 
 function on_message(self, message_id, message)
 	party.on_message(message_id, message)
+	if message_id == hash("inventory") then
+		inventory.set_active(message.index)
+	end
 end

@@ -76,7 +76,6 @@ end
 local function reset()
 	active_page = 1
 	pokemon_pages = {}
-	--active_pokemon_id = nil
 end
 
 function M.switch_to_slot(index)
@@ -96,6 +95,7 @@ function M.switch_to_slot(index)
 	local new = pokemon_pages[active_page].nodes["pokemon/root"]
 
 	M.show(id)
+	msg.post(".", "inventory", {index=index})
 	gui.set_position(new, vmath.vector3(720*pos_index, 0, 0))
 	
 	gui.animate(active, "position.x", (-1*pos_index)*720, gui.EASING_INSINE, 0.5, 0, function()
@@ -172,8 +172,6 @@ function M.on_message(message_id, message)
 		local hp = parse_number(message.str, current_hp)
 		meters.add_hp(pokemon, hp)
 		meters.setup_hp(pokemon_pages[active_page].nodes, pokemon)
-	else
-		print("unhandled message: " .. message_id)
 	end
 end
 
