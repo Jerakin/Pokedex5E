@@ -85,9 +85,10 @@ function M.switch_to_slot(index)
 	local id = storage.list_of_ids_in_inventory()[index]
 	if active_pokemon_id == id then
 		return
-	elseif active_page - index < 0 then
+	elseif active_page < index then
 		pos_index = 1
 	end
+
 	active_pokemon_id = id
 	local old_page = active_page
 	active_page = (1-active_page ) + 2
