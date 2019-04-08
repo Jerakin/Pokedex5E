@@ -2,33 +2,29 @@ local _pokemon = require "pokedex.pokemon"
 local pokedex = require "pokedex.pokedex"
 local _feats = require "pokedex.feats"
 local gooey = require "gooey.gooey"
+local party_utils = require "screens.party.utils"
 
 local M = {}
 
-local active_ability_lists = {}
+local active_ability_lists = {[1]={}, [2]={}}
+local active_page
 
 local function setup_entry(nodes, name, desc, p, i)
 	local root_node
 	local name_node
 	local desc_node
 
-	if i == 1 then
-		root_node = nodes["pokemon/ability/root"]
-		name_node = nodes["pokemon/ability/name"]
-		desc_node = nodes["pokemon/ability/description"]
-		background_node = nodes["pokemon/ability/background"]
-	else
-		root_node = gui.clone(nodes["pokemon/ability/root"])
-		name_node = gui.clone(nodes["pokemon/ability/name"])
-		desc_node = gui.clone(nodes["pokemon/ability/description"])
-		background_node = gui.clone(nodes["pokemon/ability/background"])
-		gui.set_parent(background_node, root_node)
-		gui.set_parent(name_node, root_node)
-		gui.set_parent(desc_node, root_node)
-		gui.set_inherit_alpha(background_node, false)
-		gui.set_inherit_alpha(name_node, false)
-		gui.set_inherit_alpha(desc_node, false)
-	end
+	root_node = gui.clone(nodes["pokemon/ability/root"])
+	name_node = gui.clone(nodes["pokemon/ability/name"])
+	desc_node = gui.clone(nodes["pokemon/ability/description"])
+	background_node = gui.clone(nodes["pokemon/ability/background"])
+	gui.set_parent(background_node, root_node)
+	gui.set_parent(name_node, root_node)
+	gui.set_parent(desc_node, root_node)
+	gui.set_inherit_alpha(background_node, false)
+	gui.set_inherit_alpha(name_node, false)
+	gui.set_inherit_alpha(desc_node, false)
+	gui.set_enabled(root_node, true)
 
 	gui.set_position(root_node, p)
 	gui.set_text(name_node, name:upper())
@@ -51,22 +47,21 @@ local function setup_entry(nodes, name, desc, p, i)
 	return root_node
 end
 
-function M.setup_features(nodes, pokemon)
+local function setup_features(nodes, pokemon)
 	local function _setup(list, name, desc, index, p)
 		local root_node = setup_entry(nodes, name, desc, p, index)
-		local id = list.id .. name
+		local id = party_utils.set_id(root_node)
 		table.insert(list.data, id)
-		gui.set_id(root_node, id)
+		
 	end
 
-	active_ability_lists = {}
 	local p = vmath.vector3(0, 0, 0)
 	local index
 	local list = {}
 	list.data = {}
 	list.id = _pokemon.get_id(pokemon)
-	gui.set_id(nodes["pokemon/tab_stencil_2"], list.id .. "tab")
-	list.stencil = gui.get_id(nodes["pokemon/tab_stencil_2"])
+	--gui.set_id(nodes["pokemon/tab_stencil_2"], list.id .. "tab")
+	list.stencil = party_utils.set_id(nodes["pokemon/tab_stencil_2"])
 
 	local abilities = _pokemon.get_abilities(pokemon)
 	local feats = _pokemon.get_feats(pokemon)
@@ -76,7 +71,7 @@ function M.setup_features(nodes, pokemon)
 			local desc = pokedex.get_ability_description(name)
 			_setup(list, name, desc, index, p)
 		end
-		table.insert(active_ability_lists, list)
+		table.insert(active_ability_lists[active_page], list)
 	end
 	if next(feats) then
 		for i, name in pairs(feats) do
@@ -84,18 +79,39 @@ function M.setup_features(nodes, pokemon)
 			local desc = _feats.get_feat_description(name)
 			_setup(list, name, desc, index, p)
 		end
-		table.insert(active_ability_lists, list)
+		table.insert(active_ability_lists[active_page], list)
 	end
 
 	if next(abilities) == nil and next(feats) == nil then
-		gui.delete_node(nodes["pokemon/ability/root"])
+		gui.delete_node()
 	end
-	return active_ability_lists
+	
+end
+
+function M.clear(page)
+	for a, list in pairs(active_ability_lists[page]) do
+		for b, data in pairs(list.data) do
+			gui.delete_node(gui.get_node(data))
+		end
+	end
+	active_ability_lists[page] = {}
+end
+
+function M.create(nodes, pokemon, page)
+	active_page = page
+	gui.set_enabled(nodes["pokemon/ability/root"], false)
+	setup_features(nodes, pokemon)
+	-- Update initial positions
+	for _, list in pairs(active_ability_lists[active_page]) do
+		if list ~= nil then
+			gooey.static_list(list.id, list.stencil, list.data)
+		end
+	end
 end
 
 function M.on_input(action_id, action)
-	for _, list in pairs(active_ability_lists) do
-		if next(list.data) ~= nil then
+	for _, list in pairs(active_ability_lists[active_page]) do
+		if list ~= nil and next(list.data) ~= nil then
 			gooey.static_list(list.id, list.stencil, list.data, action_id, action, function() end, function() end)
 		end
 	end

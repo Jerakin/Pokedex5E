@@ -62,8 +62,8 @@ function M.show(id)
 	local nodes = pokemon_pages[active_page].nodes
 	information.create(nodes, pokemon)
 	meters.create(nodes, pokemon)
-	moves.create(nodes, pokemon)
-	features.setup_features(nodes, pokemon)
+	--moves.create(nodes, pokemon)
+	features.create(nodes, pokemon, active_page)
 	
 	button.register(nodes["pokemon/exp_bg"], function()
 		monarch.show("input", {}, {sender=msg.url(), message="update_exp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_exp(id)})
@@ -80,18 +80,28 @@ local function reset()
 end
 
 function M.switch_to_slot(index)
+	local pos_index = -1
 	local id = storage.list_of_ids_in_inventory()[index]
-	local new_page = (1-active_page) + 2
-	local active = pokemon_pages[active_page].nodes["pokemon/root"]
-	local new = pokemon_pages[new_page].nodes["pokemon/root"]
-	active_page = new_page
+	if active_pokemon_id == id then
+		return
+	elseif active_page - index >= 1 then
+		pos_index = 1
+	end
+	active_pokemon_id = id
+	local old_page = active_page
+	active_page = (1-active_page ) + 2
+	local active = pokemon_pages[old_page].nodes["pokemon/root"]
+	local new = pokemon_pages[active_page].nodes["pokemon/root"]
+	
 	M.show(id)
-
-	gui.animate(active, "position.x", 720, gui.EASING_INSINE, 0.5, 0, function()
+	gui.set_position(new, vmath.vector3(720*pos_index, 0, 0))
+	
+	gui.animate(active, "position.x", (-1*pos_index)*720, gui.EASING_INSINE, 0.5, 0, function()
 		gui.set_enabled(active, false)
 	end)
+	gui.set_enabled(new, true)
 	gui.animate(new, "position.x", 0, gui.EASING_INSINE, 0.5, 0, function()
-		gui.set_enabled(new, true)
+		features.clear(old_page)
 	end)
 end
 
@@ -103,14 +113,15 @@ function M.create()
 	gui.set_enabled(gui.get_node("pokemon/tab_bg_2"), false)
 	gui.set_enabled(gui.get_node("pokemon/tab_bg_3"), false)
 
-	for i=1, 2 do
-		local page = gui.clone_tree(gui.get_node("pokemon/root"))
-		tab_buttons(page)
-		table.insert(pokemon_pages, {nodes=page})
-	end
-	gui.set_position(pokemon_pages[2].nodes["pokemon/root"], vmath.vector3(0, 720, 0))
-	gui.set_enabled(pokemon_pages[2].nodes["pokemon/root"], false)
+	local page = gui.clone_tree(gui.get_node("pokemon/root"))
+	tab_buttons(page)
+	table.insert(pokemon_pages, {nodes=page})
 	
+	local page = gui.clone_tree(gui.get_node("pokemon/root"))
+	tab_buttons(page)
+	table.insert(pokemon_pages, {nodes=page})
+	gui.set_enabled(page["pokemon/root"], false)
+
 	gui.delete_node(gui.get_node("pokemon/root"))
 end
 

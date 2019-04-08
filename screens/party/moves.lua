@@ -106,6 +106,7 @@ end
 
 function M.create(nodes, pokemon)
 	active_list = {}
+	pp_buttons = {}
 	gui.set_id(nodes["pokemon/move/txt_pp_current"], "txt_pp_current")
 	gui.set_id(nodes["pokemon/move/txt_pp_max"], "txt_pp_max")
 	gui.set_id(nodes["pokemon/move/lbl_pp"], "lbl_pp")
@@ -128,7 +129,9 @@ end
 
 
 function M.on_input(action_id, action)
-	gooey.dynamic_list("moves", active_list.stencil, active_list.item, active_list.data, action_id, action, on_item_selected, update_list)
+	if next(active_list) ~= nil then
+		gooey.dynamic_list("moves", active_list.stencil, active_list.item, active_list.data, action_id, action, on_item_selected, update_list)
+	end
 	for _, b in pairs(pp_buttons) do
 		gooey.button(b.node, action_id, action, b.func, b.refresh)
 	end
