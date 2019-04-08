@@ -14,7 +14,7 @@ local active_list = {}
 local active_nodes
 
 local pp_buttons = {}
-
+local current_index
 
 local function update_pp(nodes, pokemon, name)
 	local pp_current = nodes[hash("txt_pp_current")]
@@ -104,33 +104,23 @@ local function on_item_selected(list)
 	end
 end
 
-function M.create(nodes, pokemon)
+function M.create(nodes, pokemon, index)
 	active_list = {}
 	pp_buttons = {}
-	gui.set_id(nodes["pokemon/move/txt_pp_current"], "txt_pp_current")
-	gui.set_id(nodes["pokemon/move/txt_pp_max"], "txt_pp_max")
-	gui.set_id(nodes["pokemon/move/lbl_pp"], "lbl_pp")
-	gui.set_id(nodes["pokemon/move/move_stats"], "move_stats")
-	gui.set_id(nodes["pokemon/move/name"], "name")
-	gui.set_id(nodes["pokemon/move/element"], "element")
-	gui.set_id(nodes["pokemon/move/pp/btn_minus"], "btn_minus")
-	gui.set_id(nodes["pokemon/move/pp/btn_plus"], "btn_plus")
-
+	current_index = index
 	current_pokemon = pokemon
-	active_list.stencil = party_utils.set_id(nodes["pokemon/tab_bg_1"])
-	active_list.item = party_utils.set_id(nodes["pokemon/move/move"])
 
 	active_list.data = {}
 	for name, _ in pairs(_pokemon.get_moves(pokemon)) do
 		table.insert(active_list.data, name)
 	end
-	update_list(gooey.dynamic_list("moves", active_list.stencil, active_list.item, active_list.data))
+	update_list(gooey.dynamic_list("moves", "stencil" .. current_index, "item" .. current_index, active_list.data))
 end
 
 
 function M.on_input(action_id, action)
 	if next(active_list) ~= nil then
-		gooey.dynamic_list("moves", active_list.stencil, active_list.item, active_list.data, action_id, action, on_item_selected, update_list)
+		gooey.dynamic_list("moves", "stencil" .. current_index, "item" .. current_index, active_list.data, action_id, action, on_item_selected, update_list)
 	end
 	for _, b in pairs(pp_buttons) do
 		gooey.button(b.node, action_id, action, b.func, b.refresh)

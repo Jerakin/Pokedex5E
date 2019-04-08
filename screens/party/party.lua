@@ -62,7 +62,7 @@ function M.show(id)
 	local nodes = pokemon_pages[active_page].nodes
 	information.create(nodes, pokemon)
 	meters.create(nodes, pokemon)
-	--moves.create(nodes, pokemon)
+	moves.create(nodes, pokemon, active_page)
 	features.create(nodes, pokemon, active_page)
 	
 	button.register(nodes["pokemon/exp_bg"], function()
@@ -92,7 +92,8 @@ function M.switch_to_slot(index)
 	active_page = (1-active_page ) + 2
 	local active = pokemon_pages[old_page].nodes["pokemon/root"]
 	local new = pokemon_pages[active_page].nodes["pokemon/root"]
-	
+
+--	moves.clear(old_page)
 	M.show(id)
 	gui.set_position(new, vmath.vector3(720*pos_index, 0, 0))
 	
@@ -102,7 +103,21 @@ function M.switch_to_slot(index)
 	gui.set_enabled(new, true)
 	gui.animate(new, "position.x", 0, gui.EASING_INSINE, 0.5, 0, function()
 		features.clear(old_page)
+		
 	end)
+end
+
+local function set_ids(nodes, index)
+	gui.set_id(nodes["pokemon/move/txt_pp_current"], "txt_pp_current")
+	gui.set_id(nodes["pokemon/move/txt_pp_max"], "txt_pp_max")
+	gui.set_id(nodes["pokemon/move/lbl_pp"], "lbl_pp")
+	gui.set_id(nodes["pokemon/move/move_stats"], "move_stats")
+	gui.set_id(nodes["pokemon/move/name"], "name")
+	gui.set_id(nodes["pokemon/move/element"], "element")
+	gui.set_id(nodes["pokemon/move/pp/btn_minus"], "btn_minus")
+	gui.set_id(nodes["pokemon/move/pp/btn_plus"], "btn_plus")
+	gui.set_id(nodes["pokemon/tab_bg_1"], "stencil" .. index)
+	gui.set_id(nodes["pokemon/move/move"], "item" .. index)
 end
 
 function M.create()
@@ -116,10 +131,11 @@ function M.create()
 	local page = gui.clone_tree(gui.get_node("pokemon/root"))
 	tab_buttons(page)
 	table.insert(pokemon_pages, {nodes=page})
-	
+	set_ids(page, 1)
 	local page = gui.clone_tree(gui.get_node("pokemon/root"))
 	tab_buttons(page)
 	table.insert(pokemon_pages, {nodes=page})
+	set_ids(page, 2)
 	gui.set_enabled(page["pokemon/root"], false)
 
 	gui.delete_node(gui.get_node("pokemon/root"))
