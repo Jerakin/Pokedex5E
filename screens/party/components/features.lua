@@ -56,7 +56,7 @@ local function setup_features(nodes, pokemon)
 	end
 
 	local p = vmath.vector3(0, 0, 0)
-	local index
+	local index = 0
 	local list = {}
 	list.data = {}
 	list.id = _pokemon.get_id(pokemon)
