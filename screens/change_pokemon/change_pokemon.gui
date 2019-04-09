@@ -4426,6 +4426,61 @@ nodes {
     w: 1.0
   }
   size {
+    x: 200.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/add_backing"
+  id: "ability/root"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "ability"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
     x: 300.0
     y: 50.0
     z: 0.0
@@ -4440,12 +4495,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/add_backing"
-  id: "ability/bg_ability"
+  id: "ability/btn_entry"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "ability"
+  parent: "ability/root"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -4496,7 +4551,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "ABILITY"
   font: "script_bold"
-  id: "ability/ability"
+  id: "ability/txt"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -4514,7 +4569,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "ability/bg_ability"
+  parent: "ability/btn_entry"
   layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
@@ -4563,7 +4618,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "ability/bg_ability"
+  parent: "ability/btn_entry"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -5755,7 +5810,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -543.0
+    y: -523.0
     z: 0.0
     w: 1.0
   }
@@ -5985,6 +6040,61 @@ nodes {
     w: 1.0
   }
   size {
+    x: 200.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/add_backing"
+  id: "feat/root"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "feat"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
     x: 300.0
     y: 50.0
     z: 0.0
@@ -5999,12 +6109,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/add_backing"
-  id: "feat/bg_ability"
+  id: "feat/btn_entry"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "feat"
+  parent: "feat/root"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -6055,7 +6165,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "ABILITY"
   font: "script_bold"
-  id: "feat/ability"
+  id: "feat/txt"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -6073,7 +6183,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "feat/bg_ability"
+  parent: "feat/btn_entry"
   layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
@@ -6122,7 +6232,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "feat/bg_ability"
+  parent: "feat/btn_entry"
   layer: "gui"
   inherit_alpha: true
   slice9 {

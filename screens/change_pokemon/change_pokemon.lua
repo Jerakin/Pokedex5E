@@ -38,7 +38,13 @@ M.config = {
 	[hash("change_pokemon/feats")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
 	[hash("change_pokemon/nature")] = {open=vmath.vector3(720, 70, 0), closed=vmath.vector3(720, 0, 0), active=true}
 }
-
+local node_index = 0
+local function set_id(node)
+	local id = "change_pokemon" .. node_index
+	gui.set_id(node, id)
+	node_index = node_index + 1
+	return id
+end
 
 local function update_sections(instant)
 	local position = vmath.vector3(M.config.start)
@@ -67,79 +73,62 @@ local function pokemon_image(species)
 	gui.set_scale(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector3(3))
 end
 
-local function redraw_list(data_table, entry_table, text_id, bg_id, del_id)
+local function redraw_list(data_table, entry_table, text_hash, btn_hash, delete_hash, root_hash)
+	update_sections()
 	for _, entry in pairs(data_table) do
+		gui.delete_node(entry.root)
 		if entry.position ~= 1 then
-			gui.delete_node(entry.node)
+			--gui.delete_node(entry.root)
 		end
 	end
 	data_table = {}
-	local ability_position
+	local ability_position = vmath.vector3()
 	local amount = 1
 	local text_node
-	local root_node
-	local root_id
+	local button_node
+	local delete_node
+	local btn_id
 	local delete_id
 	for i, ability in pairs(entry_table) do
-		if i == 1 then
-			text_node = gui.get_node(text_id)
-			root_node = gui.get_node(bg_id)
-			checkbox_node = gui.get_node(del_id)
-			root_id = bg_id
-			delete_id = del_id
-			ability_position = gui.get_position(root_node)
-		else
-			local ability_nodes = gui.clone_tree(gui.get_node(bg_id))
-			root_node = ability_nodes[bg_id]
-			text_node = ability_nodes[text_id]
-			checkbox_node = ability_nodes[del_id]
-			root_id = "root_" .. amount
-			delete_id = "delete_" .. amount
-			gui.set_id(root_node, root_id)
-			gui.set_id(checkbox_node, delete_id)
-		end
+		local nodes = gui.clone_tree(gui.get_node(root_hash))
+		gui.set_enabled(nodes[root_hash], true)
+		button_node = nodes[btn_hash]
+		text_node = nodes[text_hash]
+		delete_node = nodes[delete_hash]
+		btn_id = "root_" .. ability
+		delete_id = "delete_" .. ability
+		gui.set_id(button_node, btn_id)
+		gui.set_id(delete_node, delete_id)
+
 		gui.set_color(text_node, gui_colors.BLACK)
-		gui.set_enabled(checkbox_node, true)
-		table.insert(data_table, {name=ability, node=root_node, root_id=root_id, text=text_node, position=i, active=true, delete=delete_id, add=true})
+		gui.set_enabled(delete_node, true)
+		table.insert(data_table, {name=ability, button=btn_id, root=nodes[root_hash], text=text_node, position=i, active=true, delete=delete_id, add=true})
 		gui.set_text(text_node, ability:upper())
-		gui.set_position(root_node, ability_position)
+		gui.set_position(nodes[root_hash], ability_position)
 		ability_position.x = math.mod(i, 2) * 340
 		ability_position.y = math.ceil((i-1)/2) * -40
-		gooey.checkbox(root_id).set_checked(true)
 		amount = amount + 1
 	end
+	local nodes = gui.clone_tree(gui.get_node(root_hash))
+	gui.set_enabled(nodes[root_hash], true)
+	button_node = nodes[btn_hash]
+	text_node = nodes[text_hash]
+	btn_id = "root_" .. amount
+	gui.set_id(button_node, btn_id)
 
-	if next(entry_table) == nil then
-		text_node = gui.get_node(text_id)
-		root_node = gui.get_node(bg_id)
-		checkbox_node = gui.get_node(del_id)
-		root_id = bg_id
-		ability_position = gui.get_position(root_node)
-	else
-		local ability_nodes = gui.clone_tree(gui.get_node(bg_id))
-		root_node = ability_nodes[bg_id]
-		text_node = ability_nodes[text_id]
-		checkbox_node = ability_nodes[del_id]
-		root_id = "root_" .. amount
-		gui.set_id(root_node, root_id)
-	end
+	gui.set_text(text_node, "ADD NEW")
+	gui.set_color(text_node, gui_colors.HERO_TEXT_FADED)
+	gui.set_position(nodes[root_hash], ability_position)
+	gui.set_enabled(nodes[delete_hash], false)
+	table.insert(data_table, {name="Add Other", button=btn_id, root=nodes[root_hash], text=text_node, position=amount, active=true})
 
-	if #entry_table < 6 then  -- No more than 6 abilites for now!
-		gui.set_text(text_node, "ADD NEW")
-		gui.set_color(text_node, gui_colors.HERO_TEXT_FADED)
-		gui.set_position(root_node, ability_position)
-		gui.set_enabled(checkbox_node, false)
-		table.insert(data_table, {name="Add Other", node=root_node, root_id=root_id, text=text_node, position=amount, active=true})
-	else
-		gui.set_enabled(root_node, false)
-	end
 	return data_table, entry_table
 end
 
 
 local function redraw_moves(self)
 	local position = vmath.vector3()
-	M.config[hash("change_pokemon/moves")].open.y = M.config[hash("change_pokemon/moves")].closed.y + math.ceil(self.move_count / 2) * 60
+	M.config[hash("change_pokemon/moves")].open.y = M.config[hash("change_pokemon/moves")].closed.y + math.ceil(self.move_count / 2) * 55
 
 	for _, b in pairs(move_buttons_list) do
 		gui.delete_node(gui.get_node(b.node))
@@ -227,16 +216,22 @@ local function redraw(self)
 	end
 
 	-- Abilities
-	local text_id = "change_pokemon/ability/ability"
-	local bg_id = "change_pokemon/ability/bg_ability"
-	local del_id = "change_pokemon/ability/btn_delete"
-	self.ability_data, self.abilities = redraw_list(self.ability_data, self.abilities, text_id, bg_id, del_id)
+	local root_id = hash("change_pokemon/ability/root")
+	local text_id = hash("change_pokemon/ability/txt")
+	local btn_id = hash("change_pokemon/ability/btn_entry")
+	local del_id = hash("change_pokemon/ability/btn_delete")
+	local nodes = gui.clone_tree(gui.get_node(root_id))
+	M.config[hash("change_pokemon/abilities")].open.y = M.config[hash("change_pokemon/abilities")].closed.y + (math.ceil(#self.abilities / 2) + 1) * 40
+	print(math.ceil(#self.abilities / 2) * 80)
+	self.ability_data, self.abilities = redraw_list(self.ability_data, self.abilities, text_id, btn_id, del_id, root_id)
 
 	-- Feats
-	local text_id = "change_pokemon/feat/ability"
-	local bg_id = "change_pokemon/feat/bg_ability"
-	local del_id = "change_pokemon/feat/btn_delete"
-	self.feats_data, self.feats = redraw_list(self.feats_data, self.feats, text_id, bg_id, del_id)
+	local root_id = hash("change_pokemon/feat/root")
+	local text_id = hash("change_pokemon/feat/txt")
+	local btn_id = hash("change_pokemon/feat/btn_entry")
+	local del_id = hash("change_pokemon/feat/btn_delete")
+	M.config[hash("change_pokemon/feats")].open.y = M.config[hash("change_pokemon/feats")].closed.y + (math.ceil(#self.feats / 2) + 1) * 40
+	self.feats_data, self.feats = redraw_list(self.feats_data, self.feats, text_id, btn_id, del_id, root_id)
 
 	if self.redraw then self.redraw(self) end
 end
@@ -282,6 +277,9 @@ function M.init(self, pokemon)
 	self.list_items = {}
 	self.move_button_index = 0
 	self.root = gui.get_node("root")
+	gui.set_enabled(gui.get_node("change_pokemon/feat/root"), false)
+	gui.set_enabled(gui.get_node("change_pokemon/ability/root"), false)
+	
 	self.move_node = gui.get_node("change_pokemon/btn_move")
 	gui.set_enabled(self.move_node, false)
 	if self.pokemon then
@@ -289,7 +287,6 @@ function M.init(self, pokemon)
 		self.move_count = 4 + count
 		self.abilities = _pokemon.get_abilities(self.pokemon, true)
 		self.feats = _pokemon.get_feats(self.pokemon)
-		pprint(self.feats)
 	else
 		self.move_count = 4
 		self.feats = {}
@@ -435,7 +432,7 @@ local function ability_buttons(self, action_id, action)
 	end)
 	for _, data in pairs(self.ability_data) do
 		if data.name == "Add Other" then
-			gooey.button(data.root_id, action_id, action, function(c) add_ability(self) end)
+			gooey.button(data.button, action_id, action, function(c) add_ability(self) end)
 		else
 			gooey.button(data.delete, action_id, action, function(c) delete_ability(self, data.name) end, gooey_buttons.cross_button)
 		end
@@ -445,7 +442,7 @@ end
 local function feats_buttons(self, action_id, action)
 	for _, data in pairs(self.feats_data) do
 		if data.name == "Add Other" then
-			gooey.button(data.root_id, action_id, action, function() add_feat(self) end)
+			gooey.button(data.button, action_id, action, function() add_feat(self) end)
 		else
 			gooey.button(data.delete, action_id, action, function(c) delete_feat(self, data.name) end, gooey_buttons.cross_button)
 		end
