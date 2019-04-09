@@ -97,7 +97,7 @@ function M.clear(page)
 end
 
 function M.create(nodes, pokemon, page)
-	active_ability_lists = {[1]={}, [2]={}}
+	active_ability_lists[page] = {}
 	active_page = page
 	gui.set_enabled(nodes["pokemon/ability/root"], false)
 	setup_features(nodes, pokemon)
