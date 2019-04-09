@@ -95,8 +95,8 @@ local function redraw_list(data_table, entry_table, text_hash, btn_hash, delete_
 		button_node = nodes[btn_hash]
 		text_node = nodes[text_hash]
 		delete_node = nodes[delete_hash]
-		btn_id = "root_" .. ability
-		delete_id = "delete_" .. ability
+		btn_id = "root_" .. ability .. i
+		delete_id = "delete_" .. ability .. i
 		gui.set_id(button_node, btn_id)
 		gui.set_id(delete_node, delete_id)
 
@@ -222,7 +222,6 @@ local function redraw(self)
 	local del_id = hash("change_pokemon/ability/btn_delete")
 	local nodes = gui.clone_tree(gui.get_node(root_id))
 	M.config[hash("change_pokemon/abilities")].open.y = M.config[hash("change_pokemon/abilities")].closed.y + (math.ceil(#self.abilities / 2) + 1) * 40
-	print(math.ceil(#self.abilities / 2) * 80)
 	self.ability_data, self.abilities = redraw_list(self.ability_data, self.abilities, text_id, btn_id, del_id, root_id)
 
 	-- Feats
