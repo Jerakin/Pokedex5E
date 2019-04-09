@@ -278,6 +278,7 @@ function M.init(self, pokemon)
 	self.root = gui.get_node("root")
 	gui.set_enabled(gui.get_node("change_pokemon/feat/root"), false)
 	gui.set_enabled(gui.get_node("change_pokemon/ability/root"), false)
+	gui.set_enabled(gui.get_node("change_pokemon/btn_reset_abilities"), false)
 	
 	self.move_node = gui.get_node("change_pokemon/btn_move")
 	gui.set_enabled(self.move_node, false)
@@ -524,9 +525,12 @@ function M.on_input(self, action_id, action)
 	gooey.button("change_pokemon/btn_collapse_abilities", action_id, action, function()
 		M.config[hash("change_pokemon/abilities")].active = not M.config[hash("change_pokemon/abilities")].active
 		if M.config[hash("change_pokemon/abilities")].active then
+			gui.set_enabled(gui.get_node("change_pokemon/btn_reset_abilities"), true)
 			M.config[hash("change_pokemon/asi/root")].active = false
 			M.config[hash("change_pokemon/moves")].active = false
 			M.config[hash("change_pokemon/feats")].active = false
+		else
+			gui.set_enabled(gui.get_node("change_pokemon/btn_reset_abilities"), false)
 		end
 		update_sections()
 	end)
