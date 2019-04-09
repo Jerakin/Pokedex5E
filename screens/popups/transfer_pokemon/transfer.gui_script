@@ -143,6 +143,9 @@ local function setup_info(self)
 	gui.set_text(res, join_table("Resistances: ", _pokemon.get_resistances(pokemon), ", "))
 	gui.set_text(imm, join_table("Immunities: ", _pokemon.get_immunities(pokemon), ", "))
 
+	local speed, stype = _pokemon.get_speed_of_type(pokemon)
+	gui.set_text(gui.get_node("txt_speed"), stype .. ": " .. speed)
+	
 	local index = 0
 	local moves_string = ""
 	local pp_string = ""
@@ -151,10 +154,11 @@ local function setup_info(self)
 	end
 	for move, data in pairs(_pokemon.get_moves(pokemon)) do
 		index = index + 1
+		if index > 4 then
+			return
+		end
 		setup_move(pokemon, move, index)
 	end
-	local speed, stype = _pokemon.get_speed_of_type(pokemon)
-	gui.set_text(gui.get_node("txt_speed"), stype .. ": " .. speed)
 end
 
 
