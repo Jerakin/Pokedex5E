@@ -5,7 +5,7 @@ local log = require "utils.log"
 local M = {}
 
 local pokedex
-local abilities
+local abilities = {}
 local evolvedata
 local leveldata
 
@@ -28,6 +28,9 @@ end
 
 function M.get_sprite(pokemon)
 	local pokemon_index = M.get_index_number(pokemon)
+	if pokemon_index == -1 then
+		return "-1MissingNo", "pokemon0"
+	end
 	local pokemon_sprite = pokemon_index .. pokemon
 	if pokemon_index == 32 or pokemon_index == 29 then
 		pokemon_sprite = pokemon_sprite:sub(1, -5)
@@ -100,9 +103,15 @@ end
 function M.get_ability_description(ability)
 	if abilities[ability] then
 		return abilities[ability].Description
+	else
+		local e = string.format("Can not find Ability: '%s'", tostring(ability))
+		gameanalytics.addErrorEvent {
+			severity = "Error",
+			message = e
+		}
+		log.error(e)
+		return "This is an error, the app couldn't find the ability"
 	end
-	log.error("Can not find ability description for: " .. tostring(ability))
-	return ""
 end
 
 function M.get_pokemon_hidden_ability(pokemon)
@@ -129,8 +138,15 @@ end
 function M.get_pokemon(pokemon)
 	if pokedex[pokemon] then
 		return utils.deep_copy(pokedex[pokemon])
+	else
+		local e = string.format("Can not find Pokemon: '%s'", tostring(name))
+		gameanalytics.addErrorEvent {
+			severity = "Critical",
+			message = e
+		}
+		log.error(e)
+		return pokedex["MissingNo"]
 	end
-	log.error("Can not find pokemon : " .. tostring(pokemon))
 end
 
 function M.get_minimum_wild_level(pokemon)

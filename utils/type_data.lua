@@ -37,4 +37,20 @@ local M = {
 	
 	Fairy		= {icon = "element_fairy",		color = vmath.vector3(138/255, 153/255, 172/255, 1)}
 }
+
+-- Error handling 
+local mt = {}
+mt.__index = function(self, i)
+	if i == nil or rawget(M, i) == nil then
+		gameanalytics.addErrorEvent {
+			severity = "Error",
+			message = "Type '" .. i .. "' does not exist"
+		}
+		return rawget(M, "Normal")
+	end
+	return rawget(M, i)
+end
+
+setmetatable(M, mt)
+
 return M

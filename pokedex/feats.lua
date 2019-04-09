@@ -18,7 +18,17 @@ end
 
 
 function M.get_feat_description(name)
-	return feats[name].Description
+	if feats[name] then
+		return feats[name].Description
+	else
+		local e = string.format("Can not find Feat: '%s'", tostring(name))
+		gameanalytics.addErrorEvent {
+			severity = "Error",
+			message = e
+		}
+		log.error(e)
+		return "This is an error, the app couldn't find the feat"
+	end
 end
 
 return M

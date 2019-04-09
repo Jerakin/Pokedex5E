@@ -6,7 +6,7 @@ local log = require "utils.log"
 local M = {}
 
 
-local movedata
+local movedata = {}
 local move_machines
 
 local initialized = false
@@ -14,8 +14,15 @@ local initialized = false
 function M.get_move_data(move)
 	if movedata[move] then
 		return movedata[move]
+	else
+		local e = string.format("Can not find move data for: '%s'", tostring(move))
+		gameanalytics.addErrorEvent {
+			severity = "Error",
+			message = e
+		}
+		log.error(e)
+		return movedata["Error"]
 	end
-	log.error(string.format("Can not find move data for: '%s'", tostring(move)))
 end
 
 function M.get_move_pp(move)
@@ -53,8 +60,15 @@ end
 function M.get_TM(number)
 	if move_machines[number] then
 		return move_machines[number]
+	else
+		local e = string.format("Can not find TM: '%s'", tostring(number))
+		gameanalytics.addErrorEvent {
+			severity = "Error",
+			message = e
+		}
+		log.error(e)
+		return move_machines[999]
 	end
-	log.error("Can not find TM: " .. tostring(number))
 end
 
 function M.init()
@@ -65,4 +79,5 @@ function M.init()
 		initialized = true
 	end
 end
+
 return M
