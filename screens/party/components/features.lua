@@ -82,7 +82,7 @@ local function setup_features(nodes, pokemon)
 	end
 
 	if next(abilities) == nil and next(feats) == nil then
-		gui.delete_node()
+		--gui.delete_node()
 	end
 	
 end
