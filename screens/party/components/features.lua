@@ -60,14 +60,13 @@ local function setup_features(nodes, pokemon)
 	local list = {}
 	list.data = {}
 	list.id = _pokemon.get_id(pokemon)
-	--gui.set_id(nodes["pokemon/tab_stencil_2"], list.id .. "tab")
 	list.stencil = party_utils.set_id(nodes["pokemon/tab_stencil_2"])
 
 	local abilities = _pokemon.get_abilities(pokemon)
 	local feats = _pokemon.get_feats(pokemon)
 	if next(abilities) then
 		for i, name in pairs(abilities) do
-			index = i
+			index = index + 1
 			local desc = pokedex.get_ability_description(name)
 			_setup(list, name, desc, index, p)
 		end
