@@ -22,17 +22,17 @@ local function save_pokemon(self)
 	_pokemon.update_increased_attributes(self.pokemon, self.increased_attributes)
 	local nickname = gui.get_text(gui.get_node("change_pokemon/species"))
 	local abilities = {}
-	for ability, data in pairs(self.ability_data) do
-		if ability ~= "Add Other" then
-			table.insert(abilities, ability)
+	for _, data in pairs(self.ability_data) do
+		if data.name ~= "Add Other" then
+			table.insert(abilities, data.name)
 		end
 	end
 	_pokemon.update_abilities(self.pokemon, abilities)
 
 	local feats = {}
-	for feat, data in pairs(self.feats_data) do
-		if feat ~= "Add Other" then
-			table.insert(feats, feat)
+	for _, data in pairs(self.feats_data) do
+		if data.name ~= "Add Other" then
+			table.insert(feats, data.name)
 		end
 	end
 	_pokemon.update_feats(self.pokemon, feats)
@@ -127,7 +127,6 @@ function init(self)
 		monarch.show("info", nil, {text="To increase HP\nRoll (or take the average of) the hit die and add your CON modifier."})
 	end)
 
-	pokemon_edit.register_buttons_after_species(self)
 	pokemon_edit.redraw(self)
 end
 

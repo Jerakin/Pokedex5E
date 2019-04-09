@@ -37,17 +37,17 @@ local function add_pokemon(self)
 		self.pokemon.attributes.increased = self.increased_attributes
 
 		local abilities = {}
-		for ability, data in pairs(self.ability_data) do
-			if ability ~= "Add Other" then
-				table.insert(abilities, ability)
+		for _, data in pairs(self.ability_data) do
+			if data.name ~= "Add Other" then
+				table.insert(abilities, data.name)
 			end
 		end
 		_pokemon.update_abilities(self.pokemon, abilities)
 
 		local feats = {}
-		for feat, data in pairs(self.feats_data) do
-			if feat ~= "Add Other" then
-				table.insert(feats, feat)
+		for _, data in pairs(self.feats_data) do
+			if data.name ~= "Add Other" then
+				table.insert(feats, data.name)
 			end
 		end
 		_pokemon.update_feats(self.pokemon, feats)

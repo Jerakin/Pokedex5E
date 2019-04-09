@@ -110,6 +110,9 @@ function M.create(nodes, pokemon, page)
 end
 
 function M.on_input(action_id, action)
+	if next(active_ability_lists[active_page]) == nil then
+		return 
+	end
 	for _, list in pairs(active_ability_lists[active_page]) do
 		if list ~= nil and next(list.data) ~= nil then
 			gooey.static_list(list.id, list.stencil, list.data, action_id, action, function() end, function() end)

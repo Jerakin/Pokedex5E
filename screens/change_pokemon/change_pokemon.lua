@@ -68,7 +68,7 @@ local function pokemon_image(species)
 end
 
 local function redraw_list(data_table, entry_table, text_id, bg_id, del_id)
-	for name, entry in pairs(data_table) do
+	for _, entry in pairs(data_table) do
 		if entry.position ~= 1 then
 			gui.delete_node(entry.node)
 		end
@@ -100,7 +100,7 @@ local function redraw_list(data_table, entry_table, text_id, bg_id, del_id)
 		end
 		gui.set_color(text_node, gui_colors.BLACK)
 		gui.set_enabled(checkbox_node, true)
-		data_table[ability] = {node=root_node, root_id=root_id, text=text_node, position=i, active=true, delete=delete_id, add=true}
+		table.insert(data_table, {name=ability, node=root_node, root_id=root_id, text=text_node, position=i, active=true, delete=delete_id, add=true})
 		gui.set_text(text_node, ability:upper())
 		gui.set_position(root_node, ability_position)
 		ability_position.x = math.mod(i, 2) * 340
@@ -129,7 +129,7 @@ local function redraw_list(data_table, entry_table, text_id, bg_id, del_id)
 		gui.set_color(text_node, gui_colors.HERO_TEXT_FADED)
 		gui.set_position(root_node, ability_position)
 		gui.set_enabled(checkbox_node, false)
-		data_table["Add Other"] = {node=root_node, root_id=root_id, text=text_node, position=amount, active=true}
+		table.insert(data_table, {name="Add Other", node=root_node, root_id=root_id, text=text_node, position=amount, active=true})
 	else
 		gui.set_enabled(root_node, false)
 	end
@@ -141,7 +141,6 @@ local function redraw_moves(self)
 	local position = vmath.vector3()
 	M.config[hash("change_pokemon/moves")].open.y = M.config[hash("change_pokemon/moves")].closed.y + math.ceil(self.move_count / 2) * 60
 
-	--pprint(move_buttons_list)
 	for _, b in pairs(move_buttons_list) do
 		gui.delete_node(gui.get_node(b.node))
 		gui.delete_node(b.text)
@@ -272,16 +271,11 @@ local function pick_move(self)
 end
 
 
-function M.register_buttons_after_species(self)
-
-end
-
 function M.init(self, pokemon)
 	msg.post(url.MENU, "hide")
 	if pokemon then
 		self.pokemon = utils.deep_copy(pokemon)
 	end
-	self.move_count = 4
 	self.increased_attributes = {STR= 0,DEX= 0,CON= 0,INT= 0,WIS= 0,CHA= 0}
 	self.level = 1
 	self.ability_score_improvment = 0
@@ -291,9 +285,13 @@ function M.init(self, pokemon)
 	self.move_node = gui.get_node("change_pokemon/btn_move")
 	gui.set_enabled(self.move_node, false)
 	if self.pokemon then
+		local _, count = _pokemon.have_feat(self.pokemon, "Extra Move")
+		self.move_count = 4 + count
 		self.abilities = _pokemon.get_abilities(self.pokemon, true)
 		self.feats = _pokemon.get_feats(self.pokemon)
+		pprint(self.feats)
 	else
+		self.move_count = 4
 		self.feats = {}
 		self.abilities = {}
 	end	
@@ -342,7 +340,6 @@ function M.on_message(self, message_id, message, sender)
 			gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.TEXT)
 			gui.set_text(gui.get_node("change_pokemon/species"), self.pokemon.species.current:upper())
 			gui.set_scale(gui.get_node("change_pokemon/species"), vmath.vector3(0.8))
-			M.register_buttons_after_species(self)
 			if self.register_buttons_after_species then self.register_buttons_after_species(self) end
 		elseif message_id == hash("evolve") then
 			flow.start(function()
@@ -368,7 +365,6 @@ function M.on_message(self, message_id, message, sender)
 			if message.item ~= "" then
 				local n = move_buttons_list[self.move_button_index].text
 				_pokemon.set_move(self.pokemon, message.item, self.move_button_index)
-				--redraw(self)
 				gui.set_text(n, message.item)
 				gui.set_color(n, movedex.get_move_color(message.item))
 			end
@@ -398,20 +394,6 @@ end
 
 local function add_feat(self)
 	local a = utils.deep_copy(_feats.list)
-	--[[local filtered = {}
-	local add
-	for _, new_ability in pairs(a) do 
-		add = true
-		for _, ability in pairs(self.feats) do
-			if new_ability == ability then
-				add = false
-			end
-		end
-		if add then
-			table.insert(filtered, new_ability)
-		end
-
-	end--]]
 	monarch.show("scrollist", {}, {items=_feats.list, message_id="feats", sender=msg.url(), title="Pick Feat"})
 end
 
@@ -430,6 +412,15 @@ local function delete_feat(self, feat)
 	local index
 	for i, name in pairs(self.feats) do
 		if name == feat then
+			if name == "Extra Move" then
+				local temp_move = {}
+				local count = 0
+				for move, data in pairs(self.pokemon.moves) do
+					count = count + 1
+					temp_move[data.index] = move
+				end
+				self.pokemon.moves[temp_move[count]] = nil
+			end
 			index = i
 		end
 	end
@@ -442,22 +433,21 @@ local function ability_buttons(self, action_id, action)
 		self.abilities = pokedex.get_pokemon_abilities(_pokemon.get_current_species(self.pokemon))
 		redraw(self)
 	end)
-	for ability, data in pairs(self.ability_data) do
-		if ability == "Add Other" then
-			print(data.root_id)
-			gooey.button(data.root_id, action_id, action, function() add_ability(self) end)
+	for _, data in pairs(self.ability_data) do
+		if data.name == "Add Other" then
+			gooey.button(data.root_id, action_id, action, function(c) add_ability(self) end)
 		else
-			gooey.button(data.delete, action_id, action, function(c) delete_ability(self, ability) end, gooey_buttons.cross_button)
+			gooey.button(data.delete, action_id, action, function(c) delete_ability(self, data.name) end, gooey_buttons.cross_button)
 		end
 	end
 end
 
 local function feats_buttons(self, action_id, action)
-	for feat, data in pairs(self.feats_data) do
-		if feat == "Add Other" then
+	for _, data in pairs(self.feats_data) do
+		if data.name == "Add Other" then
 			gooey.button(data.root_id, action_id, action, function() add_feat(self) end)
 		else
-			gooey.button(data.delete, action_id, action, function(c) delete_feat(self, feat) end, gooey_buttons.cross_button)
+			gooey.button(data.delete, action_id, action, function(c) delete_feat(self, data.name) end, gooey_buttons.cross_button)
 		end
 	end
 end
