@@ -26,17 +26,17 @@ local move_buttons_list = {}
 
 M.config = {
 	order={
-		[1]=hash("change_pokemon/extra"), [2]=hash("change_pokemon/asi/root"), 
-		[3]=hash("change_pokemon/moves"), [4]=hash("change_pokemon/abilities"),
-		[5]=hash("change_pokemon/feats")
+		[1]=hash("change_pokemon/nature"), [2]=hash("change_pokemon/extra") ,
+		[3]=hash("change_pokemon/asi/root"), [4]=hash("change_pokemon/moves"),
+		[5]=hash("change_pokemon/abilities"), [6]=hash("change_pokemon/feats")
 	},
-	start = vmath.vector3(0, 376, 0),
+	start = vmath.vector3(0, 452, 0),
 	[hash("change_pokemon/asi/root")] = {open=vmath.vector3(720, 420, 0), closed=vmath.vector3(720, 85, 0), active=true},
 	[hash("change_pokemon/abilities")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
 	[hash("change_pokemon/moves")] = {open=vmath.vector3(720, 190, 0), closed=vmath.vector3(720, 50, 0), active=false},
 	[hash("change_pokemon/extra")] = {open=vmath.vector3(720, 150, 0), closed=vmath.vector3(720, 0, 0), active=true},
 	[hash("change_pokemon/feats")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
-	[hash("change_pokemon/nature")] = {open=vmath.vector3(720, 70, 0), closed=vmath.vector3(720, 0, 0), active=false}
+	[hash("change_pokemon/nature")] = {open=vmath.vector3(720, 70, 0), closed=vmath.vector3(720, 0, 0), active=true}
 }
 
 
