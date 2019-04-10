@@ -124,8 +124,7 @@ local function redraw_list(data_table, entry_table, text_hash, btn_hash, delete_
 	gui.set_enabled(nodes[root_hash], true)
 	button_node = nodes[btn_hash]
 	text_node = nodes[text_hash]
-	btn_id = "root_" .. amount
-	gui.set_id(button_node, btn_id)
+	btn_id = set_id(button_node)
 
 	gui.set_text(text_node, "ADD NEW")
 	gui.set_color(text_node, gui_colors.HERO_TEXT_FADED)
