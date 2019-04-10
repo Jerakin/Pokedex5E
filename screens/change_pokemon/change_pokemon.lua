@@ -366,6 +366,7 @@ function M.on_message(self, message_id, message, sender)
 					end
 				end
 			end
+			self.ability_score_improvment = self.ability_score_improvment + 2
 			self.move_count = 4 + count
 			redraw(self)
 		else
@@ -431,6 +432,7 @@ local function delete_feat(self, feat)
 			index = i
 		end
 	end
+	self.ability_score_improvment = self.ability_score_improvment - 2
 	table.remove(self.feats, index)
 	redraw(self)
 end
