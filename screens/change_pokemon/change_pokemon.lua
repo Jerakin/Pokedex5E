@@ -297,6 +297,10 @@ function M.init(self, pokemon)
 		self.move_count = 4 + count
 		self.abilities = _pokemon.get_abilities(self.pokemon, true)
 		self.feats = _pokemon.get_feats(self.pokemon)
+		for _, n in pairs(_pokemon.get_increased_attributes(self.pokemon)) do
+			self.ability_score_improvment = self.ability_score_improvment + n
+		end
+		self.ability_score_improvment = self.ability_score_improvment + #_pokemon.get_feats(self.pokemon) * 2
 	else
 		self.move_count = 4
 		self.feats = {}
