@@ -24,6 +24,8 @@ local M = {}
 local active_buttons = {}
 local move_buttons_list = {}
 
+local button_state = {[true]="minus", [false]="plus"}
+
 M.config = {
 	order={
 		[1]=hash("change_pokemon/nature"), [2]=hash("change_pokemon/extra") ,
@@ -46,6 +48,13 @@ local function set_id(node)
 	return id
 end
 
+local function collapse_buttons()
+	gui.play_flipbook(gui.get_node("change_pokemon/asi/btn_collapse"), button_state[M.config[hash("change_pokemon/asi/root")].active])
+	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_moves"), button_state[M.config[hash("change_pokemon/moves")].active])
+	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_abilities"), button_state[M.config[hash("change_pokemon/abilities")].active])
+	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_feats"), button_state[M.config[hash("change_pokemon/feats")].active])
+end
+
 local function update_sections(instant)
 	local position = vmath.vector3(M.config.start)
 	for _, node in ipairs(M.config.order) do 
@@ -64,6 +73,7 @@ local function update_sections(instant)
 		end
 		position.y = position.y - size.y
 	end
+	collapse_buttons()
 end
 
 local function pokemon_image(species)
@@ -128,7 +138,7 @@ end
 
 local function redraw_moves(self)
 	local position = vmath.vector3()
-	M.config[hash("change_pokemon/moves")].open.y = M.config[hash("change_pokemon/moves")].closed.y + math.ceil(self.move_count / 2) * 55
+	M.config[hash("change_pokemon/moves")].open.y = M.config[hash("change_pokemon/moves")].closed.y + math.ceil(self.move_count / 2) * 60
 
 	for _, b in pairs(move_buttons_list) do
 		gui.delete_node(gui.get_node(b.node))
@@ -493,6 +503,8 @@ local function attribute_buttons(self, action_id, action)
 	gooey.button("change_pokemon/asi/cha/btn_minus", action_id, action, function() decrease(self, "CHA") end, gooey_buttons.minus_button)
 	gooey.button("change_pokemon/asi/cha/btn_plus", action_id, action, function() increase(self, "CHA") end, gooey_buttons.plus_button)
 end
+
+
 
 function M.on_input(self, action_id, action)
 	button.on_input(action_id, action)
