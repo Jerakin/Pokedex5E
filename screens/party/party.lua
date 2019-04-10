@@ -42,6 +42,7 @@ local function activate_tab(nodes, tab_number)
 end
 
 local function tab_buttons(nodes)
+	activate_tab(nodes, 1)
 	button.register(nodes["pokemon/tab_1"], function()
 		activate_tab(nodes, 1)
 	end)
