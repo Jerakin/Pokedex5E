@@ -24,7 +24,7 @@ end
 
 function on_input(self, action_id, action)
 	gooey.button("btn_random", action_id, action, function()
-		local index = math.random(#self.pokemons)
+		local index = rnd.range(1, #self.pokemons)
 		self.species = self.pokemons[index]
 		update_pokemon(self)
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_random")) end)

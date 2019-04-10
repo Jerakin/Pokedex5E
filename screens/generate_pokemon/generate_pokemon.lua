@@ -24,7 +24,7 @@ function M.add_pokemon(species, level)
 	pokemon.level.caught = level
 	pokemon.level.current = level
 	pokemon.moves = moves
-	pokemon.nature = nature.list[math.random(#nature.list)]
+	pokemon.nature = nature.list[rnd.range(1, #nature.list)]
 	storage.add(pokemon)
 end
 

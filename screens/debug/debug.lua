@@ -10,7 +10,7 @@ local generate = require "screens.generate_pokemon.generate_pokemon"
 
 local M = {}
 local function add_pokemon(species)
-	local level = math.min(math.random(20), pokedex.get_minimum_wild_level(species))
+	local level = math.min(rnd.range(1, 20), pokedex.get_minimum_wild_level(species))
 	generate.add_pokemon(species, level)
 end
 
@@ -20,7 +20,7 @@ function M.add_pokemon(amount)
 	local save = defsave.save
 	defsave.save = function() end
 	for i=1, amount do
-		local random_pokemon = pokedex.list[math.random(#pokedex.list)]
+		local random_pokemon = pokedex.list[rnd.range(1, #pokedex.list)]
 		add_pokemon(random_pokemon)
 	end
 	defsave.save = save

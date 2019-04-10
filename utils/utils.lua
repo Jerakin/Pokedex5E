@@ -33,8 +33,8 @@ end
 
 function M.shuffle(T)
 	for i = 1, 10 do
-		local random1 = math.random(#T)
-		local random2 = math.random(#T)
+		local random1 = rnd.range(1, #T)
+		local random2 = rnd.range(1, #T)
 		T[random1], T[random2] = T[random2], T[random1]
 	end
 	return T
@@ -43,7 +43,7 @@ end
 function M.shuffle2(tbl)
 	size = #tbl
 	for i = size, 1, -1 do
-		local rand = math.random(i)
+		local rand = rnd.range(1, i)
 		tbl[i], tbl[rand] = tbl[rand], tbl[i]
 	end
 	return tbl
