@@ -13,6 +13,7 @@ local inventory_buttons = {}
 local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
 local notify = require "utils.notify"
+local tracking_id = require "utils.tracking_id"
 
 local function join_table(title, T, sep)
 	if T then
@@ -24,7 +25,7 @@ end
 local function back()
 	gameanalytics.addDesignEvent {
 		eventId = "Navigation:Back",
-		value = monarch.top()
+		value = tracking_id[monarch.top()]
 	}
 	monarch.back()
 end
@@ -238,8 +239,7 @@ function on_message(self, message_id, message, sender)
 			flow.start(function()
 				flow.until_true(function() return not monarch.is_busy() end)
 				gameanalytics.addDesignEvent {
-					eventId = "Pokemon:Release",
-					value = self.species
+					eventId = "Pokemon:Release:" .. self.species
 				}
 				storage.release_pokemon(message.data)
 				notify.notify(self.nickname .. " WAS RELEASED")

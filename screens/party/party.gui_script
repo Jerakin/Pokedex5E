@@ -1,7 +1,7 @@
 local party = require "screens.party.party"
 local inventory = require "screens.party.components.inventory"
 local url = require "utils.url"
-
+local tracking_id = require "utils.tracking_id"
 local storage = require "pokedex.storage"
 local gooey = require "gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
@@ -28,10 +28,18 @@ function on_input(self, action_id, action)
 	party.on_input(action_id, action)
 	inventory.on_input(action_id, action)
 	gooey.button("btn_edit", action_id, action, function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:EditByButton",
+			value = tracking_id[monarch.top()]
+		}
 		monarch.show("edit", {}, {id=party.get_active_id()})
 	end, gooey_buttons.edit_button)
 
 	gooey.button("btn_storage", action_id, action, function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:PCByButton",
+			value = tracking_id[monarch.top()]
+		}
 		monarch.show("storage")
 	end)
 end

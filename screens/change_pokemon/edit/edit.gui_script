@@ -9,6 +9,7 @@ local url = require "utils.url"
 local gui_colors = require "utils.gui_colors"
 local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
+local tracking_id = require "utils.tracking_id"
 
 local function pokemon_image(species)
 	local pokemon_sprite, texture = pokedex.get_sprite(species)
@@ -42,7 +43,7 @@ local function save_pokemon(self)
 	_pokemon.set_nickname(self.pokemon, nickname)
 	gameanalytics.addDesignEvent {
 		eventId = "Navigation:Party",
-		value = monarch.top()
+		value = tracking_id[monarch.top()]
 	}
 	monarch.show("party")
 end

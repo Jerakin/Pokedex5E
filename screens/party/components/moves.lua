@@ -5,6 +5,8 @@ local type_data = require "utils.type_data"
 local gui_colors = require "utils.gui_colors"
 local gooey_buttons = require "utils.gooey_buttons"
 local monarch = require "monarch.monarch"
+local tracking_id = require "utils.tracking_id"
+
 local M = {}
 
 local current_pokemon
@@ -80,12 +82,18 @@ end
 
 local function update_pp_buttons(nodes, name)
 	local m = {node=name .. "btn_minus", func=function()
+		gameanalytics.addDesignEvent {
+			eventId = "Party:PP:Decrease"
+		}
 		_pokemon.decrease_move_pp(current_pokemon, name)
 		update_pp(nodes, current_pokemon, name)
 	end, refresh=gooey_buttons.minus_button
 	}
 
 	local p = {node=name .. "btn_plus", func=function()
+		gameanalytics.addDesignEvent {
+			eventId = "Party:PP:Increase"
+		}
 		_pokemon.increase_move_pp(current_pokemon, name)
 		update_pp(nodes, current_pokemon, name)
 	end, refresh=gooey_buttons.plus_button
@@ -107,6 +115,10 @@ end
 local function on_item_selected(list)
 	for i,item in ipairs(list.items) do
 		if item.index == list.selected_item and item.data ~= "" then
+			gameanalytics.addDesignEvent {
+				eventId = "Navigation:MoveInfo",
+				value = tracking_id[monarch.top()]
+			}
 			monarch.show("move_info", {}, {pokemon=current_pokemon, name=item.data, data=_pokemon.get_moves(current_pokemon)[item.data]})
 		end
 	end

@@ -8,6 +8,7 @@ local _pokemon = require "pokedex.pokemon"
 local storage = require "pokedex.storage"
 local gooey = require "gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
+local tracking_id = require "utils.tracking_id"
 
 local map = {
 	[hash("party")] = "btn_party",
@@ -78,7 +79,7 @@ function init(self)
 	button.register(self.btn_party, function()
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:PartyByMenu",
-			value = monarch.top()
+			value = tracking_id[monarch.top()]
 		}
 		monarch.show("party")
 		toggle(self)
@@ -87,7 +88,7 @@ function init(self)
 	button.register(self.btn_storage, function()
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:PCByMenu",
-			value = monarch.top()
+			value = tracking_id[monarch.top()]
 		}
 		monarch.show("storage")
 		toggle(self)
@@ -96,7 +97,7 @@ function init(self)
 	button.register(self.btn_about , function()
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:AboutByMenu",
-			value = monarch.top()
+			value = tracking_id[monarch.top()]
 		}
 		monarch.show("about")
 		toggle(self)
@@ -105,7 +106,7 @@ function init(self)
 	button.register(self.btn_generate , function()
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:GenerateByMenu",
-			value = monarch.top()
+			value = tracking_id[monarch.top()]
 		}
 		monarch.show("generate_pokemon")
 		toggle(self)
@@ -114,7 +115,7 @@ function init(self)
 	button.register(self.btn_profiles, function()
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:ProfilesByMenu",
-			value = monarch.top()
+			value = tracking_id[monarch.top()]
 		}
 		monarch.show("profiles")
 		toggle(self)
@@ -123,7 +124,7 @@ function init(self)
 	button.register("btn_add", function()
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:AddByMenu",
-			value = monarch.top()
+			value = tracking_id[monarch.top()]
 		}
 		monarch.show("add")
 		toggle(self)

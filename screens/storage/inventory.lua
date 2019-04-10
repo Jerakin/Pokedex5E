@@ -4,6 +4,8 @@ local button = require "utils.button"
 local monarch = require "monarch.monarch"
 local flow = require "utils.flow"
 local gui_colors = require "utils.gui_colors"
+local tracking_id = require "utils.tracking_id"
+
 local M = {}
 
 local inventory_buttons = {}
@@ -27,7 +29,7 @@ local function inventory_button(node, id)
 	return button.register(node, function()
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:Transfer",
-			value = monarch.top()
+			value = tracking_id[monarch.top()]
 		}
 		monarch.show("transfer_pokemon", {}, {id=id, to="PC"})
 	end)

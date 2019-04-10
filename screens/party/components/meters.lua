@@ -28,6 +28,9 @@ end
 local function add_hp_buttons(nodes, pokemon)
 	local id = party_utils.set_id(nodes["pokemon/hp/btn_plus"])
 	local plus = {node=id, func=function()
+		gameanalytics.addDesignEvent {
+			eventId = "Party:HP:Increase"
+		}
 		local pokemon = storage.get_copy(_pokemon.get_id(pokemon))
 		M.add_hp(pokemon, 1)
 		M.setup_hp(nodes, pokemon) end, refresh=gooey_buttons.plus_button
@@ -35,6 +38,9 @@ local function add_hp_buttons(nodes, pokemon)
 	local id = party_utils.set_id(nodes["pokemon/hp/btn_minus"])
 
 	local minus = {node=id, func=function()
+		gameanalytics.addDesignEvent {
+			eventId = "Party:HP:Decreae"
+		}
 		local pokemon = storage.get_copy(_pokemon.get_id(pokemon))
 		M.add_hp(pokemon, -1)
 		M.setup_hp(nodes, pokemon) end, refresh=gooey_buttons.minus_button
