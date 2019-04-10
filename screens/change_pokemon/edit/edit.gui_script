@@ -48,6 +48,10 @@ local function save_pokemon(self)
 end
 
 local function evolve(self, species)
+	gameanalytics.addDesignEvent {
+		eventId = "Navigation:Back",
+		value = _pokemon.get_current_species(self.pokemon) .. ":" .. species
+	}
 	-- Set and reset
 	self.pokemon.moves = self.pokemon.moves
 	pokemon_image(species)
@@ -178,7 +182,6 @@ local function refresh_input(self, input, node_id)
 		gui.set_enabled(cursor, false)
 		gui.cancel_animation(cursor, gui.PROP_COLOR)
 	end
-	--filter_list(self, input.text)
 end
 
 function on_input(self, action_id, action)

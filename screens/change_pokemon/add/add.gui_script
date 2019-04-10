@@ -30,6 +30,10 @@ end
 
 local function add_pokemon(self)
 	if self.pokemon.nature ~= nil and self.pokemon.species.current ~= "" then
+		gameanalytics.addDesignEvent {
+			eventId = "Pokemon:Add",
+			value = self.pokemon.species.current
+		}
 		self.pokemon.hp.max = get_max_hp(self.pokemon, self.level)
 		self.pokemon.level.caught = self.level
 		self.pokemon.level.current = self.level
