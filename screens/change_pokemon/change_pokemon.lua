@@ -20,6 +20,7 @@ local STATS = {"STR", "DEX", "CON", "INT", "WIS", "CHA"}
 
 local M = {}
 
+M.block = false
 
 local active_buttons = {}
 local move_buttons_list = {}
@@ -330,6 +331,7 @@ function M.on_message(self, message_id, message, sender)
 			if message.item == "" then
 				return
 			end
+			M.block = false
 			self.pokemon = _pokemon.new({species=message.item})
 			self.abilities = pokedex.get_pokemon_abilities(message.item)
 			self.level = self.pokemon.level.current
@@ -521,7 +523,9 @@ function M.on_input(self, action_id, action)
 		}
 		monarch.back()
 	end, gooey_buttons.close_button)
-	
+	if M.block then
+		return
+	end
 	for _, button in pairs(active_buttons) do
 		gooey.button(button.node, action_id, action, button.func, button.refresh)
 	end

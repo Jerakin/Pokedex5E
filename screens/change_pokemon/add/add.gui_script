@@ -31,7 +31,8 @@ end
 local function add_pokemon(self)
 	if self.pokemon.nature ~= nil and self.pokemon.species.current ~= "" then
 		gameanalytics.addDesignEvent {
-			eventId = "Pokemon:Add:" .. self.pokemon.species.current
+			eventId = "Pokemon:Add",
+			value = _pokemon.get_index_number(self.pokemon)
 		}
 		self.pokemon.hp.max = get_max_hp(self.pokemon, self.level)
 		self.pokemon.level.caught = self.level
@@ -87,7 +88,8 @@ function init(self)
 	gui.get_color(gui.get_node("txt_add"), gui_colors.HERO_TEXT_FADED)
 	gui.set_enabled(gui.get_node("change_pokemon/cursor"), false)
 	pokemon_edit.config[hash("change_pokemon/extra")].active = false
-	
+	pokemon_edit.config[hash("change_pokemon/asi/root")].active = false
+	pokemon_edit.block = true
 	function self.register_buttons_after_species(self)
 		gui.set_text(gui.get_node("change_pokemon/pokemon_number"), string.format("#%03d", _pokemon.get_index_number(self.pokemon)))
 		gui.play_flipbook(gui.get_node("btn_add"), "common_up")

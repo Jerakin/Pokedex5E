@@ -177,7 +177,7 @@ function init(self)
 	local d = monarch.data("transfer_pokemon")
 	self.to = d.to
 	self.pokemon_id = d.id
-	self.species = _pokemon.get_current_species(storage.get_copy(d.id))
+	self.index = _pokemon.get_index_number(storage.get_copy(d.id))
 	setup_info(self)
 
 	self.swap = gui.get_node("swap")
@@ -239,7 +239,8 @@ function on_message(self, message_id, message, sender)
 			flow.start(function()
 				flow.until_true(function() return not monarch.is_busy() end)
 				gameanalytics.addDesignEvent {
-					eventId = "Pokemon:Release:" .. self.species
+					eventId = "Pokemon:Release",
+					value = self.index
 				}
 				storage.release_pokemon(message.data)
 				notify.notify(self.nickname .. " WAS RELEASED")
