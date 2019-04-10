@@ -4,6 +4,16 @@ dependencies = https://github.com/britzl/monarch/archive/2.17.1.zip,https://gith
 custom_resources = assets/datafiles
 version = 0.9.0-pr1
 
+[gameanalytics]
+
+
+
+
+custom_dimensions_01 = live,debug
+build_android = 0.9.0-pr1
+build_windows = 0.9.0-pr1
+build_html5 = 0.9.0-pr1
+
 [bootstrap]
 main_collection = /main/main.collectionc
 render = /config/game.renderc
@@ -92,11 +102,5 @@ max_count = 1
 [spine]
 max_count = 1
 
-[gameanalytics]
 
-
-
-
-custom_dimensions_01 = live,debug
-build_android = 0.8.1
 
