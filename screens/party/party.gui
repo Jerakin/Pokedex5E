@@ -4267,7 +4267,7 @@ nodes {
 nodes {
   position {
     x: -186.0
-    y: -5.0
+    y: 9.0
     z: 0.0
     w: 1.0
   }
@@ -4284,7 +4284,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 550.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -4302,7 +4302,7 @@ nodes {
   id: "pokemon/move/move_stats"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_W
+  pivot: PIVOT_NW
   outline {
     x: 1.0
     y: 1.0
@@ -4316,7 +4316,7 @@ nodes {
     w: 1.0
   }
   adjust_mode: ADJUST_MODE_FIT
-  line_break: false
+  line_break: true
   parent: "pokemon/move/move"
   layer: "script"
   inherit_alpha: false
