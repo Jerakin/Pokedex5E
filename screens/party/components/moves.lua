@@ -46,19 +46,27 @@ local function update_listitem(list, item)
 
 	local move_data = _pokemon.get_move_data(current_pokemon, item.data)
 	local move_string = ""
+	
+	if move_data.AB then
+		move_string = move_string .. "AB: " .. move_data.AB .. "  //  "
+	end
+	
+	if move_data.save_dc then
+		move_string = move_string .. "DC: " .. move_data.save_dc.. "  //  "
+	end
 
 	if move_data.damage then
-		move_string = move_string .. "AB: " .. move_data.AB
-		move_string = move_string ..  move_data.damage
-	elseif move_data.save_dc then
-		move_string = move_string ..  move_data.save_dc
+		move_string = move_string ..  move_data.damage .. "  //  "
 	end
 
-	if move_data.AB == nil then
-		move_string = move_string .. "AB: -"
+	if move_data.range then
+		move_string = move_string .. move_data.range
 	end
-	move_string = move_string .. move_data.range or ""
-
+	
+	if move_data.duration then
+		move_string = move_string .. "\n" .. move_data.duration
+	end
+	
 	gui.set_text(item.nodes[hash("move_stats")], move_string)
 
 	
