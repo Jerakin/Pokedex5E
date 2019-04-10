@@ -76,31 +76,55 @@ function init(self)
 
 	
 	button.register(self.btn_party, function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:PartyByMenu",
+			value = monarch.top()
+		}
 		monarch.show("party")
 		toggle(self)
 	end)
 
 	button.register(self.btn_storage, function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:PCByMenu",
+			value = monarch.top()
+		}
 		monarch.show("storage")
 		toggle(self)
 	end)
 
 	button.register(self.btn_about , function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:AboutByMenu",
+			value = monarch.top()
+		}
 		monarch.show("about")
 		toggle(self)
 	end)
 
 	button.register(self.btn_generate , function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:GenerateByMenu",
+			value = monarch.top()
+		}
 		monarch.show("generate_pokemon")
 		toggle(self)
 	end)
 
 	button.register(self.btn_profiles, function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:ProfilesByMenu",
+			value = monarch.top()
+		}
 		monarch.show("profiles")
 		toggle(self)
 	end)
 
 	button.register("btn_add", function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:AddByMenu",
+			value = monarch.top()
+		}
 		monarch.show("add")
 		toggle(self)
 	end)

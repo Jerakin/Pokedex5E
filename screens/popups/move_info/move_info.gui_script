@@ -53,6 +53,10 @@ function init(self)
 end
 
 local function close()
+	gameanalytics.addDesignEvent {
+		eventId = "Navigation:Back",
+		value = monarch.top()
+	}
 	monarch.back()
 end
 

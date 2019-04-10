@@ -5,10 +5,18 @@ local url = require "utils.url"
 local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
 
+local function back()
+	gameanalytics.addDesignEvent {
+		eventId = "Navigation:Back",
+		value = monarch.top()
+	}
+	monarch.back()
+end
+
 local function set_sorting(sorting)
 	storage.set_sorting_method(sorting)
 	msg.post(url.STORAGE, "storage_updated")
-	monarch.back()
+	back()
 end
 
 function init(self)
@@ -36,9 +44,9 @@ end
 
 function on_input(self, action_id, action)
 	local b = button.on_input(action_id, action)
-	gooey.button("btn_close", action_id, action, function() monarch.back() end, function(b) gooey_buttons.common_button(b, self.btn_icon) end)
+	gooey.button("btn_close", action_id, action, function() back() end, function(b) gooey_buttons.common_button(b, self.btn_icon) end)
 	
 	if not b and gui.pick_node(gui.get_node("menu"), action.x, action.y) and action_id == hash("touch") and action.pressed then
-		monarch.back()
+		back()
 	end
 end

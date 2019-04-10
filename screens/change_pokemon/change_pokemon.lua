@@ -508,7 +508,13 @@ end
 
 function M.on_input(self, action_id, action)
 	button.on_input(action_id, action)
-	gooey.button("change_pokemon/btn_close", action_id, action, function() monarch.back() end, gooey_buttons.close_button)
+	gooey.button("change_pokemon/btn_close", action_id, action, function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:Back",
+			value = monarch.top()
+		}
+		monarch.back()
+	end, gooey_buttons.close_button)
 	
 	for _, button in pairs(active_buttons) do
 		gooey.button(button.node, action_id, action, button.func, button.refresh)

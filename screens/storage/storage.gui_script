@@ -89,6 +89,10 @@ local function on_item_selected(self, list)
 				if gui.pick_node(sprite_node, action_position.x, action_position.y) then
 					local pokemon_id = self.filtered_list[(list.selected_item-1)*3 + i]
 					if pokemon_id then
+						gameanalytics.addDesignEvent {
+							eventId = "Navigation:Transfer",
+							value = monarch.top()
+						}
 						monarch.show("transfer_pokemon", {}, {id=pokemon_id, to="PARTY"})
 					end
 				end
@@ -114,9 +118,26 @@ function on_input(self, action_id, action)
 		end
 	end
 
-	gooey.button("btn_party", action_id, action, function() monarch.show("party") end)
-	gooey.button("btn_sort", action_id, action, function() monarch.show("sorting") end, gooey_buttons.pokemon_sort_button)
-	gooey.button("btn_add", action_id, action, function() monarch.show("add") end)
+	gooey.button("btn_party", action_id, action, function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:PartyByButton",
+			value = monarch.top()
+		}
+		monarch.show("party")
+	end)
+	gooey.button("btn_sort", action_id, action, function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:Sorting",
+			value = monarch.top()
+		}
+		monarch.show("sorting")
+	end, gooey_buttons.pokemon_sort_button)
+	gooey.button("btn_add", action_id, action, function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:AddByButton",
+			value = monarch.top()
+		}
+		monarch.show("add") end)
 	searchbar.on_input(self, action_id, action)
 end
 

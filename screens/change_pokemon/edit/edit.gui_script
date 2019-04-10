@@ -40,6 +40,10 @@ local function save_pokemon(self)
 	self.pokemon.level.current = self.level
 	_pokemon.save(self.pokemon)
 	_pokemon.set_nickname(self.pokemon, nickname)
+	gameanalytics.addDesignEvent {
+		eventId = "Navigation:Party",
+		value = monarch.top()
+	}
 	monarch.show("party")
 end
 

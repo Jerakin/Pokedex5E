@@ -25,6 +25,10 @@ end
 
 local function inventory_button(node, id)
 	return button.register(node, function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:Transfer",
+			value = monarch.top()
+		}
 		monarch.show("transfer_pokemon", {}, {id=id, to="PC"})
 	end)
 end

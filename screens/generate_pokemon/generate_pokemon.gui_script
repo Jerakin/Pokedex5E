@@ -256,6 +256,10 @@ function on_input(self, action_id, action)
 	end, gooey_buttons.plus_button)
 
 	gooey.button("btn_back", action_id, action, function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:Back",
+			value = monarch.top()
+		}
 		monarch.back()
 	end)
 	

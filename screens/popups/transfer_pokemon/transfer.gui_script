@@ -21,6 +21,14 @@ local function join_table(title, T, sep)
 	return title
 end
 
+local function back()
+	gameanalytics.addDesignEvent {
+		eventId = "Navigation:Back",
+		value = monarch.top()
+	}
+	monarch.back()
+end
+
 local function update_storage()
 	msg.post(url.STORAGE, "inventory_updated")
 	msg.post(url.STORAGE, "storage_updated")
@@ -54,7 +62,7 @@ local function inventory_button(self, node, id, swap)
 		other_nickname = other_nickname or other_species:upper()
 		notify.notify(self.nickname .. " MOVED TO PARTY\n" .. other_nickname .. " MOVED TO PC")
 		update_storage()
-		monarch.back()
+		back()
 	end)
 end
 
@@ -186,14 +194,15 @@ function init(self)
 	end
 end
 
+
+
 local function move(self)
-	
 	if self.to == "PARTY" then
 		if storage.free_space_in_inventory() then
 			notify.notify(self.nickname .. " MOVED TO " .. self.to)
 			storage.move_to_inventory(self.pokemon_id)
 			update_storage()
-			monarch.back()
+			back()
 		else
 			setup_inventory(self)
 			gui.set_enabled(self.swap, true)
@@ -204,7 +213,7 @@ local function move(self)
 			notify.notify(self.nickname .. " MOVED TO " .. self.to)
 			storage.move_to_storage(self.pokemon_id)
 			update_storage()
-			monarch.back()
+			back()
 		end
 	end
 end
@@ -231,7 +240,7 @@ function on_message(self, message_id, message, sender)
 				storage.release_pokemon(message.data)
 				notify.notify(self.nickname .. " WAS RELEASED")
 				update_storage()
-				monarch.back()
+				back()
 			end)
 		end
 	end
@@ -248,7 +257,7 @@ function on_input(self, action_id, action)
 	gooey.button("btn_cancel", action_id, action, function() cancel_swap(self) end, gooey_buttons.close_button)
 	local g = gooey.button("background", action_id, action, function() end)
 	if not g.over and not b then
-		gooey.button("dimmer", action_id, action, function() monarch.back() end)
+		gooey.button("dimmer", action_id, action, function() back() end)
 	end
 	return true
 end

@@ -83,14 +83,34 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("show_profile") then
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:Profiles",
+			value = monarch.top()
+		}
 		monarch.show("profiles")
 	elseif message_id == hash("show_party") then
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:Party",
+			value = monarch.top()
+		}
 		monarch.show("party")
 	elseif message_id == hash("show_splash") then
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:Splash",
+			value = monarch.top()
+		}
 		monarch.show("splash")
 	elseif message_id == hash("show_storage") then
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:PC",
+			value = monarch.top()
+		}
 		monarch.show("storage")
 	elseif message_id == hash("show_add") then
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:Add",
+			value = monarch.top()
+		}
 		monarch.show("add")
 	end
 end

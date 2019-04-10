@@ -61,8 +61,16 @@ local function add_pokemon(self)
 		end
 		local from = monarch.top(-1)
 		if from == hash("pick_name") or from == hash("add") then
+			gameanalytics.addDesignEvent {
+				eventId = "Navigation:Party",
+				value = monarch.top()
+			}
 			monarch.show("party")
 		else
+			gameanalytics.addDesignEvent {
+				eventId = "Navigation:Back",
+				value = monarch.top()
+			}
 			monarch.back()
 		end
 	end
