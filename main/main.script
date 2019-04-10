@@ -12,6 +12,7 @@ local flow = require "utils.flow"
 local metadata = require "utils.metadata"
 local gui_colors = require "utils.gui_colors"
 local notify = require "utils.notify"
+local screeninfo = require "utils.screeninfo"
 require "utils.lfs_extend"
 
 local function send_crash_on_start()
@@ -33,7 +34,6 @@ local function send_crash_analytics(source, message, traceback)
 	}
 end
 
-
 function init(self)
 	send_crash_on_start()
 	sys.set_error_handler(send_crash_analytics)
@@ -53,7 +53,7 @@ function init(self)
 
 	local system = sys.get_sys_info().system_name
 	if system == "Windows" then
-		defos.set_window_size(0, 0, 570, 1024)
+		defos.set_window_size(0, 0, 570, 1224)
 	end
 	msg.post("#", "show_splash")
 	profiles.init()

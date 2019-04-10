@@ -59,7 +59,7 @@ nodes {
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
+  adjust_mode: ADJUST_MODE_STRETCH
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -292,7 +292,62 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -201.0
+    y: 560.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/add_backing"
+  id: "top_anchor"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_STRETCH
+  parent: "root"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: -760.0
     z: 0.0
     w: 1.0
   }
@@ -328,7 +383,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "top_anchor"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -640,7 +695,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 486.0
+    y: -73.0
     z: 0.0
     w: 1.0
   }
@@ -676,7 +731,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "top_anchor"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -986,7 +1041,7 @@ nodes {
 nodes {
   position {
     x: -310.0
-    y: 605.0
+    y: 46.0
     z: 0.0
     w: 1.0
   }
@@ -1022,7 +1077,7 @@ nodes {
   yanchor: YANCHOR_TOP
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "top_anchor"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -1041,7 +1096,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 226.0
+    y: -333.0
     z: 0.0
     w: 1.0
   }
@@ -1071,7 +1126,7 @@ nodes {
   }
   type: TYPE_TEMPLATE
   id: "asi"
-  parent: "root"
+  parent: "top_anchor"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -4133,7 +4188,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -406.0
+    y: -965.0
     z: 0.0
     w: 1.0
   }
@@ -4169,7 +4224,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "top_anchor"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -4692,7 +4747,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 376.0
+    y: -183.0
     z: 0.0
     w: 1.0
   }
@@ -4728,7 +4783,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "top_anchor"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -5637,7 +5692,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 452.0
+    y: -107.0
     z: 0.0
     w: 1.0
   }
@@ -5673,7 +5728,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "top_anchor"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -5810,7 +5865,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -523.0
+    y: -1082.0
     z: 0.0
     w: 1.0
   }
@@ -5846,7 +5901,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "top_anchor"
   layer: ""
   inherit_alpha: true
   slice9 {

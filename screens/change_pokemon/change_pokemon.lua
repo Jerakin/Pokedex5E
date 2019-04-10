@@ -32,7 +32,7 @@ M.config = {
 		[3]=hash("change_pokemon/asi/root"), [4]=hash("change_pokemon/moves"),
 		[5]=hash("change_pokemon/abilities"), [6]=hash("change_pokemon/feats")
 	},
-	start = vmath.vector3(0, 452, 0),
+	start = vmath.vector3(0, -110, 0),
 	[hash("change_pokemon/asi/root")] = {open=vmath.vector3(720, 420, 0), closed=vmath.vector3(720, 85, 0), active=true},
 	[hash("change_pokemon/abilities")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
 	[hash("change_pokemon/moves")] = {open=vmath.vector3(720, 190, 0), closed=vmath.vector3(720, 50, 0), active=false},
