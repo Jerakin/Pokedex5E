@@ -88,6 +88,16 @@ function M.get_experience_for_level(pokemon)
 	return pokedex.get_experience_for_level(M.get_current_level(pokemon))
 end
 
+function M.have_ability(pokemon, ability)
+	local count = 0
+	for _, f in pairs(M.get_abilities(pokemon)) do
+		if f == ability then
+			return true
+		end
+	end
+	return false
+end
+
 function M.have_feat(pokemon, feat)
 	local count = 0
 	for _, f in pairs(M.get_feats(pokemon)) do
@@ -192,10 +202,15 @@ function M.get_max_hp_edited(pokemon)
 end
 
 function M.get_max_hp(pokemon)
+	if M.have_ability(pokemon, "Paper Thin") then
+		return 1
+	end
+	
 	local tough_feat = 0
 	if M.have_feat(pokemon, "Tough") then
 		tough_feat = M.get_current_level(pokemon) * 2
 	end
+
 	return pokemon.hp.max + tough_feat
 end
 
@@ -357,7 +372,7 @@ local function set_evolution_at_level(pokemon, level)
 end
 
 function M.add_hp_from_levels(pokemon, to_level)
-	if not M.get_max_hp_edited(pokemon) then
+	if not M.get_max_hp_edited(pokemon) and not M.have_ability(pokemon, "Paper Thin") then
 		local current = M.get_max_hp(pokemon)
 		local hit_dice = M.get_hit_dice(pokemon)
 		local con = M.get_attributes(pokemon).CON
