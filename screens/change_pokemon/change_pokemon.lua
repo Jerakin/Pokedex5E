@@ -320,8 +320,8 @@ function M.on_message(self, message_id, message, sender)
 		if message_id == hash("nature") then
 			self.pokemon.nature = message.item
 			self.pokemon.attributes.nature = natures.get_nature_attributes(message.item)
-			gui.set_text(gui.get_node("change_pokemon/nature"), message.item)
-			gui.set_color(gui.get_node("change_pokemon/nature"), gui_colors.HERO_TEXT)
+			gui.set_text(gui.get_node("change_pokemon/txt_nature"), message.item)
+			gui.set_color(gui.get_node("change_pokemon/txt_nature"), gui_colors.HERO_TEXT)
 		elseif message_id == hash("species") then
 			if message.item == "" then
 				return
