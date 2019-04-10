@@ -48,13 +48,11 @@ local function update_listitem(list, item)
 	local move_string = {}
 	
 	if move_data.AB then
-		table.insert(move_string, "AB:")
-		table.insert(move_string, move_data.AB)
+		table.insert(move_string, "AB: +" .. move_data.AB)
 	end
 	
 	if move_data.save_dc then
-		table.insert(move_string, "DC:")
-		table.insert(move_string, move_data.save_dc)
+		table.insert(move_string, "DC: " .. move_data.save_dc)
 	end
 
 	if move_data.damage then
@@ -69,7 +67,7 @@ local function update_listitem(list, item)
 		table.insert(move_string, move_data.duration)
 	end
 
-	gui.set_text(item.nodes[hash("move_stats")], table.concat(move_string, "  //  "))
+	gui.set_text(item.nodes[hash("move_stats")], table.concat(move_string, "  ||  "))
 
 	
 	gui.set_text(item.nodes[hash("name")], item.data:upper())
