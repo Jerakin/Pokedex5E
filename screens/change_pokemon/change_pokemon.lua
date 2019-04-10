@@ -53,6 +53,7 @@ local function collapse_buttons()
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_moves"), button_state[M.config[hash("change_pokemon/moves")].active])
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_abilities"), button_state[M.config[hash("change_pokemon/abilities")].active])
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_feats"), button_state[M.config[hash("change_pokemon/feats")].active])
+	gui.set_enabled(gui.get_node("change_pokemon/btn_reset_abilities"), M.config[hash("change_pokemon/abilities")].active)
 end
 
 local function update_sections(instant)
@@ -537,12 +538,9 @@ function M.on_input(self, action_id, action)
 	gooey.button("change_pokemon/btn_collapse_abilities", action_id, action, function()
 		M.config[hash("change_pokemon/abilities")].active = not M.config[hash("change_pokemon/abilities")].active
 		if M.config[hash("change_pokemon/abilities")].active then
-			gui.set_enabled(gui.get_node("change_pokemon/btn_reset_abilities"), true)
 			M.config[hash("change_pokemon/asi/root")].active = false
 			M.config[hash("change_pokemon/moves")].active = false
 			M.config[hash("change_pokemon/feats")].active = false
-		else
-			gui.set_enabled(gui.get_node("change_pokemon/btn_reset_abilities"), false)
 		end
 		update_sections()
 	end)
