@@ -143,7 +143,7 @@ def convert_move_data(input_file):
 
     reg_damage_level = re.compile("Dmg lvl (\d+)")
     reg_damage_dice = re.compile("(?i)(\d+)d(\d+)\s*(\+\s*move|)")
-    reg_saving_throw = re.compile("make a (.{3}) sav")
+    reg_saving_throw = re.compile("(?:make|with) a (.{3}) sav")
     converted = {}
 
     with open(input_file, "r") as fp:
