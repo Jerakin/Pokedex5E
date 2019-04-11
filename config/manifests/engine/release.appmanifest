@@ -1,4 +1,4 @@
-# App manifest generated Wed Mar 06 2019 18:26:36 GMT+0100 (Central European Standard Time)
+# App manifest generated Thu Apr 11 2019 02:12:15 GMT+0200 (Central European Summer Time)
 # Settings: Physics2D,Physics3D,Record,Profiler,Facebook,Gameroom,Sound
 platforms:
     x86_64-osx:
@@ -18,7 +18,7 @@ platforms:
     js-web:
         context:
             excludeLibs: ["physics","LinearMath","BulletDynamics","BulletCollision","Box2D","record","vpx","profilerext","facebookext","sound","tremolo"]
-            excludeJsLibs: ["facebook","facebook_iap"]
+            excludeJsLibs: ["facebook"]
             excludeSymbols: ["ProfilerExt","FacebookExt","DefaultSoundDevice","AudioDecoderWav","AudioDecoderStbVorbis","AudioDecoderTremolo"]
             libs: ["physics_null","record_null","profilerext_null","sound_null"]
             linkFlags: []
@@ -26,7 +26,7 @@ platforms:
     wasm-web:
         context:
             excludeLibs: ["physics","LinearMath","BulletDynamics","BulletCollision","Box2D","record","vpx","profilerext","facebookext","sound","tremolo"]
-            excludeJsLibs: ["facebook","facebook_iap"]
+            excludeJsLibs: ["facebook"]
             excludeSymbols: ["ProfilerExt","FacebookExt","DefaultSoundDevice","AudioDecoderWav","AudioDecoderStbVorbis","AudioDecoderTremolo"]
             libs: ["physics_null","record_null","profilerext_null","sound_null"]
             linkFlags: []
