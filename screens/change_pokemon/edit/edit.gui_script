@@ -39,8 +39,8 @@ local function save_pokemon(self)
 	_pokemon.update_feats(self.pokemon, feats)
 	
 	self.pokemon.level.current = self.level
-	_pokemon.save(self.pokemon)
 	_pokemon.set_nickname(self.pokemon, nickname)
+	_pokemon.save(self.pokemon)
 	gameanalytics.addDesignEvent {
 		eventId = "Navigation:Party",
 		value = tracking_id[monarch.top()]
@@ -62,6 +62,9 @@ local function evolve(self, species)
 	self.ability_score_improvment = self.ability_score_improvment - pokedex.evolve_points(_pokemon.get_current_species(self.pokemon))
 	_pokemon.add_hp_from_levels(self.pokemon, self.level)
 	self.pokemon.level.current = self.level
+	
+	self.nickname = _pokemon.get_nickname(self.pokemon)
+	self.nickname = self.nickname or species:upper()
 	_pokemon.evolve(self.pokemon, species, self.level)
 
 	pokemon_edit.redraw(self)

@@ -6,6 +6,7 @@
 
 local M = {
 
+	--Navigation Events
 	[hash("debug")] = 201,
 	[hash("are_you_sure")] = 202,
 	[hash("info")] = 203,

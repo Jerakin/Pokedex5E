@@ -108,7 +108,7 @@ function M.set_nickname(id, nickname)
 end
 
 function M.get_nickname(id)
-	return get(id).nickname
+	return get(id) and get(id).nickname or nil
 end
 
 function M.update_pokemon(pokemon)

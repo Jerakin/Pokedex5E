@@ -176,7 +176,11 @@ local function redraw(self)
 	if not self.pokemon or self.pokemon.species.current == "" then
 		return
 	end
-	local species_node = gui.get_node("change_pokemon/species")
+	local nickname = _pokemon.get_nickname(self.pokemon)
+	local species = _pokemon.get_current_species(self.pokemon)
+	nickname = nickname or species:upper()
+	gui.set_text(gui.get_node("change_pokemon/species"), nickname)
+
 	gui.set_text(gui.get_node("change_pokemon/txt_level"), self.level)
 	
 	gui.set_text(gui.get_node("change_pokemon/nature"), self.pokemon.nature:upper() or "No Nature")
