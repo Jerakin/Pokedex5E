@@ -50,14 +50,14 @@ end
 
 local function evolve(self, species)
 	gameanalytics.addDesignEvent {
-		eventId = "Navigation:Back",
-		value = tracking_id[monarch.top()]
+		eventId = "Pokemon:Evolve:" .. _pokemon.get_index_number(self.pokemon),
+		value = pokedex.get_index_number(species)
 	}
 	-- Set and reset
 	self.pokemon.moves = self.pokemon.moves
 	pokemon_image(species)
 	self.have_evolved = true
-
+	
 	-- Edit pokemon
 	self.ability_score_improvment = self.ability_score_improvment - pokedex.evolve_points(_pokemon.get_current_species(self.pokemon))
 	_pokemon.add_hp_from_levels(self.pokemon, self.level)
