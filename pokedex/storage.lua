@@ -76,7 +76,16 @@ function M.list_of_ids_in_inventory()
 end
 
 function M.get_copy(id)
-	return utils.deep_copy(storage[id] and storage[id] or active[id])
+	local pokemon = utils.deep_copy(storage[id] and storage[id] or active[id])
+	if pokemon == nil then
+		local e = string.format("Can not find pokemon with id: '%s'", tostring(id))
+		gameanalytics.addErrorEvent {
+			severity = "Error",
+			message = e
+		}
+		log.error(e)
+	end
+	return pokemon
 end
 
 local function get(id)
