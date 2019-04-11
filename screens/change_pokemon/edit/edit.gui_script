@@ -51,7 +51,7 @@ end
 local function evolve(self, species)
 	gameanalytics.addDesignEvent {
 		eventId = "Navigation:Back",
-		value = _pokemon.get_current_species(self.pokemon) .. ":" .. species
+		value = tracking_id[monarch.top()]
 	}
 	-- Set and reset
 	self.pokemon.moves = self.pokemon.moves
