@@ -23,8 +23,10 @@ function M.done()
 end
 
 function M.notify(text)
-	table.insert(queue, text)
-	msg.post(M.url, "notify")
+	if #queue < 4 then
+		table.insert(queue, text)
+		msg.post(M.url, "notify")
+	end
 end
 
 return M
