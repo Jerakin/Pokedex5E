@@ -77,7 +77,8 @@ end
 
 function M.get_copy(id)
 	local pokemon = utils.deep_copy(storage[id] and storage[id] or active[id])
-	if pokemon == nil then
+	return pokemon
+	--[[if pokemon == nil then
 		local e = string.format("Can not find pokemon with id: '%s'", tostring(id))
 		gameanalytics.addErrorEvent {
 			severity = "Error",
@@ -85,7 +86,7 @@ function M.get_copy(id)
 		}
 		log.error(e)
 	end
-	return pokemon
+	return pokemon--]]
 end
 
 local function get(id)
