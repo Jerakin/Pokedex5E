@@ -59,19 +59,21 @@ function M.show(id)
 	M.last_active = id
 	active_pokemon_id = id
 	local pokemon = storage.get_copy(id)
-	local nodes = pokemon_pages[active_page].nodes
-	information.create(nodes, pokemon)
-	meters.create(nodes, pokemon)
-	moves.create(nodes, pokemon, active_page)
-	features.create(nodes, pokemon, active_page)
-	
-	button.register(nodes["pokemon/exp_bg"], function()
-		monarch.show("input", {}, {sender=msg.url(), message="update_exp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_exp(id)})
-	end)
+	if pokemon then
+		local nodes = pokemon_pages[active_page].nodes
+		information.create(nodes, pokemon)
+		meters.create(nodes, pokemon)
+		moves.create(nodes, pokemon, active_page)
+		features.create(nodes, pokemon, active_page)
+		
+		button.register(nodes["pokemon/exp_bg"], function()
+			monarch.show("input", {}, {sender=msg.url(), message="update_exp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_exp(id)})
+		end)
 
-	button.register(nodes["pokemon/hp_bar_bg"], function()
-		monarch.show("input", {}, {sender=msg.url(), message="update_hp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_current_hp(id)})
-	end)
+		button.register(nodes["pokemon/hp_bar_bg"], function()
+			monarch.show("input", {}, {sender=msg.url(), message="update_hp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_current_hp(id)})
+		end)
+	end
 end
 
 local function reset()

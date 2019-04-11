@@ -80,11 +80,6 @@ local function setup_features(nodes, pokemon)
 		end
 		table.insert(active_ability_lists[active_page], list)
 	end
-
-	if next(abilities) == nil and next(feats) == nil then
-		--gui.delete_node()
-	end
-	
 end
 
 function M.clear(page)
@@ -110,7 +105,7 @@ function M.create(nodes, pokemon, page)
 end
 
 function M.on_input(action_id, action)
-	if next(active_ability_lists[active_page]) == nil then
+	if active_ability_lists[active_page] == nil or next(active_ability_lists[active_page]) == nil then
 		return 
 	end
 	for _, list in pairs(active_ability_lists[active_page]) do
