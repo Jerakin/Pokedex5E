@@ -159,54 +159,10 @@ function M.on_input(action_id, action)
 	meters.on_input(action_id, action)
 end
 
-local function parse_number(str, current)
-	local value
-	local expr
-	if string.find(str, "[+-]") ~= nil then
-		value = loadstring("return " .. current .. str)() - current
-		expr = true
-	else
-		expr = false
-		value = tonumber(str) - current
-	end
-	return value, expr
+function M.on_message(message_id, message)
+	message.active_pokemon_id = active_pokemon_id
+	meters.on_message(message_id, message)
 end
 
-function M.on_message(message_id, message)
-	if message_id == hash("update_exp") then
-		local pokemon = storage.get_copy(active_pokemon_id)
-		local current_exp = _pokemon.get_exp(pokemon)
-		local exp, expr = parse_number(message.str, current_exp)
-		_pokemon.set_exp(pokemon, current_exp + exp)
-		meters.setup_exp(pokemon_pages[active_page].nodes, pokemon)
-		if expr then
-			gameanalytics.addDesignEvent {
-				eventId = "Party:EXP:Edit"
-			}
-		else
-			gameanalytics.addDesignEvent {
-				eventId = "Party:EXP:Set",
-				value = exp
-			}
-		end
-	elseif message_id == hash("update_hp") then
-		local pokemon = storage.get_copy(active_pokemon_id)
-		local current_hp = _pokemon.get_current_hp(pokemon)
-		local hp, expr = parse_number(message.str, current_hp)
-		if expr then
-			gameanalytics.addDesignEvent {
-				eventId = "Party:HP:Edit"
-			}
-		else
-			gameanalytics.addDesignEvent {
-				eventId = "Party:HP:Set",
-				value = hp
-			}
-		end
-		
-		meters.add_hp(pokemon, hp)
-		meters.setup_hp(pokemon_pages[active_page].nodes, pokemon)
-	end
-end
 
 return M

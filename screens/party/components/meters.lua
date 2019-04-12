@@ -9,7 +9,7 @@ local M = {}
 local active_buttons = {}
 
 local current_id
-
+local active_nodes 
 local function update_hp_meter(nodes, max, current)
 	local max_size = gui.get_size(nodes["pokemon/hp_bar_bg"])
 	local percent = current/max
@@ -74,6 +74,7 @@ function M.setup_hp(nodes, pokemon)
 end
 
 function M.create(nodes, pokemon)
+	active_nodes = nodes
 	active_buttons = {}
 	M.setup_hp(nodes, pokemon)
 	add_hp_buttons(nodes, pokemon)
@@ -83,6 +84,58 @@ end
 function M.on_input(action_id, action)
 	for _, b in pairs(active_buttons) do
 		gooey.button(b.node, action_id, action, b.func, b.refresh)
+	end
+end
+
+local function parse_number(str, current)
+	local value
+	local expr
+	if string.find(str, "[+-]") ~= nil then
+		value = loadstring("return " .. current .. str)() - current
+		expr = true
+	else
+		expr = false
+		value = tonumber(str) - current
+	end
+	return value, expr
+end
+
+function M.on_message(message_id, message)
+	if message_id == hash("update_exp") then
+		local pokemon = storage.get_copy(message.active_pokemon_id)
+		local current_exp = _pokemon.get_exp(pokemon)
+		local min = pokedex.get_experience_for_level( _pokemon.get_current_level(pokemon)-1)
+		local exp, expr = parse_number(message.str, current_exp)
+		exp = math.max(min, current_exp + exp)
+		_pokemon.set_exp(pokemon, exp)
+		M.setup_exp(active_nodes, pokemon)
+		if expr then
+			gameanalytics.addDesignEvent {
+				eventId = "Party:EXP:Edit"
+			}
+		else
+			gameanalytics.addDesignEvent {
+				eventId = "Party:EXP:Set",
+				value = exp
+			}
+		end
+	elseif message_id == hash("update_hp") then
+		local pokemon = storage.get_copy(active_pokemon_id)
+		local current_hp = _pokemon.get_current_hp(pokemon)
+		local hp, expr = parse_number(message.str, current_hp)
+		M.add_hp(pokemon, hp)
+		M.setup_hp(active_nodes, pokemon)
+		
+		if expr then
+			gameanalytics.addDesignEvent {
+				eventId = "Party:HP:Edit"
+			}
+		else
+			gameanalytics.addDesignEvent {
+				eventId = "Party:HP:Set",
+				value = hp
+			}
+		end
 	end
 end
 
