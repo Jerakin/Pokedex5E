@@ -218,9 +218,7 @@ local function move(self)
 		end
 	end
 end
-local function close()
-	monarch.back()
-end
+
 
 local function cancel_swap(self)
 	gui.set_enabled(self.swap, false)
@@ -258,11 +256,11 @@ function on_input(self, action_id, action)
 		gooey.button("btn_move", action_id, action, function() move(self) end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_move")) end)
 		gooey.button("btn_release", action_id, action, function() release(self) end)
 	end
-	gooey.button("btn_close", action_id, action, close, gooey_buttons.close_button)
+	gooey.button("btn_close", action_id, action, back, gooey_buttons.close_button)
 	gooey.button("btn_cancel", action_id, action, function() cancel_swap(self) end, gooey_buttons.close_button)
 	local g = gooey.button("background", action_id, action, function() end)
 	if not g.over and not b then
-		gooey.button("dimmer", action_id, action, function() back() end)
+		gooey.button("dimmer", action_id, action, back)
 	end
 	return true
 end
