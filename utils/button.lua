@@ -37,7 +37,6 @@ local EMPTY_HASH = hash("")
 local registered_nodes = {}
 
 local index_count = 0
-M.long_press_time = 0.5
 
 local function ensure_node(node_or_node_id)
 	return type(node_or_node_id) == "string" and gui.get_node(node_or_node_id) or node_or_node_id
@@ -69,13 +68,13 @@ function M.release()
 end
 
 --- Register a node and a callback to invoke when it is clicked
-function M.register(node_or_string, callback, callback_longpress)
+function M.register(node_or_string, callback)
 	assert(node_or_string, "You must provide a node")
 	assert(callback, "You must provide a callback")
 	local node = ensure_node(node_or_string)
 	assert(node, "You must provide an existing node or node name")
 	local key = node_to_key(node)
-	registered_nodes[key] = { url = msg.url(), callback = callback, node = node, scale = gui.get_scale(node), longpress = callback_longpress}
+	registered_nodes[key] = { url = msg.url(), callback = callback, node = node, scale = gui.get_scale(node) }
 	return node
 end
 
@@ -155,13 +154,11 @@ function M.on_input(action_id, action)
 			local registered_node = find_registered_node(action.x, action.y)
 			if registered_node then
 				registered_node.pressed = true
-				registered_node.pressed_time = socket.gettime()
 				return true
 			end
 		elseif action.released then
 			local registered_node = find_registered_node(action.x, action.y)
 			local pressed = registered_node and registered_node.pressed
-			local time = registered_node and socket.gettime() - (registered_node.pressed_time or 0) or 0
 			local url = msg.url()
 			for _,registered_node in pairs(registered_nodes) do
 				if registered_node.url == url then
@@ -169,13 +166,10 @@ function M.on_input(action_id, action)
 				end
 			end
 			if pressed then
-				if time < M.long_press_time then
-					registered_node.callback()
-				else
-					if registered_node.longpress then registered_node.longpress() end
-				end
+				shake(registered_node.node, registered_node.scale)
+				registered_node.callback()
 			end
-			return true
+			return pressed
 		end
 	end
 	return false
