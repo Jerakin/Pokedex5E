@@ -5488,7 +5488,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 40.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -5543,7 +5543,7 @@ nodes {
 nodes {
   position {
     x: -360.0
-    y: -40.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -5638,7 +5638,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 40.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -5671,8 +5671,8 @@ nodes {
   texture: "gui/square"
   id: "party_indicator/template/btm_bar"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  yanchor: YANCHOR_BOTTOM
+  pivot: PIVOT_S
   adjust_mode: ADJUST_MODE_STRETCH
   parent: "party_indicator/template"
   layer: "gui"
@@ -5693,7 +5693,7 @@ nodes {
 nodes {
   position {
     x: 10.0
-    y: 0.0
+    y: 38.0
     z: 0.0
     w: 1.0
   }
@@ -5747,8 +5747,8 @@ nodes {
 }
 nodes {
   position {
-    x: -398.0
-    y: -42.0
+    x: -306.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -5759,8 +5759,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.8
-    y: 0.8
+    x: 1.0
+    y: 1.0
     z: 1.0
     w: 1.0
   }
@@ -5777,7 +5777,7 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "party_indicator/pokemon_1"
+  id: "party_indicator/inventory_pokemon_1"
   parent: "party_indicator/root"
   layer: ""
   inherit_alpha: true
@@ -5787,8 +5787,8 @@ nodes {
 }
 nodes {
   position {
-    x: 115.0
-    y: 3.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -5799,8 +5799,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 3.0
-    y: 3.0
+    x: 2.5
+    y: 2.5
     z: 1.0
     w: 1.0
   }
@@ -5819,12 +5819,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "sprite0/100Voltorb"
-  id: "party_indicator/pokemon_1/pokemon_sprite"
+  id: "party_indicator/inventory_pokemon_1/pokemon_sprite"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_S
   adjust_mode: ADJUST_MODE_FIT
-  parent: "party_indicator/pokemon_1"
+  parent: "party_indicator/inventory_pokemon_1"
   layer: "sprite"
   inherit_alpha: true
   slice9 {
@@ -5842,8 +5842,8 @@ nodes {
 }
 nodes {
   position {
-    x: -398.0
-    y: -42.0
+    x: -199.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -5854,8 +5854,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.8
-    y: 0.8
+    x: 1.0
+    y: 1.0
     z: 1.0
     w: 1.0
   }
@@ -5872,7 +5872,7 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "party_indicator/pokemon_2"
+  id: "party_indicator/inventory_pokemon_2"
   parent: "party_indicator/root"
   layer: ""
   inherit_alpha: true
@@ -5882,8 +5882,8 @@ nodes {
 }
 nodes {
   position {
-    x: 248.75
-    y: 3.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -5894,8 +5894,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 3.0
-    y: 3.0
+    x: 2.5
+    y: 2.5
     z: 1.0
     w: 1.0
   }
@@ -5914,12 +5914,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "sprite0/100Voltorb"
-  id: "party_indicator/pokemon_2/pokemon_sprite"
+  id: "party_indicator/inventory_pokemon_2/pokemon_sprite"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_S
   adjust_mode: ADJUST_MODE_FIT
-  parent: "party_indicator/pokemon_2"
+  parent: "party_indicator/inventory_pokemon_2"
   layer: "sprite"
   inherit_alpha: true
   slice9 {
@@ -5937,8 +5937,8 @@ nodes {
 }
 nodes {
   position {
-    x: -398.0
-    y: -42.0
+    x: -94.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -5949,8 +5949,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.8
-    y: 0.8
+    x: 1.0
+    y: 1.0
     z: 1.0
     w: 1.0
   }
@@ -5967,7 +5967,7 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "party_indicator/pokemon_3"
+  id: "party_indicator/inventory_pokemon_3"
   parent: "party_indicator/root"
   layer: ""
   inherit_alpha: true
@@ -5977,8 +5977,8 @@ nodes {
 }
 nodes {
   position {
-    x: 380.0
-    y: 3.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -5989,8 +5989,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 3.0
-    y: 3.0
+    x: 2.5
+    y: 2.5
     z: 1.0
     w: 1.0
   }
@@ -6009,12 +6009,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "sprite0/100Voltorb"
-  id: "party_indicator/pokemon_3/pokemon_sprite"
+  id: "party_indicator/inventory_pokemon_3/pokemon_sprite"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_S
   adjust_mode: ADJUST_MODE_FIT
-  parent: "party_indicator/pokemon_3"
+  parent: "party_indicator/inventory_pokemon_3"
   layer: "sprite"
   inherit_alpha: true
   slice9 {
@@ -6032,8 +6032,8 @@ nodes {
 }
 nodes {
   position {
-    x: -398.0
-    y: -42.0
+    x: 11.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -6044,8 +6044,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.8
-    y: 0.8
+    x: 1.0
+    y: 1.0
     z: 1.0
     w: 1.0
   }
@@ -6062,7 +6062,7 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "party_indicator/pokemon_4"
+  id: "party_indicator/inventory_pokemon_4"
   parent: "party_indicator/root"
   layer: ""
   inherit_alpha: true
@@ -6072,8 +6072,8 @@ nodes {
 }
 nodes {
   position {
-    x: 511.25
-    y: 3.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -6084,8 +6084,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 3.0
-    y: 3.0
+    x: 2.5
+    y: 2.5
     z: 1.0
     w: 1.0
   }
@@ -6104,12 +6104,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "sprite0/100Voltorb"
-  id: "party_indicator/pokemon_4/pokemon_sprite"
+  id: "party_indicator/inventory_pokemon_4/pokemon_sprite"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_S
   adjust_mode: ADJUST_MODE_FIT
-  parent: "party_indicator/pokemon_4"
+  parent: "party_indicator/inventory_pokemon_4"
   layer: "sprite"
   inherit_alpha: true
   slice9 {
@@ -6127,8 +6127,8 @@ nodes {
 }
 nodes {
   position {
-    x: -398.0
-    y: -42.0
+    x: 114.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -6139,8 +6139,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.8
-    y: 0.8
+    x: 1.0
+    y: 1.0
     z: 1.0
     w: 1.0
   }
@@ -6157,7 +6157,7 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "party_indicator/pokemon_5"
+  id: "party_indicator/inventory_pokemon_5"
   parent: "party_indicator/root"
   layer: ""
   inherit_alpha: true
@@ -6167,8 +6167,8 @@ nodes {
 }
 nodes {
   position {
-    x: 640.0
-    y: 3.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -6179,8 +6179,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 3.0
-    y: 3.0
+    x: 2.5
+    y: 2.5
     z: 1.0
     w: 1.0
   }
@@ -6199,12 +6199,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "sprite0/100Voltorb"
-  id: "party_indicator/pokemon_5/pokemon_sprite"
+  id: "party_indicator/inventory_pokemon_5/pokemon_sprite"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_S
   adjust_mode: ADJUST_MODE_FIT
-  parent: "party_indicator/pokemon_5"
+  parent: "party_indicator/inventory_pokemon_5"
   layer: "sprite"
   inherit_alpha: true
   slice9 {
@@ -6222,8 +6222,8 @@ nodes {
 }
 nodes {
   position {
-    x: -398.0
-    y: -42.0
+    x: 214.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -6234,8 +6234,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.8
-    y: 0.8
+    x: 1.0
+    y: 1.0
     z: 1.0
     w: 1.0
   }
@@ -6252,7 +6252,7 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "party_indicator/pokemon_6"
+  id: "party_indicator/inventory_pokemon_6"
   parent: "party_indicator/root"
   layer: ""
   inherit_alpha: true
@@ -6262,8 +6262,8 @@ nodes {
 }
 nodes {
   position {
-    x: 765.0
-    y: 3.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -6274,8 +6274,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 3.0
-    y: 3.0
+    x: 2.5
+    y: 2.5
     z: 1.0
     w: 1.0
   }
@@ -6294,12 +6294,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "sprite0/100Voltorb"
-  id: "party_indicator/pokemon_6/pokemon_sprite"
+  id: "party_indicator/inventory_pokemon_6/pokemon_sprite"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_S
   adjust_mode: ADJUST_MODE_FIT
-  parent: "party_indicator/pokemon_6"
+  parent: "party_indicator/inventory_pokemon_6"
   layer: "sprite"
   inherit_alpha: true
   slice9 {

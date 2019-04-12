@@ -177,7 +177,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 40.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -210,8 +210,8 @@ nodes {
   texture: "gui/square"
   id: "template/btm_bar"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  yanchor: YANCHOR_BOTTOM
+  pivot: PIVOT_S
   adjust_mode: ADJUST_MODE_STRETCH
   parent: "template"
   layer: "gui"

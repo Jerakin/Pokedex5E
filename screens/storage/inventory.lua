@@ -42,17 +42,16 @@ function M.setup()
 	for i=1, 6 do
 		local sprite = gui.get_node("inventory_pokemon_" .. i .. "/pokemon_sprite")
 		local pokemon = storage.get_copy(inventory[i])
+		gui.set_scale(sprite, vmath.vector3(1))
 		if pokemon then
-			gui.set_scale(sprite, vmath.vector3(3))	
+			gui.set_scale(sprite, vmath.vector3(2.5))
 			set_pokemon_sprite(sprite, pokemon)
 			table.insert(inventory_buttons, inventory_button(sprite, inventory[i]))
 		else
-			gui.set_scale(sprite, vmath.vector3(1))
 			gui.set_texture(sprite, "gui")
 			if left_in_storage > 0 then
 				gui.play_flipbook(sprite, "menu_add")
 				gui.set_color(sprite, vmath.vector4(1))
-				gui.set_scale(sprite, vmath.vector3(1, 1, 1))
 			else
 				gui.set_color(sprite, gui_colors.INACTIVE)
 				gui.play_flipbook(sprite, "sort_type")

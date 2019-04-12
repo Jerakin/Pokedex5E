@@ -13,10 +13,10 @@ local function activate_pokemon(index)
 end
 
 function M.set_active(index, instant)
-	local n = gui.get_node("party_indicator/pokemon_" .. index .. "/pokemon_sprite")
+	local n = gui.get_node("party_indicator/inventory_pokemon_" .. index .. "/pokemon_sprite")
 	local t = gui.get_node("party_indicator/active")
 	local pos = gui.get_position(n)
-	pos.y = 0
+	pos.y = 38
 	if instant then
 		gui.set_position(t, pos)
 	else
@@ -27,12 +27,12 @@ end
 local function create_party_indicators(pokemons_in_party)
 	for i=1, 6 do
 		local id = pokemons_in_party[i]
-		local party_sprite = gui.get_node("party_indicator/pokemon_" .. i .. "/pokemon_sprite")
+		local party_sprite = gui.get_node("party_indicator/inventory_pokemon_" .. i .. "/pokemon_sprite")
 		if id then
 			local pokemon = storage.get_copy(id)
 			local pokemon_sprite, _ = _pokemon.get_sprite(pokemon)
 			gui.play_flipbook(party_sprite, pokemon_sprite)
-			local b = {node="party_indicator/pokemon_" .. i .. "/pokemon_sprite", func=function() activate_pokemon(i) end}
+			local b = {node="party_indicator/inventory_pokemon_" .. i .. "/pokemon_sprite", func=function() activate_pokemon(i) end}
 			table.insert(buttons, b)
 		else
 			gui.set_scale(party_sprite, vmath.vector3(1))

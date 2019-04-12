@@ -7,7 +7,7 @@ local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
 local monarch = require "monarch.monarch"
 
-local log = "utils.log"
+local log = require "utils.log"
 local party_utils = require "screens.party.utils"
 local features = require "screens.party.components.features"
 local moves = require "screens.party.components.moves"
