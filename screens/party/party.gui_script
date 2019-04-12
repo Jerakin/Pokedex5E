@@ -11,13 +11,12 @@ function init(self)
 	msg.post(".", "acquire_input_focus")
 	msg.post(url.MENU, "show")
 	self.pokemons_in_party = storage.list_of_ids_in_inventory()
-	local id
-	if party.last_active ~= nil then
-		id = party.last_active
-	else
+	local id = party.get_active_id()
+	if id == nil then
 		id = self.pokemons_in_party[1]
 	end
-	inventory.set_active(1, true)
+	local index = party.last_active_index or 1
+	inventory.set_active(index, true)
 	party.create()
 	party.show(id)
 	inventory.create()

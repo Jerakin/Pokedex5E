@@ -7,6 +7,7 @@ local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
 local monarch = require "monarch.monarch"
 
+local log = "utils.log"
 local party_utils = require "screens.party.utils"
 local features = require "screens.party.components.features"
 local moves = require "screens.party.components.moves"
@@ -15,13 +16,14 @@ local meters = require "screens.party.components.meters"
 
 local M = {}
 
-M.last_active = nil
+M.last_active_index = nil
 
 local active_page = 1
 
 local pokemon_pages = {}
 
 local active_pokemon_id
+local switching = false
 
 function M.get_active_id()
 	return active_pokemon_id
@@ -56,7 +58,6 @@ end
 
 
 function M.show(id)
-	M.last_active = id
 	active_pokemon_id = id
 	local pokemon = storage.get_copy(id)
 	if pokemon then
@@ -73,16 +74,23 @@ function M.show(id)
 		button.register(nodes["pokemon/hp_bar_bg"], function()
 			monarch.show("input", {}, {sender=msg.url(), message="update_hp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_current_hp(id)})
 		end)
+	else
+		log.error("Party can not show pokemon with id: " .. id)
 	end
 end
 
 local function reset()
+	switching = false
 	active_page = 1
 	pokemon_pages = {}
 end
 
 function M.switch_to_slot(index)
-	last_active = index
+	if switching or M.last_active_index == index then
+		return
+	end
+	switching = true
+	M.last_active_index = index
 	local pos_index = -1
 	local id = storage.list_of_ids_in_inventory()[index]
 	if active_pokemon_id == id then
@@ -100,14 +108,13 @@ function M.switch_to_slot(index)
 	M.show(id)
 	msg.post(".", "inventory", {index=index})
 	gui.set_position(new, vmath.vector3(720*pos_index, -570, 0))
-	
-	gui.animate(active, "position.x", (-1*pos_index)*720, gui.EASING_INSINE, 0.5, 0, function()
+	gui.animate(active, "position.x", (-1*pos_index)*720, gui.EASING_INSINE, 0.3, 0, function()
+		switching = false
 		gui.set_enabled(active, false)
 	end)
 	gui.set_enabled(new, true)
-	gui.animate(new, "position.x", 0, gui.EASING_INSINE, 0.5, 0, function()
+	gui.animate(new, "position.x", 0, gui.EASING_INSINE, 0.3, 0, function()
 		features.clear(old_page)
-		
 	end)
 end
 

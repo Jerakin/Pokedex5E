@@ -84,7 +84,7 @@ local function delete_profile(slot)
 end
 
 function init(self)
-	party.last_active = nil
+	party.last_active_index = nil
 	button.acquire()
 	msg.post(url.MENU, "hide")
 	self.initial_size = gui.get_size(gui.get_node("profile_slot1/btn_slot"))

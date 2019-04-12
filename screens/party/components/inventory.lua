@@ -20,7 +20,7 @@ function M.set_active(index, instant)
 	if instant then
 		gui.set_position(t, pos)
 	else
-		gui.animate(t, "position", pos, gui.EASING_INSINE, 0.5)
+		gui.animate(t, "position", pos, gui.EASING_INSINE, 0.3)
 	end
 end
 
@@ -47,7 +47,8 @@ end
 function M.create()
 	local party_pokemons = storage.list_of_ids_in_inventory()
 	create_party_indicators(party_pokemons)
-	M.set_active(1)
+	local index = party.last_active_index or 1
+	M.set_active(index, true)
 end
 
 function M.on_input(action_id, action)
