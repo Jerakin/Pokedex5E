@@ -31,7 +31,7 @@ function on_input(self, action_id, action)
 			eventId = "Navigation:EditByButton",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("edit", {}, {id=party.M.last_active_id})
+		monarch.show("edit", {}, {id=party.last_active_id})
 	end, gooey_buttons.edit_button)
 
 	gooey.button("btn_storage", action_id, action, function()
