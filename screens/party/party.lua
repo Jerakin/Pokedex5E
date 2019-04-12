@@ -17,17 +17,13 @@ local meters = require "screens.party.components.meters"
 local M = {}
 
 M.last_active_index = nil
+M.last_active_id = nil
 
 local active_page = 1
 
 local pokemon_pages = {}
 
-local active_pokemon_id
 local switching = false
-
-function M.get_active_id()
-	return active_pokemon_id
-end
 
 local function activate_tab(nodes, tab_number)
 	for i=1, 3 do
@@ -58,7 +54,7 @@ end
 
 
 function M.show(id)
-	active_pokemon_id = id
+	M.last_active_id = id
 	local pokemon = storage.get_copy(id)
 	if pokemon then
 		local nodes = pokemon_pages[active_page].nodes
@@ -93,13 +89,13 @@ function M.switch_to_slot(index)
 	M.last_active_index = index
 	local pos_index = -1
 	local id = storage.list_of_ids_in_inventory()[index]
-	if active_pokemon_id == id then
+	if M.last_active_id == id then
 		return
 	elseif active_page < index then
 		pos_index = 1
 	end
 
-	active_pokemon_id = id
+	M.last_active_id = id
 	local old_page = active_page
 	active_page = (1-active_page ) + 2
 	local active = pokemon_pages[old_page].nodes["pokemon/root"]
@@ -160,7 +156,7 @@ function M.on_input(action_id, action)
 end
 
 function M.on_message(message_id, message)
-	message.active_pokemon_id = active_pokemon_id
+	message.active_pokemon_id = M.last_active_id
 	meters.on_message(message_id, message)
 end
 
