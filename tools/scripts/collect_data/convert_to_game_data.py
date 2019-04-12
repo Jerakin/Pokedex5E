@@ -69,7 +69,8 @@ def convert_pokemon_data(input_file):
                         if "EVERY TM" in value:
                             output_pokemon_data[pokemon]["Moves"]["TM"] = [int(x+1) for x in range(100)]
                         else:
-                            output_pokemon_data[pokemon]["Moves"]["TM"] = [int(x) for x in tm_moves.group(1).replace(",", "").split(" ") if x]
+                            output_pokemon_data[pokemon]["Moves"]["TM"] = [int(x) for x in re.findall(r"[0-9]+", tm_moves.group(1))]
+                            [print("Too high PP: " + str(x) + " on " + pokemon) for x in output_pokemon_data[pokemon]["Moves"]["TM"] if x > 100]
                     continue
                 elif "Ability" in attribute:
                     if "Hidden" in attribute:
