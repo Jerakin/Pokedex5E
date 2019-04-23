@@ -54,6 +54,7 @@ local function list()
 	for m, d in pairs(movedata) do
 		table.insert(l, m)
 	end
+	table.sort(l)
 	return l
 end
 
