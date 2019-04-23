@@ -591,7 +591,7 @@ function M.on_input(self, action_id, action)
 	end
 	if M.config[hash("change_pokemon/nature")].active then
 		gooey.button("change_pokemon/nature", action_id, action, function()
-			monarch.show("scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url(), title="Pick Nature"})
+			monarch.show("natures_scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url()})
 		end)
 	end
 	
