@@ -124,6 +124,24 @@ local function on_item_selected(list)
 	end
 end
 
+
+local function getKeysSortedByValue(tbl, sortFunction)
+	local keys = {}
+	for key in pairs(tbl) do
+		table.insert(keys, key)
+	end
+
+	table.sort(keys, function(a, b)
+		return sortFunction(tbl[a], tbl[b])
+	end)
+
+	return keys
+end
+
+local function sort_on_index(a, b)
+	return function(a, b) return a.index < b.index end
+end
+
 function M.create(nodes, pokemon, index)
 	active_list = {}
 	pp_buttons = {}
@@ -131,7 +149,8 @@ function M.create(nodes, pokemon, index)
 	current_pokemon = pokemon
 
 	active_list.data = {}
-	for name, _ in pairs(_pokemon.get_moves(pokemon)) do
+	local _moves = _pokemon.get_moves(pokemon)
+	for _, name in pairs(getKeysSortedByValue(_moves, sort_on_index(a, b))) do
 		table.insert(active_list.data, name)
 	end
 	update_list(gooey.dynamic_list("moves", "stencil" .. current_index, "item" .. current_index, active_list.data))
