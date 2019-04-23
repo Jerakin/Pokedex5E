@@ -120,7 +120,7 @@ function M.on_message(message_id, message)
 			}
 		end
 	elseif message_id == hash("update_hp") then
-		local pokemon = storage.get_copy(active_pokemon_id)
+		local pokemon = storage.get_copy(message.active_pokemon_id)
 		local current_hp = _pokemon.get_current_hp(pokemon)
 		local hp, expr = parse_number(message.str, current_hp)
 		M.add_hp(pokemon, hp)
