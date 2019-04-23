@@ -71,7 +71,12 @@ function M.show(id)
 			monarch.show("input", {}, {sender=msg.url(), message="update_hp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_current_hp(id)})
 		end)
 	else
-		log.error("Party can not show pokemon with id: " .. id)
+		local e = "Party can not show pokemon with id: " .. tostring(id)
+		gameanalytics.addErrorEvent {
+			severity = "Error",
+			message = e
+		}
+		log.error(e)
 	end
 end
 
