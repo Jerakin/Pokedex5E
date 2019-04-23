@@ -13,6 +13,7 @@ local features = require "screens.party.components.features"
 local moves = require "screens.party.components.moves"
 local information = require "screens.party.components.information"
 local meters = require "screens.party.components.meters"
+local gesture = require "utils.gesture"
 
 local M = {}
 
@@ -154,6 +155,16 @@ function M.create()
 end
 
 function M.on_input(action_id, action)
+	local g = gesture.on_input("Party", action_id, action)
+	if g then
+		local index = M.last_active_index or 1
+		if g.swipe_left then
+			M.switch_to_slot(math.min(index + 1), #storage.list_of_ids_in_inventory())
+		elseif g.swipe_right then
+			M.switch_to_slot(math.max(index - 1, 1))
+		end
+	end
+		
 	button.on_input(action_id, action)
 	moves.on_input(action_id, action)
 	features.on_input(action_id, action)
