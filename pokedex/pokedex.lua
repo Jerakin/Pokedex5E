@@ -23,6 +23,13 @@ function M.init()
 		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
 		M.list, M.total = list()
 		initialized = true
+	else
+		local e = "The pokedex have already been initialized"
+		gameanalytics.addErrorEvent {
+			severity = "Warning",
+			message = e
+		}
+		log.warning(e)
 	end
 end
 
