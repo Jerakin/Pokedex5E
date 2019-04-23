@@ -7,7 +7,6 @@ local gooey = require "gooey.gooey"
 local url = require "utils.url"
 local notify = require "utils.notify"
 local tracking_id = require "utils.tracking_id"
-local gui_utils = require "utils.gui"
 
 local function join_table(title, T, sep)
 	if T then
@@ -23,48 +22,33 @@ function init(self)
 	gui.set_render_order(gro.POPUP)
 	data = monarch.data("move_info")
 	move_data = _pokemon.get_move_data(data.pokemon, data.name)
+	gui.set_text(gui.get_node("move/txt_name"), data.name)
+	gui.set_text(gui.get_node("move/txt_desc"), move_data.description)
+	gui.set_text(gui.get_node("move/txt_time"), move_data.time)
+	gui.set_text(gui.get_node("move/txt_duration"), move_data.duration)
+	gui.set_text(gui.get_node("move/txt_range"), move_data.range or "")
+	gui.set_text(gui.get_node("move/txt_move_power"), join_table("", move_data.power, "/"))
 
-	local node_name = gui.get_node("txt_name")
-	local node_desc = gui.get_node("txt_desc")
-	local node_time = gui.get_node("txt_time")
-	local node_duration = gui.get_node("txt_duration")
-	local node_range = gui.get_node("txt_range")
-	local node_move_power = gui.get_node("txt_move_power")
-
-	gui.set_text(node_name, data.name)
-	gui.set_text(node_desc, move_data.description)
-	gui.set_text(node_time, move_data.time)
-	gui.set_text(node_duration, move_data.duration)
-	gui.set_text(node_range, move_data.range or "")
-	gui.set_text(node_move_power, join_table("", move_data.power, "/"))
-
-	gui_utils.scale_text_to_fit_size(node_name)
-	gui_utils.scale_text_to_fit_size(node_desc)
-	gui_utils.scale_text_to_fit_size(node_time)
-	gui_utils.scale_text_to_fit_size(node_duration)
-	gui_utils.scale_text_to_fit_size(node_range)
-	gui_utils.scale_text_to_fit_size(node_move_power)
-	
 	-- Set type name and image and placements
-	local type_node = gui.get_node("txt_type")
+	local type_node = gui.get_node("move/txt_type")
 	gui.set_text(type_node, move_data.type)
 	local p = gui.get_position(type_node)
 	p.x = p.x + gui.get_text_metrics_from_node(type_node).width * 0.5
-	gui.set_position(gui.get_node("icon_type"), p)
-	gui.play_flipbook(gui.get_node("icon_type"), type_data[move_data.type].icon)
+	gui.set_position(gui.get_node("move/icon_type"), p)
+	gui.play_flipbook(gui.get_node("move/icon_type"), type_data[move_data.type].icon)
 	local max = _pokemon.get_move_pp_max(data.pokemon, data.name)
-	gui.set_text(gui.get_node("txt_pp"), data.data.pp .. "/" ..max)
+	gui.set_text(gui.get_node("move/txt_pp"), data.data.pp .. "/" ..max)
 	local dmg = "-"
 	if move_data.damage then
 		dmg = move_data.damage
 	end
 	
-	gui.set_text(gui.get_node("txt_dmg"), dmg)
+	gui.set_text(gui.get_node("move/txt_dmg"), dmg)
 
 	local color = {"lbl_pp", "lbl_dmg", "lbl_time", "lbl_range", "lbl_duration", "background", "lbl_move_power"}
 	for _, node_name in pairs(color)do
 		local color_name = type_data[move_data.type].color
-		local node = gui.get_node(node_name)
+		local node = gui.get_node("move/"..node_name)
 		gui.set_color(node, color_name)
 	end
 end
@@ -82,7 +66,7 @@ local function reset()
 		eventId = "Party:PP:Reset"
 	}
 	_pokemon.reset_move_pp(data.pokemon, data.name)
-	gui.set_text(gui.get_node("txt_pp"), move_data.PP .. "/" .. move_data.PP)
+	gui.set_text(gui.get_node("move/txt_pp"), move_data.PP .. "/" .. move_data.PP)
 	notify.notify("PP for " .. data.name .. " have been reseted")
 	msg.post(url.PARTY, "refresh")
 end
@@ -90,7 +74,7 @@ end
 function on_input(self, action_id, action)
 	gooey.button("btn_close", action_id, action, close, gooey_buttons.close_button)
 	local a = gooey.button("btn_reset", action_id, action, reset)
-	local g = gooey.button("background", action_id, action, function() end)
+	local g = gooey.button("move/background", action_id, action, function() end)
 	if not g.over and not a.over then
 		gooey.button("dimmer", action_id, action, function() monarch.back() end)
 	end
