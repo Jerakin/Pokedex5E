@@ -1,3 +1,5 @@
+local log = require "utils.log"
+
 local M = {
 	Normal		= {icon = "element_normal",		color = vmath.vector3(128/255, 128/255, 128/255, 1)},
 	
@@ -42,10 +44,12 @@ local M = {
 local mt = {}
 mt.__index = function(self, i)
 	if i == nil or rawget(M, i) == nil then
+		local e = "Type '" .. tostring(i) .. "' does not exist"
 		gameanalytics.addErrorEvent {
 			severity = "Error",
-			message = "Type '" .. i .. "' does not exist"
+			message = e
 		}
+		log.error(e)
 		return rawget(M, "Normal")
 	end
 	return rawget(M, i)
