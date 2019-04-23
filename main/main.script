@@ -13,7 +13,6 @@ local metadata = require "utils.metadata"
 local gui_colors = require "utils.gui_colors"
 local notify = require "utils.notify"
 local screeninfo = require "utils.screeninfo"
-require "utils.lfs_extend"
 
 local function send_crash_on_start()
 	crash.write_dump()
