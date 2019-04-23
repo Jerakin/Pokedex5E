@@ -20,6 +20,7 @@ local map = {
 	[hash("debug")] = "btn_debug",
 	[hash("generate_pokemon")] = "btn_generate",
 	[hash("import")] = "btn_import",
+	[hash("lookup")] = "btn_lookup"
 }
 
 local function hide(self)
@@ -71,6 +72,8 @@ function init(self)
 	self.btn_menu = gui.get_node("btn_menu")
 	self.btn_generate = gui.get_node("btn_generate")
 	self.btn_debug = gui.get_node("btn_debug")
+	self.btn_lookup = gui.get_node("btn_lookup")
+	
 	self.menu = gui.get_node("menu")
 	self.btn_import = gui.get_node("btn_import")
 	gui.set_enabled(self.menu, false)
@@ -134,12 +137,21 @@ function init(self)
 		monarch.show("add")
 		toggle(self)
 	end)
-	
+
+	button.register(self.btn_lookup, function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:Lookup",
+			value = tracking_id[monarch.top()]
+		}
+		monarch.show("lookup")
+		toggle(self)
+	end)
+
 	button.register("btn_import", function()
 		share.import()
 		toggle(self)
 	end)
-	
+
 	if sys.get_engine_info().is_debug then
 		button.register("btn_debug", function()
 			monarch.show("debug")

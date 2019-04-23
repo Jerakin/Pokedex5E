@@ -8,6 +8,7 @@ local feats = require "pokedex.feats"
 local storage = require "pokedex.storage"
 local profiles = require "pokedex.profiles"
 local filters = require "pokedex.filters"
+local items = require "pokedex.items"
 local flow = require "utils.flow"
 local metadata = require "utils.metadata"
 local gui_colors = require "utils.gui_colors"
@@ -81,6 +82,7 @@ function init(self)
 		storage.init()
 		filters.init()
 		feats.init()
+		items.init()
 		
 		if #storage.list_of_ids_in_inventory() > 0 then
 			msg.post("#", "show_party")
