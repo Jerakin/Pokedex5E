@@ -288,7 +288,15 @@ function M.get_abilities(pokemon, as_raw)
 	t = pokemon.abilities or pokedex.get_pokemon_abilities(species) or {}
 	if not as_raw and M.have_feat(pokemon, "Hidden Ability") then
 		local hidden = pokedex.get_pokemon_hidden_ability(species)
-		table.insert(t, hidden)
+		local added = false
+		for _, h in pairs(t) do
+			if h == hidden then
+				added = true
+			end
+		end
+		if not added then
+			table.insert(t, hidden)
+		end
 	end
 	return t
 end
