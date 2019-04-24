@@ -13,6 +13,7 @@ local metadata = require "utils.metadata"
 local gui_colors = require "utils.gui_colors"
 local notify = require "utils.notify"
 local screeninfo = require "utils.screeninfo"
+local log = require "utils.log"
 
 local function send_crash_on_start()
 	crash.write_dump()
@@ -35,8 +36,9 @@ end
 
 function init(self)
 	local system = sys.get_sys_info().system_name
-	if system == "HTML5" then
+	if not gameanalytics then
 		gameanalytics = require "utils.mock_gameanalytics"
+		log.error("Could not load GameAnalytics")
 	end
 	send_crash_on_start()
 	sys.set_error_handler(send_crash_analytics)
