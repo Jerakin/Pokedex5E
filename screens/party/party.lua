@@ -159,7 +159,7 @@ function M.on_input(action_id, action)
 	if g then
 		local index = M.last_active_index or 1
 		if g.swipe_left then
-			M.switch_to_slot(math.min(index + 1), #storage.list_of_ids_in_inventory())
+			M.switch_to_slot(math.min(index + 1, #storage.list_of_ids_in_inventory()))
 		elseif g.swipe_right then
 			M.switch_to_slot(math.max(index - 1, 1))
 		end
