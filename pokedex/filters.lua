@@ -15,7 +15,7 @@ local minimum_level = {}
 local _pokedex
 
 
-function compare(a,b)
+local function compare(a,b)
 	return a < b
 end
 

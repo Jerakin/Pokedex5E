@@ -64,7 +64,7 @@ end
 
 function M.list_of_ids_in_storage()
 	local f = M.get_sorting_method()
-	return getKeysSortedByValue(storage, f(a, b))
+	return getKeysSortedByValue(storage, f)
 end
 
 local function sort_on_slot(a, b)
@@ -72,7 +72,7 @@ local function sort_on_slot(a, b)
 end
 
 function M.list_of_ids_in_inventory()
-	return getKeysSortedByValue(active, sort_on_slot(a, b))
+	return getKeysSortedByValue(active, sort_on_slot)
 end
 
 function M.get_copy(id)
