@@ -34,8 +34,14 @@ local function send_crash_analytics(source, message, traceback)
 	}
 end
 
+local function window_resized()
+	msg.post("@render:", "window_event")
+end
+
 function init(self)
 	local system = sys.get_sys_info().system_name
+	window.set_listener(window_resized)
+	
 	if not gameanalytics then
 		gameanalytics = require "utils.mock_gameanalytics"
 		log.error("Could not load GameAnalytics")
