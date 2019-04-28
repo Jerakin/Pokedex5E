@@ -92,5 +92,7 @@ function on_message(self, message_id, message)
         self.view = message.view
     elseif message_id == hash("toggle_overdraw") then
         self.toggle_overdraw = not self.toggle_overdraw
+    elseif message_id == hash("window_event") then
+        screeninfo.update(render.get_window_width(), render.get_window_height())
     end
 end

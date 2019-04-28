@@ -18,6 +18,12 @@ function M.init(initial_window_width, initial_window_height)
 end
 
 
+function M.update(width, height)
+	window_width = width
+	window_height = height
+end
+
+
 function M.get_window_width()
 	return window_width
 end
@@ -35,6 +41,10 @@ end
 
 function M.get_project_height()
 	return project_height
+end
+
+function M.get_scalar()
+	return vmath.vector3(project_width/window_width, project_height/window_height, 0)
 end
 
 
