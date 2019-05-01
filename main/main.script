@@ -126,9 +126,6 @@ function on_message(self, message_id, message, sender)
 	end
 end
 
-function update(self, dt)
-	flow.update(dt)
-end
 
 function final(self)
 	storage.save()
