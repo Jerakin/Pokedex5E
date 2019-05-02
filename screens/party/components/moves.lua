@@ -150,7 +150,7 @@ function M.create(nodes, pokemon, index)
 
 	active_list.data = {}
 	local _moves = _pokemon.get_moves(pokemon)
-	for _, name in pairs(getKeysSortedByValue(_moves, sort_on_index(a, b))) do
+	for _, name in pairs(getKeysSortedByValue(_moves, sort_on_index)) do
 		table.insert(active_list.data, name)
 	end
 	update_list(gooey.dynamic_list("moves", "stencil" .. current_index, "item" .. current_index, active_list.data))

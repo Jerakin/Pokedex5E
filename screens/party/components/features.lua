@@ -13,7 +13,8 @@ local function setup_entry(nodes, name, desc, p, i)
 	local root_node
 	local name_node
 	local desc_node
-
+	local background_node
+	
 	root_node = gui.clone(nodes["pokemon/ability/root"])
 	name_node = gui.clone(nodes["pokemon/ability/name"])
 	desc_node = gui.clone(nodes["pokemon/ability/description"])
