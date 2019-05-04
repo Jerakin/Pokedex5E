@@ -109,7 +109,7 @@ function M.switch_to_slot(index)
 
 	M.show(id)
 	msg.post(".", "inventory", {index=index})
-	gui.set_position(new, vmath.vector3(720*pos_index, -570, 0))
+	gui.set_position(new, vmath.vector3(720*pos_index, 0, 0))
 	gui.animate(active, "position.x", (-1*pos_index)*720, gui.EASING_INSINE, 0.3, 0, function()
 		switching = false
 		gui.set_enabled(active, false)

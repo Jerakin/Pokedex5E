@@ -64,7 +64,7 @@ end
 
 function M.list_of_ids_in_storage()
 	local f = M.get_sorting_method()
-	return getKeysSortedByValue(storage, f)
+	return getKeysSortedByValue(storage, f(a, b))
 end
 
 local function sort_on_slot(a, b)
@@ -72,21 +72,12 @@ local function sort_on_slot(a, b)
 end
 
 function M.list_of_ids_in_inventory()
-	return getKeysSortedByValue(active, sort_on_slot)
+	return getKeysSortedByValue(active, sort_on_slot(a, b))
 end
 
 function M.get_copy(id)
 	local pokemon = utils.deep_copy(storage[id] and storage[id] or active[id])
 	return pokemon
-	--[[if pokemon == nil then
-		local e = string.format("Can not find pokemon with id: '%s'", tostring(id))
-		gameanalytics.addErrorEvent {
-			severity = "Error",
-			message = e
-		}
-		log.error(e)
-	end
-	return pokemon--]]
 end
 
 local function get(id)
