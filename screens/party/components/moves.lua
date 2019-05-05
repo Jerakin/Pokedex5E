@@ -42,10 +42,6 @@ end
 
 
 local function update_listitem(list, item)
-	if item.data == "" then
-		return
-	end
-
 	local move_data = _pokemon.get_move_data(current_pokemon, item.data)
 	local move_string = {}
 	
@@ -71,7 +67,6 @@ local function update_listitem(list, item)
 
 	gui.set_text(item.nodes[hash("move_stats")], table.concat(move_string, "  ||  "))
 
-	
 	gui.set_text(item.nodes[hash("name")], item.data:upper())
 	local type = type_data[move_data.type]
 	gui.set_color(item.nodes[hash("name")], type.color)
@@ -105,10 +100,12 @@ end
 local function update_list(list)
 	pp_buttons={}
 	for i, item in ipairs(list.items) do
-		update_listitem(list, item)
-		gui.set_id(item.nodes[hash("btn_minus")], item.data .. "btn_minus")
-		gui.set_id(item.nodes[hash("btn_plus")], item.data .. "btn_plus")
-		update_pp_buttons(item.nodes, item.data)
+		if item.data and item.data ~= "" then
+			update_listitem(list, item)
+			gui.set_id(item.nodes[hash("btn_minus")], item.data .. "btn_minus")
+			gui.set_id(item.nodes[hash("btn_plus")], item.data .. "btn_plus")
+			update_pp_buttons(item.nodes, item.data)
+		end
 	end
 end
 
