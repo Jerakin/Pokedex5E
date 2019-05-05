@@ -1,8 +1,8 @@
 [project]
 title = Pokedex5E
-dependencies = https://github.com/britzl/monarch/archive/2.17.2.zip,https://github.com/subsoap/defos/archive/v2.2.1.zip,https://github.com/Jerakin/gooey/archive/no_click_after_scroll.zip,https://github.com/Jerakin/defsave/archive/master.zip,https://github.com/GameAnalytics/GA-SDK-DEFOLD/archive/2.2.0.zip,https://github.com/selimanac/defold-random/archive/f87465b5272ff524ae18497eeb4385c969693fec.zip,https://github.com/Jerakin/superstrict/archive/master.zip
+dependencies = https://github.com/britzl/monarch/archive/2.17.2.zip,https://github.com/subsoap/defos/archive/v2.2.1.zip,https://github.com/Jerakin/gooey/archive/no_click_after_scroll.zip,https://github.com/Jerakin/defsave/archive/master.zip,https://github.com/GameAnalytics/GA-SDK-DEFOLD/archive/2.2.0.zip,https://github.com/selimanac/defold-random/archive/f87465b5272ff524ae18497eeb4385c969693fec.zip
 custom_resources = assets/datafiles
-version = 0.9.8
+version = 0.9.9
 
 [gameanalytics]
 
@@ -12,9 +12,9 @@ version = 0.9.8
 
 
 custom_dimensions_01 = live,debug
-build_android = 0.9.8
-build_windows = 0.9.8
-build_html5 = 0.9.8
+build_android = 0.9.9
+build_windows = 0.9.9
+build_html5 = 0.9.9
 
 [bootstrap]
 main_collection = /main/main.collectionc
@@ -68,6 +68,7 @@ app_icon_192x192 = /assets/app_icons/icon_192.png
 input_method = HiddenInputField
 package = com.jerakin.pokedex
 manifest = /config/manifests/android/AndroidManifest.xml
+version_code = 4
 
 [script]
 shared_state = 1
