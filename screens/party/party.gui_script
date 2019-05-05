@@ -8,8 +8,6 @@ local gooey_buttons = require "utils.gooey_buttons"
 local monarch = require "monarch.monarch"
 local screeninfo = require "utils.screeninfo"
 
-
-
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	msg.post(url.MENU, "show")
@@ -19,16 +17,7 @@ function init(self)
 		id = self.pokemons_in_party[1]
 	end
 	local index = party.last_active_index or 1
-	
-	local scalar = screeninfo.get_scalar()
-	if scalar.x > scalar.y then
-		local size_m = gui.get_size(gui.get_node("pokemon/tab_bg_1"))
-		local size_f = gui.get_size(gui.get_node("pokemon/tab_stencil_2"))
-		size_f.y = size_f.y * scalar.y * scalar.x
-		size_m.y = size_m.y * scalar.y * scalar.x
-		gui.set_size(gui.get_node("pokemon/tab_bg_1"), size_m)
-		gui.set_size(gui.get_node("pokemon/tab_stencil_2"), size_f)
-	end
+
 	inventory.set_active(index, true)
 	party.create()
 	party.show(id)

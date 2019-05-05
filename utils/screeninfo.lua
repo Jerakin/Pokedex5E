@@ -43,8 +43,11 @@ function M.get_project_height()
 	return project_height
 end
 
-function M.get_scalar()
-	return vmath.vector3(project_width/window_width, project_height/window_height, 0)
+
+function M.get_window_ratio()
+	local width_scale = window_width/project_width
+	local height_scale = window_height/project_height
+	return vmath.vector3(width_scale, height_scale, 0)
 end
 
 

@@ -99,6 +99,7 @@ end
 
 local function update_list(list)
 	pp_buttons={}
+	
 	for i, item in ipairs(list.items) do
 		if item.data and item.data ~= "" then
 			update_listitem(list, item)
