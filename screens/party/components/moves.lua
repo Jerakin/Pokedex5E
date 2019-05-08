@@ -22,22 +22,28 @@ local function update_pp(nodes, pokemon, name)
 	local pp_current = nodes[hash("txt_pp_current")]
 	local pp_max = nodes[hash("txt_pp_max")]
 	
-	local current = _pokemon.get_move_pp(pokemon, name) 
-	local max = _pokemon.get_move_pp_max(pokemon, name)
-	gui.set_text(pp_current, current)
-	gui.set_text(pp_max, "/" .. max)
+	local current = _pokemon.get_move_pp(pokemon, name)
+	if type(current) == "number" then
+		local max = _pokemon.get_move_pp_max(pokemon, name)
+		gui.set_text(pp_current, current)
+		gui.set_text(pp_max, "/" .. max)
+		if current == 0 then
+			gui.set_color(pp_current, gui_colors.RED)
+		elseif current < max then
+			gui.set_color(pp_current, gui_colors.RED)
+		else
+			gui.set_color(pp_current, gui_colors.GREEN)
+		end
+	else
+		gui.set_text(pp_current, "")
+		gui.set_text(pp_max, string.sub(current, 1, 5) .. ".")
+	end
+	
 	local p = gui.get_position(pp_current)
 	local cp = gui.get_position(pp_max)
 	p.x = p.x + gui.get_text_metrics_from_node(pp_current).width
 	p.y = cp.y
 	gui.set_position(pp_max, p)
-	if current == 0 then
-		gui.set_color(pp_current, gui_colors.RED)
-	elseif current < max then
-		gui.set_color(pp_current, gui_colors.RED)
-	else
-		gui.set_color(pp_current, gui_colors.GREEN)
-	end
 end
 
 

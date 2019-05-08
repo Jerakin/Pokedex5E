@@ -328,6 +328,10 @@ end
 
 function M.get_move_pp_max(pokemon, move)
 	local _, pp_extra = M.have_feat(pokemon, "Tireless")
+	local move_pp = movedex.get_move_pp(move)
+	if type(move_pp) == "string" then
+		return 99
+	end
 	return movedex.get_move_pp(move) + pp_extra
 end
 
@@ -355,14 +359,22 @@ function M.get_resistances(pokemon)
 end
 
 function M.decrease_move_pp(pokemon, move)
-	local pp = math.max(M.get_move_pp(pokemon, move) - 1, 0)
+	local move_pp = M.get_move_pp(pokemon, move)
+	if type(move_pp) == "string" then
+		return
+	end
+	local pp = math.max(move_pp - 1, 0)
 	storage.set_pokemon_move_pp(M.get_id(pokemon), move, pp)
 	pokemon.moves[move].pp = pp
 end
 
 function M.increase_move_pp(pokemon, move)
+	local move_pp = M.get_move_pp(pokemon, move)
+	if type(move_pp) == "string" then
+		return
+	end
 	local max_pp = M.get_move_pp_max(pokemon, move)
-	local pp = math.min(M.get_move_pp(pokemon, move) + 1, max_pp)
+	local pp = math.min(move_pp + 1, max_pp)
 	storage.set_pokemon_move_pp(M.get_id(pokemon), move, pp)
 	pokemon.moves[move].pp = pp
 end
