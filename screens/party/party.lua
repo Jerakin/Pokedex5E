@@ -95,7 +95,8 @@ function M.switch_to_slot(index)
 	M.last_active_index = index
 	local pos_index = -1
 	local id = storage.list_of_ids_in_inventory()[index]
-	if M.last_active_id == id then
+	if id == nil or M.last_active_id == id then
+		switching = false
 		return
 	elseif active_page < index then
 		pos_index = 1

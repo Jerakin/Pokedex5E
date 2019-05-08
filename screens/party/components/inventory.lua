@@ -47,8 +47,6 @@ end
 function M.create()
 	local party_pokemons = storage.list_of_ids_in_inventory()
 	create_party_indicators(party_pokemons)
-	local index = party.last_active_index or 1
-	M.set_active(index, true)
 end
 
 function M.on_input(action_id, action)

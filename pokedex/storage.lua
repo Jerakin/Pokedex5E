@@ -75,6 +75,15 @@ function M.list_of_ids_in_inventory()
 	return getKeysSortedByValue(active, sort_on_slot(a, b))
 end
 
+function M.is_inventory_pokemon(id)
+	for x, _ in pairs(active) do
+		if x == id then
+			return true
+		end
+	end
+	return false
+end
+
 function M.get_copy(id)
 	local pokemon = utils.deep_copy(storage[id] and storage[id] or active[id])
 	return pokemon
