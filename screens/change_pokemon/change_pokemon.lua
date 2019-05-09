@@ -219,8 +219,12 @@ local function redraw(self)
 	local max_improve_node = gui.get_node("change_pokemon/asi/asi_points")
 	local available_at_level = pokedex.level_data(self.level).ASI
 	local available_at_current_level = pokedex.level_data(_pokemon.get_current_level(self.pokemon)).ASI
+	
 	local available = (available_at_level - available_at_current_level)  * 2
 	local current = available - self.ability_score_improvment
+	if self.level == _pokemon.get_current_level(self.pokemon) then
+		current = available_at_current_level * 2 - self.ability_score_improvment
+	end
 	gui.set_text(max_improve_node, current)
 	if current == 0 then
 		gui.set_color(max_improve_node, gui_colors.TEXT)
