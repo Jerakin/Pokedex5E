@@ -436,7 +436,9 @@ local function delete_feat(self, feat)
 					count = count + 1
 					temp_move[data.index] = move
 				end
+				self.move_count = self.move_count - 1
 				self.pokemon.moves[temp_move[count]] = nil
+				break
 			end
 			index = i
 		end
