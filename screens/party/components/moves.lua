@@ -118,7 +118,7 @@ end
 
 local function on_item_selected(list)
 	for i,item in ipairs(list.items) do
-		if item.index == list.selected_item and item.data ~= "" then
+		if item.data and item.index == list.selected_item and item.data ~= "" then
 			gameanalytics.addDesignEvent {
 				eventId = "Navigation:MoveInfo",
 				value = tracking_id[monarch.top()]
