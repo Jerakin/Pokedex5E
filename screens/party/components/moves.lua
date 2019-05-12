@@ -105,9 +105,9 @@ end
 
 local function update_list(list)
 	pp_buttons={}
-	
-	for i, item in ipairs(list.items) do
-		if item.data and item.data ~= "" then
+
+	for i,item in ipairs(list.items) do
+		if item.data then
 			update_listitem(list, item)
 			gui.set_id(item.nodes[hash("btn_minus")], item.data .. "btn_minus")
 			gui.set_id(item.nodes[hash("btn_plus")], item.data .. "btn_plus")
@@ -118,7 +118,7 @@ end
 
 local function on_item_selected(list)
 	for i,item in ipairs(list.items) do
-		if item.data and item.index == list.selected_item and item.data ~= "" then
+		if item.data and item.index == list.selected_item then
 			gameanalytics.addDesignEvent {
 				eventId = "Navigation:MoveInfo",
 				value = tracking_id[monarch.top()]

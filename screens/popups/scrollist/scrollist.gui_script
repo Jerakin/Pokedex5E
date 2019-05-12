@@ -20,7 +20,7 @@ end
 local function update_list(list)
 	gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar").scroll_to(0, list.scroll.y)
 	for i,item in ipairs(list.items) do
-		if item.data and item.data ~= "" then
+		if item.data then
 			update_listitem(list, item)
 		end
 	end
@@ -28,7 +28,7 @@ end
 
 local function on_item_selected(list)
 	for i,item in ipairs(list.items) do
-		if item.index == list.selected_item then
+		if item.data and item.index == list.selected_item then
 			msg.post(sender, message_id, {item=item.data})
 			monarch.back()
 		end

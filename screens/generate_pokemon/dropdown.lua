@@ -39,7 +39,9 @@ end
 local function update_list(list, name)
 	gooey.vertical_scrollbar("handle", "bar").scroll_to(0, list.scroll.y)
 	for i,item in ipairs(list.items) do
-		update_items(item, name)
+		if item.data then
+			update_items(item, name)
+		end
 	end
 end
 
