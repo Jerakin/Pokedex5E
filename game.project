@@ -1,6 +1,6 @@
 [project]
 title = Pokedex5E
-dependencies = https://github.com/britzl/monarch/archive/2.17.2.zip,https://github.com/subsoap/defos/archive/v2.2.1.zip,https://github.com/Jerakin/gooey/archive/no_click_after_scroll.zip,https://github.com/Jerakin/defsave/archive/master.zip,https://github.com/GameAnalytics/GA-SDK-DEFOLD/archive/2.2.0.zip,https://github.com/selimanac/defold-random/archive/f87465b5272ff524ae18497eeb4385c969693fec.zip
+dependencies = https://github.com/britzl/monarch/archive/2.17.2.zip,https://github.com/subsoap/defos/archive/v2.2.1.zip,https://github.com/Jerakin/gooey/archive/no_click_after_scroll.zip,https://github.com/Jerakin/defsave/archive/master.zip,https://github.com/GameAnalytics/GA-SDK-DEFOLD/archive/2.2.0.zip,https://github.com/selimanac/defold-random/archive/f87465b5272ff524ae18497eeb4385c969693fec.zip,https://github.com/defold/extension-safearea/archive/master.zip
 custom_resources = assets/datafiles
 version = 0.9.14
 
@@ -10,6 +10,8 @@ version = 0.9.14
 
 
 
+
+game_key_iow = 06233ca800a715eef8ed062a5e216ed3
 
 custom_dimensions_01 = live,debug
 build_android = 0.9.14
@@ -47,16 +49,17 @@ launch_image_1024x768 = /assets/launch_images/ios_launch_1024x768.png
 launch_image_1242x2208 = /assets/launch_images/ios_launch_1242x2208.png
 launch_image_2208x1242 = /assets/launch_images/ios_launch_2208x1242.png
 launch_image_2048x1536 = /assets/launch_images/ios_launch_2048x1536.png
-bundle_identifier = com.example.todo
+bundle_identifier = com.jerakin.pokedex
 app_icon_167x167 = /assets/app_icons/icon_167.png
 launch_image_2048x2732 = /assets/launch_images/ios_launch_2048x2732.png
 launch_image_2732x2048 = /assets/launch_images/ios_launch_2732x2048.png
 launch_image_1334x750 = /assets/launch_images/ios_launch_1334x750.png
 launch_image_1125x2436 = /assets/launch_images/ios_launch_1125x2436.png
 launch_image_2436x1125 = /assets/launch_images/ios_launch_2436x1125.png
+pre_renderered_icons = 1
 
 [osx]
-bundle_identifier = com.example.todo
+bundle_identifier = com.jerakin.pokedex
 
 [android]
 app_icon_36x36 = /assets/app_icons/icon_36.png
