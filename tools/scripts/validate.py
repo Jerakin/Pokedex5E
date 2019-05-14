@@ -6,6 +6,7 @@ habitat_json = Path(r"D:\Repo\Pokedex\assets\datafiles\habitat.json")
 pokemons_json = Path(r"D:\Repo\Pokedex\assets\datafiles\pokemon.json")
 pokemon_order_json = Path(r"D:\Repo\Pokedex\assets\datafiles\pokemon_order.json")
 moves_json = Path(r"D:\Repo\Pokedex\assets\datafiles\moves.json")
+tm_json = Path(r"D:\Repo\Pokedex\assets\datafiles\move_machines.json")
 abilities_json = Path(r"D:\Repo\Pokedex\assets\datafiles\abilities.json")
 feats_json = Path(r"D:\Repo\Pokedex\assets\datafiles\feats.json")
 
@@ -34,6 +35,16 @@ def moves():
                         print("Can't find move: ", move)
 
 
+def tm():
+    with open(tm_json, "r") as fp:
+        with open(moves_json, "r") as f:
+            move_data = json.load(f)
+            tm_data = json.load(fp)
+
+            for num, move in tm_data.items():
+                if not move in move_data:
+                    print("Can't find TM: ", num, move)
+
 def abilities():
     with open(pokemons_json, "r") as fp:
         with open(abilities_json, "r") as f:
@@ -55,4 +66,4 @@ def images():
                 file_path = r"D:\Repo\Pokedex\assets\textures/{}/{}{}.png".format(x, data["index"], p)
                 if not os.path.exists(file_path):
                     print("Can't find image: ", data["index"],p, "in atlas ", x)
-images()
+tm()
