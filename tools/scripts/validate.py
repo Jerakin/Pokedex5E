@@ -1,8 +1,10 @@
 from pathlib import Path
 import json
+import os
 
 habitat_json = Path(r"D:\Repo\Pokedex\assets\datafiles\habitat.json")
 pokemons_json = Path(r"D:\Repo\Pokedex\assets\datafiles\pokemon.json")
+pokemon_order_json = Path(r"D:\Repo\Pokedex\assets\datafiles\pokemon_order.json")
 moves_json = Path(r"D:\Repo\Pokedex\assets\datafiles\moves.json")
 abilities_json = Path(r"D:\Repo\Pokedex\assets\datafiles\abilities.json")
 feats_json = Path(r"D:\Repo\Pokedex\assets\datafiles\feats.json")
@@ -10,7 +12,7 @@ feats_json = Path(r"D:\Repo\Pokedex\assets\datafiles\feats.json")
 
 def habitat():
     with open(habitat_json, "r") as fp:
-        with open(pokemons_json, "r") as f:
+        with open(pokemon_order_json, "r") as f:
             pokemon_data = json.load(f)
             habitat_data = json.load(fp)
 
@@ -45,5 +47,12 @@ def abilities():
                 if "Hidden Ability" in data and data["Hidden Ability"] not in ability_data:
                     print("Can't find hidden ability ", data["Hidden Ability"])
 
-moves()
-abilities()
+def images():
+    with open(pokemons_json, "r") as fp:
+        pokemon_data = json.load(fp)
+        for p, data in pokemon_data.items():
+            for x in ["pokemons", "sprites"]:
+                file_path = r"D:\Repo\Pokedex\assets\textures/{}/{}{}.png".format(x, data["index"], p)
+                if not os.path.exists(file_path):
+                    print("Can't find image: ", data["index"],p, "in atlas ", x)
+images()
