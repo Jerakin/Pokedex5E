@@ -14,6 +14,7 @@ local moves = require "screens.party.components.moves"
 local information = require "screens.party.components.information"
 local meters = require "screens.party.components.meters"
 local gesture = require "utils.gesture"
+local gui_utils = require "utils.gui"
 
 local M = {}
 
@@ -146,11 +147,16 @@ function M.create()
 	tab_buttons(page)
 	table.insert(pokemon_pages, {nodes=page})
 	set_ids(page, 1)
+	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_bg_1"])
+	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_stencil_2"])
+
 	local page = gui.clone_tree(gui.get_node("pokemon/root"))
 	tab_buttons(page)
 	table.insert(pokemon_pages, {nodes=page})
 	set_ids(page, 2)
 	gui.set_enabled(page["pokemon/root"], false)
+	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_bg_1"])
+	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_stencil_2"])
 
 	gui.delete_node(gui.get_node("pokemon/root"))
 end
