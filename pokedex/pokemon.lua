@@ -480,6 +480,10 @@ function M.get_hit_dice(pokemon)
 	return pokedex.get_pokemon_hit_dice(M.get_current_species(pokemon))
 end
 
+function M.get_pokemon_exp_worth(pokemon)
+	return pokedex.get_pokemon_exp_worth(M.get_current_level(pokemon), pokedex.get_pokemon_SR(pokemon))
+end
+
 function M.get_evolution_level(pokemon)
 	return pokemon.level.evolved or 0
 end

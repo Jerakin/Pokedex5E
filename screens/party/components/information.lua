@@ -1,5 +1,8 @@
 local _pokemon = require "pokedex.pokemon"
+local pokedex = require "pokedex.pokedex"
 local party_utils = require "screens.party.utils"
+local gooey = require "gooey.goeey"
+
 local M = {}
 
 local function setup_static_information(nodes, pokemon)
@@ -26,6 +29,22 @@ local function setup_static_information(nodes, pokemon)
 	gui.set_text(imm, party_utils.join_table("Immunities: ", _pokemon.get_immunities(pokemon), ", "))
 end
 
+function M.update(nodes)
+	local catch_rate = 10 + _pokemon.get_current_level(pokemon) + round_down(pokedex.get_pokemon_SR(pokemon)) + round_down(_pokemon.get_current_hp(pokemon) / 10)
+	gui.set_text(nodes["pokemon/catch"], catch_rate)
+end
+
+local function round_up(num)
+	if num<0 then x=-.55 else x=.5 end
+	local int, _= math.modf(num+x)
+	return int
+end
+
+local function round_down(num)
+	if num<0 then x=-.4999 else x=.4999 end
+	local int, _= math.modf(num+x)
+	return int
+end
 
 local function setup_info_tab(nodes, pokemon)
 	local abilities_string1 = ""
@@ -54,6 +73,14 @@ local function setup_info_tab(nodes, pokemon)
 	gui.set_text(nodes["pokemon/prof"], "Prof: " .. _pokemon.get_proficency_bonus(pokemon))
 	gui.set_text(nodes["pokemon/skills"], table.concat(_pokemon.get_skills(pokemon), ", "))
 
+	gui.set_text(nodes["pokemon/type"], table.concat(_pokemon.get_type(pokemon), "/"))
+
+	
+	gui.set_text(nodes["pokemon/exp"], _pokemon.get_pokemon_exp_worth(pokemon))
+
+	local catch_rate = 10 + _pokemon.get_current_level(pokemon) + round_down(pokedex.get_pokemon_SR(pokemon)) + round_down(_pokemon.get_current_hp(pokemon) / 10)
+	gui.set_text(nodes["pokemon/catch"], catch_rate)
+	
 	local senses = _pokemon.get_senses(pokemon)
 	if next(senses) ~= nil then
 		gui.set_text(nodes["pokemon/txt_senses"], table.concat(_pokemon.get_senses(pokemon), "\n"))
@@ -68,7 +95,9 @@ local function setup_info_tab(nodes, pokemon)
 	gui.set_text(nodes["pokemon/txt_speeds"], speed_string)
 end
 
-
+function M.on_input()
+	gooey.static_list(list.id, list.stencil, list.data, action_id, action, function() end, function() end)
+end
 
 function M.create(nodes, pokemon)
 	setup_static_information(nodes, pokemon)
