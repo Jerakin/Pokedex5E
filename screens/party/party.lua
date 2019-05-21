@@ -172,6 +172,7 @@ function M.on_input(action_id, action)
 		end
 	end
 		
+	information.on_input(action_id, action)
 	button.on_input(action_id, action)
 	moves.on_input(action_id, action)
 	features.on_input(action_id, action)

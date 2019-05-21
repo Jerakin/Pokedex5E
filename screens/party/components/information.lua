@@ -1,6 +1,11 @@
 local _pokemon = require "pokedex.pokemon"
+local pokedex = require "pokedex.pokedex"
 local party_utils = require "screens.party.utils"
+local gooey = require "gooey.gooey"
+
 local M = {}
+local active = {}
+local touching = false
 
 local function setup_static_information(nodes, pokemon)
 	local speed, stype = _pokemon.get_speed_of_type(pokemon)
@@ -24,6 +29,11 @@ local function setup_static_information(nodes, pokemon)
 	gui.set_text(vul, party_utils.join_table("Vulnerabilities: ", _pokemon.get_vulnerabilities(pokemon), ", "))
 	gui.set_text(res, party_utils.join_table("Resistances: ", _pokemon.get_resistances(pokemon), ", "))
 	gui.set_text(imm, party_utils.join_table("Immunities: ", _pokemon.get_immunities(pokemon), ", "))
+end
+
+
+function M.update(nodes, pokemon)
+	gui.set_text(nodes["pokemon/catch"], _pokemon.get_catch_rate(pokemon))
 end
 
 
@@ -54,6 +64,14 @@ local function setup_info_tab(nodes, pokemon)
 	gui.set_text(nodes["pokemon/prof"], "Prof: " .. _pokemon.get_proficency_bonus(pokemon))
 	gui.set_text(nodes["pokemon/skills"], table.concat(_pokemon.get_skills(pokemon), ", "))
 
+	gui.set_text(nodes["pokemon/type"], table.concat(_pokemon.get_type(pokemon), "/"))
+
+	
+	gui.set_text(nodes["pokemon/exp"], _pokemon.get_pokemon_exp_worth(pokemon))
+
+	local catch_rate = _pokemon.get_catch_rate(pokemon)
+	gui.set_text(nodes["pokemon/catch"], catch_rate)
+	
 	local senses = _pokemon.get_senses(pokemon)
 	if next(senses) ~= nil then
 		gui.set_text(nodes["pokemon/txt_senses"], table.concat(_pokemon.get_senses(pokemon), "\n"))
@@ -68,11 +86,24 @@ local function setup_info_tab(nodes, pokemon)
 	gui.set_text(nodes["pokemon/txt_speeds"], speed_string)
 end
 
-
+function M.on_input(action_id, action)
+	if action.pressed then
+		touching = true
+	elseif action.released then
+		touching = false
+	end
+	
+	if gui.pick_node(active["pokemon/tab_bg_3"], action.x, action.y) and touching then
+		local p = gui.get_position(active["pokemon/scroll"])
+		p.y = math.max(math.min(p.y + action.dy*0.5, 100), 0)
+		gui.set_position(active["pokemon/scroll"], p)
+	end
+end
 
 function M.create(nodes, pokemon)
 	setup_static_information(nodes, pokemon)
 	setup_info_tab(nodes, pokemon)
+	active = nodes
 end
 
 

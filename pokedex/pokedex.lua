@@ -8,6 +8,7 @@ local pokedex
 local abilities = {}
 local evolvedata
 local leveldata
+local exp_grid
 
 local initialized = false
 local function list()
@@ -21,6 +22,7 @@ function M.init()
 		abilities = file.load_json_from_resource("/assets/datafiles/abilities.json")
 		evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
 		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
+		exp_grid = file.load_json_from_resource("/assets/datafiles/exp_grid.json")
 		M.list, M.total = list()
 		initialized = true
 	else
@@ -146,7 +148,7 @@ function M.get_pokemon(pokemon)
 	if pokedex[pokemon] then
 		return utils.deep_copy(pokedex[pokemon])
 	else
-		local e = string.format("Can not find Pokemon: '%s'", tostring(name))
+		local e = string.format("Can not find Pokemon: '%s'\n\n%s", tostring(name), debug.traceback())
 		gameanalytics.addErrorEvent {
 			severity = "Critical",
 			message = e
@@ -215,6 +217,14 @@ function M.get_move_machines(pokemon)
 		end
 	end
 	return move_list
+end
+
+function M.get_pokemon_SR(pokemon)
+	return M.get_pokemon(pokemon).SR
+end
+
+function M.get_pokemon_exp_worth(level, sr)
+	return exp_grid[level][sr]
 end
 
 function M.get_pokemons_moves(pokemon, level)
