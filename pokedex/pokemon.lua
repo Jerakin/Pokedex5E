@@ -481,7 +481,22 @@ function M.get_hit_dice(pokemon)
 end
 
 function M.get_pokemon_exp_worth(pokemon)
-	return pokedex.get_pokemon_exp_worth(M.get_current_level(pokemon), pokedex.get_pokemon_SR(pokemon))
+	local level = M.get_current_level(pokemon)
+	local sr = pokedex.get_pokemon_SR(M.get_current_species(pokemon))
+	return pokedex.get_pokemon_exp_worth(level, sr)
+end
+
+local function round_down(num)
+	if num<0 then x=-.4999 else x=.4999 end
+	local int, _= math.modf(num+x)
+	return int
+end
+
+function M.get_catch_rate(pokemon)
+	local l = M.get_current_level(pokemon)
+	local sr = round_down(pokedex.get_pokemon_SR(M.get_current_species(pokemon)))
+	local hp = round_down(M.get_current_hp(pokemon) / 10)
+	return 10 + l + sr + hp
 end
 
 function M.get_evolution_level(pokemon)

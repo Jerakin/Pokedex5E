@@ -4,6 +4,7 @@ local pokedex = require "pokedex.pokedex"
 local gooey = require "gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
 local storage = require "pokedex.storage"
+local information = require "screens.party.components.information"
 local M = {}
 
 local active_buttons = {}
@@ -33,6 +34,7 @@ local function add_hp_buttons(nodes, pokemon)
 		}
 		local pokemon = storage.get_copy(_pokemon.get_id(pokemon))
 		M.add_hp(pokemon, 1)
+		information.update(nodes, pokemon)
 		M.setup_hp(nodes, pokemon) end, refresh=gooey_buttons.plus_button
 	}
 	local id = party_utils.set_id(nodes["pokemon/hp/btn_minus"])
@@ -43,7 +45,9 @@ local function add_hp_buttons(nodes, pokemon)
 		}
 		local pokemon = storage.get_copy(_pokemon.get_id(pokemon))
 		M.add_hp(pokemon, -1)
+		information.update(nodes, pokemon)
 		M.setup_hp(nodes, pokemon) end, refresh=gooey_buttons.minus_button
+		
 	}
 	table.insert(active_buttons, plus)
 	table.insert(active_buttons, minus)
@@ -125,7 +129,7 @@ function M.on_message(message_id, message)
 		local hp, expr = parse_number(message.str, current_hp)
 		M.add_hp(pokemon, hp)
 		M.setup_hp(active_nodes, pokemon)
-		
+		information.update(nodes, pokemon)
 		if expr then
 			gameanalytics.addDesignEvent {
 				eventId = "Party:HP:Edit"

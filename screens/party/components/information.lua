@@ -1,9 +1,11 @@
 local _pokemon = require "pokedex.pokemon"
 local pokedex = require "pokedex.pokedex"
 local party_utils = require "screens.party.utils"
-local gooey = require "gooey.goeey"
+local gooey = require "gooey.gooey"
 
 local M = {}
+local active = {}
+local touching = false
 
 local function setup_static_information(nodes, pokemon)
 	local speed, stype = _pokemon.get_speed_of_type(pokemon)
@@ -29,22 +31,11 @@ local function setup_static_information(nodes, pokemon)
 	gui.set_text(imm, party_utils.join_table("Immunities: ", _pokemon.get_immunities(pokemon), ", "))
 end
 
-function M.update(nodes)
-	local catch_rate = 10 + _pokemon.get_current_level(pokemon) + round_down(pokedex.get_pokemon_SR(pokemon)) + round_down(_pokemon.get_current_hp(pokemon) / 10)
-	gui.set_text(nodes["pokemon/catch"], catch_rate)
+
+function M.update(nodes, pokemon)
+	gui.set_text(nodes["pokemon/catch"], _pokemon.get_catch_rate(pokemon))
 end
 
-local function round_up(num)
-	if num<0 then x=-.55 else x=.5 end
-	local int, _= math.modf(num+x)
-	return int
-end
-
-local function round_down(num)
-	if num<0 then x=-.4999 else x=.4999 end
-	local int, _= math.modf(num+x)
-	return int
-end
 
 local function setup_info_tab(nodes, pokemon)
 	local abilities_string1 = ""
@@ -78,7 +69,7 @@ local function setup_info_tab(nodes, pokemon)
 	
 	gui.set_text(nodes["pokemon/exp"], _pokemon.get_pokemon_exp_worth(pokemon))
 
-	local catch_rate = 10 + _pokemon.get_current_level(pokemon) + round_down(pokedex.get_pokemon_SR(pokemon)) + round_down(_pokemon.get_current_hp(pokemon) / 10)
+	local catch_rate = _pokemon.get_catch_rate(pokemon)
 	gui.set_text(nodes["pokemon/catch"], catch_rate)
 	
 	local senses = _pokemon.get_senses(pokemon)
@@ -95,13 +86,24 @@ local function setup_info_tab(nodes, pokemon)
 	gui.set_text(nodes["pokemon/txt_speeds"], speed_string)
 end
 
-function M.on_input()
-	gooey.static_list(list.id, list.stencil, list.data, action_id, action, function() end, function() end)
+function M.on_input(action_id, action)
+	if action.pressed then
+		touching = true
+	elseif action.released then
+		touching = false
+	end
+	
+	if gui.pick_node(active["pokemon/tab_bg_3"], action.x, action.y) and touching then
+		local p = gui.get_position(active["pokemon/scroll"])
+		p.y = math.max(math.min(p.y + action.dy*0.5, 100), 0)
+		gui.set_position(active["pokemon/scroll"], p)
+	end
 end
 
 function M.create(nodes, pokemon)
 	setup_static_information(nodes, pokemon)
 	setup_info_tab(nodes, pokemon)
+	active = nodes
 end
 
 
