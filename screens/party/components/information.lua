@@ -2,12 +2,13 @@ local _pokemon = require "pokedex.pokemon"
 local pokedex = require "pokedex.pokedex"
 local party_utils = require "screens.party.utils"
 local gooey = require "gooey.gooey"
+local utils = require "utils.utils"
 
 local M = {}
 local active = {}
 local touching = false
 
-local function setup_static_information(nodes, pokemon)
+local function setup_main_information(nodes, pokemon)
 	local speed, stype = _pokemon.get_speed_of_type(pokemon)
 	local nickname = _pokemon.get_nickname(pokemon)
 	local species = _pokemon.get_current_species(pokemon)
@@ -21,7 +22,6 @@ local function setup_static_information(nodes, pokemon)
 	gui.set_text(nodes["pokemon/index"], string.format("#%03d %s", _pokemon.get_index_number(pokemon), species))
 	gui.set_text(nodes["pokemon/species"], nickname)
 	gui.set_text(nodes["pokemon/level"], "Lv. " ..  _pokemon.get_current_level(pokemon))
-	gui.set_text(nodes["pokemon/nature"], _pokemon.get_nature(pokemon))
 	gui.set_text(nodes["pokemon/ac"], "AC: " .. _pokemon.get_AC(pokemon))
 	local vul = nodes["pokemon/vulnerabilities"]
 	local imm = nodes["pokemon/immunities"]
@@ -45,45 +45,42 @@ local function setup_info_tab(nodes, pokemon)
 
 	local st_attributes = _pokemon.get_saving_throw_modifier(pokemon)
 	local total_attributes = _pokemon.get_attributes(pokemon)
-	for i, stat in pairs({"STR", "DEX", "CON"}) do
-		abilities_string1 = abilities_string1 .. total_attributes[stat] .. "\n"
-		saving_throw_string1 = saving_throw_string1 .. party_utils.add_operation(st_attributes[stat])  .. "\n"
+	for i, stat in pairs({"STR", "DEX", "CON", "INT", "WIS", "CHA"}) do
+		local mod_node = "pokemon/traits/txt_" .. stat:lower() .. "_mod"
+		local score_node = "pokemon/traits/txt_" .. stat:lower() .. "_score"
+		local save_node = "pokemon/traits/txt_" .. stat:lower() .. "_save"
+		print(stat)
+		gui.set_text(nodes[mod_node], party_utils.to_mod(total_attributes[stat]))
+		gui.set_text(nodes[save_node], party_utils.add_operation(st_attributes[stat]))
+		gui.set_text(nodes[score_node], total_attributes[stat])
+		
 	end	
 
-	for i, stat in pairs({"INT", "WIS", "CHA"}) do
-		abilities_string2 = abilities_string2 .. total_attributes[stat] .. "\n"
-		saving_throw_string2 = saving_throw_string2 .. party_utils.add_operation(st_attributes[stat])  .. "\n"
+	local skill_string = ""
+	for _, skill in pairs(_pokemon.get_skills(pokemon)) do
+		skill_string = skill_string .. "• " .. skill .. "\n"
+	end
+	gui.set_text(nodes["pokemon/traits/txt_skills"], skill_string)
+	
+	gui.set_text(nodes["pokemon/traits/txt_nature"], _pokemon.get_nature(pokemon))
+	gui.set_text(nodes["pokemon/traits/txt_stab"], _pokemon.get_STAB_bonus(pokemon))
+	gui.set_text(nodes["pokemon/traits/txt_prof"], _pokemon.get_proficency_bonus(pokemon))
+	gui.set_text(nodes["pokemon/traits/txt_type"], table.concat(_pokemon.get_type(pokemon), "/"))
+	gui.set_text(nodes["pokemon/traits/txt_exp"], _pokemon.get_pokemon_exp_worth(pokemon))
+	gui.set_text(nodes["pokemon/traits/txt_catch"], _pokemon.get_catch_rate(pokemon))
+	
+	for name, amount in pairs(_pokemon.get_all_speed(pokemon)) do
+		gui.set_text(nodes["pokemon/traits/txt_" .. name:lower()], amount==0 and "-" or amount .. "ft")
 	end
 
-	gui.set_text(nodes["pokemon/attributes_1"], abilities_string1)
-	gui.set_text(nodes["pokemon/savingthrow_1"], saving_throw_string1)
-	gui.set_text(nodes["pokemon/attributes_2"], abilities_string2)
-	gui.set_text(nodes["pokemon/savingthrow_2"], saving_throw_string2)
-
-	gui.set_text(nodes["pokemon/stab"], "STAB: " .. _pokemon.get_STAB_bonus(pokemon))
-	gui.set_text(nodes["pokemon/prof"], "Prof: " .. _pokemon.get_proficency_bonus(pokemon))
-	gui.set_text(nodes["pokemon/skills"], table.concat(_pokemon.get_skills(pokemon), ", "))
-
-	gui.set_text(nodes["pokemon/type"], table.concat(_pokemon.get_type(pokemon), "/"))
-
-	
-	gui.set_text(nodes["pokemon/exp"], _pokemon.get_pokemon_exp_worth(pokemon))
-
-	local catch_rate = _pokemon.get_catch_rate(pokemon)
-	gui.set_text(nodes["pokemon/catch"], catch_rate)
-	
 	local senses = _pokemon.get_senses(pokemon)
 	if next(senses) ~= nil then
-		gui.set_text(nodes["pokemon/txt_senses"], table.concat(_pokemon.get_senses(pokemon), "\n"))
-	end
-	local speeds = _pokemon.get_all_speed(pokemon)
-	local speed_string = ""
-	for name, amount in pairs(speeds) do
-		if amount > 0 then
-			speed_string = speed_string .. amount .. "ft. " .. name .. "\n"
+		for _, str in pairs(senses) do
+			local split = utils.split(str)
+			print(split[1]:lower())
+			gui.set_text(nodes["pokemon/traits/txt_" .. split[1]:lower()], split[2])
 		end
 	end
-	gui.set_text(nodes["pokemon/txt_speeds"], speed_string)
 end
 
 function M.on_input(action_id, action)
@@ -93,15 +90,15 @@ function M.on_input(action_id, action)
 		touching = false
 	end
 	
-	if gui.pick_node(active["pokemon/tab_bg_3"], action.x, action.y) and touching then
+	--[[if gui.pick_node(active["pokemon/tab_bg_3"], action.x, action.y) and touching then
 		local p = gui.get_position(active["pokemon/scroll"])
 		p.y = math.max(math.min(p.y + action.dy*0.5, 100), 0)
 		gui.set_position(active["pokemon/scroll"], p)
-	end
+	end--]]
 end
 
 function M.create(nodes, pokemon)
-	setup_static_information(nodes, pokemon)
+	setup_main_information(nodes, pokemon)
 	setup_info_tab(nodes, pokemon)
 	active = nodes
 end

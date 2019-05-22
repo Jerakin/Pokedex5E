@@ -25,7 +25,7 @@ end
 
 function M.to_mod(v)
 	local value = math.floor((v - 10) / 2)
-	return add_operation(value)
+	return M.add_operation(value)
 end
 
 return M

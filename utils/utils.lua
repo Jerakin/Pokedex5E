@@ -40,13 +40,13 @@ function M.shuffle(T)
 	return T
 end
 
-function M.shuffle2(tbl)
-	size = #tbl
+function M.shuffle2(T)
+	size = #T
 	for i = size, 1, -1 do
 		local rand = rnd.range(1, i)
-		tbl[i], tbl[rand] = tbl[rand], tbl[i]
+		T[i], T[rand] = T[rand], T[i]
 	end
-	return tbl
+	return T
 end
 
 function M.merge(T1, T2)
@@ -55,4 +55,16 @@ function M.merge(T1, T2)
 	return copy
 end
 
+function M.split(str, sep)
+	if sep == nil then
+		sep = "%s"
+	end
+	
+	local T={}
+	for s in string.gmatch(str, "([^"..sep.."]+)") do
+		table.insert(T, s)
+	end
+	return T
+end
+	
 return M
