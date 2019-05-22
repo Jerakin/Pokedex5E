@@ -149,6 +149,7 @@ function M.create()
 	set_ids(page, 1)
 	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_bg_1"])
 	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_stencil_2"])
+	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_bg_3"])
 
 	local page = gui.clone_tree(gui.get_node("pokemon/root"))
 	tab_buttons(page)
@@ -157,6 +158,7 @@ function M.create()
 	gui.set_enabled(page["pokemon/root"], false)
 	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_bg_1"])
 	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_stencil_2"])
+	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_bg_3"])
 
 	gui.delete_node(gui.get_node("pokemon/root"))
 end

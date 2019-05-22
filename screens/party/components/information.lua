@@ -49,7 +49,7 @@ local function setup_info_tab(nodes, pokemon)
 		local mod_node = "pokemon/traits/txt_" .. stat:lower() .. "_mod"
 		local score_node = "pokemon/traits/txt_" .. stat:lower() .. "_score"
 		local save_node = "pokemon/traits/txt_" .. stat:lower() .. "_save"
-		print(stat)
+
 		gui.set_text(nodes[mod_node], party_utils.to_mod(total_attributes[stat]))
 		gui.set_text(nodes[save_node], party_utils.add_operation(st_attributes[stat]))
 		gui.set_text(nodes[score_node], total_attributes[stat])
@@ -90,11 +90,12 @@ function M.on_input(action_id, action)
 		touching = false
 	end
 	
-	--[[if gui.pick_node(active["pokemon/tab_bg_3"], action.x, action.y) and touching then
-		local p = gui.get_position(active["pokemon/scroll"])
-		p.y = math.max(math.min(p.y + action.dy*0.5, 100), 0)
-		gui.set_position(active["pokemon/scroll"], p)
-	end--]]
+	if gui.pick_node(active["pokemon/tab_bg_3"], action.x, action.y) and touching then
+		local max_scroll = math.abs(gui.get_position(active["pokemon/traits/scroll_stop"]).y) - gui.get_size(active["pokemon/tab_bg_3"]).y
+		local p = gui.get_position(active["pokemon/traits/root"])
+		p.y = math.max(math.min(p.y + action.dy*0.5, max_scroll), 0)
+		gui.set_position(active["pokemon/traits/root"], p)
+	end
 end
 
 function M.create(nodes, pokemon)
