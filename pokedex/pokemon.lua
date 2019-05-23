@@ -37,6 +37,16 @@ local feat_to_attribute = {
 	Acrobat="DEX"
 }
 
+local loyalty_hp = {
+	[-3] = {HP=0},
+	[-2] = {HP=0},
+	[-1] = {HP=0},
+	[0] = {HP=0},
+	[1] = {HP=0},
+	[2] = {HP=5},
+	[3] = {HP=10}
+}
+
 local function add_tables(T1, T2)
 	local copy = utils.shallow_copy(T1)
 	for k,v in pairs(T2) do
@@ -86,6 +96,16 @@ end
 
 function M.get_experience_for_level(pokemon)
 	return pokedex.get_experience_for_level(M.get_current_level(pokemon))
+end
+
+function M.set_loyalty(pokemon, loyalty)
+	local c =  math.min(math.max(loyalty, -3), 3)
+	pokemon.loyalty = c
+	storage.set_pokemon_loyalty(M.get_id(pokemon), c)
+end
+
+function M.get_loyalty(pokemon)
+	return pokemon.loyalty or 0
 end
 
 function M.have_ability(pokemon, ability)
@@ -211,7 +231,7 @@ function M.get_max_hp(pokemon)
 		tough_feat = M.get_current_level(pokemon) * 2
 	end
 
-	return pokemon.hp.max + tough_feat
+	return pokemon.hp.max + tough_feat + loyalty_hp[M.get_loyalty(pokemon)].HP
 end
 
 function M.get_current_species(pokemon)
@@ -429,6 +449,7 @@ function M.get_saving_throw_modifier(pokemon)
 	local prof = M.get_proficency_bonus(pokemon)
 	local b = M.get_attributes(pokemon)
 	local saving_throws = pokedex.get_saving_throw_proficiencies(M.get_current_species(pokemon)) or {}
+	local loyalty = M.get_loyalty(pokemon)
 	for _, feat in pairs(M.get_feats(pokemon)) do
 		local is_resilient = resilient[feat]
 		local got_save = false
@@ -446,7 +467,7 @@ function M.get_saving_throw_modifier(pokemon)
 	
 	local modifiers = {}
 	for name, mod in pairs(b) do
-		modifiers[name] = math.floor((b[name] - 10) / 2)
+		modifiers[name] = math.floor((b[name] - 10) / 2) + loyalty
 	end
 	for _, st in pairs(saving_throws) do
 		modifiers[st] = modifiers[st] + prof

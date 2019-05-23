@@ -159,6 +159,16 @@ function M.set_pokemon_exp(id, exp)
 	M.save()
 end
 
+function M.set_pokemon_loyalty(id, loyalty)
+	local p = get(id)
+	p.loyalty = loyalty
+	M.save()
+end
+
+function M.get_pokemon_loyalty(id)
+	return get(id).loyalty
+end
+
 function M.get_pokemon_exp(id)
 	return get(id).exp
 end

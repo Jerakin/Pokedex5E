@@ -21,7 +21,6 @@ local function setup_main_information(nodes, pokemon)
 	gui.set_texture(nodes["pokemon/pokemon_sprite"], texture)
 	gui.play_flipbook(nodes["pokemon/pokemon_sprite"], pokemon_sprite)
 
-	gui.set_text(nodes["pokemon/txt_speed"], stype:upper() .. ": " .. speed)
 	gui.set_text(nodes["pokemon/index"], string.format("#%03d %s", _pokemon.get_index_number(pokemon), species))
 	gui.set_text(nodes["pokemon/species"], nickname)
 	gui.set_text(nodes["pokemon/level"], "Lv. " ..  _pokemon.get_current_level(pokemon))
@@ -37,6 +36,11 @@ end
 
 function M.refresh(pokemon)
 	gui.set_text(active["pokemon/traits/txt_catch"], _pokemon.get_catch_rate(pokemon))
+	local st_attributes = _pokemon.get_saving_throw_modifier(pokemon)
+	for i, stat in pairs({"STR", "DEX", "CON", "INT", "WIS", "CHA"}) do
+		local save_node = "pokemon/traits/txt_" .. stat:lower() .. "_save"
+		gui.set_text(active[save_node], party_utils.add_operation(st_attributes[stat]))
+	end	
 end
 
 

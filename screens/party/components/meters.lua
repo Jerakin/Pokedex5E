@@ -26,6 +26,11 @@ function M.add_hp(pokemon, hp)
 	_pokemon.set_current_hp(pokemon, current + hp)
 end
 
+function M.add_loyalty(pokemon, loyalty)
+	local current =_pokemon.get_loyalty(pokemon)
+	_pokemon.set_loyalty(pokemon, current + loyalty)
+end
+
 local function add_hp_buttons(nodes, pokemon)
 	local id = party_utils.set_id(nodes["pokemon/hp/btn_plus"])
 	local plus = {node=id, func=function()
@@ -49,6 +54,36 @@ local function add_hp_buttons(nodes, pokemon)
 		M.setup_hp(nodes, pokemon) end, refresh=gooey_buttons.minus_button
 		
 	}
+	table.insert(active_buttons, plus)
+	table.insert(active_buttons, minus)
+end
+
+local function add_loyalty_buttons(nodes, pokemon)
+	local id = party_utils.set_id(nodes["pokemon/loyalty/btn_plus"])
+	local plus = {node=id, func=function()
+		gameanalytics.addDesignEvent {
+			eventId = "Party:Loyalty:Increase"
+		}
+		local pokemon = storage.get_copy(_pokemon.get_id(pokemon))
+		M.add_loyalty(pokemon, 1)
+		information.refresh(pokemon)
+		gui.set_text(nodes["pokemon/txt_loyalty"], party_utils.add_operation(_pokemon.get_loyalty(pokemon)))
+		M.setup_hp(nodes, pokemon)
+	end, refresh=gooey_buttons.plus_button}
+	
+	local id = party_utils.set_id(nodes["pokemon/loyalty/btn_minus"])
+
+	local minus = {node=id, func=function()
+		gameanalytics.addDesignEvent {
+			eventId = "Party:Loyalty:Decreae"
+		}
+		local pokemon = storage.get_copy(_pokemon.get_id(pokemon))
+		M.add_loyalty(pokemon, -1)
+		information.refresh(pokemon)
+		gui.set_text(nodes["pokemon/txt_loyalty"], party_utils.add_operation(_pokemon.get_loyalty(pokemon)))
+		M.setup_hp(nodes, pokemon)
+	end, refresh=gooey_buttons.minus_button}
+	
 	table.insert(active_buttons, plus)
 	table.insert(active_buttons, minus)
 end
@@ -80,6 +115,8 @@ end
 function M.create(nodes, pokemon)
 	active_nodes = nodes
 	active_buttons = {}
+	gui.set_text(nodes["pokemon/txt_loyalty"], party_utils.add_operation(_pokemon.get_loyalty(pokemon)))
+	add_loyalty_buttons(nodes, pokemon)
 	M.setup_hp(nodes, pokemon)
 	add_hp_buttons(nodes, pokemon)
 	M.setup_exp(nodes, pokemon)
