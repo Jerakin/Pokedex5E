@@ -32,8 +32,8 @@ local function setup_main_information(nodes, pokemon)
 end
 
 
-function M.update(nodes, pokemon)
-	gui.set_text(nodes["pokemon/catch"], _pokemon.get_catch_rate(pokemon))
+function M.refresh(pokemon)
+	gui.set_text(active["pokemon/traits/txt_catch"], _pokemon.get_catch_rate(pokemon))
 end
 
 
