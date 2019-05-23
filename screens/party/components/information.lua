@@ -7,6 +7,7 @@ local utils = require "utils.utils"
 local M = {}
 local active = {}
 local touching = false
+local _action = vmath.vector3(0)
 
 local number_map = {[0.125]="1/8", [0.25]="1/4", [0.5]="1/2"}
 
@@ -94,6 +95,8 @@ end
 
 function M.on_input(action_id, action)
 	if action.pressed then
+		_action.x = action.x
+		_action.y = action.y
 		touching = true
 	elseif action.released then
 		touching = false
@@ -102,9 +105,11 @@ function M.on_input(action_id, action)
 	if gui.pick_node(active["pokemon/tab_bg_3"], action.x, action.y) and touching then
 		local max_scroll = math.abs(gui.get_position(active["pokemon/traits/scroll_stop"]).y) - gui.get_size(active["pokemon/tab_bg_3"]).y
 		local p = gui.get_position(active["pokemon/traits/root"])
-		p.y = math.max(math.min(p.y + action.dy*0.5, max_scroll), 0)
+		p.y = math.max(math.min(p.y - (_action.y-action.y)*0.5, max_scroll), 0)
 		gui.set_position(active["pokemon/traits/root"], p)
 	end
+	_action.x = action.x
+	_action.y = action.y
 end
 
 function M.create(nodes, pokemon)
