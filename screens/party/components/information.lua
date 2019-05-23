@@ -8,6 +8,8 @@ local M = {}
 local active = {}
 local touching = false
 
+local number_map = {[0.125]="1/8", [0.25]="1/4", [0.5]="1/2"}
+
 local function setup_main_information(nodes, pokemon)
 	local speed, stype = _pokemon.get_speed_of_type(pokemon)
 	local nickname = _pokemon.get_nickname(pokemon)
@@ -53,7 +55,6 @@ local function setup_info_tab(nodes, pokemon)
 		gui.set_text(nodes[mod_node], party_utils.to_mod(total_attributes[stat]))
 		gui.set_text(nodes[save_node], party_utils.add_operation(st_attributes[stat]))
 		gui.set_text(nodes[score_node], total_attributes[stat])
-		
 	end	
 
 	local skill_string = ""
@@ -61,13 +62,17 @@ local function setup_info_tab(nodes, pokemon)
 		skill_string = skill_string .. "• " .. skill .. "\n"
 	end
 	gui.set_text(nodes["pokemon/traits/txt_skills"], skill_string)
-	
+
+	local sr = pokedex.get_pokemon_SR(_pokemon.get_current_species(pokemon))
+	gui.set_text(nodes["pokemon/traits/txt_sr"], number_map[sr] or sr)
+
 	gui.set_text(nodes["pokemon/traits/txt_nature"], _pokemon.get_nature(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_stab"], _pokemon.get_STAB_bonus(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_prof"], _pokemon.get_proficency_bonus(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_type"], table.concat(_pokemon.get_type(pokemon), "/"))
 	gui.set_text(nodes["pokemon/traits/txt_exp"], _pokemon.get_pokemon_exp_worth(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_catch"], _pokemon.get_catch_rate(pokemon))
+	gui.set_text(nodes["pokemon/traits/txt_hitdice"], "d" .. _pokemon.get_hit_dice(pokemon))
 	
 	for name, amount in pairs(_pokemon.get_all_speed(pokemon)) do
 		gui.set_text(nodes["pokemon/traits/txt_" .. name:lower()], amount==0 and "-" or amount .. "ft")
