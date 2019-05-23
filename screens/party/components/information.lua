@@ -73,11 +73,15 @@ local function setup_info_tab(nodes, pokemon)
 		gui.set_text(nodes["pokemon/traits/txt_" .. name:lower()], amount==0 and "-" or amount .. "ft")
 	end
 
+
+	gui.set_text(nodes["pokemon/traits/txt_darkvision"], "-")
+	gui.set_text(nodes["pokemon/traits/txt_tremorsense"], "-")
+	gui.set_text(nodes["pokemon/traits/txt_truesight"], "-")
+	gui.set_text(nodes["pokemon/traits/txt_blindsight"], "-")
 	local senses = _pokemon.get_senses(pokemon)
 	if next(senses) ~= nil then
 		for _, str in pairs(senses) do
 			local split = utils.split(str)
-			print(split[1]:lower())
 			gui.set_text(nodes["pokemon/traits/txt_" .. split[1]:lower()], split[2])
 		end
 	end
