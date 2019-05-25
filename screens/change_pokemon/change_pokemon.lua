@@ -36,7 +36,7 @@ M.config = {
 	start = vmath.vector3(0, -110, 0),
 	[hash("change_pokemon/asi/root")] = {open=vmath.vector3(720, 420, 0), closed=vmath.vector3(720, 85, 0), active=true},
 	[hash("change_pokemon/abilities")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
-	[hash("change_pokemon/moves")] = {open=vmath.vector3(720, 190, 0), closed=vmath.vector3(720, 50, 0), active=false},
+	[hash("change_pokemon/moves")] = {open=vmath.vector3(720, 0, 0), closed=vmath.vector3(720, 50, 0), active=false},
 	[hash("change_pokemon/extra")] = {open=vmath.vector3(720, 150, 0), closed=vmath.vector3(720, 0, 0), active=true},
 	[hash("change_pokemon/feats")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
 	[hash("change_pokemon/nature")] = {open=vmath.vector3(720, 70, 0), closed=vmath.vector3(720, 0, 0), active=true}
@@ -118,7 +118,7 @@ local function redraw_list(data_table, entry_table, text_hash, btn_hash, delete_
 		gui.set_text(text_node, ability:upper())
 		gui.set_position(nodes[root_hash], ability_position)
 		ability_position.x = math.mod(i, 2) * 340
-		ability_position.y = math.ceil((i-1)/2) * -40
+		ability_position.y = math.ceil((i-1)/2) * -50
 		amount = amount + 1
 	end
 	local nodes = gui.clone_tree(gui.get_node(root_hash))
@@ -139,7 +139,7 @@ end
 
 local function redraw_moves(self)
 	local position = vmath.vector3()
-	M.config[hash("change_pokemon/moves")].open.y = M.config[hash("change_pokemon/moves")].closed.y + math.ceil(self.move_count / 2) * 60
+	M.config[hash("change_pokemon/moves")].open.y = M.config[hash("change_pokemon/moves")].closed.y + math.ceil(self.move_count / 2) * 70
 
 	for _, b in pairs(move_buttons_list) do
 		gui.delete_node(gui.get_node(b.node))
@@ -158,7 +158,7 @@ local function redraw_moves(self)
 		gui.set_color(txt, gui_colors.HERO_TEXT_FADED)
 		table.insert(move_buttons_list, {node="move_btn" .. i, text=txt})
 		position.x = math.mod(i, 2) * 320
-		position.y = math.ceil((i-1)/2) * -60
+		position.y = math.ceil((i-1)/2) * -70
 	end
 	local index = 1
 	for move, data in pairs(self.pokemon.moves) do
@@ -236,7 +236,7 @@ local function redraw(self)
 	local btn_id = hash("change_pokemon/ability/btn_entry")
 	local del_id = hash("change_pokemon/ability/btn_delete")
 	local nodes = gui.clone_tree(gui.get_node(root_id))
-	M.config[hash("change_pokemon/abilities")].open.y = M.config[hash("change_pokemon/abilities")].closed.y + (math.ceil(#self.abilities / 2) + 1) * 40
+	M.config[hash("change_pokemon/abilities")].open.y = M.config[hash("change_pokemon/abilities")].closed.y + math.ceil((#self.abilities +1) / 2) * 50
 	self.ability_data, self.abilities = redraw_list(self.ability_data, self.abilities, text_id, btn_id, del_id, root_id)
 
 	-- Feats
@@ -244,7 +244,7 @@ local function redraw(self)
 	local text_id = hash("change_pokemon/feat/txt")
 	local btn_id = hash("change_pokemon/feat/btn_entry")
 	local del_id = hash("change_pokemon/feat/btn_delete")
-	M.config[hash("change_pokemon/feats")].open.y = M.config[hash("change_pokemon/feats")].closed.y + (math.ceil(#self.feats / 2) + 1) * 40
+	M.config[hash("change_pokemon/feats")].open.y = M.config[hash("change_pokemon/feats")].closed.y + math.ceil((#self.feats + 1) / 2) * 50
 	self.feats_data, self.feats = redraw_list(self.feats_data, self.feats, text_id, btn_id, del_id, root_id)
 
 	if self.redraw then self.redraw(self) end
