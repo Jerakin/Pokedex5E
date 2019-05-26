@@ -94,6 +94,7 @@ function init(self)
 	gui.set_text(gui.get_node("scrollist/topbar/title"), "Choose New Move")
 	gui.set_enabled(gui.get_node("scrollist/cursor"), false)
 	update_list(gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items))
+	gooey.input("scrollist/search_text").set_mark_text(false)
 end
 
 local function filter_list(self, search_string)

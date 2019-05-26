@@ -82,6 +82,7 @@ function init(self)
 	update_list(gooey.dynamic_list("storage", "scrollist", "pokemon_row/row", self.pokemon_rows))
 	inventory.setup()
 	gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar").refresh()
+	gooey.input("search_text").set_mark_text(false)
 end
 
 

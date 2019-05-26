@@ -145,7 +145,7 @@ function init(self)
 	button.register("change_pokemon/txt_max_hp", function()
 		monarch.show("info", nil, {text="To increase HP\nRoll (or take the average of) the hit die and add your CON modifier."})
 	end)
-
+	gooey.input("change_pokemon/species").set_mark_text(true)
 	pokemon_edit.redraw(self)
 end
 

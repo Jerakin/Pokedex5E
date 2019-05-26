@@ -42,7 +42,7 @@ local function refresh_input(self, input, node_id)
 		gui.cancel_animation(cursor, gui.PROP_COLOR)
 		gui.set_color(input.node, gui_colors.HERO_TEXT)
 		gui.animate(cursor, gui.PROP_COLOR, vmath.vector4(1,1,1,0), gui.EASING_INSINE, 0.8, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
-		M.filter_list(self, input.text)
+		M.filter_list(self, input.text .. input.marked_text)
 	else
 		gui.set_enabled(cursor, false)
 		gui.cancel_animation(cursor, gui.PROP_COLOR)

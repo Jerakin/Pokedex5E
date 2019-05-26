@@ -36,6 +36,7 @@ function init(self)
 	self.sender = monarch.data("pick_name") and monarch.data("pick_name").sender or nil
 	slot = monarch.data("pick_name") and monarch.data("pick_name").slot or nil
 	gui.set_enabled(gui.get_node("cursor"), false)
+	gooey.input("name_text").set_mark_text(false)
 end
 
 
