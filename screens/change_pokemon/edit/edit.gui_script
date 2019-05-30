@@ -19,6 +19,13 @@ local function pokemon_image(species)
 end
 
 local function save_pokemon(self)
+	if self.max_hp_increase ~= 0 then
+		local max = _pokemon.get_max_hp(self.pokemon)
+		_pokemon.set_max_hp(self.pokemon, max + self.max_hp_increase, true)
+		local c = _pokemon.get_current_hp(self.pokemon)
+		_pokemon.set_current_hp(self.pokemon, c + self.max_hp_increase)
+	end
+
 	_pokemon.add_hp_from_levels(self.pokemon, self.level)
 	_pokemon.update_increased_attributes(self.pokemon, self.increased_attributes)
 	local nickname = gui.get_text(gui.get_node("change_pokemon/species"))
@@ -71,13 +78,8 @@ local function evolve(self, species)
 end
 
 local function change_hp(self, hp)
-
-	local max = _pokemon.get_max_hp(self.pokemon)
-	self.max_hp_increase =  self.max_hp_increase + hp
-	_pokemon.set_max_hp(self.pokemon, max + hp, true)
-	local c = _pokemon.get_current_hp(self.pokemon)
-	_pokemon.set_current_hp(self.pokemon, c + hp)
-	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), _pokemon.get_max_hp(self.pokemon))
+	self.max_hp_increase = self.max_hp_increase + hp
+	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), _pokemon.get_max_hp(self.pokemon) + self.max_hp_increase)
 	gui.set_text(gui.get_node("change_pokemon/txt_max_hp_mod"), "MAX HP: " .. self.max_hp_increase)
 end
 
