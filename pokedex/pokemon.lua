@@ -419,7 +419,7 @@ function M.add_hp_from_levels(pokemon, to_level)
 		local con_mod = math.floor((con - 10) / 2)
 		
 		local levels_gained = to_level - M.get_current_level(pokemon)
-		local from_hit_dice = math.ceil(hit_dice / 2) * levels_gained
+		local from_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
 		local from_con_mod = con_mod * levels_gained
 
 		M.set_max_hp(pokemon, current + from_hit_dice + from_con_mod)
