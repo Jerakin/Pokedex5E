@@ -230,6 +230,22 @@ local function redraw(self)
 		gui.set_color(max_improve_node, gui_colors.RED)
 	end
 
+	-- HP
+	if not _pokemon.get_max_hp_edited(self.pokemon) then
+		local max_hp_node = gui.get_node("change_pokemon/txt_max_hp")
+		local mod_hp_node = gui.get_node("change_pokemon/txt_max_hp_mod")
+		local current = _pokemon.get_max_hp(self.pokemon)
+		local extra = _pokemon.calculate_addition_hp_from_levels(self.pokemon, self.level - _pokemon.get_current_level(self.pokemon))
+		gui.set_text(mod_hp_node,  "MAX HP: " .. extra)
+		gui.set_text(max_hp_node,  current + extra)
+		if extra == 0 then
+			gui.set_color(mod_hp_node, gui_colors.TEXT)
+		elseif extra >= 1 then
+			gui.set_color(mod_hp_node, gui_colors.GREEN)
+		else
+			gui.set_color(mod_hp_node, gui_colors.RED)
+		end
+	end
 	-- Abilities
 	local root_id = hash("change_pokemon/ability/root")
 	local text_id = hash("change_pokemon/ability/txt")
