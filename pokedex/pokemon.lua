@@ -412,7 +412,13 @@ function M.reset_move_pp(pokemon, move)
 end
 
 local function set_evolution_at_level(pokemon, level)
-	pokemon.level.evolved = level
+	if type(pokemon.level.evolved) == "number" then
+		local old = pokemon.level.evolved
+		pokemon.level.evolved = {}
+		table.insert(pokemon.level.evolved, old)
+	end
+	
+	table.insert(pokemon.level.evolved, level)
 	storage.set_evolution_at_level(M.get_id(pokemon), level)
 end
 
@@ -629,7 +635,7 @@ function M.new(data)
 	this.level = {}
 	this.level.caught = pokedex.get_minimum_wild_level(this.species.caught)
 	this.level.current = this.level.caught
-	this.level.evolved = 0
+	this.level.evolved = {}
 
 	this.attributes = {}
 	this.attributes.increased = data.attributes or {}
