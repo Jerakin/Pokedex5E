@@ -68,13 +68,14 @@ function M.release()
 end
 
 --- Register a node and a callback to invoke when it is clicked
-function M.register(node_or_string, callback)
+function M.register(node_or_string, callback, options)
+	options = options or {}
 	assert(node_or_string, "You must provide a node")
 	assert(callback, "You must provide a callback")
 	local node = ensure_node(node_or_string)
 	assert(node, "You must provide an existing node or node name")
 	local key = node_to_key(node)
-	registered_nodes[key] = { url = msg.url(), callback = callback, node = node, scale = gui.get_scale(node) }
+	registered_nodes[key] = { url = msg.url(), callback = callback, node = node, scale = gui.get_scale(node), no_shake=options.no_shake}
 	return node
 end
 
@@ -166,7 +167,7 @@ function M.on_input(action_id, action)
 				end
 			end
 			if pressed then
-				shake(registered_node.node, registered_node.scale)
+				if not registered_node.no_shake then shake(registered_node.node, registered_node.scale) end
 				registered_node.callback()
 			end
 			return pressed

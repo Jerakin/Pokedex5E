@@ -32,7 +32,7 @@ local function inventory_button(node, id)
 			value = tracking_id[monarch.top()]
 		}
 		monarch.show("transfer_pokemon", {}, {id=id, to="PC"})
-	end)
+	end, {no_shake=true})
 end
 
 function M.setup()

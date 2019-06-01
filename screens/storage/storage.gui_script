@@ -158,7 +158,7 @@ function on_message(self, message_id, message, sender)
 		update_storage_data(self)
 		update_list(gooey.dynamic_list("storage", "scrollist", "pokemon_row/row", self.pokemon_rows))
 	elseif message_id == hash("inventory_updated") then
-		inventory.redraw(storage.list_of_ids_in_storage())
+		inventory.redraw()
 	elseif message_id == hash("search") then
 		update_storage_data(self)
 		update_list(gooey.dynamic_list("storage", "scrollist", "pokemon_row/row", self.pokemon_rows))
