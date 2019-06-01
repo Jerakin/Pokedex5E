@@ -16,12 +16,15 @@ function M.scale_fit_node_with_stretch(node)
 	gui.set_size(node, node_size)
 end
 
-function M.scale_text_to_node_size(text_node, box_node)
+function M.scale_text_to_fit_size(text_node)
 	local metrics = gui.get_text_metrics_from_node(text_node)
-	local box_size = gui.get_size(box_node)
-	if metrics.width > box_size.x then
-		local scale = box_size/metrics.width
-		gui.set_scale(text_node, scale)
+	local scale = gui.get_scale(text_node)
+	local size = gui.get_size(text_node)
+	local text_width = scale.x * metrics.width
+	local node_width = scale.x * size.x
+	if text_width > node_width then
+		local new_scale = node_width / text_width
+		gui.set_scale(text_node, vmath.vector3(new_scale * scale.x))
 	end
 end
 

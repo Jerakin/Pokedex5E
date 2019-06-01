@@ -3,6 +3,7 @@ local pokedex = require "pokedex.pokedex"
 local party_utils = require "screens.party.utils"
 local gooey = require "gooey.gooey"
 local utils = require "utils.utils"
+local gui_utils = require "utils.gui"
 
 local M = {}
 local active = {}
@@ -31,6 +32,8 @@ local function setup_main_information(nodes, pokemon)
 	gui.set_text(vul, party_utils.join_table("Vulnerabilities: ", _pokemon.get_vulnerabilities(pokemon), ", "))
 	gui.set_text(res, party_utils.join_table("Resistances: ", _pokemon.get_resistances(pokemon), ", "))
 	gui.set_text(imm, party_utils.join_table("Immunities: ", _pokemon.get_immunities(pokemon), ", "))
+
+	gui_utils.scale_text_to_fit_size(nodes["pokemon/species"])
 end
 
 

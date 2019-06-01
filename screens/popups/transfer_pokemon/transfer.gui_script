@@ -14,6 +14,7 @@ local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
 local notify = require "utils.notify"
 local tracking_id = require "utils.tracking_id"
+local gui_utils = require "utils.gui"
 
 local function join_table(title, T, sep)
 	if T then
@@ -150,6 +151,7 @@ local function setup_info(self)
 	end
 	self.nickname = self.nickname or species
 	gui.set_text(gui.get_node("txt_species"), self.nickname)
+	gui_utils.scale_text_to_fit_size(gui.get_node("txt_species"))
 	
 	local vul = gui.get_node("vulnerabilities")
 	local imm = gui.get_node("immunities")

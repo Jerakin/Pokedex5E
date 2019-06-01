@@ -15,6 +15,7 @@ local selected_item
 local flow = require "utils.flow"
 local gooey_buttons = require "utils.gooey_buttons"
 local tracking_id = require "utils.tracking_id"
+local gui_utils = require "utils.gui"
 
 local STATS = {"STR", "DEX", "CON", "INT", "WIS", "CHA"}
 
@@ -372,6 +373,7 @@ function M.on_message(self, message_id, message, sender)
 			gui.set_color(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector4(1))
 			gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.TEXT)
 			gui.set_text(gui.get_node("change_pokemon/species"), self.pokemon.species.current:upper())
+			gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
 			gui.set_scale(gui.get_node("change_pokemon/species"), vmath.vector3(0.8))
 			if self.register_buttons_after_species then self.register_buttons_after_species(self) end
 		elseif message_id == hash("evolve") then
