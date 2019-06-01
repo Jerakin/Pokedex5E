@@ -79,7 +79,7 @@ end
 
 local function change_hp(self, hp)
 	self.max_hp_increase = self.max_hp_increase + hp
-	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), _pokemon.get_max_hp(self.pokemon) + self.max_hp_increase)
+	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), _pokemon.get_total_max_hp(self.pokemon) + self.max_hp_increase)
 	gui.set_text(gui.get_node("change_pokemon/txt_max_hp_mod"), "MAX HP: " .. self.max_hp_increase)
 end
 
@@ -110,7 +110,7 @@ function init(self)
 	gui.set_text(gui.get_node("change_pokemon/txt_level"), self.level)
 	gui.set_color(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector4(1))
 	gui.set_text(gui.get_node("change_pokemon/txt_nature"), _pokemon.get_nature(self.pokemon))
-	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), _pokemon.get_max_hp(self.pokemon))
+	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), _pokemon.get_total_max_hp(self.pokemon))
 	gui.set_text(gui.get_node("change_pokemon/txt_max_hp_mod"), "MAX HP")
 	gui.set_text(gui.get_node("change_pokemon/txt_hit_dice"), "Hit Dice: d" .. _pokemon.get_hit_dice(self.pokemon))
 	gui.set_text(gui.get_node("change_pokemon/pokemon_number"), string.format("#%03d", _pokemon.get_index_number(self.pokemon)))

@@ -221,7 +221,12 @@ function M.get_max_hp_edited(pokemon)
 	return pokemon.hp.edited
 end
 
+
 function M.get_max_hp(pokemon)
+	return pokemon.hp.max
+end
+
+function M.get_total_max_hp(pokemon)
 	if M.have_ability(pokemon, "Paper Thin") then
 		return 1
 	end
@@ -231,7 +236,7 @@ function M.get_max_hp(pokemon)
 		tough_feat = M.get_current_level(pokemon) * 2
 	end
 
-	return pokemon.hp.max + tough_feat + loyalty_hp[M.get_loyalty(pokemon)].HP
+	return M.get_max_hp(pokemon) + tough_feat + loyalty_hp[M.get_loyalty(pokemon)].HP
 end
 
 function M.get_current_species(pokemon)

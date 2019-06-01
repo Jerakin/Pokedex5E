@@ -106,7 +106,7 @@ function M.setup_exp(nodes, pokemon)
 end
 
 function M.setup_hp(nodes, pokemon)
-	local max = _pokemon.get_max_hp(pokemon)
+	local max = _pokemon.get_total_max_hp(pokemon)
 	local current =_pokemon.get_current_hp(pokemon)
 	gui.set_text(nodes["pokemon/txt_hp"],"HP: " .. current .. "/ " .. max)
 	update_hp_meter(nodes, max, current)

@@ -20,7 +20,7 @@ local function get_max_hp(pokemon, to_level)
 	if _pokemon.have_ability(pokemon, "Paper Thin") then
 		return 1
 	end
-	local current = _pokemon.get_max_hp(pokemon)
+	local current = _pokemon.get_total_max_hp(pokemon)
 	local hit_dice = _pokemon.get_hit_dice(pokemon)
 	local con = _pokemon.get_attributes(pokemon).CON
 	local con_mod = math.floor((con - 10) / 2)
