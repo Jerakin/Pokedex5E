@@ -22,7 +22,7 @@ end
 local function save_pokemon(self)
 	if self.max_hp_increase ~= 0 then
 		local max = _pokemon.get_max_hp(self.pokemon)
-		_pokemon.set_max_hp(self.pokemon, max + self.max_hp_increase, true)
+		_pokemon.set_max_hp(self.pokemon, max + self.max_hp_increase, self.set_force_max_hp_to)
 		local c = _pokemon.get_current_hp(self.pokemon)
 		_pokemon.set_current_hp(self.pokemon, c + self.max_hp_increase)
 	end
@@ -88,6 +88,7 @@ function init(self)
 	self.have_evolved = false
 	self.evolve_button_active = false
 	self.max_hp_increase = 0
+	self.set_force_max_hp_to = false
 	button.acquire()
 	local pokemon_id = monarch.data("edit").id
 	self.pokemon = storage.get_copy(pokemon_id)
@@ -147,7 +148,7 @@ function init(self)
 	end
 
 	button.register("change_pokemon/txt_max_hp", function()
-		monarch.show("info", nil, {text="To increase HP\nRoll (or take the average of) the hit die and add your CON modifier."})
+		monarch.show("are_you_sure", nil, {sender=msg.url(), text="Reset HP and let the App controll it for you", title="Reset", id="reset"})
 	end)
 	gooey.input("change_pokemon/species").set_mark_text(true)
 	pokemon_edit.redraw(self)
@@ -165,6 +166,11 @@ function on_message(self, message_id, message, sender)
 		elseif message.id == "change_hp" then
 			self.set_force_max_hp_to = true
 			change_hp(self, message.data)
+		elseif message.id == "reset" then
+			local d_max = _pokemon.get_defaut_max_hp(self.pokemon)
+			local l = d_max - _pokemon.get_max_hp(self.pokemon)
+			change_hp(self, l)
+			self.set_force_max_hp_to = false
 		end
 	end
 end
@@ -208,7 +214,7 @@ function on_input(self, action_id, action)
 			monarch.show("info", nil, {text="Ability: Paper Thin\nThis Pokemon's max HP is always 1"})
 			return
 		end
-		if _pokemon.get_max_hp_edited(self.pokemon) then
+		if self.set_force_max_hp_to or _pokemon.get_max_hp_edited(self.pokemon) then
 			change_hp(self, -1)
 		else
 			monarch.show("are_you_sure", nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=-1, id="change_hp"})
@@ -220,7 +226,7 @@ function on_input(self, action_id, action)
 			monarch.show("info", nil, {text="Ability: Paper Thin\nThis Pokemon's max HP is always 1"})
 			return
 		end
-		if _pokemon.get_max_hp_edited(self.pokemon) then
+		if self.set_force_max_hp_to or _pokemon.get_max_hp_edited(self.pokemon) then
 			change_hp(self, 1)
 		else
 			monarch.show("are_you_sure", nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=1, id="change_hp"})

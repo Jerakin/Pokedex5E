@@ -209,10 +209,8 @@ function M.get_current_hp(pokemon)
 end
 
 function M.set_max_hp(pokemon, hp, force)
-	if force then
-		pokemon.hp.edited = force
-	end
-	
+	pokemon.hp.edited = force or false
+
 	pokemon.hp.max = hp
 	storage.set_pokemon_max_hp(M.get_id(pokemon), hp)
 end
@@ -224,6 +222,19 @@ end
 
 function M.get_max_hp(pokemon)
 	return pokemon.hp.max
+end
+
+function M.get_defaut_max_hp(pokemon)
+	local current = M.get_current_species(pokemon)
+	local caught = M.get_caught_species(pokemon)
+	if current ~= caught then
+		
+	else
+		local base = pokedex.get_base_hp(current)
+		local levels = M.get_current_level(pokemon) - M.get_caught_level(pokemon)
+		local additionals = M.calculate_addition_hp_from_levels(pokemon, levels)
+		return base + additionals
+	end
 end
 
 function M.get_total_max_hp(pokemon)
