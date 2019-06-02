@@ -139,9 +139,7 @@ end
 
 function M.update_increased_attributes(pokemon, increased)
 	local b = M.get_increased_attributes(pokemon)
-
-	-- Add attribtues
-	local n = add_tables(b, increased)
+	local n = add_tables(increased, b)
 	pokemon.attributes.increased = n
 end
 
