@@ -18,7 +18,7 @@ local gui_utils = require "utils.gui"
 
 local M = {}
 
-M.last_active_index = nil
+M.last_active_index = 1
 M.last_active_id = nil
 
 local active_page = 1
@@ -99,7 +99,7 @@ function M.switch_to_slot(index)
 	if id == nil or M.last_active_id == id then
 		switching = false
 		return
-	elseif (M.last_active_index or 1) < index then
+	elseif M.last_active_index < index then
 		pos_index = 1
 	end
 	M.last_active_index = index
@@ -166,7 +166,7 @@ end
 function M.on_input(action_id, action)
 	local g = gesture.on_input("Party", action_id, action)
 	if g then
-		local index = M.last_active_index or 1
+		local index = M.last_active_index
 		if g.swipe_left then
 			M.switch_to_slot(math.min(index + 1, #storage.list_of_ids_in_inventory()))
 		elseif g.swipe_right then
