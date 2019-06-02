@@ -93,19 +93,19 @@ function M.switch_to_slot(index)
 		return
 	end
 	switching = true
-	M.last_active_index = index
+	
 	local pos_index = -1
 	local id = storage.list_of_ids_in_inventory()[index]
 	if id == nil or M.last_active_id == id then
 		switching = false
 		return
-	elseif active_page < index then
+	elseif (M.last_active_index or 1) < index then
 		pos_index = 1
 	end
-
+	M.last_active_index = index
 	M.last_active_id = id
 	local old_page = active_page
-	active_page = (1-active_page ) + 2
+	active_page = active_page == 1 and 2 or 1
 	local active = pokemon_pages[old_page].nodes["pokemon/root"]
 	local new = pokemon_pages[active_page].nodes["pokemon/root"]
 
