@@ -76,6 +76,9 @@ local function evolve(self, species)
 	_pokemon.evolve(self.pokemon, species, self.level)
 
 	pokemon_edit.redraw(self)
+	timer.delay(0.1, false, function() save_pokemon(self)
+	end)
+	
 end
 
 local function change_hp(self, hp)
@@ -183,7 +186,7 @@ end
 local function evolve_pokemon(self)
 	local evolve_into = pokedex.get_evolutions(_pokemon.get_current_species(self.pokemon))
 	if #evolve_into == 1 then
-		monarch.show("are_you_sure", nil, {title="Evolve at level ".. self.level .. "?", sender=msg.url(), data=evolve_into[1], id="evolve"})
+		monarch.show("are_you_sure", nil, {title="Evolve at level ".. self.level .. "?", text="This will automatically save and exit to Party", sender=msg.url(), data=evolve_into[1], id="evolve"})
 	else
 		monarch.show("scrollist", {}, {items=evolve_into, message_id="evolve", sender=msg.url(), title="Pick evolution"})
 	end
