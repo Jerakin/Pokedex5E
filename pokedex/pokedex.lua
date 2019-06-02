@@ -136,7 +136,7 @@ function M.get_pokemon_skills(pokemon)
 end
 
 function M.get_base_hp(pokemon)
-	return M.get_pokemon(pokemon).HP
+	return 10 + M.get_pokemon_hit_dice(pokemon)
 end
 
 
@@ -167,6 +167,17 @@ function M.get_evolution_data(pokemon)
 		return evolvedata[pokemon]
 	end
 	log.info("Can not find evolution data for pokemon : " .. tostring(pokemon))
+end
+
+function M.get_evolved_from(pokemon)
+	for species, data in pairs(evolvedata) do
+		for _, into in pairs(data.into) do
+			if into == pokemon then
+				return species
+			end
+		end
+	end
+	return "MissingNo"
 end
 
 function M.get_evolution_possible(pokemon)
