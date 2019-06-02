@@ -231,31 +231,37 @@ function M.get_defaut_max_hp(pokemon)
 	local at_level = M.get_current_level(pokemon)
 
 	if current ~= caught then
-		local evolutions = M.get_evolution_level(pokemon)
+		local evolutions = utils.deep_copy(M.get_evolution_level(pokemon))
 		local evolution_hp = 0
+
 		while next(evolutions) ~= nil do
+			local from_pokemon = pokedex.get_evolved_from(current)
 			at_level = table.remove(evolutions)
 			local _, from_level = next(evolutions)
 			from_level = from_level or M.get_caught_level(pokemon)
-			current = pokedex.get_evolved_from(current)
-			local hit_dice = pokedex.get_pokemon_hit_dice(current)
+			local hit_dice = pokedex.get_pokemon_hit_dice(from_pokemon)
 			local levels_gained = at_level - from_level
 			local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
 			local hp_evo = at_level * 2
 			evolution_hp = evolution_hp + hp_hit_dice + hp_evo
+			current = from_pokemon
 		end
 		
 		local con = M.get_attributes(pokemon).CON
 		local con_mod = math.floor((con - 10) / 2)
-		return pokedex.get_base_hp(caught) + evolution_hp + (con_mod * at_level)
+		local evolutions = M.get_evolution_level(pokemon)
+		local hit_dice = pokedex.get_pokemon_hit_dice(M.get_current_species(pokemon))
+		local hit_dice_avg = math.ceil((hit_dice + 1) / 2)
+		return pokedex.get_base_hp(caught) + evolution_hp + (con_mod *  M.get_current_level(pokemon)) + ((M.get_current_level(pokemon) - evolutions[#evolutions]) * hit_dice_avg)
 	else
 		local base = pokedex.get_base_hp(current)
 		local from_level = M.get_caught_level(pokemon)
 		local hit_dice = pokedex.get_pokemon_hit_dice(current)
 		local levels_gained = at_level - from_level
 		local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
-		local additionals = M.calculate_addition_hp_from_levels(pokemon, levels_gained)
-		return base + additionals
+		local con = M.get_attributes(pokemon).CON
+		local con_mod = math.floor((con - 10) / 2)
+		return base + con_mod + hp_hit_dice + con_mod * levels_gained
 	end
 end
 
