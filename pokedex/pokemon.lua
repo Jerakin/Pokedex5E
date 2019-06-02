@@ -138,28 +138,11 @@ function M.set_exp(pokemon, exp)
 end
 
 function M.update_increased_attributes(pokemon, increased)
-	local function get_hp_from_con(pokemon)
-		local level = M.get_current_level(pokemon)
-
-		local con = M.get_attributes(pokemon).CON
-		local con_mod = math.floor((con - 10) / 2)
-		local from_con_mod = con_mod * level
-		return from_con_mod
-	end
-	
 	local b = M.get_increased_attributes(pokemon)
-
-	-- Remove HP from CON
-	local current = M.get_max_hp(pokemon)
-	M.set_max_hp(pokemon, current - get_hp_from_con(pokemon))
 
 	-- Add attribtues
 	local n = add_tables(b, increased)
 	pokemon.attributes.increased = n
-
-	-- Add HP from CON
-	local current = M.get_max_hp(pokemon)
-	M.set_max_hp(pokemon, current + get_hp_from_con(pokemon))
 end
 
 function M.save(pokemon)
@@ -246,22 +229,18 @@ function M.get_defaut_max_hp(pokemon)
 			evolution_hp = evolution_hp + hp_hit_dice + hp_evo
 			current = from_pokemon
 		end
-		
-		local con = M.get_attributes(pokemon).CON
-		local con_mod = math.floor((con - 10) / 2)
+
 		local evolutions = M.get_evolution_level(pokemon)
 		local hit_dice = pokedex.get_pokemon_hit_dice(M.get_current_species(pokemon))
 		local hit_dice_avg = math.ceil((hit_dice + 1) / 2)
-		return pokedex.get_base_hp(caught) + evolution_hp + (con_mod *  M.get_current_level(pokemon)) + ((M.get_current_level(pokemon) - evolutions[#evolutions]) * hit_dice_avg)
+		return pokedex.get_base_hp(caught) + evolution_hp + ((M.get_current_level(pokemon) - evolutions[#evolutions]) * hit_dice_avg)
 	else
 		local base = pokedex.get_base_hp(current)
 		local from_level = M.get_caught_level(pokemon)
 		local hit_dice = pokedex.get_pokemon_hit_dice(current)
 		local levels_gained = at_level - from_level
 		local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
-		local con = M.get_attributes(pokemon).CON
-		local con_mod = math.floor((con - 10) / 2)
-		return base + con_mod + hp_hit_dice + con_mod * levels_gained
+		return base + hp_hit_dice
 	end
 end
 
@@ -274,8 +253,11 @@ function M.get_total_max_hp(pokemon)
 	if M.have_feat(pokemon, "Tough") then
 		tough_feat = M.get_current_level(pokemon) * 2
 	end
-
-	return M.get_max_hp(pokemon) + tough_feat + loyalty_hp[M.get_loyalty(pokemon)].HP
+	
+	local con = M.get_attributes(pokemon).CON
+	local con_mod = math.floor((con - 10) / 2)
+	
+	return M.get_max_hp(pokemon) + tough_feat + loyalty_hp[M.get_loyalty(pokemon)].HP + (M.get_current_level(pokemon) * con_mod)
 end
 
 function M.get_current_species(pokemon)
@@ -470,21 +452,21 @@ function M.calculate_addition_hp_from_levels(pokemon, levels_gained)
 
 	local from_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
 	local from_con_mod = con_mod * levels_gained
-	return from_hit_dice + from_con_mod
+	return from_hit_dice
 end
 
 
 function M.add_hp_from_levels(pokemon, to_level)
 	if not M.get_max_hp_edited(pokemon) and not M.have_ability(pokemon, "Paper Thin") then
+		local hit_dice = M.get_hit_dice(pokemon)
+		local from_hit_dice = math.ceil((hit_dice + 1) / 2) *  to_level - M.get_current_level(pokemon)
 		
 		local max = M.get_max_hp(pokemon)
-		local extra_hp = M.calculate_addition_hp_from_levels(pokemon, to_level - M.get_current_level(pokemon))
-		
-		M.set_max_hp(pokemon, max + extra_hp)
+		M.set_max_hp(pokemon, max + from_hit_dice)
 		
 		-- Also increase current hp
 		local c = M.get_current_hp(pokemon)
-		M.set_current_hp(pokemon, c + extra_hp)
+		M.set_current_hp(pokemon, c + from_hit_dice)
 	end
 end
 

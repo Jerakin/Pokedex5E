@@ -25,9 +25,16 @@ local function save_pokemon(self)
 		_pokemon.set_max_hp(self.pokemon, max + self.max_hp_increase, self.set_force_max_hp_to)
 		local c = _pokemon.get_current_hp(self.pokemon)
 		_pokemon.set_current_hp(self.pokemon, c + self.max_hp_increase)
+	else
+		local hit_dice = _pokemon.get_hit_dice(self.pokemon)
+		local from_hit_dice = math.ceil((hit_dice + 1) / 2) * (self.level - _pokemon.get_current_level(self.pokemon))
+
+		local max = _pokemon.get_max_hp(self.pokemon)
+		_pokemon.set_max_hp(self.pokemon, max + from_hit_dice)
+		local c = _pokemon.get_current_hp(self.pokemon)
+		_pokemon.set_current_hp(self.pokemon, c + from_hit_dice)
 	end
 
-	_pokemon.add_hp_from_levels(self.pokemon, self.level)
 	_pokemon.update_increased_attributes(self.pokemon, self.increased_attributes)
 	local nickname = gui.get_text(gui.get_node("change_pokemon/species"))
 	local abilities = {}
@@ -83,8 +90,9 @@ end
 
 local function change_hp(self, hp)
 	self.max_hp_increase = self.max_hp_increase + hp
-	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), _pokemon.get_total_max_hp(self.pokemon) + self.max_hp_increase)
-	gui.set_text(gui.get_node("change_pokemon/txt_max_hp_mod"), "MAX HP: " .. self.max_hp_increase)
+	local extra  = self.max_hp_increase + (math.floor(self.increased_attributes["CON"] / 2) * self.level)
+	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), _pokemon.get_total_max_hp(self.pokemon) + extra)
+	gui.set_text(gui.get_node("change_pokemon/txt_max_hp_mod"), "MAX HP: " .. extra)
 end
 
 function init(self)
