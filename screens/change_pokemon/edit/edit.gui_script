@@ -22,7 +22,6 @@ end
 local function save_pokemon(self)
 	if self.max_hp_increase ~= 0 then
 		local max = _pokemon.get_max_hp(self.pokemon)
-		--print(self.set_force_max_hp_to)
 		_pokemon.set_max_hp(self.pokemon, max + self.max_hp_increase, self.set_force_max_hp_to)
 		local c = _pokemon.get_current_hp(self.pokemon)
 		_pokemon.set_current_hp(self.pokemon, c + self.max_hp_increase)

@@ -212,7 +212,6 @@ function M.set_max_hp(pokemon, hp, force)
 	if force ~= nil then
 		pokemon.hp.edited = force
 	end
-	print(force, force == nil, pokemon.hp.edited)
 	pokemon.hp.max = hp
 	storage.set_pokemon_max_hp(M.get_id(pokemon), hp)
 end
@@ -230,7 +229,7 @@ function M.get_defaut_max_hp(pokemon)
 	local current = M.get_current_species(pokemon)
 	local caught = M.get_caught_species(pokemon)
 	local at_level = M.get_current_level(pokemon)
-	print("Current Level", at_level)
+
 	if current ~= caught then
 		local evolutions = M.get_evolution_level(pokemon)
 		local evolution_hp = 0
@@ -244,10 +243,8 @@ function M.get_defaut_max_hp(pokemon)
 			local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
 			local hp_evo = at_level * 2
 			evolution_hp = evolution_hp + hp_hit_dice + hp_evo
-			
-			print(current, "evolved at", at_level, "from level", from_level, "leveled", levels_gained,"got", hp_hit_dice, "from hit dice", hit_dice,"and", hp_evo, "from evolution")
-			
 		end
+		
 		local con = M.get_attributes(pokemon).CON
 		local con_mod = math.floor((con - 10) / 2)
 		return pokedex.get_base_hp(caught) + evolution_hp + (con_mod * at_level)
@@ -258,7 +255,6 @@ function M.get_defaut_max_hp(pokemon)
 		local levels_gained = at_level - from_level
 		local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
 		local additionals = M.calculate_addition_hp_from_levels(pokemon, levels_gained)
-		print(current, "with base", base, "at level", at_level, "from level", from_level, "got", hp_hit_dice, "from hit dice", hit_dice)
 		return base + additionals
 	end
 end
