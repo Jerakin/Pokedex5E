@@ -31,6 +31,11 @@ local function create_party_indicators(pokemons_in_party)
 		if id then
 			local pokemon = storage.get_copy(id)
 			local pokemon_sprite, _ = _pokemon.get_sprite(pokemon)
+			gui.set_scale(party_sprite, vmath.vector3(2.5))
+			gui.set_texture(party_sprite, "gui")
+			gui.set_color(party_sprite, gui_colors.WHITE)
+			
+			gui.set_texture(party_sprite, "sprite0")
 			gui.play_flipbook(party_sprite, pokemon_sprite)
 			local b = {node="party_indicator/inventory_pokemon_" .. i .. "/pokemon_sprite", func=function() activate_pokemon(i) end}
 			table.insert(buttons, b)
@@ -45,6 +50,7 @@ end
 
 
 function M.create()
+	buttons = {}
 	local party_pokemons = storage.list_of_ids_in_inventory()
 	create_party_indicators(party_pokemons)
 end

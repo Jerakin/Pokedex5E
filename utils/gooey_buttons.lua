@@ -104,6 +104,16 @@ function M.menu_button(button)
 	end
 end
 
+function M.share(button)
+	if button.pressed_now then
+		gui.play_flipbook(button.node, hash("share_down"))
+	elseif button.released_now then
+		gui.play_flipbook(button.node, hash("share_up"))
+	elseif not button.pressed and button.out_now then
+		gui.play_flipbook(button.node, hash("share_up"))
+	end
+end
+
 function M.pokemon_sort_button(button)
 	if button.pressed_now then
 		gui.play_flipbook(button.node, hash("pokemon_sort_down"))

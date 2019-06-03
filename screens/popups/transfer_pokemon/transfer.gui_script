@@ -15,6 +15,7 @@ local gooey = require "gooey.gooey"
 local notify = require "utils.notify"
 local tracking_id = require "utils.tracking_id"
 local gui_utils = require "utils.gui"
+local share = require "pokedex.share"
 
 local function join_table(title, T, sep)
 	if T then
@@ -187,7 +188,9 @@ function init(self)
 	self.pokemon_id = d.id
 	self.index = _pokemon.get_index_number(storage.get_copy(d.id))
 	setup_info(self)
-
+	if not clipboard then
+		gui.set_enabled(gui.get_node("btn_share"), false)
+	end
 	self.swap = gui.get_node("swap")
 	self.move = gui.get_node("move")
 	gui.set_enabled(self.swap, false)
@@ -266,6 +269,7 @@ function on_input(self, action_id, action)
 	if self.move_button_enabled then
 		a = gooey.button("btn_move", action_id, action, function() move(self) end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_move")) end)
 		c = gooey.button("btn_release", action_id, action, function() release(self) end)
+		c = gooey.button("btn_share", action_id, action, function() share.export(self.pokemon_id) end, gooey_buttons.share)
 	end
 	gooey.button("btn_close", action_id, action, back, gooey_buttons.close_button)
 	gooey.button("btn_cancel", action_id, action, function() cancel_swap(self) end, gooey_buttons.close_button)

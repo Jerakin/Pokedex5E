@@ -148,6 +148,10 @@ function on_input(self, action_id, action)
 	searchbar.on_input(self, action_id, action)
 end
 
+function final(self)
+	url.STORAGE = nil
+end
+
 function on_message(self, message_id, message, sender)
 	if message_id == hash("storage_updated") then
 		local t = gui.get_text(gui.get_node("search_text"))
