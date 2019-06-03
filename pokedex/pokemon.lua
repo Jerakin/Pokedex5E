@@ -207,6 +207,9 @@ function M.get_max_hp(pokemon)
 end
 
 function M.get_defaut_max_hp(pokemon)
+	if M.have_ability(pokemon, "Paper Thin") then
+		return 1
+	end
 	local current = M.get_current_species(pokemon)
 	local caught = M.get_caught_species(pokemon)
 	local at_level = M.get_current_level(pokemon)
@@ -254,8 +257,8 @@ function M.get_total_max_hp(pokemon)
 	
 	local con = M.get_attributes(pokemon).CON
 	local con_mod = math.floor((con - 10) / 2)
-	
-	return M.get_max_hp(pokemon) + tough_feat + loyalty_hp[M.get_loyalty(pokemon)].HP + (M.get_current_level(pokemon) * con_mod)
+
+	return M.get_max_hp(pokemon) + tough_feat + loyalty_hp[M.get_loyalty(pokemon)].HP + M.get_current_level(pokemon) * con_mod
 end
 
 function M.get_current_species(pokemon)
@@ -648,11 +651,6 @@ function M.new(data)
 	this.species.caught = data.species
 	this.species.current = data.species
 
-	this.hp = {}
-	this.hp.current = pokedex.get_base_hp(this.species.caught)
-	this.hp.max = this.hp.current
-	this.hp.edited = false
-
 	this.level = {}
 	this.level.caught = pokedex.get_minimum_wild_level(this.species.caught)
 	this.level.current = this.level.caught
@@ -664,7 +662,15 @@ function M.new(data)
 	this.abilities = {}
 
 	this.exp = pokedex.get_experience_for_level(this.level.caught-1)
-	
+
+	local con = M.get_attributes(this).CON
+	local con_mod = math.floor((con - 10) / 2)
+
+	this.hp = {}
+	this.hp.max = pokedex.get_base_hp(data.species)
+	this.hp.current = pokedex.get_base_hp(data.species) + this.level.current * math.floor((M.get_attributes(this).CON - 10) / 2)
+	this.hp.edited = false
+
 	this.moves = data.moves
 	return this
 end

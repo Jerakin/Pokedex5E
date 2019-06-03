@@ -136,7 +136,10 @@ function M.get_pokemon_skills(pokemon)
 end
 
 function M.get_base_hp(pokemon)
-	return 10 + M.get_pokemon_hit_dice(pokemon)
+	local min_lvl = M.get_minimum_wild_level(pokemon)
+	local con = M.get_base_attributes(pokemon).CON
+	local con_mod = math.ceil((con - 10) / 2)
+	return M.get_pokemon(pokemon).HP - (min_lvl * con_mod)
 end
 
 
