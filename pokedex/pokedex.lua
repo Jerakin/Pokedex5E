@@ -136,7 +136,10 @@ function M.get_pokemon_skills(pokemon)
 end
 
 function M.get_base_hp(pokemon)
-	return M.get_pokemon(pokemon).HP
+	local min_lvl = M.get_minimum_wild_level(pokemon)
+	local con = M.get_base_attributes(pokemon).CON
+	local con_mod = math.ceil((con - 10) / 2)
+	return M.get_pokemon(pokemon).HP - (min_lvl * con_mod)
 end
 
 
@@ -167,6 +170,17 @@ function M.get_evolution_data(pokemon)
 		return evolvedata[pokemon]
 	end
 	log.info("Can not find evolution data for pokemon : " .. tostring(pokemon))
+end
+
+function M.get_evolved_from(pokemon)
+	for species, data in pairs(evolvedata) do
+		for _, into in pairs(data.into) do
+			if into == pokemon then
+				return species
+			end
+		end
+	end
+	return "MissingNo"
 end
 
 function M.get_evolution_possible(pokemon)

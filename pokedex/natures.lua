@@ -27,7 +27,7 @@ function M.get_nature_attributes(nature)
 	if natures[nature] then
 		return natures[nature]
 	end
-	log.error("Can not find nature: " .. tostring(nature))
+	return natures["No Nature"]
 end
 
 function M.get_AC(nature)

@@ -124,7 +124,15 @@ end
 
 function M.set_evolution_at_level(id, level)
 	local p = get(id)
-	p.level.evolved = level
+	if type(p.level.evolved) == "number" then
+		local old = p.level.evolved
+		p.level.evolved = {}
+		if old ~= 0 then
+			table.insert(pokemon.level.evolved, old)
+		end
+	end
+	
+	table.insert(p.level.evolved, level)
 	M.save()
 end
 

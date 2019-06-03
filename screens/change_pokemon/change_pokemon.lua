@@ -348,6 +348,10 @@ function M.on_message(self, message_id, message, sender)
 			self.pokemon.attributes.nature = natures.get_nature_attributes(message.item)
 			gui.set_text(gui.get_node("change_pokemon/txt_nature"), message.item)
 			gui.set_color(gui.get_node("change_pokemon/txt_nature"), gui_colors.HERO_TEXT)
+			local con  =_pokemon.get_attributes(self.pokemon).CON + self.increased_attributes["CON"]
+			local extra_hp = math.floor((con - 10) / 2) * self.level + (self.max_hp_increase or 0)
+			gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), _pokemon.get_total_max_hp(self.pokemon) + extra_hp)
+			gui.set_text(gui.get_node("change_pokemon/txt_max_hp_mod"), "MAX HP: " .. extra_hp)
 		elseif message_id == hash("species") then
 			if message.item == "" then
 				return
@@ -520,8 +524,22 @@ local function attribute_buttons(self, action_id, action)
 	gooey.button("change_pokemon/asi/str/btn_minus", action_id, action, function() decrease(self, "STR") end,gooey_buttons.minus_button)
 	gooey.button("change_pokemon/asi/str/btn_plus", action_id, action, function() increase(self, "STR") end, gooey_buttons.plus_button)
 	
-	gooey.button("change_pokemon/asi/con/btn_minus", action_id, action, function() decrease(self, "CON") end,gooey_buttons.minus_button)
-	gooey.button("change_pokemon/asi/con/btn_plus", action_id, action, function() increase(self, "CON") end, gooey_buttons.plus_button)
+	gooey.button("change_pokemon/asi/con/btn_minus", action_id, action, function() 
+		decrease(self, "CON")
+		local con  =_pokemon.get_attributes(self.pokemon).CON + self.increased_attributes["CON"]
+		local extra_hp = math.floor((con - 10) / 2) * self.level + (self.max_hp_increase or 0)
+		gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), _pokemon.get_total_max_hp(self.pokemon) + extra_hp)
+		gui.set_text(gui.get_node("change_pokemon/txt_max_hp_mod"), "MAX HP: " .. extra_hp)
+	end,gooey_buttons.minus_button)
+	
+	gooey.button("change_pokemon/asi/con/btn_plus", action_id, action, function()
+		increase(self, "CON")
+		local con  =_pokemon.get_attributes(self.pokemon).CON + self.increased_attributes["CON"]
+		local extra_hp = math.floor((con - 10) / 2) * self.level + (self.max_hp_increase or 0)
+		gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), _pokemon.get_total_max_hp(self.pokemon) + extra_hp)
+		gui.set_text(gui.get_node("change_pokemon/txt_max_hp_mod"), "MAX HP: " .. extra_hp)
+		print("increase", _pokemon.get_max_hp(self.pokemon), self.max_hp_increase)
+	end, gooey_buttons.plus_button)
 	
 	gooey.button("change_pokemon/asi/dex/btn_minus", action_id, action, function() decrease(self, "DEX") end,gooey_buttons.minus_button)
 	gooey.button("change_pokemon/asi/dex/btn_plus", action_id, action, function() increase(self, "DEX") end, gooey_buttons.plus_button)

@@ -6,12 +6,14 @@ local gooey = require "gooey.gooey"
 
 local data
 local sender
+local id
 
 function init(self)
 	gooey.acquire_input()
 	gui.set_render_order(render_order.POPUP_ON_POPUP)
 	data = monarch.data("are_you_sure")
 	sender = data.sender
+	id = data.id
 	gui.set_text(gui.get_node("txt_title"), data.title)
 
 	if data.text then
@@ -20,12 +22,12 @@ function init(self)
 end
 
 local function confirm()
-	msg.post(sender, "response", {response=true, data=data.data})
+	msg.post(sender, "response", {response=true, data=data.data, id=id})
 	monarch.back()
 end
 
 local function exit()
-	msg.post(sender, "response", {response=false, data=data.data})
+	msg.post(sender, "response", {response=false, data=data.data, id=id})
 	monarch.back()
 end
 

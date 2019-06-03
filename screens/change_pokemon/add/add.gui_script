@@ -22,13 +22,11 @@ local function get_max_hp(pokemon, to_level)
 	end
 	local current = _pokemon.get_total_max_hp(pokemon)
 	local hit_dice = _pokemon.get_hit_dice(pokemon)
-	local con = _pokemon.get_attributes(pokemon).CON
-	local con_mod = math.floor((con - 10) / 2)
 
 	local levels_gained = to_level - _pokemon.get_current_level(pokemon)
-	local from_hit_dice = math.ceil(hit_dice / 2) * levels_gained
-	local from_con_mod = con_mod * levels_gained
-	return current + from_hit_dice + from_con_mod
+	local from_hit_dice = math.ceil((hit_dice+1) / 2) * levels_gained
+
+	return current + from_hit_dice
 end
 
 local function add_pokemon(self)
@@ -59,17 +57,12 @@ local function add_pokemon(self)
 		end
 		_pokemon.update_feats(self.pokemon, feats)
 
-		local hp = get_max_hp(self.pokemon, self.level)
-		self.pokemon.hp.max = hp
-		self.pokemon.hp.current = hp
-		
 		storage.add(self.pokemon)
 		if storage.is_party_full() then
 			notify.notify(self.pokemon.species.current .. " added to PC")
 		else
 			notify.notify(self.pokemon.species.current .. " added to party")
 		end
-
 		local stack = monarch.get_stack()
 		for i=#monarch.get_stack(), 1, -1 do
 			if stack[i] == hash("storage") then
