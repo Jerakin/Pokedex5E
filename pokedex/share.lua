@@ -40,6 +40,10 @@ function M.import()
 			msg.post(url.STORAGE, "storage_updated")
 		end
 		notify.notify("Welcome " .. (pokemon.nickname or pokemon.species.current) .. "!")
+		gameanalytics.addDesignEvent {
+			eventId = "Share:Import",
+			value = pokemon.species.current
+		}
 	else
 		notify.notify("Could not parse pokemon data")
 		notify.notify(clipboard.paste())
@@ -53,6 +57,10 @@ function M.export(id)
 	local p_json = ljson.encode(pokemon)
 	clipboard.copy(p_json)
 	notify.notify((pokemon.nickname or pokemon.species.current) .. " copied to clipboard!")
+	gameanalytics.addDesignEvent {
+		eventId = "Share:Export",
+		value = pokemon.species.current
+	}
 end
 
 return M
