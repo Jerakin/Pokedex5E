@@ -90,7 +90,7 @@ end
 
 local function change_hp(self, hp)
 	self.max_hp_increase = self.max_hp_increase + hp
-	local con  =_pokemon.get_attributes(pokemon).CON + self.increased_attributes["CON"]
+	local con  =_pokemon.get_attributes(self.pokemon).CON + self.increased_attributes["CON"]
 	local extra  = self.max_hp_increase + (math.floor((con - 10) / 2) * self.level)
 	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), _pokemon.get_total_max_hp(self.pokemon) + extra)
 	gui.set_text(gui.get_node("change_pokemon/txt_max_hp_mod"), "MAX HP: " .. extra)
