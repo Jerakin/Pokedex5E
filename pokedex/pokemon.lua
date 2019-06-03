@@ -245,6 +245,24 @@ function M.get_defaut_max_hp(pokemon)
 	end
 end
 
+
+function M.get_evolution_points(pokemon)
+	local current = M.get_current_species(pokemon)
+	local caught = M.get_caught_species(pokemon)
+	local evolution_points = 0
+	
+	if current ~= caught then
+		local evolutions = utils.deep_copy(M.get_evolution_level(pokemon))
+
+		while next(evolutions) ~= nil do
+			table.remove(evolutions)
+			current = pokedex.get_evolved_from(current)
+			evolution_points = evolution_points + pokedex.evolve_points(current)
+		end
+	end
+	return evolution_points
+end
+
 function M.get_total_max_hp(pokemon)
 	if M.have_ability(pokemon, "Paper Thin") then
 		return 1
@@ -519,7 +537,7 @@ end
 
 function M.set_nickname(pokemon, nickname)
 	local species = M.get_current_species(pokemon)
-	print(nickname)
+
 	if species:lower() ~= nickname:lower() then
 		pokemon.nickname = nickname
 		storage.set_nickname(M.get_id(pokemon), nickname)

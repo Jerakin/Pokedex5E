@@ -337,6 +337,7 @@ function M.init(self, pokemon)
 			self.ability_score_improvment = self.ability_score_improvment + n
 		end
 		self.ability_score_improvment = self.ability_score_improvment + #_pokemon.get_feats(self.pokemon) * 2
+		self.ability_score_improvment = self.ability_score_improvment - _pokemon.get_evolution_points(self.pokemon)
 	else
 		self.move_count = 4
 		self.feats = {}
