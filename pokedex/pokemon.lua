@@ -519,7 +519,8 @@ end
 
 function M.set_nickname(pokemon, nickname)
 	local species = M.get_current_species(pokemon)
-	if species ~= nickname then
+	print(nickname)
+	if species:lower() ~= nickname:lower() then
 		pokemon.nickname = nickname
 		storage.set_nickname(M.get_id(pokemon), nickname)
 	end
