@@ -57,7 +57,6 @@ function on_message(self, message_id, message)
 	if message_id == hash("inventory") then
 		inventory.set_active(message.index)
 	elseif message_id == hash("refresh") then
-		print("refresh")
 		inventory.create()
 	end
 end

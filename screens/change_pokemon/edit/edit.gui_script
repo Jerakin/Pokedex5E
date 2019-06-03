@@ -28,11 +28,13 @@ local function save_pokemon(self)
 	else
 		local hit_dice = _pokemon.get_hit_dice(self.pokemon)
 		local from_hit_dice = math.ceil((hit_dice + 1) / 2) * (self.level - _pokemon.get_current_level(self.pokemon))
+		
+		local extra = pokemon_edit.get_extra_hp(self)
 
 		local max = _pokemon.get_max_hp(self.pokemon)
 		_pokemon.set_max_hp(self.pokemon, max + from_hit_dice)
 		local c = _pokemon.get_current_hp(self.pokemon)
-		_pokemon.set_current_hp(self.pokemon, c + from_hit_dice)
+		_pokemon.set_current_hp(self.pokemon, c + extra)
 	end
 
 	_pokemon.update_increased_attributes(self.pokemon, self.increased_attributes)
@@ -65,7 +67,7 @@ end
 
 local function evolve(self, species)
 	gameanalytics.addDesignEvent {
-		eventId = "Pokemon:Evolve:" .. _pokemon.get_index_number(self.pokemon),
+		eventId = "Pokemon:Evolve",
 		value = pokedex.get_index_number(species)
 	}
 	-- Set and reset
@@ -90,10 +92,7 @@ end
 
 local function change_hp(self, hp)
 	self.max_hp_increase = self.max_hp_increase + hp
-	local con  =_pokemon.get_attributes(self.pokemon).CON + self.increased_attributes["CON"]
-	local extra  = self.max_hp_increase + (math.floor((con - 10) / 2) * self.level)
-	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), _pokemon.get_total_max_hp(self.pokemon) + extra)
-	gui.set_text(gui.get_node("change_pokemon/txt_max_hp_mod"), "MAX HP: " .. extra)
+	pokemon.update_hp_counter(self)
 end
 
 function init(self)

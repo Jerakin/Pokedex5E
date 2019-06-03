@@ -453,7 +453,7 @@ function M.calculate_addition_hp_from_levels(pokemon, levels_gained)
 
 	local from_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
 	local from_con_mod = con_mod * levels_gained
-	return from_hit_dice
+	return from_hit_dice + from_con_mod
 end
 
 
