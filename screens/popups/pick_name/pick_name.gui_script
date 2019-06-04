@@ -42,7 +42,7 @@ end
 
 local function okay()
 	local name = gui.get_text(gui.get_node("name_text"))
-	if name ~= "Enter Name" then
+	if name ~= "ENTER NAME" then
 		local profile = profiles.add(name, slot)
 		profiles.set_active(profile.slot)
 		storage.load(profiles.get_active())
