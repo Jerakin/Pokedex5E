@@ -15,7 +15,7 @@ function init(self)
 	self.pokemons_in_party = storage.list_of_ids_in_inventory()
 	local id = party.last_active_id
 	local index = party.last_active_index
-	if id == nil or not storage.is_inventory_pokemon(id) or index > #self.pokemons_in_party then
+	if id == nil or not storage.is_inventory_pokemon(id) or index > #self.pokemons_in_party or self.pokemons_in_party[index] ~= id then
 		id = self.pokemons_in_party[1]
 		index = 1
 		party.last_active_index = index
