@@ -897,7 +897,7 @@ nodes {
 nodes {
   position {
     x: -132.0
-    y: 259.0
+    y: 279.0
     z: 0.0
     w: 1.0
   }
@@ -908,13 +908,13 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.9
+    y: 0.9
     z: 1.0
     w: 1.0
   }
   size {
-    x: 720.0
+    x: 290.0
     y: 640.0
     z: 0.0
     w: 1.0
@@ -932,7 +932,7 @@ nodes {
   id: "txt_pp"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_N
   outline {
     x: 1.0
     y: 1.0
@@ -946,7 +946,7 @@ nodes {
     w: 1.0
   }
   adjust_mode: ADJUST_MODE_FIT
-  line_break: true
+  line_break: false
   parent: "background"
   layer: "script"
   inherit_alpha: true
@@ -1086,7 +1086,7 @@ nodes {
 nodes {
   position {
     x: 140.0
-    y: 258.0
+    y: 279.0
     z: 0.0
     w: 1.0
   }
@@ -1097,13 +1097,13 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.9
+    y: 0.9
     z: 1.0
     w: 1.0
   }
   size {
-    x: 720.0
+    x: 290.0
     y: 640.0
     z: 0.0
     w: 1.0
@@ -1121,7 +1121,7 @@ nodes {
   id: "txt_dmg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_N
   outline {
     x: 1.0
     y: 1.0
@@ -1135,7 +1135,7 @@ nodes {
     w: 1.0
   }
   adjust_mode: ADJUST_MODE_FIT
-  line_break: true
+  line_break: false
   parent: "background"
   layer: "script"
   inherit_alpha: true
@@ -1149,7 +1149,7 @@ nodes {
 nodes {
   position {
     x: -132.0
-    y: 150.0
+    y: 170.0
     z: 0.0
     w: 1.0
   }
@@ -1160,13 +1160,13 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.9
+    y: 0.9
     z: 1.0
     w: 1.0
   }
   size {
-    x: 720.0
+    x: 290.0
     y: 640.0
     z: 0.0
     w: 1.0
@@ -1184,7 +1184,7 @@ nodes {
   id: "txt_time"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_N
   outline {
     x: 1.0
     y: 1.0
@@ -1198,7 +1198,7 @@ nodes {
     w: 1.0
   }
   adjust_mode: ADJUST_MODE_FIT
-  line_break: true
+  line_break: false
   parent: "background"
   layer: "script"
   inherit_alpha: true
@@ -1212,7 +1212,7 @@ nodes {
 nodes {
   position {
     x: 140.0
-    y: 40.0
+    y: 59.0
     z: 0.0
     w: 1.0
   }
@@ -1223,13 +1223,13 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.9
+    y: 0.9
     z: 1.0
     w: 1.0
   }
   size {
-    x: 720.0
+    x: 290.0
     y: 640.0
     z: 0.0
     w: 1.0
@@ -1247,7 +1247,7 @@ nodes {
   id: "txt_duration"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_N
   outline {
     x: 1.0
     y: 1.0
@@ -1261,7 +1261,7 @@ nodes {
     w: 1.0
   }
   adjust_mode: ADJUST_MODE_FIT
-  line_break: true
+  line_break: false
   parent: "background"
   layer: "script"
   inherit_alpha: true
@@ -1269,13 +1269,13 @@ nodes {
   outline_alpha: 1.0
   shadow_alpha: 1.0
   template_node_child: false
-  text_leading: 1.0
+  text_leading: 0.8
   text_tracking: 0.0
 }
 nodes {
   position {
     x: 140.0
-    y: 147.0
+    y: 170.0
     z: 0.0
     w: 1.0
   }
@@ -1286,13 +1286,13 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.9
+    y: 0.9
     z: 1.0
     w: 1.0
   }
   size {
-    x: 720.0
+    x: 290.0
     y: 640.0
     z: 0.0
     w: 1.0
@@ -1310,7 +1310,7 @@ nodes {
   id: "txt_range"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_N
   outline {
     x: 1.0
     y: 1.0
@@ -1324,7 +1324,7 @@ nodes {
     w: 1.0
   }
   adjust_mode: ADJUST_MODE_FIT
-  line_break: true
+  line_break: false
   parent: "background"
   layer: "script"
   inherit_alpha: true
@@ -1349,13 +1349,13 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.5
-    y: 0.5
+    x: 0.8
+    y: 0.8
     z: 1.0
     w: 1.0
   }
   size {
-    x: 720.0
+    x: 680.0
     y: 640.0
     z: 0.0
     w: 1.0
@@ -1456,7 +1456,7 @@ nodes {
 nodes {
   position {
     x: -132.0
-    y: 299.0
+    y: 300.0
     z: 0.0
     w: 1.0
   }
@@ -1582,7 +1582,7 @@ nodes {
 nodes {
   position {
     x: 140.0
-    y: 186.0
+    y: 190.0
     z: 0.0
     w: 1.0
   }
@@ -1645,7 +1645,7 @@ nodes {
 nodes {
   position {
     x: -132.0
-    y: 187.0
+    y: 190.0
     z: 0.0
     w: 1.0
   }
@@ -1708,7 +1708,7 @@ nodes {
 nodes {
   position {
     x: 140.0
-    y: 73.0
+    y: 80.0
     z: 0.0
     w: 1.0
   }
@@ -1772,7 +1772,7 @@ nodes {
 nodes {
   position {
     x: -132.0
-    y: 38.0
+    y: 59.0
     z: 0.0
     w: 1.0
   }
@@ -1783,13 +1783,13 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.9
+    y: 0.9
     z: 1.0
     w: 1.0
   }
   size {
-    x: 720.0
+    x: 290.0
     y: 640.0
     z: 0.0
     w: 1.0
@@ -1807,7 +1807,7 @@ nodes {
   id: "txt_move_power"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_N
   outline {
     x: 1.0
     y: 1.0
@@ -1821,7 +1821,7 @@ nodes {
     w: 1.0
   }
   adjust_mode: ADJUST_MODE_FIT
-  line_break: true
+  line_break: false
   parent: "background"
   layer: "script"
   inherit_alpha: true
@@ -1835,7 +1835,7 @@ nodes {
 nodes {
   position {
     x: -132.0
-    y: 75.0
+    y: 80.0
     z: 0.0
     w: 1.0
   }

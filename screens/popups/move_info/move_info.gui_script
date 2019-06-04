@@ -7,6 +7,7 @@ local gooey = require "gooey.gooey"
 local url = require "utils.url"
 local notify = require "utils.notify"
 local tracking_id = require "utils.tracking_id"
+local gui_utils = require "utils.gui"
 
 local function join_table(title, T, sep)
 	if T then
@@ -22,13 +23,28 @@ function init(self)
 	gui.set_render_order(gro.POPUP)
 	data = monarch.data("move_info")
 	move_data = _pokemon.get_move_data(data.pokemon, data.name)
-	gui.set_text(gui.get_node("txt_name"), data.name)
-	gui.set_text(gui.get_node("txt_desc"), move_data.description)
-	gui.set_text(gui.get_node("txt_time"), move_data.time)
-	gui.set_text(gui.get_node("txt_duration"), move_data.duration)
-	gui.set_text(gui.get_node("txt_range"), move_data.range or "")
-	gui.set_text(gui.get_node("txt_move_power"), join_table("", move_data.power, "/"))
 
+	local node_name = gui.get_node("txt_name")
+	local node_desc = gui.get_node("txt_desc")
+	local node_time = gui.get_node("txt_time")
+	local node_duration = gui.get_node("txt_duration")
+	local node_range = gui.get_node("txt_range")
+	local node_move_power = gui.get_node("txt_move_power")
+
+	gui.set_text(node_name, data.name)
+	gui.set_text(node_desc, move_data.description)
+	gui.set_text(node_time, move_data.time)
+	gui.set_text(node_duration, move_data.duration)
+	gui.set_text(node_range, move_data.range or "")
+	gui.set_text(node_move_power, join_table("", move_data.power, "/"))
+
+	gui_utils.scale_text_to_fit_size(node_name)
+	gui_utils.scale_text_to_fit_size(node_desc)
+	gui_utils.scale_text_to_fit_size(node_time)
+	gui_utils.scale_text_to_fit_size(node_duration)
+	gui_utils.scale_text_to_fit_size(node_range)
+	gui_utils.scale_text_to_fit_size(node_move_power)
+	
 	-- Set type name and image and placements
 	local type_node = gui.get_node("txt_type")
 	gui.set_text(type_node, move_data.type)
