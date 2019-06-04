@@ -575,6 +575,13 @@ function M.get_catch_rate(pokemon)
 end
 
 function M.get_evolution_level(pokemon)
+	if type(pokemon.level.evolved) == "number" then
+		local old = pokemon.level.evolved
+		pokemon.level.evolved = {}
+		if old ~= 0 then
+			table.insert(pokemon.level.evolved, old)
+		end
+	end
 	return pokemon.level.evolved or {}
 end
 
