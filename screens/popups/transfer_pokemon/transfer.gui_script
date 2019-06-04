@@ -237,7 +237,7 @@ local function cancel_swap(self)
 end
 
 local function release(self)
-	if #storage.list_of_ids_in_inventory() ~= 1 then
+	if not storage.is_inventory_pokemon(self.pokemon_id) or #storage.list_of_ids_in_inventory() ~= 1 then
 		local title = "RELEASE " .. self.nickname
 		monarch.show("are_you_sure", nil, {title=title, data=self.pokemon_id, sender=msg.url()})
 	end
