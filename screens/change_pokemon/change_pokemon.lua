@@ -139,12 +139,12 @@ end
 
 function M.get_extra_hp(self)
 	-- Aditional con modifier
-	local con = math.floor(math.fmod(_pokemon.get_attributes(self.pokemon).CON, 2) + self.increased_attributes["CON"] / 2)
+	local con = math.floor((math.fmod(_pokemon.get_attributes(self.pokemon).CON, 2) + self.increased_attributes["CON"]) / 2)
 	-- Extra hp you get for a level up
 	local extra = _pokemon.calculate_addition_hp_from_levels(self.pokemon, self.level - _pokemon.get_current_level(self.pokemon))
 	-- Add it together
 	local extra_hp =  con * self.level + (self.max_hp_increase or 0) + extra
-	
+
 	return extra_hp
 end
 
