@@ -1437,7 +1437,7 @@
     "Move Power": [
       "None"
     ],
-    "Move Time": "1 acton",
+    "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 minute, Concentration",
     "Range": "Self",
@@ -2989,7 +2989,7 @@
     "Duration": "Instantaneous",
     "Range": "Melee",
     "Save": "CON",
-    "Description": "You whip your dragon tail at an opponent in an attempt to send them away. Force a target to make a CON save against your Move DC. On a failure, they are too frightened by you to remain in battle. In trainer battles, the target must be switched out if another creature is available. In wild battles, the target only flees if it a lower level than the user.",
+    "Description": "You whip your dragon tail at an opponent in an attempt to send them away. Force a target to make a CON save against your Move DC. On a failure, the target takes 1d10 + MOVE dragon damage and is too frightened by you to remain in battle. In trainer battles, the target must be switched out if another creature is available. In wild battles, the target only flees if it is a lower level than the user.",
     "Damage": {
       "1": {
         "amount": 1,
@@ -4933,13 +4933,13 @@
   "Hail": {
     "Type": "Ice",
     "Move Power": [
-      "DEX"
+      "None"
     ],
     "Move Time": "1 action",
     "PP": 3,
-    "Duration": "1 minute, Concentration",
-    "Range": "50ft",
-    "Description": "You summon a hail storm that covers the battlefield in a 50 foot circle, centered on you. As long as you hold your concentration, all non-ice type creatures in the area must take 1d6 + MOVE ice damage at the start of each of their turns.",
+    "Duration": "3 rounds, Concentration",
+    "Range": "30ft radius",
+    "Description": "You stir up a massive hail storm in a 30 foot radius, centered on a point in range. Any non ice-type Pokémon in the area at the beginning of their turn take 1d6 ice damage. The hail storm lasts for 3 rounds.",
     "Damage": {
       "1": {
         "amount": 1,
@@ -6701,7 +6701,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "50ft",
-    "Description": "You attempt to drain the life force of an enemy Pokémon. Make a ranged attack on a target, doing 1d12 + MOVE grass damage on a hit. Half of the damage dealt is restored to the user.",
+    "Description": "You attempt to drain the life force of an enemy Pokémon. Make a ranged attack on a target, doing 1d6 + MOVE grass damage on a hit. Half of the damage dealt is restored to the user.",
     "Damage": {
       "1": {
         "amount": 1,
@@ -8021,8 +8021,8 @@
       "CON"
     ],
     "Move Time": "1 action",
-    "PP": 20,
-    "Duration": "1 minute",
+    "PP": 5,
+    "Duration": "1 minute, concentration",
     "Range": "40ft",
     "Description": "You release a toxic cloud of poisonous gas in a 10 foot radius, centered on a point within range. Any creature that starts their turn in this area must succeed on a CON save against your Move DC, taking 1d6 + MOVE poison damage and becoming poisoned on a fail, or half as much damage without being poisoned on a save.",
     "Damage": {
@@ -9552,7 +9552,7 @@
       "None"
     ],
     "Move Time": "1 action",
-    "PP": 5,
+    "PP": 3,
     "Duration": "3 rounds, Concentration",
     "Range": "100ft",
     "Description": "You stir up a massive sandstorm in a 30 foot radius, centered on a point in range. Any non rock-, steel-, or ground-type Pokémon in the area at the beginning of their turn take 1d6 rock damage. The Sandstorm lasts for 3 rounds.",
@@ -10730,7 +10730,7 @@
     "PP": 10,
     "Duration": "instantaneous",
     "Range": "50ft",
-    "Description": "You create a harsh noise that damages all sleeping Pokémon within range for 1d8 + MOVE normal damage.",
+    "Description": "While you are asleep, you may activate this move to create a harsh noise that damages all Pokémon within range for 1d8 + MOVE normal damage.",
     "Damage": {
       "1": {
         "amount": 1,

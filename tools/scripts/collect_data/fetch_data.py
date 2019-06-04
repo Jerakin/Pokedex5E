@@ -20,7 +20,7 @@ def convert_to_json(worksheet):
             if i == 0: # Skipping first row
                 continue
             title = header_row[i]
-            output_data[row[0]][title] = cell_value
+            output_data[row[0]][title] = cell_value.strip()
 
     # Save it as utf-8
     with open(output_file, "w", encoding="utf-8") as f:
