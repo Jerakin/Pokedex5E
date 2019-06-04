@@ -120,9 +120,9 @@ function M.on_input(action_id, action)
 end
 
 function M.create(nodes, pokemon)
+	active = nodes
 	setup_main_information(nodes, pokemon)
 	setup_info_tab(nodes, pokemon)
-	active = nodes
 end
 
 
