@@ -61,7 +61,7 @@ function M.show(id)
 	if pokemon then
 		local nodes = pokemon_pages[active_page].nodes
 		information.create(nodes, pokemon)
-		meters.create(nodes, pokemon)
+		meters.create(nodes, id)
 		moves.create(nodes, pokemon, active_page)
 		features.create(nodes, pokemon, active_page)
 		

@@ -20,43 +20,6 @@ local function pokemon_image(species)
 end
 
 local function save_pokemon(self)
-	if self.max_hp_increase ~= 0 then
-		local max = _pokemon.get_max_hp(self.pokemon)
-		_pokemon.set_max_hp(self.pokemon, max + self.max_hp_increase, self.set_force_max_hp_to)
-		local c = _pokemon.get_current_hp(self.pokemon)
-		_pokemon.set_current_hp(self.pokemon, c + self.max_hp_increase)
-	else
-		local hit_dice = _pokemon.get_hit_dice(self.pokemon)
-		local from_hit_dice = math.ceil((hit_dice + 1) / 2) * (self.level - _pokemon.get_current_level(self.pokemon))
-		
-		local extra = pokemon_edit.get_extra_hp(self)
-
-		local max = _pokemon.get_max_hp(self.pokemon)
-		_pokemon.set_max_hp(self.pokemon, max + from_hit_dice)
-		local c = _pokemon.get_current_hp(self.pokemon)
-		_pokemon.set_current_hp(self.pokemon, c + extra)
-	end
-
-	_pokemon.update_increased_attributes(self.pokemon, self.increased_attributes)
-	local nickname = gui.get_text(gui.get_node("change_pokemon/species"))
-	local abilities = {}
-	for _, data in pairs(self.ability_data) do
-		if data.name ~= "Add Other" then
-			table.insert(abilities, data.name)
-		end
-	end
-	_pokemon.update_abilities(self.pokemon, abilities)
-
-	local feats = {}
-	for _, data in pairs(self.feats_data) do
-		if data.name ~= "Add Other" then
-			table.insert(feats, data.name)
-		end
-	end
-	_pokemon.update_feats(self.pokemon, feats)
-	
-	self.pokemon.level.current = self.level
-	_pokemon.set_nickname(self.pokemon, nickname)
 	_pokemon.save(self.pokemon)
 	gameanalytics.addDesignEvent {
 		eventId = "Navigation:Party",
@@ -71,18 +34,15 @@ local function evolve(self, species)
 		value = pokedex.get_index_number(species)
 	}
 	-- Set and reset
-	self.pokemon.moves = self.pokemon.moves
 	pokemon_image(species)
 	self.have_evolved = true
 	
 	-- Edit pokemon
-	self.ability_score_improvment = self.ability_score_improvment - pokedex.evolve_points(_pokemon.get_current_species(self.pokemon))
 	_pokemon.add_hp_from_levels(self.pokemon, self.level)
-	self.pokemon.level.current = self.level
 	
 	self.nickname = _pokemon.get_nickname(self.pokemon)
 	self.nickname = self.nickname or species:upper()
-	_pokemon.evolve(self.pokemon, species, self.level)
+	_pokemon.evolve(self.pokemon, species, _pokemon.get_current_level(self.pokemon))
 
 	pokemon_edit.redraw(self)
 	timer.delay(0.1, false, function() save_pokemon(self)
@@ -90,10 +50,6 @@ local function evolve(self, species)
 	
 end
 
-local function change_hp(self, hp)
-	self.max_hp_increase = self.max_hp_increase + hp
-	pokemon.update_hp_counter(self)
-end
 
 function init(self)
 	self.have_evolved = false
@@ -106,34 +62,22 @@ function init(self)
 	pokemon_edit.block = false
 	pokemon_edit.config[hash("change_pokemon/extra")].active = true
 	pokemon_edit.init(self)
-	
+	pokemon_edit.redraw(self)
 	
 	pokemon_image(_pokemon.get_current_species(self.pokemon))
 	gui.set_enabled(gui.get_node("change_pokemon/cursor"), false)
 	
 	local evolution_possible = pokedex.get_evolution_possible(_pokemon.get_current_species(self.pokemon))
 	local evolution_level = evolution_possible and pokedex.get_evolution_level(_pokemon.get_current_species(self.pokemon))
-	self.level = _pokemon.get_current_level(self.pokemon)
-	local species = _pokemon.get_current_species(self.pokemon)
-	self.nickname = _pokemon.get_nickname(self.pokemon)
-	self.nickname = self.nickname or species:upper()
+	self.nickname = _pokemon.get_nickname(self.pokemon) or _pokemon.get_current_species(self.pokemon):upper()
 	self.evolve_button = gui.get_node("btn_evolve")
-	
-	gui.set_text(gui.get_node("change_pokemon/species"), self.nickname)
-	gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
-	gui.set_text(gui.get_node("change_pokemon/txt_level"), self.level)
-	gui.set_color(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector4(1))
-	gui.set_text(gui.get_node("change_pokemon/txt_nature"), _pokemon.get_nature(self.pokemon))
-	gui.set_text(gui.get_node("change_pokemon/txt_max_hp"), _pokemon.get_total_max_hp(self.pokemon))
-	gui.set_text(gui.get_node("change_pokemon/txt_max_hp_mod"), "MAX HP")
-	gui.set_text(gui.get_node("change_pokemon/txt_hit_dice"), "Hit Dice: d" .. _pokemon.get_hit_dice(self.pokemon))
-	gui.set_text(gui.get_node("change_pokemon/pokemon_number"), string.format("#%03d", _pokemon.get_index_number(self.pokemon)))
+
 	if not evolution_possible then
 		gui.set_enabled(self.evolve_button, false)
 	end
 	
 	function self.redraw(self)
-		if not self.have_evolved and evolution_possible and evolution_level <= self.level then
+		if not self.have_evolved and evolution_possible and evolution_level <= _pokemon.get_current_level(self.pokemon) then
 			self.evolve_button_active = true
 			gui.set_color(gui.get_node("txt_evolve"), gui_colors.BUTTON_TEXT)
 			gui.play_flipbook(self.evolve_button, "common_up")
@@ -142,27 +86,12 @@ function init(self)
 			gui.set_color(gui.get_node("txt_evolve"), gui_colors.BUTTON_TEXT_DISABLED)
 			gui.play_flipbook(self.evolve_button, "common_disabled")
 		end
-		
-		gui.set_text(gui.get_node("change_pokemon/txt_level"), self.level)
-		local level_dif = self.level - _pokemon.get_current_level(self.pokemon)
-		if level_dif == 0 then
-			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "Lv.")
-			gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.TEXT)
-		elseif level_dif < 0 then
-			gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.RED)
-			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "Lv. " .. level_dif)
-		else
-			gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.GREEN)
-			gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "Lv. +" .. level_dif)
-			
-		end
 	end
 
 	button.register("change_pokemon/txt_max_hp", function()
 		monarch.show("are_you_sure", nil, {sender=msg.url(), text="Reset HP and let the App controll it for you", title="Reset", id="reset"})
 	end)
 	gooey.input("change_pokemon/species").set_mark_text(true)
-	pokemon_edit.redraw(self)
 end
 
 function final(self)
@@ -174,19 +103,6 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash("response") and message.response then
 		if message.id == "evolve" then
 			evolve(self, message.data)
-		elseif message.id == "change_hp" then
-			self.set_force_max_hp_to = true
-			change_hp(self, message.data)
-		elseif message.id == "reset" then
-			local d_max = _pokemon.get_defaut_max_hp(self.pokemon)
-			local c_max = _pokemon.get_max_hp(self.pokemon)
-			
-			if d_max ~= c_max + self.max_hp_increase then
-				self.set_force_max_hp_to = false
-				local l = d_max - c_max
-				self.max_hp_increase = 0
-				change_hp(self, l)
-			end
 		end
 	end
 end
@@ -194,7 +110,7 @@ end
 local function evolve_pokemon(self)
 	local evolve_into = pokedex.get_evolutions(_pokemon.get_current_species(self.pokemon))
 	if #evolve_into == 1 then
-		monarch.show("are_you_sure", nil, {title="Evolve at level ".. self.level .. "?", text="This will automatically save and exit to Party", sender=msg.url(), data=evolve_into[1], id="evolve"})
+		monarch.show("are_you_sure", nil, {title="Evolve at level ".. _pokemon.get_current_level(self.pokemon) .. "?", text="This will automatically save and exit to Party", sender=msg.url(), data=evolve_into[1], id="evolve"})
 	else
 		monarch.show("scrollist", {}, {items=evolve_into, message_id="evolve", sender=msg.url(), title="Pick evolution"})
 	end
@@ -225,29 +141,6 @@ end
 function on_input(self, action_id, action)
 	button.on_input(action_id, action)
 	pokemon_edit.on_input(self, action_id, action)
-	gooey.button("change_pokemon/hp/btn_minus", action_id, action, function()
-		if _pokemon.have_ability(self.pokemon, "Paper Thin") then
-			monarch.show("info", nil, {text="Ability: Paper Thin\nThis Pokemon's max HP is always 1"})
-			return
-		end
-		if self.set_force_max_hp_to or _pokemon.get_max_hp_edited(self.pokemon) then
-			change_hp(self, -1)
-		else
-			monarch.show("are_you_sure", nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=-1, id="change_hp"})
-		end
-	end, gooey_buttons.minus_button)
-	
-	gooey.button("change_pokemon/hp/btn_plus", action_id, action, function()
-		if _pokemon.have_ability(self.pokemon, "Paper Thin") then
-			monarch.show("info", nil, {text="Ability: Paper Thin\nThis Pokemon's max HP is always 1"})
-			return
-		end
-		if self.set_force_max_hp_to or _pokemon.get_max_hp_edited(self.pokemon) then
-			change_hp(self, 1)
-		else
-			monarch.show("are_you_sure", nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=1, id="change_hp"})
-		end
-	end, gooey_buttons.plus_button)
 
 	gooey.input("change_pokemon/species", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, nil, function(input)
 		refresh_input(self, input, "name_text")

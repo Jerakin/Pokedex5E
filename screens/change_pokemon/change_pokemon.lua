@@ -90,9 +90,6 @@ local function redraw_list(data_table, entry_table, text_hash, btn_hash, delete_
 	update_sections()
 	for _, entry in pairs(data_table) do
 		gui.delete_node(entry.root)
-		if entry.position ~= 1 then
-			--gui.delete_node(entry.root)
-		end
 	end
 	data_table = {}
 	local ability_position = vmath.vector3()
@@ -134,28 +131,22 @@ local function redraw_list(data_table, entry_table, text_hash, btn_hash, delete_
 	gui.set_enabled(nodes[delete_hash], false)
 	table.insert(data_table, {name="Add Other", button=btn_id, root=nodes[root_hash], text=text_node, position=amount, active=true})
 
-	return data_table, entry_table
+	return data_table
 end
 
-function M.get_extra_hp(self)
-	-- Aditional con modifier
-	local con = math.floor((math.fmod(_pokemon.get_attributes(self.pokemon).CON, 2) + self.increased_attributes["CON"]) / 2)
-	-- Extra hp you get for a level up
-	local extra = _pokemon.calculate_addition_hp_from_levels(self.pokemon, self.level - _pokemon.get_current_level(self.pokemon))
-	-- Add it together
-	local extra_hp =  con * self.level + (self.max_hp_increase or 0) + extra
-
-	return extra_hp
+function M.update_sections()
+	update_sections(true)
 end
 
 function M.update_hp_counter(self)
+	local stored_pokemon = storage.get_copy(_pokemon.get_id(self.pokemon))
 	local max_hp_node = gui.get_node("change_pokemon/txt_max_hp")
 	local mod_hp_node = gui.get_node("change_pokemon/txt_max_hp_mod")
-	local extra_hp = M.get_extra_hp(self)
-	local current = _pokemon.get_total_max_hp(self.pokemon)
-
+	local old_max = _pokemon.get_total_max_hp(stored_pokemon or self.pokemon)
+	local current_max = _pokemon.get_total_max_hp(self.pokemon)
+	local extra_hp = current_max - old_max
 	gui.set_text(mod_hp_node,  "MAX HP: " .. extra_hp)
-	gui.set_text(max_hp_node,  current + extra_hp)
+	gui.set_text(max_hp_node,  current_max)
 	if extra_hp == 0 then
 		gui.set_color(mod_hp_node, gui_colors.TEXT)
 	elseif extra_hp >= 1 then
@@ -167,7 +158,9 @@ end
 
 local function redraw_moves(self)
 	local position = vmath.vector3()
-	M.config[hash("change_pokemon/moves")].open.y = M.config[hash("change_pokemon/moves")].closed.y + math.ceil(self.move_count / 2) * 70
+	local _, c = _pokemon.have_feat(self.pokemon, "Extra Move")
+	local moves_count = 4 + c
+	M.config[hash("change_pokemon/moves")].open.y = M.config[hash("change_pokemon/moves")].closed.y + math.ceil(moves_count/ 2) * 70
 
 	for _, b in pairs(move_buttons_list) do
 		gui.delete_node(gui.get_node(b.node))
@@ -175,7 +168,7 @@ local function redraw_moves(self)
 	end
 
 	move_buttons_list = {}
-	for i=1, self.move_count do
+	for i=1, moves_count do
 		local nodes = gui.clone_tree(self.move_node)
 		local txt = nodes["change_pokemon/txt_move"]
 		local btn = nodes["change_pokemon/btn_move"]
@@ -189,7 +182,7 @@ local function redraw_moves(self)
 		position.y = math.ceil((i-1)/2) * -70
 	end
 	local index = 1
-	for move, data in pairs(self.pokemon.moves) do
+	for move, data in pairs(_pokemon.get_moves(self.pokemon)) do
 		if move_buttons_list[index] then
 			local move_node = move_buttons_list[data.index].text
 			gui.set_text(move_node, move:upper())
@@ -201,53 +194,57 @@ end
 
 
 local function redraw(self)
-	if not self.pokemon or self.pokemon.species.current == "" then
+	if not self.pokemon then
+		print("Why do we redraw now?")
 		return
 	end
+	local stored_pokemon = storage.get_copy(_pokemon.get_id(self.pokemon)) or self.pokemon
+	
 	local nickname = _pokemon.get_nickname(self.pokemon)
 	local species = _pokemon.get_current_species(self.pokemon)
 	nickname = nickname or species:upper()
 	gui.set_text(gui.get_node("change_pokemon/species"), nickname)
 
-	gui.set_text(gui.get_node("change_pokemon/txt_level"), self.level)
-	
-	gui.set_text(gui.get_node("change_pokemon/nature"), self.pokemon.nature:upper() or "No Nature")
+	gui.set_text(gui.get_node("change_pokemon/txt_level"), _pokemon.get_current_level(self.pokemon))
+
+	gui.set_text(gui.get_node("change_pokemon/txt_nature"), _pokemon.get_nature(self.pokemon):upper())
+	gui.set_text(gui.get_node("change_pokemon/txt_hit_dice"), "Hit Dice: d" .. _pokemon.get_hit_dice(self.pokemon))
+	gui.set_text(gui.get_node("change_pokemon/pokemon_number"), string.format("#%03d", _pokemon.get_index_number(self.pokemon)))
 
 	-- Moves
 	redraw_moves(self)
 
 	-- Natures and attributes
-	if not self.pokemon.nature or self.pokemon.nature == "" then
-		return
-	end
-	
 	local attributes = _pokemon.get_attributes(self.pokemon)
+	local increased = _pokemon.get_increased_attributes(self.pokemon)
+	local old_increased = _pokemon.get_increased_attributes(stored_pokemon)
 	for _, stat in pairs(STATS) do
 		local n = gui.get_node("change_pokemon/asi/" .. stat .. "_MOD")
 		local stat_num = gui.get_node("change_pokemon/asi/" .. stat)
-		gui.set_text(stat_num, attributes[stat] + self.increased_attributes[stat])
+
+		gui.set_text(stat_num, attributes[stat])
 		local mod = ""
-		if self.increased_attributes[stat] >= 0 then
+		if increased[stat] - old_increased[stat] >= 0 then
 			mod = "+"
 		end
-		if self.increased_attributes[stat] >= 1 then
+		if increased[stat] - old_increased[stat] >= 1 then
 			gui.set_color(n, gui_colors.GREEN)
 			gui.set_color(stat_num, gui_colors.GREEN)
-		elseif self.increased_attributes[stat] <= -1 then
+		elseif increased[stat] - old_increased[stat] <= -1 then
 			gui.set_color(n, gui_colors.RED)
 			gui.set_color(stat_num, gui_colors.RED)
 		else
 			gui.set_color(n, gui_colors.TEXT)
 			gui.set_color(stat_num, gui_colors.TEXT)
 		end
-		gui.set_text(n, "(" .. mod .. self.increased_attributes[stat]..")")
+		gui.set_text(n, "(" .. mod .. (increased[stat] - old_increased[stat]) ..")")
 	end
 
 	-- ASI
 	local max_improve_node = gui.get_node("change_pokemon/asi/asi_points")
-	local available_at_level = pokedex.level_data(self.level).ASI
+	local available_at_level = pokedex.level_data(_pokemon.get_current_level(self.pokemon)).ASI
 	local available_at_caught = pokedex.level_data(_pokemon.get_caught_level(self.pokemon)).ASI
-	local current = (available_at_level-available_at_caught) * 2 - self.ability_score_improvment
+	local current = (available_at_level-available_at_caught) * 2 - _pokemon.ability_score_points(self.pokemon)
 
 	gui.set_text(max_improve_node, current)
 	if current == 0 then
@@ -267,16 +264,31 @@ local function redraw(self)
 	local btn_id = hash("change_pokemon/ability/btn_entry")
 	local del_id = hash("change_pokemon/ability/btn_delete")
 	local nodes = gui.clone_tree(gui.get_node(root_id))
-	M.config[hash("change_pokemon/abilities")].open.y = M.config[hash("change_pokemon/abilities")].closed.y + math.ceil((#self.abilities +1) / 2) * 50
-	self.ability_data, self.abilities = redraw_list(self.ability_data, self.abilities, text_id, btn_id, del_id, root_id)
+	M.config[hash("change_pokemon/abilities")].open.y = M.config[hash("change_pokemon/abilities")].closed.y + math.ceil((#_pokemon.get_abilities(self.pokemon) +1) / 2) * 50
+	self.ability_data = redraw_list(self.ability_data, _pokemon.get_abilities(self.pokemon), text_id, btn_id, del_id, root_id)
 
 	-- Feats
 	local root_id = hash("change_pokemon/feat/root")
 	local text_id = hash("change_pokemon/feat/txt")
 	local btn_id = hash("change_pokemon/feat/btn_entry")
 	local del_id = hash("change_pokemon/feat/btn_delete")
-	M.config[hash("change_pokemon/feats")].open.y = M.config[hash("change_pokemon/feats")].closed.y + math.ceil((#self.feats + 1) / 2) * 50
-	self.feats_data, self.feats = redraw_list(self.feats_data, self.feats, text_id, btn_id, del_id, root_id)
+	M.config[hash("change_pokemon/feats")].open.y = M.config[hash("change_pokemon/feats")].closed.y + math.ceil((#_pokemon.get_feats(self.pokemon) + 1) / 2) * 50
+	self.feats_data = redraw_list(self.feats_data, _pokemon.get_feats(self.pokemon), text_id, btn_id, del_id, root_id)
+
+	-- level
+	local current = _pokemon.get_current_level(self.pokemon)
+	gui.set_text(gui.get_node("change_pokemon/txt_level"), current)
+	local level_dif = current - _pokemon.get_current_level(stored_pokemon)
+	if level_dif == 0 then
+		gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "Lv.")
+		gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.TEXT)
+	elseif level_dif < 0 then
+		gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.RED)
+		gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "Lv. " .. level_dif)
+	else
+		gui.set_color(gui.get_node("change_pokemon/txt_level_mod"), gui_colors.GREEN)
+		gui.set_text(gui.get_node("change_pokemon/txt_level_mod"), "Lv. +" .. level_dif)
+	end
 
 	if self.redraw then self.redraw(self) end
 end
@@ -288,64 +300,44 @@ end
 local function increase(self, stat)
 	local max = _pokemon.get_max_attributes(self.pokemon)
 	local attributes = _pokemon.get_attributes(self.pokemon)
-	local m = attributes[stat] + self.increased_attributes[stat]
+	local increased = _pokemon.get_increased_attributes(self.pokemon)
+	local m = attributes[stat] + increased[stat]
 	if  m < max[stat] then
-		self.increased_attributes[stat] = self.increased_attributes[stat] + 1
-		self.ability_score_improvment = self.ability_score_improvment + 1
+		_pokemon.set_increased_attribute(self.pokemon, stat, increased[stat] + 1)
 		redraw(self)
 	end
 end
 
 local function decrease(self, stat)
 	local attributes = _pokemon.get_attributes(self.pokemon)
-	local m = attributes[stat] + self.increased_attributes[stat]
+	local increased = _pokemon.get_increased_attributes(self.pokemon)
+	local m = attributes[stat] + increased[stat]
 	if m > 0 then
-		self.increased_attributes[stat] = self.increased_attributes[stat] - 1
-		self.ability_score_improvment = self.ability_score_improvment - 1
+		_pokemon.set_increased_attribute(self.pokemon, stat, increased[stat] - 1)
 		redraw(self)
 	end
 end
 
 local function pick_move(self)
-	monarch.show("moves_scrollist", {}, {species=self.pokemon.species.current, level=self.level, current_moves=self.pokemon.moves, message_id="move", sender=msg.url()})
+	monarch.show("moves_scrollist", {}, {species=_pokemon.get_current_species(self.pokemon), level=_pokemon.get_current_level(self.pokemon), current_moves=_pokemon.get_moves(self.pokemon), message_id="move", sender=msg.url()})
 end
 
 
 function M.init(self, pokemon)
 	msg.post(url.MENU, "hide")
-	if pokemon then
-		self.pokemon = utils.deep_copy(pokemon)
-	end
-	self.increased_attributes = {STR= 0,DEX= 0,CON= 0,INT= 0,WIS= 0,CHA= 0}
-	self.level = 1
-	self.ability_score_improvment = 0
+
 	self.list_items = {}
+	self.feats_data = {}
+	self.ability_data = {}
 	self.move_button_index = 0
 	self.root = gui.get_node("root")
 	gui.set_enabled(gui.get_node("change_pokemon/feat/root"), false)
 	gui.set_enabled(gui.get_node("change_pokemon/ability/root"), false)
 	gui.set_enabled(gui.get_node("change_pokemon/btn_reset_abilities"), false)
-	
+	gui.set_color(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector4(1))
+	gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
 	self.move_node = gui.get_node("change_pokemon/btn_move")
 	gui.set_enabled(self.move_node, false)
-	if self.pokemon then
-		local _, count = _pokemon.have_feat(self.pokemon, "Extra Move")
-		self.move_count = 4 + count
-		self.abilities = _pokemon.get_abilities(self.pokemon, true)
-		self.feats = _pokemon.get_feats(self.pokemon)
-		for _, n in pairs(_pokemon.get_increased_attributes(self.pokemon)) do
-			self.ability_score_improvment = self.ability_score_improvment + n
-		end
-		self.ability_score_improvment = self.ability_score_improvment + #_pokemon.get_feats(self.pokemon) * 2
-		self.ability_score_improvment = self.ability_score_improvment - _pokemon.get_evolution_points(self.pokemon)
-	else
-		self.move_count = 4
-		self.feats = {}
-		self.abilities = {}
-	end	
-	self.ability_data = {}
-	self.feats_data = {}
-	
 	update_sections(true)
 end
 
@@ -359,8 +351,7 @@ end
 function M.on_message(self, message_id, message, sender)
 	if message.item then
 		if message_id == hash("nature") then
-			self.pokemon.nature = message.item
-			self.pokemon.attributes.nature = natures.get_nature_attributes(message.item)
+			_pokemon.set_nature(self.pokemon, message.item)
 			gui.set_text(gui.get_node("change_pokemon/txt_nature"), message.item)
 			gui.set_color(gui.get_node("change_pokemon/txt_nature"), gui_colors.HERO_TEXT)
 			M.update_hp_counter(self)
@@ -370,49 +361,36 @@ function M.on_message(self, message_id, message, sender)
 			end
 			M.block = false
 			self.pokemon = _pokemon.new({species=message.item})
-			self.abilities = pokedex.get_pokemon_abilities(message.item)
-			self.level = self.pokemon.level.current
-			self.pokemon.nature = "No Nature"
-			local starting_moves = pokedex.get_starting_moves(message.item)
-			if #starting_moves > self.move_count then
-				starting_moves = utils.shuffle2(starting_moves)
-			end
-			local moves = {}
-			for i=1, self.move_count do
-				if starting_moves[i] then
-					local pp = movedex.get_move_pp(starting_moves[i])
-					moves[starting_moves[i]] = {pp=pp, index=i}
-				end
-			end
-			self.pokemon.moves = moves
+
 			pokemon_image(message.item)
 			gui.set_color(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector4(1))
 			gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.TEXT)
-			gui.set_text(gui.get_node("change_pokemon/species"), self.pokemon.species.current:upper())
+			gui.set_text(gui.get_node("change_pokemon/species"), _pokemon.get_current_species(self.pokemon):upper())
 			gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
 			gui.set_scale(gui.get_node("change_pokemon/species"), vmath.vector3(0.8))
 			if self.register_buttons_after_species then self.register_buttons_after_species(self) end
 		elseif message_id == hash("evolve") then
 			flow.start(function()
 				flow.until_true(function() return not monarch.is_busy() end)
-				monarch.show("are_you_sure", nil, {title="Evolve at level ".. self.level .. "?", sender=msg.url(), data=message.item})
+				monarch.show("are_you_sure", nil, {title="Evolve at level ".. _pokemon.get_current_level(self.pokemon) .. "?", sender=msg.url(), data=message.item})
 			end)
 		elseif message_id == hash("abilities") then
-			table.insert(self.abilities, message.item)
+			_pokemon.add_ability(self.pokemon, message.item)
 			redraw(self)
 		elseif message_id == hash("feats") then
-			local count = 0
-			table.insert(self.feats, message.item)
-			if message.item == "Extra Move" then
-				for _, f in pairs(self.feats) do
-					if f == "Extra Move" then
-						count = count + 1
-					end
-				end
-			end
-			self.ability_score_improvment = self.ability_score_improvment + 2
-			self.move_count = 4 + count
+			_pokemon.add_feat(self.pokemon, message.item)
 			redraw(self)
+		elseif message_id == hash("response") and message.response then
+			if message.id == "change_hp" then
+				_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) + message.data)
+				_pokemon.set_max_hp_forced(self.pokemon, true)
+				_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) + message.data)
+			elseif message.id == "reset" then
+				local d_max = _pokemon.get_defaut_max_hp(self.pokemon)
+				_pokemon.set_max_hp(self.pokemon, d_max)
+				_pokemon.set_max_hp_forced(self.pokemon, false)
+				_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) + message.data)
+			end
 		else
 			if message.item ~= "" then
 				local n = move_buttons_list[self.move_button_index].text
@@ -432,7 +410,7 @@ local function add_ability(self)
 	local add
 	for _, new_ability in pairs(a) do 
 		add = true
-		for _, ability in pairs(self.abilities) do
+		for _, ability in pairs(_pokemon.get_abilities(self.pokemon)) do
 			if new_ability == ability then
 				add = false
 			end
@@ -450,36 +428,12 @@ local function add_feat(self)
 end
 
 local function delete_ability(self, ability)
-	local index
-	for i, name in pairs(self.abilities) do
-		if name == ability then
-			index = i
-		end
-	end
-	table.remove(self.abilities, index)
+	_pokemon.remove_ability(self.pokemon, ability)
 	redraw(self)
 end
 
 local function delete_feat(self, feat)
-	local index
-	for i, name in pairs(self.feats) do
-		if name == feat then
-			if name == "Extra Move" then
-				local temp_move = {}
-				local count = 0
-				for move, data in pairs(self.pokemon.moves) do
-					count = count + 1
-					temp_move[data.index] = move
-				end
-				self.move_count = self.move_count - 1
-				self.pokemon.moves[temp_move[count]] = nil
-				break
-			end
-			index = i
-		end
-	end
-	self.ability_score_improvment = self.ability_score_improvment - 2
-	table.remove(self.feats, index)
+	_pokemon.remove_feat(self.pokemon, feat)
 	redraw(self)
 end
 
@@ -509,15 +463,23 @@ end
 
 local function extra_buttons(self, action_id, action)
 	gooey.button("change_pokemon/level/btn_plus", action_id, action, function()
-		if self.level < 20 then
-			self.level = self.level + 1
+		local level = _pokemon.get_current_level(self.pokemon)
+		if level < 20 then
+			_pokemon.set_current_level(self.pokemon, level + 1)
+			local extra_hp = math.ceil((_pokemon.get_hit_dice(self.pokemon) + 1)/2)
+			_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) + extra_hp)
+			_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) + extra_hp)
 			redraw(self)
 		end 
 	end, gooey_buttons.plus_button)
 
 	gooey.button("change_pokemon/level/btn_minus", action_id, action, function()
-		if self.level > 1 and self.level > pokedex.get_minimum_wild_level(self.pokemon.species.current) then
-			self.level = self.level - 1
+		local level = _pokemon.get_current_level(self.pokemon)
+		if level > 1 and level > pokedex.get_minimum_wild_level(_pokemon.get_current_species(self.pokemon)) then
+			local extra_hp = math.ceil((_pokemon.get_hit_dice(self.pokemon) + 1)/2)
+			_pokemon.set_current_level(self.pokemon, level - 1)
+			_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) - extra_hp)
+			_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) - extra_hp)
 			redraw(self)
 		end
 	end, gooey_buttons.minus_button)
@@ -577,6 +539,33 @@ function M.on_input(self, action_id, action)
 		gooey.button(button.node, action_id, action, button.func, button.refresh)
 	end
 
+
+	gooey.button("change_pokemon/hp/btn_minus", action_id, action, function()
+		if _pokemon.have_ability(self.pokemon, "Paper Thin") then
+			monarch.show("info", nil, {text="Ability: Paper Thin\nThis Pokemon's max HP is always 1"})
+			return
+		end
+		if _pokemon.get_max_hp_edited(self.pokemon) then
+			_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) - 1)
+			_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) - 1)
+		else
+			monarch.show("are_you_sure", nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=-1, id="change_hp"})
+		end
+	end, gooey_buttons.minus_button)
+
+	gooey.button("change_pokemon/hp/btn_plus", action_id, action, function()
+		if _pokemon.have_ability(self.pokemon, "Paper Thin") then
+			monarch.show("info", nil, {text="Ability: Paper Thin\nThis Pokemon's max HP is always 1"})
+			return
+		end
+		if _pokemon.get_max_hp_edited(self.pokemon) then
+			_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) + 1)
+			_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) + 1)
+		else
+			monarch.show("are_you_sure", nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=1, id="change_hp"})
+		end
+	end, gooey_buttons.plus_button)
+	
 	gooey.button("change_pokemon/asi/btn_collapse", action_id, action, function()
 		M.config[hash("change_pokemon/asi/root")].active = not M.config[hash("change_pokemon/asi/root")].active
 		if M.config[hash("change_pokemon/asi/root")].active then

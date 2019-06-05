@@ -101,7 +101,51 @@ end
 function M.set_loyalty(pokemon, loyalty)
 	local c =  math.min(math.max(loyalty, -3), 3)
 	pokemon.loyalty = c
-	storage.set_pokemon_loyalty(M.get_id(pokemon), c)
+end
+
+
+function M.remove_feat(pokemon, feat)
+	for i, name in pairs(M.get_feats()) do
+		if name == feat then
+			if name == "Extra Move" then
+				M.remove_move(self.pokemon, _pokemon.get_moves_count())
+				break
+			end
+			table.remove(pokemon.feats, i)
+		end
+	end
+end
+
+
+function M.remove_move(pokemon, index)
+	for move, data in pairs(M.get_moves(pokemon)) do
+		if index == data.index then
+			pokemon.moves[move] = nil
+			break
+		end
+	end
+end
+
+
+function M.remove_ability(pokemon, ability)
+	for i, name in pairs(M.get_abilities()) do
+		if name == ability then
+			table.remove(pokemon.abilities, i)
+		end
+	end
+end
+
+function M.get_moves_count(pokemon)
+	local c = 0
+	for move, data in pairs(M.get_moves(pokemon)) do
+		c = c + 1
+	end
+	return c
+end
+
+function M.set_nature(pokemon, nature)
+	pokemon.nature = nature
+	pokemon.attributes.nature = natures.get_nature_attributes(nature)
 end
 
 function M.get_loyalty(pokemon)
@@ -134,13 +178,27 @@ end
 
 function M.set_exp(pokemon, exp)
 	pokemon.exp = exp
-	storage.set_pokemon_exp(M.get_id(pokemon), exp)
 end
 
 function M.update_increased_attributes(pokemon, increased)
 	local b = M.get_increased_attributes(pokemon)
 	local n = add_tables(increased, b)
 	pokemon.attributes.increased = n
+end
+
+function M.ability_score_points(pokemon)
+	local amount = 0
+	for _, n in pairs(M.get_increased_attributes(pokemon)) do
+		amount = amount + n
+	end
+	amount = amount + #M.get_feats(pokemon) * 2
+	amount = amount - M.get_evolution_points(pokemon)
+
+	return amount
+end
+
+function M.set_increased_attribute(pokemon, attribute, value)
+	pokemon.attributes.increased[attribute] = value
 end
 
 function M.save(pokemon)
@@ -182,19 +240,18 @@ end
 
 function M.set_current_hp(pokemon, hp)
 	pokemon.hp.current = hp
-	storage.set_pokemon_current_hp(M.get_id(pokemon), hp)
 end
 
 function M.get_current_hp(pokemon)
 	return pokemon.hp.current
 end
 
-function M.set_max_hp(pokemon, hp, force)
-	if force ~= nil then
-		pokemon.hp.edited = force
-	end
+function M.set_max_hp(pokemon, hp)
 	pokemon.hp.max = hp
-	storage.set_pokemon_max_hp(M.get_id(pokemon), hp)
+end
+
+function M.set_max_hp_forced(pokemon, forced)
+	pokemon.hp.edited = forced
 end
 
 function M.get_max_hp_edited(pokemon)
@@ -347,6 +404,15 @@ function M.get_feats(pokemon)
 	return pokemon.feats or {}
 end
 
+
+function M.add_feat(pokemon, feat)
+	table.insert(pokemon.feats, feat)
+end
+
+function M.add_ability(pokemon, ability)
+	table.insert(pokemon.abilities, ability)
+end
+
 function M.get_abilities(pokemon, as_raw)
 	local species = M.get_current_species(pokemon)
 	local t = {}
@@ -429,7 +495,6 @@ function M.decrease_move_pp(pokemon, move)
 		return
 	end
 	local pp = math.max(move_pp - 1, 0)
-	storage.set_pokemon_move_pp(M.get_id(pokemon), move, pp)
 	pokemon.moves[move].pp = pp
 end
 
@@ -440,14 +505,12 @@ function M.increase_move_pp(pokemon, move)
 	end
 	local max_pp = M.get_move_pp_max(pokemon, move)
 	local pp = math.min(move_pp + 1, max_pp)
-	storage.set_pokemon_move_pp(M.get_id(pokemon), move, pp)
 	pokemon.moves[move].pp = pp
 end
 
 
 function M.reset_move_pp(pokemon, move)
 	local pp = M.get_move_pp_max(pokemon, move)
-	storage.set_pokemon_move_pp(M.get_id(pokemon), move, pp)
 	pokemon.moves[move].pp = pp
 end
 
@@ -461,7 +524,6 @@ local function set_evolution_at_level(pokemon, level)
 	end
 	
 	table.insert(pokemon.level.evolved, level)
-	storage.set_evolution_at_level(M.get_id(pokemon), level)
 end
 
 function M.calculate_addition_hp_from_levels(pokemon, levels_gained)
@@ -474,6 +536,9 @@ function M.calculate_addition_hp_from_levels(pokemon, levels_gained)
 	return from_hit_dice + from_con_mod
 end
 
+function M.set_current_level(pokemon, level)
+	pokemon.level.current = level
+end
 
 function M.add_hp_from_levels(pokemon, to_level)
 	if not M.get_max_hp_edited(pokemon) and not M.have_ability(pokemon, "Paper Thin") then
@@ -540,7 +605,6 @@ function M.set_nickname(pokemon, nickname)
 
 	if species:lower() ~= nickname:lower() then
 		pokemon.nickname = nickname
-		storage.set_nickname(M.get_id(pokemon), nickname)
 	end
 end
 
@@ -665,6 +729,29 @@ function M.get_move_data(pokemon, move_name)
 	return move_data
 end
 
+
+
+local function get_starting_moves(pokemon, number_of_moves)
+	-- We get all moves
+	local number_of_moves = number_of_moves or 4
+	local starting_moves = pokedex.get_starting_moves(M.get_current_species(pokemon))
+
+	-- Shuffle the moves around, we want random moves
+	if #starting_moves > number_of_moves then
+		starting_moves = utils.shuffle2(starting_moves)
+	end
+
+	-- Setup moves
+	local moves = {}
+	for i=1, number_of_moves do
+		if starting_moves[i] then
+			local pp = movedex.get_move_pp(starting_moves[i])
+			moves[starting_moves[i]] = {pp=pp, index=i}
+		end
+	end
+	return moves
+end
+
 function M.new(data)
 	local this = {}
 	this.species = {}
@@ -676,13 +763,18 @@ function M.new(data)
 	this.level.current = this.level.caught
 	this.level.evolved = {}
 
-	this.attributes = {}
-	this.attributes.increased = data.attributes or {}
+	this.attributes = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
+	this.attributes.increased = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
 
-	this.abilities = {}
+	this.nature = "No Nature"
+
+	this.feats = {}
+	this.abilities = pokedex.get_pokemon_abilities(data.species)
 
 	this.exp = pokedex.get_experience_for_level(this.level.caught-1)
 
+	this.loyalty = 0
+	
 	local con = M.get_attributes(this).CON
 	local con_mod = math.floor((con - 10) / 2)
 
@@ -691,7 +783,8 @@ function M.new(data)
 	this.hp.current = pokedex.get_base_hp(data.species) + this.level.current * math.floor((M.get_attributes(this).CON - 10) / 2)
 	this.hp.edited = false
 
-	this.moves = data.moves
+	this.moves = get_starting_moves(this, data.number_of_moves)
+	
 	return this
 end
 

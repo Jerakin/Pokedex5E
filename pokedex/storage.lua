@@ -169,12 +169,13 @@ end
 
 function M.set_pokemon_loyalty(id, loyalty)
 	local p = get(id)
-	p.loyalty = loyalty
+	local c =  math.min(math.max(loyalty, -3), 3)
+	p.loyalty = c
 	M.save()
 end
 
 function M.get_pokemon_loyalty(id)
-	return get(id).loyalty
+	return get(id).loyalty or 0
 end
 
 function M.get_pokemon_exp(id)
@@ -189,6 +190,10 @@ function M.set_pokemon_current_hp(id, hp)
 	local p = get(id)
 	p.hp.current = hp
 	M.save()
+end
+
+function M.get_pokemon_current_level(id)
+	return get(id).level.current
 end
 
 function M.set_pokemon_max_hp(id, hp)

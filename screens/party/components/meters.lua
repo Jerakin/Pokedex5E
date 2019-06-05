@@ -21,14 +21,14 @@ local function update_hp_meter(nodes, max, current)
 end
 
 
-function M.add_hp(pokemon, hp)
-	local current =_pokemon.get_current_hp(pokemon)
-	_pokemon.set_current_hp(pokemon, current + hp)
+function M.add_hp(id, hp)
+	local current = storage.get_pokemon_current_hp(id)
+	storage.set_pokemon_current_hp(id, current + hp)
 end
 
-function M.add_loyalty(pokemon, loyalty)
-	local current =_pokemon.get_loyalty(pokemon)
-	_pokemon.set_loyalty(pokemon, current + loyalty)
+function M.add_loyalty(id, loyalty)
+	local current = storage.get_pokemon_loyalty(id)
+	storage.set_pokemon_loyalty(id, current + loyalty)
 end
 
 local function add_hp_buttons(nodes, pokemon)
@@ -37,10 +37,10 @@ local function add_hp_buttons(nodes, pokemon)
 		gameanalytics.addDesignEvent {
 			eventId = "Party:HP:Increase"
 		}
-		local pokemon = storage.get_copy(_pokemon.get_id(pokemon))
-		M.add_hp(pokemon, 1)
-		information.refresh(pokemon)
-		M.setup_hp(nodes, pokemon) end, refresh=gooey_buttons.plus_button
+		local pokemon_id = _pokemon.get_id(pokemon)
+		M.add_hp(pokemon_id, 1)
+		information.refresh(pokemon_id)
+		M.setup_hp(nodes, pokemon_id) end, refresh=gooey_buttons.plus_button
 	}
 	local id = party_utils.set_id(nodes["pokemon/hp/btn_minus"])
 
@@ -64,11 +64,11 @@ local function add_loyalty_buttons(nodes, pokemon)
 		gameanalytics.addDesignEvent {
 			eventId = "Party:Loyalty:Increase"
 		}
-		local pokemon = storage.get_copy(_pokemon.get_id(pokemon))
-		M.add_loyalty(pokemon, 1)
-		information.refresh(pokemon)
-		gui.set_text(nodes["pokemon/txt_loyalty"], party_utils.add_operation(_pokemon.get_loyalty(pokemon)))
-		M.setup_hp(nodes, pokemon)
+		local pokemon_id = _pokemon.get_id(pokemon)
+		M.add_loyalty(pokemon_id, 1)
+		information.refresh(pokemon_id)
+		gui.set_text(nodes["pokemon/txt_loyalty"], party_utils.add_operation(storage.get_pokemon_loyalty(pokemon_id)))
+		M.setup_hp(nodes, pokemon_id)
 	end, refresh=gooey_buttons.plus_button}
 	
 	local id = party_utils.set_id(nodes["pokemon/loyalty/btn_minus"])
@@ -77,18 +77,19 @@ local function add_loyalty_buttons(nodes, pokemon)
 		gameanalytics.addDesignEvent {
 			eventId = "Party:Loyalty:Decreae"
 		}
-		local pokemon = storage.get_copy(_pokemon.get_id(pokemon))
-		M.add_loyalty(pokemon, -1)
-		information.refresh(pokemon)
-		gui.set_text(nodes["pokemon/txt_loyalty"], party_utils.add_operation(_pokemon.get_loyalty(pokemon)))
-		M.setup_hp(nodes, pokemon)
+		local pokemon_id = _pokemon.get_id(pokemon)
+		M.add_loyalty(pokemon_id, -1)
+		information.refresh(pokemon_id)
+		gui.set_text(nodes["pokemon/txt_loyalty"], party_utils.add_operation(storage.get_pokemon_loyalty(pokemon_id)))
+		M.setup_hp(nodes, pokemon_id)
 	end, refresh=gooey_buttons.minus_button}
 	
 	table.insert(active_buttons, plus)
 	table.insert(active_buttons, minus)
 end
 
-function M.setup_exp(nodes, pokemon)
+function M.setup_exp(nodes, pokemon_id)
+	local pokemon = storage.get_copy(pokemon_id)
 	local current_level = _pokemon.get_current_level(pokemon)
 	local max = pokedex.get_experience_for_level(current_level)
 	local offset = pokedex.get_experience_for_level(current_level - 1)
@@ -105,21 +106,23 @@ function M.setup_exp(nodes, pokemon)
 	gui.set_text(node_text, "EXP: " .. exp .. "/" .. max)
 end
 
-function M.setup_hp(nodes, pokemon)
+function M.setup_hp(nodes, pokemon_id)
+	local pokemon = storage.get_copy(pokemon_id)
 	local max = _pokemon.get_total_max_hp(pokemon)
-	local current =_pokemon.get_current_hp(pokemon)
+	local current = _pokemon.get_current_hp(pokemon)
 	gui.set_text(nodes["pokemon/txt_hp"],"HP: " .. current .. "/ " .. max)
 	update_hp_meter(nodes, max, current)
 end
 
-function M.create(nodes, pokemon)
+function M.create(nodes, pokemon_id)
+	local pokemon = storage.get_copy(pokemon_id)
 	active_nodes = nodes
 	active_buttons = {}
-	gui.set_text(nodes["pokemon/txt_loyalty"], party_utils.add_operation(_pokemon.get_loyalty(pokemon)))
+	gui.set_text(nodes["pokemon/txt_loyalty"], party_utils.add_operation(storage.get_pokemon_loyalty(pokemon_id)))
 	add_loyalty_buttons(nodes, pokemon)
-	M.setup_hp(nodes, pokemon)
+	M.setup_hp(nodes, pokemon_id)
 	add_hp_buttons(nodes, pokemon)
-	M.setup_exp(nodes, pokemon)
+	M.setup_exp(nodes, pokemon_id)
 end
 
 function M.on_input(action_id, action)
@@ -143,13 +146,12 @@ end
 
 function M.on_message(message_id, message)
 	if message_id == hash("update_exp") then
-		local pokemon = storage.get_copy(message.active_pokemon_id)
-		local current_exp = _pokemon.get_exp(pokemon)
-		local min = pokedex.get_experience_for_level( _pokemon.get_current_level(pokemon)-1)
+		local current_exp = storage.get_pokemon_exp(message.active_pokemon_id)
+		local min = pokedex.get_experience_for_level(storage.get_pokemon_current_level(message.active_pokemon_id) - 1)
 		local exp, expr = parse_number(message.str, current_exp)
 		exp = math.max(min, current_exp + exp)
-		_pokemon.set_exp(pokemon, exp)
-		M.setup_exp(active_nodes, pokemon)
+		storage.set_pokemon_exp(message.active_pokemon_id, exp)
+		M.setup_exp(active_nodes, message.active_pokemon_id)
 		if expr then
 			gameanalytics.addDesignEvent {
 				eventId = "Party:EXP:Edit"
@@ -161,12 +163,11 @@ function M.on_message(message_id, message)
 			}
 		end
 	elseif message_id == hash("update_hp") then
-		local pokemon = storage.get_copy(message.active_pokemon_id)
-		local current_hp = _pokemon.get_current_hp(pokemon)
+		local current_hp = storage.get_pokemon_current_hp(message.active_pokemon_id)
 		local hp, expr = parse_number(message.str, current_hp)
-		M.add_hp(pokemon, hp)
-		M.setup_hp(active_nodes, pokemon)
-		information.refresh(pokemon)
+		M.add_hp(message.active_pokemon_id, hp)
+		M.setup_hp(active_nodes, message.active_pokemon_id)
+		information.refresh(message.active_pokemon_id)
 		if expr then
 			gameanalytics.addDesignEvent {
 				eventId = "Party:HP:Edit"
