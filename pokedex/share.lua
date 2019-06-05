@@ -50,6 +50,17 @@ function M.import()
 	end
 end
 
+function M.get_clipboard()
+	local pokemon = load_json(clipboard.paste())
+	if pokemon then
+		if not validate(pokemon) then
+			return 
+		end
+		return pokemon
+	end
+	return
+end
+
 
 function M.export(id)
 	local pokemon = storage.get_copy(id)

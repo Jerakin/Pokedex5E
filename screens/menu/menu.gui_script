@@ -136,7 +136,7 @@ function init(self)
 	end)
 	
 	button.register("btn_import", function()
-		share.import()
+		monarch.show("import")
 		toggle(self)
 	end)
 	

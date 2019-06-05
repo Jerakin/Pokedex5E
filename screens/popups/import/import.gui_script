@@ -1,0 +1,43 @@
+local monarch  = require "monarch.monarch"
+local render_order = require "utils.gui_render_order"
+local gooey_buttons = require "utils.gooey_buttons"
+local gooey = require "gooey.gooey"
+local _pokemon = require "pokedex.pokemon"
+local share = require "pokedex.share"
+
+function init(self)
+	gooey.acquire_input()
+	gui.set_render_order(render_order.POPUP_ON_POPUP)
+
+	self.pokemon = share.get_clipboard()
+	if self.pokemon then
+		local species = _pokemon.get_nickname(self.pokemon) or _pokemon.get_current_species(self.pokemon)
+		gui.set_text(gui.get_node("txt"), "Do you want to import " .. species .. "?")
+	else
+		gui.set_text(gui.get_node("txt_confim"), "Ok")
+		gui.set_text(gui.get_node("txt"), "Could not import the pokemon")
+	end
+end
+
+
+local function exit()
+	monarch.back()
+end
+
+
+local function confirm(self)
+	if self.pokemon then
+		monarch.show("import_pokemon", nil, {pokemon=self.pokemon})
+	else
+		exit()
+	end
+end
+
+function on_input(self, action_id, action)
+	gooey.button("btn_confirm", action_id, action, function() confirm(self) end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_confim")) end)
+	gooey.button("btn_exit", action_id, action, exit, function(b) gooey_buttons.common_button(b, gui.get_node("txt_exit")) end)
+	local g = gooey.button("box", action_id, action, function() end)
+	if not g.over then
+		gooey.button("dimmer", action_id, action, function() monarch.back() end)
+	end
+end
