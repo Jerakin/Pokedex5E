@@ -1,10 +1,12 @@
 local _pokemon = require "pokedex.pokemon"
 local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
+local items = require "pokedex.items"
 local party_utils = require "screens.party.utils"
 local gooey = require "gooey.gooey"
 local utils = require "utils.utils"
 local gui_utils = require "utils.gui"
+local monarch = require "monarch.monarch"
 
 local M = {}
 local active = {}
@@ -12,6 +14,38 @@ local touching = false
 local _action = vmath.vector3(0)
 
 local number_map = {[0.125]="1/8", [0.25]="1/4", [0.5]="1/2"}
+
+local item_button
+local active_pokemon
+
+local function setup_held_item(nodes, pokemon)
+	local item = _pokemon.get_held_item(pokemon)
+	if item then
+		local distance = 54
+		gui.set_text(nodes["pokemon/txt_held_item"], "ITEM: " .. item:upper())
+		gui.set_enabled(nodes["pokemon/held_item"], true)
+		local move_bg = nodes["pokemon/tab_bg_1"]
+		local ability_bg = nodes["pokemon/tab_stencil_2"]
+		local info_bg = nodes["pokemon/tab_bg_3"]
+		local move_size = gui.get_size(move_bg)
+		local ability_size = gui.get_size(ability_bg)
+		local info_size = gui.get_size(info_bg)
+		move_size.y = move_size.y - distance
+		ability_size.y = ability_size.y - distance
+		info_size.y = info_size.y - distance
+		gui.set_size(move_bg, move_size)
+		gui.set_size(ability_bg, ability_size)
+		gui.set_size(info_bg, info_size)
+		local info_root = nodes["pokemon/more_info"]
+		local info_root_pos = gui.get_position(info_root)
+		info_root_pos.y = info_root_pos.y - distance
+		gui.set_position(info_root, info_root_pos)
+		item_button = party_utils.set_id(nodes["pokemon/held_item"])
+	else
+		item_button = nil
+		gui.set_enabled(nodes["pokemon/held_item"], false)
+	end
+end
 
 local function setup_main_information(nodes, pokemon)
 	local speed, stype = _pokemon.get_speed_of_type(pokemon)
@@ -88,7 +122,6 @@ local function setup_info_tab(nodes, pokemon)
 		gui.set_text(nodes["pokemon/traits/txt_" .. name:lower()], amount==0 and "-" or amount .. "ft")
 	end
 
-
 	gui.set_text(nodes["pokemon/traits/txt_darkvision"], "-")
 	gui.set_text(nodes["pokemon/traits/txt_tremorsense"], "-")
 	gui.set_text(nodes["pokemon/traits/txt_truesight"], "-")
@@ -117,14 +150,23 @@ function M.on_input(action_id, action)
 		p.y = math.max(math.min(p.y - (_action.y-action.y)*0.5, max_scroll), 0)
 		gui.set_position(active["pokemon/traits/root"], p)
 	end
+	if item_button then
+		gooey.button(item_button, action_id, action, function()
+			local item = _pokemon.get_held_item(active_pokemon)
+			monarch.show("info", nil, {text=items.get_description(item)})
+		end)
+	end
 	_action.x = action.x
 	_action.y = action.y
 end
 
 function M.create(nodes, pokemon)
 	active = nodes
+	active_pokemon = pokemon
+	setup_held_item(nodes, pokemon)
 	setup_main_information(nodes, pokemon)
 	setup_info_tab(nodes, pokemon)
+	
 end
 
 

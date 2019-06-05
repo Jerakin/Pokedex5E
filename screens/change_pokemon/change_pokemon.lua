@@ -213,7 +213,7 @@ local function redraw(self)
 	gui.set_text(gui.get_node("change_pokemon/txt_nature"), _pokemon.get_nature(self.pokemon):upper())
 	gui.set_text(gui.get_node("change_pokemon/txt_hit_dice"), "Hit Dice: d" .. _pokemon.get_hit_dice(self.pokemon))
 	gui.set_text(gui.get_node("change_pokemon/pokemon_number"), string.format("#%03d", _pokemon.get_index_number(self.pokemon)))
-	gui.set_text(gui.get_node("change_pokemon/txt_item"), _pokemon.get_held_item(self.pokemon):upper())
+	gui.set_text(gui.get_node("change_pokemon/txt_item"), (_pokemon.get_held_item(self.pokemon) or ""):upper())
 	
 	-- Moves
 	redraw_moves(self)

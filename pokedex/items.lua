@@ -2,7 +2,7 @@ local file = require "utils.file"
 local utils = require "utils.utils"
 
 local M = {}
-
+local items
 local initialized = false
 
 
@@ -53,6 +53,10 @@ function M.init()
 		}
 		log.warning(e)
 	end
+end
+
+function M.get_description(item)
+	return items[item].Effect
 end
 
 return M

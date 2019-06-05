@@ -625,7 +625,7 @@ function M.get_AC(pokemon)
 	if (M.get_current_species == "Clamperl" and M.get_held_item(pokemon) == "Deep Sea Scale") then
 		AC_UP = AC_UP + 1
 	end
-	return pokedex.get_pokemon_AC(M.get_current_species(pokemon)) + natures.get_AC(M.get_nature(pokemon)) + AC_UP + clamperl_held
+	return pokedex.get_pokemon_AC(M.get_current_species(pokemon)) + natures.get_AC(M.get_nature(pokemon)) + AC_UP
 end
 
 function M.get_index_number(pokemon)
