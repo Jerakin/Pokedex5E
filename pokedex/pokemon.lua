@@ -3,6 +3,7 @@ local pokedex = require "pokedex.pokedex"
 local natures = require "pokedex.natures"
 local storage = require "pokedex.storage"
 local movedex = require "pokedex.moves"
+local items = require "pokedex.items"
 
 local M = {}
 
@@ -103,6 +104,13 @@ function M.set_loyalty(pokemon, loyalty)
 	pokemon.loyalty = c
 end
 
+function M.get_held_item(pokemon)
+	return pokemon.item
+end
+
+function M.set_held_item(pokemon, item)
+	pokemon.item = item
+end
 
 function M.remove_feat(pokemon, feat)
 	for i, name in pairs(M.get_feats()) do
@@ -614,7 +622,10 @@ end
 
 function M.get_AC(pokemon)
 	local _, AC_UP = M.have_feat(pokemon, "AC Up")
-	return pokedex.get_pokemon_AC(M.get_current_species(pokemon)) + natures.get_AC(M.get_nature(pokemon)) + AC_UP
+	if (M.get_current_species == "Clamperl" and M.get_held_item(pokemon) == "Deep Sea Scale") then
+		AC_UP = AC_UP + 1
+	end
+	return pokedex.get_pokemon_AC(M.get_current_species(pokemon)) + natures.get_AC(M.get_nature(pokemon)) + AC_UP + clamperl_held
 end
 
 function M.get_index_number(pokemon)
@@ -718,8 +729,11 @@ function M.get_move_data(pokemon, move_name)
 	move_data.power = move["Move Power"]
 	move_data.save = move.Save
 	move_data.time = move["Move Time"]
-	
+
 	if move_data.damage then
+		if M.get_held_item(pokemon) == items.type_increase[move_data.type] then
+			move_data.damage = move_data.damage .. " + 1d4"
+		end
 		move_data.AB = mod + M.get_proficency_bonus(pokemon)
 	end
 	if move_data.save then

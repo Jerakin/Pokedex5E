@@ -4,6 +4,7 @@ local gooey = require "gooey.gooey"
 local natures = require "pokedex.natures"
 local _pokemon = require "pokedex.pokemon"
 local _feats = require "pokedex.feats"
+local items = require "pokedex.items"
 local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
 local gui_colors = require "utils.gui_colors"
@@ -32,7 +33,8 @@ M.config = {
 	order={
 		[1]=hash("change_pokemon/nature"), [2]=hash("change_pokemon/extra") ,
 		[3]=hash("change_pokemon/asi/root"), [4]=hash("change_pokemon/moves"),
-		[5]=hash("change_pokemon/abilities"), [6]=hash("change_pokemon/feats")
+		[5]=hash("change_pokemon/abilities"), [6]=hash("change_pokemon/feats"),
+		[7]=hash("change_pokemon/held_item")
 	},
 	start = vmath.vector3(0, -110, 0),
 	[hash("change_pokemon/asi/root")] = {open=vmath.vector3(720, 420, 0), closed=vmath.vector3(720, 85, 0), active=true},
@@ -40,7 +42,8 @@ M.config = {
 	[hash("change_pokemon/moves")] = {open=vmath.vector3(720, 0, 0), closed=vmath.vector3(720, 50, 0), active=false},
 	[hash("change_pokemon/extra")] = {open=vmath.vector3(720, 150, 0), closed=vmath.vector3(720, 0, 0), active=true},
 	[hash("change_pokemon/feats")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
-	[hash("change_pokemon/nature")] = {open=vmath.vector3(720, 70, 0), closed=vmath.vector3(720, 0, 0), active=true}
+	[hash("change_pokemon/nature")] = {open=vmath.vector3(720, 70, 0), closed=vmath.vector3(720, 0, 0), active=true},
+	[hash("change_pokemon/held_item")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false}
 }
 local node_index = 0
 local function set_id(node)
@@ -210,7 +213,8 @@ local function redraw(self)
 	gui.set_text(gui.get_node("change_pokemon/txt_nature"), _pokemon.get_nature(self.pokemon):upper())
 	gui.set_text(gui.get_node("change_pokemon/txt_hit_dice"), "Hit Dice: d" .. _pokemon.get_hit_dice(self.pokemon))
 	gui.set_text(gui.get_node("change_pokemon/pokemon_number"), string.format("#%03d", _pokemon.get_index_number(self.pokemon)))
-
+	gui.set_text(gui.get_node("change_pokemon/txt_item"), _pokemon.get_held_item(self.pokemon):upper())
+	
 	-- Moves
 	redraw_moves(self)
 
@@ -391,6 +395,9 @@ function M.on_message(self, message_id, message, sender)
 				_pokemon.set_max_hp_forced(self.pokemon, false)
 				_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) + message.data)
 			end
+		elseif message_id == hash("item") then
+			_pokemon.set_held_item(self.pokemon, message.item)
+			gui.set_text(gui.get_node("change_pokemon/txt_item"), message.item:upper())
 		else
 			if message.item ~= "" then
 				local n = move_buttons_list[self.move_button_index].text
@@ -572,6 +579,7 @@ function M.on_input(self, action_id, action)
 			M.config[hash("change_pokemon/moves")].active = false
 			M.config[hash("change_pokemon/abilities")].active = false
 			M.config[hash("change_pokemon/feats")].active = false
+			M.config[hash("change_pokemon/held_item")].active = false
 		end
 		update_sections()
 	end)
@@ -582,6 +590,7 @@ function M.on_input(self, action_id, action)
 			M.config[hash("change_pokemon/abilities")].active = false
 			M.config[hash("change_pokemon/asi/root")].active = false
 			M.config[hash("change_pokemon/feats")].active = false
+			M.config[hash("change_pokemon/held_item")].active = false
 		end
 		update_sections()
 	end)
@@ -592,6 +601,7 @@ function M.on_input(self, action_id, action)
 			M.config[hash("change_pokemon/asi/root")].active = false
 			M.config[hash("change_pokemon/moves")].active = false
 			M.config[hash("change_pokemon/feats")].active = false
+			M.config[hash("change_pokemon/held_item")].active = false
 		end
 		update_sections()
 	end)
@@ -602,6 +612,18 @@ function M.on_input(self, action_id, action)
 			M.config[hash("change_pokemon/abilities")].active = false
 			M.config[hash("change_pokemon/asi/root")].active = false
 			M.config[hash("change_pokemon/moves")].active = false
+			M.config[hash("change_pokemon/held_item")].active = false
+		end
+		update_sections()
+	end)
+
+	gooey.button("change_pokemon/btn_collapse_item", action_id, action, function()
+		M.config[hash("change_pokemon/held_item")].active = not M.config[hash("change_pokemon/held_item")].active
+		if M.config[hash("change_pokemon/held_item")].active then
+			M.config[hash("change_pokemon/abilities")].active = false
+			M.config[hash("change_pokemon/asi/root")].active = false
+			M.config[hash("change_pokemon/moves")].active = false
+			M.config[hash("change_pokemon/feats")].active = false
 		end
 		update_sections()
 	end)
@@ -626,7 +648,11 @@ function M.on_input(self, action_id, action)
 			monarch.show("natures_scrollist", {}, {items=natures.list, message_id="nature", sender=msg.url()})
 		end)
 	end
-	
+	if M.config[hash("change_pokemon/held_item")].active then
+		gooey.button("change_pokemon/btn_item", action_id, action, function()
+			monarch.show("scrollist", {}, {items=items.other_held, message_id="item", sender=msg.url(), title="Pick your Item"})
+		end)
+	end
 end
 
 return M
