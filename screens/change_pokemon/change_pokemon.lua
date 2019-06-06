@@ -387,17 +387,6 @@ function M.on_message(self, message_id, message, sender)
 		elseif message_id == hash("feats") then
 			_pokemon.add_feat(self.pokemon, message.item)
 			redraw(self)
-		elseif message_id == hash("response") and message.response then
-			if message.id == "change_hp" then
-				_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) + message.data)
-				_pokemon.set_max_hp_forced(self.pokemon, true)
-				_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) + message.data)
-			elseif message.id == "reset" then
-				local d_max = _pokemon.get_defaut_max_hp(self.pokemon)
-				_pokemon.set_max_hp(self.pokemon, d_max)
-				_pokemon.set_max_hp_forced(self.pokemon, false)
-				_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) + message.data)
-			end
 		elseif message_id == hash("item") then
 			_pokemon.set_held_item(self.pokemon, message.item)
 			gui.set_text(gui.get_node("change_pokemon/txt_item"), message.item:upper())
@@ -410,6 +399,21 @@ function M.on_message(self, message_id, message, sender)
 			end
 		end
 		redraw(self)
+	end
+	if message_id == hash("response") and message.response then
+		if message.id == "change_hp" then
+			_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) + message.data)
+			_pokemon.set_max_hp_forced(self.pokemon, true)
+			_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) + message.data)
+			M.update_hp_counter(self)
+		elseif message.id == "reset" then
+			local d_max = _pokemon.get_defaut_max_hp(self.pokemon)
+			_pokemon.set_max_hp(self.pokemon, d_max)
+			_pokemon.set_max_hp_forced(self.pokemon, false)
+			local current = math.min(_pokemon.get_current_hp(self.pokemon), _pokemon.get_total_max_hp(self.pokemon))
+			_pokemon.set_current_hp(self.pokemon, current)
+			M.update_hp_counter(self)
+		end
 	end
 	gui.set_enabled(self.root, true)
 end
@@ -555,9 +559,10 @@ function M.on_input(self, action_id, action)
 			monarch.show("info", nil, {text="Ability: Paper Thin\nThis Pokemon's max HP is always 1"})
 			return
 		end
-		if _pokemon.get_max_hp_edited(self.pokemon) then
+		if _pokemon.get_max_hp_forced(self.pokemon) == true then
 			_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) - 1)
 			_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) - 1)
+			M.update_hp_counter(self)
 		else
 			monarch.show("are_you_sure", nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=-1, id="change_hp"})
 		end
@@ -568,9 +573,10 @@ function M.on_input(self, action_id, action)
 			monarch.show("info", nil, {text="Ability: Paper Thin\nThis Pokemon's max HP is always 1"})
 			return
 		end
-		if _pokemon.get_max_hp_edited(self.pokemon) then
+		if _pokemon.get_max_hp_forced(self.pokemon) then
 			_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) + 1)
 			_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) + 1)
+			M.update_hp_counter(self)
 		else
 			monarch.show("are_you_sure", nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=1, id="change_hp"})
 		end

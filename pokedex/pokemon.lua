@@ -262,7 +262,7 @@ function M.set_max_hp_forced(pokemon, forced)
 	pokemon.hp.edited = forced
 end
 
-function M.get_max_hp_edited(pokemon)
+function M.get_max_hp_forced(pokemon)
 	return pokemon.hp.edited
 end
 
@@ -549,7 +549,7 @@ function M.set_current_level(pokemon, level)
 end
 
 function M.add_hp_from_levels(pokemon, to_level)
-	if not M.get_max_hp_edited(pokemon) and not M.have_ability(pokemon, "Paper Thin") then
+	if not M.get_max_hp_forced(pokemon) and not M.have_ability(pokemon, "Paper Thin") then
 		local hit_dice = M.get_hit_dice(pokemon)
 		local from_hit_dice = math.ceil((hit_dice + 1) / 2) *  to_level - M.get_current_level(pokemon)
 		
@@ -563,7 +563,7 @@ function M.add_hp_from_levels(pokemon, to_level)
 end
 
 function M.evolve(pokemon, to_species, level)
-	if not M.get_max_hp_edited(pokemon) then
+	if not M.get_max_hp_forced(pokemon) then
 		local current = M.get_max_hp(pokemon)
 		local gained = level * 2
 		M.set_max_hp(pokemon, current + gained)
