@@ -318,7 +318,6 @@ local function decrease(self, stat)
 	local increased = _pokemon.get_increased_attributes(self.pokemon)
 	local nature_attri = natures.get_nature_attributes(_pokemon.get_nature(self.pokemon))
 	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0)
-	print(attributes[stat], increased[stat])
 	if m > 0 then
 		_pokemon.set_increased_attribute(self.pokemon, stat, increased[stat] - 1)
 		redraw(self)
