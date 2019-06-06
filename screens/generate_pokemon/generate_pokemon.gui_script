@@ -111,7 +111,7 @@ local function on_item_selected(self, list)
 	end
 end
 
-function titleCase( first, rest )
+local function titleCase( first, rest )
 	return first:upper()..rest:lower()
 end
 

@@ -149,7 +149,7 @@ local function setup_info(self)
 	
 	self.nickname = _pokemon.get_nickname(pokemon)
 	local species = _pokemon.get_current_species(pokemon):upper()
-	if nickname then
+	if self.nickname then
 		gui.set_text(gui.get_node("txt_index"), string.format("#%03d", _pokemon.get_index_number(pokemon)) .. " " .. species)
 	else
 		gui.set_text(gui.get_node("txt_index"), string.format("#%03d", _pokemon.get_index_number(pokemon)))
