@@ -40,10 +40,23 @@ M.type_increase = {
 function M.init()
 	if not initialized then
 		items = file.load_json_from_resource("/assets/datafiles/items.json")
-		for name, desc in pairs(items) do
-			table.insert(M.all, name)
-		end
+		local berries = {}
+		local other = {}
 		
+		for name, desc in pairs(items) do
+			if string.match(name, "Berry") then
+				table.insert(berries, name)
+			else
+				table.insert(other, name)
+			end
+		end
+		-- We want the berries to be first, but we also want the list sorted
+		table.sort(berries)
+		table.sort(other)
+		for i, name in ipairs(other) do
+			table.insert(berries, name)
+		end
+		M.all = berries
 		initialized = true
 	else
 		local e = "The items have already been initialized"

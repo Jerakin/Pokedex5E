@@ -622,9 +622,6 @@ end
 
 function M.get_AC(pokemon)
 	local _, AC_UP = M.have_feat(pokemon, "AC Up")
-	if (M.get_current_species == "Clamperl" and M.get_held_item(pokemon) == "Deep Sea Scale") then
-		AC_UP = AC_UP + 1
-	end
 	return pokedex.get_pokemon_AC(M.get_current_species(pokemon)) + natures.get_AC(M.get_nature(pokemon)) + AC_UP
 end
 
@@ -731,9 +728,6 @@ function M.get_move_data(pokemon, move_name)
 	move_data.time = move["Move Time"]
 
 	if move_data.damage then
-		if M.get_held_item(pokemon) == items.type_increase[move_data.type] then
-			move_data.damage = move_data.damage .. " + 1d4"
-		end
 		move_data.AB = mod + M.get_proficency_bonus(pokemon)
 	end
 	if move_data.save then

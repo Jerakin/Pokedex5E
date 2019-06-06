@@ -213,7 +213,7 @@ local function redraw(self)
 	gui.set_text(gui.get_node("change_pokemon/txt_nature"), _pokemon.get_nature(self.pokemon):upper())
 	gui.set_text(gui.get_node("change_pokemon/txt_hit_dice"), "Hit Dice: d" .. _pokemon.get_hit_dice(self.pokemon))
 	gui.set_text(gui.get_node("change_pokemon/pokemon_number"), string.format("#%03d", _pokemon.get_index_number(self.pokemon)))
-	gui.set_text(gui.get_node("change_pokemon/txt_item"), (_pokemon.get_held_item(self.pokemon) or ""):upper())
+	gui.set_text(gui.get_node("change_pokemon/txt_item"), (_pokemon.get_held_item(self.pokemon) or "NO ITEM"):upper())
 	
 	-- Moves
 	redraw_moves(self)
@@ -650,8 +650,13 @@ function M.on_input(self, action_id, action)
 	end
 	if M.config[hash("change_pokemon/held_item")].active then
 		gooey.button("change_pokemon/btn_item", action_id, action, function()
-			monarch.show("scrollist", {}, {items=items.other_held, message_id="item", sender=msg.url(), title="Pick your Item"})
+			monarch.show("scrollist", {}, {items=items.all, message_id="item", sender=msg.url(), title="Pick your Item"})
 		end)
+		gooey.button("change_pokemon/btn_delete_item", action_id, action, function()
+			_pokemon.set_held_item(self.pokemon, nil)
+			gui.set_text(gui.get_node("change_pokemon/txt_item"), "NO ITEM")
+		end)
+
 	end
 end
 

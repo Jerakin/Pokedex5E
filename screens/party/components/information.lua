@@ -20,31 +20,35 @@ local active_pokemon
 
 local function setup_held_item(nodes, pokemon)
 	local item = _pokemon.get_held_item(pokemon)
+	local info_root = nodes["pokemon/more_info"]
+	local info_root_pos = gui.get_position(info_root)
+	local move_bg = nodes["pokemon/tab_bg_1"]
+	local ability_bg = nodes["pokemon/tab_stencil_2"]
+	local info_bg = nodes["pokemon/tab_bg_3"]
+	local move_size = gui.get_size(move_bg)
+	local ability_size = gui.get_size(ability_bg)
+	local info_size = gui.get_size(info_bg)
 	if item then
 		local distance = 54
-		gui.set_text(nodes["pokemon/txt_held_item"], "ITEM: " .. item:upper())
+		gui.set_text(nodes["pokemon/txt_held_item"], "HOLDING: " .. item:upper())
 		gui.set_enabled(nodes["pokemon/held_item"], true)
-		local move_bg = nodes["pokemon/tab_bg_1"]
-		local ability_bg = nodes["pokemon/tab_stencil_2"]
-		local info_bg = nodes["pokemon/tab_bg_3"]
-		local move_size = gui.get_size(move_bg)
-		local ability_size = gui.get_size(ability_bg)
-		local info_size = gui.get_size(info_bg)
-		move_size.y = move_size.y - distance
-		ability_size.y = ability_size.y - distance
-		info_size.y = info_size.y - distance
-		gui.set_size(move_bg, move_size)
-		gui.set_size(ability_bg, ability_size)
-		gui.set_size(info_bg, info_size)
-		local info_root = nodes["pokemon/more_info"]
-		local info_root_pos = gui.get_position(info_root)
-		info_root_pos.y = info_root_pos.y - distance
-		gui.set_position(info_root, info_root_pos)
+		move_size.y = 590 - distance
+		ability_size.y = 600 - distance
+		info_size.y = 590- distance
+		info_root_pos.y = -420 - distance
 		item_button = party_utils.set_id(nodes["pokemon/held_item"])
 	else
 		item_button = nil
+		move_size.y = 590
+		ability_size.y = 600
+		info_size.y = 590
+		info_root_pos.y = -420
 		gui.set_enabled(nodes["pokemon/held_item"], false)
 	end
+	gui.set_size(move_bg, move_size)
+	gui.set_size(ability_bg, ability_size)
+	gui.set_size(info_bg, info_size)
+	gui.set_position(info_root, info_root_pos)
 end
 
 local function setup_main_information(nodes, pokemon)

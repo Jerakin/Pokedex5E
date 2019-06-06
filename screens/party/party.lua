@@ -173,7 +173,7 @@ function M.on_input(action_id, action)
 			M.switch_to_slot(math.max(index - 1, 1))
 		end
 	end
-		
+
 	information.on_input(action_id, action)
 	button.on_input(action_id, action)
 	moves.on_input(action_id, action)
