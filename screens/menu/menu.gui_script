@@ -88,7 +88,7 @@ function init(self)
 		}
 		monarch.show("party")
 		toggle(self)
-	end)
+	end, {no_shake=true})
 
 	button.register(self.btn_storage, function()
 		gameanalytics.addDesignEvent {
@@ -97,7 +97,7 @@ function init(self)
 		}
 		monarch.show("storage")
 		toggle(self)
-	end)
+	end, {no_shake=true})
 
 	button.register(self.btn_about , function()
 		gameanalytics.addDesignEvent {
@@ -106,7 +106,7 @@ function init(self)
 		}
 		monarch.show("about")
 		toggle(self)
-	end)
+	end, {no_shake=true})
 
 	button.register(self.btn_generate , function()
 		gameanalytics.addDesignEvent {
@@ -115,7 +115,7 @@ function init(self)
 		}
 		monarch.show("generate_pokemon")
 		toggle(self)
-	end)
+	end, {no_shake=true})
 
 	button.register(self.btn_profiles, function()
 		gameanalytics.addDesignEvent {
@@ -124,7 +124,7 @@ function init(self)
 		}
 		monarch.show("profiles")
 		toggle(self)
-	end)
+	end, {no_shake=true})
 
 	button.register("btn_add", function()
 		gameanalytics.addDesignEvent {
@@ -133,18 +133,18 @@ function init(self)
 		}
 		monarch.show("add")
 		toggle(self)
-	end)
+	end, {no_shake=true})
 	
 	button.register("btn_import", function()
 		monarch.show("import")
 		toggle(self)
-	end)
+	end, {no_shake=true})
 	
 	if sys.get_engine_info().is_debug then
 		button.register("btn_debug", function()
 			monarch.show("debug")
 			toggle(self)
-		end)
+		end, {no_shake=true})
 	else
 		gui.set_enabled(self.btn_debug, false)
 	end
