@@ -38,6 +38,7 @@ local function add_hp_buttons(nodes, pokemon)
 			eventId = "Party:HP:Increase"
 		}
 		local pokemon_id = _pokemon.get_id(pokemon)
+		print(pokemon_id)
 		M.add_hp(pokemon_id, 1)
 		information.refresh(pokemon_id)
 		M.setup_hp(nodes, pokemon_id) end, refresh=gooey_buttons.plus_button
@@ -48,10 +49,10 @@ local function add_hp_buttons(nodes, pokemon)
 		gameanalytics.addDesignEvent {
 			eventId = "Party:HP:Decreae"
 		}
-		local pokemon = storage.get_copy(_pokemon.get_id(pokemon))
-		M.add_hp(pokemon, -1)
-		information.refresh(pokemon)
-		M.setup_hp(nodes, pokemon) end, refresh=gooey_buttons.minus_button
+		local pokemon_id = _pokemon.get_id(pokemon)
+		M.add_hp(pokemon_id, -1)
+		information.refresh(pokemon_id)
+		M.setup_hp(nodes, pokemon_id) end, refresh=gooey_buttons.minus_button
 		
 	}
 	table.insert(active_buttons, plus)

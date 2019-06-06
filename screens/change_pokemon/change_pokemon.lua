@@ -303,9 +303,10 @@ end
 
 local function increase(self, stat)
 	local max = _pokemon.get_max_attributes(self.pokemon)
-	local attributes = _pokemon.get_attributes(self.pokemon)
+	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon))
+	local nature_attri = natures.get_nature_attributes(_pokemon.get_nature(self.pokemon))
 	local increased = _pokemon.get_increased_attributes(self.pokemon)
-	local m = attributes[stat] + increased[stat]
+	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0)
 	if  m < max[stat] then
 		_pokemon.set_increased_attribute(self.pokemon, stat, increased[stat] + 1)
 		redraw(self)
@@ -313,9 +314,11 @@ local function increase(self, stat)
 end
 
 local function decrease(self, stat)
-	local attributes = _pokemon.get_attributes(self.pokemon)
+	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon))
 	local increased = _pokemon.get_increased_attributes(self.pokemon)
-	local m = attributes[stat] + increased[stat]
+	local nature_attri = natures.get_nature_attributes(_pokemon.get_nature(self.pokemon))
+	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0)
+	print(attributes[stat], increased[stat])
 	if m > 0 then
 		_pokemon.set_increased_attribute(self.pokemon, stat, increased[stat] - 1)
 		redraw(self)
