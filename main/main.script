@@ -64,7 +64,7 @@ function init(self)
 	msg.post("/menu", "acquire_input_focus")
 
 	
-	if system == "Windows" then
+	if system == "Windows" or system == "Darwin" then
 		defos.set_view_size(0, 0, 720*0.5, 1280*0.5)
 	end
 	msg.post("#", "show_splash")
@@ -102,11 +102,11 @@ function on_message(self, message_id, message, sender)
 		}
 		monarch.show("profiles")
 	elseif message_id == hash("show_party") then
-		gameanalytics.addDesignEvent {
+		--[[gameanalytics.addDesignEvent {
 			eventId = "Navigation:Party",
 			value = tracking_id[monarch.top()]
-		}
-		monarch.show("party")
+		}--]]
+		monarch.show("pokedex")
 	elseif message_id == hash("show_splash") then
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:Splash",

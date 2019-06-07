@@ -13,7 +13,7 @@ local exp_grid
 local initialized = false
 local function list()
 	local ordered = file.load_json_from_resource("/assets/datafiles/pokemon_order.json")
-	return ordered.number, #ordered
+	return ordered.number, #ordered, ordered.unique
 end
 
 function M.init()
@@ -23,7 +23,7 @@ function M.init()
 		evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
 		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
 		exp_grid = file.load_json_from_resource("/assets/datafiles/exp_grid.json")
-		M.list, M.total = list()
+		M.list, M.total, M.unique = list()
 		initialized = true
 	else
 		local e = "The pokedex have already been initialized"

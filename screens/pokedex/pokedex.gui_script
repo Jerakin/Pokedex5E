@@ -1,0 +1,88 @@
+local monarch = require "monarch.monarch"
+local gooey_buttons = require "utils.gooey_buttons"
+local gooey = require "gooey.gooey"
+local pokedex = require "pokedex.pokedex"
+local dex = require "pokedex.dex"
+
+
+
+local pokedex_data = {}
+
+local function table_of_rows(self)
+	local l = {}
+	for i=1, math.ceil(#pokedex_data) do
+		table.insert(l, i)
+	end
+	
+	return l
+end
+
+local state_map = {
+	[1]={background_color=vmath.vector4(1), pokemon_color=vmath.vector4(0,0,0,1)},
+	[2]={background_color=vmath.vector4(0), pokemon_color=vmath.vector4(1)},
+	[3]={background_color=vmath.vector4(1), pokemon_color=vmath.vector4(0)}
+}
+
+local function update_storage_data(self)
+	pokedex_data = {}
+	local all_pokemons = pokedex.unique
+	for i=1, math.ceil(#all_pokemons / 5) do
+		pokedex_data[i] = {}
+		for a=1, 5 do
+			local species = all_pokemons[(i-1)*5 + a]
+			--print(species)
+			if species then
+				local sprite, texture = pokedex.get_sprite(species)
+				local state = dex.get(species)
+				pokedex_data[i][a] = {sprite=sprite, texture=texture, species=species, color=state_map[state]}
+			end
+		end
+	end
+	self.pokemon_rows = table_of_rows(self)
+end
+
+local function update_items(item)
+	for i=1, 5 do
+		local sprite_node = item.nodes["pokemon_row/pokemon" .. i .. "/pokemon_sprite"]
+		local background = item.nodes["pokemon_row/pokemon" .. i .. "/background"]
+		local data = pokedex_data[item.data]
+		if data and data[i] ~= nil then
+			gui.set_enabled(background, true)
+			gui.set_color(sprite_node, data[i].color.pokemon_color)
+			gui.set_color(background, data[i].color.background_color)
+			gui.set_texture(sprite_node, data[i].texture)
+			gui.play_flipbook(sprite_node, data[i].sprite)
+		else
+			--gui.set_color(sprite_node, data[i].color.pokemon_color)
+			--gui.set_color(background, data[i].color.background_color)
+			gui.set_enabled(background, false)
+		end
+	end
+end
+
+local function update_list(list)
+	gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar").scroll_to(0, list.scroll.y)
+	for i,item in ipairs(list.items) do
+		if item.data then
+			update_items(item)
+		end
+	end
+end
+
+function init(self)
+	update_storage_data(self)
+end
+
+function final(self)
+end
+
+local function on_scrolled(self, scrollbar)
+	gooey.dynamic_list("storage", "scrollist", "pokemon_row/row", self.pokemon_rows).scroll_to(0, scrollbar.scroll.y)
+end
+
+function on_input(self, action_id, action)
+	local list = gooey.dynamic_list("pokedex", "scrollist", "pokemon_row/row", self.pokemon_rows, action_id, action, fn, update_list)
+	if list.max_y and list.max_y > 0 then
+		gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar", action_id, action, function(scrollbar) on_scrolled(self, scrollbar) end)
+	end
+end
