@@ -3,10 +3,12 @@ local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
 local pokedex = require "pokedex.pokedex"
 local dex = require "pokedex.dex"
-
+local gui_colors = require "utils.gui_colors"
 
 
 local pokedex_data = {}
+
+local region_map
 
 local function table_of_rows(self)
 	local l = {}
@@ -18,9 +20,9 @@ local function table_of_rows(self)
 end
 
 local state_map = {
-	[1]={background_color=vmath.vector4(1), pokemon_color=vmath.vector4(0,0,0,1)},
-	[2]={background_color=vmath.vector4(0), pokemon_color=vmath.vector4(1)},
-	[3]={background_color=vmath.vector4(1), pokemon_color=vmath.vector4(0)}
+	[1]={background_color=vmath.vector4(1), pokemon_color=vmath.vector4(0,0,0,1), index=false},
+	[2]={background_color=vmath.vector4(0), pokemon_color=vmath.vector4(1), index=false},
+	[3]={background_color=vmath.vector4(1), pokemon_color=vmath.vector4(0), index=true}
 }
 
 local function update_storage_data(self)
@@ -34,7 +36,8 @@ local function update_storage_data(self)
 			if species then
 				local sprite, texture = pokedex.get_sprite(species)
 				local state = dex.get(species)
-				pokedex_data[i][a] = {sprite=sprite, texture=texture, species=species, color=state_map[state]}
+				local index = pokedex.get_index_number(species)
+				pokedex_data[i][a] = {sprite=sprite, texture=texture, species=species, state=state_map[state], index=index}
 			end
 		end
 	end
@@ -45,23 +48,40 @@ local function update_items(item)
 	for i=1, 5 do
 		local sprite_node = item.nodes["pokemon_row/pokemon" .. i .. "/pokemon_sprite"]
 		local background = item.nodes["pokemon_row/pokemon" .. i .. "/background"]
+		local index = item.nodes["pokemon_row/pokemon" .. i .. "/index"]
 		local data = pokedex_data[item.data]
 		if data and data[i] ~= nil then
 			gui.set_enabled(background, true)
-			gui.set_color(sprite_node, data[i].color.pokemon_color)
-			gui.set_color(background, data[i].color.background_color)
+			gui.set_enabled(index,  data[i].state.index)
+			gui.set_text(index, data[i].index)
+			gui.set_color(sprite_node, data[i].state.pokemon_color)
+			gui.set_color(background, data[i].state.background_color)
 			gui.set_texture(sprite_node, data[i].texture)
 			gui.play_flipbook(sprite_node, data[i].sprite)
 		else
-			--gui.set_color(sprite_node, data[i].color.pokemon_color)
-			--gui.set_color(background, data[i].color.background_color)
 			gui.set_enabled(background, false)
 		end
 	end
 end
 
+local function set_active_button(list)
+	local active
+	for _, region in ipairs(region_map) do
+		gui.play_flipbook(region.button, "common_up")
+		gui.set_color(region.txt, gui_colors.BUTTON_TEXT)
+		if list.scroll.y+0.0000001 > region.scroll then
+			active = region
+		end
+	end
+	if active then
+		gui.play_flipbook(active.button, "common_down")
+		gui.set_color(active.txt, gui_colors.BUTTON_TEXT_PRESSED)
+	end
+end
+
 local function update_list(list)
 	gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar").scroll_to(0, list.scroll.y)
+	set_active_button(list)
 	for i,item in ipairs(list.items) do
 		if item.data then
 			update_items(item)
@@ -70,10 +90,24 @@ local function update_list(list)
 end
 
 function init(self)
+	region_map = {
+		[1]={name="Kanto", low=1, high=151, button=gui.get_node("btn_region1"), txt=gui.get_node("txt_kanto"), scroll=0.00001},
+		[2]={name="Johto", low=152, high=251, button=gui.get_node("btn_region2"), txt=gui.get_node("txt_johto"), scroll=0.334},
+		[3]={name="Hoenn", low=252, high=386, button=gui.get_node("btn_region3"), txt=gui.get_node("txt_hoenn"), scroll=0.5565},
+		[4]={name="Sinnoh", low=387, high=494, button=gui.get_node("btn_region4"), txt=gui.get_node("txt_sinnoh"), scroll=0.857},
+	}
+	
 	update_storage_data(self)
+	update_list( gooey.dynamic_list("pokedex", "scrollist", "pokemon_row/row", self.pokemon_rows))
 end
 
 function final(self)
+end
+
+local function scroll_to_position(self, pos)
+	gooey.dynamic_list("storage", "scrollist", "pokemon_row/row", self.pokemon_rows).scroll_to(0, pos)
+	gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar").scroll_to(0, pos)
+	update_list( gooey.dynamic_list("pokedex", "scrollist", "pokemon_row/row", self.pokemon_rows))
 end
 
 local function on_scrolled(self, scrollbar)
@@ -85,4 +119,16 @@ function on_input(self, action_id, action)
 	if list.max_y and list.max_y > 0 then
 		gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar", action_id, action, function(scrollbar) on_scrolled(self, scrollbar) end)
 	end
+	gooey.button("btn_region1", action_id, action, function()
+		scroll_to_position(self, region_map[1].scroll)
+	end)
+	gooey.button("btn_region2", action_id, action, function()
+		scroll_to_position(self, region_map[2].scroll)
+	end)
+	gooey.button("btn_region3", action_id, action, function()
+		scroll_to_position(self, region_map[3].scroll)
+	end)
+	gooey.button("btn_region4", action_id, action, function()
+		scroll_to_position(self, region_map[4].scroll)
+	end)
 end
