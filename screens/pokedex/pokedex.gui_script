@@ -7,8 +7,10 @@ local gui_colors = require "utils.gui_colors"
 
 
 local pokedex_data = {}
-
+local action_position = vmath.vector3()
 local region_map
+local mark_as
+local all_pokemons = pokedex.unique
 
 local function table_of_rows(self)
 	local l = {}
@@ -27,7 +29,7 @@ local state_map = {
 
 local function update_storage_data(self)
 	pokedex_data = {}
-	local all_pokemons = pokedex.unique
+	
 	for i=1, math.ceil(#all_pokemons / 5) do
 		pokedex_data[i] = {}
 		for a=1, 5 do
@@ -96,12 +98,33 @@ function init(self)
 		[3]={name="Hoenn", low=252, high=386, button=gui.get_node("btn_region3"), txt=gui.get_node("txt_hoenn"), scroll=0.5565},
 		[4]={name="Sinnoh", low=387, high=494, button=gui.get_node("btn_region4"), txt=gui.get_node("txt_sinnoh"), scroll=0.857},
 	}
-	
+	dex.init()
+	self.mark_menu_active = false
+	self.mark_menu = gui.get_node("mark_menu")
+	gui.set_enabled(self.mark_menu, self.mark_menu_active)
 	update_storage_data(self)
 	update_list( gooey.dynamic_list("pokedex", "scrollist", "pokemon_row/row", self.pokemon_rows))
 end
 
 function final(self)
+	dex.save()
+end
+
+local function scroll_list_click(list)
+	for a, entry in pairs(list.items) do
+		if entry.index == list.selected_item then
+			for i=1, 5 do
+				local sprite_node = entry.nodes[hash("pokemon_row/pokemon" .. i .. "/pokemon_sprite")]
+				if gui.pick_node(sprite_node, action_position.x, action_position.y) then
+					local species = all_pokemons[(list.selected_item-1)*5 + i]
+					if species and mark_as then
+						dex.set(species, mark_as)
+						pokedex_data[a][i].state = state_map[mark_as]
+					end
+				end
+			end
+		end
+	end
 end
 
 local function scroll_to_position(self, pos)
@@ -114,11 +137,14 @@ local function on_scrolled(self, scrollbar)
 	gooey.dynamic_list("storage", "scrollist", "pokemon_row/row", self.pokemon_rows).scroll_to(0, scrollbar.scroll.y)
 end
 
+local function toogle_mark_menu(self)
+	self.mark_menu_active = not self.mark_menu_active
+	gui.set_enabled(self.mark_menu, self.mark_menu_active)
+end
+
 function on_input(self, action_id, action)
-	local list = gooey.dynamic_list("pokedex", "scrollist", "pokemon_row/row", self.pokemon_rows, action_id, action, fn, update_list)
-	if list.max_y and list.max_y > 0 then
-		gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar", action_id, action, function(scrollbar) on_scrolled(self, scrollbar) end)
-	end
+	action_position.x = action.x
+	action_position.y = action.y
 	gooey.button("btn_region1", action_id, action, function()
 		scroll_to_position(self, region_map[1].scroll)
 	end)
@@ -131,4 +157,31 @@ function on_input(self, action_id, action)
 	gooey.button("btn_region4", action_id, action, function()
 		scroll_to_position(self, region_map[4].scroll)
 	end)
+	local a = gooey.button("btn_mark", action_id, action, function()
+		toogle_mark_menu(self)
+	end)
+	if self.mark_menu_active then
+		print(self.mark_menu_active)
+		local b = gooey.button("btn_seen", action_id, action, function()
+			mark_as = dex.states.SEEN
+			toogle_mark_menu(self)
+		end)
+		local c = gooey.button("btn_caught", action_id, action, function()
+			mark_as = dex.states.CAUGHT
+			toogle_mark_menu(self)
+		end)
+		local d = gooey.button("btn_unencountered", action_id, action, function()
+			mark_as = dex.states.UNENCOUNTERED
+			toogle_mark_menu(self)
+		end)
+		if action.released and not a.over and not b.over and not c.over and not d.over then
+			mark_as = nil
+			toogle_mark_menu(self)
+		end
+		return
+	end
+	local list = gooey.dynamic_list("pokedex", "scrollist", "pokemon_row/row", self.pokemon_rows, action_id, action, scroll_list_click, update_list)
+	if list.max_y and list.max_y > 0 then
+		gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar", action_id, action, function(scrollbar) on_scrolled(self, scrollbar) end)
+	end
 end
