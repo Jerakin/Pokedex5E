@@ -5,6 +5,7 @@ local log = require "utils.log"
 local M = {}
 
 local pokedex
+local pokedex_extra
 local abilities = {}
 local evolvedata
 local leveldata
@@ -19,6 +20,7 @@ end
 function M.init()
 	if not initialized then
 		pokedex = file.load_json_from_resource("/assets/datafiles/pokemon.json")
+		pokedex_extra = file.load_json_from_resource("/assets/datafiles/pokedex_extra.json")
 		abilities = file.load_json_from_resource("/assets/datafiles/abilities.json")
 		evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
 		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
@@ -33,6 +35,22 @@ function M.init()
 		}
 		log.warning(e)
 	end
+end
+
+function M.get_flavor(pokemon)
+	return pokedex_extra[pokemon].flavor
+end
+
+function M.get_weight(pokemon)
+	return pokedex_extra[pokemon].weight
+end
+
+function M.get_height(pokemon)
+	return pokedex_extra[pokemon].height
+end
+
+function M.get_genus(pokemon)
+	return pokedex_extra[pokemon].genus
 end
 
 function M.get_sprite(pokemon)
