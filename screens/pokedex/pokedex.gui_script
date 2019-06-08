@@ -12,6 +12,9 @@ local region_map
 local mark_as
 local all_pokemons = pokedex.unique
 
+local scroll_list_position = 0
+local block_animation = false
+
 local function table_of_rows(self)
 	local l = {}
 	for i=1, math.ceil(#pokedex_data) do
@@ -27,6 +30,25 @@ local state_map = {
 	[3]={background_color=vmath.vector4(1), pokemon_color=vmath.vector4(0), index=true}
 }
 
+local function animate_out()
+	if not block_animation then
+		scroll_list_position = 0
+		gui.animate(gui.get_node("pokedex_info"), "size.y", 150, gui.EASING_INSINE, 0.3, 0, function() block_animation = false end)
+		gui.animate(gui.get_node("scrollist"), "size.y", 915, gui.EASING_INSINE, 0.3)
+		gui.animate(gui.get_node("scroll_list_animation_root"), "position.y", -150, gui.EASING_INSINE, 0.3, 0)
+		block_animation = true
+	end
+end
+
+local function animate_in()
+	if not block_animation then
+		scroll_list_position = 1
+		gui.animate(gui.get_node("pokedex_info"), "size.y", 0, gui.EASING_INSINE, 0.3, 0, function() block_animation = false end)
+		gui.animate(gui.get_node("scrollist"), "size.y", 1065, gui.EASING_INSINE, 0.3)
+		gui.animate(gui.get_node("scroll_list_animation_root"), "position.y", 0, gui.EASING_INSINE, 0.3)
+		block_animation = true
+	end
+end
 
 local function update_storage_data(self)
 	pokedex_data = {}
@@ -77,6 +99,13 @@ local function set_active_button(list)
 	if active then
 		gui.play_flipbook(active.button, "common_down")
 		gui.set_color(active.txt, gui_colors.BUTTON_TEXT_PRESSED)
+		if scroll_list_position ~= 1 then
+			animate_in()
+		end
+	else 
+		if scroll_list_position ~= 0 then
+			animate_out()
+		end
 	end
 end
 
@@ -88,6 +117,18 @@ local function update_list(list)
 			update_items(item)
 		end
 	end
+end
+
+local function update_pokedex_info(self)
+	gui.set_text(gui.get_node("txt_seen_kanto"), dex.get_region_seen(dex.regions.KANTO))
+	gui.set_text(gui.get_node("txt_seen_johto"), dex.get_region_seen(dex.regions.JOHTO))
+	gui.set_text(gui.get_node("txt_seen_hoenn"), dex.get_region_seen(dex.regions.HOENN))
+	gui.set_text(gui.get_node("txt_seen_sinnoh"), dex.get_region_seen(dex.regions.SINNOH))
+	gui.set_text(gui.get_node("txt_caught_kanto"), dex.get_region_caught(dex.regions.KANTO))
+	gui.set_text(gui.get_node("txt_caught_johto"), dex.get_region_caught(dex.regions.JOHTO))
+	gui.set_text(gui.get_node("txt_caught_hoenn"), dex.get_region_caught(dex.regions.HOENN))
+	gui.set_text(gui.get_node("txt_caught_sinnoh"), dex.get_region_caught(dex.regions.SINNOH))
+
 end
 
 function init(self)
@@ -104,6 +145,7 @@ function init(self)
 	gui.set_enabled(self.mark_menu, self.mark_menu_active)
 	update_storage_data(self)
 	update_list( gooey.dynamic_list("pokedex", "scrollist", "pokemon_row/row", self.pokemon_rows))
+	update_pokedex_info(self)
 end
 
 function final(self)
@@ -169,6 +211,9 @@ function on_input(self, action_id, action)
 	local a = gooey.button("btn_mark", action_id, action, function()
 		toogle_mark_menu(self)
 	end)
+	if a.over then
+		return
+	end
 	if self.mark_menu_active then
 		local b = gooey.button("btn_seen", action_id, action, function()
 			mark_as = dex.states.SEEN
