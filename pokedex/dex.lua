@@ -48,19 +48,19 @@ function M.set(species, state)
 		if old_state ~= 3 then
 			local index = pokedex.get_index_number(species)
 			local region = region_from_index(index)
-			dex_stats[region][old_state] = dex_stats[is_region][old_state] + 1
+			dex_stats[region][old_state] = dex_stats[region][old_state] + 1
 		end
 		state = nil
 	else
 		local index = pokedex.get_index_number(species)
 		local region = region_from_index(index)
-		dex_stats[region][state] = dex_stats[is_region][state] + 1
+		dex_stats[region][state] = dex_stats[region][state] + 1
 	end
 	gameanalytics.addDesignEvent {
 		eventId = "Pokedex:Set",
 		value = state
 	}
-	dex[species] = stat
+	dex[species] = state
 end
 
 function M.get(species)

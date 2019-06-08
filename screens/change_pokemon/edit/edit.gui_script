@@ -4,6 +4,7 @@ local button = require "utils.button"
 local natures = require "pokedex.natures"
 local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
+local dex = require "pokedex.dex"
 local _pokemon = require "pokedex.pokemon"
 local url = require "utils.url"
 local gui_colors = require "utils.gui_colors"
@@ -43,7 +44,7 @@ local function evolve(self, species)
 	self.nickname = _pokemon.get_nickname(self.pokemon)
 	self.nickname = self.nickname or species:upper()
 	_pokemon.evolve(self.pokemon, species, _pokemon.get_current_level(self.pokemon))
-
+	dex.set(species, dex.states.CAUGHT)
 	pokemon_edit.redraw(self)
 	timer.delay(0.1, false, function() save_pokemon(self)
 	end)

@@ -136,7 +136,7 @@ function init(self)
 		[3]={name="Hoenn", low=252, high=386, button=gui.get_node("btn_region3"), txt=gui.get_node("txt_hoenn"), scroll=0.5565},
 		[4]={name="Sinnoh", low=387, high=494, button=gui.get_node("btn_region4"), txt=gui.get_node("txt_sinnoh"), scroll=0.857},
 	}
-	dex.init()
+
 	self.mark_menu_active = false
 	self.mark_txt = gui.get_node("txt_mark")
 	self.mark_menu = gui.get_node("mark_menu")

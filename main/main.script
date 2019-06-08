@@ -4,6 +4,7 @@ local tracking_id = require "utils.tracking_id"
 local movedex = require "pokedex.moves"
 local natures = require "pokedex.natures"
 local pokedex = require "pokedex.pokedex"
+local dex = require "pokedex.dex"
 local items = require "pokedex.items"
 local feats = require "pokedex.feats"
 local storage = require "pokedex.storage"
@@ -72,6 +73,7 @@ function init(self)
 	natures.init()
 	pokedex.init()
 	profiles.init()
+	dex.init()
 	items.init()
 	flow.start(function()
 		flow.delay(1)

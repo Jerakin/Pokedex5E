@@ -5,6 +5,7 @@ local utils = require "utils.utils"
 local profiles = require "pokedex.profiles"
 local pokedex = require "pokedex.pokedex"
 local log = require "utils.log"
+local dex = require "pokedex.dex"
 local M = {}
 
 local storage = {}
@@ -233,6 +234,7 @@ function M.add(pokemon)
 		pokemon.slot = #M.list_of_ids_in_inventory() + 1
 		active[id] = pokemon
 	end
+	dex.set(pokemon.species.current, dex.states.CAUGHT)
 	profiles.set_party(get_party())
 	M.save()
 	profiles.save()
