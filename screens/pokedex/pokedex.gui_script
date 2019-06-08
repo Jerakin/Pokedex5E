@@ -34,7 +34,6 @@ local function animate_out()
 	if not block_animation then
 		scroll_list_position = 0
 		gui.animate(gui.get_node("pokedex_info"), "size.y", 150, gui.EASING_INSINE, 0.3, 0, function() block_animation = false end)
-		gui.animate(gui.get_node("scrollist"), "size.y", 915, gui.EASING_INSINE, 0.3)
 		gui.animate(gui.get_node("scroll_list_animation_root"), "position.y", 560, gui.EASING_INSINE, 0.3, 0)
 		block_animation = true
 	end
@@ -44,7 +43,6 @@ local function animate_in()
 	if not block_animation then
 		scroll_list_position = 1
 		gui.animate(gui.get_node("pokedex_info"), "size.y", 0, gui.EASING_INSINE, 0.3, 0, function() block_animation = false end)
-		gui.animate(gui.get_node("scrollist"), "size.y", 1065, gui.EASING_INSINE, 0.3)
 		gui.animate(gui.get_node("scroll_list_animation_root"), "position.y", 690, gui.EASING_INSINE, 0.3)
 		block_animation = true
 	end
@@ -142,7 +140,7 @@ function init(self)
 	self.mark_menu_active = false
 	self.mark_txt = gui.get_node("txt_mark")
 	self.mark_menu = gui.get_node("mark_menu")
-	gui_utils.scale_fit_node_with_stretch(gui.get_node("scrollist"))
+	--gui_utils.scale_fit_node_with_stretch(gui.get_node("scrollist"))
 	gui.set_enabled(self.mark_menu, self.mark_menu_active)
 	update_storage_data(self)
 	update_list( gooey.dynamic_list("pokedex", "scrollist", "pokemon_row/row", self.pokemon_rows))
