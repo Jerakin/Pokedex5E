@@ -278,9 +278,9 @@ function M.get_defaut_max_hp(pokemon)
 	local current = M.get_current_species(pokemon)
 	local caught = M.get_caught_species(pokemon)
 	local at_level = M.get_current_level(pokemon)
-
+	
 	if current ~= caught then
-		local evolutions = utils.deep_copy(M.get_evolution_level(pokemon))
+		local evolutions = utils.shallow_copy(M.get_evolution_level(pokemon))
 		local evolution_hp = 0
 
 		while next(evolutions) ~= nil do
@@ -296,7 +296,7 @@ function M.get_defaut_max_hp(pokemon)
 			current = from_pokemon
 		end
 
-		local evolutions = M.get_evolution_level(pokemon)
+		evolutions = M.get_evolution_level(pokemon)
 		local hit_dice = pokedex.get_pokemon_hit_dice(M.get_current_species(pokemon))
 		local hit_dice_avg = math.ceil((hit_dice + 1) / 2)
 		return pokedex.get_base_hp(caught) + evolution_hp + ((M.get_current_level(pokemon) - evolutions[#evolutions]) * hit_dice_avg)
@@ -548,10 +548,11 @@ function M.set_current_level(pokemon, level)
 	pokemon.level.current = level
 end
 
-function M.add_hp_from_levels(pokemon, to_level)
+function M.add_hp_from_levels(pokemon, from_level)
 	if not M.get_max_hp_forced(pokemon) and not M.have_ability(pokemon, "Paper Thin") then
 		local hit_dice = M.get_hit_dice(pokemon)
-		local from_hit_dice = math.ceil((hit_dice + 1) / 2) *  to_level - M.get_current_level(pokemon)
+		
+		local from_hit_dice = math.ceil((hit_dice + 1) / 2) *  M.get_current_level(pokemon) - from_level
 		
 		local max = M.get_max_hp(pokemon)
 		M.set_max_hp(pokemon, max + from_hit_dice)
@@ -562,7 +563,8 @@ function M.add_hp_from_levels(pokemon, to_level)
 	end
 end
 
-function M.evolve(pokemon, to_species, level)
+function M.evolve(pokemon, to_species)
+	local level = M.get_current_level(pokemon)
 	if not M.get_max_hp_forced(pokemon) then
 		local current = M.get_max_hp(pokemon)
 		local gained = level * 2
