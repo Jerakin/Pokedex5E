@@ -25,7 +25,6 @@ end
 
 function M.save()
 	profiles.update(profiles.get_active_slot(), {pokedex=dex})
-	pprint(dex)
 end
 
 return M

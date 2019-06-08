@@ -23,7 +23,7 @@ for index in range(pokemon_index_cap):
         json_data = json.load(f)
 
         for flavor in json_data["flavor_text_entries"]:
-            if flavor["language"]["name"] == "en" and flavor["version"]["name"] == "ruby":
+            if flavor["language"]["name"] == "en" and flavor["version"]["name"] == "omega-ruby":
                 flavor_text = flavor["flavor_text"].replace(species.upper(), species.capitalize()).replace("\n", " ").replace("\x0c", " ").replace("POKéMON", "Pokémon")
                 break
         for genus in json_data["genera"]:

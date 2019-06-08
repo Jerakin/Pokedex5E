@@ -38,7 +38,6 @@ local function add_hp_buttons(nodes, pokemon)
 			eventId = "Party:HP:Increase"
 		}
 		local pokemon_id = _pokemon.get_id(pokemon)
-		print(pokemon_id)
 		M.add_hp(pokemon_id, 1)
 		information.refresh(pokemon_id)
 		M.setup_hp(nodes, pokemon_id) end, refresh=gooey_buttons.plus_button
