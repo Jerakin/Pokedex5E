@@ -34,15 +34,7 @@ local function evolve(self, species)
 		eventId = "Pokemon:Evolve",
 		value = pokedex.get_index_number(species)
 	}
-	-- Set and reset
-	pokemon_image(species)
-	self.have_evolved = true
 	
-	-- Edit pokemon
-	_pokemon.add_hp_from_levels(self.pokemon, self.level)
-	
-	self.nickname = _pokemon.get_nickname(self.pokemon)
-	self.nickname = self.nickname or species:upper()
 	_pokemon.evolve(self.pokemon, species, _pokemon.get_current_level(self.pokemon))
 	dex.set(species, dex.states.CAUGHT)
 	pokemon_edit.redraw(self)
