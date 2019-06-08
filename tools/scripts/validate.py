@@ -2,13 +2,15 @@ from pathlib import Path
 import json
 import os
 
-habitat_json = Path(r"D:\Repo\Pokedex\assets\datafiles\habitat.json")
-pokemons_json = Path(r"D:\Repo\Pokedex\assets\datafiles\pokemon.json")
-pokemon_order_json = Path(r"D:\Repo\Pokedex\assets\datafiles\pokemon_order.json")
-moves_json = Path(r"D:\Repo\Pokedex\assets\datafiles\moves.json")
-tm_json = Path(r"D:\Repo\Pokedex\assets\datafiles\move_machines.json")
-abilities_json = Path(r"D:\Repo\Pokedex\assets\datafiles\abilities.json")
-feats_json = Path(r"D:\Repo\Pokedex\assets\datafiles\feats.json")
+root = Path(__file__).parent.parent.parent / "assets" / "datafiles"
+habitat_json = root / "habitat.json"
+pokemons_json = root / "pokemon.json"
+pokedex_extra_json = root / "pokedex_extra.json"
+pokemon_order_json = root / "pokemon_order.json"
+moves_json = root / "moves.json"
+tm_json = root / "move_machines.json"
+abilities_json = root / "abilities.json"
+feats_json = root / "feats.json"
 
 
 def habitat():
@@ -22,6 +24,17 @@ def habitat():
                     pokemon_data["number"].remove(poke)
             print(pokemon_data["number"])
 
+def pokedex_extra():
+    with open(pokedex_extra_json, "r", encoding="utf8") as fp:
+        with open(pokemon_order_json, "r") as f:
+            pokemon_order_data = json.load(f)
+            pokedex_extra_data = json.load(fp)
+
+            for species in pokemon_order_data["unique"]:
+                try:
+                    pokedex_extra_data[species]
+                except:
+                    print("Can't find", species)
 
 def moves():
     with open(pokemons_json, "r") as fp:
@@ -66,4 +79,4 @@ def images():
                 file_path = r"D:\Repo\Pokedex\assets\textures/{}/{}{}.png".format(x, data["index"], p)
                 if not os.path.exists(file_path):
                     print("Can't find image: ", data["index"],p, "in atlas ", x)
-tm()
+pokedex_extra()
