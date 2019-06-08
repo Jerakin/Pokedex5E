@@ -35,7 +35,7 @@ local function animate_out()
 		scroll_list_position = 0
 		gui.animate(gui.get_node("pokedex_info"), "size.y", 150, gui.EASING_INSINE, 0.3, 0, function() block_animation = false end)
 		gui.animate(gui.get_node("scrollist"), "size.y", 915, gui.EASING_INSINE, 0.3)
-		gui.animate(gui.get_node("scroll_list_animation_root"), "position.y", -150, gui.EASING_INSINE, 0.3, 0)
+		gui.animate(gui.get_node("scroll_list_animation_root"), "position.y", 560, gui.EASING_INSINE, 0.3, 0)
 		block_animation = true
 	end
 end
@@ -45,7 +45,7 @@ local function animate_in()
 		scroll_list_position = 1
 		gui.animate(gui.get_node("pokedex_info"), "size.y", 0, gui.EASING_INSINE, 0.3, 0, function() block_animation = false end)
 		gui.animate(gui.get_node("scrollist"), "size.y", 1065, gui.EASING_INSINE, 0.3)
-		gui.animate(gui.get_node("scroll_list_animation_root"), "position.y", 0, gui.EASING_INSINE, 0.3)
+		gui.animate(gui.get_node("scroll_list_animation_root"), "position.y", 690, gui.EASING_INSINE, 0.3)
 		block_animation = true
 	end
 end
