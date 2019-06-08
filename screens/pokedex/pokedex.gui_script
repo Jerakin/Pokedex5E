@@ -4,7 +4,7 @@ local gooey = require "gooey.gooey"
 local pokedex = require "pokedex.pokedex"
 local dex = require "pokedex.dex"
 local gui_colors = require "utils.gui_colors"
-
+local gui_utils = require "utils.gui"
 
 local pokedex_data = {}
 local action_position = vmath.vector3()
@@ -142,6 +142,7 @@ function init(self)
 	self.mark_menu_active = false
 	self.mark_txt = gui.get_node("txt_mark")
 	self.mark_menu = gui.get_node("mark_menu")
+	gui_utils.scale_fit_node_with_stretch(gui.get_node("scrollist"))
 	gui.set_enabled(self.mark_menu, self.mark_menu_active)
 	update_storage_data(self)
 	update_list( gooey.dynamic_list("pokedex", "scrollist", "pokemon_row/row", self.pokemon_rows))
