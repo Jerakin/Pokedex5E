@@ -37,20 +37,28 @@ function M.init()
 	end
 end
 
+local function dex_extra(pokemon)
+	local mon = pokedex_extra[pokemon]
+	if not mon then
+		log.error("Can't find extra information for " .. tostring(pokemon))
+	end
+	return mon or pokedex_extra["MissingNo"]
+end
+
 function M.get_flavor(pokemon)
-	return pokedex_extra[pokemon].flavor
+	return dex_extra(pokemon).flavor
 end
 
 function M.get_weight(pokemon)
-	return pokedex_extra[pokemon].weight
+	return dex_extra(pokemon).weight
 end
 
 function M.get_height(pokemon)
-	return pokedex_extra[pokemon].height
+	return dex_extra(pokemon).height
 end
 
 function M.get_genus(pokemon)
-	return pokedex_extra[pokemon].genus
+	return dex_extra(pokemon).genus
 end
 
 function M.get_sprite(pokemon)
