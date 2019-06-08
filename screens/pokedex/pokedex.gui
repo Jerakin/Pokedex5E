@@ -61,7 +61,7 @@ nodes {
   texture: ""
   id: "root"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
+  yanchor: YANCHOR_TOP
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_STRETCH
   layer: ""
@@ -541,7 +541,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 700.0
+    x: 723.0
     y: 150.0
     z: 0.0
     w: 1.0
@@ -554,20 +554,20 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/details_backing"
+  texture: "gui/add_backing"
   id: "pokedex_info"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
+  yanchor: YANCHOR_TOP
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 8.0
-    y: 8.0
-    z: 8.0
-    w: 8.0
+    x: 20.0
+    y: 10.0
+    z: 20.0
+    w: 16.0
   }
   clipping_mode: CLIPPING_MODE_STENCIL
   clipping_visible: true
@@ -1516,7 +1516,7 @@ nodes {
 nodes {
   position {
     x: -165.0
-    y: -75.0
+    y: -71.0
     z: 0.0
     w: 1.0
   }
@@ -1534,7 +1534,7 @@ nodes {
   }
   size {
     x: 100.0
-    y: 150.0
+    y: 138.0
     z: 0.0
     w: 1.0
   }
@@ -1571,7 +1571,7 @@ nodes {
 nodes {
   position {
     x: 120.0
-    y: -75.0
+    y: -71.0
     z: 0.0
     w: 1.0
   }
@@ -1589,7 +1589,7 @@ nodes {
   }
   size {
     x: 100.0
-    y: 150.0
+    y: 138.0
     z: 0.0
     w: 1.0
   }
@@ -1615,6 +1615,61 @@ nodes {
     y: 8.0
     z: 8.0
     w: 8.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 561.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: ""
+  id: "list_pivot"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -1662,7 +1717,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
+  parent: "list_pivot"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -1681,7 +1736,7 @@ nodes {
 nodes {
   position {
     x: -4.0
-    y: 493.0
+    y: -58.0
     z: 0.0
     w: 1.0
   }
@@ -2951,7 +3006,7 @@ nodes {
 nodes {
   position {
     x: -240.0
-    y: 523.0
+    y: -28.0
     z: 0.0
     w: 1.0
   }
@@ -3069,7 +3124,7 @@ nodes {
 nodes {
   position {
     x: -80.0
-    y: 523.0
+    y: -28.0
     z: 0.0
     w: 1.0
   }
@@ -3187,7 +3242,7 @@ nodes {
 nodes {
   position {
     x: 80.0
-    y: 523.0
+    y: -28.0
     z: 0.0
     w: 1.0
   }
@@ -3305,7 +3360,7 @@ nodes {
 nodes {
   position {
     x: 240.0
-    y: 523.0
+    y: -28.0
     z: 0.0
     w: 1.0
   }
@@ -3456,7 +3511,7 @@ nodes {
   texture: ""
   id: "block"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
+  yanchor: YANCHOR_BOTTOM
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_STRETCH
   parent: "root"
@@ -3511,7 +3566,7 @@ nodes {
   texture: "gui/details_backing"
   id: "mark_menu"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
+  yanchor: YANCHOR_BOTTOM
   pivot: PIVOT_SW
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
@@ -4038,7 +4093,7 @@ nodes {
   texture: "gui/common_up"
   id: "btn_mark"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
+  yanchor: YANCHOR_BOTTOM
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
