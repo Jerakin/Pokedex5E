@@ -20,6 +20,7 @@ local map = {
 	[hash("debug")] = "btn_debug",
 	[hash("generate_pokemon")] = "btn_generate",
 	[hash("import")] = "btn_import",
+	[hash("pokedex")] = "btn_pokedex",
 }
 
 local function hide(self)
@@ -136,10 +137,23 @@ function init(self)
 	end, {no_shake=true})
 	
 	button.register("btn_import", function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:Import",
+			value = tracking_id[monarch.top()]
+		}
 		monarch.show("import")
 		toggle(self)
 	end, {no_shake=true})
-	
+
+	button.register("btn_pokedex", function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:Pokedex",
+			value = tracking_id[monarch.top()]
+		}
+		monarch.show("pokedex")
+		toggle(self)
+	end, {no_shake=true})
+
 	if sys.get_engine_info().is_debug then
 		button.register("btn_debug", function()
 			monarch.show("debug")

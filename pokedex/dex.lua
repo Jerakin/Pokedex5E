@@ -56,6 +56,10 @@ function M.set(species, state)
 		local region = region_from_index(index)
 		dex_stats[region][state] = dex_stats[is_region][state] + 1
 	end
+	gameanalytics.addDesignEvent {
+		eventId = "Pokedex:Set",
+		value = state
+	}
 	dex[species] = stat
 end
 
