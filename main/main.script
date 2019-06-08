@@ -102,11 +102,11 @@ function on_message(self, message_id, message, sender)
 		}
 		monarch.show("profiles")
 	elseif message_id == hash("show_party") then
-		--[[gameanalytics.addDesignEvent {
+		gameanalytics.addDesignEvent {
 			eventId = "Navigation:Party",
 			value = tracking_id[monarch.top()]
-		}--]]
-		monarch.show("pokedex")
+		}
+		monarch.show("party")
 	elseif message_id == hash("show_splash") then
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:Splash",
