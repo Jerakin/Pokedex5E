@@ -6,4 +6,6 @@ end
 function M.addErrorEvent()
 end
 
+M.mock = true
+
 return M

@@ -4,9 +4,43 @@ local gooey = require "gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
 local debug = require "screens.debug.debug"
 
+local function game_analyctics()
+	local active = true
+	local version = ""
+	local key = ""
+
+	local sys_info = sys.get_sys_info()
+	local system = sys_info.system_name
+	
+	if gameanalytics.mock then
+		active = false
+	end
+	if system == "Darwin" then
+		version = "Not supported"
+		key = "Not supported"
+	elseif system == "Windows" then
+		version = sys.get_config("gameanalytics.build_windows", "missing")
+		key = sys.get_config("gameanalytics.game_key_windows", "missing")
+	elseif system == "iPhone OS" then
+		version = sys.get_config("gameanalytics.build_ios", "missing")
+		key = sys.get_config("gameanalytics.game_key_ios", "missing")
+	elseif system == "Android" then
+		version = sys.get_config("gameanalytics.build_android", "missing")
+		key = sys.get_config("gameanalytics.game_key_android", "missing")
+	elseif system == "HTML5" then
+		version = sys.get_config("gameanalytics.build_html5", "missing")
+		key = sys.get_config("gameanalytics.game_key_html5", "missing")
+	end
+	
+	gui.set_text(gui.get_node("ga_active"), "Active: " .. tostring(active))
+	gui.set_text(gui.get_node("ga_version"), "Version: " .. version)
+	gui.set_text(gui.get_node("ga_gamekey"), "Key: " .. key)
+end
+
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	msg.post(url.MENU, "hide")
+	game_analyctics()
 end
 
 function final(self)
