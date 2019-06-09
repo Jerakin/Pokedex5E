@@ -1,5 +1,6 @@
 local storage = require "pokedex.storage"
 local pokedex = require "pokedex.pokedex"
+local dex = require "pokedex.dex"
 local gooey = require "gooey.gooey"
 local gui_colors = require "utils.gui_colors"
 local url = require "utils.url"
@@ -39,6 +40,16 @@ local function filter_index(self, search_string)
 	end
 end
 
+local written_states = {["seen"] = 1, ["caught"] = 2}
+
+local function filter_states(self, search_string)
+	for i=#self.all_pokemons, 1, -1 do
+		if dex.get(self.all_pokemons[i]) == written_states[search_string] then
+			table.insert(self.filtered_list, 1, self.all_pokemons[i])
+		end
+	end
+end
+
 function M.filter_list(self, search_string)
 	if #search_string > 0 then
 		local filter = filter_species
@@ -48,6 +59,13 @@ function M.filter_list(self, search_string)
 			for type, _ in pairs(type_data) do
 				if type:lower() == search_string:lower() then
 					filter = filter_type
+					break
+				end
+			end
+			for written, search_state in pairs(written_states) do
+				print(written, search_string, written == search_string:lower())
+				if written == search_string:lower() then
+					filter = filter_states
 					break
 				end
 			end
