@@ -51,14 +51,7 @@ function init(self)
 	msg.post(".", "acquire_input_focus")
 	msg.post(url.MENU, "hide")
 	game_analyctics()
-	gooey.button("ga_bg", action_id, action, function()
-		local loaded = crash.load_previous()
-		print("### BACKTRACE ###")
-		print(crash.get_backtrace(loaded))
-		print("### EXTRA DATA ###")
-		print(crash.get_extra_data(loaded))
-		print("####### END ######")
-	end)
+
 end
 
 function final(self)
@@ -85,4 +78,17 @@ function on_input(self, action_id, action)
 	gooey.button("add_all/btn", action_id, action, function()
 		debug.add_all_pokemon()
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("add_all/txt")) end)
+	
+	gooey.button("ga_bg", action_id, action, function()
+		local loaded = crash.load_previous()
+		if loaded then
+			print("### BACKTRACE ###")
+			print(crash.get_backtrace(loaded))
+			print("### EXTRA DATA ###")
+			print(crash.get_extra_data(loaded))
+			print("####### END ######")
+		else
+			print("##### NO LOGS #####")
+		end
+	end)
 end
