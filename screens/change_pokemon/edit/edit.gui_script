@@ -45,10 +45,8 @@ end
 
 
 function init(self)
-	self.have_evolved = false
 	self.evolve_button_active = false
-	self.max_hp_increase = 0
-	self.set_force_max_hp_to = false
+
 	button.acquire()
 	local pokemon_id = monarch.data("edit").id
 	self.pokemon = storage.get_copy(pokemon_id)
@@ -70,7 +68,7 @@ function init(self)
 	end
 	
 	function self.redraw(self)
-		if not self.have_evolved and evolution_possible and evolution_level <= _pokemon.get_current_level(self.pokemon) then
+		if evolution_possible and evolution_level <= _pokemon.get_current_level(self.pokemon) then
 			self.evolve_button_active = true
 			gui.set_color(gui.get_node("txt_evolve"), gui_colors.BUTTON_TEXT)
 			gui.play_flipbook(self.evolve_button, "common_up")
