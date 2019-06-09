@@ -3,6 +3,7 @@ local url = require "utils.url"
 local gooey = require "gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
 local debug = require "screens.debug.debug"
+local gui_utils = require "utils.gui"
 
 local function game_analyctics()
 	local active = true
@@ -42,6 +43,8 @@ local function game_analyctics()
 	gui.set_text(gui.get_node("ga_version"), "Version: " .. version)
 	gui.set_text(gui.get_node("ga_gamekey"), "Key: " .. key)
 	gui.set_text(gui.get_node("ga_gamesecret"), "Secret: " .. secret)
+	gui_utils.scale_text_to_fit_size(gui.get_node("ga_gamesecret"))
+	gui_utils.scale_text_to_fit_size(gui.get_node("ga_gamekey"))
 end
 
 function init(self)
