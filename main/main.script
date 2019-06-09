@@ -78,6 +78,7 @@ function init(self)
 	flow.start(function()
 		flow.delay(1)
 
+		flow.until_true( function() return not monarch.is_busy() end)
 		if profiles.is_new_game() or not profiles.get_active_slot() then
 			msg.post("#", "show_profile")
 			flow.until_true(function() return profiles.get_active_slot() end)

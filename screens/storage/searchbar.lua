@@ -3,6 +3,8 @@ local _pokemon = require "pokedex.pokemon"
 local gooey = require "gooey.gooey"
 local gui_colors = require "utils.gui_colors"
 local url = require "utils.url"
+local dex = require "pokedex.dex"
+
 
 local M = {}
 
