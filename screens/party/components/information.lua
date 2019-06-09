@@ -48,6 +48,9 @@ local function setup_held_item(nodes, pokemon)
 	gui.set_size(move_bg, move_size)
 	gui.set_size(ability_bg, ability_size)
 	gui.set_size(info_bg, info_size)
+	gui_utils.scale_fit_node_with_stretch(move_bg)
+	gui_utils.scale_fit_node_with_stretch(ability_bg)
+	gui_utils.scale_fit_node_with_stretch(info_bg)
 	gui.set_position(info_root, info_root_pos)
 end
 

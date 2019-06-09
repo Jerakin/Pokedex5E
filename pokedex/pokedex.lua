@@ -5,6 +5,7 @@ local log = require "utils.log"
 local M = {}
 
 local pokedex
+local pokedex_extra
 local abilities = {}
 local evolvedata
 local leveldata
@@ -13,17 +14,18 @@ local exp_grid
 local initialized = false
 local function list()
 	local ordered = file.load_json_from_resource("/assets/datafiles/pokemon_order.json")
-	return ordered.number, #ordered
+	return ordered.number, #ordered, ordered.unique
 end
 
 function M.init()
 	if not initialized then
 		pokedex = file.load_json_from_resource("/assets/datafiles/pokemon.json")
+		pokedex_extra = file.load_json_from_resource("/assets/datafiles/pokedex_extra.json")
 		abilities = file.load_json_from_resource("/assets/datafiles/abilities.json")
 		evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
 		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
 		exp_grid = file.load_json_from_resource("/assets/datafiles/exp_grid.json")
-		M.list, M.total = list()
+		M.list, M.total, M.unique = list()
 		initialized = true
 	else
 		local e = "The pokedex have already been initialized"
@@ -33,6 +35,30 @@ function M.init()
 		}
 		log.warning(e)
 	end
+end
+
+local function dex_extra(pokemon)
+	local mon = pokedex_extra[pokemon]
+	if not mon then
+		log.error("Can't find extra information for " .. tostring(pokemon))
+	end
+	return mon or pokedex_extra["MissingNo"]
+end
+
+function M.get_flavor(pokemon)
+	return dex_extra(pokemon).flavor
+end
+
+function M.get_weight(pokemon)
+	return dex_extra(pokemon).weight
+end
+
+function M.get_height(pokemon)
+	return dex_extra(pokemon).height
+end
+
+function M.get_genus(pokemon)
+	return dex_extra(pokemon).genus
 end
 
 function M.get_sprite(pokemon)
