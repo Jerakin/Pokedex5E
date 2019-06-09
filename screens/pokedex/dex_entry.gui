@@ -3,6 +3,10 @@ fonts {
   name: "script"
   font: "/assets/fonts/script.font"
 }
+fonts {
+  name: "script_bold"
+  font: "/assets/fonts/script_bold.font"
+}
 textures {
   name: "gui"
   texture: "/assets/gui.atlas"
@@ -20,7 +24,7 @@ background_color {
 nodes {
   position {
     x: 0.0
-    y: 8.0
+    y: 4.0
     z: 0.0
     w: 1.0
   }
@@ -37,8 +41,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 120.0
-    y: 110.0
+    x: 130.0
+    y: 116.0
     z: 0.0
     w: 1.0
   }
@@ -74,7 +78,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 5.0
+    y: 13.0
     z: 0.0
     w: 1.0
   }
@@ -129,7 +133,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 0.0
+    y: -38.0
     z: 0.0
     w: 1.0
   }
@@ -140,13 +144,13 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.5
-    y: 1.5
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
   size {
-    x: 60.0
+    x: 200.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -159,7 +163,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "999"
+  text: "158"
   font: "script"
   id: "index"
   xanchor: XANCHOR_NONE
@@ -181,7 +185,7 @@ nodes {
   line_break: false
   parent: "background"
   layer: "script"
-  inherit_alpha: true
+  inherit_alpha: false
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0

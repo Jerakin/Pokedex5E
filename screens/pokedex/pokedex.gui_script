@@ -27,9 +27,9 @@ local function table_of_rows(self)
 end
 
 local state_map = {
-	[1]={background_color=vmath.vector4(1), pokemon_color=vmath.vector4(0,0,0,1), index=false},
-	[2]={background_color=vmath.vector4(0), pokemon_color=vmath.vector4(1), index=false},
-	[3]={background_color=vmath.vector4(1), pokemon_color=vmath.vector4(0), index=true}
+	[1]={background_color=vmath.vector4(1), pokemon_color=vmath.vector4(1,1,1,0.5), pokemon_position=vmath.vector3(0, 4, 0), index=false},
+	[2]={background_color=vmath.vector4(0), pokemon_color=vmath.vector4(1), pokemon_position=vmath.vector3(0, 4, 0), index=false},
+	[3]={background_color=vmath.vector4(1), pokemon_color=vmath.vector4(0,0,0,1), pokemon_position=vmath.vector3(0, 10, 0), index=true}
 }
 
 local function animate_out()
@@ -59,7 +59,7 @@ local function update_dex_data(self)
 			if species then
 				local sprite, texture = pokedex.get_sprite(species)
 				local state = dex.get(species)
-				local index = string.format("%03d", pokedex.get_index_number(species))
+				local index = string.format("#%03d", pokedex.get_index_number(species))
 				pokedex_data[i][a] = {sprite=sprite, texture=texture, species=species, state_map=state_map[state], index=index, state=state}
 			end
 		end
@@ -75,19 +75,10 @@ local function update_items(item)
 		local data = pokedex_data[item.data]
 		if data and data[i] ~= nil then
 			gui.set_enabled(background, true)
-			local pokemon_color = data[i].state_map.pokemon_color
-			local index_text = data[i].index
-			gui.set_scale(index, vmath.vector3(1.5))
-			if is_searching then
-				if data[i].state == dex.states.UNENCOUNTERED then
-					--pokemon_color = vmath.vector4(1, 1, 1, 0.5)
-					--index_text = data[i].species
-				end
-			end
-			gui.set_enabled(index,  data[i].state_map.index)
-			gui.set_text(index, index_text)
-			--gui_utils.scale_text_to_fit_size(index)
-			gui.set_color(sprite_node, pokemon_color)
+			gui.set_enabled(index, data[i].state_map.index)
+			gui.set_text(index, data[i].index)
+			gui.set_position(sprite_node, data[i].state_map.pokemon_position)
+			gui.set_color(sprite_node, data[i].state_map.pokemon_color)
 			gui.set_color(background, data[i].state_map.background_color)
 			gui.set_texture(sprite_node, data[i].texture)
 			gui.play_flipbook(sprite_node, data[i].sprite)
