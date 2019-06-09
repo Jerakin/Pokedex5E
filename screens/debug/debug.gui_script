@@ -8,6 +8,7 @@ local function game_analyctics()
 	local active = true
 	local version = ""
 	local key = ""
+	local secret = ""
 
 	local sys_info = sys.get_sys_info()
 	local system = sys_info.system_name
@@ -18,23 +19,29 @@ local function game_analyctics()
 	if system == "Darwin" then
 		version = "Not supported"
 		key = "Not supported"
+		secret = "Not supported"
 	elseif system == "Windows" then
 		version = sys.get_config("gameanalytics.build_windows", "missing")
 		key = sys.get_config("gameanalytics.game_key_windows", "missing")
+		secret = sys.get_config("gameanalytics.secret_key_windows", "missing")
 	elseif system == "iPhone OS" then
 		version = sys.get_config("gameanalytics.build_ios", "missing")
 		key = sys.get_config("gameanalytics.game_key_ios", "missing")
+		secret = sys.get_config("gameanalytics.secret_key_windows", "missing")
 	elseif system == "Android" then
 		version = sys.get_config("gameanalytics.build_android", "missing")
 		key = sys.get_config("gameanalytics.game_key_android", "missing")
+		secret = sys.get_config("gameanalytics.secret_key_windows", "missing")
 	elseif system == "HTML5" then
 		version = sys.get_config("gameanalytics.build_html5", "missing")
 		key = sys.get_config("gameanalytics.game_key_html5", "missing")
+		secret = sys.get_config("gameanalytics.secret_key_windows", "missing")
 	end
 	
 	gui.set_text(gui.get_node("ga_active"), "Active: " .. tostring(active))
 	gui.set_text(gui.get_node("ga_version"), "Version: " .. version)
 	gui.set_text(gui.get_node("ga_gamekey"), "Key: " .. key)
+	gui.set_text(gui.get_node("ga_secret"), "Secret: " .. secret)
 end
 
 function init(self)
