@@ -5,6 +5,7 @@ local nature = require "pokedex.natures"
 local movedex = require "pokedex.moves"
 local notify = require "utils.notify"
 local utils = require "utils.utils"
+local dex = require "pokedex.dex"
 
 local M = {}
 
@@ -25,6 +26,7 @@ function M.add_pokemon(species, level)
 	pokemon.level.current = level
 	pokemon.moves = moves
 	pokemon.nature = nature.list[rnd.range(1, #nature.list)]
+	dex.set(pokemon.species.current, dex.states.CAUGHT)
 	storage.add(pokemon)
 end
 

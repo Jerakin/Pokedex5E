@@ -1,5 +1,6 @@
 local profiles = require "pokedex.profiles"
 local pokedex = require "pokedex.pokedex"
+local storage = require "pokedex.storage"
 local utils = require "utils.utils"
 
 local M = {}
@@ -67,9 +68,20 @@ function M.get(species)
 	return dex[species] or M.states.UNENCOUNTERED
 end
 
+local function get_initial_from_storage()
+	local _dex = {}
+	for _, pokemon in pairs(storage.list_of_ids_in_storage()) do
+		
+	end
+	for _, pokemon in pairs(storage.list_of_ids_in_inventory()) do
+		_dex[pokemon.current.species] = M.states.CAUGHT
+	end
+	return _dex
+end
+
 function M.init()
 	local profile = profiles.get_active()
-	dex = profile.pokedex or {}
+	dex = profile.pokedex or get_initial_from_storage()
 	M.update_region_stats()
 end
 

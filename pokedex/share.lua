@@ -3,6 +3,7 @@ local storage = require "pokedex.storage"
 local url = require "utils.url"
 local notify = require "utils.notify"
 local monarch = require "monarch.monarch"
+local dex = require "pokedex.dex"
 
 local M = {}
 
@@ -33,6 +34,7 @@ function M.import()
 			return 
 		end
 		storage.add(pokemon)
+		dex.set(pokemon.species.current, dex.states.CAUGHT)
 		if url.PARTY then
 			msg.post(url.PARTY, "refresh")
 		elseif url.STORAGE then

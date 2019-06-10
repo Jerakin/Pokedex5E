@@ -11,6 +11,7 @@ local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
 local notify = require "utils.notify"
 local tracking_id = require "utils.tracking_id"
+local dex = require "pokedex.dex"
 
 local HAVE_EVOLVED = false
 
@@ -53,7 +54,7 @@ local function add_pokemon(self)
 	}
 
 	self.pokemon.level.caught = _pokemon.get_current_level(self.pokemon)
-
+	dex.set(self.pokemon.species.current, dex.states.CAUGHT)
 	storage.add(self.pokemon)
 	exit(self)
 end
