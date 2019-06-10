@@ -20,7 +20,6 @@ function M.add(profile_name, slot)
 		seen=0,
 		caught=0,
 		released=0,
-		pokedex={},
 		file_name=profile_name .. generate_id()
 	}
 	profiles[slot] = profile

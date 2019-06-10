@@ -69,11 +69,14 @@ function M.get(species)
 end
 
 local function get_initial_from_storage()
+	print("INITIAL")
 	local _dex = {}
 	for _, pokemon in pairs(storage.list_of_ids_in_storage()) do
-		
+		print(pokemon.current.species)
+		_dex[pokemon.current.species] = M.states.CAUGHT
 	end
 	for _, pokemon in pairs(storage.list_of_ids_in_inventory()) do
+		print(pokemon.current.species)
 		_dex[pokemon.current.species] = M.states.CAUGHT
 	end
 	return _dex
