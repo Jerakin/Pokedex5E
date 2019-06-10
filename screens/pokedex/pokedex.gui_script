@@ -167,6 +167,7 @@ local function scroll_list_click(self, list)
 					if species and mark_as then
 						dex.set(species, mark_as)
 						update_dex_data(self)
+						update_pokedex_info(self)
 						pokedex_data[list.selected_item][i].state = state_map[mark_as]
 					elseif species and mark_as == nil then
 						monarch.show("pokedex_pokemon", nil, {species=species, row=list.selected_item, index=i, sender=msg.url()})
@@ -260,6 +261,7 @@ function on_message(self, message_id, message)
 		pokedex_data[message.row][message.index].state = state_map[message.state]
 		update_dex_data(self)
 		update_list( gooey.dynamic_list("pokedex", "scrollist", "pokemon_row/row", self.pokemon_rows))
+		update_pokedex_info(self)
 	elseif message_id == hash("search") then
 		update_dex_data(self)
 		is_searching = #pokedex.unique ~= #self.filtered_list
