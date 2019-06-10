@@ -72,18 +72,20 @@ function init(self)
 	movedex.init()
 	natures.init()
 	pokedex.init()
-	profiles.init()
-	dex.init()
-	items.init()
-	flow.start(function()
-		flow.delay(1)
+	
 
+	flow.start(function()
+		profiles.init()
+		flow.delay(1)
+		storage.init()
+		dex.init()
+		items.init()
 		flow.until_true( function() return not monarch.is_busy() end)
 		if profiles.is_new_game() or not profiles.get_active_slot() then
 			msg.post("#", "show_profile")
 			flow.until_true(function() return profiles.get_active_slot() end)
 		end
-		storage.init()
+		
 		filters.init()
 		feats.init()
 		

@@ -7,6 +7,7 @@ local M = {}
 
 local dex = {}
 local dex_stats
+local initialized = false
 
 M.states = {SEEN=1, CAUGHT=2, UNENCOUNTERED=3}
 
@@ -69,23 +70,29 @@ function M.get(species)
 end
 
 local function get_initial_from_storage()
-	print("INITIAL")
 	local _dex = {}
-	for _, pokemon in pairs(storage.list_of_ids_in_storage()) do
-		print(pokemon.current.species)
-		_dex[pokemon.current.species] = M.states.CAUGHT
+	for _, id in pairs(storage.list_of_ids_in_storage()) do
+		local pokemon = storage.get_copy(id)
+		_dex[pokemon.species.current] = M.states.CAUGHT
 	end
-	for _, pokemon in pairs(storage.list_of_ids_in_inventory()) do
-		print(pokemon.current.species)
-		_dex[pokemon.current.species] = M.states.CAUGHT
+	for _, id in pairs(storage.list_of_ids_in_inventory()) do
+		local pokemon = storage.get_copy(id)
+		_dex[pokemon.species.current] = M.states.CAUGHT
 	end
 	return _dex
 end
 
-function M.init()
-	local profile = profiles.get_active()
-	dex = profile.pokedex or get_initial_from_storage()
+function M.load(profile)
+	dex = profile.pokedex == nil and get_initial_from_storage() or profile.pokedex
 	M.update_region_stats()
+end
+
+function M.init()
+	if not initialized then
+		local profile = profiles.get_active()
+		M.load(profile)
+		initialized = true
+	end
 end
 
 function M.save()
