@@ -228,20 +228,20 @@ local function redraw(self)
 
 		gui.set_text(stat_num, attributes[stat])
 		local mod = ""
-		if increased[stat] - old_increased[stat] >= 0 then
+		if (increased[stat] or 0) - (old_increased[stat] or 0) >= 0 then
 			mod = "+"
 		end
-		if increased[stat] - old_increased[stat] >= 1 then
+		if(increased[stat] or 0) - (old_increased[stat] or 0) >= 1 then
 			gui.set_color(n, gui_colors.GREEN)
 			gui.set_color(stat_num, gui_colors.GREEN)
-		elseif increased[stat] - old_increased[stat] <= -1 then
+		elseif (increased[stat] or 0) - (old_increased[stat] or 0) <= -1 then
 			gui.set_color(n, gui_colors.RED)
 			gui.set_color(stat_num, gui_colors.RED)
 		else
 			gui.set_color(n, gui_colors.TEXT)
 			gui.set_color(stat_num, gui_colors.TEXT)
 		end
-		gui.set_text(n, "(" .. mod .. (increased[stat] - old_increased[stat]) ..")")
+		gui.set_text(n, "(" .. mod .. ((increased[stat] or 0) - (old_increased[stat] or 0)) ..")")
 	end
 
 	-- ASI
