@@ -95,13 +95,11 @@ end
 local function refresh_input(self, input, node_id)
 	if input.empty and not input.selected then
 		gui.set_text(input.node, "search")
-		keyboard_toggle(false)
 		gui.set_color(input.node, gui_colors.HERO_TEXT_FADED)
 	end
 
 	local cursor = gui.get_node("cursor")
 	if input.selected then
-		keyboard_toggle(true)
 		if input.empty then
 			gui.set_text(self.text_node, "")
 		end
@@ -119,9 +117,17 @@ local function refresh_input(self, input, node_id)
 end
 
 function M.on_input(self, action_id, action)
-	return gooey.input("search_text", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, nil, function(input)
+	local input =  gooey.input("search_text", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, nil, function(input)
 		refresh_input(self, input, "search_text")
 	end)
+	if input.enabled then
+		if input.selected then
+			keyboard_toggle(true)
+		else
+			keyboard_toggle(false)
+		end
+	end
+	return input
 end
 
 return M
