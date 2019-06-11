@@ -78,14 +78,31 @@ function M.filter_list(self, search_string)
 	msg.post(url.POKEDEX, "search")
 end
 
+local enabled = vmath.vector3(0)
+local disabled = vmath.vector3(83, -605, 0)
+local system  = sys.get_sys_info().system_name
+
+local function keyboard_toggle(toggle)
+	local pos = disabled
+	if system == "Android" or system == "iPhone OS" then
+		if toggle then
+			pos = enabled
+		end
+		gui.set_position(gui.get_node("search"), pos)
+	end
+end
+
+
 local function refresh_input(self, input, node_id)
 	if input.empty and not input.selected then
 		gui.set_text(input.node, "search")
+		keyboard_toggle(false)
 		gui.set_color(input.node, gui_colors.HERO_TEXT_FADED)
 	end
 
 	local cursor = gui.get_node("cursor")
 	if input.selected then
+		keyboard_toggle(true)
 		if input.empty then
 			gui.set_text(self.text_node, "")
 		end
