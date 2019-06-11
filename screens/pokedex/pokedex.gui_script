@@ -22,14 +22,14 @@ local function table_of_rows(self)
 	for i=1, math.ceil(#pokedex_data) do
 		table.insert(l, i)
 	end
-	
+
 	return l
 end
 
 local state_map = {
-	[1]={background_color=vmath.vector4(1), pokemon_color=vmath.vector4(1,1,1,0.5), pokemon_position=vmath.vector3(0, 4, 0), index=false},
-	[2]={background_color=vmath.vector4(0), pokemon_color=vmath.vector4(1), pokemon_position=vmath.vector3(0, 4, 0), index=false},
-	[3]={background_color=vmath.vector4(1), pokemon_color=vmath.vector4(0,0,0,1), pokemon_position=vmath.vector3(0, 10, 0), index=true}
+	[dex.states.SEEN]			={pokeball_color=vmath.vector4(0), pokemon_color=vmath.vector4(1,1,1,0.3), index=true},
+	[dex.states.CAUGHT]			={pokeball_color=vmath.vector4(1), pokemon_color=vmath.vector4(1), index=true},
+	[dex.states.UNENCOUNTERED]	={pokeball_color=vmath.vector4(0), pokemon_color=vmath.vector4(0,0,0,0.3), index=true}
 }
 
 local function animate_out()
@@ -60,6 +60,9 @@ local function update_dex_data(self)
 				local sprite, texture = pokedex.get_sprite(species)
 				local state = dex.get(species)
 				local index = string.format("#%03d", pokedex.get_index_number(species))
+				if state == dex.states.CAUGHT then
+					index = string.format("%03d", pokedex.get_index_number(species))
+				end
 				pokedex_data[i][a] = {sprite=sprite, texture=texture, species=species, state_map=state_map[state], index=index, state=state}
 			end
 		end
@@ -70,6 +73,7 @@ end
 local function update_items(item)
 	for i=1, 5 do
 		local sprite_node = item.nodes["pokemon_row/pokemon" .. i .. "/pokemon_sprite"]
+		local pokeball = item.nodes["pokemon_row/pokemon" .. i .. "/caught"]
 		local background = item.nodes["pokemon_row/pokemon" .. i .. "/background"]
 		local index = item.nodes["pokemon_row/pokemon" .. i .. "/index"]
 		local data = pokedex_data[item.data]
@@ -77,9 +81,8 @@ local function update_items(item)
 			gui.set_enabled(background, true)
 			gui.set_enabled(index, data[i].state_map.index)
 			gui.set_text(index, data[i].index)
-			gui.set_position(sprite_node, data[i].state_map.pokemon_position)
 			gui.set_color(sprite_node, data[i].state_map.pokemon_color)
-			gui.set_color(background, data[i].state_map.background_color)
+			gui.set_color(pokeball, data[i].state_map.pokeball_color)
 			gui.set_texture(sprite_node, data[i].texture)
 			gui.play_flipbook(sprite_node, data[i].sprite)
 		else
@@ -249,12 +252,11 @@ function on_input(self, action_id, action)
 	if s.over then
 		return
 	end
-	
+
 	local list = gooey.dynamic_list("pokedex", "scrollist", "pokemon_row/row", self.pokemon_rows, action_id, action, function(list) scroll_list_click(self, list) end, update_list)
 	if list.max_y and list.max_y > 0 then
 		gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar", action_id, action, function(scrollbar) on_scrolled(self, scrollbar) end)
 	end
-	
 end
 
 function on_message(self, message_id, message)

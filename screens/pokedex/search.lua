@@ -63,7 +63,6 @@ function M.filter_list(self, search_string)
 				end
 			end
 			for written, search_state in pairs(written_states) do
-				print(written, search_string, written == search_string:lower())
 				if written == search_string:lower() then
 					filter = filter_states
 					break
@@ -71,7 +70,7 @@ function M.filter_list(self, search_string)
 			end
 		end
 		self.filtered_list = {}
-		filter(self, search_string)
+		filter(self, search_string:lower())
 	else
 		self.filtered_list = self.all_pokemons
 	end

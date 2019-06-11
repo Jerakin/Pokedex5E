@@ -30,7 +30,7 @@ nodes {
   }
   size {
     x: 680.0
-    y: 115.0
+    y: 134.0
     z: 0.0
     w: 1.0
   }
@@ -106,7 +106,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 4.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -123,8 +123,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 130.0
-    y: 116.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -136,20 +136,20 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/add_backing"
+  texture: ""
   id: "pokemon1/background"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "pokemon1"
-  layer: "gui"
-  inherit_alpha: false
+  layer: ""
+  inherit_alpha: true
   slice9 {
-    x: 18.0
-    y: 18.0
-    z: 18.0
-    w: 30.0
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -215,8 +215,8 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: -38.0
+    x: 25.0
+    y: -43.0
     z: 0.0
     w: 1.0
   }
@@ -246,12 +246,12 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "158"
+  text: "#158"
   font: "script"
   id: "pokemon1/index"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_E
   outline {
     x: 1.0
     y: 1.0
@@ -275,6 +275,61 @@ nodes {
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
+}
+nodes {
+  position {
+    x: -16.0
+    y: -43.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 20.0
+    y: 20.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/pokeball_icon"
+  id: "pokemon1/caught"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "pokemon1/background"
+  layer: "gui"
+  inherit_alpha: false
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
@@ -319,7 +374,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 4.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -336,8 +391,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 130.0
-    y: 116.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -349,20 +404,20 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/add_backing"
+  texture: ""
   id: "pokemon2/background"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "pokemon2"
-  layer: "gui"
-  inherit_alpha: false
+  layer: ""
+  inherit_alpha: true
   slice9 {
-    x: 18.0
-    y: 18.0
-    z: 18.0
-    w: 30.0
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -428,8 +483,8 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: -38.0
+    x: 25.0
+    y: -43.0
     z: 0.0
     w: 1.0
   }
@@ -459,12 +514,12 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "158"
+  text: "#158"
   font: "script"
   id: "pokemon2/index"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_E
   outline {
     x: 1.0
     y: 1.0
@@ -488,6 +543,61 @@ nodes {
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
+}
+nodes {
+  position {
+    x: -16.0
+    y: -43.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 20.0
+    y: 20.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/pokeball_icon"
+  id: "pokemon2/caught"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "pokemon2/background"
+  layer: "gui"
+  inherit_alpha: false
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
@@ -532,7 +642,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 4.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -549,8 +659,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 130.0
-    y: 116.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -562,20 +672,20 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/add_backing"
+  texture: ""
   id: "pokemon3/background"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "pokemon3"
-  layer: "gui"
-  inherit_alpha: false
+  layer: ""
+  inherit_alpha: true
   slice9 {
-    x: 18.0
-    y: 18.0
-    z: 18.0
-    w: 30.0
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -641,8 +751,8 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: -38.0
+    x: 25.0
+    y: -43.0
     z: 0.0
     w: 1.0
   }
@@ -672,12 +782,12 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "158"
+  text: "#158"
   font: "script"
   id: "pokemon3/index"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_E
   outline {
     x: 1.0
     y: 1.0
@@ -701,6 +811,61 @@ nodes {
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
+}
+nodes {
+  position {
+    x: -16.0
+    y: -43.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 20.0
+    y: 20.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/pokeball_icon"
+  id: "pokemon3/caught"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "pokemon3/background"
+  layer: "gui"
+  inherit_alpha: false
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
@@ -745,7 +910,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 4.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -762,8 +927,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 130.0
-    y: 116.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -775,20 +940,20 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/add_backing"
+  texture: ""
   id: "pokemon4/background"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "pokemon4"
-  layer: "gui"
-  inherit_alpha: false
+  layer: ""
+  inherit_alpha: true
   slice9 {
-    x: 18.0
-    y: 18.0
-    z: 18.0
-    w: 30.0
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -854,8 +1019,8 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: -38.0
+    x: 25.0
+    y: -43.0
     z: 0.0
     w: 1.0
   }
@@ -885,12 +1050,12 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "158"
+  text: "#158"
   font: "script"
   id: "pokemon4/index"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_E
   outline {
     x: 1.0
     y: 1.0
@@ -914,6 +1079,61 @@ nodes {
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
+}
+nodes {
+  position {
+    x: -16.0
+    y: -43.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 20.0
+    y: 20.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/pokeball_icon"
+  id: "pokemon4/caught"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "pokemon4/background"
+  layer: "gui"
+  inherit_alpha: false
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
@@ -958,7 +1178,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 4.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -975,8 +1195,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 130.0
-    y: 116.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -988,20 +1208,20 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/add_backing"
+  texture: ""
   id: "pokemon5/background"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "pokemon5"
-  layer: "gui"
-  inherit_alpha: false
+  layer: ""
+  inherit_alpha: true
   slice9 {
-    x: 18.0
-    y: 18.0
-    z: 18.0
-    w: 30.0
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -1067,8 +1287,8 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: -38.0
+    x: 25.0
+    y: -43.0
     z: 0.0
     w: 1.0
   }
@@ -1098,12 +1318,12 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "158"
+  text: "#158"
   font: "script"
   id: "pokemon5/index"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_E
   outline {
     x: 1.0
     y: 1.0
@@ -1127,6 +1347,61 @@ nodes {
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
+}
+nodes {
+  position {
+    x: -16.0
+    y: -43.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 20.0
+    y: 20.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/pokeball_icon"
+  id: "pokemon5/caught"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "pokemon5/background"
+  layer: "gui"
+  inherit_alpha: false
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
 }
 layers {
   name: "gui"
