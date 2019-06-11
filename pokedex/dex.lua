@@ -2,6 +2,7 @@ local profiles = require "pokedex.profiles"
 local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
 local utils = require "utils.utils"
+local log = require "utils.log"
 
 local M = {}
 
