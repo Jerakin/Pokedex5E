@@ -33,6 +33,10 @@ function M.update_region_stats()
 		local index = pokedex.get_index_number(species)
 		local region = region_from_index(index)
 		dex_stats[region][state] = dex_stats[region][state] + 1
+		
+		if state == M.states.CAUGHT then
+			dex_stats[region][M.states.SEEN] = dex_stats[region][M.states.SEEN] + 1
+		end
 	end
 end
 
@@ -45,24 +49,20 @@ function M.get_region_caught(region)
 end
 
 function M.set(species, state)
-	if state == 3 then
-		local old_state = M.get(species)
-		if old_state ~= 3 then
-			local index = pokedex.get_index_number(species)
-			local region = region_from_index(index)
-			dex_stats[region][old_state] = dex_stats[region][old_state] - 1
-		end
-		state = nil
-	else
-		local index = pokedex.get_index_number(species)
-		local region = region_from_index(index)
-		dex_stats[region][state] = dex_stats[region][state] + 1
+	local old_state = M.get(species)
+	if state == old_state then
+		return
 	end
+	
 	gameanalytics.addDesignEvent {
 		eventId = "Pokedex:Set",
 		value = state
 	}
+	if state == M.states.UNENCOUNTERED then
+		state = nil
+	end
 	dex[species] = state
+	M.update_region_stats()
 end
 
 function M.get(species)
@@ -83,7 +83,12 @@ local function get_initial_from_storage()
 end
 
 function M.load(profile)
-	dex = profile.pokedex == nil and get_initial_from_storage() or profile.pokedex
+	dex = profile.pokedex
+
+	if dex == nil then
+		log.info("Profile doesn't have a dex, doing initial setup")
+		dex = get_initial_from_storage()
+	end
 	M.update_region_stats()
 end
 

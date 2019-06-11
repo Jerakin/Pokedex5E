@@ -140,6 +140,7 @@ function init(self)
 		[4]={name="Sinnoh", low=387, high=494, button=gui.get_node("btn_region4"), txt=gui.get_node("txt_sinnoh"), scroll=0.857},
 	}
 	url.POKEDEX = msg.url()
+	msg.post(url.MENU, "show")
 	self.all_pokemons = pokedex.unique
 	self.filtered_list = pokedex.unique
 	self.mark_menu_active = false
