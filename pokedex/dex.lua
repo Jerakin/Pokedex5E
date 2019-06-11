@@ -90,7 +90,9 @@ end
 function M.init()
 	if not initialized then
 		local profile = profiles.get_active()
-		M.load(profile)
+		if profile then
+			M.load(profile)
+		end
 		initialized = true
 	end
 end
