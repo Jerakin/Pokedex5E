@@ -138,9 +138,9 @@ end
 function init(self)
 	region_map = {
 		[1]={name="Kanto", low=1, high=151, button=gui.get_node("btn_region1"), txt=gui.get_node("txt_kanto"), scroll=0.00001},
-		[2]={name="Johto", low=152, high=251, button=gui.get_node("btn_region2"), txt=gui.get_node("txt_johto"), scroll=0.334},
-		[3]={name="Hoenn", low=252, high=386, button=gui.get_node("btn_region3"), txt=gui.get_node("txt_hoenn"), scroll=0.5565},
-		[4]={name="Sinnoh", low=387, high=494, button=gui.get_node("btn_region4"), txt=gui.get_node("txt_sinnoh"), scroll=0.857},
+		[2]={name="Johto", low=152, high=251, button=gui.get_node("btn_region2"), txt=gui.get_node("txt_johto"), scroll=0.329},
+		[3]={name="Hoenn", low=252, high=386, button=gui.get_node("btn_region3"), txt=gui.get_node("txt_hoenn"), scroll=0.548},
+		[4]={name="Sinnoh", low=387, high=494, button=gui.get_node("btn_region4"), txt=gui.get_node("txt_sinnoh"), scroll=0.845},
 	}
 	url.POKEDEX = msg.url()
 	msg.post(url.MENU, "show")

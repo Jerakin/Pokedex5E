@@ -30,8 +30,7 @@ end
 function M.update_region_stats()
 	dex_stats = {[1]={[1]=0, [2]=0}, [2]={[1]=0, [2]=0}, [3]={[1]=0, [2]=0}, [4]={[1]=0, [2]=0}}
 
-	for species, state in pairs(dex) do
-		local index = pokedex.get_index_number(species)
+	for index, state in pairs(dex) do
 		local region = region_from_index(index)
 		dex_stats[region][state] = dex_stats[region][state] + 1
 		
@@ -49,12 +48,15 @@ function M.get_region_caught(region)
 	return dex_stats[region][M.states.CAUGHT]
 end
 
+
 function M.set(species, state)
+	local index = pokedex.get_index_number(species)
+
 	local old_state = M.get(species)
 	if state == old_state then
 		return
 	end
-	
+
 	gameanalytics.addDesignEvent {
 		eventId = "Pokedex:Set",
 		value = state
@@ -62,34 +64,65 @@ function M.set(species, state)
 	if state == M.states.UNENCOUNTERED then
 		state = nil
 	end
-	dex[species] = state
+	dex[index] = state
 	M.update_region_stats()
 end
 
 function M.get(species)
-	return dex[species] or M.states.UNENCOUNTERED
+	local index = pokedex.get_index_number(species)
+	return dex[index] or M.states.UNENCOUNTERED
 end
 
 local function get_initial_from_storage()
 	local _dex = {}
 	for _, id in pairs(storage.list_of_ids_in_storage()) do
 		local pokemon = storage.get_copy(id)
-		_dex[pokemon.species.current] = M.states.CAUGHT
+		local index = pokedex.get_index_number(pokemon.species.current)
+		_dex[index] = M.states.CAUGHT
 	end
 	for _, id in pairs(storage.list_of_ids_in_inventory()) do
 		local pokemon = storage.get_copy(id)
-		_dex[pokemon.species.current] = M.states.CAUGHT
+		local index = pokedex.get_index_number(pokemon.species.current)
+		_dex[index] = M.states.CAUGHT
+	end
+	return _dex
+end
+
+local function is_valid()
+	for index, state in pairs(dex) do
+		if tonumber(index) == nil then
+			return false
+		end
+	end
+	return true
+end
+
+local function convert()
+	local e = string.format("Converting the Pokedex")
+	gameanalytics.addErrorEvent {
+		severity = "Info",
+		message = e
+	}
+	log.info(e)
+	
+	local _dex = {}
+	for species, state in pairs(dex) do
+		local index = pokedex.get_index_number(species)
+		if index ~= nil then
+			_dex[index] = state
+		end
 	end
 	return _dex
 end
 
 function M.load(profile)
 	dex = profile.pokedex
-
 	if dex == nil then
-		log.info("Profile doesn't have a dex, doing initial setup")
 		dex = get_initial_from_storage()
+	elseif not is_valid() then
+		dex = convert()
 	end
+	
 	M.update_region_stats()
 end
 
