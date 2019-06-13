@@ -13,6 +13,7 @@ local features = require "screens.party.components.features"
 local moves = require "screens.party.components.moves"
 local information = require "screens.party.components.information"
 local meters = require "screens.party.components.meters"
+local status_effects = require "screens.party.components.status_effects"
 local gesture = require "utils.gesture"
 local gui_utils = require "utils.gui"
 
@@ -64,6 +65,7 @@ function M.show(id)
 		meters.create(nodes, id)
 		moves.create(nodes, pokemon, active_page)
 		features.create(nodes, pokemon, active_page)
+		status_effects.create(nodes, pokemon, active_page)
 		
 		button.register(nodes["pokemon/exp_bg"], function()
 			monarch.show("input", {}, {sender=msg.url(), message="update_exp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_exp(id)})
@@ -179,11 +181,13 @@ function M.on_input(action_id, action)
 	moves.on_input(action_id, action)
 	features.on_input(action_id, action)
 	meters.on_input(action_id, action)
+	status_effects.on_input(action_id, action)
 end
 
 function M.on_message(message_id, message)
 	message.active_pokemon_id = M.last_active_id
 	meters.on_message(message_id, message)
+	status_effects.on_message(message_id, message)
 end
 
 

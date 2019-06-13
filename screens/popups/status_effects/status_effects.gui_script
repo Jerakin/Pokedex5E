@@ -1,0 +1,127 @@
+local monarch = require "monarch.monarch"
+local gro = require "utils.gui_render_order"
+local _pokemon = require "pokedex.pokemon"
+local gooey_buttons = require "utils.gooey_buttons"
+local gooey = require "gooey.gooey"
+local url = require "utils.url"
+local gui_utils = require "utils.gui"
+local status_effects = require "screens.party.components.status_effects"
+local storage = require "pokedex.storage"
+local tracking_id = require "utils.tracking_id"
+
+local pokemon_id
+function init(self)
+	gui.set_render_order(gro.POPUP)
+	data = monarch.data("status_effects")
+	pokemon_id = data.pokemon_id
+	
+	local status = storage.get_status_effects(pokemon_id)
+	gui.set_enabled(gui.get_node("poisoned/checkmark"), status[status_effects.status.POISONED] or false)
+	gui.set_enabled(gui.get_node("frozen/checkmark"), status[status_effects.status.FROZEN] or false)
+	gui.set_enabled(gui.get_node("paralyzed/checkmark"), status[status_effects.status.PARALYZED] or false)
+	gui.set_enabled(gui.get_node("burning/checkmark"), status[status_effects.status.BURNING] or false)
+	gui.set_enabled(gui.get_node("asleep/checkmark"), status[status_effects.status.ASLEEP] or false)
+	gui.set_enabled(gui.get_node("confused/checkmark"), status[status_effects.status.CONFUSED] or false)
+
+	gui.set_color(gui.get_node("poisoned/checkmark"), status_effects.status_colors[status_effects.status.POISONED])
+	gui.set_color(gui.get_node("frozen/checkmark"), status_effects.status_colors[status_effects.status.FROZEN])
+	gui.set_color(gui.get_node("paralyzed/checkmark"), status_effects.status_colors[status_effects.status.PARALYZED])
+	gui.set_color(gui.get_node("burning/checkmark"), status_effects.status_colors[status_effects.status.BURNING])
+	gui.set_color(gui.get_node("asleep/checkmark"), status_effects.status_colors[status_effects.status.ASLEEP])
+	gui.set_color(gui.get_node("confused/checkmark"), status_effects.status_colors[status_effects.status.CONFUSED])
+	
+	gooey.checkbox("poisoned/background").set_checked(status[status_effects.status.POISONED] or false)
+	gooey.checkbox("frozen/background").set_checked(status[status_effects.status.FROZEN] or false)
+	gooey.checkbox("paralyzed/background").set_checked(status[status_effects.status.PARALYZED] or false)
+	gooey.checkbox("burning/background").set_checked(status[status_effects.status.BURNING] or false)
+	gooey.checkbox("asleep/background").set_checked(status[status_effects.status.ASLEEP] or false)
+	gooey.checkbox("confused/background").set_checked(status[status_effects.status.CONFUSED] or false)
+	
+end
+
+local function close()
+	gameanalytics.addDesignEvent {
+		eventId = "Navigation:Back",
+		value = tracking_id[monarch.top()]
+	}
+	monarch.back()
+end
+
+local function reset()
+	gameanalytics.addDesignEvent {
+		eventId = "Party:Status:Reset"
+	}
+end
+
+local function on_checked(checkbox, status)
+	storage.set_status_effect(pokemon_id, status, checkbox.checked)
+	if checkbox.checked then
+		gameanalytics.addDesignEvent {
+			eventId = "Party:Status:Add",
+			value = status
+		}
+	else
+		gameanalytics.addDesignEvent {
+			eventId = "Party:Status:Remove",
+			value = status
+		}
+	end
+	msg.post(url.PARTY, "refresh_status")
+end
+
+local function update_checkbox(checkbox, dot)
+	if checkbox.checked then
+		gui.set_enabled(dot, true)
+	else
+		gui.set_enabled(dot, false)
+	end
+end
+
+local function update_description(status)
+	local title = status_effects.status_names[status]:upper()
+	local desc = status_effects.status_prose[status]
+	gui.set_text(gui.get_node("title_description"), title)
+	gui.set_text(gui.get_node("txt_description"), desc)
+end
+
+function on_input(self, action_id, action)
+	gooey.checkbox("poisoned/background", action_id, action, function(checkbox) on_checked(checkbox, status_effects.status.POISONED) end, function(checkbox) update_checkbox(checkbox, gui.get_node("poisoned/checkmark"))end)
+	gooey.checkbox("frozen/background", action_id, action, function(checkbox) on_checked(checkbox, status_effects.status.FROZEN) end, function(checkbox) update_checkbox(checkbox, gui.get_node("frozen/checkmark"))end)
+	gooey.checkbox("paralyzed/background", action_id, action, function(checkbox) on_checked(checkbox, status_effects.status.PARALYZED) end, function(checkbox) update_checkbox(checkbox, gui.get_node("paralyzed/checkmark"))end)
+	gooey.checkbox("burning/background", action_id, action, function(checkbox) on_checked(checkbox, status_effects.status.BURNING) end, function(checkbox) update_checkbox(checkbox, gui.get_node("burning/checkmark"))end)
+	gooey.checkbox("asleep/background", action_id, action, function(checkbox) on_checked(checkbox, status_effects.status.ASLEEP) end, function(checkbox) update_checkbox(checkbox, gui.get_node("asleep/checkmark"))end)
+	gooey.checkbox("confused/background", action_id, action, function(checkbox) on_checked(checkbox, status_effects.status.CONFUSED) end, function(checkbox) update_checkbox(checkbox, gui.get_node("confused/checkmark"))end)
+
+	gooey.button("poisoned/txt", action_id, action, function() update_description(status_effects.status.POISONED) end)
+	gooey.button("frozen/txt", action_id, action, function() update_description(status_effects.status.FROZEN) end)
+	gooey.button("paralyzed/txt", action_id, action, function() update_description(status_effects.status.PARALYZED) end)
+	gooey.button("burning/txt", action_id, action, function() update_description(status_effects.status.BURNING) end)
+	gooey.button("asleep/txt", action_id, action, function() update_description(status_effects.status.ASLEEP) end)
+	gooey.button("confused/txt", action_id, action, function() update_description(status_effects.status.CONFUSED) end)
+
+	local a = gooey.button("background", action_id, action, function()end)
+	local reset = gooey.button("btn_reset", action_id, action, function()
+		local status = storage.get_status_effects(pokemon_id)
+		for s, _ in pairs(status) do
+			storage.set_status_effect(pokemon_id, s, false)
+		end
+		gooey.checkbox("poisoned/background").set_checked(false)
+		gooey.checkbox("frozen/background").set_checked(false)
+		gooey.checkbox("paralyzed/background").set_checked(false)
+		gooey.checkbox("burning/background").set_checked(false)
+		gooey.checkbox("asleep/background").set_checked(false)
+		gooey.checkbox("confused/background").set_checked(false)
+		update_checkbox(gooey.checkbox("poisoned/background"), gui.get_node("poisoned/checkmark"))
+		update_checkbox(gooey.checkbox("frozen/background"), gui.get_node("frozen/checkmark"))
+		update_checkbox(gooey.checkbox("paralyzed/background"), gui.get_node("paralyzed/checkmark"))
+		update_checkbox(gooey.checkbox("burning/background"), gui.get_node("burning/checkmark"))
+		update_checkbox(gooey.checkbox("asleep/background"), gui.get_node("asleep/checkmark"))
+		update_checkbox(gooey.checkbox("confused/background"), gui.get_node("confused/checkmark"))
+
+		msg.post(url.PARTY, "refresh_status")
+	end)
+	gooey.button("btn_close", action_id, action, close)
+	if action.released and not a.over and not reset.over then
+		close()
+	end
+end

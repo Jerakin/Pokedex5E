@@ -183,6 +183,23 @@ function M.get_pokemon_exp(id)
 	return get(id).exp
 end
 
+
+function M.get_status_effects(id)
+	return get(id).statuses or {}
+end
+
+function M.set_status_effect(id, effect, enabled)
+	local pokemon = get(id)
+	if pokemon.statuses == nil then
+		pokemon.statuses = {}
+	end
+	if enabled == false then
+		enabled = nil
+	end
+	pokemon.statuses[effect] = enabled
+	M.save()
+end
+
 function M.get_pokemon_current_hp(id)
 	return get(id).hp.current
 end
@@ -225,6 +242,7 @@ function M.add(pokemon)
 	end
 	counters.caught = next(counters) ~= nil and counters.caught + 1 or 1
 	pokemon.number = counters.caught
+	
 	local id = get_id(pokemon)
 	pokemon.id = id
 	profiles.update(profiles.get_active_slot(), counters)

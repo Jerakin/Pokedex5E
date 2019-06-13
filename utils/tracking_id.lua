@@ -25,8 +25,10 @@ local M = {
 	[hash("profiles")] = 216,
 	[hash("splash")] = 217,
 	[hash("storage")] = 218,
-	
-
+	[hash("generate_pokemon")] = 219,
+	[hash("status_effects")] = 220,
+	[hash("import_pokemon")] = 221,
+	[hash("pokedex")] = 222,
 }
 
 return M
