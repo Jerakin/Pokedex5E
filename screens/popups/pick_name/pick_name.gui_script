@@ -36,7 +36,6 @@ function init(self)
 	self.sender = monarch.data("pick_name") and monarch.data("pick_name").sender or nil
 	slot = monarch.data("pick_name") and monarch.data("pick_name").slot or nil
 	gui.set_enabled(gui.get_node("cursor"), false)
-	gooey.input("name_text").set_mark_text(false)
 end
 
 
@@ -60,7 +59,7 @@ local function cancel()
 end
 
 function on_input(self, action_id, action)
-	gooey.input("name_text", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, {max_length = 10, allowed_characters="[%a%d]"}, function(input)
+	gooey.input("name_text", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, {max_length = 10, allowed_characters="[%a%d]", use_marked_text=false}, function(input)
 		refresh_input(self, input, "name_text")
 	end)
 	gooey.button("btn_okay", action_id, action, okay, function(b) gooey_buttons.common_button(b, gui.get_node("btn_text")) end)

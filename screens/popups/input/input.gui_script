@@ -17,7 +17,6 @@ function init(self)
 	self.text_node = gui.get_node("txt")
 	gui.set_enabled(self.cursor, false)
 	gui.set_text(self.text_node, self.default_text)
-	gooey.input("txt").set_mark_text(false)
 end
 
 local function exit(self)

@@ -117,7 +117,7 @@ local function refresh_input(self, input, node_id)
 end
 
 function M.on_input(self, action_id, action)
-	local input =  gooey.input("search_text", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, nil, function(input)
+	local input =  gooey.input("search_text", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, {use_marked_text=false}, function(input)
 		refresh_input(self, input, "search_text")
 	end)
 	if input.enabled then
