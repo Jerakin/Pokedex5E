@@ -630,6 +630,8 @@ function M.set_nickname(pokemon, nickname)
 
 	if species:lower() ~= nickname:lower() then
 		pokemon.nickname = nickname
+	else
+		pokemon.nickname = nil
 	end
 end
 

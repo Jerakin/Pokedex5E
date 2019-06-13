@@ -21,6 +21,7 @@ local function pokemon_image(species)
 end
 
 local function save_pokemon(self)
+	_pokemon.set_nickname(self.pokemon, gui.get_text(gui.get_node("change_pokemon/species")))
 	_pokemon.save(self.pokemon)
 	gameanalytics.addDesignEvent {
 		eventId = "Navigation:Party",
