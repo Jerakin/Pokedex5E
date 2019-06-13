@@ -1,5 +1,6 @@
 local gooey = require "gooey.gooey"
 local _pokemon = require "pokedex.pokemon"
+local storage = require "pokedex.storage"
 local party_utils = require "screens.party.utils"
 local type_data = require "utils.type_data"
 local gui_colors = require "utils.gui_colors"
@@ -21,7 +22,7 @@ local current_index
 local function update_pp(nodes, pokemon, name)
 	local pp_current = nodes[hash("txt_pp_current")]
 	local pp_max = nodes[hash("txt_pp_max")]
-	
+
 	local current = _pokemon.get_move_pp(pokemon, name)
 	if type(current) == "number" then
 		local max = _pokemon.get_move_pp_max(pokemon, name)
@@ -86,7 +87,9 @@ local function update_pp_buttons(nodes, name)
 		gameanalytics.addDesignEvent {
 			eventId = "Party:PP:Decrease"
 		}
-		_pokemon.decrease_move_pp(current_pokemon, name)
+		
+		local pp = _pokemon.decrease_move_pp(current_pokemon, name)
+		storage.set_pokemon_move_pp(_pokemon.get_id(current_pokemon), name, pp)
 		update_pp(nodes, current_pokemon, name)
 	end, refresh=gooey_buttons.minus_button
 	}
@@ -95,7 +98,9 @@ local function update_pp_buttons(nodes, name)
 		gameanalytics.addDesignEvent {
 			eventId = "Party:PP:Increase"
 		}
-		_pokemon.increase_move_pp(current_pokemon, name)
+		
+		local pp = _pokemon.increase_move_pp(current_pokemon, name)
+		storage.set_pokemon_move_pp(_pokemon.get_id(current_pokemon), name, pp)
 		update_pp(nodes, current_pokemon, name)
 	end, refresh=gooey_buttons.plus_button
 	}

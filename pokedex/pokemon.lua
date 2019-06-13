@@ -504,6 +504,7 @@ function M.decrease_move_pp(pokemon, move)
 	end
 	local pp = math.max(move_pp - 1, 0)
 	pokemon.moves[move].pp = pp
+	return pp
 end
 
 function M.increase_move_pp(pokemon, move)
@@ -514,6 +515,7 @@ function M.increase_move_pp(pokemon, move)
 	local max_pp = M.get_move_pp_max(pokemon, move)
 	local pp = math.min(move_pp + 1, max_pp)
 	pokemon.moves[move].pp = pp
+	return pp
 end
 
 
