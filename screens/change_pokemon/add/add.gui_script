@@ -54,6 +54,7 @@ local function add_pokemon(self)
 	}
 
 	self.pokemon.level.caught = _pokemon.get_current_level(self.pokemon)
+	self.pokemon.hp.current = _pokemon.get_total_max_hp(self.pokemon)
 	dex.set(self.pokemon.species.current, dex.states.CAUGHT)
 	storage.add(self.pokemon)
 	exit(self)
