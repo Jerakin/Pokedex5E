@@ -113,10 +113,11 @@ function M.set_held_item(pokemon, item)
 end
 
 function M.remove_feat(pokemon, feat)
-	for i, name in pairs(M.get_feats()) do
+	for i, name in pairs(M.get_feats(pokemon)) do
 		if name == feat then
 			if name == "Extra Move" then
-				M.remove_move(self.pokemon, _pokemon.get_moves_count())
+				M.remove_move(pokemon, M.get_moves_count(pokemon))
+				table.remove(pokemon.feats, i)
 				break
 			end
 			table.remove(pokemon.feats, i)
@@ -134,9 +135,17 @@ function M.remove_move(pokemon, index)
 	end
 end
 
+function M.reset_abilities(pokemon)
+	for i, name in pairs(M.get_abilities(pokemon)) do
+		table.remove(pokemon.abilities, i)
+	end
+	for i, name in pairs(pokedex.get_pokemon_abilities(M.get_current_species(pokemon))) do
+		table.insert(pokemon.abilities, name)
+	end
+end
 
 function M.remove_ability(pokemon, ability)
-	for i, name in pairs(M.get_abilities()) do
+	for i, name in pairs(M.get_abilities(pokemon)) do
 		if name == ability then
 			table.remove(pokemon.abilities, i)
 		end

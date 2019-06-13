@@ -452,7 +452,7 @@ end
 
 local function ability_buttons(self, action_id, action)
 	gooey.button("change_pokemon/btn_reset_abilities", action_id, action, function()
-		self.abilities = pokedex.get_pokemon_abilities(_pokemon.get_current_species(self.pokemon))
+		_pokemon.reset_abilities(self.pokemon)
 		redraw(self)
 	end)
 	for _, data in pairs(self.ability_data) do
