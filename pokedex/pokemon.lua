@@ -241,6 +241,10 @@ function M.get_speed_of_type(pokemon)
 	end
 end
 
+function M.get_status_effects(pokemon)
+	return pokemon.statuses or {}
+end
+
 function M.get_all_speed(pokemon)
 	local species = M.get_current_species(pokemon)
 	local mobile_feet = 0

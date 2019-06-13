@@ -187,6 +187,7 @@ end
 function M.on_message(message_id, message)
 	message.active_pokemon_id = M.last_active_id
 	meters.on_message(message_id, message)
+	status_effects.on_message(message_id, message)
 end
 
 

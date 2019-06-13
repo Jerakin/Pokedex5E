@@ -37,7 +37,8 @@ local function update_storage_data(self)
 				local species = _pokemon.get_current_species(pokemon)
 				local level = _pokemon.get_current_level(pokemon)
 				local holding_item = _pokemon.get_held_item(pokemon) or false
-				storage_data[i][a] = {sprite=sprite, texture=texture, species=species, level=level, holding_item=holding_item}
+				local have_status = next(_pokemon.get_status_effects(pokemon)) ~= nil and true or false
+				storage_data[i][a] = {sprite=sprite, texture=texture, species=species, level=level, holding_item=holding_item, have_status=have_status}
 			end
 		end
 	end
@@ -49,16 +50,17 @@ local function update_items(item)
 		local text_node = item.nodes["pokemon_row/pokemon" .. i .. "/txt_pokemon"]
 		local background = item.nodes["pokemon_row/pokemon" .. i .. "/background"]
 		local held_item = item.nodes["pokemon_row/pokemon" .. i .. "/held_item"]
+		local status_ind = item.nodes["pokemon_row/pokemon" .. i .. "/status_indication"]
 		local data = storage_data[item.data]
 		if data and data[i] then
 			gui.set_enabled(background, true)
 			gui.set_enabled(held_item, data[i].holding_item)
+			gui.set_enabled(status_ind, data[i].have_status)
 			gui.set_texture(sprite_node, data[i].texture)
 			gui.play_flipbook(sprite_node, data[i].sprite)
 			gui.set_text(text_node, data[i].species:upper() .. "\nLv. " .. data[i].level)
 			
 		else
-			gui.set_enabled(held_item, false)
 			gui.set_enabled(background, false)
 		end
 	end
