@@ -378,7 +378,7 @@ function M.on_message(self, message_id, message, sender)
 		elseif message_id == hash("evolve") then
 			flow.start(function()
 				flow.until_true(function() return not monarch.is_busy() end)
-				monarch.show("are_you_sure", nil, {title="Evolve at level ".. _pokemon.get_current_level(self.pokemon) .. "?", sender=msg.url(), data=message.item})
+				monarch.show("are_you_sure", nil, {title="Evolve at level ".. _pokemon.get_current_level(self.pokemon) .. "?", text="This will automatically save and exit to Party", sender=msg.url(), data=message.item, id="evolve"})
 			end)
 		elseif message_id == hash("abilities") then
 			_pokemon.add_ability(self.pokemon, message.item)
