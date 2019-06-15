@@ -18,41 +18,6 @@ local number_map = {[0.125]="1/8", [0.25]="1/4", [0.5]="1/2"}
 local item_button
 local active_pokemon
 
-local function setup_held_item(nodes, pokemon)
-	local item = _pokemon.get_held_item(pokemon)
-	local info_root = nodes["pokemon/more_info"]
-	local info_root_pos = gui.get_position(info_root)
-	local move_bg = nodes["pokemon/tab_bg_1"]
-	local ability_bg = nodes["pokemon/tab_stencil_2"]
-	local info_bg = nodes["pokemon/tab_bg_3"]
-	local move_size = gui.get_size(move_bg)
-	local ability_size = gui.get_size(ability_bg)
-	local info_size = gui.get_size(info_bg)
-	if item then
-		local distance = 54
-		gui.set_text(nodes["pokemon/txt_held_item"], "HOLDING: " .. item:upper())
-		gui.set_enabled(nodes["pokemon/held_item"], true)
-		move_size.y = 590 - distance
-		ability_size.y = 600 - distance
-		info_size.y = 590- distance
-		info_root_pos.y = -420 - distance
-		item_button = party_utils.set_id(nodes["pokemon/held_item"])
-	else
-		item_button = nil
-		move_size.y = 590
-		ability_size.y = 600
-		info_size.y = 590
-		info_root_pos.y = -420
-		gui.set_enabled(nodes["pokemon/held_item"], false)
-	end
-	gui.set_size(move_bg, move_size)
-	gui.set_size(ability_bg, ability_size)
-	gui.set_size(info_bg, info_size)
-	gui_utils.scale_fit_node_with_stretch(move_bg)
-	gui_utils.scale_fit_node_with_stretch(ability_bg)
-	gui_utils.scale_fit_node_with_stretch(info_bg)
-	gui.set_position(info_root, info_root_pos)
-end
 
 local function setup_main_information(nodes, pokemon)
 	local speed, stype = _pokemon.get_speed_of_type(pokemon)
@@ -125,7 +90,15 @@ local function setup_info_tab(nodes, pokemon)
 	gui.set_text(nodes["pokemon/traits/txt_exp"], _pokemon.get_pokemon_exp_worth(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_catch"], _pokemon.get_catch_rate(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_hitdice"], "d" .. _pokemon.get_hit_dice(pokemon))
-	
+
+	local item = _pokemon.get_held_item(pokemon)
+	if item then
+		item_button = party_utils.set_id(nodes["pokemon/held_item"])
+		gui.set_text(nodes["pokemon/txt_held_item"], item:upper())
+	else
+		gui.set_text(nodes["pokemon/txt_held_item"], "ITEM: NONE")
+	end
+
 	for name, amount in pairs(_pokemon.get_all_speed(pokemon)) do
 		gui.set_text(nodes["pokemon/traits/txt_" .. name:lower()], amount==0 and "-" or amount .. "ft")
 	end
@@ -171,10 +144,8 @@ end
 function M.create(nodes, pokemon)
 	active = nodes
 	active_pokemon = pokemon
-	setup_held_item(nodes, pokemon)
 	setup_main_information(nodes, pokemon)
 	setup_info_tab(nodes, pokemon)
-	
 end
 
 
