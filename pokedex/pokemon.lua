@@ -74,11 +74,12 @@ local function get_attributes_from_feats(pokemon)
 end
 
 function M.get_attributes(pokemon)
-	local b = pokedex.get_base_attributes(M.get_caught_species(pokemon))
-	local a = M.get_increased_attributes(pokemon) or {}
-	local n = natures.get_nature_attributes(M.get_nature(pokemon)) or {}
-	local f = get_attributes_from_feats(pokemon)
-	return add_tables(add_tables(add_tables(b, n), a), f)
+	local base = pokedex.get_base_attributes(M.get_caught_species(pokemon))
+	local increased = M.get_increased_attributes(pokemon) or {}
+	local added = M.get_added_attributes(pokemon) or {}
+	local natures = natures.get_nature_attributes(M.get_nature(pokemon)) or {}
+	local feats = get_attributes_from_feats(pokemon)
+	return add_tables(add_tables(add_tables(add_tables(base, added), natures), increased), feats)
 end
 
 function M.get_max_attributes(pokemon)
@@ -212,6 +213,22 @@ function M.ability_score_points(pokemon)
 	amount = amount - M.get_evolution_points(pokemon)
 
 	return amount
+end
+
+function M.get_added_attributes(pokemon)
+	return {
+		STR=pokemon.attributes["STR"] or 0,
+		DEX=pokemon.attributes["DEX"] or 0,
+		CON=pokemon.attributes["CON"] or 0,
+		INT=pokemon.attributes["INT"] or 0,
+		WIS=pokemon.attributes["WIS"] or 0,
+		CHA=pokemon.attributes["CHA"] or 0
+	}
+
+end
+
+function M.set_attribute(pokemon, attribute, value)
+	pokemon.attributes[attribute] = value
 end
 
 function M.set_increased_attribute(pokemon, attribute, value)

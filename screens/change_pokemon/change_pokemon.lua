@@ -303,23 +303,33 @@ end
 
 local function increase(self, stat)
 	local max = _pokemon.get_max_attributes(self.pokemon)
+	local added = _pokemon.get_added_attributes(self.pokemon)
 	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon))
 	local nature_attri = natures.get_nature_attributes(_pokemon.get_nature(self.pokemon))
 	local increased = _pokemon.get_increased_attributes(self.pokemon)
-	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0)
+	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0) + added[stat]
 	if  m < max[stat] then
-		_pokemon.set_increased_attribute(self.pokemon, stat, increased[stat] + 1)
+		if monarch.top() == hash("add") then
+			_pokemon.set_attribute(self.pokemon, stat, added[stat] + 1)
+		else
+			_pokemon.set_increased_attribute(self.pokemon, stat, increased[stat] + 1)
+		end
 		redraw(self)
 	end
 end
 
 local function decrease(self, stat)
+	local added = _pokemon.get_added_attributes(self.pokemon)
 	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon))
 	local increased = _pokemon.get_increased_attributes(self.pokemon)
 	local nature_attri = natures.get_nature_attributes(_pokemon.get_nature(self.pokemon))
-	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0)
+	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0) + added[stat]
 	if m > 0 then
-		_pokemon.set_increased_attribute(self.pokemon, stat, increased[stat] - 1)
+		if monarch.top() == hash("add") then
+			_pokemon.set_attribute(self.pokemon, stat, added[stat] - 1)
+		else
+			_pokemon.set_increased_attribute(self.pokemon, stat, increased[stat] - 1)
+		end
 		redraw(self)
 	end
 end
