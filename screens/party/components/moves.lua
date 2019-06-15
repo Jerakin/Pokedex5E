@@ -42,7 +42,7 @@ local function update_pp(nodes, pokemon, name)
 	
 	local p = gui.get_position(pp_current)
 	local cp = gui.get_position(pp_max)
-	p.x = p.x + gui.get_text_metrics_from_node(pp_current).width
+	p.x = p.x + gui.get_text_metrics_from_node(pp_current).width * gui.get_scale(pp_current).x
 	p.y = cp.y
 	gui.set_position(pp_max, p)
 end
