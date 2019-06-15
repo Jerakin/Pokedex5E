@@ -21,7 +21,7 @@ local function pokemon_image(species)
 end
 
 local function save_pokemon(self)
-	_pokemon.set_nickname(self.pokemon, gui.get_text(gui.get_node("change_pokemon/species")))
+	_pokemon.set_nickname(self.pokemon, self.nickname)
 	_pokemon.save(self.pokemon)
 	gameanalytics.addDesignEvent {
 		eventId = "Navigation:Party",
@@ -61,7 +61,7 @@ function init(self)
 	
 	local evolution_possible = pokedex.get_evolution_possible(_pokemon.get_current_species(self.pokemon))
 	local evolution_level = evolution_possible and pokedex.get_evolution_level(_pokemon.get_current_species(self.pokemon))
-	self.nickname = _pokemon.get_nickname(self.pokemon) or _pokemon.get_current_species(self.pokemon):upper()
+	self.nickname = _pokemon.get_nickname(self.pokemon)
 	self.evolve_button = gui.get_node("btn_evolve")
 
 	if not evolution_possible then
@@ -116,13 +116,17 @@ end
 
 local function refresh_input(self, input, node_id)
 	if input.empty and not input.selected then
+		self.nickname = self.nickname or _pokemon.get_current_species(self.pokemon):upper()
 		gui.set_text(input.node, self.nickname)
 	end
 
 	local cursor = gui.get_node("change_pokemon/cursor")
 	if input.selected then
 		if input.empty then
-			gui.set_text(input.node, "")
+			self.nickname = self.nickname or _pokemon.get_current_species(self.pokemon):upper()
+			gui.set_text(input.node, self.nickname)
+		else
+			self.nickname = input.text .. input.marked_text
 		end
 		gui.set_enabled(cursor, true)
 		gui.set_position(cursor, vmath.vector3(input.total_width*0.5, 0, 0))

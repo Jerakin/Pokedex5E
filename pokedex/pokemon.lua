@@ -627,8 +627,7 @@ end
 
 function M.set_nickname(pokemon, nickname)
 	local species = M.get_current_species(pokemon)
-
-	if species:lower() ~= nickname:lower() then
+	if nickname and species:lower() ~= nickname:lower() then
 		pokemon.nickname = nickname
 	else
 		pokemon.nickname = nil
