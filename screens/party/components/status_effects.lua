@@ -46,9 +46,10 @@ local status_nodes
 local current_pokemon_id
 local active_page
 local btn_status 
-local active_page 
+local active_nodes 
  
 function M.create(nodes, pokemon, page)
+	active_nodes = nodes
 	active_page = page or 1
 	current_pokemon_id = _pokemon.get_id(pokemon)
 	btn_status = nodes["pokemon/btn_status"]
@@ -62,23 +63,30 @@ function M.create(nodes, pokemon, page)
 		[M.status.ASLEEP] = nodes["pokemon/status_asleep"],
 		[M.status.CONFUSED] = nodes["pokemon/status_confused"]
 	}
-	M.update(current_pokemon_id)
+	M.update(nodes, current_pokemon_id)
 end
 
-function M.update(pokemon_id)
+function M.update(nodes, pokemon_id)
 	local effects = storage.get_status_effects(pokemon_id)
-	for status, node in pairs(status_nodes) do
-		if effects[status] == true then
-			gui.set_color(node, M.status_colors[status])
-		else
-			gui.set_color(node, gui_colors.BACKGROUND)
+	if next(effects) then
+		gui.set_enabled(nodes["pokemon/txt_no_status"], false)
+		gui.set_enabled(nodes["pokemon/status_affected"], true)
+		for status, node in pairs(status_nodes) do
+			if effects[status] == true then
+				gui.set_color(node, M.status_colors[status])
+			else
+				gui.set_color(node, gui_colors.BACKGROUND)
+			end
 		end
+	else
+		gui.set_enabled(nodes["pokemon/txt_no_status"], true)
+		gui.set_enabled(nodes["pokemon/status_affected"], false)
 	end
 end
 
 function M.on_message(message_id, message)
 	if message_id == hash("refresh_status") then
-		M.update(current_pokemon_id)
+		M.update(active_nodes, current_pokemon_id)
 	end
 end
 
