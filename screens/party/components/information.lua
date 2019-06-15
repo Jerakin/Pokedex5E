@@ -84,7 +84,7 @@ function M.refresh(pokemon_id)
 	gui.set_text(active["pokemon/traits/txt_catch"], _pokemon.get_catch_rate(pokemon))
 	local st_attributes = _pokemon.get_saving_throw_modifier(pokemon)
 	for i, stat in pairs({"STR", "DEX", "CON", "INT", "WIS", "CHA"}) do
-		local save_node = "pokemon/traits/txt_" .. stat:lower() .. "_save"
+		local save_node = "pokemon/txt_" .. stat:lower() .. "_save"
 		gui.set_text(active[save_node], party_utils.add_operation(st_attributes[stat]))
 	end	
 end
@@ -99,11 +99,12 @@ local function setup_info_tab(nodes, pokemon)
 	local st_attributes = _pokemon.get_saving_throw_modifier(pokemon)
 	local total_attributes = _pokemon.get_attributes(pokemon)
 	for i, stat in pairs({"STR", "DEX", "CON", "INT", "WIS", "CHA"}) do
-		local mod_node = "pokemon/traits/txt_" .. stat:lower() .. "_mod"
-		local score_node = "pokemon/traits/txt_" .. stat:lower() .. "_score"
-		local save_node = "pokemon/traits/txt_" .. stat:lower() .. "_save"
+		local mod_node = "pokemon/txt_" .. stat:lower() .. "_mod"
+		local score_node = "pokemon/txt_" .. stat:lower() .. "_score"
+		local save_node = "pokemon/txt_" .. stat:lower() .. "_save"
 
 		gui.set_text(nodes[mod_node], party_utils.to_mod(total_attributes[stat]))
+		print(party_utils.to_mod(total_attributes[stat]))
 		gui.set_text(nodes[save_node], party_utils.add_operation(st_attributes[stat]))
 		gui.set_text(nodes[score_node], total_attributes[stat])
 	end	
