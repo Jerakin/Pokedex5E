@@ -33,12 +33,12 @@ local function setup_main_information(nodes, pokemon)
 	gui.set_text(nodes["pokemon/species"], nickname)
 	gui.set_text(nodes["pokemon/level"], "Lv. " ..  _pokemon.get_current_level(pokemon))
 	gui.set_text(nodes["pokemon/ac"], "AC: " .. _pokemon.get_AC(pokemon))
-	local vul = nodes["pokemon/vulnerabilities"]
-	local imm = nodes["pokemon/immunities"]
-	local res = nodes["pokemon/resistances"]
-	gui.set_text(vul, party_utils.join_table("Vulnerabilities: ", _pokemon.get_vulnerabilities(pokemon), ", "))
-	gui.set_text(res, party_utils.join_table("Resistances: ", _pokemon.get_resistances(pokemon), ", "))
-	gui.set_text(imm, party_utils.join_table("Immunities: ", _pokemon.get_immunities(pokemon), ", "))
+	local vul = nodes["pokemon/traits/vulnerabilities_list"]
+	local imm = nodes["pokemon/traits/immunities_list"]
+	local res = nodes["pokemon/traits/resistances_list"]
+	gui.set_text(vul, party_utils.join_table("", _pokemon.get_vulnerabilities(pokemon), ", "))
+	gui.set_text(res, party_utils.join_table("", _pokemon.get_resistances(pokemon), ", "))
+	gui.set_text(imm, party_utils.join_table("", _pokemon.get_immunities(pokemon), ", "))
 
 	gui_utils.scale_text_to_fit_size(nodes["pokemon/species"])
 end
