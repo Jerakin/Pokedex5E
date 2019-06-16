@@ -7,6 +7,10 @@ fonts {
   name: "script"
   font: "/assets/fonts/script.font"
 }
+fonts {
+  name: "script_bold"
+  font: "/assets/fonts/script_bold.font"
+}
 textures {
   name: "gui"
   texture: "/assets/gui.atlas"
@@ -5026,7 +5030,7 @@ nodes {
   }
   size {
     x: 710.0
-    y: 215.0
+    y: 210.0
     z: 0.0
     w: 1.0
   }
@@ -12419,8 +12423,8 @@ nodes {
 }
 nodes {
   position {
-    x: 320.0
-    y: 605.0
+    x: 323.0
+    y: 614.0
     z: 0.0
     w: 1.0
   }
@@ -12431,9 +12435,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.8
-    y: 0.733
-    z: 0.8
+    x: 0.763
+    y: 0.7
+    z: 0.763
     w: 1.0
   }
   size {
@@ -12471,6 +12475,69 @@ nodes {
   alpha: 1.0
   template_node_child: false
   size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: -7.949
+    y: -48.527
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.7
+    y: 0.7
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 80.0
+    y: 30.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "EDIT"
+  font: "script_bold"
+  id: "edit_text"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "btn_edit"
+  layer: "script"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
 }
 nodes {
   position {
