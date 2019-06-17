@@ -74,6 +74,7 @@
     "PP": 15,
     "Duration": "Instantaneous",
     "Range": "30ft Cone",
+    "Save": "DEX",
     "Description": "You create a stream of hot acid in a 30 foot cone, centered on you. Pokémon caught in the cone must succeed on a DEX save, taking 1d6 + MOVE poison damage on a fail, and half as much on a success.",
     "Damage": {
       "1": {
@@ -107,6 +108,7 @@
     "PP": 10,
     "Duration": "1 minute, Concentration",
     "Range": "Self",
+    "Save": "CON",
     "Description": "You are surrounded by a shield of thick acid for the duration. During this time, your AC increases by 2, and any Pokémon that hits you with a melee attack must succeed on a CON save or take 1d6 poison damage.",
     "Damage": {
       "1": {
@@ -667,6 +669,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "40ft line",
+    "Save": "DEX",
     "Description": "You create a 40 foot line of freezing ice, 5 feet wide. Any creature caught in the line must succeed on a DEX save or take 1d10 + MOVE ice damage and be frozen.",
     "Damage": {
       "1": {
@@ -892,6 +895,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "50ft",
+    "Save": "DEX",
     "Description": "Explosive projectiles rain down upon your opponents in a 10 foot radius. Any creature caught in the blast must succeed on a DEX save against your Move DC or take 3d8 + MOVE fire damage on a fail and half as much on a success. This move saps you of energy, and you forfeit your action on your next turn.",
     "Damage": {
       "1": {
@@ -1004,6 +1008,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "Melee",
+    "Save": "STR",
     "Description": "You thrust yourself towards an opponent in an attempt to crush them with your physical size. Make a melee attack on a target. On a hit, the target takes 2d6 + MOVE normal damage, and must succeed on a STR saving throw against your Move DC or be knocked prone.",
     "Damage": {
       "1": {
@@ -1339,6 +1344,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "80ft line",
+    "Save": "DEX",
     "Description": "You shoot a concentrated stream of bubbles in an 80 foot line, 5 feet wide. Any Pokémon caught in the line must succeed on a DEX save against your Move DC, taking 1d10 + MOVE water damage on a failed save, and half as much on a success.",
     "Damage": {
       "1": {
@@ -2449,6 +2455,7 @@
     "PP": 10,
     "Duration": "1 minute, Concentration",
     "Range": "60ft",
+    "Save": "WIS",
     "Description": "You attempt to disable a Pokémon, hindering its abilities. Choose a target in range. The target must succeed on a WIS saving throw against your Move DC. On a fail, roll a d4. Each of the opponent’s moves is numbered 1 – 4 in alphabetical order. The move corresponding to the number rolled is unable to be activated for one minute. If the target has less than 4 moves, reroll until you get a lower result. If the target has the \"Extra Move\" feat, use a d6 and reroll on 6s."
   },
   "Disarming Voice": {
@@ -3224,6 +3231,7 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "10ft",
+    "Save": "DEX",
     "Description": "You create a tremor in the ground in a 10 foot radius, centered on you. Each creature in the area must succeed on a DEX save against your Move DC, taking 4d4 + MOVE ground damage on a fail and be knocked prone. On a success, they take half as much damage and are not knocked prone. The area becomes difficult terrain. Flying Pokémon are immune to this attack.",
     "Damage": {
       "1": {
@@ -3795,6 +3803,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "40ft",
+    "Save": "DEX",
     "Description": "Raging hot flames explode out from you and leap towards two Pokémon in range. Pokémon targeted must succeed on a DEX save against your Move DC, taking 3d6 + MOVE fire damage and becoming burnt on a fail, and half as much on a success without being burned.",
     "Damage": {
       "1": {
@@ -4009,6 +4018,7 @@
     "PP": 15,
     "Duration": "Instantaneous",
     "Range": "10ft",
+    "Save": "DEX",
     "Description": "A wheel of flame explodes out from you in a 10 foot radius. All Pokémon in the area must succeed on a DEX save against your Move DC, taking 1d10 + MOVE fire damage on a fail and half as much on a save. If the user is frozen, this move can still be used, thawing out the Pokémon during the attack",
     "Damage": {
       "1": {
@@ -4043,6 +4053,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "40ft cone",
+    "Save": "DEX",
     "Description": "You shoot a concentrated gout of flame in an 40 foot cone. Any Pokémon caught in the cone must succeed on a DEX save against your Move DC, taking 2d8 + MOVE fire damage and being burnt on a failed save, or half damage on a success.",
     "Damage": {
       "1": {
@@ -5377,6 +5388,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "30ft line",
+    "Save": "DEX",
     "Description": "You send a surge of powerful water towards enemy Pokémon in an 30 foot line, 5 feet wide. Pokémon caught in the blast must succeed on a DEX save against your Move DC, taking 3d6 + MOVE water damage on a failed save, and half as much on a success.",
     "Damage": {
       "1": {
@@ -5411,6 +5423,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "120ft",
+    "Save": "DEX",
     "Description": "You unleash a concentrated beam of pure energy in a 120 foot line. Any creature caught in the line must succeed on a DEX save or take 3d8 + MOVE normal damage on a fail and half as much on a save. This move cannot be used on consecutive turns by the same creature.",
     "Damage": {
       "1": {
@@ -6407,6 +6420,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "Melee",
+    "Save": "STR",
     "Description": "You sweep your legs at the lower half of an opponent's body. Make a melee attack roll, dealing 1d10 + MOVE fighting damage on a hit. On a hit, target must succeed on a STR save against your Move DC or be knocked prone.",
     "Damage": {
       "1": {
@@ -8024,6 +8038,7 @@
     "PP": 5,
     "Duration": "1 minute, concentration",
     "Range": "40ft",
+    "Save": "CON",
     "Description": "You release a toxic cloud of poisonous gas in a 10 foot radius, centered on a point within range. Any creature that starts their turn in this area must succeed on a CON save against your Move DC, taking 1d6 + MOVE poison damage and becoming poisoned on a fail, or half as much damage without being poisoned on a save.",
     "Damage": {
       "1": {
@@ -8091,6 +8106,7 @@
     "PP": 20,
     "Duration": "Instantaneous",
     "Range": "40ft",
+    "Save": "CON",
     "Description": "You release a cluster of poisonous spores that burst into the air above a Pokémon. The Pokémon must succeed on a CON save against your Move DC, becoming poisoned on a fail."
   },
   "Poison Sting": {
@@ -10028,7 +10044,7 @@
       "None"
     ],
     "Move Time": "1 action",
-    "PP": 3,
+    "PP": 1,
     "Duration": "Instantaneous",
     "Range": "30ft",
     "Description": "You send a chill down the spine of an opponent, freezing its core. Choose a target in range and roll a d20. On a 20, the target faints. On any other roll, this move has no effect. If the target's level is 10 more than your own, this move automatically fails."
@@ -10197,7 +10213,8 @@
     "PP": 3,
     "Duration": "1 round, Concentration",
     "Range": "50ft",
-    "Description": "When you use this move, you lower your head and prepare to strike a foe within range. On your next turn’s action, if you keep your concentration, you charge at a Pokémon in range ignoring your walking speed and any opportunity attacks you may incur. Make a melee attack roll, doing 5d4 + MOVE normal damage on a hit. A Pokémon hit with this attack must succeed on a STR saving throw against your Move DC or be knocked prone.",
+    "Save": "STR",
+    "Description": "When you use this move, you lower your head and prepare to strike a foe within range. On your next turn’s action, if you keep your concentration, you charge at a Pokémon in range ignoring your walking speed and any opportunity attacks you may incur. Make a melee attack roll, doing 5d4 + MOVE normal damage on a hit. A Pokémon hit with this attack much succeed on a STR saving throw against your Move DC or be knocked prone.",
     "Damage": {
       "1": {
         "amount": 5,
@@ -10637,6 +10654,7 @@
     "PP": 10,
     "Duration": "1 round",
     "Range": "30ft",
+    "Save": "CON",
     "Description": "You create a fog of poisonous smog in a 15 foot radius, centered on a point within range. Creatures that begin their turn in the area take 1d4 + MOVE poison damage and must succeed on a CON save against your Move DC or become poisoned. The area of smog is considered difficult terrain, and any attacks make from inside it are done at disadvantage. The smog cloud dissipates at the beginning of your next turn.",
     "Damage": {
       "1": {
@@ -10798,6 +10816,7 @@
     "PP": 5,
     "Duration": "1 round, Concentration",
     "Range": "80ft line",
+    "Save": "DEX",
     "Description": "When you use this move, soak in solar energy and prepare to unleash a devastating beam. On your next turn, if you keep your concentration, use an action to create a 80 foot line of solar energy, 5 feet wide. Any creature caught in the line must succeed on a DEX save or take 3d8 + MOVE grass damage on a fail and half as much on a save. If this move in used in daylight, the damage increases by 2d6.",
     "Damage": {
       "1": {
@@ -12891,6 +12910,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "5ft",
+    "Save": "STR",
     "Description": "You create a whirlwind of spinning air around you, increasing your AC by +2  until the beginning of your next turn. When you activate this move, any Pokémon within 5 feet of you must succeed on a STR saving throw against your Move DC or fall prone. In wild Pokémon battles, this move can be activated to automatically count as a single success in a group DEX check to run away."
   },
   "Wild Charge": {
@@ -13070,6 +13090,7 @@
     "PP": 5,
     "Duration": "1 minute",
     "Range": "30 feet",
+    "Save": "CON",
     "Description": "You shoot a bizarre seed that implants worry into another creature, ally or foe. The target must succeed on a CON save against your Move DC or gain the \"Insomnia\" ability, preventing sleep for the duration."
   },
   "Wrap": {
