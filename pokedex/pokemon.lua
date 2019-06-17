@@ -741,7 +741,14 @@ local function get_damage_mod_stab(pokemon, move)
 		if move_damage[index].move then
 			extra = extra + modifier
 		end
-			damage = damage .. "+" .. extra
+
+		if extra ~= 0 then
+			local symbol = ""
+			if extra > 0 then
+				symbol = "+"
+			end
+			damage = damage .. symbol .. extra
+		end
 		ab = modifier + M.get_proficency_bonus(pokemon)
 	end
 	return damage, modifier, stab
