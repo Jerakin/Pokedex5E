@@ -139,7 +139,7 @@ function M.get_ability_description(ability)
 	if abilities[ability] then
 		return abilities[ability].Description
 	else
-		local e = string.format("Can not find Ability: '%s'", tostring(ability))
+		local e = string.format("Can not find Ability: '%s'", tostring(ability))  .. "\n" .. debug.traceback()
 		gameanalytics.addErrorEvent {
 			severity = "Error",
 			message = e
