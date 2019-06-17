@@ -737,9 +737,11 @@ local function get_damage_mod_stab(pokemon, move)
 	local move_damage = move.Damage
 	if move_damage then
 		damage = move_damage[index].amount .. "d" .. move_damage[index].dice_max
+		local extra = stab_damage
 		if move_damage[index].move then
-			damage = damage .. "+" .. (modifier+stab_damage)
+			extra = extra + modifier
 		end
+			damage = damage .. "+" .. extra
 		ab = modifier + M.get_proficency_bonus(pokemon)
 	end
 	return damage, modifier, stab
