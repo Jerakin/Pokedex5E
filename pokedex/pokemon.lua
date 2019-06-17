@@ -85,10 +85,8 @@ end
 function M.get_max_attributes(pokemon)
 	local m = {STR= 20,DEX= 20,CON= 20,INT= 20,WIS= 20,CHA= 20}
 	local n = natures.get_nature_attributes(M.get_nature(pokemon)) or {}
+
 	local t = add_tables(m, n)
-	for key, value in pairs(t) do
-		t[key] = value > 20 and value or 20 
-	end
 	return t
 end
 
