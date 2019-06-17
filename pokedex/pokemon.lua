@@ -708,21 +708,29 @@ local function level_index(level)
 end
 
 local function get_damage_mod_stab(pokemon, move)
-	local modifier = 0
+	local modifier
 	local damage
 	local ab
 	local stab = false
 	local stab_damage = 0
 	local total = M.get_total_attribute
-
+	local floored_mod
 	-- Pick the highest of the moves power
 	local total = M.get_attributes(pokemon)
 	for _, mod in pairs(move["Move Power"]) do
+		
 		if total[mod] then
-			modifier = total[mod] > modifier and total[mod] or modifier
-			modifier = math.floor((modifier - 10) / 2)
+			local floored_mod = math.floor((total[mod] - 10) / 2)
+			if modifier then
+				if floored_mod > modifier then
+					modifier = floored_mod
+				end
+			else
+				modifier = floored_mod
+			end
 		end
 	end
+	modifier = modifier ~= nil and modifier or 0
 
 	for _, t in pairs(M.get_type(pokemon)) do
 		if move.Type == t and move.Damage then
