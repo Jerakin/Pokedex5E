@@ -142,7 +142,10 @@ function M.update_sections()
 end
 
 function M.update_hp_counter(self)
-	local stored_pokemon = storage.get_copy(_pokemon.get_id(self.pokemon))
+	local stored_pokemon = self.pokemon
+	if storage.is_in_storage(id) then
+		stored_pokemon = storage.get_copy(id)
+	end
 	local max_hp_node = gui.get_node("change_pokemon/txt_max_hp")
 	local mod_hp_node = gui.get_node("change_pokemon/txt_max_hp_mod")
 	local old_max = _pokemon.get_total_max_hp(stored_pokemon or self.pokemon)
@@ -201,8 +204,12 @@ local function redraw(self)
 		print("Why do we redraw now?")
 		return
 	end
-	local stored_pokemon = storage.get_copy(_pokemon.get_id(self.pokemon)) or self.pokemon
-	
+	local id = _pokemon.get_id(self.pokemon)
+	local stored_pokemon = self.pokemon
+	if storage.is_in_storage(id) then
+		stored_pokemon = storage.get_copy(id)
+	end
+
 	local nickname = _pokemon.get_nickname(self.pokemon)
 	local species = _pokemon.get_current_species(self.pokemon)
 	nickname = nickname or species:upper()

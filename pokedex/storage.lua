@@ -85,6 +85,13 @@ function M.is_inventory_pokemon(id)
 	return false
 end
 
+function M.is_in_storage(id)
+	if storage[id] or active[id] then
+		return true
+	end
+	return false
+end
+
 function M.get_copy(id)
 	local pokemon = utils.deep_copy(storage[id] and storage[id] or active[id])
 	if pokemon == nil then
