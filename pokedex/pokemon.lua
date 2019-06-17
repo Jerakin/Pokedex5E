@@ -736,8 +736,13 @@ local function get_damage_mod_stab(pokemon, move)
 	
 	local move_damage = move.Damage
 	if move_damage then
-		damage = move_damage[index].amount .. "d" .. move_damage[index].dice_max
-		local extra = stab_damage
+		local times_prefix = ""
+		if move_damage[index].times then
+			times_prefix = move_damage[index].times .. "x"
+		end
+		
+		damage = times_prefix .. move_damage[index].amount .. "d" .. move_damage[index].dice_max
+		local extra = stab_damage + (move_damage[index].modifier or 0)
 		if move_damage[index].move then
 			extra = extra + modifier
 		end

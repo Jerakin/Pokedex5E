@@ -759,7 +759,33 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "30ft",
-    "Description": "Make a ranged attack on a Pokémon, rolling 1d4 on a hit. You attack with a barrage of ranged strikes equal to the number shown. Each projectile deals 1d4 normal damage."
+    "Description": "Make a ranged attack on a Pokémon, rolling 1d4 on a hit. You attack with a barrage of ranged strikes equal to the number shown. Each projectile deals 1d4 normal damage.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 4,
+        "move": false,
+        "times": "?"
+      },
+      "5": {
+        "amount": 1,
+        "dice_max": 6,
+        "move": false,
+        "times": "?"
+      },
+      "10": {
+        "amount": 2,
+        "dice_max": 4,
+        "move": false,
+        "times": "?"
+      },
+      "17": {
+        "amount": 2,
+        "dice_max": 6,
+        "move": false,
+        "times": "?"
+      }
+    }
   },
   "Barrier": {
     "Type": "Psychic",
@@ -7696,7 +7722,29 @@
     "PP": 3,
     "Duration": "3 rounds, Concentration",
     "Range": "Melee",
-    "Description": "You go into a rampage, doing several attacks without control for three rounds. Make a melee attack roll each round, doing 1d6 + MOVE dragon damage on a hit the first round, 2d6 + MOVE dragon damage on a hit the second round, and 4d6 + MOVE dragon damage on a hit the third round. At the end of the third attack, you become confused. This attack stops if you miss any of the attacks, if concentration is broken, or the user becomes incapacitated."
+    "Description": "You go into a rampage, doing several attacks without control for three rounds. Make a melee attack roll each round, doing 1d6 + MOVE dragon damage on a hit the first round, 2d6 + MOVE dragon damage on a hit the second round, and 4d6 + MOVE dragon damage on a hit the third round. At the end of the third attack, you become confused. This attack stops if you miss any of the attacks, if concentration is broken, or the user becomes incapacitated.",
+    "Damage": {
+      "1": {
+        "amount": "?",
+        "dice_max": 6,
+        "move": true
+      },
+      "5": {
+        "amount": "?",
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": "?",
+        "dice_max": 10,
+        "move": true
+      },
+      "17": {
+        "amount": "?",
+        "dice_max": 12,
+        "move": true
+      }
+    }
   },
   "Overheat": {
     "Type": "Fire",
@@ -11611,22 +11659,30 @@
       "1": {
         "amount": 1,
         "dice_max": 4,
-        "move": false
+        "move": false,
+        "modifier": 1,
+        "times": 3
       },
       "5": {
         "amount": 1,
         "dice_max": 4,
-        "move": false
+        "move": false,
+        "modifier": 1,
+        "times": 4
       },
       "10": {
         "amount": 1,
         "dice_max": 4,
-        "move": false
+        "move": false,
+        "modifier": 1,
+        "times": 5
       },
       "17": {
         "amount": 1,
         "dice_max": 4,
-        "move": false
+        "move": false,
+        "modifier": 1,
+        "times": 6
       }
     }
   },
@@ -11656,22 +11712,26 @@
       "1": {
         "amount": 1,
         "dice_max": 6,
-        "move": true
+        "move": true,
+        "times": 2
       },
       "5": {
         "amount": 1,
         "dice_max": 6,
-        "move": true
+        "move": true,
+        "times": 2
       },
       "10": {
         "amount": 1,
         "dice_max": 6,
-        "move": true
+        "move": true,
+        "times": 3
       },
       "17": {
         "amount": 1,
         "dice_max": 6,
-        "move": true
+        "move": true,
+        "times": 4
       }
     }
   },
