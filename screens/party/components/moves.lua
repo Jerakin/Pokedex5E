@@ -53,7 +53,11 @@ local function update_listitem(list, item)
 	local move_string = {}
 	
 	if move_data.AB then
-		table.insert(move_string, "AB: +" .. move_data.AB)
+		if move_data.AB >= 0 then
+			table.insert(move_string, "AB: +" .. move_data.AB)
+		else
+			table.insert(move_string, "AB: " .. move_data.AB)
+		end
 	end
 	
 	if move_data.save_dc then
