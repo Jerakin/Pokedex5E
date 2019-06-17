@@ -164,7 +164,7 @@ end
 function M.get_base_hp(pokemon)
 	local min_lvl = M.get_minimum_wild_level(pokemon)
 	local con = M.get_base_attributes(pokemon).CON
-	local con_mod = math.ceil((con - 10) / 2)
+	local con_mod = math.floor((con - 10) / 2)
 	return M.get_pokemon(pokemon).HP - (min_lvl * con_mod)
 end
 
