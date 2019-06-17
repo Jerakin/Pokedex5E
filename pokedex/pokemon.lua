@@ -722,9 +722,9 @@ local function get_damage_mod_stab(pokemon, move)
 	for _, mod in pairs(move["Move Power"]) do
 		if total[mod] then
 			modifier = total[mod] > modifier and total[mod] or modifier
+			modifier = math.floor((modifier - 10) / 2)
 		end
 	end
-	modifier = math.floor((modifier - 10) / 2)
 
 	for _, t in pairs(M.get_type(pokemon)) do
 		if move.Type == t and move.Damage then
