@@ -4,6 +4,7 @@ local url = require "utils.url"
 local notify = require "utils.notify"
 local monarch = require "monarch.monarch"
 local dex = require "pokedex.dex"
+local pokedex = require "pokedex.pokedex"
 
 local M = {}
 
@@ -44,7 +45,7 @@ function M.import()
 		notify.notify("Welcome " .. (pokemon.nickname or pokemon.species.current) .. "!")
 		gameanalytics.addDesignEvent {
 			eventId = "Share:Import",
-			value = pokemon.species.current
+			value = pokedex.get_index_number(pokemon.species.current)
 		}
 	else
 		notify.notify("Could not parse pokemon data")
