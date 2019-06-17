@@ -73,7 +73,7 @@ function M.export(id)
 	notify.notify((pokemon.nickname or pokemon.species.current) .. " copied to clipboard!")
 	gameanalytics.addDesignEvent {
 		eventId = "Share:Export",
-		value = pokemon.species.current
+		value = pokedex.get_index_number(pokemon.species.current)
 	}
 end
 
