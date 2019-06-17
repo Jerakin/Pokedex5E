@@ -87,6 +87,14 @@ end
 
 function M.get_copy(id)
 	local pokemon = utils.deep_copy(storage[id] and storage[id] or active[id])
+	if pokemon == nil then
+		local e = string.format("Trying to get nil from storage\n\n%s", debug.traceback())
+		gameanalytics.addErrorEvent {
+			severity = "Critical",
+			message = e
+		}
+		log.error(e)
+	end
 	return pokemon
 end
 

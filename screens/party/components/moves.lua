@@ -156,11 +156,18 @@ local function sort_on_index(a, b)
 end
 
 function M.create(nodes, pokemon, index)
+	if pokemon == nil then
+		local e = string.format("Moves initated with nil\n\n%s", debug.traceback())
+		gameanalytics.addErrorEvent {
+			severity = "Critical",
+			message = e
+		}
+		log.error(e)
+	end
 	active_list = {}
 	pp_buttons = {}
 	current_index = index
 	current_pokemon = pokemon
-
 	active_list.data = {}
 	local _moves = _pokemon.get_moves(pokemon)
 	for _, name in pairs(getKeysSortedByValue(_moves, sort_on_index(a, b))) do
