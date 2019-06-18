@@ -25,6 +25,12 @@ local function setup_main_information(nodes, pokemon)
 	local species = _pokemon.get_current_species(pokemon)
 	nickname = nickname or species:upper()
 
+	local pokemon_sprite, texture = _pokemon.get_sprite(pokemon)
+	gui.set_texture(nodes["pokemon/pokemon_sprite"], texture)
+	gui.play_flipbook(nodes["pokemon/pokemon_sprite"], pokemon_sprite)
+
+	gui.set_text(nodes["pokemon/index"], string.format("#%03d %s", _pokemon.get_index_number(pokemon), species))
+	
 	gui.set_text(nodes["pokemon/species"], nickname)
 	gui.set_text(nodes["pokemon/level"], "Lv. " ..  _pokemon.get_current_level(pokemon))
 	gui.set_text(nodes["pokemon/ac"], "AC: " .. _pokemon.get_AC(pokemon))
