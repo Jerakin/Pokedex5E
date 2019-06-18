@@ -175,5 +175,13 @@ function M.on_input(action_id, action)
 	end
 end
 
+function M.on_message(message_id, message)
+	if message_id == hash("refresh_pp") then
+		for name, data in pairs(_pokemon.get_moves(current_pokemon)) do
+			update_list(gooey.dynamic_list("moves", "stencil" .. current_index, "item" .. current_index, active_list.data))
+		end
+	end
+end
+
 
 return M

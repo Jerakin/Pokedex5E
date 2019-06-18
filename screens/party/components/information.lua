@@ -16,6 +16,7 @@ local _action = vmath.vector3(0)
 local number_map = {[0.125]="1/8", [0.25]="1/4", [0.5]="1/2"}
 
 local item_button
+local rest_button
 local active_pokemon
 
 
@@ -137,6 +138,14 @@ function M.on_input(action_id, action)
 			monarch.show("info", nil, {text=items.get_description(item)})
 		end)
 	end
+
+	gooey.button(rest_button, action_id, action, function() 
+		_pokemon.reset_in_storage(active_pokemon)
+		msg.post(url.PARTY, "refresh_status")
+		msg.post(url.PARTY, "refresh_hp")
+		msg.post(url.PARTY, "refresh_pp")
+	end)
+	
 	_action.x = action.x
 	_action.y = action.y
 end
@@ -144,6 +153,7 @@ end
 function M.create(nodes, pokemon)
 	active = nodes
 	active_pokemon = pokemon
+	rest_button = gui.get_id(active["pokemon/btn_rest"])
 	setup_main_information(nodes, pokemon)
 	setup_info_tab(nodes, pokemon)
 end

@@ -152,7 +152,8 @@ function M.create()
 	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_bg_1"])
 	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_stencil_2"])
 	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_bg_3"])
-
+	gui.set_id(page["pokemon/btn_rest"], "btn_rest_1")
+	
 	local page = gui.clone_tree(gui.get_node("pokemon/root"))
 	tab_buttons(page)
 	table.insert(pokemon_pages, {nodes=page})
@@ -161,7 +162,7 @@ function M.create()
 	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_bg_1"])
 	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_stencil_2"])
 	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_bg_3"])
-
+	gui.set_id(page["pokemon/btn_rest"], "btn_rest_2")
 	gui.delete_node(gui.get_node("pokemon/root"))
 end
 
@@ -188,6 +189,8 @@ function M.on_message(message_id, message)
 	message.active_pokemon_id = M.last_active_id
 	meters.on_message(message_id, message)
 	status_effects.on_message(message_id, message)
+	moves.on_message(message_id, message)
+	
 end
 
 
