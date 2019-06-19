@@ -5,6 +5,7 @@ local notify = require "utils.notify"
 local monarch = require "monarch.monarch"
 local dex = require "pokedex.dex"
 local pokedex = require "pokedex.pokedex"
+local statuses = require "pokedex.statuses"
 
 local M = {}
 
@@ -52,6 +53,13 @@ function M.import()
 		notify.notify(clipboard.paste())
 	end
 end
+local function encode_status(pokemon)
+	local new = {}
+	for s, _ in pairs(pokemon.statuses) do
+		new[statuses.string_to_state[s]] = true
+	end
+	pokemon.statuses = new
+end
 
 function M.get_clipboard()
 	local pokemon = load_json(clipboard.paste())
@@ -59,15 +67,26 @@ function M.get_clipboard()
 		if not validate(pokemon) then
 			return 
 		end
+		encode_status(pokemon)
 		return pokemon
 	end
 	return
 end
 
 
+
+local function decode_status(pokemon)
+	local new = {}
+	for i, _ in pairs(pokemon.statuses) do
+		new[statuses.status_names[i]] = true
+	end
+	pokemon.statuses = new
+end
+
+
 function M.export(id)
 	local pokemon = storage.get_copy(id)
-	
+	decode_status(pokemon)
 	local p_json = ljson.encode(pokemon)
 	clipboard.copy(p_json)
 	notify.notify((pokemon.nickname or pokemon.species.current) .. " copied to clipboard!")
