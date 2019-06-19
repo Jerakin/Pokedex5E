@@ -8,6 +8,9 @@
   <a href="https://jerakin.itch.io/pokedex5e"><img src="/github/itch_badge.png"></a>
   <a href="https://discord.gg/Vx3ytcH"><img src="/github/discord_badge.png"></a>
 </p>
+<p align="center">
+<a href='https://ko-fi.com/O5O8WE9K' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi2.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+</p>
 
 # Pokedex5E
 
