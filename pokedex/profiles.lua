@@ -93,6 +93,13 @@ end
 function M.get_active_name()
 	if profiles[active_slot] then
 		return profiles[active_slot].name
+	else
+		local e = "Can not find active_slot \n" .. debug.traceback()
+		gameanalytics.addErrorEvent {
+			severity = "Critical",
+			message = e
+		}
+		log.error(e)
 	end
 end
 
