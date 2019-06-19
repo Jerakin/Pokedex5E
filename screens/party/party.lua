@@ -58,8 +58,9 @@ end
 
 function M.show(id)
 	M.last_active_id = id
-	local pokemon = storage.get_copy(id)
-	if pokemon then
+	
+	if storage.is_in_storage(id) then
+		local pokemon = storage.get_copy(id)
 		local nodes = pokemon_pages[active_page].nodes
 		information.create(nodes, pokemon)
 		meters.create(nodes, id)
