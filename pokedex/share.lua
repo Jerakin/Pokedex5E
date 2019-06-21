@@ -55,7 +55,7 @@ function M.import()
 end
 local function encode_status(pokemon)
 	local new = {}
-	for s, _ in pairs(pokemon.statuses) do
+	for s, _ in pairs(pokemon.statuses or {}) do
 		new[statuses.string_to_state[s]] = true
 	end
 	pokemon.statuses = new
