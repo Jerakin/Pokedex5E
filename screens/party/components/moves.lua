@@ -116,7 +116,7 @@ local function update_list(list)
 	pp_buttons={}
 
 	for i,item in ipairs(list.items) do
-		if item.data then
+		if item.data and item.data ~= "" then
 			update_listitem(list, item)
 			gui.set_id(item.nodes[hash("btn_minus")], item.data .. "btn_minus")
 			gui.set_id(item.nodes[hash("btn_plus")], item.data .. "btn_plus")

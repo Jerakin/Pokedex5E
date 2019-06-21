@@ -178,12 +178,15 @@ local function redraw_moves(self)
 		local nodes = gui.clone_tree(self.move_node)
 		local txt = nodes["change_pokemon/txt_move"]
 		local btn = nodes["change_pokemon/btn_move"]
+		local del = nodes["change_pokemon/btn_move_delete"]
 		gui.set_id(txt, "move_txt" .. i)
 		gui.set_id(btn, "move_btn" .. i)
+		gui.set_id(del, "delete_move_btn" .. i)
 		gui.set_position(btn, position)
 		gui.set_enabled(btn, true)
 		gui.set_color(txt, gui_colors.HERO_TEXT_FADED)
 		table.insert(move_buttons_list, {node="move_btn" .. i, text=txt})
+		table.insert(self.move_buttons, {node="delete_move_btn" .. i, text=txt})
 		position.x = math.mod(i, 2) * 320
 		position.y = math.ceil((i-1)/2) * -70
 	end
@@ -351,6 +354,7 @@ function M.init(self, pokemon)
 
 	self.list_items = {}
 	self.feats_data = {}
+	self.move_buttons = {}
 	self.ability_data = {}
 	self.move_button_index = 0
 	self.root = gui.get_node("root")
@@ -467,6 +471,11 @@ local function delete_feat(self, feat)
 	redraw(self)
 end
 
+local function delete_move(self, index)
+	_pokemon.remove_move(self.pokemon, index)
+	redraw(self)
+end
+
 local function ability_buttons(self, action_id, action)
 	gooey.button("change_pokemon/btn_reset_abilities", action_id, action, function()
 		_pokemon.reset_abilities(self.pokemon)
@@ -516,6 +525,12 @@ local function extra_buttons(self, action_id, action)
 end
 
 local function move_buttons(self, action_id, action)
+	for index, data in pairs(self.move_buttons) do
+		local a = gooey.button(data.node, action_id, action, function(c) delete_move(self, index) end, gooey_buttons.cross_button)
+		if a.over then
+			return
+		end
+	end
 	for i, button in pairs(move_buttons_list) do
 		gooey.button(button.node, action_id, action, function()
 			self.move_button_index = i
