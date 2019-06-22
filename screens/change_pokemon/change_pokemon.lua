@@ -179,13 +179,14 @@ local function redraw_moves(self)
 		local txt = nodes["change_pokemon/txt_move"]
 		local btn = nodes["change_pokemon/btn_move"]
 		local del = nodes["change_pokemon/btn_move_delete"]
+		local icon = nodes["change_pokemon/icon_move"]
 		gui.set_id(txt, "move_txt" .. i)
 		gui.set_id(btn, "move_btn" .. i)
 		gui.set_id(del, "delete_move_btn" .. i)
 		gui.set_position(btn, position)
 		gui.set_enabled(btn, true)
 		gui.set_color(txt, gui_colors.HERO_TEXT_FADED)
-		table.insert(move_buttons_list, {node="move_btn" .. i, text=txt})
+		table.insert(move_buttons_list, {node="move_btn" .. i, text=txt, icon=icon})
 		table.insert(self.move_buttons, {node="delete_move_btn" .. i, text=txt})
 		position.x = math.mod(i, 2) * 320
 		position.y = math.ceil((i-1)/2) * -70
@@ -194,8 +195,12 @@ local function redraw_moves(self)
 	for move, data in pairs(_pokemon.get_moves(self.pokemon)) do
 		if move_buttons_list[index] then
 			local move_node = move_buttons_list[data.index].text
+			local icon_node = move_buttons_list[data.index].icon
+			
 			gui.set_text(move_node, move:upper())
+			gui_utils.scale_text_to_fit_size(move_node)
 			gui.set_color(move_node, movedex.get_move_color(move))
+			gui.play_flipbook(icon_node, movedex.get_move_icon(move))
 			index = index + 1
 		end
 	end

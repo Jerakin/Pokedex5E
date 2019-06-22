@@ -10,7 +10,9 @@ local sender
 local message_id
 
 local function update_listitem(list, item)
-	gui.set_text(item.nodes["scrollist/txt_item"], tostring(item.data or "-"):upper())
+	gui.set_text(item.nodes["scrollist/txt_item"], tostring(item.data):upper())
+	gui.set_color(item.nodes["scrollist/txt_item"], movedex.get_move_color(item.data))
+	gui.play_flipbook(item.nodes["scrollist/icon"], movedex.get_move_icon(item.data))
 	if item.index == list.selected_item then
 		selected_item = item.data
 	end
