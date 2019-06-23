@@ -60,6 +60,9 @@ local function setup_main_information(nodes, pokemon)
 	local species = _pokemon.get_current_species(pokemon)
 	nickname = nickname or species:upper()
 
+	if _pokemon.is_shiney(pokemon) then
+		gui.play_particlefx(nodes["pokemon/shiney"])
+	end
 	local pokemon_sprite, texture = _pokemon.get_sprite(pokemon)
 	gui.set_texture(nodes["pokemon/pokemon_sprite"], texture)
 	gui.play_flipbook(nodes["pokemon/pokemon_sprite"], pokemon_sprite)

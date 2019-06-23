@@ -370,6 +370,10 @@ function M.init(self, pokemon)
 	gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
 	self.move_node = gui.get_node("change_pokemon/btn_move")
 	gui.set_enabled(self.move_node, false)
+
+	local is_shiney =_pokemon.is_shiney(self.pokemon) or false
+	gui.set_enabled(gui.get_node("change_pokemon/checkmark_shiney_mark"), is_shiney)
+	gooey.checkbox("change_pokemon/bg_shiney").set_checked(is_shiney)
 	update_sections(true)
 end
 
@@ -505,6 +509,14 @@ local function feats_buttons(self, action_id, action)
 	end
 end
 
+local function update_checkbox(checkbox)
+	gui.set_enabled(gui.get_node("change_pokemon/checkmark_shiney_mark"), checkbox.checked)
+end
+
+local function on_checked(self, checkbox)
+	_pokemon.set_shiney(self.pokemon, checkbox.checked)
+end
+
 local function extra_buttons(self, action_id, action)
 	gooey.button("change_pokemon/level/btn_plus", action_id, action, function()
 		local level = _pokemon.get_current_level(self.pokemon)
@@ -527,6 +539,8 @@ local function extra_buttons(self, action_id, action)
 			redraw(self)
 		end
 	end, gooey_buttons.minus_button)
+
+	gooey.checkbox("change_pokemon/bg_shiney", action_id, action, function(checkbox) on_checked(self, checkbox) end, update_checkbox)
 end
 
 local function move_buttons(self, action_id, action)

@@ -225,6 +225,14 @@ function M.get_added_attributes(pokemon)
 
 end
 
+function M.set_shiney(pokemon, value)
+	pokemon.shiney = value == true and true or nil
+end
+
+function M.is_shiney(pokemon)
+	return pokemon.shiney
+end
+
 function M.set_attribute(pokemon, attribute, value)
 	pokemon.attributes[attribute] = value
 end
