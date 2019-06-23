@@ -288,7 +288,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
-  layer: "gui"
+  layer: "script"
   inherit_alpha: true
   slice9 {
     x: 8.0
@@ -420,7 +420,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "root"
-  layer: "title"
+  layer: "script_bold"
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 1.0
@@ -469,7 +469,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
-  layer: ""
+  layer: "gui_back"
   inherit_alpha: true
   slice9 {
     x: 8.0
@@ -516,17 +516,61 @@ nodes {
     w: 1.0
   }
   type: TYPE_PARTICLEFX
-  id: "shiney"
+  id: "shiny_bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   adjust_mode: ADJUST_MODE_FIT
   parent: "bg_pokemon"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   alpha: 1.0
   template_node_child: false
   size_mode: SIZE_MODE_AUTO
-  particlefx: "shiney"
+  particlefx: "shiny_bg"
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 1.0
+    y: 1.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_PARTICLEFX
+  id: "shiny_star_bg"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "bg_pokemon"
+  layer: "gui"
+  inherit_alpha: true
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_AUTO
+  particlefx: "shiny_star_bg"
 }
 nodes {
   position {
@@ -568,7 +612,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "bg_pokemon"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -637,7 +681,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "bg_pokemon"
-  layer: ""
+  layer: "script"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
@@ -645,6 +689,50 @@ nodes {
   template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 1.0
+    y: 1.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_PARTICLEFX
+  id: "shiny_fg"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "bg_pokemon"
+  layer: "gui"
+  inherit_alpha: true
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_AUTO
+  particlefx: "shiny_fg"
 }
 nodes {
   position {
@@ -686,7 +774,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 8.0
@@ -755,7 +843,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
   parent: "bg_vul"
-  layer: ""
+  layer: "script"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
@@ -873,7 +961,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
   parent: "bg_res"
-  layer: ""
+  layer: "script"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
@@ -936,7 +1024,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
   parent: "bg_vul"
-  layer: ""
+  layer: "script"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
@@ -1268,7 +1356,7 @@ nodes {
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -10387,7 +10475,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "status_burning"
-  layer: ""
+  layer: "script"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
@@ -10505,7 +10593,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "status_paralyzed"
-  layer: ""
+  layer: "script"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
@@ -10623,7 +10711,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "status_confused"
-  layer: ""
+  layer: "script"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
@@ -10741,7 +10829,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "status_asleep"
-  layer: ""
+  layer: "script"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
@@ -10859,7 +10947,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "status_frozen"
-  layer: ""
+  layer: "script"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
@@ -10977,7 +11065,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "status_poisoned"
-  layer: ""
+  layer: "script"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
@@ -10993,9 +11081,6 @@ layers {
   name: "script_back"
 }
 layers {
-  name: "pokemon"
-}
-layers {
   name: "gui"
 }
 layers {
@@ -11007,10 +11092,21 @@ layers {
 layers {
   name: "script_bold"
 }
+layers {
+  name: "pokemon"
+}
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT
 max_nodes: 512
 particlefxs {
-  name: "shiney"
-  particlefx: "/assets/shiney.particlefx"
+  name: "shiny_bg"
+  particlefx: "/assets/pfx/shiny_bg.particlefx"
+}
+particlefxs {
+  name: "shiny_fg"
+  particlefx: "/assets/pfx/shiny_fg.particlefx"
+}
+particlefxs {
+  name: "shiny_star_bg"
+  particlefx: "/assets/pfx/shiny_star_bg.particlefx"
 }

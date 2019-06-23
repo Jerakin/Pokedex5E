@@ -14,4 +14,5 @@ M.WHITE = vmath.vector4(1, 1, 1, 1)
 M.TEXT = vmath.vector4(38/255, 36/255, 32/255, 1)
 M.GREEN = vmath.vector4(3/255, 136/255, 12/255, 1)
 M.RED = vmath.vector4(185/255, 48/255, 49/255, 1)
+M.SHINY = vmath.vector4(0, 0, 0, 1)
 return M

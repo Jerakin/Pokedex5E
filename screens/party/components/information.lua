@@ -6,6 +6,7 @@ local party_utils = require "screens.party.utils"
 local gooey = require "gooey.gooey"
 local utils = require "utils.utils"
 local gui_utils = require "utils.gui"
+local gui_colors = require "utils.gui_colors"
 local monarch = require "monarch.monarch"
 
 local M = {}
@@ -61,7 +62,11 @@ local function setup_main_information(nodes, pokemon)
 	nickname = nickname or species:upper()
 
 	if _pokemon.is_shiney(pokemon) then
-		gui.play_particlefx(nodes["pokemon/shiney"])
+		gui.play_particlefx(nodes["pokemon/shiny_bg"])
+		gui.play_particlefx(nodes["pokemon/shiny_fg"])
+		gui.play_particlefx(nodes["pokemon/shiny_star_bg"])
+	else
+		
 	end
 	local pokemon_sprite, texture = _pokemon.get_sprite(pokemon)
 	gui.set_texture(nodes["pokemon/pokemon_sprite"], texture)
