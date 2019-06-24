@@ -2,7 +2,8 @@ local defsave = require "defsave.defsave"
 local zzlib = require "utils.zzlib"
 local flow = require "utils.flow"
 local ufile = require "utils.file"
-
+local settings = require "pokedex.settings"
+local md5 = require "utils.md5"
 local M = {}
 
 local downloading = false
@@ -51,11 +52,14 @@ M.APP_ROOT = nil
 local os_sep = package.config:sub(1, 1)
 local resource_path
 
+local function get_checksum(res)
+	local m = md5.new()
+	m:update(tostring(res))
+	return md5.tohex(m:finish())
+end
+
 function M.download(url)
 	downloading = true
-	if defsave.file_exists(resource_path) then
-		return false
-	end
 	http.request(url, "GET", function(self, id, res)
 		if res.status == 302 then
 			local url = string.gsub(res.response, '<html><body>You are being <a href="', "")
@@ -64,6 +68,14 @@ function M.download(url)
 		elseif res.status ~= 200 and res.status ~= 304 then
 			return
 		else
+			local sum = get_checksum(res.response)
+			if sum == settings.get("fakemon_md5") then
+				print("using downloaded")
+				downloading = false
+				return
+			end
+			settings.set("fakemon_md5", sum)
+
 			local file, err = io.open(resource_path, "w")
 
 			if file then
@@ -76,14 +88,14 @@ function M.download(url)
 			else
 				local e = "Error while opening file\n" .. err
 				print(e)
-				return false
 			end
 		end
 	end)
 end
 
 function M.unpack()
-	print("Unpacking started")
+	print("Unpacking started", resource_path)
+	
 	local file = io.open(resource_path, "rb")
 	local input = file:read("*all")
 	local output, err = zzlib.unzip_archive(input, M.APP_ROOT)
