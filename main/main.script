@@ -84,7 +84,7 @@ function init(self)
 		items.init()
 		filters.init()
 		feats.init()
-		print(pokedex.get_base_hp("Fakemon"))
+		
 		flow.delay(1)
 		flow.until_true( function() return not monarch.is_busy() end)
 		if profiles.is_new_game() or not profiles.get_active_slot() then

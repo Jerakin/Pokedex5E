@@ -48,6 +48,7 @@ local extra_json_files = {
 
 M.PACKAGE_NAME = nil
 M.APP_ROOT = nil
+local os_sep = package.config:sub(1, 1)
 local resource_path
 
 function M.download(url)
@@ -85,7 +86,7 @@ function M.unpack()
 	print("Unpacking started")
 	local file = io.open(resource_path, "rb")
 	local input = file:read("*all")
-	local output, err = zzlib.unzip_archive(input, defsave.get_file_path(""))
+	local output, err = zzlib.unzip_archive(input, M.APP_ROOT)
 	print("Unpacking done")
 end
 
@@ -110,7 +111,7 @@ function M.load(url)
 		if M.PACKAGE_NAME then
 			M.unpack()
 			for n, file_name in pairs(extra_json_files) do
-				local pa = M.APP_ROOT .. M.PACKAGE_NAME .. "/" .. file_name
+				local pa = M.APP_ROOT .. M.PACKAGE_NAME .. os_sep .. file_name
 				print(pa)
 				if file_exists(pa) then
 					print("File loaded to memory: " .. file_name)
