@@ -177,7 +177,7 @@ function M.get_pokemon(pokemon)
 	if pokedex[pokemon] then
 		return utils.deep_copy(pokedex[pokemon])
 	else
-		local e = string.format("Can not find Pokemon: '%s'\n\n%s", tostring(name), debug.traceback())
+		local e = string.format("Can not find Pokemon: '%s'\n\n%s", tostring(pokemon), debug.traceback())
 		gameanalytics.addErrorEvent {
 			severity = "Critical",
 			message = e
