@@ -183,7 +183,6 @@ function M.on_input(action_id, action)
 	end
 	for _, b in pairs(pp_buttons) do
 		gooey.button(b.node, action_id, action, b.func, b.refresh)
-		gui.set_color(gui.get_node(b.node), vmath.vector4(1,0,0,1))
 	end
 end
 
