@@ -690,6 +690,11 @@ function M.get_evolution_level(pokemon)
 	return pokemon.level.evolved or {}
 end
 
+function M.get_icon(pokemon)
+	local species = M.get_current_species(pokemon)
+	return pokedex.get_icon(species)
+end
+
 function M.get_sprite(pokemon)
 	local species = M.get_current_species(pokemon)
 	return pokedex.get_sprite(species)

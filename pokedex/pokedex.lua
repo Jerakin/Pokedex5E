@@ -2,6 +2,7 @@ local file = require "utils.file"
 local utils = require "utils.utils"
 local movedex = require "pokedex.moves"
 local log = require "utils.log"
+local fakemon = require "fakemon.fakemon"
 local M = {}
 
 local pokedex
@@ -14,6 +15,12 @@ local exp_grid
 local initialized = false
 local function list()
 	local ordered = file.load_json_from_resource("/assets/datafiles/pokemon_order.json")
+	if fakemon.pokemon_order then
+		for entry, data in pairs(fakemon.pokemon_order) do
+			ordered[entry] = data
+		end
+	end
+	
 	return ordered.number, #ordered, ordered.unique
 end
 
@@ -25,6 +32,34 @@ function M.init()
 		evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
 		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
 		exp_grid = file.load_json_from_resource("/assets/datafiles/exp_grid.json")
+
+		if fakemon.pokemon then
+			for pokemon, data in pairs(fakemon.pokemon) do
+				pokedex[pokemon] = data
+			end
+		end
+		if fakemon.pokedex_extra then
+			for name, data in pairs(fakemon.pokedex_extra) do
+				pokedex_extra[name] = data
+			end
+		end
+		if fakemon.abilities then
+			for name, data in pairs(fakemon.abilities) do
+				abilities[name] = data
+			end
+		end
+		if fakemon.evolve then
+			evolvedata = fakemon.evolve
+		end
+		if fakemon.leveling then
+			for name, data in pairs(fakemon.leveling) do
+				leveling[name] = data
+			end
+		end
+		if fakemon.exp_grid then
+			exp_grid = fakemon.exp_grid
+		end
+		
 		M.list, M.total, M.unique = list()
 		initialized = true
 	else
@@ -61,6 +96,23 @@ function M.get_genus(pokemon)
 	return dex_extra(pokemon).genus
 end
 
+function M.get_icon(pokemon)
+	local data = M.get_pokemon(pokemon)
+	if data.sprite then
+		local path = fakemon.APP_ROOT .. fakemon.PACKAGE_NAME .. "/" .. data.icon 
+		local file = io.open(path, "rb")
+		local buffer = file:read("*all")
+		file:close()
+		local img = image.load(buffer)
+
+		gui.new_texture("icon_fakemon", img.width, img.height, img.type, img.buffer, false)
+		return nil, "icon_fakemon"
+	end
+	
+	local sprite = M.get_sprite(pokemon)
+	return sprite, "sprite0"
+end
+
 function M.get_sprite(pokemon)
 	local pokemon_index = M.get_index_number(pokemon)
 	if pokemon_index == -1 then
@@ -73,6 +125,17 @@ function M.get_sprite(pokemon)
 		return "493Arceus", "pokemon0"
 	end
 
+	local data = M.get_pokemon(pokemon)
+	if data.sprite then
+		local path = fakemon.APP_ROOT .. fakemon.PACKAGE_NAME .. "/" .. data.sprite 
+		local file = io.open(path, "rb")
+		local buffer = file:read("*all")
+		file:close()
+		local img = image.load(buffer)
+
+		gui.new_texture("sprite_fakemon", img.width, img.height, img.type, img.buffer, false)
+		return nil, "sprite_fakemon"
+	end
 	return pokemon_sprite, "pokemon0"
 end
 

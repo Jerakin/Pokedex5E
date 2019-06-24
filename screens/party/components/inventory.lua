@@ -30,13 +30,15 @@ local function create_party_indicators(pokemons_in_party)
 		local party_sprite = gui.get_node("party_indicator/inventory_pokemon_" .. i .. "/pokemon_sprite")
 		if id then
 			local pokemon = storage.get_copy(id)
-			local pokemon_sprite, _ = _pokemon.get_sprite(pokemon)
+			local pokemon_sprite, texture = _pokemon.get_icon(pokemon)
 			gui.set_scale(party_sprite, vmath.vector3(2.5))
 			gui.set_texture(party_sprite, "gui")
 			gui.set_color(party_sprite, gui_colors.WHITE)
 			
-			gui.set_texture(party_sprite, "sprite0")
-			gui.play_flipbook(party_sprite, pokemon_sprite)
+			gui.set_texture(party_sprite, texture)
+			if pokemon_sprite then
+				gui.play_flipbook(party_sprite, pokemon_sprite)
+			end
 			local b = {node="party_indicator/inventory_pokemon_" .. i .. "/pokemon_sprite", func=function() activate_pokemon(i) end}
 			table.insert(buttons, b)
 		else

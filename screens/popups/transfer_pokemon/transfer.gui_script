@@ -135,8 +135,9 @@ local function setup_info(self)
 	local pokemon = storage.get_copy(self.pokemon_id)
 	local pokemon_sprite, texture = _pokemon.get_sprite(pokemon)
 	gui.set_texture(gui.get_node("pokemon_sprite"), texture)
-	gui.play_flipbook(gui.get_node("pokemon_sprite"), pokemon_sprite)
-
+	if pokemon_sprite then
+		gui.play_flipbook(gui.get_node("pokemon_sprite"), pokemon_sprite)
+	end
 	gui.set_text(gui.get_node("txt_lvl"), "Lv. " .. _pokemon.get_current_level(pokemon))
 	gui.set_text(gui.get_node("txt_ac"), "AC: " .. _pokemon.get_AC(pokemon))
 
