@@ -7,7 +7,7 @@ local log = require "utils.log"
 local M = {}
 
 local dex = {}
-local dex_stats
+local dex_stats = {[1]={[1]=0, [2]=0}, [2]={[1]=0, [2]=0}, [3]={[1]=0, [2]=0}, [4]={[1]=0, [2]=0}}
 local initialized = false
 
 M.states = {SEEN=1, CAUGHT=2, UNENCOUNTERED=3}

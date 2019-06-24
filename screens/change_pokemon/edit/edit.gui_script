@@ -116,15 +116,14 @@ end
 
 local function refresh_input(self, input, node_id)
 	if input.empty and not input.selected then
-		self.nickname = self.nickname or _pokemon.get_current_species(self.pokemon):upper()
-		gui.set_text(input.node, self.nickname)
+		gui.set_text(input.node, self.nickname or _pokemon.get_current_species(self.pokemon):upper())
 	end
 
 	local cursor = gui.get_node("change_pokemon/cursor")
 	if input.selected then
 		if input.empty then
-			self.nickname = self.nickname or _pokemon.get_current_species(self.pokemon):upper()
-			gui.set_text(input.node, self.nickname)
+			gui.set_text(input.node, _pokemon.get_current_species(self.pokemon):upper())
+			self.nickname = nil
 		else
 			self.nickname = input.text .. input.marked_text
 		end

@@ -41,26 +41,26 @@
     "PP": 15,
     "Duration": "Instantaneous",
     "Range": "Melee",
-    "Description": "You attempt to absorb some of an enemy’s health. Make a melee attack on a Pokémon. On a hit, the Pokémon takes 1d6 + MOVE grass damage. Half the damage done is restored by the user.",
+    "Description": "You attempt to absorb some of an enemy’s health. Make a melee attack on a Pokémon. On a hit, the Pokémon takes 1d4 + MOVE grass damage. Half the damage done is restored by the user.",
     "Damage": {
       "1": {
         "amount": 1,
-        "dice_max": 6,
+        "dice_max": 4,
         "move": true
       },
       "5": {
+        "amount": 2,
+        "dice_max": 4,
+        "move": true
+      },
+      "10": {
         "amount": 1,
         "dice_max": 12,
         "move": true
       },
-      "10": {
-        "amount": 2,
-        "dice_max": 8,
-        "move": true
-      },
       "17": {
         "amount": 4,
-        "dice_max": 6,
+        "dice_max": 4,
         "move": true
       }
     }
@@ -73,7 +73,8 @@
     "Move Time": "1 action",
     "PP": 15,
     "Duration": "Instantaneous",
-    "Range": "30ft Cone",
+    "Range": "30ft cone",
+    "Save": "DEX",
     "Description": "You create a stream of hot acid in a 30 foot cone, centered on you. Pokémon caught in the cone must succeed on a DEX save, taking 1d6 + MOVE poison damage on a fail, and half as much on a success.",
     "Damage": {
       "1": {
@@ -107,6 +108,7 @@
     "PP": 10,
     "Duration": "1 minute, Concentration",
     "Range": "Self",
+    "Save": "CON",
     "Description": "You are surrounded by a shield of thick acid for the duration. During this time, your AC increases by 2, and any Pokémon that hits you with a melee attack must succeed on a CON save or take 1d6 poison damage.",
     "Damage": {
       "1": {
@@ -294,7 +296,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Description": "You slash at an opponent with a blade of sharp air.  Make a ranged attack on an opponent, dealing 1d12 + MOVE flying damage on a hit. On a natural attack roll of 15 or higher, the target flinches if it has not taken a turn this round.",
     "Damage": {
       "1": {
@@ -586,7 +588,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "20 feet",
+    "Range": "20ft",
     "Description": "You summon your underlings to attack a foe. Make a ranged attack on an opponent, dealing 2d8 + MOVE bug damage on a hit. This move scores a critical hit on rolls of 19 or 20.",
     "Damage": {
       "1": {
@@ -632,7 +634,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Description": "You focus your aura into a concentrated blast that strikes an opponent in range. This move is guaranteed to hit for 1d6 + MOVE fighting damage, except when targeting an opponent in the invulnerable stages of Fly, Dig, Bounce, etc.",
     "Damage": {
       "1": {
@@ -667,6 +669,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "40ft line",
+    "Save": "DEX",
     "Description": "You create a 40 foot line of freezing ice, 5 feet wide. Any creature caught in the line must succeed on a DEX save or take 1d10 + MOVE ice damage and be frozen.",
     "Damage": {
       "1": {
@@ -710,7 +713,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Description": "You send forth a heap of powerful snow to pummel an opponent. Make a ranged attack on a target, dealing 1d10 + MOVE ice damage on a hit. If the target has dealt any damage to you since the end of your last turn, double the damage you deal.",
     "Damage": {
       "1": {
@@ -756,7 +759,33 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "30ft",
-    "Description": "Make a ranged attack on a Pokémon, rolling 1d4 on a hit. You attack with a barrage of ranged strikes equal to the number shown. Each projectile deals 1d4 normal damage."
+    "Description": "Make a ranged attack on a Pokémon, rolling 1d4 on a hit. You attack with a barrage of ranged strikes equal to the number shown. Each projectile deals 1d4 normal damage.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 4,
+        "move": false,
+        "times": "?"
+      },
+      "5": {
+        "amount": 1,
+        "dice_max": 6,
+        "move": false,
+        "times": "?"
+      },
+      "10": {
+        "amount": 2,
+        "dice_max": 4,
+        "move": false,
+        "times": "?"
+      },
+      "17": {
+        "amount": 2,
+        "dice_max": 6,
+        "move": false,
+        "times": "?"
+      }
+    }
   },
   "Barrier": {
     "Type": "Psychic",
@@ -892,6 +921,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "50ft",
+    "Save": "DEX",
     "Description": "Explosive projectiles rain down upon your opponents in a 10 foot radius. Any creature caught in the blast must succeed on a DEX save against your Move DC or take 3d8 + MOVE fire damage on a fail and half as much on a success. This move saps you of energy, and you forfeit your action on your next turn.",
     "Damage": {
       "1": {
@@ -1004,6 +1034,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "Melee",
+    "Save": "STR",
     "Description": "You thrust yourself towards an opponent in an attempt to crush them with your physical size. Make a melee attack on a target. On a hit, the target takes 2d6 + MOVE normal damage, and must succeed on a STR saving throw against your Move DC or be knocked prone.",
     "Damage": {
       "1": {
@@ -1237,7 +1268,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Description": "You send a harsh blast of salt water at an opponent. Make a ranged attack against an opponent, dealing 1d10 + MOVE water damage on a hit. If the opponent has less that 50% of its max HP, double the damage dealt.",
     "Damage": {
       "1": {
@@ -1339,6 +1370,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "80ft line",
+    "Save": "DEX",
     "Description": "You shoot a concentrated stream of bubbles in an 80 foot line, 5 feet wide. Any Pokémon caught in the line must succeed on a DEX save against your Move DC, taking 1d10 + MOVE water damage on a failed save, and half as much on a success.",
     "Damage": {
       "1": {
@@ -1406,7 +1438,7 @@
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
-    "Range": "20 feet",
+    "Range": "20ft",
     "Save": "CON",
     "Description": "You vibrate your wings, creating a harsh sound that damages any creature in range. All creatures within 20 feet of you must make a CON save against your Move DC, taking 2d8 + MOVE bug damage on a fail. If an opponent fails the save by more than 5, they have disadvantage on their next attack.",
     "Damage": {
@@ -1574,7 +1606,7 @@
     "Move Time": "1 reaction",
     "PP": 3,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Save": "WIS",
     "Description": "You attempt to charm an opponent into pulling its punches. When hit by an attack from an opponent of the opposite gender, you may use a reaction to force it to make a WIS save against your Move DC. On a failure, the attack does not hit."
   },
@@ -1598,7 +1630,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "50 feet",
+    "Range": "50ft",
     "Description": "You send a beam of electric energy at an opponent that has a chance to power you up. Make a ranged attack, dealing 1d8 + MOVE electric damage on a hit. If the natural attack roll is 10 or higher and the attack hits, add your proficiency bonus to the damage.",
     "Damage": {
       "1": {
@@ -1645,7 +1677,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Description": "You shout a series of disorienting words at an opponent, scrambling their senses. Make a ranged attack. On a hit, deal 1d10 + MOVE flying damage and cause the target to become confused.",
     "Damage": {
       "1": {
@@ -1780,7 +1812,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Save": "WIS",
     "Description": "You whisper an untold secret into the mind of an opponent in range. The target must make a WIS save against your Move DC, becoming confused on a failure."
   },
@@ -2276,7 +2308,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Description": "You target an opponent with a dark aura filled with horrible thoughts. Make a ranged attack on an opponent, dealing 2d6 + MOVE dark damage on a hit. On natural attack rolls of 17 or higher, the target flinches.",
     "Damage": {
       "1": {
@@ -2309,7 +2341,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Save": "WIS",
     "Description": "You send the minds of your opponents into a world of darkness, putting them to sleep.  All creatures within 30 feet of you must make a WIS save against your Move DC, falling asleep on a failure."
   },
@@ -2378,7 +2410,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "50 feet",
+    "Range": "50ft",
     "Description": "You summon a swift, magical breeze in a 50 foot radius, centered on you, that sweeps away foggy weather and obstacles. When activating this move, any area of effect moves that are still active end immediately (Examples: Misty Terrain, Fog Cloud, Smog, etc.)."
   },
   "Destiny Bond": {
@@ -2449,6 +2481,7 @@
     "PP": 10,
     "Duration": "1 minute, Concentration",
     "Range": "60ft",
+    "Save": "WIS",
     "Description": "You attempt to disable a Pokémon, hindering its abilities. Choose a target in range. The target must succeed on a WIS saving throw against your Move DC. On a fail, roll a d4. Each of the opponent’s moves is numbered 1 – 4 in alphabetical order. The move corresponding to the number rolled is unable to be activated for one minute. If the target has less than 4 moves, reroll until you get a lower result. If the target has the \"Extra Move\" feat, use a d6 and reroll on 6s."
   },
   "Disarming Voice": {
@@ -2774,7 +2807,7 @@
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Save": "DEX",
     "Description": "You summon forth a meteor shower that rains down on your opponents. All creatures in a 10 foot circle, centered on a point within range, must make a DEX save against your Move DC, taking 5d4 + MOVE dragon damage on a hit, or half as much on a save. After activating this move, your next attack is rolled at disadvantage. If that attack requires a saving throw, the target has advantage.",
     "Damage": {
@@ -2887,7 +2920,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "50 feet",
+    "Range": "50ft",
     "Description": "You open your mouth and send a shockwave of draconic energy at a target in range. Make a ranged attack, dealing 2d6 + MOVE dragon damage on a hit.",
     "Damage": {
       "1": {
@@ -2989,7 +3022,7 @@
     "Duration": "Instantaneous",
     "Range": "Melee",
     "Save": "CON",
-    "Description": "You whip your dragon tail at an opponent in an attempt to send them away. Force a target to make a CON save against your Move DC. On a failure, the target takes 1d10 + MOVE dragon damage and is too frightened by you to remain in battle. In trainer battles, the target must be switched out if another creature is available. In wild battles, the target only flees if it is a lower level than the user.",
+    "Description": "You whip your dragon tail at an opponent in an attempt to send them away. Force a target to make a CON save against your Move DC. On a failure, they are too frightened by you to remain in battle. In trainer battles, the target must be switched out if another creature is available. In wild battles, the target only flees if it a lower level than the user.",
     "Damage": {
       "1": {
         "amount": 1,
@@ -3190,7 +3223,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Description": "You cause the ground beneath an opponent to erupt with power. Make a ranged attack, dealing 2d8 + MOVE ground damage on a hit. If the natural attack roll is 19 or 20, the next attack against the target is rolled at advantage.",
     "Damage": {
       "1": {
@@ -3224,6 +3257,7 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "10ft",
+    "Save": "DEX",
     "Description": "You create a tremor in the ground in a 10 foot radius, centered on you. Each creature in the area must succeed on a DEX save against your Move DC, taking 4d4 + MOVE ground damage on a fail and be knocked prone. On a success, they take half as much damage and are not knocked prone. The area becomes difficult terrain. Flying Pokémon are immune to this attack.",
     "Damage": {
       "1": {
@@ -3257,7 +3291,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Description": "You release a shout that echoes across the battlefield towards an opponent. Make a ranged attack, dealing 1d6 + MOVE normal damage on a hit. Until the beginning of your next turn, if any other creature in range uses this move, they may double their damage dice on a hit. This multiplier can continue to stack to a maximum of 8x the damage dice, resetting if any of the attacks miss.",
     "Damage": {
       "1": {
@@ -3323,7 +3357,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 minute",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Save": "WIS",
     "Description": "You surround an opponent in range with a dark aura. Force an opponent to make a WIS save against your Move DC. On a failure, the opponent cannot gain the effect of any held item or trainer item given to it for the duration."
   },
@@ -3406,7 +3440,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Description": "You draw in power from nature in a concentrated ball that you send towards an opponent. Make a ranged attack, dealing 2d8 + MOVE grass damage on a hit. On a natural attack roll of 19 or 20, the next attack against the target is rolled at advantage.",
     "Damage": {
       "1": {
@@ -3440,7 +3474,7 @@
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
-    "Range": "15 foot cone",
+    "Range": "15ft cone",
     "Save": "DEX",
     "Description": "You spew hot magma in a 15 foot cone. Any creature caught in the blast must make a DEX saving throw against your Move DC, taking 3d8 + MOVE fire damage on a failure, or half as much on a success. If you are at full health when activating this move, double your STAB bonus when dealing damage.",
     "Damage": {
@@ -3795,6 +3829,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "40ft",
+    "Save": "DEX",
     "Description": "Raging hot flames explode out from you and leap towards two Pokémon in range. Pokémon targeted must succeed on a DEX save against your Move DC, taking 3d6 + MOVE fire damage and becoming burnt on a fail, and half as much on a success without being burned.",
     "Damage": {
       "1": {
@@ -4009,6 +4044,7 @@
     "PP": 15,
     "Duration": "Instantaneous",
     "Range": "10ft",
+    "Save": "DEX",
     "Description": "A wheel of flame explodes out from you in a 10 foot radius. All Pokémon in the area must succeed on a DEX save against your Move DC, taking 1d10 + MOVE fire damage on a fail and half as much on a save. If the user is frozen, this move can still be used, thawing out the Pokémon during the attack",
     "Damage": {
       "1": {
@@ -4043,6 +4079,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "40ft cone",
+    "Save": "DEX",
     "Description": "You shoot a concentrated gout of flame in an 40 foot cone. Any Pokémon caught in the cone must succeed on a DEX save against your Move DC, taking 2d8 + MOVE fire damage and being burnt on a failed save, or half damage on a success.",
     "Damage": {
       "1": {
@@ -4122,7 +4159,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "60 feet",
+    "Range": "60ft",
     "Description": "You gather energy from the light around you and send a concentrated beam towards an opponent in range. Make a ranged attack, dealing 2d6 + MOVE steel damage on a hit. On a natural attack roll of 19 or 20, the next attack against the opponent is rolled at advantage.",
     "Damage": {
       "1": {
@@ -4167,7 +4204,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "60 feet",
+    "Range": "60ft",
     "Description": "You sacrifice your held item to throw it an opponent. Make a ranged attack. On a hit, the amount of dark damage dealt is equal to the price of the item in the manual, divided by 100 (rounded down), plus STAB (if applicable). After activating this move, on a hit or miss, the item disappears."
   },
   "Flower Shield": {
@@ -4224,7 +4261,7 @@
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
-    "Range": "60 feet",
+    "Range": "60ft",
     "Description": "You heighten your focus and unleash it upon an opponent. Make a ranged attack, dealing 2d10 + MOVE fighting damage on a hit. On a natural attack roll of 19 or 20, the next attack against the opponent is rolled at advantage.",
     "Damage": {
       "1": {
@@ -4313,7 +4350,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Description": "You thrust your palm outward with such strength that a shockwave is sent towards an opponent. Make a ranged attack, dealing 1d10 + MOVE fighting damage on a hit. On a natural attack roll of 16 or higher, the target is paralyzed.",
     "Damage": {
       "1": {
@@ -4358,7 +4395,7 @@
     "Move Time": "1 action, recharge",
     "PP": 3,
     "Duration": "Instantaneous",
-    "Range": "15 foot circle",
+    "Range": "15ft circle",
     "Save": "DEX",
     "Description": "You summon a whirlwind of jagged branches and razor sharp leaves that batter all opponents in a 15 foot circle, centered on you. All opponent caught in the flurry must make a DEX saving throw against your Move DC, taking 3d8 + MOVE grass damage on a failure, and half as much on a success. This move saps you of energy, and you forfeit your action on your next turn.",
     "Damage": {
@@ -4393,7 +4430,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "15 feet",
+    "Range": "15ft",
     "Description": "You blow a gust of freezing cold air at an opponent in range. Make a melee attack roll, dealing 1d12 + MOVE ice damage on a hit.",
     "Damage": {
       "1": {
@@ -4596,7 +4633,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "1 minute",
-    "Range": "20 feet",
+    "Range": "20ft",
     "Description": "You hurl stomach acid towards a foe. Make a ranged attack. On a hit, the target is covered in the disgusting substance and cannot benefit from the effect of any of its abilities for the duration."
   },
   "Geomancy": {
@@ -4698,7 +4735,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Description": "You attempt to ensnare an opponent with vines that sprout from the ground, causing it to trip. Make a ranged attack, dealing 1d10 + MOVE grass damage on a hit. If the targets size is Large or bigger, double the dice roll for the damage. On a natural attack roll of 19 or 20, the target falls prone.",
     "Damage": {
       "1": {
@@ -4815,7 +4852,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "1 minute, Concentration",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Save": "WIS",
     "Description": "You use your psychic power to swap defenses with an opponent. Force an opponent in range to make a WIS save against your Move DC. On a failure, switch armor class with the opponent for the duration."
   },
@@ -4838,7 +4875,7 @@
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Description": "You fire a wad of icky gunk at an opponent. Make a ranged attack, dealing 1d10 + MOVE poison damage on a hit. On a natural attack roll of 16 or higher, the target is poisoned.",
     "Damage": {
       "1": {
@@ -5103,7 +5140,7 @@
     "Move Time": "1 reaction",
     "PP": 3,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Description": "When an opponent within range attempts to use an HP recovery move, item, or ability, you may use your reaction to send psychic waves into the mind of the target, preventing the recovery of health."
   },
   "Heal Order": {
@@ -5159,7 +5196,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Save": "WIS",
     "Description": "Force an opponent in range to make a WIS save against your Move DC. On a failure, you employ your psychic power to swap any changes in ability modifiers, AC, attack changes, damage boosts, etc. that are currently in affect on you or the target."
   },
@@ -5172,7 +5209,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "15 foot cone",
+    "Range": "15ft cone",
     "Save": "DEX",
     "Description": "You exhale a wave of hot breath in a 15ft. cone. Creatures caught in the area must make a DEX save against your Move DC, taking 2d8 + MOVE fire damage on failure, or half as much on a success. If the creature fails the save by 5 or more, it is burned.",
     "Damage": {
@@ -5341,7 +5378,7 @@
     "Move Time": "1 action, recharge",
     "PP": 3,
     "Duration": "Instantaneous",
-    "Range": "50 foot line",
+    "Range": "50ft line",
     "Save": "DEX",
     "Description": "You fire a powerful stream of high-speed water at opponents in a 50 foot line, 5 feet wide. Any opponent caught in the blast must make a DEX saving throw against your Move DC, taking 3d8 + MOVE water damage on a failure, and half as much on a success.. Pokémon that fail the save also are pushed back 10 feet and fall prone. This move saps you of energy, and you forfeit your action on your next turn.",
     "Damage": {
@@ -5377,6 +5414,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "30ft line",
+    "Save": "DEX",
     "Description": "You send a surge of powerful water towards enemy Pokémon in an 30 foot line, 5 feet wide. Pokémon caught in the blast must succeed on a DEX save against your Move DC, taking 3d6 + MOVE water damage on a failed save, and half as much on a success.",
     "Damage": {
       "1": {
@@ -5411,6 +5449,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "120ft",
+    "Save": "DEX",
     "Description": "You unleash a concentrated beam of pure energy in a 120 foot line. Any creature caught in the line must succeed on a DEX save or take 3d8 + MOVE normal damage on a fail and half as much on a save. This move cannot be used on consecutive turns by the same creature.",
     "Damage": {
       "1": {
@@ -5661,7 +5700,7 @@
     "Move Time": "1 action",
     "PP": 20,
     "Duration": "Instantaneous",
-    "Range": "50 feet",
+    "Range": "50ft",
     "Description": "You flash freeze chunks of ice and hurl them at an opponent. At the beginning of a round of combat, you may announce that you are using this move, immediately jumping to the top of the initiative order for that round only. Make a ranged attack on an opponent, dealing 1d6 + MOVE ice damage on a hit.",
     "Damage": {
       "1": {
@@ -5773,7 +5812,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "1d4 rounds",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Save": "CON",
     "Description": "You summon an infestation of tiny insects to attack a foe for multiple turns. Make a ranged attack on a target. On a hit, the target takes 1d4 + MOVE bug damage and becomes infested for 1d4 rounds. An infested creature must make a CON save against your Move DC at the beginning of each of its turns, taking 1d4 + MOVE bug damage on a failed save.",
     "Damage": {
@@ -5831,6 +5870,17 @@
         "move": true
       }
     }
+  },
+  "Iron Defense": {
+    "Type": "Steel",
+    "Move Power": [
+      "None"
+    ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "1 round",
+    "Range": "Self",
+    "Description": "Your body temporarily becomes solid as steel plate. Until your next turn, you gain + 6 to your AC and have resistance to all types of damage. If you were vulnerable, you now take regular damage. If you were already resistant, you become immune."
   },
   "Iron Head": {
     "Type": "Steel",
@@ -5906,7 +5956,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "100 feet",
+    "Range": "100ft",
     "Save": "DEX",
     "Description": "You send powerful missiles of pure energy to rain down on any opponent in a 40 foot circle, centered on a point in range. Any creature caught in the area must make a DEX save against your Move DC, taking 5d6 + MOVE damage on a failure, or half as much on a success. The type of the damage depends on the kind of plate the user is holding.",
     "Damage": {
@@ -6155,7 +6205,7 @@
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Save": "DEX",
     "Description": "You whip up a powerful storm of leaves in a 20 foot circle, centered on a point within range. All creatures in the area must make a DEX save against your Move DC, taking 5d4 + MOVE grass damage on a fail, or half as much on a success. After activating this move, you are sapped of energy. Your next attack deals half the normal damage, if it hits.",
     "Damage": {
@@ -6407,6 +6457,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "Melee",
+    "Save": "STR",
     "Description": "You sweep your legs at the lower half of an opponent's body. Make a melee attack roll, dealing 1d10 + MOVE fighting damage on a hit. On a hit, target must succeed on a STR save against your Move DC or be knocked prone.",
     "Damage": {
       "1": {
@@ -6573,7 +6624,7 @@
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "1 minute, Concentration",
-    "Range": "50 feet",
+    "Range": "50ft",
     "Save": "CON",
     "Description": "You stir up a maelstrom of fire in a 20 foot circle, centered on a point within range, that continues to rage as long as you hold your concentration. Any creature that starts their turn in the storm must make a CON save against your Move DC, taking 4d4 + MOVE fire damage on a failure, or half as much on a success.",
     "Damage": {
@@ -6608,7 +6659,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "60 feet",
+    "Range": "60ft",
     "Description": "You hurl a steel ball that seeks out an opponent in range, never missing. This move is guaranteed to hit for 1d6 + MOVE steel damage, unless during the invulnerable stage of Fly, Dig, Bounce, Dive, etc. moves.",
     "Damage": {
       "1": {
@@ -6664,7 +6715,7 @@
     "Move Time": "1 reaction",
     "PP": 3,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Description": "When targeted by a direct attack that isn't Fake Out, Sucker Punch, or one that moved the opponent to the top of the initiative order (Extreme Speed, etc.), you may use your reaction to copy the opponent's move against it before it makes the attack. Your attack is rolled at disadvantage, but on a hit, double the damage dice for the move. The damage tier for the move is based off of your level, not the opponent's."
   },
   "Mean Look": {
@@ -7014,7 +7065,7 @@
     "Move Time": "1 action",
     "PP": 20,
     "Duration": "1 minute",
-    "Range": "50 feet",
+    "Range": "50ft",
     "Save": "WIS",
     "Description": "You flash your eyes at your opponent, stunning them briefly and lowering their defenses. When activating this move, choose a target in range and force them to make a WIS save against your Move DC. On a failure, any modifiers to their AC are reset, and if they are Dark or Ghost-type, their immunities are relinquished for the duration."
   },
@@ -7072,7 +7123,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Save": "CON",
     "Description": "You loose a damaging flash of light from your polished body. Make a ranged attack on an opponent, dealing 1d10 + MOVE steel damage on a hit. On a hit, the target must make a CON save against your Move DC. On a failure, the target has disadvantage on its next attack roll.",
     "Damage": {
@@ -7265,7 +7316,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Save": "CON",
     "Description": "You throw a hard-packed mud ball at an opponent. Make a ranged attack, dealing 1d10 + MOVE ground damage on a hit. On a hit, the target must make a CON save against your Move DC. On a failure, the target has disadvantage on its next attack roll.",
     "Damage": {
@@ -7332,7 +7383,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 minute",
-    "Range": "5 feet",
+    "Range": "5ft",
     "Description": "You cover yourself and all allies around you with thick mud, reducing the amount of electric damage taken for anyone affected. For the duration, you and any ally in range (when you initially activated this move) have resistance to electric-type attacks. If you were already resistant, you are now immune. If you were vulnerable, you now take regular damage. If you are immune to electric-type moves already, nothing happens."
   },
   "Mud-Slap": {
@@ -7423,7 +7474,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Description": "You draw in power from your held berry, releasing it into a ranged attack. Make a ranged attack, dealing 1d12 + MOVE damage on a hit. The type is dependant on what berry you are holding, according to the chart below:\n\n<div style='column-count:2'>\n\n| Type  | Berry|\n|:---:|:-----------:|\n|  Normal  | Chilan |\n|  Fire  | Cherri, Occa |\n|  Water  | Chesto, Passho |\n|  Electric  | Pecha, Waccan |\n|  Grass  | Rawst, Rindo |\n|  Ice  | Aspear, Yache |\n|  Fighting  | Leppa, Chople |\n|  Poison  | Oran, Kebia |\n|  Ground  | Persim, Shucca |\n\n\n| Type  | Berry |\n|:---:|:-----------:|\n|  Flying  | Lum, Coba |\n|  Psychic  | Sitrus, Payapa |\n|  Bug  | Tanga |\n|  Rock  | Charti |\n|  Ghost  | Kasib |\n|  Dragon  | Haban |\n|  Dark  | Colbur |\n|  Steel  | Babiri, Razz |\n|  Fairy  | Roseli |\n\n</div>",
     "Damage": {
       "1": {
@@ -7648,7 +7699,7 @@
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Description": "You stir up a gust of repulsive wind that strikes an opponent in range. Make a ranged attack, dealing 1d10 + MOVE ghost damage on a hit. On a natural attack roll of 19 or 20, increase all of your ability scores by +1 for three rounds.",
     "Damage": {
       "1": {
@@ -7682,7 +7733,29 @@
     "PP": 3,
     "Duration": "3 rounds, Concentration",
     "Range": "Melee",
-    "Description": "You go into a rampage, doing several attacks without control for three rounds. Make a melee attack roll each round, doing 1d6 + MOVE dragon damage on a hit the first round, 2d6 + MOVE dragon damage on a hit the second round, and 4d6 + MOVE dragon damage on a hit the third round. At the end of the third attack, you become confused. This attack stops if you miss any of the attacks, if concentration is broken, or the user becomes incapacitated."
+    "Description": "You go into a rampage, doing several attacks without control for three rounds. Make a melee attack roll each round, doing 1d6 + MOVE dragon damage on a hit the first round, 2d6 + MOVE dragon damage on a hit the second round, and 4d6 + MOVE dragon damage on a hit the third round. At the end of the third attack, you become confused. This attack stops if you miss any of the attacks, if concentration is broken, or the user becomes incapacitated.",
+    "Damage": {
+      "1": {
+        "amount": "?",
+        "dice_max": 6,
+        "move": true
+      },
+      "5": {
+        "amount": "?",
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": "?",
+        "dice_max": 10,
+        "move": true
+      },
+      "17": {
+        "amount": "?",
+        "dice_max": 12,
+        "move": true
+      }
+    }
   },
   "Overheat": {
     "Type": "Fire",
@@ -7983,7 +8056,6 @@
   "Poison Fang": {
     "Type": "Poison",
     "Move Power": [
-      "STR",
       "DEX"
     ],
     "Move Time": "1 action",
@@ -8024,6 +8096,7 @@
     "PP": 5,
     "Duration": "1 minute, concentration",
     "Range": "40ft",
+    "Save": "CON",
     "Description": "You release a toxic cloud of poisonous gas in a 10 foot radius, centered on a point within range. Any creature that starts their turn in this area must succeed on a CON save against your Move DC, taking 1d6 + MOVE poison damage and becoming poisoned on a fail, or half as much damage without being poisoned on a save.",
     "Damage": {
       "1": {
@@ -8058,7 +8131,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "Melee",
-    "Description": "You stab an opponent with an appendage steeped in poison. Make a melee attack on an opponent, dealing 2d8 + MOVE poison damage on a hit. On a natural attack roll of 16 or higher, the target is poisoned.",
+    "Description": "You stab an opponent with an appendage steeped in poison. Make a melee attack on an opponent, dealing 2d6 + MOVE poison damage on a hit. On a natural attack roll of 16 or higher, the target is poisoned.",
     "Damage": {
       "1": {
         "amount": 2,
@@ -8091,6 +8164,7 @@
     "PP": 20,
     "Duration": "Instantaneous",
     "Range": "40ft",
+    "Save": "CON",
     "Description": "You release a cluster of poisonous spores that burst into the air above a Pokémon. The Pokémon must succeed on a CON save against your Move DC, becoming poisoned on a fail."
   },
   "Poison Sting": {
@@ -8236,7 +8310,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Description": "A ray of light bursts out of your gemstone, damaging an opponent in range. Make a ranged attack, dealing 2d6 + MOVE rock damage on a hit.",
     "Damage": {
       "1": {
@@ -8270,7 +8344,7 @@
     "Move Time": "1 bonus action",
     "PP": 3,
     "Duration": "1 round",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Save": "WIS",
     "Description": "As a bonus action, force an opponent in range to make a WIS save against your Move DC. On a failure, you employ your psychic power to swap a single ability score with an opponent until the end of their next turn, for purposes of attack and damage rolls."
   },
@@ -8488,7 +8562,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Description": "You tear at a foe with blades formed by psychic power. Make a ranged attack on an opponent, dealing 1d12 + MOVE psychic damage on a hit. This move scores a critical hit on natural rolls of 19 or 20.",
     "Damage": {
       "1": {
@@ -8522,7 +8596,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Save": "WIS",
     "Description": "You employ your psychic power to transfer a status condition to someone else. Choose a willing ally (or yourself) and an opponent in range. Force the opponent to make a WIS save against your Move DC. on a failure, a status affecting the ally (or you) is transferred to the opponent instead."
   },
@@ -8535,7 +8609,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Description": "You materialize a psychic wave that shocks an opponent. Make a ranged attack, dealing 2d6 + MOVE psychic damage on a hit.",
     "Damage": {
       "1": {
@@ -8582,7 +8656,7 @@
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Description": "You send dark energy to punish an opponent. Make a ranged attack against an opponent, dealing 1d10 + MOVE dark damage on a hit. If the opponent is currently under the influence of a move or ability that boosts its attack, damage, or AC, increase the damage by one damage dice for each effect.",
     "Damage": {
       "1": {
@@ -8650,7 +8724,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Save": "WIS",
     "Description": "You send dark energy at a creature in range, reducing their will to fight. The target must make a WIS save against your Move DC. On a failure, it must move to the bottom of the initiative order for this round only. Targets that have already taken their turn in this round are unaffected."
   },
@@ -9248,7 +9322,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "20 feet",
+    "Range": "20ft",
     "Save": "STR",
     "Description": "You summon a collection of boulders that attempt to surround a foe. Force an opponent in range to make a STR saving throw against your Move DC. On a failure, the opponent takes 1d10 + MOVE rock damage and is grappled and restrained. The target may make a STR saving throw against your Move DC at the beginning of each of its turns to attempt to release themselves from the rock.",
     "Damage": {
@@ -9282,7 +9356,7 @@
     "Move Time": "1 action, recharge",
     "PP": 3,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Description": "You summon a huge boulder and launch it at a foe in range. Make a ranged attack, dealing 3d10 + MOVE rock damage on a hit. This move saps you of energy, and you forfeit your action on your next turn.",
     "Damage": {
       "1": {
@@ -9428,7 +9502,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "40 feet",
+    "Range": "40ft",
     "Save": "WIS",
     "Description": "You attack a foe's mind with a harsh song. Select a target in range and force them to make a WIS save against your Move DC. On a failure, the target takes 1d10 + MOVE normal damage. If an ally in range also knows this move, they can join in the song as a reaction to double the damage dice.",
     "Damage": {
@@ -9588,7 +9662,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "20 feet",
+    "Range": "20ft",
     "Description": "You instantly boil water within you to a damaging temperature, blasting an opponent with its heat. Make a ranged attack, dealing 2d6 + MOVE water damage on a hit. On a natural attack roll of 15 or more, the target is burned.",
     "Damage": {
       "1": {
@@ -9716,7 +9790,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Description": "You fire a series of hard seeds that crash down on top of an opponent in range. Make a ranged attack, dealing 2d6 + MOVE grass damage on a hit.",
     "Damage": {
       "1": {
@@ -9749,7 +9823,7 @@
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
-    "Range": "20 feet",
+    "Range": "20ft",
     "Save": "CON",
     "Description": "You release a bright shockwave from your body, damaging all creatures within 20 feet of you. Any creature in range must make a CON save against your Move DC,  taking 2d10 + MOVE grass damage on a failure, or half as much on a success. On your next turn, any attack roll made against a target that failed is rolled at advantage.",
     "Damage": {
@@ -9784,7 +9858,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "Melee",
-    "Description": "You attempt to throw a Pokémon into the ground with tremendous force. Make a melee attack roll, doing fighting damage equal to the user’s level on a hit, double on a critical hit. Seismic Toss results in a critical hit on 19s and 20s."
+    "Description": "You attempt to throw a Pokémon into the ground with tremendous force. Make a melee attack roll, doing fighting damage equal to the opponent’s level on a hit, double on a critical hit. Seismic Toss results in a critical hit on 19s and 20s."
   },
   "Self-Destruct": {
     "Type": "Normal",
@@ -9863,7 +9937,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "20 feet",
+    "Range": "20ft",
     "Description": "You strike with a sharp claw made from shadows in range. Make a ranged attack, dealing 1d12 + MOVE ghost damage on a hit. This moves scores a critical hit on natural attack rolls of 19 and 20.",
     "Damage": {
       "1": {
@@ -10041,7 +10115,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "15 foot cone",
+    "Range": "15ft cone",
     "Description": "A burst of electric energy glides forward, striking anything in a 15 foot cone. This move is guaranteed to hit all creatures caught in the wave for 1d4 + MOVE electric damage, unless during the invulnerable stage of Fly, Dig, Bounce, Dive, etc. moves.",
     "Damage": {
       "1": {
@@ -10197,7 +10271,8 @@
     "PP": 3,
     "Duration": "1 round, Concentration",
     "Range": "50ft",
-    "Description": "When you use this move, you lower your head and prepare to strike a foe within range. On your next turn’s action, if you keep your concentration, you charge at a Pokémon in range ignoring your walking speed and any opportunity attacks you may incur. Make a melee attack roll, doing 5d4 + MOVE normal damage on a hit. A Pokémon hit with this attack must succeed on a STR saving throw against your Move DC or be knocked prone.",
+    "Save": "STR",
+    "Description": "When you use this move, you lower your head and prepare to strike a foe within range. On your next turn’s action, if you keep your concentration, you charge at a Pokémon in range, ignoring your walking speed and any opportunity attacks you may incur. Make a melee attack roll, doing 5d4 + MOVE normal damage on a hit. A Pokémon hit with this attack must succeed on a STR saving throw against your Move DC or be knocked prone.",
     "Damage": {
       "1": {
         "amount": 5,
@@ -10398,7 +10473,8 @@
         "dice_max": 6,
         "move": true
       }
-    }
+    },
+    "": "#### Confuse Ray\n___\n- **Type:** Ghost\n- **Move Power:** DEX/INT\n- **Move Time:** 1 action\n- **PP:** 10\n- **Duration:** Instantaneous\n- **Range:** 60ft\n- **Description:** You release a ray of psychic energy meant to confuse an opponent. Choose a target in range. The target must make an INT saving throw against your Move DC or take 1d4 + MOVE psychic damage and become confused.\n- **Higher Levels:** The damage dice roll for this moves changes to 1d6 at level 5, 1d8 at level 10, and 2d6 at level 17."
   },
   "Sleep Powder": {
     "Type": "Grass",
@@ -10410,8 +10486,7 @@
     "Duration": "Instantaneous",
     "Range": "40ft",
     "Save": "WIS",
-    "Description": "You release a cluster of spores at a Pokémon in range, attempting to put them to sleep. The target must make a WIS saving throw against your Move DC or fall asleep.",
-    "": "#### Confuse Ray\n___\n- **Type:** Ghost\n- **Move Power:** DEX/INT\n- **Move Time:** 1 action\n- **PP:** 10\n- **Duration:** Instantaneous\n- **Range:** 60ft\n- **Description:** You release a ray of psychic energy meant to confuse an opponent. Choose a target in range. The target must make an INT saving throw against your Move DC or take 1d4 + MOVE psychic damage and become confused.\n- **Higher Levels:** The damage dice roll for this moves changes to 1d6 at level 5, 1d8 at level 10, and 2d6 at level 17."
+    "Description": "You release a cluster of spores at a Pokémon in range, attempting to put them to sleep. The target must make a WIS saving throw against your Move DC or fall asleep."
   },
   "Sleep Talk": {
     "Type": "Normal",
@@ -10503,7 +10578,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Description": "You send a wave of poisonous sludge at an opponent in range. Make a ranged attack, dealing 2d8 + MOVE poison damage on a hit. On a natural attack roll of 19 or 20, the target is poisoned.",
     "Damage": {
       "1": {
@@ -10536,7 +10611,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Description": "You throw a solid piece of stone at an opponent in an attempt to bring them to the ground. Make a ranged attack, dealing 1d8 + MOVE rock damage on a hit. On a hit, any \"raised\" creature (ones with the flying type, \"Levitate\", \"Magnet Rise\", etc. moves) is knocked prone and loses its immunity to ground-type moves until it can move again.",
     "Damage": {
       "1": {
@@ -10637,6 +10712,7 @@
     "PP": 10,
     "Duration": "1 round",
     "Range": "30ft",
+    "Save": "CON",
     "Description": "You create a fog of poisonous smog in a 15 foot radius, centered on a point within range. Creatures that begin their turn in the area take 1d4 + MOVE poison damage and must succeed on a CON save against your Move DC or become poisoned. The area of smog is considered difficult terrain, and any attacks make from inside it are done at disadvantage. The smog cloud dissipates at the beginning of your next turn.",
     "Damage": {
       "1": {
@@ -10682,7 +10758,7 @@
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Save": "WIS",
     "Description": "You release a harsh growl at an opponent, damaging their willpower. Force an opponent to make a WIS save against your Move DC. On a failure, the target takes 1d8 + MOVE dark damage. If you are the target of its next attack, the attack is rolled at disadvantage.",
     "Damage": {
@@ -10798,6 +10874,7 @@
     "PP": 5,
     "Duration": "1 round, Concentration",
     "Range": "80ft line",
+    "Save": "DEX",
     "Description": "When you use this move, soak in solar energy and prepare to unleash a devastating beam. On your next turn, if you keep your concentration, use an action to create a 80 foot line of solar energy, 5 feet wide. Any creature caught in the line must succeed on a DEX save or take 3d8 + MOVE grass damage on a fail and half as much on a save. If this move in used in daylight, the damage increases by 2d6.",
     "Damage": {
       "1": {
@@ -10844,7 +10921,7 @@
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
-    "Range": "50 feet",
+    "Range": "50ft",
     "Save": "CON",
     "Description": "You release a powerful shockwave that tears through foes and the space around them. All creatures within 50 feet of you must make a CON save against your Move DC, taking 5d6 + MOVE dragon damage on a failure, or half as much on a success. Creatures that fail this save by more than 5 become uncontrollable and are sucked into the Ethereal Plane where they must remain for 1d4 rounds, appearing in the same location when they return.",
     "Damage": {
@@ -11098,7 +11175,7 @@
     "Move Time": "1 reaction",
     "PP": 3,
     "Duration": "Instantaneous",
-    "Range": "50 feet",
+    "Range": "50ft",
     "Description": "You quickly summon a trap of sharp rocks that hurts a creature entering the battle. When a creature is switched into battle, you may use your reaction to make a ranged attack, dealing 1d8 + MOVE rock damage to the incoming creature on a hit.",
     "Damage": {
       "1": {
@@ -11592,22 +11669,30 @@
       "1": {
         "amount": 1,
         "dice_max": 4,
-        "move": false
+        "move": false,
+        "modifier": 1,
+        "times": 3
       },
       "5": {
         "amount": 1,
         "dice_max": 4,
-        "move": false
+        "move": false,
+        "modifier": 1,
+        "times": 4
       },
       "10": {
         "amount": 1,
         "dice_max": 4,
-        "move": false
+        "move": false,
+        "modifier": 1,
+        "times": 5
       },
       "17": {
         "amount": 1,
         "dice_max": 4,
-        "move": false
+        "move": false,
+        "modifier": 1,
+        "times": 6
       }
     }
   },
@@ -11626,33 +11711,37 @@
   "Swords Dance": {
     "Type": "Normal",
     "Move Power": [
-      "None"
+      "DEX"
     ],
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "1 minute, concentration",
     "Range": "Self",
-    "Description": "When you activate this move, two swords appear and dance around you, increasing your AC by +1 for each sword. As a bonus action on a future turn, you can drop out of concentration to send the swords at an enemy Pokémon within 30 feet of you, making two ranged attack rolls, doing 1d6 normal damage on each hit.",
+    "Description": "When you activate this move, two swords appear and dance around you, increasing your AC by +1 for each sword. As a bonus action on a future turn, you can drop out of concentration to send the swords at an enemy Pokémon within 30 feet of you, making three ranged attack rolls, doing 1d6 normal damage on each hit.",
     "Damage": {
       "1": {
         "amount": 1,
         "dice_max": 6,
-        "move": true
+        "move": true,
+        "times": 2
       },
       "5": {
         "amount": 1,
         "dice_max": 6,
-        "move": true
+        "move": true,
+        "times": 2
       },
       "10": {
         "amount": 1,
         "dice_max": 6,
-        "move": true
+        "move": true,
+        "times": 3
       },
       "17": {
         "amount": 1,
         "dice_max": 6,
-        "move": true
+        "move": true,
+        "times": 4
       }
     }
   },
@@ -12125,7 +12214,7 @@
     "Move Time": "1 reaction",
     "PP": 3,
     "Duration": "Instantaneous",
-    "Range": "50 feet",
+    "Range": "50ft",
     "Save": "CON",
     "Description": "You quickly summon a trap of poisonous spikes around an opponent that enters the battle. When a creature is switched into battle, you may use your reaction to force an opponent to make a CON save against your Move DC, becoming poisoned on a failure."
   },
@@ -12239,7 +12328,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "30 feet",
+    "Range": "30ft",
     "Description": "You strike out with a blast of energy that increases in strength the more it is used. Make a ranged attack on an opponent, dealing 1d6 + MOVE normal damage on a hit. Increase the damage by an additional damage dice for each PP that has been expended for the move, before the move was activated. Using a restorative to regain PP resets the damage for this attack.",
     "Damage": {
       "1": {
@@ -12441,7 +12530,7 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
-    "Range": "15 feet",
+    "Range": "15ft",
     "Description": "You attempt to drench an opponent in poisonous liquid. Make a ranged attack on an opponent, dealing 1d10 + MOVE poison damage on a hit. If the target is already poisoned, double the damage dice.",
     "Damage": {
       "1": {
@@ -12891,6 +12980,7 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "5ft",
+    "Save": "STR",
     "Description": "You create a whirlwind of spinning air around you, increasing your AC by +2  until the beginning of your next turn. When you activate this move, any Pokémon within 5 feet of you must succeed on a STR saving throw against your Move DC or fall prone. In wild Pokémon battles, this move can be activated to automatically count as a single success in a group DEX check to run away."
   },
   "Wild Charge": {
@@ -13069,7 +13159,8 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "1 minute",
-    "Range": "30 feet",
+    "Range": "30ft",
+    "Save": "CON",
     "Description": "You shoot a bizarre seed that implants worry into another creature, ally or foe. The target must succeed on a CON save against your Move DC or gain the \"Insomnia\" ability, preventing sleep for the duration."
   },
   "Wrap": {
@@ -13184,17 +13275,6 @@
     "Duration": "1 round",
     "Range": "30ft",
     "Description": "You release a big yawn that causes an opponent to become very drowsy. Choose a target in range. If that target is still in the battle at the end of its next turn, it falls asleep."
-  },
-  "Iron Defense": {
-    "Type": "Steel",
-    "Move Power": [
-      "None"
-    ],
-    "Move Time": "1 action",
-    "PP": 10,
-    "Duration": "1 round",
-    "Range": "Self",
-    "Description": "Your body temporarily becomes solid as steel plate. Until your next turn, you gain + 6 to your AC and have resistance to all types of damage. If you were vulnerable, you now take regular damage. If you were already resistant, you become immune."
   },
   "Zap Cannon": {
     "Type": "Electric",

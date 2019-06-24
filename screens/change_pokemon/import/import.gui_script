@@ -73,7 +73,6 @@ function init(self)
 	pokemon_edit.redraw(self)
 
 	pokemon_image(_pokemon.get_current_species(self.pokemon))
-	pokemon_edit.block = true
 	pokemon_edit.init(self)
 	
 	local b = {node="btn_add", func=function() add_pokemon(self) end, refresh=function(b) gooey_buttons.common_button(b, gui.get_node("txt_add")) end}

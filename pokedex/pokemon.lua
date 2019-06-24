@@ -74,20 +74,19 @@ local function get_attributes_from_feats(pokemon)
 end
 
 function M.get_attributes(pokemon)
-	local b = pokedex.get_base_attributes(M.get_caught_species(pokemon))
-	local a = M.get_increased_attributes(pokemon) or {}
-	local n = natures.get_nature_attributes(M.get_nature(pokemon)) or {}
-	local f = get_attributes_from_feats(pokemon)
-	return add_tables(add_tables(add_tables(b, n), a), f)
+	local base = pokedex.get_base_attributes(M.get_caught_species(pokemon))
+	local increased = M.get_increased_attributes(pokemon) or {}
+	local added = M.get_added_attributes(pokemon) or {}
+	local natures = natures.get_nature_attributes(M.get_nature(pokemon)) or {}
+	local feats = get_attributes_from_feats(pokemon)
+	return add_tables(add_tables(add_tables(add_tables(base, added), natures), increased), feats)
 end
 
 function M.get_max_attributes(pokemon)
 	local m = {STR= 20,DEX= 20,CON= 20,INT= 20,WIS= 20,CHA= 20}
 	local n = natures.get_nature_attributes(M.get_nature(pokemon)) or {}
+
 	local t = add_tables(m, n)
-	for key, value in pairs(t) do
-		t[key] = value > 20 and value or 20 
-	end
 	return t
 end
 
@@ -212,6 +211,22 @@ function M.ability_score_points(pokemon)
 	amount = amount - M.get_evolution_points(pokemon)
 
 	return amount
+end
+
+function M.get_added_attributes(pokemon)
+	return {
+		STR=pokemon.attributes["STR"] or 0,
+		DEX=pokemon.attributes["DEX"] or 0,
+		CON=pokemon.attributes["CON"] or 0,
+		INT=pokemon.attributes["INT"] or 0,
+		WIS=pokemon.attributes["WIS"] or 0,
+		CHA=pokemon.attributes["CHA"] or 0
+	}
+
+end
+
+function M.set_attribute(pokemon, attribute, value)
+	pokemon.attributes[attribute] = value
 end
 
 function M.set_increased_attribute(pokemon, attribute, value)
@@ -700,21 +715,29 @@ local function level_index(level)
 end
 
 local function get_damage_mod_stab(pokemon, move)
-	local modifier = 0
+	local modifier
 	local damage
 	local ab
 	local stab = false
 	local stab_damage = 0
 	local total = M.get_total_attribute
-
+	local floored_mod
 	-- Pick the highest of the moves power
 	local total = M.get_attributes(pokemon)
 	for _, mod in pairs(move["Move Power"]) do
+		
 		if total[mod] then
-			modifier = total[mod] > modifier and total[mod] or modifier
+			local floored_mod = math.floor((total[mod] - 10) / 2)
+			if modifier then
+				if floored_mod > modifier then
+					modifier = floored_mod
+				end
+			else
+				modifier = floored_mod
+			end
 		end
 	end
-	modifier = math.floor((modifier - 10) / 2)
+	modifier = modifier ~= nil and modifier or 0
 
 	for _, t in pairs(M.get_type(pokemon)) do
 		if move.Type == t and move.Damage then
@@ -726,9 +749,23 @@ local function get_damage_mod_stab(pokemon, move)
 	
 	local move_damage = move.Damage
 	if move_damage then
-		damage = move_damage[index].amount .. "d" .. move_damage[index].dice_max
+		local times_prefix = ""
+		if move_damage[index].times then
+			times_prefix = move_damage[index].times .. "x"
+		end
+		
+		damage = times_prefix .. move_damage[index].amount .. "d" .. move_damage[index].dice_max
+		local extra = stab_damage + (move_damage[index].modifier or 0)
 		if move_damage[index].move then
-			damage = damage .. "+" .. (modifier+stab_damage)
+			extra = extra + modifier
+		end
+
+		if extra ~= 0 then
+			local symbol = ""
+			if extra > 0 then
+				symbol = "+"
+			end
+			damage = damage .. symbol .. extra
 		end
 		ab = modifier + M.get_proficency_bonus(pokemon)
 	end

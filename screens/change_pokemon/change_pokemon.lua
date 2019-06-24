@@ -142,7 +142,10 @@ function M.update_sections()
 end
 
 function M.update_hp_counter(self)
-	local stored_pokemon = storage.get_copy(_pokemon.get_id(self.pokemon))
+	local stored_pokemon = self.pokemon
+	if storage.is_in_storage(id) then
+		stored_pokemon = storage.get_copy(id)
+	end
 	local max_hp_node = gui.get_node("change_pokemon/txt_max_hp")
 	local mod_hp_node = gui.get_node("change_pokemon/txt_max_hp_mod")
 	local old_max = _pokemon.get_total_max_hp(stored_pokemon or self.pokemon)
@@ -175,12 +178,16 @@ local function redraw_moves(self)
 		local nodes = gui.clone_tree(self.move_node)
 		local txt = nodes["change_pokemon/txt_move"]
 		local btn = nodes["change_pokemon/btn_move"]
+		local del = nodes["change_pokemon/btn_move_delete"]
+		local icon = nodes["change_pokemon/icon_move"]
 		gui.set_id(txt, "move_txt" .. i)
 		gui.set_id(btn, "move_btn" .. i)
+		gui.set_id(del, "delete_move_btn" .. i)
 		gui.set_position(btn, position)
 		gui.set_enabled(btn, true)
 		gui.set_color(txt, gui_colors.HERO_TEXT_FADED)
-		table.insert(move_buttons_list, {node="move_btn" .. i, text=txt})
+		table.insert(move_buttons_list, {node="move_btn" .. i, text=txt, icon=icon})
+		table.insert(self.move_buttons, {node="delete_move_btn" .. i, text=txt})
 		position.x = math.mod(i, 2) * 320
 		position.y = math.ceil((i-1)/2) * -70
 	end
@@ -188,8 +195,12 @@ local function redraw_moves(self)
 	for move, data in pairs(_pokemon.get_moves(self.pokemon)) do
 		if move_buttons_list[index] then
 			local move_node = move_buttons_list[data.index].text
+			local icon_node = move_buttons_list[data.index].icon
+			
 			gui.set_text(move_node, move:upper())
+			gui_utils.scale_text_to_fit_size(move_node)
 			gui.set_color(move_node, movedex.get_move_color(move))
+			gui.play_flipbook(icon_node, movedex.get_move_icon(move))
 			index = index + 1
 		end
 	end
@@ -201,8 +212,12 @@ local function redraw(self)
 		print("Why do we redraw now?")
 		return
 	end
-	local stored_pokemon = storage.get_copy(_pokemon.get_id(self.pokemon)) or self.pokemon
-	
+	local id = _pokemon.get_id(self.pokemon)
+	local stored_pokemon = self.pokemon
+	if storage.is_in_storage(id) then
+		stored_pokemon = storage.get_copy(id)
+	end
+
 	local nickname = _pokemon.get_nickname(self.pokemon)
 	local species = _pokemon.get_current_species(self.pokemon)
 	nickname = nickname or species:upper()
@@ -228,20 +243,20 @@ local function redraw(self)
 
 		gui.set_text(stat_num, attributes[stat])
 		local mod = ""
-		if (increased[stat] or 0) - (old_increased[stat] or 0) >= 0 then
+		if (increased[stat] or 0) >= 0 then
 			mod = "+"
 		end
-		if(increased[stat] or 0) - (old_increased[stat] or 0) >= 1 then
+		if (increased[stat] or 0) >= 1 then
 			gui.set_color(n, gui_colors.GREEN)
 			gui.set_color(stat_num, gui_colors.GREEN)
-		elseif (increased[stat] or 0) - (old_increased[stat] or 0) <= -1 then
+		elseif (increased[stat] or 0) <= -1 then
 			gui.set_color(n, gui_colors.RED)
 			gui.set_color(stat_num, gui_colors.RED)
 		else
 			gui.set_color(n, gui_colors.TEXT)
 			gui.set_color(stat_num, gui_colors.TEXT)
 		end
-		gui.set_text(n, "(" .. mod .. ((increased[stat] or 0) - (old_increased[stat] or 0)) ..")")
+		gui.set_text(n, "(" .. mod .. (increased[stat] or 0) ..")")
 	end
 
 	-- ASI
@@ -303,23 +318,33 @@ end
 
 local function increase(self, stat)
 	local max = _pokemon.get_max_attributes(self.pokemon)
+	local added = _pokemon.get_added_attributes(self.pokemon)
 	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon))
 	local nature_attri = natures.get_nature_attributes(_pokemon.get_nature(self.pokemon))
 	local increased = _pokemon.get_increased_attributes(self.pokemon)
-	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0)
+	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0) + added[stat]
 	if  m < max[stat] then
-		_pokemon.set_increased_attribute(self.pokemon, stat, increased[stat] + 1)
+		if monarch.top() == hash("add") then
+			_pokemon.set_attribute(self.pokemon, stat, added[stat] + 1)
+		else
+			_pokemon.set_increased_attribute(self.pokemon, stat, increased[stat] + 1)
+		end
 		redraw(self)
 	end
 end
 
 local function decrease(self, stat)
+	local added = _pokemon.get_added_attributes(self.pokemon)
 	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon))
 	local increased = _pokemon.get_increased_attributes(self.pokemon)
 	local nature_attri = natures.get_nature_attributes(_pokemon.get_nature(self.pokemon))
-	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0)
+	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0) + added[stat]
 	if m > 0 then
-		_pokemon.set_increased_attribute(self.pokemon, stat, increased[stat] - 1)
+		if monarch.top() == hash("add") then
+			_pokemon.set_attribute(self.pokemon, stat, added[stat] - 1)
+		else
+			_pokemon.set_increased_attribute(self.pokemon, stat, increased[stat] - 1)
+		end
 		redraw(self)
 	end
 end
@@ -334,6 +359,7 @@ function M.init(self, pokemon)
 
 	self.list_items = {}
 	self.feats_data = {}
+	self.move_buttons = {}
 	self.ability_data = {}
 	self.move_button_index = 0
 	self.root = gui.get_node("root")
@@ -450,6 +476,11 @@ local function delete_feat(self, feat)
 	redraw(self)
 end
 
+local function delete_move(self, index)
+	_pokemon.remove_move(self.pokemon, index)
+	redraw(self)
+end
+
 local function ability_buttons(self, action_id, action)
 	gooey.button("change_pokemon/btn_reset_abilities", action_id, action, function()
 		_pokemon.reset_abilities(self.pokemon)
@@ -499,6 +530,12 @@ local function extra_buttons(self, action_id, action)
 end
 
 local function move_buttons(self, action_id, action)
+	for index, data in pairs(self.move_buttons) do
+		local a = gooey.button(data.node, action_id, action, function(c) delete_move(self, index) end, gooey_buttons.cross_button)
+		if a.over then
+			return
+		end
+	end
 	for i, button in pairs(move_buttons_list) do
 		gooey.button(button.node, action_id, action, function()
 			self.move_button_index = i

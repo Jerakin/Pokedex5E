@@ -58,8 +58,9 @@ end
 
 function M.show(id)
 	M.last_active_id = id
-	local pokemon = storage.get_copy(id)
-	if pokemon then
+	
+	if storage.is_in_storage(id) then
+		local pokemon = storage.get_copy(id)
 		local nodes = pokemon_pages[active_page].nodes
 		information.create(nodes, pokemon)
 		meters.create(nodes, id)
@@ -75,7 +76,7 @@ function M.show(id)
 			monarch.show("input", {}, {sender=msg.url(), message="update_hp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_current_hp(id)})
 		end)
 	else
-		local e = "Party can not show pokemon with id: " .. tostring(id)
+		local e = "Party can not show pokemon with id: " .. tostring(id) .. "\n" .. debug.traceback()
 		gameanalytics.addErrorEvent {
 			severity = "Error",
 			message = e

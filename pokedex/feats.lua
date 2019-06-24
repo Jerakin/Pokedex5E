@@ -21,7 +21,7 @@ function M.get_feat_description(name)
 	if feats[name] then
 		return feats[name].Description
 	else
-		local e = string.format("Can not find Feat: '%s'", tostring(name))
+		local e = string.format("Can not find Feat: '%s'", tostring(name)) ..  "\n" .. debug.traceback()
 		gameanalytics.addErrorEvent {
 			severity = "Error",
 			message = e

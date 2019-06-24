@@ -126,7 +126,7 @@ function M.on_input(action_id, action)
 		touching = false
 	end
 	
-	if gui.pick_node(active["pokemon/tab_bg_3"], action.x, action.y) and touching then
+	if active["pokemon/tab_bg_3"] and gui.pick_node(active["pokemon/tab_bg_3"], action.x, action.y) and touching then
 		local max_scroll = math.abs(gui.get_position(active["pokemon/traits/scroll_stop"]).y) - gui.get_size(active["pokemon/tab_bg_3"]).y
 		local p = gui.get_position(active["pokemon/traits/root"])
 		p.y = math.max(math.min(p.y - (_action.y-action.y)*0.5, max_scroll), 0)

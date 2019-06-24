@@ -1,6 +1,7 @@
 local monarch = require "monarch.monarch"
 local defsave = require "defsave.defsave"
 local md5 = require "utils.md5"
+local log = require "utils.log"
 local M = {}
 
 local profiles = {}
@@ -29,6 +30,14 @@ end
 
 function M.update(slot, data)
 	for key, value in pairs(data) do
+		if not profiles[slot] then
+			local e = "Can not find slot '" .. tostring(slot) .. "' in profile\n" .. debug.traceback()
+			gameanalytics.addErrorEvent {
+				severity = "Critical",
+				message = e
+			}
+			log.error(e)
+		end
 		profiles[slot][key] = value
 	end
 	M.save()
@@ -84,6 +93,13 @@ end
 function M.get_active_name()
 	if profiles[active_slot] then
 		return profiles[active_slot].name
+	else
+		local e = "Can not find active_slot \n" .. debug.traceback()
+		gameanalytics.addErrorEvent {
+			severity = "Critical",
+			message = e
+		}
+		log.error(e)
 	end
 end
 

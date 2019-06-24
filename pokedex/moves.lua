@@ -62,7 +62,7 @@ function M.get_TM(number)
 	if move_machines[number] then
 		return move_machines[number]
 	else
-		local e = string.format("Can not find TM: '%s'", tostring(number))
+		local e = string.format("Can not find TM: '%s'", tostring(number))  .. "\n" .. debug.traceback()
 		gameanalytics.addErrorEvent {
 			severity = "Error",
 			message = e

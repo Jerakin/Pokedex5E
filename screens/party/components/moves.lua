@@ -53,7 +53,11 @@ local function update_listitem(list, item)
 	local move_string = {}
 	
 	if move_data.AB then
-		table.insert(move_string, "AB: +" .. move_data.AB)
+		if move_data.AB >= 0 then
+			table.insert(move_string, "AB: +" .. move_data.AB)
+		else
+			table.insert(move_string, "AB: " .. move_data.AB)
+		end
 	end
 	
 	if move_data.save_dc then
@@ -83,7 +87,7 @@ local function update_listitem(list, item)
 end
 
 local function update_pp_buttons(nodes, name)
-	local m = {node=name .. "btn_minus", func=function()
+	local m = {node=current_index .. name .. "btn_minus", func=function()
 		gameanalytics.addDesignEvent {
 			eventId = "Party:PP:Decrease"
 		}
@@ -94,7 +98,7 @@ local function update_pp_buttons(nodes, name)
 	end, refresh=gooey_buttons.minus_button
 	}
 
-	local p = {node=name .. "btn_plus", func=function()
+	local p = {node=current_index .. name .. "btn_plus", func=function()
 		gameanalytics.addDesignEvent {
 			eventId = "Party:PP:Increase"
 		}
@@ -112,10 +116,10 @@ local function update_list(list)
 	pp_buttons={}
 
 	for i,item in ipairs(list.items) do
-		if item.data then
+		if item.data and item.data ~= "" then
 			update_listitem(list, item)
-			gui.set_id(item.nodes[hash("btn_minus")], item.data .. "btn_minus")
-			gui.set_id(item.nodes[hash("btn_plus")], item.data .. "btn_plus")
+			gui.set_id(item.nodes[hash("btn_minus")], current_index .. item.data .. "btn_minus")
+			gui.set_id(item.nodes[hash("btn_plus")], current_index .. item.data .. "btn_plus")
 			update_pp_buttons(item.nodes, item.data)
 		end
 	end
@@ -152,11 +156,18 @@ local function sort_on_index(a, b)
 end
 
 function M.create(nodes, pokemon, index)
+	if pokemon == nil then
+		local e = string.format("Moves initated with nil\n\n%s", debug.traceback())
+		gameanalytics.addErrorEvent {
+			severity = "Critical",
+			message = e
+		}
+		log.error(e)
+	end
 	active_list = {}
 	pp_buttons = {}
 	current_index = index
 	current_pokemon = pokemon
-
 	active_list.data = {}
 	local _moves = _pokemon.get_moves(pokemon)
 	for _, name in pairs(getKeysSortedByValue(_moves, sort_on_index(a, b))) do

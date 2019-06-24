@@ -139,7 +139,7 @@ function M.get_ability_description(ability)
 	if abilities[ability] then
 		return abilities[ability].Description
 	else
-		local e = string.format("Can not find Ability: '%s'", tostring(ability))
+		local e = string.format("Can not find Ability: '%s'", tostring(ability))  .. "\n" .. debug.traceback()
 		gameanalytics.addErrorEvent {
 			severity = "Error",
 			message = e
@@ -164,7 +164,7 @@ end
 function M.get_base_hp(pokemon)
 	local min_lvl = M.get_minimum_wild_level(pokemon)
 	local con = M.get_base_attributes(pokemon).CON
-	local con_mod = math.ceil((con - 10) / 2)
+	local con_mod = math.floor((con - 10) / 2)
 	return M.get_pokemon(pokemon).HP - (min_lvl * con_mod)
 end
 
@@ -177,7 +177,7 @@ function M.get_pokemon(pokemon)
 	if pokedex[pokemon] then
 		return utils.deep_copy(pokedex[pokemon])
 	else
-		local e = string.format("Can not find Pokemon: '%s'\n\n%s", tostring(name), debug.traceback())
+		local e = string.format("Can not find Pokemon: '%s'\n\n%s", tostring(pokemon), debug.traceback())
 		gameanalytics.addErrorEvent {
 			severity = "Critical",
 			message = e
