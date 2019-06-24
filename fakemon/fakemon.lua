@@ -69,14 +69,14 @@ function M.download(url)
 			return
 		else
 			local sum = get_checksum(res.response)
-			if sum == settings.get("fakemon_md5") then
+			if sum == settings.get("fakemon_md5") and defsave.file_exists(resource_path) then
 				print("using downloaded")
 				downloading = false
 				return
 			end
 			settings.set("fakemon_md5", sum)
 
-			local file, err = io.open(resource_path, "w")
+			local file, err = io.open(resource_path, "wb")
 
 			if file then
 				file:write(res.response)
@@ -124,7 +124,6 @@ function M.load(url)
 			M.unpack()
 			for n, file_name in pairs(extra_json_files) do
 				local pa = M.APP_ROOT .. M.PACKAGE_NAME .. os_sep .. file_name
-				print(pa)
 				if file_exists(pa) then
 					print("File loaded to memory: " .. file_name)
 					M[n] = ufile.load_file(pa)

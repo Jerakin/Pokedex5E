@@ -451,7 +451,7 @@ local function write(data, name, directory)
   if #data == 0 then
     os.execute('mkdir "' .. file_path .. '"')
   else
-    local new_file = io.open(file_path, "w+")
+    local new_file = io.open(file_path, "wb")
     if new_file then
       new_file:write(data)
       new_file:close()
