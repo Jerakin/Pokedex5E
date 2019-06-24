@@ -87,7 +87,7 @@ local function update_listitem(list, item)
 end
 
 local function update_pp_buttons(nodes, name)
-	local m = {node=name .. "btn_minus", func=function()
+	local m = {node=current_index .. name .. "btn_minus", func=function()
 		gameanalytics.addDesignEvent {
 			eventId = "Party:PP:Decrease"
 		}
@@ -98,7 +98,7 @@ local function update_pp_buttons(nodes, name)
 	end, refresh=gooey_buttons.minus_button
 	}
 
-	local p = {node=name .. "btn_plus", func=function()
+	local p = {node=current_index .. name .. "btn_plus", func=function()
 		gameanalytics.addDesignEvent {
 			eventId = "Party:PP:Increase"
 		}
@@ -118,8 +118,8 @@ local function update_list(list)
 	for i,item in ipairs(list.items) do
 		if item.data and item.data ~= "" then
 			update_listitem(list, item)
-			gui.set_id(item.nodes[hash("btn_minus")], item.data .. "btn_minus")
-			gui.set_id(item.nodes[hash("btn_plus")], item.data .. "btn_plus")
+			gui.set_id(item.nodes[hash("btn_minus")], current_index .. item.data .. "btn_minus")
+			gui.set_id(item.nodes[hash("btn_plus")], current_index .. item.data .. "btn_plus")
 			update_pp_buttons(item.nodes, item.data)
 		end
 	end
@@ -183,6 +183,7 @@ function M.on_input(action_id, action)
 	end
 	for _, b in pairs(pp_buttons) do
 		gooey.button(b.node, action_id, action, b.func, b.refresh)
+		gui.set_color(gui.get_node(b.node), vmath.vector4(1,0,0,1))
 	end
 end
 
