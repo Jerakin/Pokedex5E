@@ -101,6 +101,9 @@ function M.get_icon(pokemon)
 	if data.sprite then
 		local path = fakemon.APP_ROOT .. fakemon.PACKAGE_NAME .. utils.os_sep .. data.icon 
 		local file = io.open(path, "rb")
+		if not file then
+			return "-1MissingNo", "pokemon0"
+		end
 		local buffer = file:read("*all")
 		file:close()
 		local img = image.load(buffer)
@@ -129,6 +132,9 @@ function M.get_sprite(pokemon)
 	if data.sprite then
 		local path = fakemon.APP_ROOT .. fakemon.PACKAGE_NAME .. utils.os_sep .. data.sprite 
 		local file = io.open(path, "rb")
+		if not file then
+			return "-1MissingNo", "pokemon0"
+		end
 		local buffer = file:read("*all")
 		file:close()
 		local img = image.load(buffer)
