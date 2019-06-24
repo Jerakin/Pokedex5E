@@ -1,5 +1,6 @@
 local file = require "utils.file"
 local utils = require "utils.utils"
+local fakemon = require "fakemon.fakemon"
 
 local M = {}
 local items
@@ -40,6 +41,12 @@ M.type_increase = {
 function M.init()
 	if not initialized then
 		items = file.load_json_from_resource("/assets/datafiles/items.json")
+		if fakemon.items then
+			for name, data in pairs(fakemon.items) do
+				items[name] = data
+			end
+		end
+		
 		local berries = {}
 		local other = {}
 		

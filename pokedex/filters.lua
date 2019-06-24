@@ -1,6 +1,7 @@
 local file = require "utils.file"
 local utils = require "utils.utils"
 local log = require "utils.log"
+local fakemon = require "fakemon.fakemon"
 
 local M = {}
 
@@ -48,8 +49,40 @@ function M.init()
 		trainer_classes_list = file.load_json_from_resource("/assets/datafiles/trainer_classes_list.json")
 		habitats = file.load_json_from_resource("/assets/datafiles/habitat.json")
 		pokemon_types = file.load_json_from_resource("/assets/datafiles/pokemon_types.json")
+
+		if fakemon.pokemon then
+			for name, data in pairs(fakemon.pokemon) do
+				_pokedex[name] = data
+			end
+		end
+		if fakemon.trainer_classes then
+			for name, data in pairs(fakemon.trainer_classes) do
+				trainer_classes[name] = data
+			end
+		end
+		if fakemon.trainer_classes_list then
+			for name, data in pairs(fakemon.trainer_classes_list) do
+				trainer_classes_list[name] = data
+			end
+		end
+		if fakemon.habitats then
+			for name, data in pairs(fakemon.habitats) do
+				habitats[name] = data
+			end
+		end
+		if fakemon.pokemon_types then
+			for name, data in pairs(fakemon.pokemon_types) do
+				pokemon_types[name] = data
+			end
+		end
 		
 		local ordered = file.load_json_from_resource("/assets/datafiles/pokemon_order.json")
+		if fakemon.ordered then
+			for name, data in pairs(fakemon.ordered) do
+				ordered[name] = data
+			end
+		end
+		
 		trainer_classes_list.Classes[#trainer_classes_list.Classes + 1] = "Optional"
 		habitats.Optional = ordered.number
 		pokemon_types.Optional = ordered.number

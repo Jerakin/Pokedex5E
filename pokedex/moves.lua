@@ -2,6 +2,7 @@ local type_data = require "utils.type_data"
 local file = require "utils.file"
 local utils = require "utils.utils"
 local log = require "utils.log"
+local fakemon = require "fakemon.fakemon"
 
 local M = {}
 
@@ -76,6 +77,19 @@ function M.init()
 	if not initialized then
 		movedata = file.load_json_from_resource("/assets/datafiles/moves.json")
 		move_machines = file.load_json_from_resource("/assets/datafiles/move_machines.json")
+
+		if fakemon.moves then
+			for name, data in pairs(fakemon.moves) do
+				movedata[name] = data
+			end
+		end
+
+		if fakemon.move_machines then
+			for name, data in pairs(fakemon.move_machines) do
+				move_machines[name] = data
+			end
+		end
+
 		M.list = list()
 		initialized = true
 	end

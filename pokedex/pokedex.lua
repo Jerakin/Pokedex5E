@@ -100,7 +100,6 @@ function M.get_icon(pokemon)
 	local data = M.get_pokemon(pokemon)
 	if data.sprite then
 		local path = fakemon.APP_ROOT .. fakemon.PACKAGE_NAME .. utils.os_sep .. data.icon 
-		print(path)
 		local file = io.open(path, "rb")
 		local buffer = file:read("*all")
 		file:close()
