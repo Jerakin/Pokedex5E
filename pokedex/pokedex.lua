@@ -105,8 +105,8 @@ function M.get_icon(pokemon)
 		file:close()
 		local img = image.load(buffer)
 
-		gui.new_texture("icon_fakemon", img.width, img.height, img.type, img.buffer, false)
-		return nil, "icon_fakemon"
+		gui.new_texture("icon" .. pokemon, img.width, img.height, img.type, img.buffer, false)
+		return nil, "icon" .. pokemon
 	end
 	
 	local sprite = M.get_sprite(pokemon)
@@ -133,8 +133,8 @@ function M.get_sprite(pokemon)
 		file:close()
 		local img = image.load(buffer)
 
-		gui.new_texture("sprite_fakemon", img.width, img.height, img.type, img.buffer, false)
-		return nil, "sprite_fakemon"
+		gui.new_texture("sprite" .. pokemon, img.width, img.height, img.type, img.buffer, false)
+		return nil, "sprite" ..  pokemon
 	end
 	return pokemon_sprite, "pokemon0"
 end
