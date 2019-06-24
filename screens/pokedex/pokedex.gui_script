@@ -84,7 +84,9 @@ local function update_items(item)
 			gui.set_color(sprite_node, data[i].state_map.pokemon_color)
 			gui.set_color(pokeball, data[i].state_map.pokeball_color)
 			gui.set_texture(sprite_node, data[i].texture)
-			gui.play_flipbook(sprite_node, data[i].sprite)
+			if data[i].sprite then
+				gui.play_flipbook(sprite_node, data[i].sprite)
+			end
 		else
 			gui.set_enabled(background, false)
 		end

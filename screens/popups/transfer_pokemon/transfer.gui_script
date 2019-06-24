@@ -41,7 +41,9 @@ end
 local function set_pokemon_sprite(sprite, pokemon)
 	local pokemon_sprite, texture = _pokemon.get_sprite(pokemon)
 	gui.set_texture(sprite, texture)
-	gui.play_flipbook(sprite, pokemon_sprite)
+	if pokemon_sprite then
+		gui.play_flipbook(sprite, pokemon_sprite)
+	end
 end
 
 local function update_hp_meter(max, current)
