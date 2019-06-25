@@ -106,7 +106,7 @@ function M.get_icon(pokemon)
 		end
 		local buffer = file:read("*all")
 		file:close()
-		local img = image.load(buffer)
+		local img = image.load(buffer, true)
 
 		gui.new_texture("icon" .. pokemon, img.width, img.height, img.type, img.buffer, false)
 		return nil, "icon" .. pokemon
