@@ -73,7 +73,9 @@ local function update_items(item)
 		if data and data[i] then
 			gui.set_enabled(background, true)
 			gui.set_texture(sprite_node, data[i].texture)
-			gui.play_flipbook(sprite_node, data[i].sprite)
+			if data[i].sprite then
+				gui.play_flipbook(sprite_node, data[i].sprite)
+			end
 			gui.set_text(text_node, data[i].species:upper() .. "\nLv. " .. data[i].level)
 		else
 			gui.set_enabled(background, false)
