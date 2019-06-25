@@ -45,7 +45,7 @@ end
 
 function M.init()
 	if not initialized then
-		_pokedex = file.load_json_from_resource("/assets/datafiles/pokemon.json")
+		_pokedex = pokedex.get_whole_pokedex()
 		trainer_classes = file.load_json_from_resource("/assets/datafiles/trainer_classes.json")
 		trainer_classes_list = file.load_json_from_resource("/assets/datafiles/trainer_classes_list.json")
 		habitats = file.load_json_from_resource("/assets/datafiles/habitat.json")
