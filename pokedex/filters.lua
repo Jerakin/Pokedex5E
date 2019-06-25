@@ -55,16 +55,24 @@ local function pokemon_types()
 	return t
 end
 
+local function _trainer_classes_list()
+	local t = {}
+	for trainer, _ in pairs(trainer_classes) do
+		table.insert(t, trainer)
+	end
+	return t
+end
+
 function M.init()
 	if not initialized then
 		_pokedex = pokedex.get_whole_pokedex()
 		trainer_classes = file.load_json_from_resource("/assets/datafiles/trainer_classes.json")
-		trainer_classes_list = file.load_json_from_resource("/assets/datafiles/trainer_classes_list.json")
+		trainer_classes_list = _trainer_classes_list()
 		habitats = file.load_json_from_resource("/assets/datafiles/habitat.json")
 		pokemon_types = pokemon_types()
 		
 
-		trainer_classes_list.Classes[#trainer_classes_list.Classes + 1] = "Optional"
+		trainer_classes_list[#trainer_classes_list + 1] = "Optional"
 		habitats.Optional = pokedex.list
 		pokemon_types.Optional = pokedex.list
 		trainer_classes.Optional = pokedex.list
@@ -143,8 +151,8 @@ function M.habitat_list()
 end
 
 function M.trainer_class_list()
-	table.sort(trainer_classes_list.Classes, compare)
-	return trainer_classes_list.Classes
+	table.sort(trainer_classes_list, compare)
+	return trainer_classes_list
 end
 
 
