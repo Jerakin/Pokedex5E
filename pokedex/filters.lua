@@ -2,6 +2,7 @@ local file = require "utils.file"
 local utils = require "utils.utils"
 local log = require "utils.log"
 local fakemon = require "fakemon.fakemon"
+local pokedex = require "pokedex.pokedex"
 
 local M = {}
 
@@ -76,17 +77,12 @@ function M.init()
 			end
 		end
 		
-		local ordered = file.load_json_from_resource("/assets/datafiles/pokemon_order.json")
-		if fakemon.ordered then
-			for name, data in pairs(fakemon.ordered) do
-				ordered[name] = data
-			end
-		end
+
 		
 		trainer_classes_list.Classes[#trainer_classes_list.Classes + 1] = "Optional"
-		habitats.Optional = ordered.number
-		pokemon_types.Optional = ordered.number
-		trainer_classes.Optional = ordered.number
+		habitats.Optional = pokedex.list
+		pokemon_types.Optional = pokedex.list
+		trainer_classes.Optional = pokedex.list
 		species_rating()
 		minimum_found_level()
 		initialized = true

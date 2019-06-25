@@ -9,11 +9,10 @@ output_location = Path(__file__).parent.parent.parent.parent / "assets" / "dataf
 def get_pokemon_index(pokemon_list, pokemon):
     pokemon = pokemon.strip()
     for i, p in enumerate(pokemon_list):
-        if (pokemon.startswith("Nidoran") and p.startswith("Nidoran")) or (pokemon.startswith("Farfetch") and p.startswith("Farfetch")) or (pokemon.lower() == p.lower()):
-            return i + 1
-        elif pokemon.split(" ")[0] == p.split(" ")[0]:
+        if pokemon.split(" ")[0] == p.split(" ")[0] or pokemon.lower() == p.lower():
             return i + 1
     print("Something went wrong for", pokemon)
+
 
 def convert_pokemon_data(input_file):
     convert_to_int = ["AC", "Hit Dice", "HP", "WSp", "Ssp", "Fsp", "Ev", "MIN LVL FD", "Climbing Speed"]

@@ -3,6 +3,7 @@ local utils = require "utils.utils"
 local movedex = require "pokedex.moves"
 local log = require "utils.log"
 local fakemon = require "fakemon.fakemon"
+
 local M = {}
 
 local pokedex
@@ -14,14 +15,32 @@ local exp_grid
 
 local initialized = false
 local function list()
-	local ordered = file.load_json_from_resource("/assets/datafiles/pokemon_order.json")
-	if fakemon.pokemon_order then
-		for entry, data in pairs(fakemon.pokemon_order) do
-			ordered[entry] = data
+	local temp = {}
+
+	-- Group based on index and create unique list
+	local unique = {}
+	for species, data in pairs(pokedex) do
+		local index = data.index
+		if index > 0 then
+			if not temp[index] then
+				unique[index] = species
+				temp[index] = {}
+			end
+			table.insert(temp[index], species)
 		end
 	end
 	
-	return ordered.number, #ordered, ordered.unique
+	-- Create the order top to down
+	local index = 1
+	local order = {}
+	for _, pokemons in pairs(temp) do
+		for _, species in pairs(pokemons) do
+			order[index] = species
+			index = index + 1
+		end
+	end
+
+	return order, #order, unique
 end
 
 function M.init()
