@@ -172,7 +172,7 @@ function init(self)
 	self.trainer_class = "Optional"
 	self.habitat = "Optional"
 	self.type = "Optional"
-	self.min_sr = 0.25
+	self.min_sr = 0.125
 	self.max_sr = 15
 	self.level = 0
 	
@@ -190,7 +190,7 @@ local function reset_filters(self)
 	self.trainer_class = "Optional"
 	self.habitat = "Optional"
 	self.type = "Optional"
-	self.min_sr = 0.25
+	self.min_sr = 0.125
 	self.max_sr = 15
 	self.level = 0
 
