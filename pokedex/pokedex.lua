@@ -42,6 +42,10 @@ local function list()
 	return order, #order, unique
 end
 
+function M.get_whole_pokedex()
+	return pokedex
+end
+
 function M.init()
 	if not initialized then
 		pokedex = file.load_json_from_resource("/assets/datafiles/pokemon.json")
