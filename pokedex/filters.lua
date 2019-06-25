@@ -1,6 +1,7 @@
 local file = require "utils.file"
 local utils = require "utils.utils"
 local log = require "utils.log"
+local pokedex = require "pokedex.pokedex"
 
 local M = {}
 
@@ -49,11 +50,11 @@ function M.init()
 		habitats = file.load_json_from_resource("/assets/datafiles/habitat.json")
 		pokemon_types = file.load_json_from_resource("/assets/datafiles/pokemon_types.json")
 		
-		local ordered = file.load_json_from_resource("/assets/datafiles/pokemon_order.json")
+
 		trainer_classes_list.Classes[#trainer_classes_list.Classes + 1] = "Optional"
-		habitats.Optional = ordered.number
-		pokemon_types.Optional = ordered.number
-		trainer_classes.Optional = ordered.number
+		habitats.Optional = pokedex.list
+		pokemon_types.Optional = pokedex.list
+		trainer_classes.Optional = pokedex.list
 		species_rating()
 		minimum_found_level()
 		initialized = true
