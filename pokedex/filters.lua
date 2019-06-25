@@ -42,13 +42,26 @@ local function minimum_found_level()
 	end
 end
 
+local function pokemon_types()
+	local t = {}
+	for pokemon, data in pairs(_pokedex) do
+		for _, type in pairs(data.Type) do
+			if not t[type] then
+				t[type] = {}
+			end
+			table.insert(t[type], pokemon)
+		end
+	end
+	return t
+end
+
 function M.init()
 	if not initialized then
 		_pokedex = pokedex.get_whole_pokedex()
 		trainer_classes = file.load_json_from_resource("/assets/datafiles/trainer_classes.json")
 		trainer_classes_list = file.load_json_from_resource("/assets/datafiles/trainer_classes_list.json")
 		habitats = file.load_json_from_resource("/assets/datafiles/habitat.json")
-		pokemon_types = file.load_json_from_resource("/assets/datafiles/pokemon_types.json")
+		pokemon_types = pokemon_types()
 		
 
 		trainer_classes_list.Classes[#trainer_classes_list.Classes + 1] = "Optional"
