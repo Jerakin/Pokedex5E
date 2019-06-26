@@ -38,24 +38,37 @@ def convert_pokemon_data(input_file):
     output_pokemon_data = {}
     output_evolve_data = {}
 
-    with open(input_file, "r") as fp:
-        file_data = json.load(fp)
+    with open(input_file, "r", encoding="utf8") as fp:
+        try:
+            file_data = json.load(fp)
+        except UnicodeDecodeError as e:
+            print("ERROR IN:", input_file)
+            print(e)
+            import sys
+            sys.exit(3)
         for pokemon, _ in file_data.items():  # We are using the list of pokemons for the evolve data so
             output_pokemon_list.append(pokemon)  # need to construct that first
 
         for pokemon, data in file_data.items():
             output_pokemon_data[pokemon] = {"Moves": {"Level": {}}, "index": -1, "Abilities":[]}
+            output_evolve_data[pokemon] = {"into": [], "points": 0, "current_stage":1, "total_stages": 1}
 
             for attribute, value in data.items():
+                if not value or value == "None" or attribute in ignore:
+                    continue
                 if attribute == "Index Number":
                     output_pokemon_data[pokemon]["index"] = int(value)
                     continue
-                if not value or value == "None" or attribute in ignore:
-                    continue
-                if attribute in attributes:
+                elif attribute in attributes:
                     if "attributes" not in output_pokemon_data[pokemon]:
                         output_pokemon_data[pokemon]["attributes"] = {}
                     output_pokemon_data[pokemon]["attributes"][attribute] = int(value)
+                    continue
+                elif "with Eviolite" in attribute:
+                    output_evolve_data[pokemon]["current_stage"] = int(value)
+                    continue
+                elif "w/o Eviolite" in attribute:
+                    output_evolve_data[pokemon]["total_stages"] = int(value)
                     continue
                 elif attribute == "Moves":
                     starting_moves = reg_starting_moves.match(value)
@@ -103,7 +116,6 @@ def convert_pokemon_data(input_file):
                     value = value.split("/")
 
                 elif attribute == "Evolution for sheet" and not value == "":
-                    output_evolve_data[pokemon] = {"into": [], "points": 0}
                     false_positive = False
                     for poke in output_pokemon_list:
                         if not poke == pokemon and " {} ".format(poke) in value:
@@ -130,12 +142,15 @@ def convert_pokemon_data(input_file):
                         output_evolve_data.pop(pokemon, None)
                     continue
                 output_pokemon_data[pokemon][attribute] = value
+            if pokemon in output_evolve_data and len(output_evolve_data[pokemon]["into"]) == 0:
+                del output_evolve_data[pokemon]
 
-        with open(output_location / "pokemon.json", "w") as f:
+
+        with open(output_location / "pokemon.json", "w", encoding="utf8") as f:
             json.dump(output_pokemon_data, f, indent="  ", ensure_ascii=False)
             print("Exported {}".format(output_location / "pokemon.json"))
 
-        with open(output_location / "evolve.json", "w") as f:
+        with open(output_location / "evolve.json", "w", encoding="utf8") as f:
             json.dump(output_evolve_data, f, indent="  ", ensure_ascii=False)
             print("Exported {}".format(output_location / "evolve.json"))
 
