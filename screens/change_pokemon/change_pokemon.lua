@@ -370,6 +370,11 @@ function M.init(self, pokemon)
 	gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
 	self.move_node = gui.get_node("change_pokemon/btn_move")
 	gui.set_enabled(self.move_node, false)
+
+	local consumed_eviolite =_pokemon.get_consumed_eviolite(self.pokemon)
+	gui.set_enabled(gui.get_node("change_pokemon/checkmark_eviolite_mark"), consumed_eviolite)
+	gooey.checkbox("change_pokemon/bg_eviolite").set_checked(consumed_eviolite)
+
 	update_sections(true)
 end
 
@@ -571,6 +576,14 @@ local function attribute_buttons(self, action_id, action)
 	gooey.button("change_pokemon/asi/cha/btn_plus", action_id, action, function() increase(self, "CHA") end, gooey_buttons.plus_button)
 end
 
+local function update_checkbox(checkbox)
+	gui.set_enabled(gui.get_node("change_pokemon/checkmark_eviolite_mark"), checkbox.checked)
+end
+
+local function on_checked(self, checkbox)
+	_pokemon.set_consumed_eviolite(self.pokemon, checkbox.checked)
+end
+
 
 
 function M.on_input(self, action_id, action)
@@ -588,7 +601,9 @@ function M.on_input(self, action_id, action)
 	for _, button in pairs(active_buttons) do
 		gooey.button(button.node, action_id, action, button.func, button.refresh)
 	end
-
+	
+	gooey.checkbox("change_pokemon/bg_eviolite", action_id, action, function(checkbox) on_checked(self, checkbox) end, update_checkbox)
+	
 
 	gooey.button("change_pokemon/hp/btn_minus", action_id, action, function()
 		if _pokemon.have_ability(self.pokemon, "Paper Thin") then

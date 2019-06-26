@@ -124,6 +124,13 @@ function M.remove_feat(pokemon, feat)
 	end
 end
 
+function M.set_consumed_eviolite(pokemon, value)
+	pokemon.eviolite = value == true and true or nil
+end
+
+function M.get_consumed_eviolite(pokemon, value)
+	return pokemon.eviolite or false
+end
 
 function M.remove_move(pokemon, index)
 	for move, data in pairs(M.get_moves(pokemon)) do
