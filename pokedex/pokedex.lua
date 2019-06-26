@@ -67,7 +67,8 @@ function M.init()
 end
 
 local function dex_extra(pokemon)
-	local mon = pokedex_extra[pokemon]
+	local pokemon_index = M.get_index_number(pokemon)
+	local mon = pokedex_extra[tostring(pokemon_index)]
 	if not mon then
 		log.error("Can't find extra information for " .. tostring(pokemon))
 	end

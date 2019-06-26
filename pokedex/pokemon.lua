@@ -717,16 +717,17 @@ local function get_damage_mod_stab(pokemon, move)
 	local floored_mod
 	-- Pick the highest of the moves power
 	local total = M.get_attributes(pokemon)
-	for _, mod in pairs(move["Move Power"]) do
-		
-		if total[mod] then
-			local floored_mod = math.floor((total[mod] - 10) / 2)
-			if modifier then
-				if floored_mod > modifier then
+	if move["Move Power"] then
+		for _, mod in pairs(move["Move Power"]) do
+			if total[mod] then
+				local floored_mod = math.floor((total[mod] - 10) / 2)
+				if modifier then
+					if floored_mod > modifier then
+						modifier = floored_mod
+					end
+				else
 					modifier = floored_mod
 				end
-			else
-				modifier = floored_mod
 			end
 		end
 	end

@@ -4,19 +4,25 @@ import requests
 import shutil
 from pathlib import Path
 from PIL import Image
-p = Path(__file__).parent.parent.parent.parent.parent / "assets/datafiles/pokemon_numbers.json"
+p = Path(__file__).parent.parent.parent.parent.parent / "assets/datafiles/pokemon.json"
+
 
 def main():
+    indexes = []
     with open(p, "r") as f:
         data = json.load(f)
-        for i, pokemon in enumerate(data["number"]):
-            if i < 385:
+        for pokemon, data in data.items():
+            index = data["index"]
+            if index in indexes or index < 493:
                 continue
+
+            indexes.append(index)
             # raw_url = "https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/{}.png".format(pokemon.lower())
             # raw_url = "https://img.pokemondb.net/sprites/x-y/normal/{}.png".format(pokemon.lower())
+            print("Downloading", pokemon)
             raw_url = "https://img.pokemondb.net/sprites/sun-moon/icon/{}.png".format(pokemon.lower())
 
-            file_name = "images/{}{}.png".format(i+1, pokemon)
+            file_name = "images/{}{}.png".format(index, pokemon)
             download_image(raw_url, file_name)
             time.sleep(0.5)
 
@@ -30,6 +36,7 @@ def download_image(url, name):
     else:
         print("Error ", name)
 
+
 def convert(path):
     for i in path.iterdir():
         if i.suffix == ".png":
@@ -39,4 +46,5 @@ def convert(path):
             else:
                 print(im.mode)
 
-convert(Path(r"D:\Repo\Pokedex\assets\textures\sprites"))
+
+convert(Path("/Users/mattias.hedberg/Documents/repositories/Pokedex5E/assets/textures/sprites"))

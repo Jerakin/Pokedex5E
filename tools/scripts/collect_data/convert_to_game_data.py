@@ -19,7 +19,8 @@ def convert_pokemon_data(input_file):
     convert_to_float = ["SR"]
     convert_to_list = ["Skill", "Res", "Vul", "Imm", "Senses"]
     attributes = ["STR", "CON", "DEX", "INT", "WIS", "CHA"]
-    ignore = ["Ev"]
+    text_to_short = {"Strength": "STR", "Constitution": "CON", "Dexterity": "DEX", "Intelligence": "INT", "Wisdom": "WIS", "Charisma": "CHA"}
+    ignore = ["Ev", "Evolve Bonus", "Description 17"]
     reg_starting_moves = re.compile("Starting Moves: ([A-Za-z ,-12]*)")
     reg_tm_moves = re.compile("TM: (.*)")
 
@@ -43,9 +44,12 @@ def convert_pokemon_data(input_file):
             output_pokemon_list.append(pokemon)  # need to construct that first
 
         for pokemon, data in file_data.items():
-            output_pokemon_data[pokemon] = {"Moves": {"Level": {}}, "index": get_pokemon_index(pokedex_numbers, pokemon), "Abilities":[]}
+            output_pokemon_data[pokemon] = {"Moves": {"Level": {}}, "index": -1, "Abilities":[]}
 
             for attribute, value in data.items():
+                if attribute == "Index Number":
+                    output_pokemon_data[pokemon]["index"] = int(value)
+                    continue
                 if not value or value == "None" or attribute in ignore:
                     continue
                 if attribute in attributes:
@@ -83,6 +87,8 @@ def convert_pokemon_data(input_file):
                         continue
                     if "saving_throws" not in output_pokemon_data[pokemon]:
                         output_pokemon_data[pokemon]["saving_throws"] = []
+                    if value in text_to_short:
+                        value = text_to_short[value]
                     output_pokemon_data[pokemon]["saving_throws"].append(value)
                     continue
                     
@@ -129,10 +135,6 @@ def convert_pokemon_data(input_file):
             json.dump(output_pokemon_data, f, indent="  ", ensure_ascii=False)
             print("Exported {}".format(output_location / "pokemon.json"))
 
-        with open(output_location / "pokemon_order.json", "w") as f:
-            json.dump({"number": output_pokemon_list}, f, indent="  ", ensure_ascii=False)
-            print("Exported {}".format(output_location / "pokemon_order.json"))
-
         with open(output_location / "evolve.json", "w") as f:
             json.dump(output_evolve_data, f, indent="  ", ensure_ascii=False)
             print("Exported {}".format(output_location / "evolve.json"))
@@ -140,7 +142,7 @@ def convert_pokemon_data(input_file):
 
 def convert_move_data(input_file):
     convert_to_int = ["PP"]
-
+    ignore = ["Higher Levels"]
     reg_damage_level = re.compile("Dmg lvl (\d+)")
     reg_damage_dice = re.compile("(?i)(?:(\d)x|X|)(\d+|)d(\d+)\s*(\+\s*move|)(?:\+\s*(\d)|)")
     reg_saving_throw = re.compile("(?:(?:make|with|succeed on) a (.{3}) sav)")
@@ -151,7 +153,7 @@ def convert_move_data(input_file):
         for move, data in file_data.items():
             converted[move] = {}
             for attribute, value in data.items():
-                if not value:
+                if not value or value == "None" or attribute in ignore:
                     continue
                 if attribute in convert_to_int:
                     try:
