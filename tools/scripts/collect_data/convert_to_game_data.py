@@ -102,6 +102,8 @@ def convert_pokemon_data(input_file):
                         output_pokemon_data[pokemon]["saving_throws"] = []
                     if value in text_to_short:
                         value = text_to_short[value]
+                    if value not in text_to_short and value not in attributes:
+                        print(pokemon, "-", value, )
                     output_pokemon_data[pokemon]["saving_throws"].append(value)
                     continue
                     
