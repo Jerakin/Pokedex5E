@@ -16,7 +16,9 @@ local initialized = false
 
 local function get_id(pokemon)
 	local m = md5.new()
-	m:update(json.encode(pokemon))
+	local p = utils.deep_copy(pokemon)
+	p.statuses = nil
+	m:update(json.encode(p))
 	return md5.tohex(m:finish())
 end
 
