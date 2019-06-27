@@ -88,7 +88,7 @@ local function refresh_input(self, input, node_id)
 end
 
 local enabled = vmath.vector3(0)
-local disabled = vmath.vector3(83, -605, 0)
+local disabled = vmath.vector3(41, -517, 0)
 local system  = sys.get_sys_info().system_name
 local function keyboard_toggle(toggle)
 	local pos = disabled
