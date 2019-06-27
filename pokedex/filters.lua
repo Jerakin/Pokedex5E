@@ -13,6 +13,8 @@ local pokemon_types
 local sr = {}
 local minimum_level = {}
 
+local generations
+
 local _pokedex
 
 
@@ -52,6 +54,7 @@ local function pokemon_types()
 			table.insert(t[type], pokemon)
 		end
 	end
+	table.sort(t, compare)
 	return t
 end
 
@@ -60,7 +63,28 @@ local function _trainer_classes_list()
 	for trainer, _ in pairs(trainer_classes) do
 		table.insert(t, trainer)
 	end
+	table.sort(t, compare)
 	return t
+end
+
+local function generation_list()
+	local dex_indexes = {[1]=151, [2]=251, [3]=386, [4]=493, [5]=649}
+	local gen = {[1]={}, [2]={}, [3]={}, [4]={}, [5]={}}
+	for pokemon, data in pairs(_pokedex) do
+		local index = data.index
+		if index <= dex_indexes[1] then
+			table.insert(gen[1], pokemon)
+		elseif index <= dex_indexes[2] then
+			table.insert(gen[2], pokemon)
+		elseif index <= dex_indexes[3] then
+			table.insert(gen[3], pokemon)
+		elseif index <= dex_indexes[4] then
+			table.insert(gen[4], pokemon)
+		elseif index <= dex_indexes[5] then
+			table.insert(gen[5], pokemon)
+		end
+	end
+	return gen
 end
 
 function M.init()
@@ -70,9 +94,8 @@ function M.init()
 		trainer_classes_list = _trainer_classes_list()
 		habitats = file.load_json_from_resource("/assets/datafiles/habitat.json")
 		pokemon_types = pokemon_types()
-		
-
-		trainer_classes_list[#trainer_classes_list + 1] = "Optional"
+		generations = generation_list()
+		table.insert(trainer_classes_list, 1, "Optional")
 		habitats.Optional = pokedex.list
 		pokemon_types.Optional = pokedex.list
 		trainer_classes.Optional = pokedex.list
@@ -133,36 +156,55 @@ local function minimum_level_list(lvl)
 	return n
 end
 
-function M.get_list(trainer_class, habitat, sr_min, sr_max, min_level, type)
+local function get_generations(min, max)
+	local n = {}
+
+	for gen, list in pairs(generations) do 
+		if gen <= max and gen >= min then
+			for _, p in pairs(list) do
+				table.insert(n, p)
+			end
+		end
+	end
+	return n
+end
+
+function M.get_list(trainer_class, habitat, sr_min, sr_max, min_level, type, min_generation, max_generation)
 	local class_habitat = filter(trainer_classes[trainer_class], habitats[habitat]) 
 	local class_habitat_sr = filter(class_habitat, SR_list(sr_min, sr_max))
 	local class_habitat_sr_lvl = filter(class_habitat_sr, minimum_level_list(min_level))
 	local class_habitat_sr_lvl_type = filter(class_habitat_sr_lvl, pokemon_types[type])
-	return class_habitat_sr_lvl_type
+	local class_habitat_sr_lvl_type_generation = filter(class_habitat_sr_lvl_type, get_generations(min_generation, max_generation))
+	return class_habitat_sr_lvl_type_generation
 end
 
 function M.habitat_list()
 	local l = {}
 	for t,_ in pairs(habitats) do
-		table.insert(l, t)
+		if t ~= "Optional" then
+			table.insert(l, t)
+		end
 	end
+	
 	table.sort(l, compare)
+	table.insert(l, 1, "Optional")
 	return l
 end
 
 function M.trainer_class_list()
-	table.sort(trainer_classes_list, compare)
 	return trainer_classes_list
 end
 
 
 function M.type_list()
 	local l = {}
-	
 	for t,_ in pairs(pokemon_types) do
-		table.insert(l, t)
+		if t ~= "Optional" then
+			table.insert(l, t)
+		end
 	end
 	table.sort(l, compare)
+	table.insert(l, 1, "Optional")
 	return l
 end
 

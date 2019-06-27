@@ -7,14 +7,14 @@ local log = require "utils.log"
 local M = {}
 
 local dex = {}
-local dex_stats = {[1]={[1]=0, [2]=0}, [2]={[1]=0, [2]=0}, [3]={[1]=0, [2]=0}, [4]={[1]=0, [2]=0}}
+local dex_stats = {[1]={[1]=0, [2]=0}, [2]={[1]=0, [2]=0}, [3]={[1]=0, [2]=0}, [4]={[1]=0, [2]=0}, [5]={[1]=0, [2]=0}}
 local initialized = false
 
 M.states = {SEEN=1, CAUGHT=2, UNENCOUNTERED=3}
 
-M.regions = {KANTO=1, JOHTO=2, HOENN=3, SINNOH=4}
+M.regions = {KANTO=1, JOHTO=2, HOENN=3, SINNOH=4, UNOVA=5}
 
-local dex_indexes = {[1]=151, [2]=251, [3]=386, [4]=493 }
+local dex_indexes = {[1]=151, [2]=251, [3]=386, [4]=493, [5]=649}
 
 local function region_from_index(index)
 	local is_region = 0
@@ -28,7 +28,13 @@ local function region_from_index(index)
 end
 
 function M.update_region_stats()
-	dex_stats = {[1]={[1]=0, [2]=0}, [2]={[1]=0, [2]=0}, [3]={[1]=0, [2]=0}, [4]={[1]=0, [2]=0}}
+	dex_stats = {
+		[1]={[1]=0, [2]=0}, 
+		[2]={[1]=0, [2]=0}, 
+		[3]={[1]=0, [2]=0}, 
+		[4]={[1]=0, [2]=0}, 
+		[5]={[1]=0, [2]=0}
+	}
 
 	for index, state in pairs(dex) do
 		local region = region_from_index(index)

@@ -67,7 +67,8 @@ function M.init()
 end
 
 local function dex_extra(pokemon)
-	local mon = pokedex_extra[pokemon]
+	local pokemon_index = M.get_index_number(pokemon)
+	local mon = pokedex_extra[tostring(pokemon_index)]
 	if not mon then
 		log.error("Can't find extra information for " .. tostring(pokemon))
 	end
@@ -88,6 +89,15 @@ end
 
 function M.get_genus(pokemon)
 	return dex_extra(pokemon).genus
+end
+
+function M.get_current_evolution_stage(pokemon)
+	local data = M.get_evolution_data(pokemon)
+	return data and data.current_stage or 1
+end
+function M.get_total_evolution_stages(pokemon)
+	local data = M.get_evolution_data(pokemon)
+	return data and data.total_stages or 1
 end
 
 function M.get_sprite(pokemon)
