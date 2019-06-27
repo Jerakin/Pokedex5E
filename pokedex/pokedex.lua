@@ -91,6 +91,15 @@ function M.get_genus(pokemon)
 	return dex_extra(pokemon).genus
 end
 
+function M.get_current_evolution_stage(pokemon)
+	local data = M.get_evolution_data(pokemon)
+	return data and data.current_stage or 1
+end
+function M.get_total_evolution_stages(pokemon)
+	local data = M.get_evolution_data(pokemon)
+	return data and data.total_stages or 1
+end
+
 function M.get_sprite(pokemon)
 	local pokemon_index = M.get_index_number(pokemon)
 	if pokemon_index == -1 then

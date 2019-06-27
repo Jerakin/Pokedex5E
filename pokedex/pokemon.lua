@@ -73,6 +73,26 @@ local function get_attributes_from_feats(pokemon)
 	return m
 end
 
+local function ASI_points(pokemon)
+	local species = M.get_current_species(pokemon)
+	local total = pokedex.get_total_evolution_stages(species)
+	local current = pokedex.get_current_evolution_stage(species)
+	if total == 1 then
+		return 4
+	elseif total == 2 then
+		return 3
+	end
+	if M.get_consumed_eviolite(pokemon) then
+		return 5 - current
+	else
+		return 5 - total
+	end
+end
+
+function M.get_ASI_point_increase(pokemon)
+	return ASI_points(pokemon)
+end
+
 function M.get_attributes(pokemon)
 	local base = pokedex.get_base_attributes(M.get_caught_species(pokemon))
 	local increased = M.get_increased_attributes(pokemon) or {}
@@ -216,7 +236,7 @@ function M.ability_score_points(pokemon)
 	end
 	amount = amount + #M.get_feats(pokemon) * 2
 	amount = amount - M.get_evolution_points(pokemon)
-
+	
 	return amount
 end
 

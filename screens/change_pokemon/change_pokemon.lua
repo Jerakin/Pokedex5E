@@ -206,6 +206,22 @@ local function redraw_moves(self)
 	end
 end
 
+local function update_ASI(self)
+	local max_improve_node = gui.get_node("change_pokemon/asi/asi_points")
+	local available_at_level = pokedex.level_data(_pokemon.get_current_level(self.pokemon)).ASI
+	local available_at_caught = pokedex.level_data(_pokemon.get_caught_level(self.pokemon)).ASI
+	local ASI_gained = _pokemon.get_ASI_point_increase(self.pokemon)
+	local current = (available_at_level-available_at_caught) * ASI_gained - _pokemon.ability_score_points(self.pokemon)
+
+	gui.set_text(max_improve_node, current)
+	if current == 0 then
+		gui.set_color(max_improve_node, gui_colors.TEXT)
+	elseif current >= 1 then
+		gui.set_color(max_improve_node, gui_colors.GREEN)
+	else
+		gui.set_color(max_improve_node, gui_colors.RED)
+	end
+end
 
 local function redraw(self)
 	if not self.pokemon then
@@ -260,19 +276,7 @@ local function redraw(self)
 	end
 
 	-- ASI
-	local max_improve_node = gui.get_node("change_pokemon/asi/asi_points")
-	local available_at_level = pokedex.level_data(_pokemon.get_current_level(self.pokemon)).ASI
-	local available_at_caught = pokedex.level_data(_pokemon.get_caught_level(self.pokemon)).ASI
-	local current = (available_at_level-available_at_caught) * 2 - _pokemon.ability_score_points(self.pokemon)
-
-	gui.set_text(max_improve_node, current)
-	if current == 0 then
-		gui.set_color(max_improve_node, gui_colors.TEXT)
-	elseif current >= 1 then
-		gui.set_color(max_improve_node, gui_colors.GREEN)
-	else
-		gui.set_color(max_improve_node, gui_colors.RED)
-	end
+	update_ASI(self)
 
 	-- HP
 	M.update_hp_counter(self)
@@ -370,11 +374,7 @@ function M.init(self, pokemon)
 	gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
 	self.move_node = gui.get_node("change_pokemon/btn_move")
 	gui.set_enabled(self.move_node, false)
-
-	local consumed_eviolite =_pokemon.get_consumed_eviolite(self.pokemon)
-	gui.set_enabled(gui.get_node("change_pokemon/checkmark_eviolite_mark"), consumed_eviolite)
-	gooey.checkbox("change_pokemon/bg_eviolite").set_checked(consumed_eviolite)
-
+	gui.set_enabled(gui.get_node("change_pokemon/checkmark_eviolite_mark"), false)
 	update_sections(true)
 end
 
@@ -582,6 +582,8 @@ end
 
 local function on_checked(self, checkbox)
 	_pokemon.set_consumed_eviolite(self.pokemon, checkbox.checked)
+	update_ASI(self)
+	if self.redraw then self.redraw(self) end
 end
 
 
