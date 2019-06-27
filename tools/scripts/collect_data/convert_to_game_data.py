@@ -24,6 +24,8 @@ def convert_pokemon_data(input_file):
     reg_starting_moves = re.compile("Starting Moves: ([A-Za-z ,-12]*)")
     reg_tm_moves = re.compile("TM: (.*)")
 
+    sense_names = ["Darkvision", "Tremorsense", "Truesight", "Blindsight"]
+
     reg_level_moves = re.compile("Level (\d+): ([A-Za-z ,-]*)")
     reg_evolve_points = re.compile("gains (\d{1,2})")
     reg_evolve_level = re.compile("level (\d{1,2})")
@@ -103,7 +105,7 @@ def convert_pokemon_data(input_file):
                     if value in text_to_short:
                         value = text_to_short[value]
                     if value not in text_to_short and value not in attributes:
-                        print(pokemon, "-", value, )
+                        print(pokemon, "-", value)
                     output_pokemon_data[pokemon]["saving_throws"].append(value)
                     continue
                     
@@ -113,10 +115,13 @@ def convert_pokemon_data(input_file):
                     value = int(value)
                 elif attribute in convert_to_list:
                     value = value.split(", ")
-
+                    if attribute == "Senses":
+                        for sense in value:
+                            sense_type, distance = sense.split(" ")
+                            if sense_type not in sense_names:
+                                print(pokemon, "-", sense_type)
                 elif attribute == "Type":
                     value = value.split("/")
-
                 elif attribute == "Evolution for sheet" and not value == "":
                     false_positive = False
                     for poke in output_pokemon_list:
