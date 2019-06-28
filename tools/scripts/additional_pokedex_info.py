@@ -2,11 +2,12 @@ from pathlib import Path
 import json
 import re
 
+# https://github.com/PokeAPI/api-data
 input_location = Path().home() / "downloads" / "api-data-master" / "data" / "api" / "v2"
 output_location = Path(__file__).parent.parent.parent / "assets" / "datafiles"
 
 output_data = {}
-pokemon_index_cap = 493
+pokemon_index_cap = 649
 
 for index in range(pokemon_index_cap):
     index += 1
@@ -30,7 +31,7 @@ for index in range(pokemon_index_cap):
             if genus["language"]["name"] == "en":
                 genus_text = genus["genus"]
                 break
-    output_data[species] = {"flavor": flavor_text, "height": height_text, "weight": weight_text, "genus": genus_text}
+    output_data[index] = {"flavor": flavor_text, "height": height_text, "weight": weight_text, "genus": genus_text}
 
 with open(output_location / "pokedex_extra.json", "w", encoding="utf-8") as f:
     json.dump(output_data, f, indent="  ", ensure_ascii=False)

@@ -61,15 +61,20 @@ function init(self)
 	pokemon_image(_pokemon.get_current_species(self.pokemon))
 	gui.set_enabled(gui.get_node("change_pokemon/cursor"), false)
 	
-	local evolution_possible = pokedex.get_evolution_possible(_pokemon.get_current_species(self.pokemon))
+	local consumed_eviolite = _pokemon.get_consumed_eviolite(self.pokemon)
+	local evolution_possible = pokedex.get_evolution_possible(_pokemon.get_current_species(self.pokemon)) and not consumed_eviolite
 	local evolution_level = evolution_possible and pokedex.get_evolution_level(_pokemon.get_current_species(self.pokemon))
 	self.nickname = _pokemon.get_nickname(self.pokemon)
 	self.evolve_button = gui.get_node("btn_evolve")
-
+	
+	
+	gui.set_enabled(gui.get_node("change_pokemon/checkmark_eviolite_mark"), consumed_eviolite)
+	gooey.checkbox("change_pokemon/bg_eviolite").set_checked(consumed_eviolite)
+	
 	if not evolution_possible then
 		gui.set_enabled(self.evolve_button, false)
 	
-	elseif evolution_possible and evolution_level <= _pokemon.get_current_level(self.pokemon) then
+	elseif evolution_possible and not _pokemon.get_consumed_eviolite(self.pokemon) and evolution_level <= _pokemon.get_current_level(self.pokemon) then
 		self.evolve_button_active = true
 		gui.set_enabled(self.evolve_button, true)
 		gui.set_color(gui.get_node("txt_evolve"), gui_colors.BUTTON_TEXT)
@@ -77,7 +82,7 @@ function init(self)
 	end
 	
 	function self.redraw(self)
-		if evolution_possible and evolution_level <= _pokemon.get_current_level(self.pokemon) then
+		if not _pokemon.get_consumed_eviolite(self.pokemon) and evolution_possible and evolution_level <= _pokemon.get_current_level(self.pokemon) then
 			self.evolve_button_active = true
 			gui.set_color(gui.get_node("txt_evolve"), gui_colors.BUTTON_TEXT)
 			gui.play_flipbook(self.evolve_button, "common_up")
