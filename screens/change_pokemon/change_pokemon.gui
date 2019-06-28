@@ -5833,7 +5833,7 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/details_backing"
-  id: "bg_shiney"
+  id: "bg_eviolite"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -5856,7 +5856,7 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
+    x: 12.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -5887,9 +5887,9 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "SHINEY"
+  text: "CONSUMED EVIOLITE"
   font: "script"
-  id: "txt_shiney"
+  id: "txt_eviolite"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -5907,7 +5907,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "bg_shiney"
+  parent: "bg_eviolite"
   layer: "sprite"
   inherit_alpha: true
   alpha: 1.0
@@ -5951,12 +5951,12 @@ nodes {
   type: TYPE_PIE
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "checkmark_shiney_bg"
+  id: "checkmark_eviolite_bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "bg_shiney"
+  parent: "bg_eviolite"
   layer: ""
   inherit_alpha: true
   outerBounds: PIEBOUNDS_ELLIPSE
@@ -6004,12 +6004,12 @@ nodes {
   type: TYPE_PIE
   blend_mode: BLEND_MODE_ALPHA
   texture: ""
-  id: "checkmark_shiney_mark"
+  id: "checkmark_eviolite_mark"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "bg_shiney"
+  parent: "bg_eviolite"
   layer: ""
   inherit_alpha: true
   outerBounds: PIEBOUNDS_ELLIPSE

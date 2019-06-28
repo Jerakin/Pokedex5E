@@ -2,6 +2,7 @@ local file = require "utils.file"
 local utils = require "utils.utils"
 local movedex = require "pokedex.moves"
 local log = require "utils.log"
+
 local M = {}
 
 local pokedex
@@ -13,8 +14,36 @@ local exp_grid
 
 local initialized = false
 local function list()
-	local ordered = file.load_json_from_resource("/assets/datafiles/pokemon_order.json")
-	return ordered.number, #ordered, ordered.unique
+	local temp = {}
+
+	-- Group based on index and create unique list
+	local unique = {}
+	for species, data in pairs(pokedex) do
+		local index = data.index
+		if index > 0 then
+			if not temp[index] then
+				unique[index] = species
+				temp[index] = {}
+			end
+			table.insert(temp[index], species)
+		end
+	end
+	
+	-- Create the order top to down
+	local index = 1
+	local order = {}
+	for _, pokemons in pairs(temp) do
+		for _, species in pairs(pokemons) do
+			order[index] = species
+			index = index + 1
+		end
+	end
+
+	return order, #order, unique
+end
+
+function M.get_whole_pokedex()
+	return pokedex
 end
 
 function M.init()
@@ -38,7 +67,8 @@ function M.init()
 end
 
 local function dex_extra(pokemon)
-	local mon = pokedex_extra[pokemon]
+	local pokemon_index = M.get_index_number(pokemon)
+	local mon = pokedex_extra[tostring(pokemon_index)]
 	if not mon then
 		log.error("Can't find extra information for " .. tostring(pokemon))
 	end
@@ -59,6 +89,15 @@ end
 
 function M.get_genus(pokemon)
 	return dex_extra(pokemon).genus
+end
+
+function M.get_current_evolution_stage(pokemon)
+	local data = M.get_evolution_data(pokemon)
+	return data and data.current_stage or 1
+end
+function M.get_total_evolution_stages(pokemon)
+	local data = M.get_evolution_data(pokemon)
+	return data and data.total_stages or 1
 end
 
 function M.get_sprite(pokemon)
@@ -177,7 +216,7 @@ function M.get_pokemon(pokemon)
 	if pokedex[pokemon] then
 		return utils.deep_copy(pokedex[pokemon])
 	else
-		local e = string.format("Can not find Pokemon: '%s'\n\n%s", tostring(name), debug.traceback())
+		local e = string.format("Can not find Pokemon: '%s'\n\n%s", tostring(pokemon), debug.traceback())
 		gameanalytics.addErrorEvent {
 			severity = "Critical",
 			message = e

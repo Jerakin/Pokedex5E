@@ -50,7 +50,7 @@ local function on_item_selected(list, name)
 	local scroll_bg_id = active[list.id].scroll_bg_id
 	local button_txt_id = active[list.id].button_txt_id
 	for i, entry in pairs(list.items) do
-		if entry.index == list.selected_item then
+		if entry.data and entry.index == list.selected_item then
 			gui.set_text(gui.get_node(button_txt_id), entry.data:upper())
 			gui.set_enabled(gui.get_node(scroll_bg_id), false)
 			active[list.id].active = false

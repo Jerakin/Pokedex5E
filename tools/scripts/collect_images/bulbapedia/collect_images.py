@@ -4,25 +4,29 @@ import requests
 import shutil
 import re
 from pathlib import Path
-p = r"D:\Repo\Pokedex\assets\datafiles\pokemon_numbers.json"
+p = Path(__file__).parent.parent.parent.parent.parent / "assets/datafiles/pokemon.json"
 
 dirty_reg = re.compile("filehistory-selected[^\"]*.*?(cdn\.bulbagarden\.net/upload[^\"]*)")
 
 
 def main():
+    indexes = []
     with open(p, "r") as f:
         data = json.load(f)
-        for i, pokemon in enumerate(data["number"]):
-            if i < 385:
+        for pokemon, data in data.items():
+            index = data["index"]
+            if index in indexes or index < 493:
                 continue
-            print(pokemon)
-            raw_url = "https://bulbapedia.bulbagarden.net/wiki/File:{:03d}{}.png".format(i+1, pokemon)
-            file_name = Path("./raw_images/{}{}.png".format(i+1, pokemon)).absolute()
+
+            raw_url = "https://bulbapedia.bulbagarden.net/wiki/File:{:03d}{}.png".format(index, pokemon)
+            file_name = Path("./raw_images/{}{}.png".format(index, pokemon)).absolute()
 
             r = requests.get(raw_url)
             url = get_url_from_source(r.content)
             if url:
                 download_image(url, file_name)
+            else:
+                print("No Match", pokemon)
             time.sleep(0.5)
 
 
@@ -30,7 +34,7 @@ def get_url_from_source(source):
     m = dirty_reg.search(str(source))
     if m:
         return m.group(1)
-    print("No Match")
+
     return None
 
 

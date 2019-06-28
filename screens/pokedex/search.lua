@@ -53,7 +53,7 @@ end
 function M.filter_list(self, search_string)
 	if #search_string > 0 then
 		local filter = filter_species
-		if tonumber(s) ~= nil then
+		if tonumber(search_string) ~= nil then
 			filter = filter_index
 		else
 			for type, _ in pairs(type_data) do
