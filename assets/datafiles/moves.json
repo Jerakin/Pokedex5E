@@ -133,6 +133,41 @@
       }
     }
   },
+  "Acid Spray": {
+    "Type": "Poison",
+    "Move Power": [
+      "DEX",
+      "CON"
+    ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "1 minute",
+    "Range": "30ft",
+    "Save": "CON",
+    "Description": "You spit a spray of acidic fluid that works to melt away an opponent's defense. Make a ranged attack against a target, dealing 1d6 + MOVE poison damage on a hit. On a hit, the target must make a CON save against your Move DC. On a failure, the target's AC is reduce by 1 for the duration. This decrease may be stacked on an opponent, up to a maximum of -3 to its AC.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 6,
+        "move": true
+      },
+      "5": {
+        "amount": 1,
+        "dice_max": 12,
+        "move": true
+      },
+      "10": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "17": {
+        "amount": 4,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
   "Acrobatics": {
     "Type": "Flying",
     "Move Power": [
@@ -168,9 +203,6 @@
   },
   "Acupressure": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 20,
     "Duration": "1 minute",
@@ -244,11 +276,16 @@
       }
     }
   },
+  "After You": {
+    "Type": "Normal",
+    "Move Time": "1 bonus action",
+    "PP": 3,
+    "Duration": "Instantaneous",
+    "Range": "50ft",
+    "Description": "As a bonus action, choose an ally or opponent in range that has not yet taken its turn in the current round. The target must immediately take its turn now, and return to normal initiative order in the next round."
+  },
   "Agility": {
     "Type": "Psychic",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 bonus action",
     "PP": 15,
     "Duration": "1 minute",
@@ -321,11 +358,16 @@
       }
     }
   },
+  "Ally Switch": {
+    "Type": "Psychic",
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "Instantaneous",
+    "Range": "50ft",
+    "Description": "You use a strange psychic power to teleport yourself and one willing creature in range, switching places on the battlefield."
+  },
   "Amnesia": {
     "Type": "Psychic",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 bonus action",
     "PP": 10,
     "Duration": "1 minute",
@@ -401,9 +443,6 @@
   },
   "Aqua Ring": {
     "Type": "Water",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 minute, Concentration",
@@ -480,9 +519,6 @@
   },
   "Aromatherapy": {
     "Type": "Grass",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
@@ -491,9 +527,6 @@
   },
   "Aromatic Mist": {
     "Type": "Fairy",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "1 minute",
@@ -502,9 +535,6 @@
   },
   "Assist": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 bonus action",
     "PP": 10,
     "Duration": "Varies",
@@ -696,14 +726,19 @@
   },
   "Aurora Veil": {
     "Type": "Ice",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 bonus action",
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "Self",
     "Description": "You use the environment to create a shield of ice around your body. Only able to be activated while it is hailing, this move can be used as a bonus action to halve all damage dealt to you for three rounds."
+  },
+  "Autotomize": {
+    "Type": "Steel",
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "1 minute",
+    "Range": "Self",
+    "Description": "You shed away part of your body to make yourself lighter and increase your speed. For the duration, your speed increases by 10 feet. This move may be stacked to a maximum speed increase of 30 feet."
   },
   "Avalanche": {
     "Type": "Ice",
@@ -740,9 +775,6 @@
   },
   "Baby-Doll Eyes": {
     "Type": "Fairy",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 reaction",
     "PP": 3,
     "Duration": "Instantaneous",
@@ -789,9 +821,6 @@
   },
   "Barrier": {
     "Type": "Psychic",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 minute, Concentration",
@@ -800,9 +829,6 @@
   },
   "Baton Pass": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 bonus action",
     "PP": 20,
     "Duration": "Instantaneous",
@@ -818,18 +844,23 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "Melee",
-    "Description": "You use strength in numbers to attack a creature. Make a melee attack on a creature, and an additional attack for each Pokémon you are currently carrying, doing 1d6 + MOVE dark damage on each hit."
+    "Description": "You use strength in numbers to attack a creature. Make a melee attack on a creature, and an additional attack for each conscious Pokémon you are currently carrying, doing 1d6 + MOVE dark damage on each hit."
   },
   "Belly Drum": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "While in battle",
     "Range": "Self",
     "Description": "You sacrifice health for attack. When using this move, take damage equal to half your maximum, but increase your Strength score by 10 while you remain in battle. After activating this move, you are not affected by potions for the remainder of the encounter."
+  },
+  "Bestow": {
+    "Type": "Normal",
+    "Move Time": "1 bonus action",
+    "PP": 3,
+    "Duration": "Instantaneous",
+    "Range": "30ft",
+    "Description": "As a bonus action, you may pass your held item to a willing creature in range, if the target is not currently holding an item."
   },
   "Bide": {
     "Type": "Normal",
@@ -1016,14 +1047,46 @@
   },
   "Block": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 reaction",
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "50ft",
     "Description": "If an opponent within range attempts to flee or switch out, you may use your reaction to stop it dead in its tracks, keeping this from happening."
+  },
+  "Blue Flare": {
+    "Type": "Fire",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 3,
+    "Duration": "Instantaneous",
+    "Range": "50ft line",
+    "Save": "DEX",
+    "Description": "You unleash an intense and beautiful line of blue flames in a 50 foot line, 5 feet wide. Any creature caught in the line must make a DEX save against your Move DC, taking 5d4 + MOVE fire damage on a failure, or half as much on a success. If a creature fails the save by more than 5, they are burned.",
+    "Damage": {
+      "1": {
+        "amount": 5,
+        "dice_max": 4,
+        "move": true
+      },
+      "5": {
+        "amount": 3,
+        "dice_max": 10,
+        "move": true
+      },
+      "10": {
+        "amount": 5,
+        "dice_max": 8,
+        "move": true
+      },
+      "17": {
+        "amount": 8,
+        "dice_max": 8,
+        "move": true
+      }
+    }
   },
   "Body Slam": {
     "Type": "Normal",
@@ -1055,6 +1118,41 @@
       "17": {
         "amount": 6,
         "dice_max": 6,
+        "move": true
+      }
+    }
+  },
+  "Bolt Strike": {
+    "Type": "Electric",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 3,
+    "Duration": "Instantaneous",
+    "Range": "50ft",
+    "Save": "DEX",
+    "Description": "You send down a powerful strike of lightning from the heavens, surrounding an area of the battlefield with surging electricity. Any opponent caught in a 20 foot radius, centered on a point within range, must make a DEX save against your Move DC, taking 5d4 + MOVE electric damage on a failure, or half as much on a success. If a creature fails the save by more than 5, it becomes paralyzed.",
+    "Damage": {
+      "1": {
+        "amount": 5,
+        "dice_max": 4,
+        "move": true
+      },
+      "5": {
+        "amount": 3,
+        "dice_max": 10,
+        "move": true
+      },
+      "10": {
+        "amount": 5,
+        "dice_max": 8,
+        "move": true
+      },
+      "17": {
+        "amount": 8,
+        "dice_max": 8,
         "move": true
       }
     }
@@ -1303,7 +1401,7 @@
     "Duration": "Instantaneous",
     "Range": "5ft circle",
     "Save": "DEX",
-    "Description": "You swing your arms around violently, attacking anything within a 5 foot circle, centered on yourself. All creatures in range must make a DEX saving throw against your Move DC, taking 1d10 + MOVE fighting damage on a failure, or half as much on a success.",
+    "Description": "You swing your arms around violently, attacking anything within a 5 foot circle, centered on yourself. All creatures in range must make a DEX saving throw against your Move DC, taking 1d10 + MOVE dark damage on a failure, or half as much on a success.",
     "Damage": {
       "1": {
         "amount": 1,
@@ -1466,9 +1564,6 @@
   },
   "Bulk Up": {
     "Type": "Fighting",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 minute, Concentration",
@@ -1577,9 +1672,6 @@
   },
   "Calm Mind": {
     "Type": "Psychic",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 minute, Concentration",
@@ -1588,9 +1680,6 @@
   },
   "Camouflage": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 minute, Concentration",
@@ -1612,9 +1701,6 @@
   },
   "Charge": {
     "Type": "Electric",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 round, Concentration",
@@ -1702,6 +1788,73 @@
       }
     }
   },
+  "Chip Away": {
+    "Type": "Normal",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You wait for an opening, striking with speed when the moment is right. Ignoring any boosts to the AC of a target, make a melee attack, dealing 1d12 + MOVE normal damage on a hit.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 12,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 2,
+        "dice_max": 12,
+        "move": true
+      },
+      "17": {
+        "amount": 6,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
+  "Circle Throw": {
+    "Type": "Fighting",
+    "Move Power": [
+      "STR"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You swing the opponent around and throw it as hard as you can, away from the battlefield. Make a melee attack, dealing 1d10 + MOVE fighting damage on a hit. In wild battles, the target takes the damage and flees from battle if its level is lower than that of the user. In trainer battles, the target takes the damage and must be immediately switched out for another Pokémon in the trainer's party, if any remain.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 10,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 5,
+        "dice_max": 4,
+        "move": true
+      },
+      "17": {
+        "amount": 4,
+        "dice_max": 8,
+        "move": true
+      }
+    }
+  },
   "Clamp": {
     "Type": "Water",
     "Move Power": [
@@ -1732,6 +1885,40 @@
       "17": {
         "amount": 5,
         "dice_max": 4,
+        "move": true
+      }
+    }
+  },
+  "Clear Smog": {
+    "Type": "Poison",
+    "Move Power": [
+      "DEX",
+      "CON"
+    ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "Instantaneous",
+    "Range": "20ft",
+    "Description": "You throw a clump of special mud that has the power to remove all stat changes from a target. Make a ranged attack, dealing 1d8 + MOVE poison damage on a hit. On a hit, any stat changes affecting the target since the beginning of battle are reset.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 8,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 6,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 4,
+        "move": true
+      },
+      "17": {
+        "amount": 3,
+        "dice_max": 10,
         "move": true
       }
     }
@@ -1768,6 +1955,14 @@
         "move": true
       }
     }
+  },
+  "Coil": {
+    "Type": "Poison",
+    "Move Time": "1 action",
+    "PP": 3,
+    "Duration": "1 minute, Concentration",
+    "Range": "Self",
+    "Description": "You coil up and concentrate your power. For the duration, gain +1 to your attack rolls, damage rolls, and AC."
   },
   "Comet Punch": {
     "Type": "Normal",
@@ -1818,9 +2013,6 @@
   },
   "Confuse Ray": {
     "Type": "Ghost",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
@@ -1897,9 +2089,6 @@
   },
   "Conversion": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 bonus action",
     "PP": 15,
     "Duration": "1 minute",
@@ -1908,9 +2097,6 @@
   },
   "Conversion 2": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 reaction",
     "PP": 5,
     "Duration": "1 minute",
@@ -1919,9 +2105,6 @@
   },
   "Copycat": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
@@ -1930,14 +2113,19 @@
   },
   "Cosmic Power": {
     "Type": "Psychic",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 minute, Concentration",
     "Range": "Self",
     "Description": "You call upon a mystic force to come to your aid. For the duration, you have advantage on all saving throws."
+  },
+  "Cotton Guard": {
+    "Type": "Grass",
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "1 minute, Concentration",
+    "Range": "Self",
+    "Description": "You protect yourself by wrapping your body up in thick, soft cotton. For the duration, boost your AC by +2."
   },
   "Cotton Spore": {
     "Type": "Grass",
@@ -2054,9 +2242,6 @@
   },
   "Crafty Shield": {
     "Type": "Fairy",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 reaction",
     "PP": 3,
     "Duration": "Instantaneous",
@@ -2382,9 +2567,6 @@
   },
   "Defend Order": {
     "Type": "Bug",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "1 minute, Concentration",
@@ -2393,9 +2575,6 @@
   },
   "Defense Curl": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 20,
     "Duration": "Instantaneous",
@@ -2404,9 +2583,6 @@
   },
   "Defog": {
     "Type": "Flying",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
@@ -2428,14 +2604,11 @@
   },
   "Detect": {
     "Type": "Fighting",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 reaction",
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "Self",
-    "Description": "You sense incoming danger and are able to quickly avoid it. When targeted by an attack, you may automatically avoid taking damage on the first instance of this reaction. On future reactions in the same combat, you must roll higher than a 15 on a d20 roll for the reaction to be successful."
+    "Description": "You sense incoming danger and are able to quickly avoid it. When hit by an attack, you may automatically avoid taking damage on the first instance of this reaction. On future reactions in the same combat, you must roll higher than a 15 on a d20 roll for the reaction to be successful."
   },
   "Dig": {
     "Type": "Ground",
@@ -2756,9 +2929,6 @@
   },
   "Double Team": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 bonus action",
     "PP": 3,
     "Duration": "1 minute, Concentration",
@@ -2903,9 +3073,6 @@
   },
   "Dragon Dance": {
     "Type": "Dragon",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 minute, Concentration",
@@ -3181,6 +3348,74 @@
       }
     }
   },
+  "Drill Run": {
+    "Type": "Ground",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You crash into an opponent, spinning your body like a drill. Make a melee attack, dealing 2d6 + MOVE ground damage on a hit. This attack scores a critical hit on 19s and 20s.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 6,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 6,
+        "move": true
+      },
+      "17": {
+        "amount": 6,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
+  "Dual Chop": {
+    "Type": "Dragon",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You lash out at an opponent(s) with two quick strikes. Make two melee attack rolls, dealing 1d6 + MOVE dragon damage with each hit.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 6,
+        "move": true
+      },
+      "5": {
+        "amount": 1,
+        "dice_max": 12,
+        "move": true
+      },
+      "10": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "17": {
+        "amount": 4,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
   "Dynamic Punch": {
     "Type": "Fighting",
     "Move Power": [
@@ -3349,6 +3584,73 @@
       }
     }
   },
+  "Electro Ball": {
+    "Type": "Electric",
+    "Move Power": [
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "40ft",
+    "Description": "You hurl an electric orb at a target in range. Make a ranged attack roll, dealing 1d6 + MOVE electric damage on a hit. Compare the target and user's highest speed type (walking, flying, etc.). Add an additional damage di for every 5 feet of speed the user has more than the target.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 6,
+        "move": true
+      },
+      "5": {
+        "amount": 1,
+        "dice_max": 12,
+        "move": true
+      },
+      "10": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "17": {
+        "amount": 4,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
+  "Electroweb": {
+    "Type": "Electric",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "Instantaneous",
+    "Range": "40ft",
+    "Description": "You unleash an electric net of web upon an opponent. Make a ranged attack roll, dealing 1d8 + MOVE electric damage on a hit, and reducing the target's speed by 5 feet. The target can use an action on its turn remove any web from its body. A target whose speed is reduced to 0 is grappled and restrained.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 8,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 6,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 4,
+        "move": true
+      },
+      "17": {
+        "amount": 3,
+        "dice_max": 10,
+        "move": true
+      }
+    }
+  },
   "Embargo": {
     "Type": "Dark",
     "Move Power": [
@@ -3423,9 +3725,6 @@
   },
   "Endure": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 reaction",
     "PP": 3,
     "Duration": "Instantaneous",
@@ -3465,6 +3764,19 @@
       }
     }
   },
+  "Entrainment": {
+    "Type": "Normal",
+    "Move Power": [
+      "WIS",
+      "CHA"
+    ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "1 minute",
+    "Range": "60ft",
+    "Save": "WIS",
+    "Description": "You dance with a strange rhythm that causes an opponent to mimic you. Choose a target in range and force them to make a WIS save against your Move DC. On a failure, choose one of their abilities to replace with one of your own for the duration."
+  },
   "Eruption": {
     "Type": "Fire",
     "Move Power": [
@@ -3502,9 +3814,6 @@
   },
   "Explosion": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
@@ -3819,6 +4128,53 @@
       }
     }
   },
+  "Fiery Dance": {
+    "Type": "Fire",
+    "Move Power": [
+      "DEX",
+      "CHA"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "15ft circle",
+    "Save": "DEX",
+    "Description": "You dance and flap your wings, sending flames in a 15 foot circle, centered on you. Anyone caught in the blaze must make a DEX save against your Move DC, taking 2d6 + MOVE fire damage on a failure, or half as much on a success. If a creature fails the save by more than 5, add an additional damage di.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 6,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 6,
+        "move": true
+      },
+      "17": {
+        "amount": 6,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
+  "Final Gambit": {
+    "Type": "Fighting",
+    "Move Power": [
+      "STR"
+    ],
+    "Move Time": "1 action",
+    "PP": 3,
+    "Duration": "Instantaneous",
+    "Range": "30ft",
+    "Save": "CON",
+    "Description": "You risk everything and use your own life force to damage an opponent in range. When you activate this move, you faint, and force a target in range to make a CON save against your Move DC. The target takes an amount of fighting damage equal to your remaining HP on a failure, or half as much on a success"
+  },
   "Fire Blast": {
     "Type": "Fire",
     "Move Power": [
@@ -3884,6 +4240,39 @@
       "17": {
         "amount": 4,
         "dice_max": 8,
+        "move": true
+      }
+    }
+  },
+  "Fire Pledge": {
+    "Type": "Fire",
+    "Move Power": [
+      "STR"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "40ft",
+    "Description": "You send a plume of flame towards an opponent. Make a ranged attack, dealing 2d8 + MOVE fire damage on a hit. After you land a hit, any ally that uses another Pledge move in the same round automatically hits.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 6,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 6,
+        "move": true
+      },
+      "17": {
+        "amount": 6,
+        "dice_max": 6,
         "move": true
       }
     }
@@ -3957,9 +4346,6 @@
   },
   "Fissure": {
     "Type": "Ground",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
@@ -3996,6 +4382,41 @@
       "17": {
         "amount": 5,
         "dice_max": 4,
+        "move": true
+      }
+    }
+  },
+  "Flame Burst": {
+    "Type": "Fire",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "Instantaneous",
+    "Range": "40ft",
+    "Save": "DEX",
+    "Description": "You release a fireball that explodes on contact. Choose a point in range. Any creature within 5 feet of that point must make a DEX save against your Move DC, taking 1d12 + MOVE fire damage on a hit, or half as much on a success.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 12,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 2,
+        "dice_max": 12,
+        "move": true
+      },
+      "17": {
+        "amount": 6,
+        "dice_max": 6,
         "move": true
       }
     }
@@ -4186,9 +4607,6 @@
   },
   "Flatter": {
     "Type": "Dark",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
@@ -4209,9 +4627,6 @@
   },
   "Flower Shield": {
     "Type": "Fairy",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "1 minute, Concentration",
@@ -4288,9 +4703,6 @@
   },
   "Focus Energy": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 15,
     "Duration": "1 minute",
@@ -4333,9 +4745,6 @@
   },
   "Follow Me": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 round",
@@ -4386,6 +4795,73 @@
     "Range": "50ft",
     "Save": "WIS",
     "Description": "Force a target in range to make a WIS saving throw against your Move DC. On a fail, add +2 to all attack rolls you make against the opponent for the duration. Regardless of the saving throw, for the remainder of combat, any of your fighting or normal moves can hit a ghost type Pokémon. If you are a ghost type, your ghost moves can now hit normal type Pokémon."
+  },
+  "Foul Play": {
+    "Type": "Dark",
+    "Move Power": [
+      "STR",
+      "WIS"
+    ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You turn an opponent's own power against it. Make a melee attack roll using your MOVE power. On a hit, the target takes 2d8 + MOVE dark damage using their own MOVE power.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 10,
+        "move": true
+      },
+      "10": {
+        "amount": 3,
+        "dice_max": 10,
+        "move": true
+      },
+      "17": {
+        "amount": 4,
+        "dice_max": 12,
+        "move": true
+      }
+    }
+  },
+  "Freeze Shock": {
+    "Type": "Ice",
+    "Move Power": [
+      "DEX"
+    ],
+    "Move Time": "1 action, charge",
+    "PP": 3,
+    "Duration": "1 round, Concentration",
+    "Range": "50ft",
+    "Description": "When you use this move, you charge up a ball of rock-hard ice. On your next turn’s action, if you keep your concentration, you fire your electrically charged ice at an opponent. Make a ranged attack roll, dealing 3d8 + MOVE ice damage on a hit. On natural attack rolls of 15 or more, the target is paralyzed.",
+    "Damage": {
+      "1": {
+        "amount": 3,
+        "dice_max": 8,
+        "move": true
+      },
+      "5": {
+        "amount": 5,
+        "dice_max": 6,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 12,
+        "move": true
+      },
+      "17": {
+        "amount": 8,
+        "dice_max": 8,
+        "move": true
+      }
+    }
   },
   "Frenzy Plant": {
     "Type": "Grass",
@@ -4590,6 +5066,74 @@
       }
     }
   },
+  "Fusion Bolt": {
+    "Type": "Electric",
+    "Move Power": [
+      "STR"
+    ],
+    "Move Time": "1 action",
+    "PP": 3,
+    "Duration": "Instantaneous",
+    "Range": "100ft",
+    "Save": "DEX",
+    "Description": "You summon a gigantic firebolt the strikes down from the heavens in a 30 foot circle, centered on a point within range. All creatures caught in the blast must make a DEX save against your Move DC, taking 4d4 + MOVE electric damage on a failure, or half as much on a success. If Fusion Flare was already used this round, double the damage dealt.",
+    "Damage": {
+      "1": {
+        "amount": 4,
+        "dice_max": 4,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 12,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 8,
+        "move": true
+      },
+      "17": {
+        "amount": 8,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
+  "Fusion Flare": {
+    "Type": "Fire",
+    "Move Power": [
+      "STR"
+    ],
+    "Move Time": "1 action",
+    "PP": 3,
+    "Duration": "Instantaneous",
+    "Range": "100ft",
+    "Save": "DEX",
+    "Description": "You summon a gigantic fireball the strikes down from the heavens in a 30 foot circle, centered on a point within range. All creatures caught in the blast must make a DEX save against your Move DC, taking 4d4 + MOVE fire damage on a failure, or half as much on a success. If Fusion Flare was already used this round, double the damage dealt. Fusion Flare may be used to thaw out the user from the frozen status before attacking.",
+    "Damage": {
+      "1": {
+        "amount": 4,
+        "dice_max": 4,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 12,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 8,
+        "move": true
+      },
+      "17": {
+        "amount": 8,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
   "Future Sight": {
     "Type": "Psychic",
     "Move Power": [
@@ -4598,9 +5142,9 @@
     ],
     "Move Time": "1 action",
     "PP": 10,
-    "Duration": "1 round",
+    "Duration": "Instantaneous, 3 rounds",
     "Range": "30ft",
-    "Description": "You save an attack to unleash at a later time. When you activate this move, you may choose to attack on this turn, or delay the attack. You may use the attack as a free action at any time before your next turn. When you make the attack, make a ranged attack roll, dealing 2d10 + MOVE psychic damage on a hit.",
+    "Description": "You save an attack to unleash at a later time. When you activate this move, you may choose to attack on this turn, or delay the attack. You may use the attack as a free action at any time during the next three rounds. When you make the attack, make a ranged attack roll, dealing 2d10 + MOVE psychic damage on a hit.",
     "Damage": {
       "1": {
         "amount": 2,
@@ -4636,11 +5180,42 @@
     "Range": "20ft",
     "Description": "You hurl stomach acid towards a foe. Make a ranged attack. On a hit, the target is covered in the disgusting substance and cannot benefit from the effect of any of its abilities for the duration."
   },
+  "Gear Grind": {
+    "Type": "Steel",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "Instantaneous",
+    "Range": "40ft",
+    "Description": "You send a pair of steel gears at a target(s) in range. Make two ranged attacks, dealing 1d8 + MOVE steel damage with each hit.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 8,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 6,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 4,
+        "move": true
+      },
+      "17": {
+        "amount": 3,
+        "dice_max": 10,
+        "move": true
+      }
+    }
+  },
   "Geomancy": {
     "Type": "Fairy",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action, charge",
     "PP": 5,
     "Duration": "1 round, Concentration",
@@ -4714,6 +5289,39 @@
       }
     }
   },
+  "Glaciate": {
+    "Type": "Ice",
+    "Move Power": [
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "20ft",
+    "Description": "You blow a wind of freezing cold air at an opponent in range. Make a ranged attack roll, dealing 1d10 + MOVE ice damage on a hit. On a hit, reduce the target's speed by 5 feet. A target reduced to a speed of 0 in this manner becomes frozen. The target may use an action at any time (before becoming frozen) to warm its body, resetting its speed.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 10,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 5,
+        "dice_max": 4,
+        "move": true
+      },
+      "17": {
+        "amount": 4,
+        "dice_max": 8,
+        "move": true
+      }
+    }
+  },
   "Glare": {
     "Type": "Normal",
     "Move Power": [
@@ -4760,6 +5368,39 @@
       }
     }
   },
+  "Grass Pledge": {
+    "Type": "Grass",
+    "Move Power": [
+      "STR"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "40ft",
+    "Description": "You send a column of thick grass towards an opponent. Make a ranged attack, dealing 2d8 + MOVE grass damage on a hit. After you land a hit, any ally that uses another Pledge move in the same round automatically hits.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 6,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 6,
+        "move": true
+      },
+      "17": {
+        "amount": 6,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
   "Grass Whistle": {
     "Type": "Grass",
     "Move Power": [
@@ -4775,9 +5416,6 @@
   },
   "Gravity": {
     "Type": "Psychic",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "1 minute, Concentration",
@@ -4799,12 +5437,9 @@
   },
   "Growth": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 20,
-    "Duration": "1 minute",
+    "Duration": "1 minute, Concentration",
     "Range": "30ft",
     "Description": "You increase the size of an ally Pokémon. When you use this move, a Pokémon in range (or you) grows slightly larger, gaining the ability to add a d4 to any attack roll or saving throw for the duration.",
     "Damage": {
@@ -4843,6 +5478,19 @@
     "Save": "WIS",
     "Description": "When you take damage from a move that reduces you to zero hit points, you may use your reaction to force the attacker to make a WIS saving throw against your Move DC. On a failure, all PP from the move that caused you to faint is depleted ."
   },
+  "Guard Split": {
+    "Type": "Psychic",
+    "Move Power": [
+      "WIS",
+      "INT"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "1 minute, Concentration",
+    "Range": "30ft",
+    "Save": "CHA",
+    "Description": "You use your psychic power to change your defense to match your opponent's the best you can. Force an opponent in range to make a CHA save against your Move DC. On a failure, for the duration, your AC changes to become an average of your current AC and the opponent's, rounded down."
+  },
   "Guard Swap": {
     "Type": "Psychic",
     "Move Power": [
@@ -4853,14 +5501,12 @@
     "PP": 5,
     "Duration": "1 minute, Concentration",
     "Range": "40ft",
-    "Save": "WIS",
-    "Description": "You use your psychic power to swap defenses with an opponent. Force an opponent in range to make a WIS save against your Move DC. On a failure, switch armor class with the opponent for the duration."
+    "Save": "CHA",
+    "Description": "You use your psychic power to swap defenses with an opponent. Force an opponent in range to make a CHA save against your Move DC. On a failure, switch armor class with the opponent for the duration.",
+    "": "#### Confuse Ray\n___\n- **Type:** Ghost\n- **Move Power:** DEX/INT\n- **Move Time:** 1 action\n- **PP:** 10\n- **Duration:** Instantaneous\n- **Range:** 60ft\n- **Description:** You release a ray of psychic energy meant to confuse an opponent. Choose a target in range. The target must make an INT saving throw against your Move DC or take 1d4 + MOVE psychic damage and become confused.\n- **Higher Levels:** The damage dice roll for this moves changes to 1d6 at level 5, 1d8 at level 10, and 2d6 at level 17."
   },
   "Guillotine": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
@@ -4969,9 +5615,6 @@
   },
   "Hail": {
     "Type": "Ice",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "3 rounds, Concentration",
@@ -5035,9 +5678,6 @@
   },
   "Harden": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 15,
     "Duration": "Instantaneous",
@@ -5046,14 +5686,44 @@
   },
   "Haze": {
     "Type": "Ice",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 15,
     "Duration": "Instantaneous",
     "Range": "30ft",
     "Description": "You create a haze of light snow that washes over the Pokémon in a 30ft circle, centered on you. Any stat bonuses or modifiers, status effects, shields or other outside forces affecting the stats or abilities of a Pokémon are removed. This includes things like Leech Seed, Reflect, and Light Screen."
+  },
+  "Head Charge": {
+    "Type": "Normal",
+    "Move Power": [
+      "STR"
+    ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You lower your head and charge at an opponent. Make a melee attack. On a hit, you deal 2d10 + MOVE normal damage, taking a quarter of the total damage (rounded down) in recoil.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 10,
+        "move": true
+      },
+      "5": {
+        "amount": 3,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 10,
+        "move": true
+      },
+      "17": {
+        "amount": 7,
+        "dice_max": 8,
+        "move": true
+      }
+    }
   },
   "Head Smash": {
     "Type": "Rock",
@@ -5123,9 +5793,6 @@
   },
   "Heal Bell": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
@@ -5134,9 +5801,6 @@
   },
   "Heal Block": {
     "Type": "Psychic",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 reaction",
     "PP": 3,
     "Duration": "Instantaneous",
@@ -5176,16 +5840,81 @@
       }
     }
   },
-  "Healing Wish": {
+  "Heal Pulse": {
     "Type": "Psychic",
     "Move Power": [
-      "None"
+      "CON",
+      "WIS"
     ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "30ft",
+    "Description": "You emit a healing pulse that restores a target's HP. Choose a target in range (cannot be yourself). The target regains 2d6 + MOVE hit points.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 6,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 6,
+        "move": true
+      },
+      "17": {
+        "amount": 6,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
+  "Healing Wish": {
+    "Type": "Psychic",
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "Self",
     "Description": "You sacrifice yourself for another one of your trainer's Pokémon. When activating this move, the user faints, but the next Pokémon released by its trainer is fully healed and cured of any status effects."
+  },
+  "Heart Stamp": {
+    "Type": "Psychic",
+    "Move Power": [
+      "WIS",
+      "CHA"
+    ],
+    "Move Time": "1 action",
+    "PP": 15,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You unleash a vicious blow after acting cute. Make a melee attack against an opponent, dealing 1d10 + MOVE psychic damage on a hit.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 10,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 5,
+        "dice_max": 4,
+        "move": true
+      },
+      "17": {
+        "amount": 4,
+        "dice_max": 8,
+        "move": true
+      }
+    }
   },
   "Heart Swap": {
     "Type": "Psychic",
@@ -5197,8 +5926,41 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "40ft",
-    "Save": "WIS",
-    "Description": "Force an opponent in range to make a WIS save against your Move DC. On a failure, you employ your psychic power to swap any changes in ability modifiers, AC, attack changes, damage boosts, etc. that are currently in affect on you or the target."
+    "Save": "CHA",
+    "Description": "Force an opponent in range to make a CHA save against your Move DC. On a failure, you employ your psychic power to swap any changes in ability modifiers, AC, attack changes, damage boosts, etc. that are currently in affect on you or the target."
+  },
+  "Heat Crash": {
+    "Type": "Fire",
+    "Move Power": [
+      "STR"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You slam into an opponent with your flaming body. Make a melee attack on a target, dealing a minimum of 1d8 + MOVE fire damage on a hit. Add an additional damage di for each size level you are above an opponent. (Sizes, in order, are: Tiny, Small, Medium, Large, Huge, Gargantuan)",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 8,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 6,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 4,
+        "move": true
+      },
+      "17": {
+        "amount": 3,
+        "dice_max": 10,
+        "move": true
+      }
+    }
   },
   "Heat Wave": {
     "Type": "Fire",
@@ -5235,16 +5997,101 @@
       }
     }
   },
+  "Heavy Slam": {
+    "Type": "Steel",
+    "Move Power": [
+      "STR"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You slam into an opponent with your heavy body. Make a melee attack on a target, dealing a minimum of 1d8 + MOVE steel damage on a hit. Add an additional damage di for each size level you are above an opponent. (Sizes, in order, are: Tiny, Small, Medium, Large, Huge, Gargantuan)",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 8,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 6,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 4,
+        "move": true
+      },
+      "17": {
+        "amount": 3,
+        "dice_max": 10,
+        "move": true
+      }
+    }
+  },
   "Helping Hand": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 bonus action",
     "PP": 5,
     "Duration": "10 minutes",
     "Range": "60ft",
-    "Description": "You can use a bonus action on your turn to choose one ally other than yourself within 60 feet of you who can hear you. That ally can add a d6 to one ability check, attack roll, or saving throw it makes within the next 10 minutes, before the result of the roll is called by the DM. An ally being helped can only have one d6 available at a time."
+    "Description": "You can use a bonus action on your turn to choose one ally other than yourself within 60 feet of you who can hear you. That ally can add a d6 to one ability check, attack roll, or saving throw it makes within the next 10 minutes, before the result of the roll is called by the DM. An ally being helped can only have one d6 available at a time.",
+    "Damage": {
+      "1": {
+        "amount": 0,
+        "dice_max": 6,
+        "move": false
+      },
+      "5": {
+        "amount": 0,
+        "dice_max": 8,
+        "move": false
+      },
+      "10": {
+        "amount": 0,
+        "dice_max": 10,
+        "move": false
+      },
+      "17": {
+        "amount": 0,
+        "dice_max": 12,
+        "move": false
+      }
+    }
+  },
+  "Hex": {
+    "Type": "Ghost",
+    "Move Power": [
+      "WIS"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "50ft",
+    "Description": "You send a ghostly energy at an opponent that does additional damage to those affected by status conditions. Make a ranged attack, dealing 1d10 + MOVE ghost damage on a hit. If the target is affected by a status condition, add an additional damage di.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 10,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 5,
+        "dice_max": 4,
+        "move": true
+      },
+      "17": {
+        "amount": 4,
+        "dice_max": 8,
+        "move": true
+      }
+    }
   },
   "Hidden Power": {
     "Type": "Normal",
@@ -5313,6 +6160,14 @@
       }
     }
   },
+  "Hone Claws": {
+    "Type": "Dark",
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "1 minute",
+    "Range": "Self",
+    "Description": "You sharpen your claws to increase the power of your attacks. For the duration, add an additional +1 to your melee attack and damage rolls. This move may be stacked to a maximum of +3 to attack and damage rolls."
+  },
   "Horn Attack": {
     "Type": "Normal",
     "Move Power": [
@@ -5349,25 +6204,87 @@
   },
   "Horn Drill": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "Melee",
     "Description": "You attempt to drill your horn through an enemy Pokémon with tremendous strength. Roll a d20. On a 20, the Pokémon is impaled and immediately faints. On any other roll, you miss and this move fails. If the target's level is 10 more than your own, this move automatically fails."
   },
+  "Horn Leech": {
+    "Type": "Grass",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You sink your horns into an enemy, draining some of their power. Make a melee attack, dealing 1d12 + MOVE grass damage on a hit. Half the damage dealt is recovered by the user (rounded down).",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 12,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 2,
+        "dice_max": 12,
+        "move": true
+      },
+      "17": {
+        "amount": 6,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
   "Howl": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 20,
     "Duration": "1 minute",
     "Range": "Self",
     "Description": "You increase your adrenaline with a menacing howl. For the duration, add +1 to any attack roll you make. This move can be stacked for a maximum of +5."
+  },
+  "Hurricane": {
+    "Type": "Flying",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "40ft",
+    "Description": "You wrap an opponent in a fierce wind. Make a ranged attack against a target, dealing 3d6 + MOVE flying damage on a hit. If this attack is activated during rain, roll the attack with advantage. If used during intense sunlight, roll the attack with disadvantage. If the natural attack roll is 15 or higher, the target becomes confused.",
+    "Damage": {
+      "1": {
+        "amount": 3,
+        "dice_max": 6,
+        "move": true
+      },
+      "5": {
+        "amount": 3,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 6,
+        "dice_max": 6,
+        "move": true
+      },
+      "17": {
+        "amount": 7,
+        "dice_max": 8,
+        "move": true
+      }
+    }
   },
   "Hydro Cannon": {
     "Type": "Water",
@@ -5624,6 +6541,41 @@
       }
     }
   },
+  "Ice Burn": {
+    "Type": "Ice",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 3,
+    "Duration": "1 round, Concentration",
+    "Range": "30ft circle",
+    "Save": "DEX",
+    "Description": "When you use this move, you charge up an intense power within your body. On your next turn’s action, if you keep your concentration, you unleash an ultracold, freezing wind in a 30 foot circle all around you. Anyone caught in the blast must make a DEX save against your Move DC, taking 2d12 + MOVE ice damage on a failure, or half as much on a success. If any creature fails the save by more than 5, it is burned.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 12,
+        "move": true
+      },
+      "5": {
+        "amount": 3,
+        "dice_max": 10,
+        "move": true
+      },
+      "10": {
+        "amount": 7,
+        "dice_max": 6,
+        "move": true
+      },
+      "17": {
+        "amount": 8,
+        "dice_max": 8,
+        "move": true
+      }
+    }
+  },
   "Ice Fang": {
     "Type": "Ice",
     "Move Power": [
@@ -5725,6 +6677,39 @@
       }
     }
   },
+  "Icicle Crash": {
+    "Type": "Ice",
+    "Move Power": [
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "30ft",
+    "Description": "You generate a row of icicles that crash down on top of an opponent in range. Make a ranged attack, dealing 2d6 + MOVE ice damage on a hit. If the natural attack roll is 15 or higher, the target flinches.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 6,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 6,
+        "move": true
+      },
+      "17": {
+        "amount": 6,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
   "Icicle Spear": {
     "Type": "Ice",
     "Move Power": [
@@ -5804,6 +6789,74 @@
     "Save": "WIS",
     "Description": "You create psychic walls within the mind of a target in range. Force the target to make a WIS saving throw against your Move DC. On a failure, the target is unable to use any Move it knows that is the same as yours for the duration."
   },
+  "Incinerate": {
+    "Type": "Fire",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "Instantaneous",
+    "Range": "50ft",
+    "Description": "You summon forth a burning hot flame that surrounds an opponent. Make a ranged attack, dealing 1d10 + MOVE fire damage on a hit. On a hit, if the target is holding a berry, it is immediately burned to ash, becoming unusable.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 10,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 5,
+        "dice_max": 4,
+        "move": true
+      },
+      "17": {
+        "amount": 4,
+        "dice_max": 8,
+        "move": true
+      }
+    }
+  },
+  "Inferno": {
+    "Type": "Fire",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 3,
+    "Duration": "Instantaneous",
+    "Range": "15ft",
+    "Description": "You engulf a target in intense flames. Make a ranged attack against a target, dealing 4d4 + MOVE fire damage on a hit, burning the target in the process.",
+    "Damage": {
+      "1": {
+        "amount": 4,
+        "dice_max": 4,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 12,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 8,
+        "move": true
+      },
+      "17": {
+        "amount": 8,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
   "Infestation": {
     "Type": "Bug",
     "Move Power": [
@@ -5873,9 +6926,6 @@
   },
   "Iron Defense": {
     "Type": "Steel",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 round",
@@ -6231,6 +7281,40 @@
       }
     }
   },
+  "Leaf Tornado": {
+    "Type": "Grass",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "40 feet",
+    "Description": "You summon forth a cyclone of harsh winds and fast moving leaves that rushes forward to strike an opponent in range. Make a ranged attack roll, dealing 1d10 + MOVE grass damage on a hit. If the natural attack roll is 15 or higher, the target has disadvantage on its next attack. If the opponent activates a move that requires a saving throw, its target(s) have advantage on the roll.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 10,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 5,
+        "dice_max": 4,
+        "move": true
+      },
+      "17": {
+        "amount": 4,
+        "dice_max": 8,
+        "move": true
+      }
+    }
+  },
   "Leech Life": {
     "Type": "Bug",
     "Move Power": [
@@ -6380,9 +7464,6 @@
   },
   "Light Screen": {
     "Type": "Psychic",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 15,
     "Duration": "1 minute, Concentration",
@@ -6391,9 +7472,6 @@
   },
   "Lock-On": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
@@ -6484,9 +7562,6 @@
   },
   "Lucky Chant": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 reaction",
     "PP": 3,
     "Duration": "Instantaneous",
@@ -6495,9 +7570,6 @@
   },
   "Lunar Dance": {
     "Type": "Psychic",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
@@ -6582,6 +7654,14 @@
     "Duration": "Instantaneous",
     "Range": "50ft",
     "Description": "A flash of magical energy forms between you and an opponent, reflecting negative energy back at an attacker in range. When an attack from an opponent causes you to suffer from a negative status condition, they are also affected by the same condition."
+  },
+  "Magic Room": {
+    "Type": "Psychic",
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "5 rounds, Concentration",
+    "Range": "50ft circle",
+    "Description": "You employ your psychic power to suppress the effect of all held moves in a 50 foot circle, centered on you."
   },
   "Magical Leaf": {
     "Type": "Grass",
@@ -6686,9 +7766,6 @@
   },
   "Magnet Rise": {
     "Type": "Electric",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "1 minute, Concentration",
@@ -6709,9 +7786,6 @@
   },
   "Me First": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 reaction",
     "PP": 3,
     "Duration": "Instantaneous",
@@ -6733,9 +7807,6 @@
   },
   "Meditate": {
     "Type": "Psychic",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 20,
     "Duration": "1 minute, Concentration",
@@ -6879,9 +7950,6 @@
   },
   "Memento": {
     "Type": "Dark",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "2 rounds",
@@ -6890,9 +7958,6 @@
   },
   "Metal Burst": {
     "Type": "Steel",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 reaction",
     "PP": 3,
     "Duration": "Instantaneous",
@@ -7025,9 +8090,6 @@
   },
   "Mimic": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "1 minute, Concentration",
@@ -7036,9 +8098,6 @@
   },
   "Mind Reader": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
@@ -7047,9 +8106,6 @@
   },
   "Minimize": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "1 minute, Concentration",
@@ -7151,9 +8207,6 @@
   },
   "Mist": {
     "Type": "Ice",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 15,
     "Duration": "1 minute",
@@ -7196,9 +8249,6 @@
   },
   "Misty Terrain": {
     "Type": "Fairy",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "3 rounds",
@@ -7318,7 +8368,7 @@
     "Duration": "Instantaneous",
     "Range": "40ft",
     "Save": "CON",
-    "Description": "You throw a hard-packed mud ball at an opponent. Make a ranged attack, dealing 1d10 + MOVE ground damage on a hit. On a hit, the target must make a CON save against your Move DC. On a failure, the target has disadvantage on its next attack roll.",
+    "Description": "You throw a hard-packed mud ball at an opponent. Make a ranged attack, dealing 1d10 + MOVE ground damage on a hit. On a hit, the target must make a CON save against your Move DC. On a failure, the target has disadvantage on its next attack roll. If activating a move that requires a save, the target(s) have advantage.",
     "Damage": {
       "1": {
         "amount": 1,
@@ -7377,9 +8427,6 @@
   },
   "Mud Sport": {
     "Type": "Ground",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 minute",
@@ -7456,9 +8503,6 @@
   },
   "Nasty Plot": {
     "Type": "Dark",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 minute, Concentration",
@@ -7539,6 +8583,40 @@
       "17": {
         "amount": 4,
         "dice_max": 8,
+        "move": true
+      }
+    }
+  },
+  "Night Daze": {
+    "Type": "Dark",
+    "Move Power": [
+      "DEX",
+      "WIS"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "40ft",
+    "Description": "A pitch black shockwave of dark energy rushes towards a target. Make a ranged attack roll, dealing 2d6 + MOVE dark damage on a hit. If the natural attack roll is 13 or more, the target rolls its next attack with disadvantage. If it activates a move that requires a saving throw, the target(s) have advantage on the roll.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 6,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 6,
+        "move": true
+      },
+      "17": {
+        "amount": 6,
+        "dice_max": 6,
         "move": true
       }
     }
@@ -7681,9 +8759,6 @@
   },
   "Odor Sleuth": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "1 minute, Concentration",
@@ -8335,6 +9410,19 @@
       }
     }
   },
+  "Power Split": {
+    "Type": "Psychic",
+    "Move Power": [
+      "INT",
+      "WIS"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "1 minute, Concentration",
+    "Range": "30ft",
+    "Save": "CHA",
+    "Description": "You use your psychic power to change your offense to match your opponent's the best you can. Force an opponent in range to make a CHA save against your Move DC. On a failure, choose either your STR, DEX, or WIS. For the duration, replace the chosen ability score with the average of your current score and your opponent's score."
+  },
   "Power Swap": {
     "Type": "Psychic",
     "Move Power": [
@@ -8350,9 +9438,6 @@
   },
   "Power Trick": {
     "Type": "Psychic",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 bonus action",
     "PP": 5,
     "Duration": "1 round",
@@ -8429,14 +9514,11 @@
   },
   "Protect": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 reaction",
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "Self",
-    "Description": "You sense incoming danger and are able to quickly avoid it. When targeted by an attack, you may automatically avoid taking damage on the first instance of this reaction. On future instances of this move in the same combat, you must roll higher than a 15 on a d20 roll for the reaction to be successful."
+    "Description": "You sense incoming danger and are able to quickly avoid it. When hit by an attack, you may automatically avoid taking damage on the first instance of this reaction. On future instances of this move in the same combat, you must roll higher than a 15 on a d20 roll for the reaction to be successful."
   },
   "Psybeam": {
     "Type": "Psychic",
@@ -8476,9 +9558,6 @@
   },
   "Psych Up": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
@@ -8634,6 +9713,40 @@
       }
     }
   },
+  "Psystrike": {
+    "Type": "Psychic",
+    "Move Power": [
+      "INT",
+      "WIS"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "30ft",
+    "Description": "You materialize a psychic wave that shocks an opponent. Make a ranged attack, dealing 2d6 + MOVE psychic damage on a hit.",
+    "Damage": {
+      "1": {
+        "amount": 4,
+        "dice_max": 4,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 12,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 8,
+        "move": true
+      },
+      "17": {
+        "amount": 8,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
   "Psywave": {
     "Type": "Psychic",
     "Move Power": [
@@ -8761,6 +9874,22 @@
       }
     }
   },
+  "Quick Guard": {
+    "Type": "Fighting",
+    "Move Time": "1 reaction",
+    "PP": 3,
+    "Duration": "Instantaneous",
+    "Range": "30ft",
+    "Description": "You have the ability to rush to the aid of an ally at the start of combat. If an ally in range (or you) is attacked on the very first turn of the very first round of combat, you may use your reaction to negate any damage dealt."
+  },
+  "Quiver Dance": {
+    "Type": "Bug",
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "1 minute, Concentration",
+    "Range": "Self",
+    "Description": "You lightly perform a mystical dance. For the duration, gain +1 to your attack rolls, damage rolls, and AC."
+  },
   "Rage": {
     "Type": "Normal",
     "Move Power": [
@@ -8772,11 +9901,21 @@
     "Range": "Self",
     "Description": "You go into a fit of rage, attacking with relentless fury. While you are raging, you gain +2 on all damage rolls (only once per turn for multi-attack moves like Swift, Fury Swipes, Bubble, etc.), have resistance to normal damage, and have advantage on all Strength checks. Your rage ends if you are incapacitated or if you have not attacked a hostile target since your last turn, or taken any damage since then."
   },
+  "Rage Powder": {
+    "Type": "Bug",
+    "Move Power": [
+      "CON",
+      "CHA"
+    ],
+    "Move Time": "1 action",
+    "PP": 3,
+    "Duration": "1 minute",
+    "Range": "15ft cone",
+    "Save": "WIS",
+    "Description": "You scatter a cloud of irritating powder, drawing attacks to yourself. Any creature in a 15 foot cone must make a WIS saving throw against your Move DC. On a failure, the creature(s) can only use damaging moves that target you for the duration. Any creature affected can repeat the save at the end of each of its turns to shake off the effect."
+  },
   "Rain Dance": {
     "Type": "Water",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "5 rounds",
@@ -8847,6 +9986,40 @@
       "17": {
         "amount": 3,
         "dice_max": 10,
+        "move": true
+      }
+    }
+  },
+  "Razor Shell": {
+    "Type": "Water",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You strike an opponent with a razor sharp shell. Make a melee attack on an opponent, dealing 1d12 + MOVE water damage on a hit.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 12,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 2,
+        "dice_max": 12,
+        "move": true
+      },
+      "17": {
+        "amount": 6,
+        "dice_max": 6,
         "move": true
       }
     }
@@ -8922,9 +10095,6 @@
   },
   "Recycle": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 bonus action",
     "PP": 5,
     "Duration": "Instantaneous",
@@ -8933,25 +10103,62 @@
   },
   "Reflect": {
     "Type": "Psychic",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 reaction",
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "Self",
     "Description": "When you are hit by a melee attack, use your reaction to take half the damage dealt."
   },
+  "Reflect Type": {
+    "Type": "Normal",
+    "Move Time": "1 action",
+    "PP": 3,
+    "Duration": "1 minute, Concentration",
+    "Range": "40ft",
+    "Description": "Your body flashes into a mirror for just a moment. When it returns to normal, you take on the type of an opponent in range."
+  },
   "Refresh": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "Self",
     "Description": "A wave of healing energy washes over you, curing poison, paralysis, and burn."
+  },
+  "Relic Song": {
+    "Type": "Normal",
+    "Move Power": [
+      "CHA",
+      "WIS"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "20ft circle",
+    "Save": "CON",
+    "Description": "You sing an ancient song that damages opponents in range with the chance to put them asleep. Any creature in a 20ft circle, centered on you, must make a CON save against your Move DC, taking 1d12 + MOVE normal damage on a failure, or half as much ona success. Any creature that fails the save by more than 5 is put to sleep.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 12,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 2,
+        "dice_max": 12,
+        "move": true
+      },
+      "17": {
+        "amount": 6,
+        "dice_max": 6,
+        "move": true
+      }
+    }
   },
   "Rest": {
     "Type": "Psychic",
@@ -8982,6 +10189,40 @@
       },
       "17": {
         "amount": 8,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
+  "Retaliate": {
+    "Type": "Normal",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 reaction",
+    "PP": 3,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You rush to avenge a fallen ally. When an opponent causes an ally to faint, you may move up to your speed to immediately rush forward and make a melee attack roll on the opponent, dealing 1d12 + MOVE normal damage on a hit.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 12,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 2,
+        "dice_max": 12,
+        "move": true
+      },
+      "17": {
+        "amount": 6,
         "dice_max": 6,
         "move": true
       }
@@ -9204,9 +10445,6 @@
   },
   "Rock Polish": {
     "Type": "Rock",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 minute",
@@ -9562,11 +10800,42 @@
       }
     }
   },
+  "Sacred Sword": {
+    "Type": "Fighting",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You attempt to pierce an enemy with one of your sharp appendages. Make a melee attack, dealing 2d8 + MOVE fighting damage on a hit. This move ignores any boosts affecting the target's AC.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 10,
+        "move": true
+      },
+      "10": {
+        "amount": 3,
+        "dice_max": 10,
+        "move": true
+      },
+      "17": {
+        "amount": 4,
+        "dice_max": 12,
+        "move": true
+      }
+    }
+  },
   "Safeguard": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 15,
     "Duration": "3 rounds",
@@ -9622,9 +10891,6 @@
   },
   "Sandstorm": {
     "Type": "Rock",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "3 rounds, Concentration",
@@ -9747,6 +11013,40 @@
     "Save": "WIS",
     "Description": "You let out a horrible screech at enemy Pokémon in a 20 foot radius, centered on you, distracting them and opening up their defenses. The Pokémon must make a WIS save against your Move DC. On a fail, allies add +1 to any attack they target an affected Pokémon with for the duration. This modifier can be stacked if a Pokémon fails multiple screech saves, up to a maximum of +5."
   },
+  "Searing Shot": {
+    "Type": "Fire",
+    "Move Power": [
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 3,
+    "Duration": "Instantaneous",
+    "Range": "10ft circle",
+    "Save": "DEX",
+    "Description": "Searing hot flames lick out at opponents in a 10 foot circle, centered on you. Any creature in range must make a DEX save against your Move DC, taking 4d4 + MOVE fire damage on a failure, or half as much on a success. If a target fails the save by more than 5, it is burned.",
+    "Damage": {
+      "1": {
+        "amount": 4,
+        "dice_max": 4,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 12,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 8,
+        "move": true
+      },
+      "17": {
+        "amount": 8,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
   "Secret Power": {
     "Type": "Normal",
     "Move Power": [
@@ -9772,6 +11072,40 @@
       "10": {
         "amount": 2,
         "dice_max": 12,
+        "move": true
+      },
+      "17": {
+        "amount": 6,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
+  "Secret Sword": {
+    "Type": "Fighting",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You attempt to pierce an enemy with one of your sharp appendages. Make a melee attack, dealing 2d6 + MOVE fighting damage on a hit. This move ignores any boosts affecting the target's AC.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 6,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 6,
         "move": true
       },
       "17": {
@@ -10065,9 +11399,6 @@
   },
   "Sharpen": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 15,
     "Duration": "1 minute, Concentration",
@@ -10098,14 +11429,27 @@
   },
   "Sheer Cold": {
     "Type": "Ice",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "30ft",
     "Description": "You send a chill down the spine of an opponent, freezing its core. Choose a target in range and roll a d20. On a 20, the target faints. On any other roll, this move has no effect. If the target's level is 10 more than your own, this move automatically fails."
+  },
+  "Shell Smash": {
+    "Type": "Normal",
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "1 minute",
+    "Range": "Self",
+    "Description": "You break off a piece of your shell, lowering your AC, but improving your attack. When you activate this move, lower your AC by 1, but increase your attack and damage rolls by 1 for the duration. This move cannot stack."
+  },
+  "Shift Gear": {
+    "Type": "Steel",
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "1 minute, Concentration",
+    "Range": "Self",
+    "Description": "You rotate your gears quickly, raising your attack and speed. When you activate this move, add +1 to your attack and damage rolls, and +10 to your speed for the duration."
   },
   "Shock Wave": {
     "Type": "Electric",
@@ -10206,11 +11550,21 @@
       }
     }
   },
-  "Sing": {
+  "Simple Beam": {
     "Type": "Normal",
     "Move Power": [
-      "None"
+      "WIS",
+      "INT"
     ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "1 minute",
+    "Range": "30ft",
+    "Save": "WIS",
+    "Description": "You use a mysterious psychic energy to change a target's ability to Simple. Force a target in range to make a WIS saving throw against your Move DC. On a failure, choose one of the target's abilities and change it to Simple for the duration."
+  },
+  "Sing": {
+    "Type": "Normal",
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
@@ -10241,9 +11595,6 @@
   },
   "Sketch": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 reaction",
     "PP": 1,
     "Duration": "instantaneous",
@@ -10399,9 +11750,6 @@
   },
   "Slack Off": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "2 rounds",
@@ -10473,8 +11821,7 @@
         "dice_max": 6,
         "move": true
       }
-    },
-    "": "#### Confuse Ray\n___\n- **Type:** Ghost\n- **Move Power:** DEX/INT\n- **Move Time:** 1 action\n- **PP:** 10\n- **Duration:** Instantaneous\n- **Range:** 60ft\n- **Description:** You release a ray of psychic energy meant to confuse an opponent. Choose a target in range. The target must make an INT saving throw against your Move DC or take 1d4 + MOVE psychic damage and become confused.\n- **Higher Levels:** The damage dice roll for this moves changes to 1d6 at level 5, 1d8 at level 10, and 2d6 at level 17."
+    }
   },
   "Sleep Powder": {
     "Type": "Grass",
@@ -10497,7 +11844,7 @@
     "PP": 5,
     "Duration": "Varies",
     "Range": "Varies",
-    "Description": "This move can only be used if you are asleep. While asleep, activate a random move from your move list that has a move time of \"1 action\". Roll a d4 to determine which move you use."
+    "Description": "This move can only be used if you are asleep. While asleep, activate a random move from your move list (not Sleep Talk) that has a move time of \"1 action\"."
   },
   "Sludge": {
     "Type": "Poison",
@@ -10830,6 +12177,19 @@
       }
     }
   },
+  "Soak": {
+    "Type": "Water",
+    "Move Power": [
+      "STR",
+      "CON"
+    ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "1 minute",
+    "Range": "50ft",
+    "Save": "CON",
+    "Description": "You fire a torrent of water at an opponent with such force that it leaves lasting effects. Force a target in range to make a CON save against your Move DC. On a failure, their type changes to water."
+  },
   "Soft-Boiled": {
     "Type": "Normal",
     "Move Power": [
@@ -11131,9 +12491,6 @@
   },
   "Splash": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 20,
     "Duration": "Instantaneous",
@@ -11200,6 +12557,39 @@
       }
     }
   },
+  "Steamroller": {
+    "Type": "Bug",
+    "Move Power": [
+      "STR"
+    ],
+    "Move Time": "1 action",
+    "PP": 10,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You roll up your body and roll over an opponent. Make a melee attack roll, dealing 1d10 + MOVE bug damage on a hit. If your natural attack roll is 15 or higher, the target flinches.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 10,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 5,
+        "dice_max": 4,
+        "move": true
+      },
+      "17": {
+        "amount": 4,
+        "dice_max": 8,
+        "move": true
+      }
+    }
+  },
   "Steel Wing": {
     "Type": "Steel",
     "Move Power": [
@@ -11236,9 +12626,6 @@
   },
   "Stockpile": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
@@ -11313,6 +12700,73 @@
       }
     }
   },
+  "Stored Power": {
+    "Type": "Psychic",
+    "Move Power": [
+      "STR",
+      "WIS"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "30ft",
+    "Description": "You use your psychic energy to attack with stored power. Make a ranged attack, dealing 1d4 + MOVE psychic damage on a hit. Add an additional damage di for each bonus applied to any of your attack, damage, or AC stats. (For example, if you or an ally has activated a move(s) that is currently boosting your AC, attack, and damage rolls by +1, add three additional damage dice.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 4,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 4,
+        "move": true
+      },
+      "10": {
+        "amount": 1,
+        "dice_max": 12,
+        "move": true
+      },
+      "17": {
+        "amount": 4,
+        "dice_max": 4,
+        "move": true
+      }
+    }
+  },
+  "Storm Throw": {
+    "Type": "Fighting",
+    "Move Power": [
+      "STR"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You strike a target with a fierce blow. Make a melee attack on an opponent, dealing 2d10 + MOVE fighting damage on a hit. If a target is immune to the damage from critical hits, halve the damage dealt by this attack.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 10,
+        "move": true
+      },
+      "5": {
+        "amount": 3,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 10,
+        "move": true
+      },
+      "17": {
+        "amount": 7,
+        "dice_max": 8,
+        "move": true
+      }
+    }
+  },
   "Strength": {
     "Type": "Normal",
     "Move Power": [
@@ -11370,6 +12824,40 @@
     "Range": "Melee",
     "Description": "This move is known by all Pokémon, and is used only when all other moves are out of PP. Make a melee attack roll, doing damage equal to 2 + MOVE normal damage on a hit."
   },
+  "Struggle Bug": {
+    "Type": "Bug",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 reaction",
+    "PP": 3,
+    "Duration": "instantaneous",
+    "Range": "Melee",
+    "Description": "You resist an attack, fighting back against an opponent. When hit by a melee attack, you may use a reaction to immediately retaliate with an attack roll of your own, dealing 1d6 + MOVE bug damage on a hit.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 6,
+        "move": true
+      },
+      "5": {
+        "amount": 1,
+        "dice_max": 10,
+        "move": true
+      },
+      "10": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "17": {
+        "amount": 5,
+        "dice_max": 4,
+        "move": true
+      }
+    }
+  },
   "Stun Spore": {
     "Type": "Grass",
     "Move Power": [
@@ -11417,9 +12905,6 @@
   },
   "Substitute": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "Instantaneous",
@@ -11462,9 +12947,6 @@
   },
   "Sunny Day": {
     "Type": "Fire",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "5 rounds",
@@ -11652,14 +13134,11 @@
     "PP": 10,
     "Duration": "Instantaneous",
     "Range": "30ft",
-    "Save": "CON",
-    "Description": "You release a sweet smell directed at a target in range. The target must make a CON save against your Move DC. On a fail, you have advantage on your next two attacks against that target."
+    "Save": "CHA",
+    "Description": "You release a sweet smell directed at a target in range. The target must make a CHA save against your Move DC. On a fail, you have advantage on your next two attacks against that target."
   },
   "Swift": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
@@ -11710,9 +13189,6 @@
   },
   "Swords Dance": {
     "Type": "Normal",
-    "Move Power": [
-      "DEX"
-    ],
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "1 minute, concentration",
@@ -11742,6 +13218,41 @@
         "dice_max": 6,
         "move": true,
         "times": 4
+      }
+    }
+  },
+  "Synchronoise": {
+    "Type": "Psychic",
+    "Move Power": [
+      "WIS",
+      "CHA"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "20ft circle",
+    "Save": "CON",
+    "Description": "You emit a strange soundwave that only damages creature that share a type with you. Any creature within a 20ft circle that shares at least one of your types must make a CON save against your Move DC, taking 2d10 + MOVE psychic damage on a failure, or half as much on a success.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 10,
+        "move": true
+      },
+      "5": {
+        "amount": 3,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 10,
+        "move": true
+      },
+      "17": {
+        "amount": 7,
+        "dice_max": 8,
+        "move": true
       }
     }
   },
@@ -11814,14 +13325,45 @@
   },
   "Tail Glow": {
     "Type": "Bug",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 minute, Concentration",
     "Range": "Self",
     "Description": "Your tail emits a flash of light, boosting your attack. For the duration, double your STAB damage."
+  },
+  "Tail Slap": {
+    "Type": "Normal",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "You strike out against an opponent with a quick-hitting, hard tail. Make a melee attack roll, doing 1d4 + MOVE normal damage on a hit. After successfully hitting a target, roll a d4. On a result of 3 or 4, you may immediately hit again for an additional 1d4 normal damage. Continue this process until you fail to roll a 3 or 4 on the d4 roll, up to a maximum of four additional hits.",
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 4,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 4,
+        "move": true
+      },
+      "10": {
+        "amount": 1,
+        "dice_max": 12,
+        "move": true
+      },
+      "17": {
+        "amount": 4,
+        "dice_max": 4,
+        "move": true
+      }
+    }
   },
   "Tail Whip": {
     "Type": "Normal",
@@ -11838,9 +13380,6 @@
   },
   "Tailwind": {
     "Type": "Flying",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "1 minute, Concentration",
@@ -11893,6 +13432,41 @@
     "Save": "WIS",
     "Description": "You taunt an opponent to only attack you with damaging attacks. Choose a target in range and force it to make a WIS saving throw against your Move DC. On a failure, the target can only use damaging attacks that target you for the duration."
   },
+  "Techno Blast": {
+    "Type": "Normal",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 3,
+    "Duration": "Instantaneous",
+    "Range": "40ft line",
+    "Save": "CON",
+    "Description": "You sing an ancient song that damages opponents in range with the chance to put them asleep. Any creature in a 20ft circle, centered on you, must make a CON save against your Move DC, taking 1d12 + MOVE normal damage on a failure, or half as much on a success. Any creature that fails the save by more than 5 is put to sleep.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 10,
+        "move": true
+      },
+      "5": {
+        "amount": 3,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 10,
+        "move": true
+      },
+      "17": {
+        "amount": 7,
+        "dice_max": 8,
+        "move": true
+      }
+    }
+  },
   "Teeter Dance": {
     "Type": "Normal",
     "Move Power": [
@@ -11906,11 +13480,21 @@
     "Save": "WIS",
     "Description": "You start to perform a difficult dance, confusing all creatures in range. Creatures in a 20 foot circle around you must make a WIS save against your Move DC, becoming confused on a fail."
   },
-  "Teleport": {
+  "Telekinesis": {
     "Type": "Psychic",
     "Move Power": [
-      "None"
+      "WIS",
+      "INT"
     ],
+    "Move Time": "1 action",
+    "PP": 3,
+    "Duration": "3 rounds, Concentration",
+    "Range": "20ft",
+    "Save": "CON",
+    "Description": "You use your psychic power to attempt to hold a create above the ground, making in vulnerable to attacks. Force a creature in range to make a CON save against your Move DC. On a failure, the creature is grappled an restrained for the duration, unable to release itself as long as you hold your concentration."
+  },
+  "Teleport": {
+    "Type": "Psychic",
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "Instantaneous",
@@ -12220,9 +13804,6 @@
   },
   "Transform": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "1 minute, Concentration",
@@ -12276,9 +13857,6 @@
   },
   "Trick Room": {
     "Type": "Psychic",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "Instantaneous",
@@ -12462,9 +14040,9 @@
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "3 Rounds, Concentration",
-    "Range": "50ft",
+    "Range": "30ft circle",
     "Save": "CON",
-    "Description": "You cause an uproar on the battlefield up in a 50 foot circle, centered on you, for three rounds of combat. During the uproar, you cannot use any other Move, and any creature in range is prevented from falling asleep. (This include creatures that would purposefully fall asleep using moves like Rest, Yawn, etc.) In addition, opponents must make a CON save against your Move DC at the start of each turn. On a fail, the opponent takes 2d8 + MOVE normal damage.",
+    "Description": "You cause an uproar on the battlefield in a 30 foot circle, centered on you, for three rounds of combat. During the uproar, you cannot use any other Move, and any creature in range is prevented from falling asleep. (This include creatures that would purposefully fall asleep using moves like Rest) In addition, opponents must make a CON save against your Move DC at the start of each turn. On a fail, the opponent takes 2d8 + MOVE normal damage.",
     "Damage": {
       "1": {
         "amount": 2,
@@ -12483,6 +14061,40 @@
       },
       "17": {
         "amount": 4,
+        "dice_max": 12,
+        "move": true
+      }
+    }
+  },
+  "V-Create": {
+    "Type": "Fire",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
+    "Move Time": "1 action",
+    "PP": 3,
+    "Duration": "Instantaneous",
+    "Range": "Melee",
+    "Description": "Your forehead burns like hot coals as you slam your head into an opponent. Make a melee attack roll, dealing 3d10 + MOVE fire damage on a hit. After activating this move, your AC decreases by 2 until the beginning of your next turn.",
+    "Damage": {
+      "1": {
+        "amount": 3,
+        "dice_max": 10,
+        "move": true
+      },
+      "5": {
+        "amount": 6,
+        "dice_max": 6,
+        "move": true
+      },
+      "10": {
+        "amount": 8,
+        "dice_max": 6,
+        "move": true
+      },
+      "17": {
+        "amount": 7,
         "dice_max": 12,
         "move": true
       }
@@ -12790,6 +14402,39 @@
       }
     }
   },
+  "Water Pledge": {
+    "Type": "Water",
+    "Move Power": [
+      "STR"
+    ],
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "Instantaneous",
+    "Range": "40ft",
+    "Description": "You send a column of water towards an opponent. Make a ranged attack, dealing 2d8 + MOVE water damage on a hit. After you land a hit, any ally that uses another Pledge move in the same round automatically hits.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 6,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 8,
+        "move": true
+      },
+      "10": {
+        "amount": 4,
+        "dice_max": 6,
+        "move": true
+      },
+      "17": {
+        "amount": 6,
+        "dice_max": 6,
+        "move": true
+      }
+    }
+  },
   "Water Pulse": {
     "Type": "Water",
     "Move Power": [
@@ -12825,9 +14470,6 @@
   },
   "Water Sport": {
     "Type": "Water",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 10,
     "Duration": "1 minute",
@@ -12983,6 +14625,14 @@
     "Save": "STR",
     "Description": "You create a whirlwind of spinning air around you, increasing your AC by +2  until the beginning of your next turn. When you activate this move, any Pokémon within 5 feet of you must succeed on a STR saving throw against your Move DC or fall prone. In wild Pokémon battles, this move can be activated to automatically count as a single success in a group DEX check to run away."
   },
+  "Wide Guard": {
+    "Type": "Rock",
+    "Move Time": "1 reaction",
+    "PP": 3,
+    "Duration": "Instantaneous",
+    "Range": "20ft",
+    "Description": "You have the ability to guard your allies from area-of-effect moves. As a reaction, when a creature activates a damaging move that targets multiple opponents within range, you may halve the damage dealt. On future instances of this reaction in the same combat, you must roll higher than a 15 on a d20 roll or forfeit the reaction with no effect"
+  },
   "Wild Charge": {
     "Type": "Electric",
     "Move Power": [
@@ -13097,14 +14747,19 @@
   },
   "Withdraw": {
     "Type": "Water",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 reaction",
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "Self",
     "Description": "When hit by a melee or ranged attack, you can spend your reaction to increase your AC by +2 if it would cause the attack to miss."
+  },
+  "Wonder Room": {
+    "Type": "Psychic",
+    "Move Time": "1 action",
+    "PP": 5,
+    "Duration": "1 minute, Concentration",
+    "Range": "50ft circle",
+    "Description": "You create a bizarre vibe in the air in a 50ft circle, centered on you. For the duration, all WIS saves become CON saves and all CON saves become WIS saves."
   },
   "Wood Hammer": {
     "Type": "Grass",
@@ -13141,9 +14796,6 @@
   },
   "Work Up": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 bonus action",
     "PP": 3,
     "Duration": "1 minute",
@@ -13161,7 +14813,7 @@
     "Duration": "1 minute",
     "Range": "30ft",
     "Save": "CON",
-    "Description": "You shoot a bizarre seed that implants worry into another creature, ally or foe. The target must succeed on a CON save against your Move DC or gain the \"Insomnia\" ability, preventing sleep for the duration."
+    "Description": "You shoot a bizarre seed that implants worry into another creature, ally or foe. The target must succeed on a CON save against your Move DC or replace the user's choice of ability with \"Insomnia\", preventing sleep for the duration."
   },
   "Wrap": {
     "Type": "Normal",
@@ -13267,9 +14919,6 @@
   },
   "Yawn": {
     "Type": "Normal",
-    "Move Power": [
-      "None"
-    ],
     "Move Time": "1 action",
     "PP": 5,
     "Duration": "1 round",

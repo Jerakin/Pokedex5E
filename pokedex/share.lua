@@ -77,7 +77,7 @@ end
 
 local function decode_status(pokemon)
 	local new = {}
-	for i, _ in pairs(pokemon.statuses) do
+	for i, _ in pairs(pokemon.statuses or {}) do
 		new[statuses.status_names[i]] = true
 	end
 	pokemon.statuses = new

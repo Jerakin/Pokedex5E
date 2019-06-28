@@ -128,20 +128,23 @@ local function update_pokedex_info(self)
 	gui.set_text(gui.get_node("txt_seen_johto"), dex.get_region_seen(dex.regions.JOHTO))
 	gui.set_text(gui.get_node("txt_seen_hoenn"), dex.get_region_seen(dex.regions.HOENN))
 	gui.set_text(gui.get_node("txt_seen_sinnoh"), dex.get_region_seen(dex.regions.SINNOH))
+	gui.set_text(gui.get_node("txt_seen_unova"), dex.get_region_seen(dex.regions.UNOVA))
 	gui.set_text(gui.get_node("txt_caught_kanto"), dex.get_region_caught(dex.regions.KANTO))
 	gui.set_text(gui.get_node("txt_caught_johto"), dex.get_region_caught(dex.regions.JOHTO))
 	gui.set_text(gui.get_node("txt_caught_hoenn"), dex.get_region_caught(dex.regions.HOENN))
 	gui.set_text(gui.get_node("txt_caught_sinnoh"), dex.get_region_caught(dex.regions.SINNOH))
-
+	gui.set_text(gui.get_node("txt_caught_unova"), dex.get_region_caught(dex.regions.UNOVA))
 end
 
 function init(self)
 	region_map = {
 		[1]={name="Kanto", low=1, high=151, button=gui.get_node("btn_region1"), txt=gui.get_node("txt_kanto"), scroll=0.00001},
-		[2]={name="Johto", low=152, high=251, button=gui.get_node("btn_region2"), txt=gui.get_node("txt_johto"), scroll=0.329},
-		[3]={name="Hoenn", low=252, high=386, button=gui.get_node("btn_region3"), txt=gui.get_node("txt_hoenn"), scroll=0.548},
-		[4]={name="Sinnoh", low=387, high=494, button=gui.get_node("btn_region4"), txt=gui.get_node("txt_sinnoh"), scroll=0.845},
+		[2]={name="Johto", low=152, high=251, button=gui.get_node("btn_region2"), txt=gui.get_node("txt_johto"), scroll=0.2455770522356},
+		[3]={name="Hoenn", low=252, high=386, button=gui.get_node("btn_region3"), txt=gui.get_node("txt_hoenn"), scroll=0.40909090638161},
+		[4]={name="Sinnoh", low=387, high=494, button=gui.get_node("btn_region4"), txt=gui.get_node("txt_sinnoh"), scroll=0.63041377067566},
+		[5]={name="Unova", low=495, high=649, button=gui.get_node("btn_region5"), txt=gui.get_node("txt_unova"), scroll=0.80159193277359},
 	}
+
 	url.POKEDEX = msg.url()
 	msg.post(url.MENU, "show")
 	self.all_pokemons = pokedex.unique
@@ -150,7 +153,7 @@ function init(self)
 	self.mark_txt = gui.get_node("txt_mark")
 	self.mark_menu = gui.get_node("mark_menu")
 	self.text_node = gui.get_node("search_text")
-	--gui_utils.scale_fit_node_with_stretch(gui.get_node("scrollist"))
+	
 	gui.set_enabled(self.mark_menu, self.mark_menu_active)
 	update_dex_data(self)
 	update_list( gooey.dynamic_list("pokedex", "scrollist", "pokemon_row/row", self.pokemon_rows))
@@ -218,6 +221,9 @@ function on_input(self, action_id, action)
 	end)
 	gooey.button("btn_region4", action_id, action, function()
 		scroll_to_position(self, region_map[4].scroll)
+	end)
+	gooey.button("btn_region5", action_id, action, function()
+		scroll_to_position(self, region_map[5].scroll)
 	end)
 	local a = gooey.button("btn_mark", action_id, action, function()
 		toogle_mark_menu(self)

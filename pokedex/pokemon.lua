@@ -73,6 +73,26 @@ local function get_attributes_from_feats(pokemon)
 	return m
 end
 
+local function ASI_points(pokemon)
+	local species = M.get_current_species(pokemon)
+	local total = pokedex.get_total_evolution_stages(species)
+	local current = pokedex.get_current_evolution_stage(species)
+	if total == 1 then
+		return 4
+	elseif total == 2 then
+		return 3
+	end
+	if M.get_consumed_eviolite(pokemon) then
+		return 5 - current
+	else
+		return 5 - total
+	end
+end
+
+function M.get_ASI_point_increase(pokemon)
+	return ASI_points(pokemon)
+end
+
 function M.get_attributes(pokemon)
 	local base = pokedex.get_base_attributes(M.get_caught_species(pokemon))
 	local increased = M.get_increased_attributes(pokemon) or {}
@@ -124,6 +144,13 @@ function M.remove_feat(pokemon, feat)
 	end
 end
 
+function M.set_consumed_eviolite(pokemon, value)
+	pokemon.eviolite = value == true and true or nil
+end
+
+function M.get_consumed_eviolite(pokemon, value)
+	return pokemon.eviolite or false
+end
 
 function M.remove_move(pokemon, index)
 	for move, data in pairs(M.get_moves(pokemon)) do
@@ -209,7 +236,7 @@ function M.ability_score_points(pokemon)
 	end
 	amount = amount + #M.get_feats(pokemon) * 2
 	amount = amount - M.get_evolution_points(pokemon)
-
+	
 	return amount
 end
 
@@ -724,16 +751,17 @@ local function get_damage_mod_stab(pokemon, move)
 	local floored_mod
 	-- Pick the highest of the moves power
 	local total = M.get_attributes(pokemon)
-	for _, mod in pairs(move["Move Power"]) do
-		
-		if total[mod] then
-			local floored_mod = math.floor((total[mod] - 10) / 2)
-			if modifier then
-				if floored_mod > modifier then
+	if move["Move Power"] then
+		for _, mod in pairs(move["Move Power"]) do
+			if total[mod] then
+				local floored_mod = math.floor((total[mod] - 10) / 2)
+				if modifier then
+					if floored_mod > modifier then
+						modifier = floored_mod
+					end
+				else
 					modifier = floored_mod
 				end
-			else
-				modifier = floored_mod
 			end
 		end
 	end

@@ -4,23 +4,59 @@ local gooey = require "gooey.gooey"
 local gui_colors = require "utils.gui_colors"
 local url = require "utils.url"
 local dex = require "pokedex.dex"
-
+local type_data = require "utils.type_data"
 
 local M = {}
 
-function M.filter_list(self, search_string)
-	local function starts_with(str, start)
-		return string.lower(str):sub(1, #start) == string.lower(start)
-	end
+local function starts_with(str, start)
+	return string.lower(str):sub(1, #start) == string.lower(start)
+end
 
-	if #search_string > 0 then
-		self.filtered_list = {}
-		for i=#self.all_pokemons, 1, -1 do
-			local p = storage.get_copy(self.all_pokemons[i])
-			if starts_with(_pokemon.get_current_species(p), search_string) then
+local function filter_type(self, search_string)
+	for i=#self.all_pokemons, 1, -1 do
+		local p = storage.get_copy(self.all_pokemons[i])
+		for _, type in pairs(_pokemon.get_type(p)) do
+			if type:lower() == search_string:lower() then
 				table.insert(self.filtered_list, 1, self.all_pokemons[i])
 			end
 		end
+	end
+end
+
+local function filter_species(self, search_string)
+	for i=#self.all_pokemons, 1, -1 do
+		local p = storage.get_copy(self.all_pokemons[i])
+		if starts_with(_pokemon.get_current_species(p), search_string) then
+			table.insert(self.filtered_list, 1, self.all_pokemons[i])
+		end
+	end
+end
+
+local function filter_index(self, search_string)
+	for i=#self.all_pokemons, 1, -1 do
+		local p = storage.get_copy(self.all_pokemons[i])
+		if starts_with(_pokemon.get_index_number(p), search_string) then
+			table.insert(self.filtered_list, 1, self.all_pokemons[i])
+		end
+	end
+end
+
+
+function M.filter_list(self, search_string)
+	if #search_string > 0 then
+		local filter = filter_species
+		if tonumber(search_string) ~= nil then
+			filter = filter_index
+		else
+			for type, _ in pairs(type_data) do
+				if type:lower() == search_string:lower() then
+					filter = filter_type
+					break
+				end
+			end
+		end
+		self.filtered_list = {}
+		filter(self, search_string:lower())
 	else
 		self.filtered_list = self.all_pokemons
 	end
@@ -51,10 +87,30 @@ local function refresh_input(self, input, node_id)
 	end
 end
 
+local enabled = vmath.vector3(0)
+local disabled = vmath.vector3(41, -517, 0)
+local system  = sys.get_sys_info().system_name
+local function keyboard_toggle(toggle)
+	local pos = disabled
+	if system == "Android" or system == "iPhone OS" then
+		if toggle then
+			pos = enabled
+		end
+		gui.set_position(gui.get_node("search"), pos)
+	end
+end
+
 function M.on_input(self, action_id, action)
-	gooey.input("search_text", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, {use_marked_text=false}, function(input)
+	local input = gooey.input("search_text", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, {use_marked_text=false}, function(input)
 		refresh_input(self, input, "search_text")
 	end)
+	if input.enabled then
+		if input.selected then
+			keyboard_toggle(true)
+		else
+			keyboard_toggle(false)
+		end
+	end
 end
 
 return M
