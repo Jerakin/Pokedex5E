@@ -61,7 +61,7 @@ local function setup_main_information(nodes, pokemon)
 	local species = _pokemon.get_current_species(pokemon)
 	nickname = nickname or species:upper()
 
-	if _pokemon.is_shiney(pokemon) then
+	if _pokemon.is_shiny(pokemon) then
 		gui.play_particlefx(nodes["pokemon/shiny_bg"])
 		gui.play_particlefx(nodes["pokemon/shiny_fg"])
 		gui.play_particlefx(nodes["pokemon/shiny_star_bg"])

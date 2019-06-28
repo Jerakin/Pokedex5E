@@ -376,9 +376,9 @@ function M.init(self, pokemon)
 	gui.set_enabled(self.move_node, false)
 	gui.set_enabled(gui.get_node("change_pokemon/checkmark_eviolite_mark"), false)
 
-	local is_shiney =_pokemon.is_shiney(self.pokemon) or false
-	gui.set_enabled(gui.get_node("change_pokemon/checkmark_shiney_mark"), is_shiney)
-	gooey.checkbox("change_pokemon/bg_shiney").set_checked(is_shiney)
+	local is_shiny =_pokemon.is_shiny(self.pokemon) or false
+	gui.set_enabled(gui.get_node("change_pokemon/checkmark_shiny_mark"), is_shiny)
+	gooey.checkbox("change_pokemon/bg_shiny").set_checked(is_shiny)
 	update_sections(true)
 end
 
@@ -514,12 +514,12 @@ local function feats_buttons(self, action_id, action)
 	end
 end
 
-local function update_checkbox(checkbox)
-	gui.set_enabled(gui.get_node("change_pokemon/checkmark_shiney_mark"), checkbox.checked)
+local function update_shiny_checkbox(checkbox)
+	gui.set_enabled(gui.get_node("change_pokemon/checkmark_shiny_mark"), checkbox.checked)
 end
 
-local function on_checked(self, checkbox)
-	_pokemon.set_shiney(self.pokemon, checkbox.checked)
+local function on_shiny_checked(self, checkbox)
+	_pokemon.set_shiny(self.pokemon, checkbox.checked)
 end
 
 local function extra_buttons(self, action_id, action)
@@ -545,7 +545,7 @@ local function extra_buttons(self, action_id, action)
 		end
 	end, gooey_buttons.minus_button)
 
-	gooey.checkbox("change_pokemon/bg_shiney", action_id, action, function(checkbox) on_checked(self, checkbox) end, update_checkbox)
+	gooey.checkbox("change_pokemon/bg_shiny", action_id, action, function(checkbox) on_shiny_checked(self, checkbox) end, update_shiny_checkbox)
 end
 
 local function move_buttons(self, action_id, action)
@@ -590,11 +590,11 @@ local function attribute_buttons(self, action_id, action)
 	gooey.button("change_pokemon/asi/cha/btn_plus", action_id, action, function() increase(self, "CHA") end, gooey_buttons.plus_button)
 end
 
-local function update_checkbox(checkbox)
+local function update_eviolite_checkbox(checkbox)
 	gui.set_enabled(gui.get_node("change_pokemon/checkmark_eviolite_mark"), checkbox.checked)
 end
 
-local function on_checked(self, checkbox)
+local function on_eviolite_checked(self, checkbox)
 	_pokemon.set_consumed_eviolite(self.pokemon, checkbox.checked)
 	update_ASI(self)
 	if self.redraw then self.redraw(self) end
@@ -618,7 +618,7 @@ function M.on_input(self, action_id, action)
 		gooey.button(button.node, action_id, action, button.func, button.refresh)
 	end
 	
-	gooey.checkbox("change_pokemon/bg_eviolite", action_id, action, function(checkbox) on_checked(self, checkbox) end, update_checkbox)
+	gooey.checkbox("change_pokemon/bg_eviolite", action_id, action, function(checkbox) on_eviolite_checked(self, checkbox) end, update_eviolite_checkbox)
 	
 
 	gooey.button("change_pokemon/hp/btn_minus", action_id, action, function()

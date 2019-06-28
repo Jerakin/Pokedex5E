@@ -252,12 +252,12 @@ function M.get_added_attributes(pokemon)
 
 end
 
-function M.set_shiney(pokemon, value)
-	pokemon.shiney = value == true and true or nil
+function M.set_shiny(pokemon, value)
+	pokemon.shiny = value == true and true or nil
 end
 
-function M.is_shiney(pokemon)
-	return pokemon.shiney
+function M.is_shiny(pokemon)
+	return pokemon.shiny
 end
 
 function M.set_attribute(pokemon, attribute, value)
