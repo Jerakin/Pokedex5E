@@ -4,6 +4,8 @@ local flow = require "utils.flow"
 local ufile = require "utils.file"
 local settings = require "pokedex.settings"
 local md5 = require "utils.md5"
+local log = require "utils.log"
+
 local M = {}
 
 local downloading = false
@@ -70,36 +72,38 @@ function M.download(url)
 		else
 			local sum = get_checksum(res.response)
 			if sum == settings.get("fakemon_md5") and defsave.file_exists(resource_path) then
-				print("using downloaded")
+				log.info("Using cached fakemon data")
 				downloading = false
 				return
+			else
+				log.info("Downloading fakemon data")
 			end
 			settings.set("fakemon_md5", sum)
 
 			local file, err = io.open(resource_path, "wb")
-
+			
 			if file then
 				file:write(res.response)
 				file:close()
-				downloading = false
 				for repo, branch in string.gmatch(url, "https://codeload.github.com/%w+/(.+)/zip/(.+)") do
 					M.PACKAGE_NAME = repo .. "-" .. branch
 				end
+				downloading = false
 			else
 				local e = "Error while opening file\n" .. err
-				print(e)
+				log.warn(e)
 			end
 		end
 	end)
 end
 
 function M.unpack()
-	print("Unpacking started", resource_path)
+	log.info("Started unpacking " .. resource_path)
 	
 	local file = io.open(resource_path, "rb")
 	local input = file:read("*all")
 	local output, err = zzlib.unzip_archive(input, M.APP_ROOT)
-	print("Unpacking done")
+	log.info("Unpacking finished")
 end
 
 local function file_exists(name)
@@ -115,17 +119,16 @@ function M.load(url)
 	M.APP_ROOT = defsave.get_file_path("")
 	resource_path = defsave.get_file_path("resource.zip")
 	flow.start(function()
-		print("DOWNLOAD START")
 		M.download(url)
 		flow.until_true(function() return not downloading end)
 		unpacking = true
-		print("DOWNLOAD DONE", M.PACKAGE_NAME)
+		log.info("Using package " .. M.PACKAGE_NAME)
 		if M.PACKAGE_NAME then
 			M.unpack()
 			for n, file_name in pairs(extra_json_files) do
 				local pa = M.APP_ROOT .. M.PACKAGE_NAME .. os_sep .. file_name
 				if file_exists(pa) then
-					print("File loaded to memory: " .. file_name)
+					log.info("Found and loaded file " .. file_name)
 					M[n] = ufile.load_file(pa)
 				end
 			end
