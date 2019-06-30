@@ -24,6 +24,9 @@ def convert_pokemon_data(input_file):
     reg_starting_moves = re.compile("Starting Moves: ([A-Za-z ,-12]*)")
     reg_tm_moves = re.compile("TM: (.*)")
 
+    type_names = ["Normal", "Fighting", "Flying", "Poison", "Ground", "Rock", "Bug", "Ghost", "Steel", "Fire", "Water",
+                  "Grass", "Electric", "Psychic", "Ice", "Dragon", "Dark", "Fairy"]
+
     sense_names = ["Darkvision", "Tremorsense", "Truesight", "Blindsight"]
 
     reg_level_moves = re.compile("Level (\d+): ([A-Za-z ,-]*)")
@@ -31,10 +34,6 @@ def convert_pokemon_data(input_file):
     reg_evolve_level = re.compile("level (\d{1,2})")
     reg_evolve_move = re.compile("'(.*)'")
     reg_evolve_holding = re.compile("while holding a (.*)\.")
-
-    with open(output_location / "pokemon_numbers.json", "r") as f:
-        data = json.load(f)
-        pokedex_numbers = data["number"]
 
     output_pokemon_list = []
     output_pokemon_data = {}
@@ -53,7 +52,7 @@ def convert_pokemon_data(input_file):
 
         for pokemon, data in file_data.items():
             output_pokemon_data[pokemon] = {"Moves": {"Level": {}}, "index": -1, "Abilities":[]}
-            output_evolve_data[pokemon] = {"into": [], "points": 0, "current_stage":1, "total_stages": 1}
+            output_evolve_data[pokemon] = {"into": [], "current_stage":1, "total_stages": 1}
 
             for attribute, value in data.items():
                 if not value or value == "None" or attribute in ignore:
@@ -122,6 +121,10 @@ def convert_pokemon_data(input_file):
                                 print(pokemon, "-", sense_type)
                 elif attribute == "Type":
                     value = value.split("/")
+                    for t in value:
+                        if t not in type_names:
+                            print(pokemon, "-", t)
+
                 elif attribute == "Evolution for sheet" and not value == "":
                     false_positive = False
                     for poke in output_pokemon_list:
@@ -150,7 +153,7 @@ def convert_pokemon_data(input_file):
                     continue
                 output_pokemon_data[pokemon][attribute] = value
             if pokemon in output_evolve_data and len(output_evolve_data[pokemon]["into"]) == 0:
-                del output_evolve_data[pokemon]
+                del output_evolve_data[pokemon]["into"]
 
 
         with open(output_location / "pokemon.json", "w", encoding="utf8") as f:
@@ -166,7 +169,7 @@ def convert_move_data(input_file):
     convert_to_int = ["PP"]
     ignore = ["Higher Levels"]
     reg_damage_level = re.compile("Dmg lvl (\d+)")
-    reg_damage_dice = re.compile("(?i)(?:(\d)x|X|)(\d+|)d(\d+)\s*(\+\s*move|)(?:\+\s*(\d)|)")
+    reg_damage_dice = re.compile("(?i)(?:(\d)x|X|)(\d+|)d(\d+)\s*(\+\s*move|)(?:\+\s*(\d)|)(\+\s*level|)")
     reg_saving_throw = re.compile("(?:(?:make|with|succeed on) a (.{3}) sav)")
     converted = {}
 
@@ -195,10 +198,13 @@ def convert_move_data(input_file):
                         dice = {"amount": int(amount), "dice_max": int(dice_max), "move": add_move}
                         times = damage.group(1)
                         modifier = damage.group(5)
+                        level_modifier = damage.group(6)
                         if modifier:
                             dice["modifier"] = int(modifier)
                         if times:
                             dice["times"] = int(times)
+                        if level_modifier:
+                            dice["level"] = True
                         if not "Damage" in converted[move]:
                             converted[move]["Damage"] = {}
                         converted[move]["Damage"][str(level)] = dice

@@ -510,14 +510,23 @@ local function feats_buttons(self, action_id, action)
 	end
 end
 
+local function change_level(self, level, multiplier)
+	_pokemon.set_current_level(self.pokemon, level + (1 * multiplier))
+	
+	local con = _pokemon.get_attributes(self.pokemon).CON
+	local con_mod = math.floor((con - 10) / 2)
+	
+	local extra_hp = math.ceil((_pokemon.get_hit_dice(self.pokemon) + 1)/2)
+	
+	_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) + extra_hp * multiplier)
+	_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) + (extra_hp + con_mod) * multiplier)
+end
+
 local function extra_buttons(self, action_id, action)
 	gooey.button("change_pokemon/level/btn_plus", action_id, action, function()
 		local level = _pokemon.get_current_level(self.pokemon)
 		if level < 20 then
-			_pokemon.set_current_level(self.pokemon, level + 1)
-			local extra_hp = math.ceil((_pokemon.get_hit_dice(self.pokemon) + 1)/2)
-			_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) + extra_hp)
-			_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) + extra_hp)
+			change_level(self, level, 1)
 			redraw(self)
 		end 
 	end, gooey_buttons.plus_button)
@@ -525,10 +534,7 @@ local function extra_buttons(self, action_id, action)
 	gooey.button("change_pokemon/level/btn_minus", action_id, action, function()
 		local level = _pokemon.get_current_level(self.pokemon)
 		if level > 1 and level > pokedex.get_minimum_wild_level(_pokemon.get_current_species(self.pokemon)) then
-			local extra_hp = math.ceil((_pokemon.get_hit_dice(self.pokemon) + 1)/2)
-			_pokemon.set_current_level(self.pokemon, level - 1)
-			_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) - extra_hp)
-			_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) - extra_hp)
+			change_level(self, level, -1)
 			redraw(self)
 		end
 	end, gooey_buttons.minus_button)
