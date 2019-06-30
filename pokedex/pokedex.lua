@@ -249,7 +249,8 @@ function M.get_evolved_from(pokemon)
 end
 
 function M.get_evolution_possible(pokemon)
-	return M.get_evolution_data(pokemon).level and true or false
+	local d = M.get_evolution_data(pokemon)
+	return (d and d.level) and true or false
 end
 
 function M.get_evolution_level(pokemon)
