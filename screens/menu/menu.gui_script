@@ -21,6 +21,7 @@ local map = {
 	[hash("generate_pokemon")] = "btn_generate",
 	[hash("import")] = "btn_import",
 	[hash("pokedex")] = "btn_pokedex",
+	[hash("settings")] = "btn_settings",
 }
 
 local function hide(self)
@@ -151,6 +152,15 @@ function init(self)
 			value = tracking_id[monarch.top()]
 		}
 		monarch.show("pokedex")
+		toggle(self)
+	end, {no_shake=true})
+
+	button.register("btn_settings", function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:Settings",
+			value = tracking_id[monarch.top()]
+		}
+		monarch.show("settings")
 		toggle(self)
 	end, {no_shake=true})
 
