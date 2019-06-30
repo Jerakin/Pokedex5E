@@ -56,7 +56,7 @@ def convert_pokemon_data(input_file):
 
         for pokemon, data in file_data.items():
             output_pokemon_data[pokemon] = {"Moves": {"Level": {}}, "index": -1, "Abilities":[]}
-            output_evolve_data[pokemon] = {"into": [], "points": 0, "current_stage":1, "total_stages": 1}
+            output_evolve_data[pokemon] = {"into": [], "current_stage":1, "total_stages": 1}
 
             for attribute, value in data.items():
                 if not value or value == "None" or attribute in ignore:
@@ -157,7 +157,7 @@ def convert_pokemon_data(input_file):
                     continue
                 output_pokemon_data[pokemon][attribute] = value
             if pokemon in output_evolve_data and len(output_evolve_data[pokemon]["into"]) == 0:
-                del output_evolve_data[pokemon]
+                del output_evolve_data[pokemon]["into"]
 
 
         with open(output_location / "pokemon.json", "w", encoding="utf8") as f:
