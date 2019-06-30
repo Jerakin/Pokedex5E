@@ -27,7 +27,7 @@ local function setup_pokemon_images(_profiles, slot)
 	for i=1, 6 do
 		local img_node = profile_nodes[slot]["profile_slot/pokemon" .. i]
 		if _profiles[slot].party[i] then
-			local pokemon_sprite, texture = pokedex.get_icon(profiles[slot].party[i])
+			local pokemon_sprite, texture = pokedex.get_icon(_profiles[slot].party[i])
 			gui.set_texture(img_node, texture)
 			if pokemon_sprite then
 				gui.play_flipbook(img_node, pokemon_sprite)
