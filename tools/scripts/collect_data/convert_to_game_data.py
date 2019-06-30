@@ -24,6 +24,9 @@ def convert_pokemon_data(input_file):
     reg_starting_moves = re.compile("Starting Moves: ([A-Za-z ,-12]*)")
     reg_tm_moves = re.compile("TM: (.*)")
 
+    type_names = ["Normal", "Fighting", "Flying", "Poison", "Ground", "Rock", "Bug", "Ghost", "Steel", "Fire", "Water",
+                  "Grass", "Electric", "Psychic", "Ice", "Dragon", "Dark", "Fairy"]
+
     sense_names = ["Darkvision", "Tremorsense", "Truesight", "Blindsight"]
 
     reg_level_moves = re.compile("Level (\d+): ([A-Za-z ,-]*)")
@@ -122,6 +125,10 @@ def convert_pokemon_data(input_file):
                                 print(pokemon, "-", sense_type)
                 elif attribute == "Type":
                     value = value.split("/")
+                    for t in value:
+                        if t not in type_names:
+                            print(pokemon, "-", t)
+
                 elif attribute == "Evolution for sheet" and not value == "":
                     false_positive = False
                     for poke in output_pokemon_list:
