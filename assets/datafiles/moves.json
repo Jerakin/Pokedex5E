@@ -2620,7 +2620,7 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "30ft",
-    "Description": "Your Pokémon burrows underground, disappearing from view before striking from underneath a foe. When you activate this move, you burrow underground and remain there until your next turn. During this time, you cannot be the target of any attack. On your next turn, make a melee attack on a creature in range, with advantage, doing 2d6 + MOVE ground damage on a successful hit. Flying creatures are unaffected by this attack.",
+    "Description": "Your Pokémon burrows underground, disappearing from view before striking from underneath a foe. When you activate this move, you burrow underground and remain there until your next turn. During this time, you cannot be the target of any attack. On your next turn, make a melee attack on a creature in range, with advantage, doing 2d6 + MOVE ground damage on a successful hit. If the target has Tremorsense, the attack is not rolled with advantage.",
     "Damage": {
       "1": {
         "amount": 2,
@@ -2933,7 +2933,7 @@
     "PP": 3,
     "Duration": "1 minute, Concentration",
     "Range": "Self",
-    "Description": "You create a duplicate image of yourself, 5 feet beside you. The image copies every move you make. When an enemy hits you with an attack, roll a d4. On a 3 or 4, the image takes all the damage for you and disappears."
+    "Description": "You create a duplicate image of yourself, 5 feet beside you. The image copies every move you make. When an enemy hits you with an attack, roll a d4. On a 3 or 4, the image takes all the damage for you and disappears. Enemies with Truesight bypass the effect of this move."
   },
   "Double-Edge": {
     "Type": "Normal",
@@ -3593,7 +3593,7 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "40ft",
-    "Description": "You hurl an electric orb at a target in range. Make a ranged attack roll, dealing 1d6 + MOVE electric damage on a hit. Compare the target and user's highest speed type (walking, flying, etc.). Add an additional damage di for every 5 feet of speed the user has more than the target.",
+    "Description": "You hurl an electric orb at a target in range. Make a ranged attack roll, dealing 1d6 + MOVE electric damage on a hit. Compare the target and user's highest speed type (walking, flying, etc.). If the user's speed is higher, double the damage dice.",
     "Damage": {
       "1": {
         "amount": 1,
@@ -4253,7 +4253,7 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "40ft",
-    "Description": "You send a plume of flame towards an opponent. Make a ranged attack, dealing 2d8 + MOVE fire damage on a hit. After you land a hit, any ally that uses another Pledge move in the same round automatically hits.",
+    "Description": "You send a plume of flame towards an opponent. Make a ranged attack, dealing 2d6 + MOVE fire damage on a hit. After you land a hit, any ally that uses another Pledge move in the same round automatically hits.",
     "Damage": {
       "1": {
         "amount": 2,
@@ -5377,7 +5377,7 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "40ft",
-    "Description": "You send a column of thick grass towards an opponent. Make a ranged attack, dealing 2d8 + MOVE grass damage on a hit. After you land a hit, any ally that uses another Pledge move in the same round automatically hits.",
+    "Description": "You send a column of thick grass towards an opponent. Make a ranged attack, dealing 2d6 + MOVE grass damage on a hit. After you land a hit, any ally that uses another Pledge move in the same round automatically hits.",
     "Damage": {
       "1": {
         "amount": 2,
@@ -8636,22 +8636,26 @@
       "1": {
         "amount": 1,
         "dice_max": 6,
-        "move": false
+        "move": false,
+        "level": true
       },
       "5": {
         "amount": 2,
         "dice_max": 4,
-        "move": false
+        "move": false,
+        "level": true
       },
       "10": {
         "amount": 1,
         "dice_max": 12,
-        "move": false
+        "move": false,
+        "level": true
       },
       "17": {
         "amount": 4,
         "dice_max": 4,
-        "move": false
+        "move": false,
+        "level": true
       }
     }
   },
@@ -14411,7 +14415,7 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "40ft",
-    "Description": "You send a column of water towards an opponent. Make a ranged attack, dealing 2d8 + MOVE water damage on a hit. After you land a hit, any ally that uses another Pledge move in the same round automatically hits.",
+    "Description": "You send a column of water towards an opponent. Make a ranged attack, dealing 2d6 + MOVE water damage on a hit. After you land a hit, any ally that uses another Pledge move in the same round automatically hits.",
     "Damage": {
       "1": {
         "amount": 2,

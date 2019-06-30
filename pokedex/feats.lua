@@ -9,6 +9,14 @@ local feats
 
 local initialized = false
 
+local function list_of_feats()
+	local d = {}
+	for name, description in pairs(feats) do 
+		table.insert(d, name)
+	end
+	return d
+end
+
 function M.init()
 	if not initialized then
 		feats = file.load_json_from_resource("/assets/datafiles/feats.json")
@@ -17,7 +25,7 @@ function M.init()
 				feats[name] = data
 			end
 		end
-		M.list = feats.feats
+		M.list = list_of_feats()
 		initialized = true
 	end
 end

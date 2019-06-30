@@ -302,9 +302,11 @@ end
 
 function M.get_evolved_from(pokemon)
 	for species, data in pairs(evolvedata) do
-		for _, into in pairs(data.into) do
-			if into == pokemon then
-				return species
+		if data.into then
+			for _, into in pairs(data.into) do
+				if into == pokemon then
+					return species
+				end
 			end
 		end
 	end
@@ -312,7 +314,8 @@ function M.get_evolved_from(pokemon)
 end
 
 function M.get_evolution_possible(pokemon)
-	return M.get_evolution_data(pokemon) or true and false
+	local d = M.get_evolution_data(pokemon)
+	return (d and d.level) and true or false
 end
 
 function M.get_evolution_level(pokemon)
