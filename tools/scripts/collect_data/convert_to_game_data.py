@@ -169,7 +169,7 @@ def convert_move_data(input_file):
     convert_to_int = ["PP"]
     ignore = ["Higher Levels"]
     reg_damage_level = re.compile("Dmg lvl (\d+)")
-    reg_damage_dice = re.compile("(?i)(?:(\d)x|X|)(\d+|)d(\d+)\s*(\+\s*move|)(?:\+\s*(\d)|)")
+    reg_damage_dice = re.compile("(?i)(?:(\d)x|X|)(\d+|)d(\d+)\s*(\+\s*move|)(?:\+\s*(\d)|)(\+\s*level|)")
     reg_saving_throw = re.compile("(?:(?:make|with|succeed on) a (.{3}) sav)")
     converted = {}
 
@@ -198,10 +198,13 @@ def convert_move_data(input_file):
                         dice = {"amount": int(amount), "dice_max": int(dice_max), "move": add_move}
                         times = damage.group(1)
                         modifier = damage.group(5)
+                        level_modifier = damage.group(6)
                         if modifier:
                             dice["modifier"] = int(modifier)
                         if times:
                             dice["times"] = int(times)
+                        if level_modifier:
+                            dice["level"] = True
                         if not "Damage" in converted[move]:
                             converted[move]["Damage"] = {}
                         converted[move]["Damage"][str(level)] = dice
