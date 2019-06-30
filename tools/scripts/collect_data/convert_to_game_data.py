@@ -35,10 +35,6 @@ def convert_pokemon_data(input_file):
     reg_evolve_move = re.compile("'(.*)'")
     reg_evolve_holding = re.compile("while holding a (.*)\.")
 
-    with open(output_location / "pokemon_numbers.json", "r") as f:
-        data = json.load(f)
-        pokedex_numbers = data["number"]
-
     output_pokemon_list = []
     output_pokemon_data = {}
     output_evolve_data = {}
