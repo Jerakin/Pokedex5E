@@ -20,7 +20,7 @@ local function load_json(j)
 end
 
 local function validate(pokemon)
-	if pokemon and pokemon.species and pokemon.species.current and
+	if pokemon and type(pokemon) == "table" and pokemon.species and pokemon.species.current and
 	pokemon.hp and pokemon.hp.current then
 		return true
 	end
