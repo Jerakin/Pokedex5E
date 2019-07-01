@@ -74,7 +74,7 @@ function init(self)
 	msg.post("#", "show_splash")
 	flow.start(function()
 
-		fakemon.load("https://github.com/Jerakin/fakemon-example/archive/master.zip")
+		fakemon.init()
 		flow.until_true(function() return fakemon.is_ready() end)
 		
 		movedex.init()
@@ -142,4 +142,5 @@ end
 function final(self)
 	storage.save()
 	settings.save()
+	log.info("Clean Exit")
 end

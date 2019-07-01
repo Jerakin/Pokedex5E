@@ -51,6 +51,7 @@ local extra_json_files = {
 
 M.PACKAGE_NAME = nil
 M.APP_ROOT = nil
+M.success = false
 local os_sep = package.config:sub(1, 1)
 local resource_path
 
@@ -60,41 +61,39 @@ local function get_checksum(res)
 	return md5.tohex(m:finish())
 end
 
-function M.download(url)
-	downloading = true
+local function download(url)
 	http.request(url, "GET", function(self, id, res)
 		if res.status == 302 then
 			local url = string.gsub(res.response, '<html><body>You are being <a href="', "")
 			url = string.gsub(url, '">redirected</a>.</body></html>', "")
-			M.download(url)
+			download(url)
 		elseif res.status ~= 200 and res.status ~= 304 then
 			return
 		else
-			local sum = get_checksum(res.response)
-			if sum == settings.get("fakemon_md5") and defsave.file_exists(resource_path) then
-				log.info("Using cached fakemon data")
-				downloading = false
-				return
-			else
-				log.info("Downloading fakemon data")
-			end
-			settings.set("fakemon_md5", sum)
-
 			local file, err = io.open(resource_path, "wb")
-			
+
 			if file then
 				file:write(res.response)
 				file:close()
 				for repo, branch in string.gmatch(url, "https://codeload.github.com/%w+/(.+)/zip/(.+)") do
-					M.PACKAGE_NAME = repo .. "-" .. branch
+					settings.set("fakemon_package", repo .. "-" .. branch) 
 				end
-				downloading = false
+				M.unpack()
+				M.success = true
 			else
 				local e = "Error while opening file\n" .. err
 				log.warn(e)
+				M.success = false
 			end
+			downloading = false
 		end
 	end)
+end
+
+function M.download(url)
+	downloading = true
+	settings.set("fakemon_url", url)
+	download(url)
 end
 
 function M.unpack()
@@ -103,6 +102,10 @@ function M.unpack()
 	local file = io.open(resource_path, "rb")
 	local input = file:read("*all")
 	local output, err = zzlib.unzip_archive(input, M.APP_ROOT)
+	if err then
+		log.warning(err)
+		M.success = false
+	end
 	log.info("Unpacking finished")
 end
 
@@ -115,25 +118,25 @@ function M.is_ready()
 	return not downloading and not unpacking
 end
 
-function M.load(url)
+function M.init()
 	M.APP_ROOT = defsave.get_file_path("")
+	M.PACKAGE_NAME = settings.get("fakemon_package")
 	resource_path = defsave.get_file_path("resource.zip")
+	M.load()
+end
+
+function M.load()
 	flow.start(function()
-		M.download(url)
-		flow.until_true(function() return not downloading end)
-		unpacking = true
-		log.info("Using package " .. M.PACKAGE_NAME)
 		if M.PACKAGE_NAME then
-			M.unpack()
+			log.info("Using package " .. M.PACKAGE_NAME)
 			for n, file_name in pairs(extra_json_files) do
-				local pa = M.APP_ROOT .. M.PACKAGE_NAME .. os_sep .. file_name
-				if file_exists(pa) then
+				local package_path = M.APP_ROOT .. M.PACKAGE_NAME .. os_sep .. file_name
+				if file_exists(package_path) then
 					log.info("Found and loaded file " .. file_name)
-					M[n] = ufile.load_file(pa)
+					M[n] = ufile.load_file(package_path)
 				end
 			end
 		end
-		unpacking = false
 	end)
 end
 
