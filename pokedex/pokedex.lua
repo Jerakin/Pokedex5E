@@ -275,16 +275,21 @@ function M.get_pokemon_AC(pokemon)
 	return M.get_pokemon(pokemon).AC
 end
 
+local warning_list = {}
+
 function M.get_pokemon(pokemon)
 	if pokedex[pokemon] then
 		return utils.deep_copy(pokedex[pokemon])
 	else
-		local e = string.format("Can not find Pokemon: '%s'\n\n%s", tostring(pokemon), debug.traceback())
-		gameanalytics.addErrorEvent {
-			severity = "Critical",
-			message = e
-		}
-		log.error(e)
+		local e = string.format("Can not find Pokemon: '%s'\n%s", tostring(pokemon), debug.traceback())
+		if not warning_list[tostring(pokemon)] then
+			gameanalytics.addErrorEvent {
+				severity = "Critical",
+				message = e
+			}
+			log.error(e)
+		end
+		warning_list[tostring(pokemon)] = true
 		return pokedex["MissingNo"]
 	end
 end

@@ -12,16 +12,20 @@ local move_machines
 
 local initialized = false
 
+local warning_list = {}
 function M.get_move_data(move)
 	if movedata[move] then
 		return movedata[move]
 	else
-		local e = string.format("Can not find move data for: '%s'", tostring(move))
-		gameanalytics.addErrorEvent {
-			severity = "Error",
-			message = e
-		}
-		log.error(e)
+		if not warning_list[tostring(move)] then
+			local e = string.format("Can not find move data for: '%s'", tostring(move))
+			gameanalytics.addErrorEvent {
+				severity = "Critical",
+				message = e
+			}
+			log.error(e)
+		end
+		warning_list[tostring(move)] = true
 		return movedata["Error"]
 	end
 end

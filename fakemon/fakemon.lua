@@ -5,6 +5,7 @@ local ufile = require "utils.file"
 local settings = require "pokedex.settings"
 local md5 = require "utils.md5"
 local log = require "utils.log"
+local monarch = require "monarch.monarch"
 
 local M = {}
 
@@ -63,13 +64,15 @@ end
 
 local function download(url)
 	http.request(url, "GET", function(self, id, res)
+		print(res.status)
+		
 		if res.status == 302 then
+			-- 302 Found (Redirect)
 			local url = string.gsub(res.response, '<html><body>You are being <a href="', "")
 			url = string.gsub(url, '">redirected</a>.</body></html>', "")
 			download(url)
-		elseif res.status ~= 200 and res.status ~= 304 then
-			return
-		else
+		elseif res.status == 200 or res.status == 304 then
+			-- 200 OK or 304 Not Modified
 			local file, err = io.open(resource_path, "wb")
 
 			if file then
@@ -86,6 +89,8 @@ local function download(url)
 				M.success = false
 			end
 			downloading = false
+		else
+			monarch.show("info", nil, {text="\nInvalid Package URL \n(STATUS: " .. res.status .. ")"})
 		end
 	end)
 end
@@ -129,12 +134,19 @@ function M.load()
 	flow.start(function()
 		if M.PACKAGE_NAME then
 			log.info("Using package " .. M.PACKAGE_NAME)
+			local valid = false
 			for n, file_name in pairs(extra_json_files) do
 				local package_path = M.APP_ROOT .. M.PACKAGE_NAME .. os_sep .. file_name
 				if file_exists(package_path) then
+					valid = true
 					log.info("Found and loaded file " .. file_name)
 					M[n] = ufile.load_file(package_path)
 				end
+			end
+			if not valid then
+				timer.delay(2, false, function()
+					monarch.show("info", nil, {text="\nInvalid Fakemon Package"})
+				end)
 			end
 		end
 	end)
