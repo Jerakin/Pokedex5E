@@ -12,6 +12,7 @@ local party = require "screens.party.party"
 local function delete(profile)
 	profiles.delete(profile)
 end
+
 local ACTIVE = vmath.vector3(1)
 local INACTIVE = vmath.vector3(0.96, 0.96, 0.96, 1)
 local ACTIVE_SIZE = vmath.vector3(420, 105, 0)
@@ -19,45 +20,23 @@ local INACTIVE_SIZE = vmath.vector3(300, 100, 0)
 
 local profile_nodes = {}
 local scrolling_data = {}
+local active_slot = 0
+local all_slots
 
-local function setup_pokemon_images(_profiles, slot)
-	if not _profiles[slot].party then
+local function setup_pokemon_images(nodes, slot)
+	if not all_slots[slot].party then
 		return
 	end
 	for i=1, 6 do
-		local img_node = profile_nodes[slot]["profile_slot/pokemon" .. i]
-		if _profiles[slot].party[i] then
-			local pokemon_sprite, _ = pokedex.get_sprite(_profiles[slot].party[i])
-			gui.play_flipbook(img_node, pokemon_sprite)
+		local img_node = nodes["profile_slot/pokemon" .. i]
+		if all_slots[slot].party[i] then
+			local pokemon_sprite, _ = pokedex.get_sprite(all_slots[slot].party[i])
+			if pokemon_sprite then
+				gui.play_flipbook(img_node, pokemon_sprite)
+			end
 		else
 			gui.set_enabled(img_node, false)
 		end
-	end
-end
-
-
-local function refresh(active_slot)
-	local _profiles = profiles.get_all_profiles()
-	for slot, profile in pairs(_profiles) do
-		local name = profile_nodes[slot]["profile_slot/trainer_name"]
-		local stats = profile_nodes[slot]["profile_slot/trainer_stats"]
-		local delete = profile_nodes[slot]["profile_slot/btn_delete"]
-		local button = profile_nodes[slot]["profile_slot/btn_slot"]
-		if _profiles[slot] then
-			gui.set_text(name, _profiles[slot].name)
-			gui.set_text(stats, " Own: " .. _profiles[slot].caught - _profiles[slot].released)
-			gui.set_enabled(delete, true)
-		end
-		setup_pokemon_images(_profiles, slot)
-		gui.set_color(button, INACTIVE)
-		gui.set_color(name, gui_colors.HERO_TEXT_FADED)
-		gui.set_color(stats, gui_colors.HERO_TEXT_FADED)
-	end
-	if active_slot then
-		gui.set_size(profile_nodes[active_slot]["profile_slot/btn_root"], ACTIVE_SIZE)
-		gui.set_color(profile_nodes[active_slot]["profile_slot/btn_root"], ACTIVE)
-		gui.set_color(profile_nodes[active_slot]["profile_slot/trainer_name"], gui_colors.HERO_TEXT)
-		gui.set_color(profile_nodes[active_slot]["profile_slot/trainer_stats"], gui_colors.HERO_TEXT)
 	end
 end
 
@@ -73,13 +52,16 @@ local function activate(slot)
 	end
 end
 
+
 local function delete_profile(slot)
 	if profiles.get_active_slot() == slot then
 		profiles.set_active(nil)
 	end
 	profiles.delete(slot)
+	gui.delete_node(profile_nodes[slot]["profile_slot/btn_root"])
 	refresh(profiles.get_active_slot())
 end
+
 
 local i = 0
 local function set_id(node)
@@ -88,46 +70,55 @@ local function set_id(node)
 	return "profile_" .. i
 end
 
-local function construct_profile_list()
-	local template = gui.get_node("profile_slot/btn_root")
-	local _profiles = profiles.get_all_profiles()
-	
-	for slot, profile in pairs(_profiles) do
-		local nodes = gui.clone_tree(template)
-		table.insert(profile_nodes, nodes)
+local function update_items(item)
+	local name = item.nodes["profile_slot/trainer_name"]
+	local stats = item.nodes["profile_slot/trainer_stats"]
+	local delete = item.nodes["profile_slot/btn_delete"]
+	local button = item.nodes["profile_slot/btn_slot"]
+	gui.set_text(name, all_slots[item.data].name)
+	gui.set_text(stats, " Own: " .. all_slots[item.data].caught - all_slots[item.data].released)
 
-		gui.set_text(nodes["profile_slot/trainer_name"], _profiles[slot].name)
-		gui.set_text(nodes["profile_slot/trainer_stats"], "Own: " .. _profiles[slot].caught - _profiles[slot].released)
-
-		setup_pokemon_images(_profiles, slot)
-		
-		button.register(nodes["profile_slot/btn_delete"], function()
-			monarch.show("are_you_sure", nil, {sender=msg.url(), data=slot, title="Delete Profile"})
-		end)
-		button.register(nodes["profile_slot/btn_slot"], function()
-			activate(slot)
-		end)
-		table.insert(scrolling_data, set_id(nodes["profile_slot/btn_root"]))
+	setup_pokemon_images(item.nodes, item.data)
+	gui.set_color(button, INACTIVE)
+	gui.set_color(name, gui_colors.HERO_TEXT_FADED)
+	gui.set_color(stats, gui_colors.HERO_TEXT_FADED)
+	if item.data == active_slot then
+		gui.set_size(item.nodes["profile_slot/btn_root"], ACTIVE_SIZE)
+		gui.set_color(item.nodes["profile_slot/btn_root"], ACTIVE)
+		gui.set_color(item.nodes["profile_slot/trainer_name"], gui_colors.HERO_TEXT)
+		gui.set_color(item.nodes["profile_slot/trainer_stats"], gui_colors.HERO_TEXT)
 	end
 
-	gui.delete_node(template)
-	button.register("new_profile", function()
-		monarch.show("pick_name", nil, {sender=msg.url(), slot=#_profiles+1})
-	end)
-	table.insert(scrolling_data, "new_profile")
 end
+
+
+local function update_list(list)
+	gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar").scroll_to(0, list.scroll.y)
+	for i,item in ipairs(list.items) do
+		if item.data and item.data ~= "" then
+			update_items(item)
+		end
+	end
+end
+
+
+
 function init(self)
 	party.last_active_index = nil
 	party.last_active_id = nil
-
+	
 	button.acquire()
 	msg.post(url.MENU, "hide")
-	self.initial_size = gui.get_size(gui.get_node("profile_slot/btn_slot"))
-	construct_profile_list()
-	local slot = profiles.get_active_slot()
-	refresh(slot)
-	gooey.static_list("profile_list", "scroll", scrolling_data)
+
+	active_slot = profiles.get_active_slot()
+	all_slots = profiles.get_all_profiles()
+	for index, _ in pairs(all_slots) do
+		table.insert(scrolling_data, index)
+	end
+
+	update_list(gooey.dynamic_list("profile_list", "scroll", "profile_slot/btn_root", scrolling_data))
 end
+
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("response") then
@@ -137,25 +128,36 @@ function on_message(self, message_id, message, sender)
 	end
 end
 
+
 function final(self)
 	button.unregister()
 	profile_nodes = {}
 	scrolling_data = {}
 end
 
+
 local function on_scrolled(scrollbar)
-	gooey.static_list("profile_list", "scroll", scrolling_data).scroll_to(0, scrollbar.scroll.y)
+	gooey.dynamic_list("profile_list", "scroll", "profile_slot/btn_root", scrolling_data).scroll_to(0, scrollbar.scroll.y)
 end
 
-local function update_list(list)
-	gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar").scroll_to(0, list.scroll.y)
+
+local function profile_list_clicked(list)
+	local data = list.items[list.selected_item]
+	if data.data then
+		if gui.pick_node(data.nodes["profile_slot/btn_slot"], list.action_pos.x, list.action_pos.y) then
+			activate(list.selected_item)
+		elseif gui.pick_node(data.nodes["profile_slot/btn_delete"], list.action_pos.x, list.action_pos.y) then
+			monarch.show("are_you_sure", nil, {sender=msg.url(), data=list.selected_item, title="Delete Profile"})
+		end
+	end
 end
 
 function on_input(self, action_id, action)
-	local list = gooey.static_list("profile_list", "scroll", scrolling_data, action_id, action, function() end, update_list)
-	if not list.have_scrolled then
-		button.on_input(action_id, action)
-	end
+	local list = gooey.dynamic_list("profile_list", "scroll", "profile_slot/btn_root", scrolling_data, action_id, action, profile_list_clicked, update_list)
+	gooey.button("new_profile", action_id, action, function()
+		monarch.show("pick_name", nil, {sender=msg.url(), slot=#all_slots+1})
+	end)
+	
 	if list.max_y and list.max_y > 0 then
 		gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar", action_id, action, on_scrolled)
 	end
