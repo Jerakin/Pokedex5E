@@ -23,14 +23,18 @@ function M.add(profile_name, slot)
 		released=0,
 		file_name=profile_name .. generate_id()
 	}
-	profiles[slot] = profile
+	if profiles.slots == nil then
+		profiles.slots = {}
+	end
+	
+	table.insert(profiles.slots, profile)
 	M.save()
 	return profile
 end
 
 function M.update(slot, data)
 	for key, value in pairs(data) do
-		if not profiles[slot] then
+		if not profiles.slots[slot] then
 			local e = "Can not find slot '" .. tostring(slot) .. "' in profile\n" .. debug.traceback()
 			gameanalytics.addErrorEvent {
 				severity = "Critical",
@@ -38,7 +42,7 @@ function M.update(slot, data)
 			}
 			log.error(e)
 		end
-		profiles[slot][key] = value
+		profiles.slots[slot][key] = value
 	end
 	M.save()
 end
@@ -46,13 +50,18 @@ end
 function M.delete(slot)
 	local f_name = M.get_file_name(slot)
 	defsave.delete(f_name)
-	profiles[slot] = nil
+	for index, profile in pairs(M.get_all_profiles()) do
+		if index == slot then
+			table.remove(profiles.slots, index)
+			break
+		end
+	end
 	M.save()
 end
 
 function M.is_new_game()
-	if profiles then
-		if next(profiles) then
+	if profiles and profiles.slots then
+		if next(profiles.slots) then
 			return false
 		end
 	end
@@ -60,7 +69,7 @@ function M.is_new_game()
 end
 
 function M.get_all_profiles()
-	return profiles
+	return profiles.slots or {}
 end
 
 function M.set_active(slot)
@@ -75,7 +84,7 @@ function M.save()
 end
 
 function M.get_active()
-	return profiles[active_slot]
+	return profiles.slots[active_slot]
 end
 
 function M.get_active_slot()
@@ -87,14 +96,14 @@ function M.get_active_file_name()
 end
 
 function M.get_file_name(slot)
-	return profiles[slot].file_name
+	return profiles.slots[slot].file_name
 end
 
 function M.get_active_name()
-	if profiles[active_slot] then
-		return profiles[active_slot].name
+	if profiles.slots[active_slot] then
+		return profiles.slots[active_slot].name
 	else
-		local e = "Can not find active_slot \n" .. debug.traceback()
+		local e = "Can not find active_slot " .. tostring(active_slot) ..  "\n" .. debug.traceback()
 		gameanalytics.addErrorEvent {
 			severity = "Critical",
 			message = e
@@ -104,7 +113,7 @@ function M.get_active_name()
 end
 
 function M.set_party(party)
-	profiles[active_slot].party = party
+	profiles.slots[active_slot].party = party
 	M.save()
 end
 
@@ -117,8 +126,33 @@ local function load_profiles()
 	profiles = defsave.get("profiles", "profiles")
 end
 
+local function convert_to_rolling_profile_slot()
+	if profiles.slots then
+		return
+	end
+	
+	local new_profiles = {slots={}}
+	local counter = 0
+	for slot, p in pairs(profiles) do
+		if type(p) ~= "number" then
+			counter = counter + 1
+			table.insert(new_profiles.slots, p)
+		end
+	end
+	if #profiles == counter then
+		return
+	else
+		log.info("Converted profiles slots")
+		active_slot = nil
+		profiles = new_profiles
+		profiles.last_used = nil
+	end
+	
+end
+
 function M.init()
 	load_profiles()
+	convert_to_rolling_profile_slot()
 	local latest = M.get_latest()
 	if latest then
 		M.set_active(latest)

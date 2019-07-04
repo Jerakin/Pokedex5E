@@ -170,7 +170,6 @@ local function redraw_moves(self)
 
 	for _, b in pairs(move_buttons_list) do
 		gui.delete_node(gui.get_node(b.node))
-		gui.delete_node(b.text)
 	end
 
 	move_buttons_list = {}
@@ -286,7 +285,6 @@ local function redraw(self)
 	local text_id = hash("change_pokemon/ability/txt")
 	local btn_id = hash("change_pokemon/ability/btn_entry")
 	local del_id = hash("change_pokemon/ability/btn_delete")
-	local nodes = gui.clone_tree(gui.get_node(root_id))
 	M.config[hash("change_pokemon/abilities")].open.y = M.config[hash("change_pokemon/abilities")].closed.y + math.ceil((#_pokemon.get_abilities(self.pokemon) +1) / 2) * 50
 	self.ability_data = redraw_list(self.ability_data, _pokemon.get_abilities(self.pokemon), text_id, btn_id, del_id, root_id)
 
@@ -417,10 +415,8 @@ function M.on_message(self, message_id, message, sender)
 			end)
 		elseif message_id == hash("abilities") then
 			_pokemon.add_ability(self.pokemon, message.item)
-			redraw(self)
 		elseif message_id == hash("feats") then
 			_pokemon.add_feat(self.pokemon, message.item)
-			redraw(self)
 		elseif message_id == hash("item") then
 			_pokemon.set_held_item(self.pokemon, message.item)
 			gui.set_text(gui.get_node("change_pokemon/txt_item"), message.item:upper())
@@ -522,14 +518,24 @@ local function on_shiny_checked(self, checkbox)
 	_pokemon.set_shiny(self.pokemon, checkbox.checked)
 end
 
+
+local function change_level(self, level, multiplier)
+	_pokemon.set_current_level(self.pokemon, level + (1 * multiplier))
+	
+	local con = _pokemon.get_attributes(self.pokemon).CON
+	local con_mod = math.floor((con - 10) / 2)
+	
+	local extra_hp = math.ceil((_pokemon.get_hit_dice(self.pokemon) + 1)/2)
+	
+	_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) + extra_hp * multiplier)
+	_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) + (extra_hp + con_mod) * multiplier)
+end
+
 local function extra_buttons(self, action_id, action)
 	gooey.button("change_pokemon/level/btn_plus", action_id, action, function()
 		local level = _pokemon.get_current_level(self.pokemon)
 		if level < 20 then
-			_pokemon.set_current_level(self.pokemon, level + 1)
-			local extra_hp = math.ceil((_pokemon.get_hit_dice(self.pokemon) + 1)/2)
-			_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) + extra_hp)
-			_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) + extra_hp)
+			change_level(self, level, 1)
 			redraw(self)
 		end 
 	end, gooey_buttons.plus_button)
@@ -537,10 +543,7 @@ local function extra_buttons(self, action_id, action)
 	gooey.button("change_pokemon/level/btn_minus", action_id, action, function()
 		local level = _pokemon.get_current_level(self.pokemon)
 		if level > 1 and level > pokedex.get_minimum_wild_level(_pokemon.get_current_species(self.pokemon)) then
-			local extra_hp = math.ceil((_pokemon.get_hit_dice(self.pokemon) + 1)/2)
-			_pokemon.set_current_level(self.pokemon, level - 1)
-			_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) - extra_hp)
-			_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) - extra_hp)
+			change_level(self, level, -1)
 			redraw(self)
 		end
 	end, gooey_buttons.minus_button)

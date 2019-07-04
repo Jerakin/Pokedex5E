@@ -11,7 +11,6 @@ local storage = require "pokedex.storage"
 local profiles = require "pokedex.profiles"
 local filters = require "pokedex.filters"
 local flow = require "utils.flow"
-local metadata = require "utils.metadata"
 local gui_colors = require "utils.gui_colors"
 local notify = require "utils.notify"
 local screeninfo = require "utils.screeninfo"
@@ -53,8 +52,7 @@ function init(self)
 	defsave.appname = "pokedex5E"
 	defsave.verbose = false
 	defsave.use_default_data = false
-	metadata.load()
-	metadata.save()
+
 	msg.post("@render:", "clear_color", {color=gui_colors.BACKGROUND})
 	
 	--input order
@@ -73,20 +71,22 @@ function init(self)
 	natures.init()
 	pokedex.init()
 	profiles.init()
-	storage.init()
-	dex.init()
-	items.init()
-	filters.init()
-	feats.init()
 	flow.start(function()
-		flow.delay(1)
+		flow.delay(1) -- Extra timeout for loading screen
 		flow.until_true( function() return not monarch.is_busy() end)
-		if profiles.is_new_game() or not profiles.get_active_slot() then
-			msg.post("#", "show_profile")
+		if profiles.is_new_game() then 
+			monarch.show("pick_name", nil, {sender=msg.url(), slot=1})
+			flow.until_true(function() return profiles.get_active_slot() end)
+		elseif not profiles.get_active_slot() then
+			monarch.show("profiles")
 			flow.until_true(function() return profiles.get_active_slot() end)
 		end
-		
 
+		storage.init()
+		dex.init()
+		items.init()
+		filters.init()
+		feats.init()
 		
 		if #storage.list_of_ids_in_inventory() > 0 then
 			msg.post("#", "show_party")
