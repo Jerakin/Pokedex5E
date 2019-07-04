@@ -64,8 +64,6 @@ end
 
 local function download(url)
 	http.request(url, "GET", function(self, id, res)
-		print(res.status)
-		
 		if res.status == 302 then
 			-- 302 Found (Redirect)
 			local url = string.gsub(res.response, '<html><body>You are being <a href="', "")
@@ -90,7 +88,9 @@ local function download(url)
 			end
 			downloading = false
 		else
-			monarch.show("info", nil, {text="\nInvalid Package URL \n(STATUS: " .. res.status .. ")"})
+			local e = "\nInvalid Package URL \n(STATUS: " .. res.status .. ")"
+			log.warning(e)
+			monarch.show("info", nil, {text=e})
 		end
 	end)
 end
