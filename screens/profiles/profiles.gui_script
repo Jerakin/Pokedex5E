@@ -104,9 +104,6 @@ end
 
 
 function init(self)
-	party.last_active_index = nil
-	party.last_active_id = nil
-	
 	button.acquire()
 	msg.post(url.MENU, "hide")
 

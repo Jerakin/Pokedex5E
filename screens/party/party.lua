@@ -19,14 +19,17 @@ local gui_utils = require "utils.gui"
 
 local M = {}
 
-M.last_active_index = 1
-M.last_active_id = nil
-
 local active_page = 1
 
 local pokemon_pages = {}
 
 local switching = false
+
+local active_index
+
+function M.get_active_index()
+	return active_index
+end
 
 local function activate_tab(nodes, tab_number)
 	for i=1, 3 do
@@ -56,8 +59,13 @@ local function tab_buttons(nodes)
 end
 
 
-function M.show(id)
-	M.last_active_id = id
+function M.show(index)
+	local inventory_ids = storage.list_of_ids_in_inventory()
+	if not inventory_ids[index] then
+		index = #inventory_ids
+		msg.post(".", "inventory", {index=index, instant=true})
+	end
+	local id = inventory_ids[index]
 	
 	if storage.is_in_storage(id) then
 		local pokemon = storage.get_copy(id)
@@ -92,28 +100,21 @@ local function reset()
 end
 
 function M.switch_to_slot(index)
-	if switching or M.last_active_index == index then
+	if switching or active_index == index then
 		return
 	end
 	switching = true
 	
-	local pos_index = -1
-	local id = storage.list_of_ids_in_inventory()[index]
-	if id == nil or M.last_active_id == id then
-		switching = false
-		return
-	elseif M.last_active_index < index then
-		pos_index = 1
-	end
-	M.last_active_index = index
-	M.last_active_id = id
+	local pos_index = active_index < index and 1 or -1
+	active_index = index
+	
 	local old_page = active_page
 	active_page = active_page == 1 and 2 or 1
 	local active = pokemon_pages[old_page].nodes["pokemon/root"]
 	local new = pokemon_pages[active_page].nodes["pokemon/root"]
 
-	M.show(id)
-	msg.post(".", "inventory", {index=index})
+	M.show(active_index)
+	msg.post(".", "inventory", {index=active_index})
 	gui.set_position(new, vmath.vector3(720*pos_index, 0, 0))
 	gui.animate(active, "position.x", (-1*pos_index)*720, gui.EASING_INSINE, 0.3, 0, function()
 		switching = false
@@ -138,8 +139,9 @@ local function set_ids(nodes, index)
 	gui.set_id(nodes["pokemon/move/move"], "item" .. index)
 end
 
-function M.create()
+function M.create(index)
 	reset()
+	active_index = index
 	local p = gui.get_position(gui.get_node("pokemon/tab_bg_1"))
 	gui.set_position(gui.get_node("pokemon/tab_bg_2"), p)
 	gui.set_position(gui.get_node("pokemon/tab_bg_3"), p)
@@ -169,11 +171,10 @@ end
 function M.on_input(action_id, action)
 	local g = gesture.on_input("Party", action_id, action)
 	if g then
-		local index = M.last_active_index
 		if g.swipe_left then
-			M.switch_to_slot(math.min(index + 1, #storage.list_of_ids_in_inventory()))
+			M.switch_to_slot(math.min(active_index + 1, #storage.list_of_ids_in_inventory()))
 		elseif g.swipe_right then
-			M.switch_to_slot(math.max(index - 1, 1))
+			M.switch_to_slot(math.max(active_index - 1, 1))
 		end
 	end
 
@@ -186,7 +187,6 @@ function M.on_input(action_id, action)
 end
 
 function M.on_message(message_id, message)
-	message.active_pokemon_id = M.last_active_id
 	meters.on_message(message_id, message)
 	status_effects.on_message(message_id, message)
 end
