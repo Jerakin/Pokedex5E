@@ -239,9 +239,11 @@ end
 
 function M.get_evolved_from(pokemon)
 	for species, data in pairs(evolvedata) do
-		for _, into in pairs(data.into) do
-			if into == pokemon then
-				return species
+		if data.into then
+			for _, into in pairs(data.into) do
+				if into == pokemon then
+					return species
+				end
 			end
 		end
 	end

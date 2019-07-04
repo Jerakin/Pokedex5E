@@ -118,6 +118,9 @@ local function setup_info_tab(nodes, pokemon)
 end
 
 function M.on_input(action_id, action)
+	if not active then
+		return
+	end
 	if action.pressed then
 		_action.x = action.x
 		_action.y = action.y

@@ -11,7 +11,8 @@ local status_nodes
 local current_pokemon_id
 local active_page
 local btn_status 
-local active_nodes 
+local active_page 
+local active_nodes
  
 function M.create(nodes, pokemon, page)
 	active_nodes = nodes
@@ -49,7 +50,9 @@ function M.on_message(message_id, message)
 end
 
 function M.on_input(action_id, action)
-	gooey.button("btn_status" .. active_page, action_id, action, function() monarch.show("status_effects", nil, {pokemon_id=current_pokemon_id}) end)
+	if active_page then
+		gooey.button("btn_status" .. active_page, action_id, action, function() monarch.show("status_effects", nil, {pokemon_id=current_pokemon_id}) end)
+	end
 end
 
 return M
