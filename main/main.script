@@ -74,8 +74,11 @@ function init(self)
 	flow.start(function()
 		flow.delay(1) -- Extra timeout for loading screen
 		flow.until_true( function() return not monarch.is_busy() end)
-		if profiles.is_new_game() or not profiles.get_active_slot() then
+		if profiles.is_new_game() then 
 			monarch.show("pick_name", nil, {sender=msg.url(), slot=1})
+			flow.until_true(function() return profiles.get_active_slot() end)
+		elseif not profiles.get_active_slot() then
+			monarch.show("profiles")
 			flow.until_true(function() return profiles.get_active_slot() end)
 		end
 
