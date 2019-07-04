@@ -23,7 +23,11 @@ function M.add(profile_name, slot)
 		released=0,
 		file_name=profile_name .. generate_id()
 	}
-	profiles.slots[slot] = profile
+	if profiles.slots == nil then
+		profiles.slots = {}
+	end
+	
+	table.insert(profiles.slots, profile)
 	M.save()
 	return profile
 end
@@ -46,12 +50,17 @@ end
 function M.delete(slot)
 	local f_name = M.get_file_name(slot)
 	defsave.delete(f_name)
-	profiles.slots[slot] = nil
+	for index, profile in pairs(M.get_all_profiles()) do
+		if index == slot then
+			table.remove(profiles.slots, index)
+			break
+		end
+	end
 	M.save()
 end
 
 function M.is_new_game()
-	if profiles then
+	if profiles and profiles.slots then
 		if next(profiles.slots) then
 			return false
 		end
@@ -60,7 +69,7 @@ function M.is_new_game()
 end
 
 function M.get_all_profiles()
-	return profiles.slots
+	return profiles.slots or {}
 end
 
 function M.set_active(slot)
