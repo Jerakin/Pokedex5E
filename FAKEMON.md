@@ -24,3 +24,19 @@ When you are done download it as per the instructions in  [FakemonConverter](htt
 Then start the FakemonConverter, input the `.xlsx` (Microsoft Excel) document and pick your output folder to be the same as the folder you created when making a git repository.
 
 If you want images remember to add them to the output folder too.
+
+
+### Loading it into the app
+Fakemon isn't released yet so if you want to try it out you will have to download the beta version of the app
+https://drive.google.com/open?id=1x6XhaiGB0vajy3aF0ILE7iqHFcVb0OKu
+
+1. In the sidebar click on Settings
+2. Input the URL either by writting it
+3. Or by clicking paste to copy it from your clipboard
+4. Click the download button
+
+This will download the zip file and restart the app. If you get an error please contact me with the path to the ZIP file.
+
+<p align="center">
+  <img src="/.github/images/fakemon_loading.png">
+</p>
