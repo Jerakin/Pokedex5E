@@ -72,7 +72,7 @@ function init(self)
 	pokedex.init()
 	profiles.init()
 	flow.start(function()
-		flow.delay(1) -- Extra timeout for loading screen
+		flow.delay(1.5) -- Minimum timeout for loading screen
 		flow.until_true( function() return not monarch.is_busy() end)
 		if profiles.is_new_game() then 
 			monarch.show("pick_name", nil, {sender=msg.url(), slot=1})
