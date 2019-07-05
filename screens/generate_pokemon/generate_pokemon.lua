@@ -21,12 +21,20 @@ function M.add_pokemon(species, level)
 			moves[all_moves[i]] = {pp=pp, index=i}
 		end
 	end
+	
 	pokemon.exp = pokedex.get_experience_for_level(level-1)
 	pokemon.abilities = pokedex.get_pokemon_abilities(species)
-	pokemon.level.caught = level
+	pokemon.level.caught = pokedex.get_minimum_wild_level(species)
 	pokemon.level.current = level
 	pokemon.moves = moves
 	pokemon.nature = nature.list[rnd.range(1, #nature.list)]
+
+	local max_hp = _pokemon.get_defaut_max_hp(pokemon)
+	local con = _pokemon.get_attributes(pokemon).CON
+	local con_mod = math.floor((con - 10) / 2)
+	pokemon.hp.max = max_hp
+	pokemon.hp.current = max_hp + (con_mod * level)
+	
 	dex.set(pokemon.species.current, dex.states.CAUGHT)
 	storage.add(pokemon)
 end
