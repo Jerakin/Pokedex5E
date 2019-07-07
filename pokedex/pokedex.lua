@@ -55,9 +55,11 @@ function M.init()
 		evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
 		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
 		exp_grid = file.load_json_from_resource("/assets/datafiles/exp_grid.json")
-
 		if fakemon.pokemon then
+			log.info("Merging Pokemon data")
 			for pokemon, data in pairs(fakemon.pokemon) do
+				log.info("  " .. pokemon)
+				data.fakemon = true
 				pokedex[pokemon] = data
 			end
 		end
@@ -131,18 +133,23 @@ end
 
 function M.get_icon(pokemon)
 	local data = M.get_pokemon(pokemon)
-	if data.sprite then
-		local path = fakemon.APP_ROOT .. fakemon.PACKAGE_NAME .. utils.os_sep .. data.icon 
-		local file = io.open(path, "rb")
-		if not file then
-			return "-1MissingNo", "pokemon0"
-		end
-		local buffer = file:read("*all")
-		file:close()
-		local img = image.load(buffer, true)
+	print(data.fakemon)
+	if data.fakemon then
+		
+		if data.icon and data.icon ~= "" then
+			local path = fakemon.APP_ROOT .. fakemon.PACKAGE_NAME .. utils.os_sep .. data.icon 
+			local file = io.open(path, "rb")
+			if not file then
+				return "-1MissingNo", "sprite0"
+			end
+			local buffer = file:read("*all")
+			file:close()
+			local img = image.load(buffer, true)
 
-		gui.new_texture("icon" .. pokemon, img.width, img.height, img.type, img.buffer, false)
-		return nil, "icon" .. pokemon
+			gui.new_texture("icon" .. pokemon, img.width, img.height, img.type, img.buffer, false)
+			return nil, "icon" .. pokemon
+		end
+		return "-2Pokeball", "sprite0"
 	end
 	
 	local sprite = M.get_sprite(pokemon)
@@ -162,18 +169,21 @@ function M.get_sprite(pokemon)
 	end
 
 	local data = M.get_pokemon(pokemon)
-	if data.sprite then
-		local path = fakemon.APP_ROOT .. fakemon.PACKAGE_NAME .. utils.os_sep .. data.sprite 
-		local file = io.open(path, "rb")
-		if not file then
-			return "-1MissingNo", "pokemon0"
-		end
-		local buffer = file:read("*all")
-		file:close()
-		local img = image.load(buffer)
+	if data.fakemon then
+		if data.sprite and data.sprite ~= "" then
+			local path = fakemon.APP_ROOT .. fakemon.PACKAGE_NAME .. utils.os_sep .. data.sprite 
+			local file = io.open(path, "rb")
+			if not file then
+				return "-1MissingNo", "pokemon0"
+			end
+			local buffer = file:read("*all")
+			file:close()
+			local img = image.load(buffer)
 
-		gui.new_texture("sprite" .. pokemon, img.width, img.height, img.type, img.buffer, false)
-		return nil, "sprite" ..  pokemon
+			gui.new_texture("sprite" .. pokemon, img.width, img.height, img.type, img.buffer, false)
+			return nil, "sprite" ..  pokemon
+		end
+		return "-2Pokeball", "pokemon0"
 	end
 	return pokemon_sprite, "pokemon0"
 end

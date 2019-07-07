@@ -71,12 +71,14 @@ function init(self)
 		defos.set_view_size(0, 0, 720*0.5, 1280*0.5)
 	end
 	msg.post("#", "show_splash")
-	fakemon.init()
-	movedex.init()
-	natures.init()
-	pokedex.init()
-	profiles.init()
+
 	flow.start(function()
+		fakemon.init()
+		flow.until_true(function() return fakemon.is_ready() end)
+		movedex.init()
+		natures.init()
+		pokedex.init()
+		profiles.init()
 		flow.delay(1) -- Extra timeout for loading screen
 		flow.until_true( function() return not monarch.is_busy() end)
 		if profiles.is_new_game() then 
