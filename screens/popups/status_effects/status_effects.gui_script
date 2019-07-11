@@ -13,6 +13,8 @@ local statuses = require "pokedex.statuses"
 local pokemon_id
 function init(self)
 	gui.set_render_order(gro.POPUP)
+	self.lock = true
+	timer.delay(0.1, false, function() self.lock = false end)
 	data = monarch.data("status_effects")
 	pokemon_id = data.pokemon_id
 	
@@ -86,6 +88,9 @@ local function update_description(status)
 end
 
 function on_input(self, action_id, action)
+	if self.lock then
+		return
+	end
 	gooey.checkbox("poisoned/background", action_id, action, function(checkbox) on_checked(checkbox, statuses.status.POISONED) end, function(checkbox) update_checkbox(checkbox, gui.get_node("poisoned/checkmark"))end)
 	gooey.checkbox("frozen/background", action_id, action, function(checkbox) on_checked(checkbox, statuses.status.FROZEN) end, function(checkbox) update_checkbox(checkbox, gui.get_node("frozen/checkmark"))end)
 	gooey.checkbox("paralyzed/background", action_id, action, function(checkbox) on_checked(checkbox, statuses.status.PARALYZED) end, function(checkbox) update_checkbox(checkbox, gui.get_node("paralyzed/checkmark"))end)

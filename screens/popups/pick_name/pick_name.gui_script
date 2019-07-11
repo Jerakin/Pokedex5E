@@ -36,6 +36,10 @@ function init(self)
 	self.sender = monarch.data("pick_name") and monarch.data("pick_name").sender or nil
 	slot = monarch.data("pick_name") and monarch.data("pick_name").slot or nil
 	gui.set_enabled(gui.get_node("cursor"), false)
+	if monarch.top() == hash("splash") then
+		gui.set_enabled(gui.get_node("btn_cancel"), false)
+		gui.set_position(gui.get_node("btn_okay"), vmath.vector3(0,-148,0))
+	end
 end
 
 
