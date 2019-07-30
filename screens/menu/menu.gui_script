@@ -79,8 +79,8 @@ function init(self)
 	if not clipboard then
 		gui.set_enabled(self.btn_import, false)
 	end
-	local name = profiles.get_active_slot() ~= nil and profiles.get_active_name() or "Someone"
-	gui.set_text(self.btn_storage, name .. "'s PC")
+		local name = profiles.get_active_slot() ~= nil and profiles.get_active_name() or "Someone"
+		gui.set_text(self.btn_storage, name .. "'s PC")
 
 	
 	button.register(self.btn_party, function()

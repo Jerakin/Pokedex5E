@@ -139,15 +139,10 @@ local function convert_to_rolling_profile_slot()
 			table.insert(new_profiles.slots, p)
 		end
 	end
-	if #profiles == counter then
-		return
-	else
-		log.info("Converted profiles slots")
-		active_slot = nil
-		profiles = new_profiles
-		profiles.last_used = nil
-	end
-	
+	log.info("Converted profiles slots")
+	active_slot = nil
+	profiles = new_profiles
+	profiles.last_used = nil
 end
 
 function M.init()

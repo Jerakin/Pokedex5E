@@ -16,7 +16,7 @@ end
 local ACTIVE = vmath.vector3(1)
 local INACTIVE = vmath.vector3(0.96, 0.96, 0.96, 1)
 local ACTIVE_SIZE = vmath.vector3(420, 105, 0)
-local INACTIVE_SIZE = vmath.vector3(300, 100, 0)
+local INACTIVE_SIZE = vmath.vector3(380, 105, 0)
 
 local scrolling_data = {}
 local active_slot = 0
@@ -75,6 +75,7 @@ local function update_items(item)
 	gui.set_color(button, INACTIVE)
 	gui.set_color(name, gui_colors.HERO_TEXT_FADED)
 	gui.set_color(stats, gui_colors.HERO_TEXT_FADED)
+	gui.set_size(item.nodes["profile_slot/btn_root"], INACTIVE_SIZE)
 	if item.data == active_slot then
 		gui.set_size(item.nodes["profile_slot/btn_root"], ACTIVE_SIZE)
 		gui.set_color(item.nodes["profile_slot/btn_root"], ACTIVE)
@@ -146,12 +147,16 @@ end
 
 
 local function profile_list_clicked(list)
-	local data = list.items[list.selected_item]
-	if data.data then
-		if gui.pick_node(data.nodes["profile_slot/btn_slot"], list.action_pos.x, list.action_pos.y) then
-			activate(list.selected_item)
-		elseif gui.pick_node(data.nodes["profile_slot/btn_delete"], list.action_pos.x, list.action_pos.y) then
-			monarch.show("are_you_sure", nil, {sender=msg.url(), data=list.selected_item, title="Delete Profile"})
+	for key, entry in pairs(list.items) do
+		if entry.index == list.selected_item then
+			local value = entry.data
+			if value then
+				if gui.pick_node(entry.nodes["profile_slot/btn_slot"], list.action_pos.x, list.action_pos.y) then
+					activate(value)
+				elseif gui.pick_node(entry.nodes["profile_slot/btn_delete"], list.action_pos.x, list.action_pos.y) then
+					monarch.show("are_you_sure", nil, {sender=msg.url(), data=value, title="Delete Profile"})
+				end
+			end
 		end
 	end
 end
