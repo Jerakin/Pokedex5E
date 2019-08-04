@@ -74,7 +74,7 @@ function init(self)
 
 	flow.start(function()
 		fakemon.init()
-		flow.until_true(function() return fakemon.is_ready() end)
+		flow.until_true(function() return not fakemon.BUSY end)
 		movedex.init()
 		natures.init()
 		pokedex.init()
