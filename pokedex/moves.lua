@@ -82,15 +82,9 @@ function M.init()
 		movedata = file.load_json_from_resource("/assets/datafiles/moves.json")
 		move_machines = file.load_json_from_resource("/assets/datafiles/move_machines.json")
 
-		if fakemon.moves then
-			for name, data in pairs(fakemon.moves) do
+		if fakemon.DATA and fakemon.DATA["moves.json"] then
+			for name, data in pairs(fakemon.DATA["moves.json"]) do
 				movedata[name] = data
-			end
-		end
-
-		if fakemon.move_machines then
-			for name, data in pairs(fakemon.move_machines) do
-				move_machines[name] = data
 			end
 		end
 

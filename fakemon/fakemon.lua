@@ -5,6 +5,7 @@ local flow = require "utils.flow"
 local defsave = require "defsave.defsave"
 local zzlib = require "utils.zzlib"
 local file = require "utils.file"
+local lfs_extend = require "utils.lfs_extend"
 
 local M = {}
 
@@ -13,7 +14,7 @@ GITHUB_URL = "https://raw.githubusercontent.com/Jerakin/FakemonPackages/master"
 M.INDEX = nil
 M.BUSY = false
 
-M.DATA = {}
+M.DATA = nil
 
 local RESOURCE_PATH
 local UNZIP_PATH
@@ -22,13 +23,14 @@ local os_sep = package.config:sub(1, 1)
 
 function M.init()
 	RESOURCE_PATH = defsave.get_file_path("resource.zip")
-	UNZIP_PATH = defsave.get_file_path("")
+	UNZIP_PATH = defsave.get_file_path("") .. "package" .. os_sep
+	M.load_package()
 end
 
 local function get_package_entry(package)
 	for _, data in pairs(M.INDEX) do
 		if data.name == package then
-			return data.path
+			return data
 		end
 	end
 end
@@ -39,19 +41,33 @@ local function file_exists(name)
 	return f ~= nil and io.close(f)
 end
 
+--- Check if a file or directory exists in this path
+function exists(file)
+	local ok, err, code = os.rename(file, file)
+	if not ok then
+		if code == 13 then
+			-- Permission denied, but it exists
+			return true
+		end
+	end
+	return ok, err
+end
+
+--- Check if a directory exists in this path
+function isdir(path)
+	-- "/" works on both Unix and Windows
+	return exists(path.."/")
+end
+
 function M.load_package()
-	local info = settings.get("package")
 	M.BUSY = true
 	flow.start(function()
-		local valid = false
 		local package_path = UNZIP_PATH .. "data.json"
 		if file_exists(package_path) then
-			valid = true
 			log.info("Found and loaded file " .. package_path)
 			M.DATA = file.load_file(package_path)
-		end
-		if not valid then
-			print("INVALID")
+		else
+			log.info("No Fakemon Package found")
 		end
 		M.BUSY = false
 	end)
@@ -64,11 +80,22 @@ function M.unpack()
 	local file = io.open(RESOURCE_PATH, "rb")
 	local input = file:read("*all")
 
-	local output, err = zzlib.unzip_archive(input, UNZIP_PATH)
-	if err then
-		log.warning(err)
-	end
-	log.info("Unpacking finished")
+	flow.start(function() 
+		local exists, _ = lfs.exists(UNZIP_PATH)
+		if exists then
+			lfs.rmdirs(UNZIP_PATH)
+			flow.frames(5)
+			lfs.mkdir(UNZIP_PATH)
+		else
+			lfs.mkdir(UNZIP_PATH)
+		end
+
+		local output, err = zzlib.unzip_archive(input, UNZIP_PATH)
+		if err then
+			log.warning(err)
+		end
+		log.info("Unpacking finished")
+	end)
 	M.BUSY = false
 end
 
@@ -76,7 +103,6 @@ function M.load_index()
 	M.BUSY = true
 	local index_url = GITHUB_URL .. "/" .. "index.json"
 	http.request(index_url, "GET", function(self, id, res)
-
 		if res.status == 200 or res.status == 304 then
 			M.INDEX = json.decode(res.response)
 			M.BUSY = false
@@ -85,7 +111,6 @@ function M.load_index()
 			print("BAD STATUS:", res.status)
 			print(res.response)
 		end
-
 	end)
 end
 
@@ -94,12 +119,11 @@ function M.download_package(package)
 	log.info("STARTED DOWNLOAD")
 	local data = get_package_entry(package)
 	settings.set("package", data)
-
-	local package_url = GITHUB_URL .. "/" .. "packages/baby%20birds.fkmn"
+	local package_url = GITHUB_URL .. "/" .. string.gsub(data.path, "%s+", '%%20')
 
 	http.request(package_url, "GET", function(self, id, res)
 		if res.status == 200 or res.status == 304 then
-			log.info("DOWNLOADING")
+			log.info("DOWNLOADING: " .. data.path)
 			local file, err = io.open(RESOURCE_PATH, "wb")
 
 			if file then
@@ -111,7 +135,7 @@ function M.download_package(package)
 			end
 			log.info("FINISHED DOWNLOAD")
 		else
-			print("BAD STATUS:", res.status)
+			log.warning("BAD STATUS: ".. res.status .. " URL: " .. package_url)
 		end
 		M.BUSY = false
 	end)

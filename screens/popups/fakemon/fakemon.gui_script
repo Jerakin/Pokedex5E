@@ -57,7 +57,7 @@ function init(self)
 	gui_utils.scale_text_to_fit_size(gui.get_node("topbar/title"))
 	
 	self.all_items = {}
-
+	update_list(gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.all_items))
 	
 	flow.start(function()
 		fakemon.load_index()
@@ -67,7 +67,7 @@ function init(self)
 		end
 		self.list_items = utils.shallow_copy(self.all_items)
 		
-		pprint()
+		
 		--[[fakemon.download_package("Baby Birds")
 		flow.until_true(function() return not fakemon.BUSY end)
 		fakemon.unpack()
@@ -79,9 +79,6 @@ function init(self)
 	
 	self.all_items = {}
 	self.list_items = {}
-	
-	
-	
 end
 
 local function filter_list(self, search_string)

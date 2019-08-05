@@ -20,8 +20,8 @@ end
 function M.init()
 	if not initialized then
 		feats = file.load_json_from_resource("/assets/datafiles/feats.json")
-		if fakemon.feats then
-			for name, data in pairs(fakemon.feats) do
+		if fakemon.DATA and fakemon.DATA["feats.json"] then
+			for name, data in pairs(fakemon.DATA["feats.json"]) do
 				feats[name] = data
 			end
 		end

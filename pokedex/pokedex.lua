@@ -55,38 +55,29 @@ function M.init()
 		evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
 		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
 		exp_grid = file.load_json_from_resource("/assets/datafiles/exp_grid.json")
-		if fakemon.pokemon then
-			log.info("Merging Pokemon data")
-			for pokemon, data in pairs(fakemon.pokemon) do
-				log.info("  " .. pokemon)
-				data.fakemon = true
-				pokedex[pokemon] = data
+		if fakemon.DATA then
+			if fakemon.DATA["pokemon.json"] then
+				log.info("Merging Pokemon data")
+				for pokemon, data in pairs(fakemon.DATA["pokemon.json"]) do
+					log.info("  " .. pokemon)
+					data.fakemon = true
+					pokedex[pokemon] = data
+				end
 			end
-		end
-		if fakemon.pokedex_extra then
-			for name, data in pairs(fakemon.pokedex_extra) do
-				pokedex_extra[name] = data
+			if fakemon.DATA["pokedex_extra.json"] then
+				for name, data in pairs(fakemon.DATA["pokedex_extra.json"]) do
+					pokedex_extra[name] = data
+				end
 			end
-		end
-		if fakemon.abilities then
-			for name, data in pairs(fakemon.abilities) do
-				abilities[name] = data
+			if fakemon.DATA["abilities.json"] then
+				for name, data in pairs(fakemon.DATA["abilities.json"]) do
+					abilities[name] = data
+				end
 			end
+			
+			M.list, M.total, M.unique = list()
+			initialized = true
 		end
-		if fakemon.evolve then
-			evolvedata = fakemon.evolve
-		end
-		if fakemon.leveling then
-			for name, data in pairs(fakemon.leveling) do
-				leveling[name] = data
-			end
-		end
-		if fakemon.exp_grid then
-			exp_grid = fakemon.exp_grid
-		end
-		
-		M.list, M.total, M.unique = list()
-		initialized = true
 	else
 		local e = "The pokedex have already been initialized"
 		gameanalytics.addErrorEvent {
@@ -133,7 +124,6 @@ end
 
 function M.get_icon(pokemon)
 	local data = M.get_pokemon(pokemon)
-	print(data.fakemon)
 	if data.fakemon then
 		
 		if data.icon and data.icon ~= "" then
