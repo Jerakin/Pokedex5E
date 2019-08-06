@@ -74,10 +74,9 @@ function M.init()
 					abilities[name] = data
 				end
 			end
-			
-			M.list, M.total, M.unique = list()
-			initialized = true
 		end
+		M.list, M.total, M.unique = list()
+		initialized = true
 	else
 		local e = "The pokedex have already been initialized"
 		gameanalytics.addErrorEvent {
