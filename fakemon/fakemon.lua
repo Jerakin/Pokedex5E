@@ -17,13 +17,13 @@ M.BUSY = false
 M.DATA = nil
 
 local RESOURCE_PATH
-local UNZIP_PATH
+M.UNZIP_PATH = nil
 
 local os_sep = package.config:sub(1, 1)
 
 function M.init()
 	RESOURCE_PATH = defsave.get_file_path("resource.zip")
-	UNZIP_PATH = defsave.get_file_path("") .. "package" .. os_sep
+	M.UNZIP_PATH = defsave.get_file_path("") .. "package" .. os_sep
 	M.load_package()
 end
 
@@ -62,7 +62,7 @@ end
 function M.load_package()
 	M.BUSY = true
 	flow.start(function()
-		local package_path = UNZIP_PATH .. "data.json"
+		local package_path = M.UNZIP_PATH .. "data.json"
 		if file_exists(package_path) then
 			log.info("Found and loaded file " .. package_path)
 			M.DATA = file.load_file(package_path)
@@ -81,16 +81,16 @@ function M.unpack()
 	local input = file:read("*all")
 
 	flow.start(function() 
-		local exists, _ = lfs.exists(UNZIP_PATH)
+		local exists, _ = lfs.exists(M.UNZIP_PATH)
 		if exists then
-			lfs.rmdirs(UNZIP_PATH)
+			lfs.rmdirs(M.UNZIP_PATH)
 			flow.frames(5)
-			lfs.mkdir(UNZIP_PATH)
+			lfs.mkdir(M.UNZIP_PATH)
 		else
-			lfs.mkdir(UNZIP_PATH)
+			lfs.mkdir(M.UNZIP_PATH)
 		end
 
-		local output, err = zzlib.unzip_archive(input, UNZIP_PATH)
+		local output, err = zzlib.unzip_archive(input, M.UNZIP_PATH)
 		if err then
 			log.warning(err)
 		end

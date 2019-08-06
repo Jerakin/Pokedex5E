@@ -160,7 +160,7 @@ function M.get_sprite(pokemon)
 	local data = M.get_pokemon(pokemon)
 	if data.fakemon then
 		if data.sprite and data.sprite ~= "" then
-			local path = fakemon.APP_ROOT .. fakemon.PACKAGE_NAME .. utils.os_sep .. data.sprite 
+			local path = fakemon.UNZIP_PATH .. utils.os_sep .. data.sprite 
 			local file = io.open(path, "rb")
 			if not file then
 				return "-1MissingNo", "pokemon0"
