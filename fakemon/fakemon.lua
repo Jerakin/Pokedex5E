@@ -18,7 +18,7 @@ M.DATA = nil
 
 local RESOURCE_PATH
 M.UNZIP_PATH = nil
-
+M.LOCAL_INDEX = nil
 local os_sep = package.config:sub(1, 1)
 
 function M.init()
@@ -26,6 +26,7 @@ function M.init()
 	M.UNZIP_PATH = defsave.get_file_path("") .. "package" .. os_sep
 	M.load_package()
 end
+
 
 local function get_package_entry(package)
 	for _, data in pairs(M.INDEX) do
@@ -63,9 +64,12 @@ function M.load_package()
 	M.BUSY = true
 	flow.start(function()
 		local package_path = M.UNZIP_PATH .. "data.json"
+		local index_path = M.UNZIP_PATH .. "index.json"
 		if file_exists(package_path) then
 			log.info("Found and loaded file " .. package_path)
 			M.DATA = file.load_file(package_path)
+			log.info("Found and loaded file " .. index_path)
+			M.LOCAL_INDEX = file.load_file(index_path)
 		else
 			log.info("No Fakemon Package found")
 		end
@@ -111,6 +115,17 @@ function M.load_index()
 			print("BAD STATUS:", res.status)
 			print(res.response)
 		end
+	end)
+end
+
+function M.remove_package()
+	M.BUSY = true
+	flow.start(function() 
+		local exists, _ = lfs.exists(M.UNZIP_PATH)
+		if exists then
+			lfs.rmdirs(M.UNZIP_PATH)
+		end
+		M.BUSY = false
 	end)
 end
 

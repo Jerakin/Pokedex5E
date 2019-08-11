@@ -15,10 +15,22 @@ end
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
+	if fakemon.LOCAL_INDEX then
+		gui.set_text(gui.get_node("name_fakemon"), fakemon.LOCAL_INDEX["name"])
+	else
+		gui.set_enabled(gui.get_node("btn_remove_fakemon"), false)
+	end
 end
 
 function on_input(self, action_id, action)
 	gooey.button("btn_pick_fakemon", action_id, action, function()
 		monarch.show("fakemon")
+	end, function(button) gooey_buttons.common_button(button, gui.get_node("txt_paste")) end)
+	gooey.button("btn_remove_fakemon", action_id, action, function()
+		flow.start(function()
+			fakemon.remove_package()
+			flow.until_true(function() return not fakemon.BUSY end)
+			msg.post("@system:", "reboot")
+		end)
 	end, function(button) gooey_buttons.common_button(button, gui.get_node("txt_paste")) end)
 end

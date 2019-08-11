@@ -45,7 +45,7 @@ local function on_item_selected(list)
 				fakemon.unpack()
 				flow.until_true(function() return not fakemon.BUSY end)
 				fakemon.load_package()
-				close()
+				msg.post("@system:", "reboot")
 			end)
 		end
 	end
