@@ -5,7 +5,6 @@ local flow = require "utils.flow"
 local defsave = require "defsave.defsave"
 local zzlib = require "utils.zzlib"
 local file = require "utils.file"
-local lfs_extend = require "utils.lfs_extend"
 
 local M = {}
 

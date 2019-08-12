@@ -14,11 +14,15 @@ local function refresh_input(input)
 end
 
 function init(self)
-	msg.post(".", "acquire_input_focus")
-	if fakemon.LOCAL_INDEX then
-		gui.set_text(gui.get_node("name_fakemon"), fakemon.LOCAL_INDEX["name"])
+	if not lfs then
+		gui.set_enabled(gui.get_node("fakemon"), false)
 	else
-		gui.set_enabled(gui.get_node("btn_remove_fakemon"), false)
+		msg.post(".", "acquire_input_focus")
+		if fakemon.LOCAL_INDEX then
+			gui.set_text(gui.get_node("name_fakemon"), fakemon.LOCAL_INDEX["name"])
+		else
+			gui.set_enabled(gui.get_node("btn_remove_fakemon"), false)
+		end
 	end
 end
 
