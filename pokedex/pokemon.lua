@@ -73,15 +73,17 @@ local function get_attributes_from_feats(pokemon)
 	return m
 end
 
+--[[
+A Bulbasaur when gaining ASI would get 2 points. If the Bulbasaur eats an Eviolite he gets 4 instead.
+A Ivysaur when gaining ASI would get 2 points. If the Ivysaur eats an Eviolite he gets 3 instead.
+A Venusaur when gaining ASI would get 2 points. Eating Eviolite have no effect
+A Rattata when gaining ASI would get 3 points. If the Rattata eats an Eviolite he gets 4 points.
+A RAticate when gaining ASI would get 3 points. Eating Eviolite have no effect
+A Kangaskhan when gaining ASI would get 4 points.  Eating Eviolite have no effect--]]
 local function ASI_points(pokemon)
 	local species = M.get_current_species(pokemon)
 	local total = pokedex.get_total_evolution_stages(species)
 	local current = pokedex.get_current_evolution_stage(species)
-	if total == 1 then
-		return 4
-	elseif total == 2 then
-		return 3
-	end
 	if M.get_consumed_eviolite(pokemon) then
 		return 5 - current
 	else
