@@ -69,6 +69,9 @@ function M.load_package()
 			M.DATA = file.load_file(package_path)
 			log.info("Found and loaded file " .. index_path)
 			M.LOCAL_INDEX = file.load_file(index_path)
+			gameanalytics.addDesignEvent {
+				eventId = "Fakemon:Load:" .. M.LOCAL_INDEX.name
+			}
 		else
 			log.info("No Fakemon Package found")
 		end
@@ -95,7 +98,13 @@ function M.unpack()
 
 		local output, err = zzlib.unzip_archive(input, M.UNZIP_PATH)
 		if err then
-			log.warning(err)
+			local e = "Fakemon:UnpackZIP:" .. err
+			log.error(e)
+
+			gameanalytics.addErrorEvent {
+				severity = "Error",
+				message = e
+			}
 		end
 		log.info("Unpacking finished")
 	end)
@@ -111,8 +120,12 @@ function M.load_index()
 			M.BUSY = false
 		else
 			M.INDEX = nil
-			print("BAD STATUS:", res.status)
-			print(res.response)
+			gameanalytics.addErrorEvent {
+				severity = "Warning",
+				message = "Fakemon:LoadIndex:HTTP:" .. res.status 
+			}
+			log.info("BAD STATUS:" .. res.status)
+			log.info(res.response)
 		end
 	end)
 end
@@ -122,6 +135,9 @@ function M.remove_package()
 	flow.start(function() 
 		local exists, _ = lfs.exists(M.UNZIP_PATH)
 		if exists then
+			gameanalytics.addDesignEvent {
+				eventId = "Fakemon:Remove:" .. M.LOCAL_INDEX.name
+			}
 			lfs.rmdirs(M.UNZIP_PATH)
 		end
 		M.BUSY = false
@@ -144,12 +160,21 @@ function M.download_package(package)
 				file:write(res.response)
 				file:close()
 			else
-				local e = "Error while opening file\n" .. err
+				local e = "Fakemon:File:\n" .. err
 				log.warn(e)
+				gameanalytics.addErrorEvent {
+					severity = "Warning",
+					message =  e
+				}
 			end
 			log.info("FINISHED DOWNLOAD")
 		else
-			log.warning("BAD STATUS: ".. res.status .. " URL: " .. package_url)
+			local e = "Fakemon:DownloadPackage:HTTP:" .. res.status  .. " URL: " .. package_url
+			log.warning(e)
+			gameanalytics.addErrorEvent {
+				severity = "Warning",
+				message = e
+			}
 		end
 		M.BUSY = false
 	end)

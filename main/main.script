@@ -46,9 +46,9 @@ function init(self)
 	local system = sys.get_sys_info().system_name
 	window.set_listener(window_resized)
 
-	if not gameanalytics then
+	if system == "HTML5" then
 		gameanalytics = require "utils.mock_gameanalytics"
-		log.error("Could not load GameAnalytics")
+		log.info("HTML5: Skipping GameAnalytics")
 	end
 	send_crash_on_start()
 	sys.set_error_handler(send_crash_analytics)
@@ -72,12 +72,12 @@ function init(self)
 	msg.post("#", "show_splash")
 	
 	flow.start(function()
-		if lfs then
+		if system == "HTML5" then
+			log.info("HTML5: Skipping LuaFileSystem")
+		else
 			require "utils.lfs_extend"
 			fakemon.init()
 			flow.until_true(function() return not fakemon.BUSY end)
-		else
-			log.error("Could not load LuaFileSystem")
 		end
 
 		movedex.init()
