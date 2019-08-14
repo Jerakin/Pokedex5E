@@ -57,7 +57,9 @@ local function update_items(item)
 			gui.set_enabled(held_item, data[i].holding_item)
 			gui.set_enabled(status_ind, data[i].have_status)
 			gui.set_texture(sprite_node, data[i].texture)
-			gui.play_flipbook(sprite_node, data[i].sprite)
+			if data[i].sprite then 
+				gui.play_flipbook(sprite_node, data[i].sprite)
+			end
 			gui.set_text(text_node, data[i].species:upper() .. "\nLv. " .. data[i].level)
 			
 		else

@@ -4186,7 +4186,7 @@
     "Duration": "Instantaneous",
     "Range": "40ft",
     "Save": "DEX",
-    "Description": "Raging hot flames explode out from you and leap towards two Pokémon in range. Pokémon targeted must succeed on a DEX save against your Move DC, taking 3d6 + MOVE fire damage and becoming burnt on a fail, and half as much on a success without being burned.",
+    "Description": "Raging hot flames explode out from you and leap towards two Pokémon in range. Creatures targeted must succeed on a DEX save against your Move DC, taking 3d6 + MOVE fire damage on a failure, or half as much on a success. Creatures that fail the save by more than 5 become burned.",
     "Damage": {
       "1": {
         "amount": 3,
@@ -4501,7 +4501,7 @@
     "Duration": "Instantaneous",
     "Range": "40ft cone",
     "Save": "DEX",
-    "Description": "You shoot a concentrated gout of flame in an 40 foot cone. Any Pokémon caught in the cone must succeed on a DEX save against your Move DC, taking 2d8 + MOVE fire damage and being burnt on a failed save, or half damage on a success.",
+    "Description": "You shoot a concentrated gout of flame in an 40 foot cone. Any Pokémon caught in the cone must succeed on a DEX save against your Move DC, taking 2d8 + MOVE fire damage on a failure, or half damage on a success. Any creature that fails the save by more than 5 becomes burned.",
     "Damage": {
       "1": {
         "amount": 2,
@@ -7958,6 +7958,10 @@
   },
   "Metal Burst": {
     "Type": "Steel",
+    "Move Power": [
+      "STR",
+      "DEX"
+    ],
     "Move Time": "1 reaction",
     "PP": 3,
     "Duration": "Instantaneous",
@@ -8812,7 +8816,7 @@
     "PP": 3,
     "Duration": "3 rounds, Concentration",
     "Range": "Melee",
-    "Description": "You go into a rampage, doing several attacks without control for three rounds. Make a melee attack roll each round, doing 1d6 + MOVE dragon damage on a hit the first round, 2d6 + MOVE dragon damage on a hit the second round, and 4d6 + MOVE dragon damage on a hit the third round. At the end of the third attack, you become confused. This attack stops if you miss any of the attacks, if concentration is broken, or the user becomes incapacitated.",
+    "Description": "You go into a rampage, doing several attacks without control for three rounds. This move automatically hits for 1d6 + MOVE dragon damage in the first round, 2d6 + MOVE dragon damage in the second round, and 4d6 + MOVE dragon damage in the third round. When this move ends, either after the third round or from breaking concentration, you become confused. This attack stops if concentration is broken, or the user becomes incapacitated.",
     "Damage": {
       "1": {
         "amount": "?",
@@ -9176,7 +9180,7 @@
     "Duration": "1 minute, concentration",
     "Range": "40ft",
     "Save": "CON",
-    "Description": "You release a toxic cloud of poisonous gas in a 10 foot radius, centered on a point within range. Any creature that starts their turn in this area must succeed on a CON save against your Move DC, taking 1d6 + MOVE poison damage and becoming poisoned on a fail, or half as much damage without being poisoned on a save.",
+    "Description": "You release a toxic cloud of poisonous gas in a 10 foot radius, centered on a point within range. Any creature that starts their turn in this area must succeed on a CON save against your Move DC, taking 1d6 + MOVE poison damage on a failure, or half as much on a success. Creatures that fail this save by more than 5 become poisoned.",
     "Damage": {
       "1": {
         "amount": 1,
@@ -10174,26 +10178,26 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "Self",
-    "Description": "You put yourself to sleep, but gain 2d6 + MOVE hit points in the process.",
+    "Description": "You put yourself to sleep, but gain 4d6 + MOVE hit points in the process.",
     "Damage": {
       "1": {
-        "amount": 2,
-        "dice_max": 6,
-        "move": true
-      },
-      "5": {
         "amount": 4,
         "dice_max": 6,
         "move": true
       },
-      "10": {
+      "5": {
         "amount": 6,
+        "dice_max": 6,
+        "move": true
+      },
+      "10": {
+        "amount": 8,
         "dice_max": 6,
         "move": true
       },
       "17": {
         "amount": 8,
-        "dice_max": 6,
+        "dice_max": 10,
         "move": true
       }
     }
@@ -10275,7 +10279,7 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "Melee",
-    "Description": "You invoke a fight within to retaliate against a foe that damages you. After taking damage from a melee attack, you may use a reaction to make a melee attack against the attacker, doing 1d6 + MOVE fighting damage on a hit.",
+    "Description": "You invoke a fight within to retaliate against a foe that damages you. After taking damage from a melee attack, you may use a reaction to make a melee attack against the attacker, doing 1d4 + MOVE fighting damage on a hit.",
     "Damage": {
       "1": {
         "amount": 1,
@@ -11341,7 +11345,7 @@
       "WIS"
     ],
     "Move Time": "1 action",
-    "PP": 3,
+    "PP": 5,
     "Duration": "Instantaneous",
     "Range": "Melee",
     "Description": "You throw a punch from the surrounding shadows, unavoidable by any enemy. This move is guaranteed to hit for 1d4 + MOVE ghost damage, unless during the invulnerable stage of Fly, Dig, Bounce, Dive, etc. moves.",
@@ -12817,7 +12821,7 @@
     "Description": "You unleash sticky string at a Pokémon in range, slowing it down. Make a ranged attack roll against a target. On a hit, the target’s speed is reduced by 10 for the duration. The move is stackable to any amount. The target may take an action to attempt to get rid of any string with a STR save against your Move DC. If this reduction in speed causes their speed to be 0, they are restrained."
   },
   "Struggle": {
-    "Type": "Normal",
+    "Type": "Typeless",
     "Move Power": [
       "STR",
       "DEX"
@@ -12826,7 +12830,7 @@
     "PP": "Unlimited",
     "Duration": "Instantaneous",
     "Range": "Melee",
-    "Description": "This move is known by all Pokémon, and is used only when all other moves are out of PP. Make a melee attack roll, doing damage equal to 2 + MOVE normal damage on a hit."
+    "Description": "This move is known by all Pokémon, and can be used at any time. Make a melee attack roll, doing damage equal to 2 + MOVE normal damage on a hit."
   },
   "Struggle Bug": {
     "Type": "Bug",
@@ -13197,7 +13201,7 @@
     "PP": 5,
     "Duration": "1 minute, concentration",
     "Range": "Self",
-    "Description": "When you activate this move, two swords appear and dance around you, increasing your AC by +1 for each sword. As a bonus action on a future turn, you can drop out of concentration to send the swords at an enemy Pokémon within 30 feet of you, making three ranged attack rolls, doing 1d6 normal damage on each hit.",
+    "Description": "When you activate this move, two swords appear and dance around you, increasing your AC by +1 for each sword. As a bonus action on a future turn, you can drop out of concentration to send the swords at an enemy Pokémon within 30 feet of you, making two ranged attack rolls, doing 1d6 normal damage on each hit.",
     "Damage": {
       "1": {
         "amount": 1,
@@ -13446,8 +13450,8 @@
     "PP": 3,
     "Duration": "Instantaneous",
     "Range": "40ft line",
-    "Save": "CON",
-    "Description": "You sing an ancient song that damages opponents in range with the chance to put them asleep. Any creature in a 20ft circle, centered on you, must make a CON save against your Move DC, taking 1d12 + MOVE normal damage on a failure, or half as much on a success. Any creature that fails the save by more than 5 is put to sleep.",
+    "Save": "DEX",
+    "Description": "You fire a powerful beam of pure light. The line is 40 feet long and 5 feet wide, and all creatues caught in the blast must make a DEX save against your Move DC, taking 2d10 + MOVE damage on a failure, or half as much on a success. The damage type is dependant on the Drive the user holds. (Burn Drive - Fire, Chill Drive - Ice, Douse Drive - Water, Shock Drive - Electric)",
     "Damage": {
       "1": {
         "amount": 2,
@@ -13824,25 +13828,26 @@
     "PP": 5,
     "Duration": "Instantaneous",
     "Range": "Melee",
-    "Description": "You strike out with three quick attacks in a row. Make three melee attack rolls, doing 1d4 + MOVE damage on each hit. As soon as one attack misses, the move is over.",
+    "Save": "DEX",
+    "Description": "You strike with a simultaneous three-beam attack. Each creature in a 30 foot cone, centered on you, must make a DEX save against your Move DC, taking 2d6 + MOVE normal damage on a fail, and half as much on a success. Targets that fail the save by more than 5 must roll a d4, gaining the status condition as follows: 1. The target becomes burned. 2. The target becomes frozen. 3. The target becomes paralyzed. 4. Must reroll until any number other than 4 appears.",
     "Damage": {
       "1": {
-        "amount": 1,
-        "dice_max": 4,
-        "move": true
-      },
-      "5": {
-        "amount": 1,
+        "amount": 2,
         "dice_max": 6,
         "move": true
       },
-      "10": {
-        "amount": 1,
+      "5": {
+        "amount": 2,
         "dice_max": 8,
         "move": true
       },
+      "10": {
+        "amount": 4,
+        "dice_max": 6,
+        "move": true
+      },
       "17": {
-        "amount": 2,
+        "amount": 6,
         "dice_max": 6,
         "move": true
       }

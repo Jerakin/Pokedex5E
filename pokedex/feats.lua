@@ -1,6 +1,7 @@
 local file = require "utils.file"
 local utils = require "utils.utils"
 local log = require "utils.log"
+local fakemon = require "fakemon.fakemon"
 
 local M = {}
 
@@ -19,6 +20,11 @@ end
 function M.init()
 	if not initialized then
 		feats = file.load_json_from_resource("/assets/datafiles/feats.json")
+		if fakemon.DATA and fakemon.DATA["feats.json"] then
+			for name, data in pairs(fakemon.DATA["feats.json"]) do
+				feats[name] = data
+			end
+		end
 		M.list = list_of_feats()
 		initialized = true
 	end

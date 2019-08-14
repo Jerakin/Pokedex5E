@@ -1,6 +1,7 @@
 local file = require "utils.file"
 local utils = require "utils.utils"
 local log = require "utils.log"
+local fakemon = require "fakemon.fakemon"
 local pokedex = require "pokedex.pokedex"
 
 local M = {}
@@ -96,6 +97,33 @@ function M.init()
 		pokemon_types = pokemon_types()
 		generations = generation_list()
 		table.insert(trainer_classes_list, 1, "Optional")
+		if fakemon.pokemon then
+			for name, data in pairs(fakemon.pokemon) do
+				_pokedex[name] = data
+			end
+		end
+		if fakemon.trainer_classes then
+			for name, data in pairs(fakemon.trainer_classes) do
+				trainer_classes[name] = data
+			end
+		end
+		if fakemon.trainer_classes_list then
+			for name, data in pairs(fakemon.trainer_classes_list) do
+				trainer_classes_list[name] = data
+			end
+		end
+		if fakemon.habitats then
+			for name, data in pairs(fakemon.habitats) do
+				habitats[name] = data
+			end
+		end
+		if fakemon.pokemon_types then
+			for name, data in pairs(fakemon.pokemon_types) do
+				pokemon_types[name] = data
+			end
+		end
+		
+
 		habitats.Optional = pokedex.list
 		pokemon_types.Optional = pokedex.list
 		trainer_classes.Optional = pokedex.list

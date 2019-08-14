@@ -12,9 +12,11 @@ local inventory_buttons = {}
 
 
 local function set_pokemon_sprite(sprite, pokemon)
-	local pokemon_sprite, texture = _pokemon.get_sprite(pokemon)
-	gui.set_texture(sprite, "sprite0")
-	gui.play_flipbook(sprite, pokemon_sprite)
+	local pokemon_sprite, texture = _pokemon.get_icon(pokemon)
+	gui.set_texture(sprite, texture)
+	if pokemon_sprite then
+		gui.play_flipbook(sprite, pokemon_sprite)
+	end
 end
 
 function M.redraw()

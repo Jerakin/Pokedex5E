@@ -1,5 +1,7 @@
 local M = {}
 
+M.os_sep = package.config:sub(1, 1)
+
 function M.shallow_copy(T)
 	local t2 = {}
 	for k,v in pairs(T) do

@@ -2,6 +2,21 @@ local log = require "utils.log"
 
 local M = {}
 
+function M.load_file(filepath)
+	local file = io.open(filepath, "rb")
+	if not file then
+		assert(nil, "Error loading file: " .. filepath)
+	end
+	local data = file:read("*all")
+	file:close()
+	if pcall(function() json_data = json.decode(data) end) then
+		return json_data
+	else
+		assert(nil, "Error parsing json data from file: " .. filepath)
+		return json_data
+	end
+end
+
 ------------------------------------------------------------------------------
 function M.load_resource(filename)
 

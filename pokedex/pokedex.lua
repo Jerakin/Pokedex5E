@@ -2,6 +2,7 @@ local file = require "utils.file"
 local utils = require "utils.utils"
 local movedex = require "pokedex.moves"
 local log = require "utils.log"
+local fakemon = require "fakemon.fakemon"
 
 local M = {}
 
@@ -54,6 +55,26 @@ function M.init()
 		evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
 		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
 		exp_grid = file.load_json_from_resource("/assets/datafiles/exp_grid.json")
+		if fakemon.DATA then
+			if fakemon.DATA["pokemon.json"] then
+				log.info("Merging Pokemon data")
+				for pokemon, data in pairs(fakemon.DATA["pokemon.json"]) do
+					log.info("  " .. pokemon)
+					data.fakemon = true
+					pokedex[pokemon] = data
+				end
+			end
+			if fakemon.DATA["pokedex_extra.json"] then
+				for name, data in pairs(fakemon.DATA["pokedex_extra.json"]) do
+					pokedex_extra[name] = data
+				end
+			end
+			if fakemon.DATA["abilities.json"] then
+				for name, data in pairs(fakemon.DATA["abilities.json"]) do
+					abilities[name] = data
+				end
+			end
+		end
 		M.list, M.total, M.unique = list()
 		initialized = true
 	else
@@ -100,6 +121,30 @@ function M.get_total_evolution_stages(pokemon)
 	return data and data.total_stages or 1
 end
 
+function M.get_icon(pokemon)
+	local data = M.get_pokemon(pokemon)
+	if data.fakemon then
+		
+		if data.icon and data.icon ~= "" then
+			local path = fakemon.APP_ROOT .. fakemon.PACKAGE_NAME .. utils.os_sep .. data.icon 
+			local file = io.open(path, "rb")
+			if not file then
+				return "-1MissingNo", "sprite0"
+			end
+			local buffer = file:read("*all")
+			file:close()
+			local img = image.load(buffer, true)
+
+			gui.new_texture("icon" .. pokemon, img.width, img.height, img.type, img.buffer, false)
+			return nil, "icon" .. pokemon
+		end
+		return "-2Pokeball", "sprite0"
+	end
+	
+	local sprite = M.get_sprite(pokemon)
+	return sprite, "sprite0"
+end
+
 function M.get_sprite(pokemon)
 	local pokemon_index = M.get_index_number(pokemon)
 	if pokemon_index == -1 then
@@ -112,6 +157,23 @@ function M.get_sprite(pokemon)
 		return "493Arceus", "pokemon0"
 	end
 
+	local data = M.get_pokemon(pokemon)
+	if data.fakemon then
+		if data.sprite and data.sprite ~= "" then
+			local path = fakemon.UNZIP_PATH .. utils.os_sep .. data.sprite 
+			local file = io.open(path, "rb")
+			if not file then
+				return "-1MissingNo", "pokemon0"
+			end
+			local buffer = file:read("*all")
+			file:close()
+			local img = image.load(buffer)
+
+			gui.new_texture("sprite" .. pokemon, img.width, img.height, img.type, img.buffer, false)
+			return nil, "sprite" ..  pokemon
+		end
+		return "-2Pokeball", "pokemon0"
+	end
 	return pokemon_sprite, "pokemon0"
 end
 
@@ -212,16 +274,21 @@ function M.get_pokemon_AC(pokemon)
 	return M.get_pokemon(pokemon).AC
 end
 
+local warning_list = {}
+
 function M.get_pokemon(pokemon)
 	if pokedex[pokemon] then
 		return utils.deep_copy(pokedex[pokemon])
 	else
-		local e = string.format("Can not find Pokemon: '%s'\n\n%s", tostring(pokemon), debug.traceback())
-		gameanalytics.addErrorEvent {
-			severity = "Critical",
-			message = e
-		}
-		log.error(e)
+		local e = string.format("Can not find Pokemon: '%s'\n%s", tostring(pokemon), debug.traceback())
+		if not warning_list[tostring(pokemon)] then
+			gameanalytics.addErrorEvent {
+				severity = "Critical",
+				message = e
+			}
+			log.error(e)
+		end
+		warning_list[tostring(pokemon)] = true
 		return pokedex["MissingNo"]
 	end
 end
