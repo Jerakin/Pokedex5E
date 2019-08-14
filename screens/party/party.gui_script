@@ -44,6 +44,7 @@ end
 
 function final(self)
 	url.set("PARTY", nil)
+	party.final()
 end
 
 function on_message(self, message_id, message)

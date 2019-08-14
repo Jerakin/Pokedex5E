@@ -58,6 +58,9 @@ local function tab_buttons(nodes)
 	end)
 end
 
+function M.final()
+	features.final()
+end
 
 function M.show(index)
 	local inventory_ids = storage.list_of_ids_in_inventory()

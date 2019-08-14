@@ -8,6 +8,7 @@ local M = {}
 
 local active_ability_lists = {[1]={}, [2]={}}
 local active_page
+local is_playing = {}
 
 local function setup_entry(nodes, name, desc, p, i)
 	local root_node
@@ -83,6 +84,10 @@ local function setup_features(nodes, pokemon)
 	end
 end
 
+function M.final()
+	is_playing = {}
+end
+
 function M.clear(page)
 	for a, list in pairs(active_ability_lists[page]) do
 		for b, data in pairs(list.data) do
@@ -102,6 +107,21 @@ function M.create(nodes, pokemon, page)
 		if list ~= nil then
 			gooey.static_list(list.id, list.stencil, list.data)
 		end
+	end
+
+	local id = _pokemon.get_id(pokemon)
+	if  _pokemon.is_shiny(pokemon) then
+		if not is_playing[id] then
+			is_playing[id] = true
+			gui.play_particlefx(nodes["pokemon/shiny_bg"])
+			gui.play_particlefx(nodes["pokemon/shiny_fg"])
+			gui.play_particlefx(nodes["pokemon/shiny_star_bg"])
+		end
+	else
+		is_playing[id] = false
+		gui.stop_particlefx(nodes["pokemon/shiny_bg"])
+		gui.stop_particlefx(nodes["pokemon/shiny_fg"])
+		gui.stop_particlefx(nodes["pokemon/shiny_star_bg"])
 	end
 end
 
