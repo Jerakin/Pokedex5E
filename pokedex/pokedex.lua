@@ -74,6 +74,11 @@ function M.init()
 					abilities[name] = data
 				end
 			end
+			if fakemon.DATA["evolve.json"] then
+				for name, data in pairs(fakemon.DATA["evolve.json"]) do
+					evolvedata[name] = data
+				end
+			end
 		end
 		M.list, M.total, M.unique = list()
 		initialized = true
