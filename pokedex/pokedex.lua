@@ -131,7 +131,7 @@ function M.get_icon(pokemon)
 	if data.fakemon then
 		
 		if data.icon and data.icon ~= "" then
-			local path = fakemon.APP_ROOT .. fakemon.PACKAGE_NAME .. utils.os_sep .. data.icon 
+			local path = fakemon.UNZIP_PATH .. utils.os_sep .. data.icon 
 			local file = io.open(path, "rb")
 			if not file then
 				return "-1MissingNo", "sprite0"
