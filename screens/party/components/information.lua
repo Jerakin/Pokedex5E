@@ -7,6 +7,7 @@ local gooey = require "gooey.gooey"
 local utils = require "utils.utils"
 local gui_utils = require "utils.gui"
 local monarch = require "monarch.monarch"
+local url = require "utils.url"
 
 local M = {}
 local active = {}

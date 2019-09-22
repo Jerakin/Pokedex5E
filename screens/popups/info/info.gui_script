@@ -13,7 +13,7 @@ function init(self)
 end
 
 local function exit()
-	msg.post(sender, "response", {response=false, data=data.data})
+	--msg.post(sender, "response", {response=false, data=data.data})
 	monarch.back()
 end
 

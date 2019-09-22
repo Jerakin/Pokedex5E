@@ -13,6 +13,7 @@ local statuses = require "pokedex.statuses"
 local pokemon_id
 function init(self)
 	gui.set_render_order(gro.POPUP)
+	msg.post(url.MENU, "hide")
 	self.lock = true
 	timer.delay(0.1, false, function() self.lock = false end)
 	data = monarch.data("status_effects")
@@ -47,6 +48,7 @@ local function close()
 		eventId = "Navigation:Back",
 		value = tracking_id[monarch.top()]
 	}
+	msg.post(url.MENU, "show")
 	monarch.back()
 end
 

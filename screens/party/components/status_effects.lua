@@ -13,12 +13,14 @@ local active_page
 local btn_status 
 local active_page 
 local active_nodes
+local no_status_txt
  
 function M.create(nodes, pokemon, page)
 	active_nodes = nodes
 	active_page = page or 1
 	current_pokemon_id = _pokemon.get_id(pokemon)
 	btn_status = nodes["pokemon/btn_status"]
+	no_status_txt = nodes["pokemon/txt_no_status"]
 	gui.set_id(btn_status, "btn_status" .. active_page)
 	
 	status_nodes = {
@@ -34,8 +36,12 @@ end
 
 function M.update(nodes, pokemon_id)
 	local effects = storage.get_status_effects(pokemon_id)
+	gui.set_enabled(no_status_txt, true)
+	
 	for status, node in pairs(status_nodes) do
+		gui.set_enabled(node, effects[status])
 		if effects[status] == true then
+			gui.set_enabled(no_status_txt, false)
 			gui.set_color(node, statuses.status_colors[status])
 		else
 			gui.set_color(node, gui_colors.BACKGROUND)
