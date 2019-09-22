@@ -39,7 +39,9 @@ function init(self)
 	local types = pokedex.get_pokemon_type(self.species)
 	local sprite, texture = pokedex.get_sprite(self.species)
 	gui.set_texture(gui.get_node("species"), texture)
-	gui.play_flipbook(gui.get_node("species"), sprite)
+	if sprite then
+		gui.play_flipbook(gui.get_node("species"), sprite)
+	end
 	
 	gui.set_enabled(gui.get_node("bg_type1"), false)
 	gui.set_enabled(gui.get_node("bg_type2"), false)

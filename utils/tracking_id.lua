@@ -29,6 +29,8 @@ local M = {
 	[hash("status_effects")] = 220,
 	[hash("import_pokemon")] = 221,
 	[hash("pokedex")] = 222,
+	[hash("settings")] = 223,
+	[hash("fakemon")] = 224,
 }
 
 return M

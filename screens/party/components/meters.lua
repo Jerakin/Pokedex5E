@@ -146,12 +146,13 @@ end
 
 function M.on_message(message_id, message)
 	if message_id == hash("update_exp") then
-		local current_exp = storage.get_pokemon_exp(message.active_pokemon_id)
-		local min = pokedex.get_experience_for_level(storage.get_pokemon_current_level(message.active_pokemon_id) - 1)
+		local active_pokemon_id = storage.list_of_ids_in_inventory()[message.active_index]
+		local current_exp = storage.get_pokemon_exp(active_pokemon_id)
+		local min = pokedex.get_experience_for_level(storage.get_pokemon_current_level(active_pokemon_id) - 1)
 		local exp, expr = parse_number(message.str, current_exp)
 		exp = math.max(min, current_exp + exp)
-		storage.set_pokemon_exp(message.active_pokemon_id, exp)
-		M.setup_exp(active_nodes, message.active_pokemon_id)
+		storage.set_pokemon_exp(active_pokemon_id, exp)
+		M.setup_exp(active_nodes, active_pokemon_id)
 		if expr then
 			gameanalytics.addDesignEvent {
 				eventId = "Party:EXP:Edit"
@@ -163,11 +164,12 @@ function M.on_message(message_id, message)
 			}
 		end
 	elseif message_id == hash("update_hp") then
-		local current_hp = storage.get_pokemon_current_hp(message.active_pokemon_id)
+		local active_pokemon_id = storage.list_of_ids_in_inventory()[message.active_index]
+		local current_hp = storage.get_pokemon_current_hp(active_pokemon_id)
 		local hp, expr = parse_number(message.str, current_hp)
-		M.add_hp(message.active_pokemon_id, hp)
-		M.setup_hp(active_nodes, message.active_pokemon_id)
-		information.refresh(message.active_pokemon_id)
+		M.add_hp(active_pokemon_id, hp)
+		M.setup_hp(active_nodes, active_pokemon_id)
+		information.refresh(active_pokemon_id)
 		if expr then
 			gameanalytics.addDesignEvent {
 				eventId = "Party:HP:Edit"

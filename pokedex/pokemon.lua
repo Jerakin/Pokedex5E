@@ -73,15 +73,17 @@ local function get_attributes_from_feats(pokemon)
 	return m
 end
 
+--[[
+A Bulbasaur when gaining ASI would get 2 points. If the Bulbasaur eats an Eviolite he gets 4 instead.
+A Ivysaur when gaining ASI would get 2 points. If the Ivysaur eats an Eviolite he gets 3 instead.
+A Venusaur when gaining ASI would get 2 points. Eating Eviolite have no effect
+A Rattata when gaining ASI would get 3 points. If the Rattata eats an Eviolite he gets 4 points.
+A RAticate when gaining ASI would get 3 points. Eating Eviolite have no effect
+A Kangaskhan when gaining ASI would get 4 points.  Eating Eviolite have no effect--]]
 local function ASI_points(pokemon)
 	local species = M.get_current_species(pokemon)
 	local total = pokedex.get_total_evolution_stages(species)
 	local current = pokedex.get_current_evolution_stage(species)
-	if total == 1 then
-		return 4
-	elseif total == 2 then
-		return 3
-	end
 	if M.get_consumed_eviolite(pokemon) then
 		return 5 - current
 	else
@@ -344,10 +346,13 @@ function M.get_defaut_max_hp(pokemon)
 			local _, from_level = next(evolutions)
 			from_level = from_level or M.get_caught_level(pokemon)
 			local hit_dice = pokedex.get_pokemon_hit_dice(from_pokemon)
+			local hit_dice_current = pokedex.get_pokemon_hit_dice(current)
 			local levels_gained = at_level - from_level
 			local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
 			local hp_evo = at_level * 2
-			evolution_hp = evolution_hp + hp_hit_dice + hp_evo
+			-- Offset of current hit dice and the new one
+			local hp_offset = math.ceil((hit_dice_current + 1) / 2) - math.ceil((hit_dice + 1) / 2)
+			evolution_hp = evolution_hp + hp_hit_dice + hp_evo + hp_offset
 			current = from_pokemon
 		end
 
@@ -722,6 +727,11 @@ function M.get_evolution_level(pokemon)
 		end
 	end
 	return pokemon.level.evolved or {}
+end
+
+function M.get_icon(pokemon)
+	local species = M.get_current_species(pokemon)
+	return pokedex.get_icon(species)
 end
 
 function M.get_sprite(pokemon)

@@ -188,6 +188,7 @@ function M.on_input(action_id, action)
 end
 
 function M.on_message(message_id, message)
+	message.active_index = active_index
 	meters.on_message(message_id, message)
 	status_effects.on_message(message_id, message)
 	moves.on_message(message_id, message)

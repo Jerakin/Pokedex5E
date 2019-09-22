@@ -14,9 +14,11 @@ local tracking_id = require "utils.tracking_id"
 local gui_utils = require "utils.gui"
 
 local function pokemon_image(species)
-	local pokemon_sprite, texture = pokedex.get_sprite(species)
-	gui.set_texture(gui.get_node("change_pokemon/pokemon_sprite"), "sprite0")
-	gui.play_flipbook(gui.get_node("change_pokemon/pokemon_sprite"), pokemon_sprite)
+	local pokemon_sprite, texture = pokedex.get_icon(species)
+	gui.set_texture(gui.get_node("change_pokemon/pokemon_sprite"), texture)
+	if pokemon_sprite then
+		gui.play_flipbook(gui.get_node("change_pokemon/pokemon_sprite"), pokemon_sprite)
+	end
 	gui.set_scale(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector3(3))
 end
 
