@@ -87,14 +87,28 @@ local function setup_info_tab(nodes, pokemon)
 	local sr = pokedex.get_pokemon_SR(_pokemon.get_current_species(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_sr"], number_map[sr] or sr)
 
-	gui.set_text(nodes["pokemon/traits/txt_nature"], _pokemon.get_nature(pokemon))
+	gui.set_text(nodes["pokemon/traits/txt_nature"], _pokemon.get_nature(pokemon):upper())
 	gui.set_text(nodes["pokemon/traits/txt_stab"], _pokemon.get_STAB_bonus(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_prof"], _pokemon.get_proficency_bonus(pokemon))
-	gui.set_text(nodes["pokemon/traits/txt_type"], table.concat(_pokemon.get_type(pokemon), "/"))
 	gui.set_text(nodes["pokemon/traits/txt_exp"], _pokemon.get_pokemon_exp_worth(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_catch"], _pokemon.get_catch_rate(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_hitdice"], "d" .. _pokemon.get_hit_dice(pokemon))
 
+	local pokemon_types = _pokemon.get_type(pokemon)
+
+	if #pokemon_types == 1 then
+		gui.set_enabled(nodes["pokemon/traits/type_1"], false)
+		gui.set_enabled(nodes["pokemon/traits/type_2"], false)
+		gui.set_enabled(nodes["pokemon/traits/type_3"], true)
+		gui.play_flipbook(nodes["pokemon/traits/type_3"], pokemon_types[1]:lower())
+	else
+		gui.set_enabled(nodes["pokemon/traits/type_1"], true)
+		gui.set_enabled(nodes["pokemon/traits/type_2"], true)
+		gui.set_enabled(nodes["pokemon/traits/type_3"], false)
+		gui.play_flipbook(nodes["pokemon/traits/type_1"], pokemon_types[1]:lower())
+		gui.play_flipbook(nodes["pokemon/traits/type_2"], pokemon_types[2]:lower())
+	end
+	
 	local item = _pokemon.get_held_item(pokemon)
 	if item then
 		item_button = party_utils.set_id(nodes["pokemon/held_item"])
