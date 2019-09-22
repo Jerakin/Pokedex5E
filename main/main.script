@@ -17,7 +17,7 @@ local screeninfo = require "utils.screeninfo"
 local log = require "utils.log"
 local fakemon = require "fakemon.fakemon"
 local settings = require "pokedex.settings"
-
+local url = require "utils.url"
 
 local function send_crash_on_start()
 	crash.write_dump()
@@ -43,6 +43,8 @@ local function window_resized()
 end
 
 function init(self)
+	collectionfactory.create("/menu#collectionfactory")
+	msg.post(url.MENU, "hide")
 	local system = sys.get_sys_info().system_name
 	window.set_listener(window_resized)
 
