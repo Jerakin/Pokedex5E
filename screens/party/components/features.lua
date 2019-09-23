@@ -8,21 +8,19 @@ local M = {}
 
 local active_ability_lists = {[1]={}, [2]={}}
 local active_page
-
+local start_position
 local function setup_entry(nodes, name, desc, p, i)
 	local root_node
 	local name_node
 	local desc_node
 	local background_node
 	
-	root_node = gui.clone(nodes["pokemon/ability/root"])
+	root_node = gui.clone(nodes["pokemon/ability/background"])
 	name_node = gui.clone(nodes["pokemon/ability/name"])
 	desc_node = gui.clone(nodes["pokemon/ability/description"])
 	background_node = gui.clone(nodes["pokemon/ability/background"])
-	gui.set_parent(background_node, root_node)
-	gui.set_parent(name_node, root_node)
-	gui.set_parent(desc_node, root_node)
-	gui.set_inherit_alpha(background_node, false)
+	gui.set_parent(name_node, root_node, false)
+	gui.set_parent(desc_node, root_node, false)
 	gui.set_inherit_alpha(name_node, false)
 	gui.set_inherit_alpha(desc_node, false)
 	gui.set_enabled(root_node, true)
@@ -38,13 +36,11 @@ local function setup_entry(nodes, name, desc, p, i)
 	local d = gui.get_position(desc_node, p)
 	n.y = size.y * 0.55
 	d.y = n.y - name_height * 1.2
-	gui.set_position(name_node, n)
-	gui.set_position(desc_node, d)
 
 	size.y = size.y + 5
 	gui.set_size(root_node, size)
 
-	p.y = p.y - desc_height - name_height
+	p.y = p.y - desc_height - name_height - 16
 	return root_node
 end
 
@@ -56,12 +52,11 @@ local function setup_features(nodes, pokemon)
 		
 	end
 
-	local p = vmath.vector3(0, 0, 0)
+	local p = vmath.vector3() --start_position
 	local index = 0
 	local list = {}
 	list.data = {}
 	list.id = _pokemon.get_id(pokemon)
-	list.stencil = party_utils.set_id(nodes["pokemon/tab_stencil_2"])
 
 	local abilities = _pokemon.get_abilities(pokemon)
 	local feats = _pokemon.get_feats(pokemon)
@@ -95,14 +90,9 @@ end
 function M.create(nodes, pokemon, page)
 	active_ability_lists[page] = {}
 	active_page = page
-	gui.set_enabled(nodes["pokemon/ability/root"], false)
+	gui.set_enabled(nodes["pokemon/ability/background"], false)
+	start_position = gui.get_position(nodes["pokemon/ability/background"])
 	setup_features(nodes, pokemon)
-	-- Update initial positions
-	for _, list in pairs(active_ability_lists[active_page]) do
-		if list ~= nil then
-			gooey.static_list(list.id, list.stencil, list.data)
-		end
-	end
 end
 
 function M.on_input(action_id, action)
