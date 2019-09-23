@@ -138,20 +138,7 @@ function M.on_input(action_id, action)
 	if not active then
 		return
 	end
-	if action.pressed then
-		_action.x = action.x
-		_action.y = action.y
-		touching = true
-	elseif action.released then
-		touching = false
-	end
-	
-	if active["pokemon/tab_bg_3"] and gui.pick_node(active["pokemon/tab_bg_3"], action.x, action.y) and touching then
-		local max_scroll = math.abs(gui.get_position(active["pokemon/traits/scroll_stop"]).y) - gui.get_size(active["pokemon/tab_bg_3"]).y
-		local p = gui.get_position(active["pokemon/traits/root"])
-		p.y = math.max(math.min(p.y - (_action.y-action.y)*0.5, max_scroll), 0)
-		gui.set_position(active["pokemon/traits/root"], p)
-	end
+
 	if item_button then
 		gooey.button(item_button, action_id, action, function()
 			local item = _pokemon.get_held_item(active_pokemon)
@@ -165,9 +152,6 @@ function M.on_input(action_id, action)
 		msg.post(url.PARTY, "refresh_hp")
 		msg.post(url.PARTY, "refresh_pp")
 	end)
-	
-	_action.x = action.x
-	_action.y = action.y
 end
 
 function M.create(nodes, pokemon)
