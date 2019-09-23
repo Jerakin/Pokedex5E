@@ -636,8 +636,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 720.0
-    y: 490.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -664,7 +664,7 @@ nodes {
     z: 0.0
     w: 0.0
   }
-  clipping_mode: CLIPPING_MODE_STENCIL
+  clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: false
   clipping_inverted: false
   alpha: 1.0
@@ -5409,8 +5409,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 720.0
-    y: 490.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -5437,7 +5437,7 @@ nodes {
     z: 0.0
     w: 0.0
   }
-  clipping_mode: CLIPPING_MODE_STENCIL
+  clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: false
   clipping_inverted: false
   alpha: 1.0
@@ -11934,9 +11934,10 @@ nodes {
   type: TYPE_TEMPLATE
   id: "party_indicator/template"
   parent: "party_indicator/root"
-  layer: ""
+  layer: "gui_top"
   inherit_alpha: true
   alpha: 1.0
+  overridden_fields: 20
   template: "/templates/bottom_bar.gui"
   template_node_child: true
 }
@@ -12090,7 +12091,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "party_indicator/root"
-  layer: "gui"
+  layer: "gui_top"
   inherit_alpha: true
   slice9 {
     x: 8.0
@@ -12102,6 +12103,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
+  overridden_fields: 20
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -12833,7 +12835,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
-  layer: "gui"
+  layer: "gui_top"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -12870,10 +12872,10 @@ layers {
   name: "script_bold"
 }
 layers {
-  name: "sprite"
+  name: "gui_top"
 }
 layers {
-  name: "layer"
+  name: "sprite"
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT
