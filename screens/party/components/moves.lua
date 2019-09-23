@@ -7,6 +7,7 @@ local gui_colors = require "utils.gui_colors"
 local gooey_buttons = require "utils.gooey_buttons"
 local monarch = require "monarch.monarch"
 local tracking_id = require "utils.tracking_id"
+local scrollhandler = require "screens.party.components.scrollhandler"
 
 local M = {}
 
@@ -164,7 +165,7 @@ local function create_move_entries(nodes, index)
 		update_move_data(entry)
 		bind_buttons(nodes, entry)
 	end
-	
+	scrollhandler.set_max(index, position.y)
 	gui.set_enabled(stencil_node, false)
 end
 

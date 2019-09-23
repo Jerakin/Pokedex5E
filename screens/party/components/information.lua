@@ -8,6 +8,7 @@ local utils = require "utils.utils"
 local gui_utils = require "utils.gui"
 local monarch = require "monarch.monarch"
 local url = require "utils.url"
+local scrollhandler = require "screens.party.components.scrollhandler"
 
 local M = {}
 local active = {}
@@ -154,12 +155,13 @@ function M.on_input(action_id, action)
 	end)
 end
 
-function M.create(nodes, pokemon)
+function M.create(nodes, pokemon, index)
 	active = nodes
 	active_pokemon = pokemon
 	rest_button = gui.get_id(active["pokemon/btn_rest"])
 	setup_main_information(nodes, pokemon)
 	setup_info_tab(nodes, pokemon)
+	scrollhandler.set_max(index, gui.get_position(active["pokemon/traits/scroll_stop"]).y)
 end
 
 

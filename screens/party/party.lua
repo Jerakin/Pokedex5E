@@ -6,7 +6,7 @@ local button = require "utils.button"
 local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
 local monarch = require "monarch.monarch"
-
+local scrollhandler = require "screens.party.components.scrollhandler"
 local log = require "utils.log"
 local party_utils = require "screens.party.utils"
 local features = require "screens.party.components.features"
@@ -70,7 +70,7 @@ function M.show(index)
 	if storage.is_in_storage(id) then
 		local pokemon = storage.get_copy(id)
 		local nodes = pokemon_pages[active_page].nodes
-		information.create(nodes, pokemon)
+		information.create(nodes, pokemon, active_page)
 		meters.create(nodes, id)
 		moves.create(nodes, pokemon, active_page)
 		features.create(nodes, pokemon, active_page)
@@ -114,6 +114,8 @@ function M.switch_to_slot(index)
 	local new = pokemon_pages[active_page].nodes["pokemon/root"]
 
 	M.show(active_index)
+	print(active_index)
+	scrollhandler.set_active_index(active_index)
 	msg.post(".", "inventory", {index=active_index})
 	gui.set_position(new, vmath.vector3(720*pos_index, 0, 0))
 	gui.animate(active, "position.x", (-1*pos_index)*720, gui.EASING_INSINE, 0.3, 0, function()
@@ -156,6 +158,7 @@ function M.create(index)
 	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_bg_1"])
 	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_bg_3"])
 	gui.set_id(page["pokemon/btn_rest"], "btn_rest_1")
+	scrollhandler.set_root_node(1, page["pokemon/root"])
 	
 	local page = gui.clone_tree(gui.get_node("pokemon/root"))
 	tab_buttons(page)
@@ -165,6 +168,8 @@ function M.create(index)
 	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_bg_1"])
 	gui_utils.scale_fit_node_with_stretch(page["pokemon/tab_bg_3"])
 	gui.set_id(page["pokemon/btn_rest"], "btn_rest_2")
+	scrollhandler.set_root_node(2, page["pokemon/root"])
+	
 	gui.delete_node(gui.get_node("pokemon/root"))
 end
 
@@ -177,12 +182,12 @@ function M.on_input(action_id, action)
 			M.switch_to_slot(math.max(active_index - 1, 1))
 		end
 	end
-
-	information.on_input(action_id, action)
-	button.on_input(action_id, action)
-	moves.on_input(action_id, action)
-	features.on_input(action_id, action)
-	meters.on_input(action_id, action)
+	if not scrollhandler.on_input(action_id, action) then
+		information.on_input(action_id, action)
+		button.on_input(action_id, action)
+		moves.on_input(action_id, action)
+		meters.on_input(action_id, action)
+	end
 	status_effects.on_input(action_id, action)
 end
 

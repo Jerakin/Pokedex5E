@@ -3,6 +3,7 @@ local pokedex = require "pokedex.pokedex"
 local _feats = require "pokedex.feats"
 local gooey = require "gooey.gooey"
 local party_utils = require "screens.party.utils"
+local scrollhandler = require "screens.party.components.scrollhandler"
 
 local M = {}
 
@@ -76,27 +77,25 @@ local function setup_features(nodes, pokemon)
 		end
 		table.insert(active_ability_lists[active_page], list)
 	end
+	scrollhandler.set_max(index, p.y)
 end
 
-function M.clear(page)
-	for a, list in pairs(active_ability_lists[page]) do
+function M.clear(index)
+	for a, list in pairs(active_ability_lists[index]) do
 		for b, data in pairs(list.data) do
 			gui.delete_node(gui.get_node(data))
 		end
 	end
-	active_ability_lists[page] = {}
+	active_ability_lists[index] = {}
 end
 
-function M.create(nodes, pokemon, page)
-	active_ability_lists[page] = {}
-	active_page = page
+function M.create(nodes, pokemon, index)
+	active_ability_lists[index] = {}
+	active_page = index
 	gui.set_enabled(nodes["pokemon/ability/background"], false)
 	start_position = gui.get_position(nodes["pokemon/ability/background"])
 	setup_features(nodes, pokemon)
 end
 
-function M.on_input(action_id, action)
-
-end
 
 return M
