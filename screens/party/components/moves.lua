@@ -12,12 +12,10 @@ local M = {}
 
 local current_pokemon
 
-local active_list = {}
-
 local active_nodes
 
 local pp_buttons = {}
-local current_index
+local active_move_lists = {[1]={}, [2]={}}
 
 local function update_pp(pokemon, move)
 	local pp_current = gui.get_node("txt_pp_current_" .. move)
@@ -140,20 +138,19 @@ local function update_move_data(move)
 	update_pp(current_pokemon, move)
 end
 
-local function create_move_entries(nodes)
-	--"stencil" .. current_index, "item" .. current_index, 
-
+local function create_move_entries(nodes, index)
 	local node_table = {}
 	local stencil_node = nodes["pokemon/move/move"]
+	gui.set_enabled(stencil_node, true)
 	
 	local position = gui.get_position(stencil_node)
-	for _, entry in pairs(active_list.data) do
+	for _, entry in pairs(active_move_lists[index].data) do
 		local clones = gui.clone_tree(stencil_node)
 		
 		gui.set_id(clones["move"], "move_" .. entry)
 		
 		local root = gui.get_node("move_" .. entry)
-		
+		active_move_lists[index].root[entry] = root
 		gui.set_position(root, position)
 		gui.set_id(clones["txt_pp_current"], "txt_pp_current_" .. entry)
 		gui.set_id(clones["element"], "element_" .. entry)
@@ -167,7 +164,15 @@ local function create_move_entries(nodes)
 		update_move_data(entry)
 		bind_buttons(nodes, entry)
 	end
+	
 	gui.set_enabled(stencil_node, false)
+end
+
+function M.clear(page)
+	for _, node in pairs(active_move_lists[page].root) do
+		gui.delete_node(node)
+	end
+	active_move_lists[page] = {}
 end
 
 function M.create(nodes, pokemon, index)
@@ -179,16 +184,16 @@ function M.create(nodes, pokemon, index)
 		}
 		log.error(e)
 	end
-	active_list = {}
+
 	pp_buttons = {}
-	current_index = index
 	current_pokemon = pokemon
-	active_list.data = {}
+	active_move_lists[index].data = {}
+	active_move_lists[index].root = {}
 	local _moves = _pokemon.get_moves(pokemon)
 	for _, name in pairs(getKeysSortedByValue(_moves, sort_on_index(a, b))) do
-		table.insert(active_list.data, name)
+		table.insert(active_move_lists[index].data, name)
 	end
-	create_move_entries(nodes)
+	create_move_entries(nodes, index)
 end
 
 

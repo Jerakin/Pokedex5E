@@ -123,6 +123,7 @@ function M.switch_to_slot(index)
 	gui.set_enabled(new, true)
 	gui.animate(new, "position.x", 0, gui.EASING_INSINE, 0.3, 0, function()
 		features.clear(old_page)
+		moves.clear(old_page)
 	end)
 end
 
