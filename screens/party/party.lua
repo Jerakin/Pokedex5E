@@ -114,8 +114,7 @@ function M.switch_to_slot(index)
 	local new = pokemon_pages[active_page].nodes["pokemon/root"]
 
 	M.show(active_index)
-	print(active_index)
-	scrollhandler.set_active_index(active_index)
+	scrollhandler.set_active_index(active_page)
 	msg.post(".", "inventory", {index=active_index})
 	gui.set_position(new, vmath.vector3(720*pos_index, 0, 0))
 	gui.animate(active, "position.x", (-1*pos_index)*720, gui.EASING_INSINE, 0.3, 0, function()
@@ -126,7 +125,9 @@ function M.switch_to_slot(index)
 	gui.animate(new, "position.x", 0, gui.EASING_INSINE, 0.3, 0, function()
 		features.clear(old_page)
 		moves.clear(old_page)
+		scrollhandler.reset()
 	end)
+	return true
 end
 
 local function set_ids(nodes, index)
@@ -177,9 +178,9 @@ function M.on_input(action_id, action)
 	local g = gesture.on_input("Party", action_id, action)
 	if g then
 		if g.swipe_left then
-			M.switch_to_slot(math.min(active_index + 1, #storage.list_of_ids_in_inventory()))
+			return M.switch_to_slot(math.min(active_index + 1, #storage.list_of_ids_in_inventory()))
 		elseif g.swipe_right then
-			M.switch_to_slot(math.max(active_index - 1, 1))
+			return M.switch_to_slot(math.max(active_index - 1, 1))
 		end
 	end
 	if not scrollhandler.on_input(action_id, action) then
@@ -187,15 +188,15 @@ function M.on_input(action_id, action)
 		button.on_input(action_id, action)
 		moves.on_input(action_id, action)
 		meters.on_input(action_id, action)
+		status_effects.on_input(action_id, action)
 	end
-	status_effects.on_input(action_id, action)
 end
 
 function M.on_message(message_id, message)
 	message.active_index = active_index
 	meters.on_message(message_id, message)
 	status_effects.on_message(message_id, message)
-	moves.on_message(message_id, message)
+	moves.on_message(message_id, message, active_page)
 	
 end
 

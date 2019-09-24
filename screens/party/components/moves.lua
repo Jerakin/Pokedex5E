@@ -205,9 +205,9 @@ function M.on_input(action_id, action)
 	
 end
 
-function M.on_message(message_id, message)
+function M.on_message(message_id, message, index)
 	if message_id == hash("refresh_pp") then
-		for _, entry in pairs(active_list.data) do
+		for _, entry in pairs(active_move_lists[index].data) do
 			update_move_data(entry)
 		end
 	end

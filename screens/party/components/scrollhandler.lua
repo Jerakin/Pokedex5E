@@ -14,7 +14,8 @@ function M.set_root_node(index, node)
 end
 
 function M.reset()
-
+	p.y = 0
+	gui.set_position(scroll_distance[active_index].node, p)
 end
 
 function M.set_max(page, scroll)
@@ -34,9 +35,10 @@ function M.on_input(action_id, action)
 		start.y = action.y
 	end
 	if action_id == hash("touch") then
-		p.y =  math.min(math.max(p.y - (_action.y-action.y)*0.5, 0), scroll_distance[active_index].distance)
-		gui.set_position(scroll_distance[active_index].node, p)
-	
+		if math.abs(start.y - action.y) > 10 then
+			p.y =  math.min(math.max(p.y - (_action.y-action.y)*0.5, 0), scroll_distance[active_index].distance)
+			gui.set_position(scroll_distance[active_index].node, p)
+		end
 		if math.abs(start.y - action.y) > 60 then
 			consumed = true
 		end
