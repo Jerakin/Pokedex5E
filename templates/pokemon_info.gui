@@ -4,10 +4,6 @@ fonts {
   font: "/assets/fonts/script.font"
 }
 fonts {
-  name: "title"
-  font: "/assets/fonts/title.font"
-}
-fonts {
   name: "script_bold"
   font: "/assets/fonts/script_bold.font"
 }
@@ -2586,7 +2582,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "exp_backing"
-  layer: "script"
+  layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
@@ -3129,7 +3125,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "catch_backing"
-  layer: "script"
+  layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
@@ -3585,7 +3581,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
   parent: "bg_vul"
-  layer: ""
+  layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
@@ -3822,7 +3818,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
   parent: "bg_res"
-  layer: ""
+  layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
@@ -4058,7 +4054,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
   parent: "bg_imm"
-  layer: ""
+  layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
@@ -4185,22 +4181,10 @@ nodes {
   size_mode: SIZE_MODE_MANUAL
 }
 layers {
-  name: "gui_back"
-}
-layers {
-  name: "script_back"
-}
-layers {
-  name: "pokemon"
-}
-layers {
   name: "gui"
 }
 layers {
   name: "script"
-}
-layers {
-  name: "title"
 }
 layers {
   name: "script_bold"

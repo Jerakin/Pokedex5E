@@ -58,13 +58,13 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/add_backing"
   id: "root"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_STRETCH
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -159,7 +159,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_STRETCH
   parent: "top_divider"
-  layer: "gui"
+  layer: "gui_top"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -171,6 +171,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 0.5
+  overridden_fields: 20
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -214,7 +215,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_STRETCH
   parent: "top_divider"
-  layer: "gui"
+  layer: "gui_top"
   inherit_alpha: true
   slice9 {
     x: 5.0
@@ -226,6 +227,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
+  overridden_fields: 20
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -326,14 +328,14 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/add_backing"
   id: "scroll"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_STRETCH
   parent: "root"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -428,7 +430,7 @@ nodes {
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
   parent: "pokemon"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -464,7 +466,7 @@ nodes {
   }
   size {
     x: 740.0
-    y: 560.0
+    y: 1500.0
     z: 0.0
     w: 1.0
   }
@@ -483,7 +485,7 @@ nodes {
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
   parent: "pokemon/root"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 8.0
@@ -552,7 +554,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "pokemon/root"
-  layer: "title"
+  layer: "script_bold"
   inherit_alpha: false
   alpha: 1.0
   outline_alpha: 1.0
@@ -601,7 +603,7 @@ nodes {
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
   parent: "pokemon/root"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -3277,7 +3279,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "pokemon/traits/exp_backing"
-  layer: "script"
+  layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
@@ -3820,7 +3822,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "pokemon/traits/catch_backing"
-  layer: "script"
+  layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
@@ -4276,7 +4278,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
   parent: "pokemon/traits/bg_vul"
-  layer: ""
+  layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
@@ -4514,7 +4516,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
   parent: "pokemon/traits/bg_res"
-  layer: ""
+  layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
@@ -4750,7 +4752,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
   parent: "pokemon/traits/bg_imm"
-  layer: ""
+  layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
@@ -4986,7 +4988,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "pokemon/tab_3"
-  layer: "title"
+  layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
@@ -5380,7 +5382,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "pokemon/tab_2"
-  layer: "title"
+  layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
@@ -6225,7 +6227,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "pokemon/tab_1"
-  layer: "title"
+  layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
@@ -6329,7 +6331,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "pokemon/hp_root"
-  layer: "gui_back"
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 8.0
@@ -6831,7 +6833,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "pokemon/btn_status"
-  layer: ""
+  layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
@@ -7004,7 +7006,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "pokemon/status_burning"
-  layer: ""
+  layer: "script"
   inherit_alpha: true
   alpha: 0.5
   outline_alpha: 1.0
@@ -7122,7 +7124,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "pokemon/status_paralyzed"
-  layer: ""
+  layer: "script"
   inherit_alpha: true
   alpha: 0.5
   outline_alpha: 1.0
@@ -7240,7 +7242,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "pokemon/status_confused"
-  layer: ""
+  layer: "script"
   inherit_alpha: true
   alpha: 0.5
   outline_alpha: 1.0
@@ -7358,7 +7360,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "pokemon/status_asleep"
-  layer: ""
+  layer: "script"
   inherit_alpha: true
   alpha: 0.5
   outline_alpha: 1.0
@@ -7476,7 +7478,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "pokemon/status_frozen"
-  layer: ""
+  layer: "script"
   inherit_alpha: true
   alpha: 0.5
   outline_alpha: 1.0
@@ -7594,7 +7596,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "pokemon/status_poisoned"
-  layer: ""
+  layer: "script"
   inherit_alpha: true
   alpha: 0.5
   outline_alpha: 1.0
@@ -7643,7 +7645,7 @@ nodes {
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
   parent: "pokemon/root"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -7698,7 +7700,7 @@ nodes {
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
   parent: "pokemon/poke_info"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 8.0
@@ -10083,7 +10085,7 @@ nodes {
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
   parent: "pokemon/attributes"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 5.0
@@ -10138,7 +10140,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "pokemon/border_save"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -10207,7 +10209,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "pokemon/border_save"
-  layer: ""
+  layer: "script"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
@@ -11562,7 +11564,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "pokemon/root"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 8.0
@@ -11735,7 +11737,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "pokemon/root"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -11879,10 +11881,9 @@ nodes {
   type: TYPE_TEMPLATE
   id: "party_indicator/template"
   parent: "party_indicator/root"
-  layer: "gui_top"
+  layer: ""
   inherit_alpha: true
   alpha: 1.0
-  overridden_fields: 20
   template: "/templates/bottom_bar.gui"
   template_node_child: true
 }
@@ -11926,7 +11927,7 @@ nodes {
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_STRETCH
   parent: "party_indicator/template"
-  layer: "gui"
+  layer: "gui_top"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -11938,6 +11939,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 0.5
+  overridden_fields: 20
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -11981,7 +11983,7 @@ nodes {
   pivot: PIVOT_S
   adjust_mode: ADJUST_MODE_STRETCH
   parent: "party_indicator/template"
-  layer: "gui"
+  layer: "gui_top"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -11993,6 +11995,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
+  overridden_fields: 20
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -12662,7 +12665,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
-  layer: "gui"
+  layer: "gui_top"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -12731,7 +12734,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "btn_edit"
-  layer: "script"
+  layer: "script_bold_top"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
@@ -12796,22 +12799,13 @@ nodes {
   size_mode: SIZE_MODE_MANUAL
 }
 layers {
-  name: "gui_back"
-}
-layers {
-  name: "script_back"
+  name: "gui"
 }
 layers {
   name: "pokemon"
 }
 layers {
-  name: "gui"
-}
-layers {
   name: "script"
-}
-layers {
-  name: "title"
 }
 layers {
   name: "script_bold"
@@ -12821,6 +12815,12 @@ layers {
 }
 layers {
   name: "sprite"
+}
+layers {
+  name: "title"
+}
+layers {
+  name: "script_bold_top"
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT
