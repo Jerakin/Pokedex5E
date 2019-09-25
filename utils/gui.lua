@@ -2,12 +2,16 @@ local screeninfo = require "utils.screeninfo"
 
 local M = {}
 
-
-function M.get_scale_coefficients()
-	local layout_size = vmath.vector3(720, 1280, 0) -- layout size
+function M.get_window_scale()
+	local layout_size = vmath.vector3(screeninfo.get_project_width(), screeninfo.get_project_height(), 0)
 	local screen_size = vmath.vector3(screeninfo.get_window_width(), screeninfo.get_window_height(), 0)
 
-	local sx, sy = screen_size.x / layout_size.x, screen_size.y / layout_size.y -- scale coef for  x and y
+	local sx, sy = screen_size.x / layout_size.x, screen_size.y / layout_size.y -- scale coef for x and y
+	return sx, sy
+end
+
+function M.get_scale_coefficients()
+	local sx, sy = M.get_window_scale()
 
 	local sx2, sy2 = sx/sy, sy/sx
 
