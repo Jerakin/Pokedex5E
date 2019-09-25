@@ -161,7 +161,7 @@ function M.create(nodes, pokemon, index)
 	rest_button = gui.get_id(active["pokemon/btn_rest"])
 	setup_main_information(nodes, pokemon)
 	setup_info_tab(nodes, pokemon)
-	scrollhandler.set_max(index, gui.get_position(active["pokemon/traits/scroll_stop"]).y)
+	scrollhandler.set_max(index, 3, gui.get_position(active["pokemon/traits/scroll_stop"]).y)
 end
 
 

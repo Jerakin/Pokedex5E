@@ -5085,7 +5085,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -72.0
+    y: -98.0
     z: 0.0
     w: 1.0
   }
@@ -5124,63 +5124,8 @@ nodes {
 }
 nodes {
   position {
-    x: -100.0
+    x: 2.0
     y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 500.0
-    y: 145.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/square"
-  id: "move/move"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "move"
-  layer: "gui"
-  inherit_alpha: false
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 0.0
-  template_node_child: true
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: 100.0
-    y: -3.0
     z: 0.0
     w: 1.0
   }
@@ -5198,7 +5143,7 @@ nodes {
   }
   size {
     x: 710.0
-    y: 146.0
+    y: 200.0
     z: 0.0
     w: 1.0
   }
@@ -5211,12 +5156,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/add_backing"
-  id: "move/box1"
+  id: "move/move"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "move/move"
+  parent: "move"
   layer: "gui"
   inherit_alpha: false
   slice9 {
@@ -5234,8 +5179,8 @@ nodes {
 }
 nodes {
   position {
-    x: -186.0
-    y: 6.0
+    x: -293.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -5297,8 +5242,8 @@ nodes {
 }
 nodes {
   position {
-    x: -186.0
-    y: 34.0
+    x: -293.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -5360,8 +5305,8 @@ nodes {
 }
 nodes {
   position {
-    x: 320.0
-    y: 14.0
+    x: 213.0
+    y: 11.0
     z: 0.0
     w: 1.0
   }
@@ -5424,8 +5369,8 @@ nodes {
 }
 nodes {
   position {
-    x: -209.0
-    y: 34.0
+    x: -316.0
+    y: 68.0
     z: 0.0
     w: 1.0
   }
@@ -5436,9 +5381,9 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.8
-    y: 0.8
-    z: 0.8
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   size {
@@ -5479,7 +5424,7 @@ nodes {
 }
 nodes {
   position {
-    x: 342.0
+    x: 235.0
     y: -28.0
     z: 0.0
     w: 1.0
@@ -5575,7 +5520,7 @@ nodes {
 nodes {
   position {
     x: 67.5
-    y: 6.25
+    y: -26.25
     z: 0.0
     w: 1.0
   }
@@ -5630,7 +5575,7 @@ nodes {
 nodes {
   position {
     x: -31.25
-    y: 6.25
+    y: -26.25
     z: 0.0
     w: 1.0
   }
@@ -5684,8 +5629,8 @@ nodes {
 }
 nodes {
   position {
-    x: 282.0
-    y: 18.0
+    x: 175.0
+    y: 15.0
     z: 0.0
     w: 1.0
   }
@@ -5747,8 +5692,8 @@ nodes {
 }
 nodes {
   position {
-    x: 401.0
-    y: 19.0
+    x: 294.0
+    y: 16.0
     z: 0.0
     w: 1.0
   }

@@ -143,7 +143,7 @@ local function create_move_entries(nodes, index)
 	local node_table = {}
 	local stencil_node = nodes["pokemon/move/move"]
 	gui.set_enabled(stencil_node, true)
-	
+	local distance = gui.get_size(stencil_node).y
 	local position = gui.get_position(stencil_node)
 	for _, entry in pairs(active_move_lists[index].data) do
 		local clones = gui.clone_tree(stencil_node)
@@ -161,11 +161,11 @@ local function create_move_entries(nodes, index)
 		
 		gui.set_id(clones["btn_plus"], "btn_plus_" .. entry)
 		gui.set_id(clones["btn_minus"], "btn_minus_" .. entry)
-		position.y = position.y - 147
+		position.y = position.y - distance
 		update_move_data(entry)
 		bind_buttons(nodes, entry)
 	end
-	scrollhandler.set_max(index, position.y)
+	scrollhandler.set_max(index, 1, distance * #active_move_lists[index].data)
 	gui.set_enabled(stencil_node, false)
 end
 

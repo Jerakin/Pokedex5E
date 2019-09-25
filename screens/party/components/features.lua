@@ -50,7 +50,6 @@ local function setup_features(nodes, pokemon)
 		local root_node = setup_entry(nodes, name, desc, p, index)
 		local id = party_utils.set_id(root_node)
 		table.insert(list.data, id)
-		
 	end
 
 	local p = vmath.vector3() --start_position
@@ -77,7 +76,7 @@ local function setup_features(nodes, pokemon)
 		end
 		table.insert(active_ability_lists[active_page], list)
 	end
-	scrollhandler.set_max(index, p.y)
+	scrollhandler.set_max(index, 2, p.y)
 end
 
 function M.clear(index)
