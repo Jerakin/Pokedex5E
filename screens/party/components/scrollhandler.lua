@@ -24,7 +24,6 @@ end
 
 function M.set_max(page, tab, scroll)
 	scroll_distance[page][tab] = math.max(math.abs(scroll)-500, 0)
-	pprint(scroll_distance[page])
 end
 
 function M.set_active_index(index)
