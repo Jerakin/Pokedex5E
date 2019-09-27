@@ -930,7 +930,7 @@ nodes {
   pivot: PIVOT_S
   adjust_mode: ADJUST_MODE_STRETCH
   parent: "scrollbar"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -942,14 +942,13 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 4
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
     x: 0.0
-    y: 802.0
+    y: 952.0
     z: 0.0
     w: 1.0
   }
@@ -979,14 +978,14 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/transparent"
   id: "scrollbar/handle"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "scrollbar/bar"
-  layer: ""
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -997,7 +996,7 @@ nodes {
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 0.0
+  alpha: 1.0
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -1041,7 +1040,7 @@ nodes {
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "scrollbar/handle"
-  layer: ""
+  layer: "gui"
   inherit_alpha: false
   slice9 {
     x: 0.0
