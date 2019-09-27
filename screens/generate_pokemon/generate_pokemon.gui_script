@@ -194,7 +194,7 @@ function init(self)
 	self.filtered_pokemons = get_filtered(self)
 	
 	update_storage_data(self)
-	gui_utils.scale_fit_node_with_stretch(gui.get_node("scroll_list"))
+	--gui_utils.scale_fit_node_with_stretch(gui.get_node("scroll_list"))
 	
 	update_list(gooey.dynamic_list("storage", "scroll_list", "pokemon/row", self.pokemon_rows))
 	update_colors(self)
