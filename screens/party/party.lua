@@ -32,7 +32,7 @@ function M.get_active_index()
 end
 
 local function activate_tab(nodes, tab_number)
-	scrollhandler.set_active_tab(active_index, tab_number)
+	scrollhandler.set_active_tab(active_page, tab_number)
 	for i=1, 3 do
 		if tab_number == i then
 			gui.play_flipbook(nodes["pokemon/tab_" .. i], "common_down")
