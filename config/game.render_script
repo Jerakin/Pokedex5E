@@ -1,4 +1,6 @@
 local screeninfo = require "utils.screeninfo"
+local gooey = require "gooey.gooey"
+
 --
 -- projection that centers content with maintained aspect ratio and optional zoom
 --
@@ -93,6 +95,7 @@ function on_message(self, message_id, message)
     elseif message_id == hash("toggle_overdraw") then
         self.toggle_overdraw = not self.toggle_overdraw
     elseif message_id == hash("window_event") then
+        gooey.set_window_size(render.get_window_width(), render.get_window_height())
         screeninfo.update(render.get_window_width(), render.get_window_height())
     end
 end

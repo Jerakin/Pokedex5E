@@ -65,7 +65,7 @@ local function setup_features(nodes, pokemon)
 		end
 		table.insert(active_ability_lists[active_page], list)
 	end
-	scrollhandler.set_max(index, 2, p.y)
+	scrollhandler.set_max(active_page, 2, p.y)
 end
 
 function M.clear(index)
