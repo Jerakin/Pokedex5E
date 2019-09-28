@@ -1,3 +1,5 @@
+local gui_utils = require "utils.gui"
+
 local M = {}
 
 local tabs = {moves=1, features=2, traits=3}
@@ -13,7 +15,15 @@ local consumed
 local old = 0
 local max_scroll = 0
 
+local size_of_scroll_area
+local sx, sy
+
+function M.set_size_of_scroll_area(value)
+	size_of_scroll_area = value
+end
+
 function M.set_root_node(index, node)
+	sx, sy = gui_utils.get_window_scale()
 	scroll_distance[index].node = node
 end
 
@@ -23,7 +33,8 @@ function M.reset()
 end
 
 function M.set_max(page, tab, scroll)
-	scroll_distance[page][tab] = math.max(math.abs(scroll)-500, 0)
+	scroll = sx * scroll
+	scroll_distance[page][tab] = math.max(math.abs(scroll)-size_of_scroll_area, 0)
 end
 
 function M.set_active_index(index)
