@@ -2,8 +2,6 @@ local gui_utils = require "utils.gui"
 
 local M = {}
 
-local tabs = {moves=1, features=2, traits=3}
-
 local scroll_distance = {[1] = {[1]=0, [2]=0, [3]=0, active=1}, [2] = {moves=0, features=0, traits=0, active=1}}
 local active_index = 1
 local current_scroll = 0
@@ -15,8 +13,8 @@ local consumed
 local old = 0
 local max_scroll = 0
 
-local size_of_scroll_area
-local sx, sy
+local size_of_scroll_area, sx, sy
+
 
 function M.set_size_of_scroll_area(value)
 	size_of_scroll_area = value
