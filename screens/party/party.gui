@@ -520,7 +520,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 250.0
+    x: 260.0
     y: 40.0
     z: 0.0
     w: 1.0
@@ -559,6 +559,7 @@ nodes {
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
+  overridden_fields: 4
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -4827,7 +4828,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -660.0
+    y: -645.0
     z: 0.0
     w: 1.0
   }
@@ -4844,14 +4845,14 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
-    y: 0.0
+    x: 5.0
+    y: 5.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
+    x: 0.0
+    y: 0.0
     z: 1.0
     w: 1.0
   }
@@ -5543,8 +5544,8 @@ nodes {
 }
 nodes {
   position {
-    x: -293.0
-    y: 40.0
+    x: -330.0
+    y: 33.0
     z: 0.0
     w: 1.0
   }
@@ -5555,8 +5556,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.75
-    y: 0.75
+    x: 0.9
+    y: 0.9
     z: 1.0
     w: 1.0
   }
@@ -5574,7 +5575,8 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "AB: 8 "
+  text: "AB: 8 \n"
+  "AB: 8 "
   font: "script"
   id: "pokemon/move/move_stats"
   xanchor: XANCHOR_NONE
@@ -5601,12 +5603,12 @@ nodes {
   outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: true
-  text_leading: 1.0
+  text_leading: 1.5
   text_tracking: 0.0
 }
 nodes {
   position {
-    x: -293.0
+    x: -278.0
     y: 68.0
     z: 0.0
     w: 1.0
@@ -5618,8 +5620,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 1.16
+    y: 1.16
     z: 1.0
     w: 1.0
   }
@@ -5669,7 +5671,7 @@ nodes {
 }
 nodes {
   position {
-    x: 213.0
+    x: 227.0
     y: 11.0
     z: 0.0
     w: 1.0
@@ -5733,7 +5735,7 @@ nodes {
 }
 nodes {
   position {
-    x: -316.0
+    x: -306.0
     y: 68.0
     z: 0.0
     w: 1.0
@@ -5745,8 +5747,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.0
-    y: 1.0
+    x: 0.8
+    y: 0.8
     z: 1.0
     w: 1.0
   }
@@ -5883,8 +5885,8 @@ nodes {
 }
 nodes {
   position {
-    x: 67.5
-    y: -26.25
+    x: 78.75
+    y: -5.0
     z: 0.0
     w: 1.0
   }
@@ -5901,8 +5903,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 110.0
-    y: 112.0
+    x: 125.0
+    y: 125.0
     z: 0.0
     w: 1.0
   }
@@ -5934,12 +5936,12 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: true
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
-    x: -31.25
-    y: -26.25
+    x: -35.0
+    y: -5.0
     z: 0.0
     w: 1.0
   }
@@ -5956,8 +5958,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 111.0
-    y: 111.0
+    x: 125.0
+    y: 125.0
     z: 0.0
     w: 1.0
   }
@@ -5989,11 +5991,11 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: true
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
-    x: 175.0
+    x: 213.0
     y: 15.0
     z: 0.0
     w: 1.0
@@ -6120,6 +6122,61 @@ nodes {
 }
 nodes {
   position {
+    x: -346.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 500.0
+    y: 200.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/transparent"
+  id: "pokemon/move/interaction_area"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_W
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "pokemon/move/move"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
     x: -49.0
     y: 4.0
     z: 0.0
@@ -6138,8 +6195,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 5.0
+    y: 5.0
     z: 0.0
     w: 1.0
   }
@@ -11827,8 +11884,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 5.0
+    y: 5.0
     z: 0.0
     w: 1.0
   }
@@ -11847,7 +11904,7 @@ nodes {
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_STRETCH
   parent: "pokemon/root"
-  layer: "gui_top"
+  layer: "gui"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -11859,7 +11916,6 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 20
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }

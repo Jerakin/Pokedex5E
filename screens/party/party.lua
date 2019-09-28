@@ -142,6 +142,7 @@ local function set_ids(nodes, index)
 	gui.set_id(nodes["pokemon/move/pp/btn_plus"], "btn_plus")
 	gui.set_id(nodes["pokemon/tab_bg_1"], "tab_bg_1")
 	gui.set_id(nodes["pokemon/move/move"], "move")
+	gui.set_id(nodes["pokemon/move/interaction_area"], "interaction_area")
 end
 
 function M.create(index)

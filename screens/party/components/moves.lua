@@ -69,7 +69,7 @@ local function bind_buttons(nodes, name)
 	end, refresh=gooey_buttons.plus_button
 	}
 
-	local move = {node="move_" .. name, func=function()
+	local move = {node="interaction_area_" .. name, func=function()
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:MoveInfo",
 			value = tracking_id[monarch.top()]
@@ -149,7 +149,7 @@ local function create_move_entries(nodes, index)
 		local clones = gui.clone_tree(stencil_node)
 		
 		gui.set_id(clones["move"], "move_" .. entry)
-		
+
 		local root = gui.get_node("move_" .. entry)
 		active_move_lists[index].root[entry] = root
 		gui.set_position(root, position)
@@ -158,6 +158,7 @@ local function create_move_entries(nodes, index)
 		gui.set_id(clones["txt_pp_max"], "txt_pp_max_" .. entry)
 		gui.set_id(clones["name"], "name_" .. entry)
 		gui.set_id(clones["move_stats"], "move_stats_" .. entry)
+		gui.set_id(clones["interaction_area"], "interaction_area_" .. entry)
 		
 		gui.set_id(clones["btn_plus"], "btn_plus_" .. entry)
 		gui.set_id(clones["btn_minus"], "btn_minus_" .. entry)
