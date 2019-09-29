@@ -16,14 +16,16 @@ local max_scroll = 0
 local size_of_scroll_area, sx, sy, sx2, sy2, sc
 
 
-function M.set_size_of_scroll_area(value)
-	size_of_scroll_area = value
+function M.set_size_of_scroll_area(scroll)
+	if sx < sy then
+		scroll = scroll * sy2
+	end
+	size_of_scroll_area = scroll
 end
 
 function M.set_root_node(index, node)
 	sx, sy = gui_utils.get_window_scale()
 	sc, sx2, sy2 = gui_utils.get_scale_coefficients()
-	print(sx, sy, sc, sx2, sy2)
 	scroll_distance[index].node = node
 end
 
@@ -33,7 +35,9 @@ function M.reset()
 end
 
 function M.set_max(page, tab, scroll)
-	scroll = scroll * sc
+	if sx < sy then
+		scroll = scroll * sy
+	end
 	scroll_distance[page][tab] = math.max(math.abs(scroll)-size_of_scroll_area, 0)
 end
 

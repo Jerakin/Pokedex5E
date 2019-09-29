@@ -15,15 +15,15 @@ function M.get_scale_coefficients()
 
 	local sx2, sy2 = sx/sy, sy/sx
 
-	local fit = math.min(sx2, sy2) -- Fit scale coefficient 
-	return fit, sx2, sy2
+	local scale = math.min(sx2, sy2) -- Fit scale coefficient 
+	return scale, sx2, sy2
 end
 
 function M.scale_fit_node_with_stretch(node)
-	local fit, sx2, sy2 = M.get_scale_coefficients()
+	local scale, sx2, sy2 = M.get_scale_coefficients()
 	local node_size = gui.get_size(node) -- Get current size
 
-	node_size.y = (node_size.y/fit) * (1/sx2) -- We divide by fit to cancel the fit transformation and then apply a stretch by multiplying (1/sy)
+	node_size.y = (node_size.y/scale) * (1/sx2) -- We divide by fit to cancel the fit transformation and then apply a stretch by multiplying (1/sy)
 
 	gui.set_size(node, node_size)
 end
