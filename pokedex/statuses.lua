@@ -18,6 +18,15 @@ M.status_names = {
 	[M.status.CONFUSED] = "Confused"
 }
 
+M.status_images = {
+	[M.status.BURNING] = "burn",
+	[M.status.FROZEN] = "frozen",
+	[M.status.PARALYZED] = "paralyze",
+	[M.status.POISONED] = "poisoned",
+	[M.status.ASLEEP] = "sleep",
+	[M.status.CONFUSED] = "confuse"
+}
+
 M.string_to_state = {
 	Burning = M.status.BURNING,
 	Frozen = M.status.FROZEN,
