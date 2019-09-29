@@ -40,8 +40,8 @@ function M.init()
 	if not initialized then
 		natures = file.load_json_from_resource("/assets/datafiles/natures.json")
 
-		if fakemon.natures then
-			for name, data in pairs(fakemon.natures) do
+		if fakemon.DATA and fakemon.DATA["natures.json"] then
+			for name, data in pairs(fakemon.DATA["natures.json"]) do
 				natures[name] = data
 			end
 		end
