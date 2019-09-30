@@ -57,7 +57,9 @@ function M.on_input(action_id, action)
 		start.x = action.x
 		start.y = action.y
 	end
+	print("touch?")
 	if action_id == hash("touch") then
+		print("ok")
 		if math.abs(start.y - action.y) > 10 then
 			old_y = gui.get_position(scroll_distance[active_index].node).y
 			max_scroll = scroll_distance[active_index][scroll_distance[active_index].active]
