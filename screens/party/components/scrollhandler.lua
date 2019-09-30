@@ -17,9 +17,12 @@ local size_of_scroll_area, sx, sy, sx2, sy2, sc
 
 
 function M.set_size_of_scroll_area(scroll)
+	print(sx, sy, sx < sy)
 	if sx < sy then
-		scroll = scroll * sy2
+		print("edit", scroll)
+		--scroll = scroll * sy2
 	end
+	print("max", scroll)
 	size_of_scroll_area = scroll
 end
 
@@ -36,8 +39,9 @@ end
 
 function M.set_max(page, tab, scroll)
 	if sx < sy then
-		scroll = scroll * sy
+		--scroll = scroll * sy
 	end
+	print(page, tab, scroll)
 	scroll_distance[page][tab] = math.max(math.abs(scroll)-size_of_scroll_area, 0)
 end
 
@@ -52,27 +56,27 @@ end
 function M.on_input(action_id, action)
 	if action.pressed then
 		consumed = false
-		_action.x = action.x
-		_action.y = action.y
+		--_action.x = action.x
+		--_action.y = action.y
 		start.x = action.x
 		start.y = action.y
 	end
-	print("touch?")
 	if action_id == hash("touch") then
-		print("ok")
+		
 		if math.abs(start.y - action.y) > 10 then
 			old_y = gui.get_position(scroll_distance[active_index].node).y
 			max_scroll = scroll_distance[active_index][scroll_distance[active_index].active]
 			
-			p.y = math.max(p.y - (_action.y-action.y)*0.5, 0) --Don't scroll up
+			p.y = math.max(p.y + (action.dy)*0.5, 0) --Don't scroll up
 
 			-- If the old_y position is more than the max scroll than cap the down scroll to the old position
+			print(max_scroll, old_y, max_scroll >= old_y)
 			if max_scroll >= old_y then
 				p.y = math.min(p.y, max_scroll)
 			else
 				p.y = math.min(p.y, old_y)
 			end
-
+			print(p.y)
 			gui.set_position(scroll_distance[active_index].node, p)
 		end
 		if math.abs(start.y - action.y) > 60 then

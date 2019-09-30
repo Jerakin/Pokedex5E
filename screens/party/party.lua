@@ -173,7 +173,7 @@ function M.create(index)
 	gui.set_id(page["pokemon/btn_rest"], "btn_rest_2")
 	scrollhandler.set_root_node(2, page["pokemon/root"])
 
-	scrollhandler.set_size_of_scroll_area(gui.get_screen_position(gui.get_node("pokemon/__scroll_start")).y - gui.get_screen_position(gui.get_node("pokemon/__scroll_end")).y)
+	scrollhandler.set_size_of_scroll_area(gui.get_size(gui.get_node("pokemon/__scroll_end")).y)
 	scrollhandler.reset()
 	gui.delete_node(gui.get_node("pokemon/root"))
 end
