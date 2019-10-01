@@ -5,7 +5,6 @@ local M = {}
 local scroll_distance = {[1] = {[1]=0, [2]=0, [3]=0, active=1}, [2] = {moves=0, features=0, traits=0, active=1}}
 local active_index = 1
 local current_scroll = 0
-local _action = vmath.vector3()
 local p = vmath.vector3()
 local start = vmath.vector3()
 local consumed
@@ -60,7 +59,7 @@ function M.on_input(action_id, action)
 			old_y = gui.get_position(scroll_distance[active_index].node).y
 			max_scroll = scroll_distance[active_index][scroll_distance[active_index].active]
 			
-			p.y = math.max(p.y + (action.dy)*0.5, 0) --Don't scroll up
+			p.y = math.max(p.y + action.dy*0.5, 0) --Don't scroll up
 
 			-- If the old_y position is more than the max scroll than cap the down scroll to the old position
 			if max_scroll >= old_y then
@@ -68,15 +67,13 @@ function M.on_input(action_id, action)
 			else
 				p.y = math.min(p.y, old_y)
 			end
-			print(p.y)
+
 			gui.set_position(scroll_distance[active_index].node, p)
 		end
 		if math.abs(start.y - action.y) > 60 then
 			consumed = true
 		end
 	end
-	_action.x = action.x
-	_action.y = action.y
 	return consumed
 end
 
