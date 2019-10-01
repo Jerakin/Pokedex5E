@@ -43,7 +43,6 @@ local function window_resized()
 end
 
 function init(self)
-	print("actually did something")
 	collectionfactory.create("/menu#collectionfactory")
 	msg.post(url.MENU, "hide")
 	local system = sys.get_sys_info().system_name
