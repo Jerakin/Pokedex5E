@@ -156,6 +156,7 @@ function M.on_input(action_id, action)
 end
 
 function M.create(nodes, pokemon, index)
+	item_button = nil
 	active = nodes
 	active_pokemon = pokemon
 	rest_button = gui.get_id(active["pokemon/btn_rest"])

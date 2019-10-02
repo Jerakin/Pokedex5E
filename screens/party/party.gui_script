@@ -22,8 +22,8 @@ end
 
 
 function on_input(self, action_id, action)
-	party.on_input(action_id, action)
-	inventory.on_input(action_id, action)
+	local consume = inventory.on_input(action_id, action)
+	party.on_input(action_id, action, consume)
 	gooey.button("btn_edit", action_id, action, function()
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:EditByButton",

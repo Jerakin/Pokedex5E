@@ -12,15 +12,15 @@ local scrollhandler = require "screens.party.components.scrollhandler"
 local M = {}
 
 local current_pokemon
-
+local current_index
 local active_nodes
 
 local pp_buttons = {}
 local active_move_lists = {[1]={}, [2]={}}
 
 local function update_pp(pokemon, move)
-	local pp_current = gui.get_node("txt_pp_current_" .. move)
-	local pp_max = gui.get_node("txt_pp_max_" .. move)
+	local pp_current = gui.get_node("txt_pp_current_" .. current_index .. move)
+	local pp_max = gui.get_node("txt_pp_max_" .. current_index .. move)
 
 	local current = _pokemon.get_move_pp(pokemon, move)
 	if type(current) == "number" then
@@ -47,7 +47,7 @@ local function update_pp(pokemon, move)
 end
 
 local function bind_buttons(nodes, name)
-	local minus = {node="btn_minus_" .. name, func=function()
+	local minus = {node="btn_minus_" .. current_index .. name, func=function()
 		gameanalytics.addDesignEvent {
 			eventId = "Party:PP:Decrease"
 		}
@@ -58,7 +58,7 @@ local function bind_buttons(nodes, name)
 	end, refresh=gooey_buttons.minus_button
 	}
 
-	local plus = {node="btn_plus_" .. name, func=function()
+	local plus = {node="btn_plus_" .. current_index .. name, func=function()
 		gameanalytics.addDesignEvent {
 			eventId = "Party:PP:Increase"
 		}
@@ -69,7 +69,7 @@ local function bind_buttons(nodes, name)
 	end, refresh=gooey_buttons.plus_button
 	}
 
-	local move = {node="interaction_area_" .. name, func=function()
+	local move = {node="interaction_area_" .. current_index .. name, func=function()
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:MoveInfo",
 			value = tracking_id[monarch.top()]
@@ -129,12 +129,12 @@ local function update_move_data(move)
 		table.insert(move_string, move_data.duration)
 	end
 
-	gui.set_text(gui.get_node("move_stats_" .. move), table.concat(move_string, "  ||  "))
+	gui.set_text(gui.get_node("move_stats_" .. current_index .. move), table.concat(move_string, "  ||  "))
 
-	gui.set_text(gui.get_node("name_" .. move), move:upper())
+	gui.set_text(gui.get_node("name_" .. current_index .. move), move:upper())
 	local type = type_data[move_data.type]
-	gui.set_color(gui.get_node("name_" .. move), type.color)
-	gui.play_flipbook(gui.get_node("element_" .. move), type.icon)
+	gui.set_color(gui.get_node("name_" .. current_index .. move), type.color)
+	gui.play_flipbook(gui.get_node("element_" .. current_index .. move), type.icon)
 
 	update_pp(current_pokemon, move)
 end
@@ -148,22 +148,22 @@ local function create_move_entries(nodes, index)
 	for _, entry in pairs(active_move_lists[index].data) do
 		local clones = gui.clone_tree(stencil_node)
 		
-		gui.set_id(clones["move"], "move_" .. entry)
+		gui.set_id(clones["move"], "move_" .. index .. entry)
 
-		local root = gui.get_node("move_" .. entry)
+		local root = gui.get_node("move_" .. index .. entry)
 		active_move_lists[index].root[entry] = root
 		gui.set_position(root, position)
-		gui.set_id(clones["txt_pp_current"], "txt_pp_current_" .. entry)
-		gui.set_id(clones["element"], "element_" .. entry)
-		gui.set_id(clones["txt_pp_max"], "txt_pp_max_" .. entry)
-		gui.set_id(clones["name"], "name_" .. entry)
-		gui.set_id(clones["move_stats"], "move_stats_" .. entry)
-		gui.set_id(clones["interaction_area"], "interaction_area_" .. entry)
+		gui.set_id(clones["txt_pp_current"], "txt_pp_current_" .. index .. entry)
+		gui.set_id(clones["element"], "element_" .. index .. entry)
+		gui.set_id(clones["txt_pp_max"], "txt_pp_max_" .. index .. entry)
+		gui.set_id(clones["name"], "name_"  .. index.. entry)
+		gui.set_id(clones["move_stats"], "move_stats_" .. index .. entry)
+		gui.set_id(clones["interaction_area"], "interaction_area_" .. index .. entry)
 		
-		gui.set_id(clones["btn_plus"], "btn_plus_" .. entry)
-		gui.set_id(clones["btn_minus"], "btn_minus_" .. entry)
+		gui.set_id(clones["btn_plus"], "btn_plus_" .. index .. entry)
+		gui.set_id(clones["btn_minus"], "btn_minus_"  .. index.. entry)
 		position.y = position.y - distance
-		update_move_data(entry)
+		update_move_data(entry, index)
 		bind_buttons(nodes, entry)
 	end
 	scrollhandler.set_max(index, 1, distance * #active_move_lists[index].data)
@@ -186,7 +186,7 @@ function M.create(nodes, pokemon, index)
 		}
 		log.error(e)
 	end
-
+	current_index = index
 	pp_buttons = {}
 	current_pokemon = pokemon
 	active_move_lists[index].data = {}

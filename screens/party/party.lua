@@ -178,7 +178,7 @@ function M.create(index)
 	gui.delete_node(gui.get_node("pokemon/root"))
 end
 
-function M.on_input(action_id, action)
+function M.on_input(action_id, action, consume)
 	local g = gesture.on_input("Party", action_id, action)
 	if g then
 		if g.swipe_left then
@@ -190,7 +190,9 @@ function M.on_input(action_id, action)
 	if not scrollhandler.on_input(action_id, action) then
 		information.on_input(action_id, action)
 		button.on_input(action_id, action)
-		moves.on_input(action_id, action)
+		if not consume then
+			moves.on_input(action_id, action)
+		end
 		meters.on_input(action_id, action)
 		status_effects.on_input(action_id, action)
 	end
