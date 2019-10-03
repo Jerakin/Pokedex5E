@@ -48,7 +48,7 @@ function init(self)
 	local system = sys.get_sys_info().system_name
 	window.set_listener(window_resized)
 
-	if system == "HTML5" then
+	if not gameanalytics then
 		gameanalytics = require "utils.mock_gameanalytics"
 		log.info("HTML5: Skipping GameAnalytics")
 	end
