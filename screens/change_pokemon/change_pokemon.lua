@@ -58,6 +58,7 @@ local function collapse_buttons()
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_moves"), button_state[M.config[hash("change_pokemon/moves")].active])
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_abilities"), button_state[M.config[hash("change_pokemon/abilities")].active])
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_feats"), button_state[M.config[hash("change_pokemon/feats")].active])
+	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_item"), button_state[M.config[hash("change_pokemon/held_item")].active])
 	gui.set_enabled(gui.get_node("change_pokemon/btn_reset_abilities"), M.config[hash("change_pokemon/abilities")].active)
 end
 
