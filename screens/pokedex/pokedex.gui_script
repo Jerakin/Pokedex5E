@@ -158,7 +158,7 @@ function init(self)
 	
 	gui.set_enabled(self.mark_menu, self.mark_menu_active)
 	update_dex_data(self)
-	update_list( gooey.dynamic_list("pokedex", "scrollist", "pokemon_row/row", self.pokemon_rows))
+	update_list(gooey.dynamic_list("pokedex", "scrollist", "pokemon_row/row", self.pokemon_rows))
 	update_pokedex_info(self)
 end
 
