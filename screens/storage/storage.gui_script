@@ -126,7 +126,7 @@ function on_input(self, action_id, action)
 	action_position.y = action.y
 	inventory.on_input(action_id, action)
 
-	if next(self.pokemon_rows) ~= nil then
+	if action_id == hash("touch") and next(self.pokemon_rows) ~= nil then
 		local list = gooey.dynamic_list("storage", "scrollist", "pokemon_row/row", self.pokemon_rows, action_id, action, function(list) on_item_selected(self, list) end, update_list)
 		if list.max_y and list.max_y > 0 then
 			gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar", action_id, action, function(scrollbar) on_scrolled(self, scrollbar) end)
