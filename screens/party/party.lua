@@ -175,6 +175,7 @@ function M.create(index)
 
 	scrollhandler.set_size_of_scroll_area(gui.get_size(gui.get_node("pokemon/__scroll_end")).y)
 	scrollhandler.reset()
+	scrollhandler.set_active_index(1)
 	gui.delete_node(gui.get_node("pokemon/root"))
 end
 
