@@ -70,11 +70,13 @@ function init(self)
 	
 	if system == "Windows" or system == "Darwin" then
 		local project = vmath.vector3(640, 1136, 1)
-		local project2 = vmath.vector3(720, 1280, 1)
+		local project2 = vmath.vector3(719, 1280, 1)
 		local pixel = vmath.vector3(1440, 2560, 0.5)
 		local galaxya8 = vmath.vector3(1080, 2220, 0.5)
 		local tab8 = vmath.vector3(800, 1280, 1)
-
+		local square = vmath.vector3(800, 800, 1)
+		local iphonex = vmath.vector3(1125, 2436, 0.5)
+		
 		local using = galaxya8
 		
 		msg.post("@render:", "resize", { width = using.x*using.z, height = using.y*using.z } )
