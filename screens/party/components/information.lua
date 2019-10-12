@@ -46,6 +46,14 @@ local function setup_main_information(nodes, pokemon)
 	gui.set_text(res, party_utils.join_table("", _pokemon.get_resistances(pokemon), ", "))
 	gui.set_text(imm, party_utils.join_table("", _pokemon.get_immunities(pokemon), ", "))
 
+	gui.set_scale(vul, vmath.vector3(1))
+	gui.set_scale(res, vmath.vector3(1))
+	gui.set_scale(imm, vmath.vector3(1))
+	
+	gui_utils.scale_text_to_fit_size(vul)
+	gui_utils.scale_text_to_fit_size(res)
+	gui_utils.scale_text_to_fit_size(imm)
+	
 	gui.set_scale(nodes["pokemon/species"], POKEMON_SPECIES_TEXT_SCALE)
 	gui_utils.scale_text_to_fit_size(nodes["pokemon/species"])
 end

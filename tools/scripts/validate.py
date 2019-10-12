@@ -171,4 +171,18 @@ def images():
                 if not os.path.exists(file_path):
                     print("Can't find image: ", "{}{}.png".format(data["index"], p), "in", x)
 
-evolve()
+
+def long_vulnerabilities():
+    with pokemons_json.open("r") as fp:
+        length = 0
+        pokemon_data = json.load(fp)
+        for p, data in pokemon_data.items():
+            for t in ["Vul", "Res", "Imm"]:
+                if t in data:
+                    length = max(length, len(", ".join(data[t])))
+                    print(length, p, ", ".join(data[t]))
+    print(length)
+
+
+
+long_vulnerabilities()
