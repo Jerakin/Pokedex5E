@@ -14,7 +14,7 @@ local M = {}
 local active = {}
 local touching = false
 local _action = vmath.vector3(0)
-
+local POKEMON_SPECIES_TEXT_SCALE = vmath.vector3(1.5)
 local number_map = {[0.125]="1/8", [0.25]="1/4", [0.5]="1/2"}
 
 local item_button
@@ -46,6 +46,7 @@ local function setup_main_information(nodes, pokemon)
 	gui.set_text(res, party_utils.join_table("", _pokemon.get_resistances(pokemon), ", "))
 	gui.set_text(imm, party_utils.join_table("", _pokemon.get_immunities(pokemon), ", "))
 
+	gui.set_scale(nodes["pokemon/species"], POKEMON_SPECIES_TEXT_SCALE)
 	gui_utils.scale_text_to_fit_size(nodes["pokemon/species"])
 end
 
