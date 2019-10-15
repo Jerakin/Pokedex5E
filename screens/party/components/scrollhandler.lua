@@ -35,7 +35,7 @@ end
 
 function M.set_max(page, tab, scroll)
 	if sx < sy then
-		scroll = scroll * sy
+		scroll = scroll * sc
 	end
 	scroll_distance[page][tab] = math.max(math.abs(scroll)-size_of_scroll_area, 0)
 end
