@@ -7,6 +7,10 @@ fonts {
   name: "script"
   font: "/assets/fonts/script.font"
 }
+textures {
+  name: "gui"
+  texture: "/assets/gui.atlas"
+}
 background_color {
   x: 0.0
   y: 0.0
@@ -88,7 +92,7 @@ nodes {
   }
   size {
     x: 1000.0
-    y: 100.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -151,7 +155,7 @@ nodes {
   }
   size {
     x: 200.0
-    y: 100.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -196,7 +200,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 1025.0
+    y: 1111.0
     z: 0.0
     w: 1.0
   }
@@ -214,7 +218,7 @@ nodes {
   }
   size {
     x: 200.0
-    y: 100.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -257,8 +261,8 @@ nodes {
 }
 nodes {
   position {
-    x: 360.0
-    y: 985.0
+    x: 0.0
+    y: -35.714
     z: 0.0
     w: 1.0
   }
@@ -269,8 +273,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.7
-    y: 0.7
+    x: 0.9
+    y: 0.9
     z: 1.0
     w: 1.0
   }
@@ -289,12 +293,13 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Made for the \'Pok\303\251mon in 5th Edition\' created by JoetheDM.\n"
-  ""
+  "\n"
+  "As you probably have noticed this app is free and without ad (and will always be)! If you would like to help me (Jerakin) to keep my motivation up I would be happy to receive a coffee!"
   font: "script"
   id: "about_desc"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_N
   outline {
     x: 1.0
     y: 1.0
@@ -309,19 +314,75 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
+  parent: "about"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: false
-  text_leading: 1.0
+  text_leading: 1.1
   text_tracking: 0.0
 }
 nodes {
   position {
+    x: 0.0
+    y: -312.715
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.5
+    y: 1.5
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 260.0
+    y: 50.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/support_me"
+  id: "support_me"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "about"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
     x: 360.0
-    y: 789.0
+    y: 609.0
     z: 0.0
     w: 1.0
   }
@@ -339,7 +400,7 @@ nodes {
   }
   size {
     x: 200.0
-    y: 100.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -382,8 +443,8 @@ nodes {
 }
 nodes {
   position {
-    x: 360.0
-    y: 733.0
+    x: 0.0
+    y: -30.0
     z: 0.0
     w: 1.0
   }
@@ -394,8 +455,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.7
-    y: 0.7
+    x: 0.9
+    y: 0.9
     z: 1.0
     w: 1.0
   }
@@ -413,12 +474,13 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Have Ideas, Bug Reports or Questions? Contact @Jerakin on the Pokemon5e discord (https://discord.gg/DA9gQAa)"
+  text: "Have Ideas, Bug Reports or Questions? Contact @Jerakin on the Pokemon5e discord (https://discord.gg/DA9gQAa)\n"
+  "Or send a mail to pokedex5e@gmail.com"
   font: "script"
   id: "contact_desc"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_N
   outline {
     x: 1.0
     y: 1.0
@@ -433,13 +495,14 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
+  parent: "contact"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
   template_node_child: false
-  text_leading: 1.0
+  text_leading: 1.1
   text_tracking: 0.0
 }
 nodes {
@@ -517,7 +580,7 @@ nodes {
   }
   size {
     x: 200.0
-    y: 100.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -562,7 +625,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 182.0
+    y: 353.0
     z: 0.0
     w: 1.0
   }
@@ -604,7 +667,7 @@ nodes {
   id: "disclaimer_text"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_N
   outline {
     x: 1.0
     y: 1.0
