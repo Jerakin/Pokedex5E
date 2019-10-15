@@ -200,6 +200,7 @@ function M.on_input(action_id, action, consume)
 end
 
 function M.on_message(message_id, message)
+	information.on_message(message_id, message, sender)
 	message.active_index = active_index
 	meters.on_message(message_id, message)
 	status_effects.on_message(message_id, message)

@@ -157,10 +157,7 @@ function M.on_input(action_id, action)
 	end
 
 	gooey.button(rest_button, action_id, action, function() 
-		_pokemon.reset_in_storage(active_pokemon)
-		msg.post(url.PARTY, "refresh_status")
-		msg.post(url.PARTY, "refresh_hp")
-		msg.post(url.PARTY, "refresh_pp")
+		monarch.show("are_you_sure", nil, {title="Pokémon Center", text="We heal your Pokémon back to perfect health!\nShall we heal your Pokémon?", sender=msg.url(), id="full_rest"})
 	end)
 end
 
@@ -172,6 +169,17 @@ function M.create(nodes, pokemon, index)
 	setup_main_information(nodes, pokemon)
 	setup_info_tab(nodes, pokemon)
 	scrollhandler.set_max(index, 3, gui.get_position(active["pokemon/traits/scroll_stop"]).y)
+end
+
+function M.on_message(message_id, message, sender)
+	if message_id == hash("response") and message.response then
+		if message.id == "full_rest" then
+			_pokemon.reset_in_storage(active_pokemon)
+			msg.post(url.PARTY, "refresh_status")
+			msg.post(url.PARTY, "refresh_hp")
+			msg.post(url.PARTY, "refresh_pp")
+		end
+	end
 end
 
 
