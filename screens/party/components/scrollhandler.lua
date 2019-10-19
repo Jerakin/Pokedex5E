@@ -1,4 +1,5 @@
 local gui_utils = require "utils.gui"
+local gui_extra_functions = require "gui_extra_functions.gui_extra_functions"
 
 local M = {}
 

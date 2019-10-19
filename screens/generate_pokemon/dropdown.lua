@@ -1,4 +1,4 @@
-local gooey = require "gooey.gooey"
+local gooey = require "screens.generate_pokemon.gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
 
 local M = {}
@@ -21,10 +21,11 @@ local function button_click(name, button_id, scroll_id)
 	
 	gui.set_position(gui.get_node("offset"), vmath.vector3(s.x*0.5, 0, 0))
 	gui.set_enabled(scroll_bg_id, true)
-	local p = gui.get_position(button_id)
-	local a = gui.get_position(gui.get_node("filters"))
+	local p = gui.get_screen_position(button_id)
+	p.y = p.y - b.y * 0.5
 	local size = gui.get_size(button_id)
-	gui.set_position(scroll_bg_id, p + a)
+	gui.set_screen_position(scroll_bg_id, p)
+	
 	active[name].active = true
 	active.active = true
 	active.name = name
@@ -105,6 +106,7 @@ end
 	
 
 function M.on_input(name, button_id, button_txt_id, scroll_id, scroll_bg_id, item_id, data, action_id, action, func)
+	
 	setup_state(name, button_id, button_txt_id, scroll_id, scroll_bg_id, item_id, action_id, action, func)
 	if active[name].active and not active[name].scroll_clicked and action_id==hash("touch") and action.released and not active[name].button_over then
 		active[name].active = false

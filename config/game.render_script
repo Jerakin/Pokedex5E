@@ -1,6 +1,6 @@
 local screeninfo = require "utils.screeninfo"
 local gooey = require "gooey.gooey"
-
+local gui_extra_functions = require "gui_extra_functions.gui_extra_functions"
 --
 -- projection that centers content with maintained aspect ratio and optional zoom
 --
@@ -31,6 +31,8 @@ end
 
 function init(self)
     screeninfo.init(render.get_window_width(), render.get_window_height())
+    gui_extra_functions.update_coef(render.get_window_width(), render.get_window_height())
+    
     self.tile_pred = render.predicate({"tile"})
     self.gui_pred = render.predicate({"gui"})
     self.text_pred = render.predicate({"text"})
@@ -96,6 +98,7 @@ function on_message(self, message_id, message)
         self.toggle_overdraw = not self.toggle_overdraw
     elseif message_id == hash("window_event") then
         gooey.set_window_size(render.get_window_width(), render.get_window_height())
+        gui_extra_functions.update_coef(render.get_window_width(), render.get_window_height())
         screeninfo.update(render.get_window_width(), render.get_window_height())
     end
 end
