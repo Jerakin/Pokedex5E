@@ -176,7 +176,7 @@ local function redraw_moves(self)
 	for _, b in pairs(move_buttons_list) do
 		gui.delete_node(gui.get_node(b.node))
 	end
-
+	self.move_buttons = {}
 	move_buttons_list = {}
 	for i=1, moves_count do
 		local nodes = gui.clone_tree(self.move_node)
