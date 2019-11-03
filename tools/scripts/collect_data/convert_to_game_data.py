@@ -170,6 +170,7 @@ def convert_move_data(input_file):
     ignore = ["Higher Levels"]
     reg_damage_level = re.compile("Dmg lvl (\d+)")
     reg_damage_dice = re.compile("(?i)(?:(\d)x|X|)(\d+|)d(\d+)\s*(\+\s*move|)(?:\+\s*(\d)|)(\+\s*level|)")
+    healing = re.compile(r"((?:re|\b)gain.\b.*hit points)")
     reg_saving_throw = re.compile("(?:(?:make|with|succeed on) a (.{3}) sav)")
     converted = {}
 
@@ -177,6 +178,7 @@ def convert_move_data(input_file):
         file_data = json.load(fp)
         for move, data in file_data.items():
             converted[move] = {}
+            is_healing_move = False
             for attribute, value in data.items():
                 if not value or value == "None" or attribute in ignore:
                     continue
@@ -195,6 +197,7 @@ def convert_move_data(input_file):
                         amount = 0 if amount == "" else amount
                         dice_max = damage.group(3)
                         add_move = True if damage.group(4) else False
+                        add_move = add_move and not is_healing_move
                         dice = {"amount": int(amount), "dice_max": int(dice_max), "move": add_move}
                         times = damage.group(1)
                         modifier = damage.group(5)
@@ -205,15 +208,19 @@ def convert_move_data(input_file):
                             dice["times"] = int(times)
                         if level_modifier:
                             dice["level"] = True
-                        if not "Damage" in converted[move]:
+                        if "Damage" not in converted[move]:
                             converted[move]["Damage"] = {}
                         converted[move]["Damage"][str(level)] = dice
                     continue
                 if attribute == "Description":
                     saving_throw = reg_saving_throw.search(value)
-
                     if saving_throw:
                         converted[move]["Save"] = saving_throw.group(1)
+
+                    is_healing = healing.search(value)
+                    if is_healing:
+                        is_healing_move = True
+
                 converted[move][attribute] = value
 
         with open(output_location / "moves.json", "w") as f:
