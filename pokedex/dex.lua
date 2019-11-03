@@ -7,18 +7,46 @@ local log = require "utils.log"
 local M = {}
 
 local dex = {}
-local dex_stats = {[1]={[1]=0, [2]=0}, [2]={[1]=0, [2]=0}, [3]={[1]=0, [2]=0}, [4]={[1]=0, [2]=0}, [5]={[1]=0, [2]=0}}
+
 local initialized = false
 
 M.states = {SEEN=1, CAUGHT=2, UNENCOUNTERED=3}
 
-M.regions = {KANTO=1, JOHTO=2, HOENN=3, SINNOH=4, UNOVA=5}
+M.regions = {OTHER=0, KANTO=1, JOHTO=2, HOENN=3, SINNOH=4, UNOVA=5}
 
-local dex_indexes = {[1]=151, [2]=251, [3]=386, [4]=493, [5]=649}
+local dex_stats = {
+	[M.regions.OTHER]={[1]=0, [2]=0}, 
+	[M.regions.KANTO]={[1]=0, [2]=0}, 
+	[M.regions.JOHTO]={[1]=0, [2]=0}, 
+	[M.regions.HOENN]={[1]=0, [2]=0}, 
+	[M.regions.SINNOH]={[1]=0, [2]=0}, 
+	[M.regions.UNOVA]={[1]=0, [2]=0}
+}
+
+-- The maximum index in a given region
+M.max_index = {
+	[M.regions.KANTO]=151, 
+	[M.regions.JOHTO]=251,
+	[M.regions.HOENN]=386, 
+	[M.regions.SINNOH]=493, 
+	[M.regions.UNOVA]=649, 
+	[M.regions.OTHER]=9999999
+}
+
+-- This is the order that the regions comes in OTHER should always be last
+M.order = {
+	M.regions.KANTO,
+	M.regions.JOHTO,
+	M.regions.HOENN,
+	M.regions.SINNOH,
+	M.regions.UNOVA,
+	M.regions.OTHER
+}
 
 local function region_from_index(index)
 	local is_region = 0
-	for region, number in ipairs(dex_indexes) do
+	for _, region in ipairs(M.order) do
+		number = M.max_index[region]
 		is_region = region
 		if index <= number then
 			break
@@ -29,11 +57,13 @@ end
 
 function M.update_region_stats()
 	dex_stats = {
-		[1]={[1]=0, [2]=0}, 
-		[2]={[1]=0, [2]=0}, 
-		[3]={[1]=0, [2]=0}, 
-		[4]={[1]=0, [2]=0}, 
-		[5]={[1]=0, [2]=0}
+		[M.regions.OTHER]={[1]=0, [2]=0}, 
+		[M.regions.KANTO]={[1]=0, [2]=0}, 
+		[M.regions.JOHTO]={[1]=0, [2]=0}, 
+		[M.regions.HOENN]={[1]=0, [2]=0}, 
+		[M.regions.SINNOH]={[1]=0, [2]=0}, 
+		[M.regions.UNOVA]={[1]=0, [2]=0}
+		
 	}
 
 	for index, state in pairs(dex) do

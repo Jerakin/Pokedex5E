@@ -50,12 +50,20 @@ local function animate_in()
 	end
 end
 
+local function reindex(the_table)
+	local new_table = {}
+	for _, value in pairs(the_table) do
+		table.insert(new_table, value)
+	end
+	return new_table
+end
+
 local function update_dex_data(self)
 	pokedex_data = {}
-	for i=1, math.ceil(#self.filtered_list / 5) do
+	for i=1, math.ceil(#reindex(self.filtered_list) / 5) do
 		pokedex_data[i] = {}
 		for a=1, 5 do
-			local species = self.filtered_list[(i-1)*5 + a]
+			local species = reindex(self.filtered_list)[(i-1)*5 + a]
 			if species then
 				local sprite, texture = pokedex.get_sprite(species)
 				local state = dex.get(species)
@@ -95,7 +103,8 @@ end
 
 local function set_active_button(list)
 	local active
-	for _, region in ipairs(region_map) do
+	for _, index in pairs(dex.order) do
+		local region = region_map[index]
 		gui.play_flipbook(region.button, "common_up")
 		gui.set_color(region.txt, gui_colors.BUTTON_TEXT)
 		if list.scroll.y+0.0000001 > region.scroll then
@@ -140,17 +149,19 @@ end
 
 function init(self)
 	region_map = {
-		[1]={name="Kanto", low=1, high=151, button=gui.get_node("btn_region1"), txt=gui.get_node("txt_kanto"), scroll=0.00001},
-		[2]={name="Johto", low=152, high=251, button=gui.get_node("btn_region2"), txt=gui.get_node("txt_johto"), scroll=0.2455770522356},
-		[3]={name="Hoenn", low=252, high=386, button=gui.get_node("btn_region3"), txt=gui.get_node("txt_hoenn"), scroll=0.40909090638161},
-		[4]={name="Sinnoh", low=387, high=494, button=gui.get_node("btn_region4"), txt=gui.get_node("txt_sinnoh"), scroll=0.63041377067566},
-		[5]={name="Unova", low=495, high=649, button=gui.get_node("btn_region5"), txt=gui.get_node("txt_unova"), scroll=0.80159193277359},
+		[dex.regions.OTHER]={name="Others", low=dex.max_index[dex.regions.UNOVA]+1, high=dex.max_index[dex.regions.OTHER], button=gui.get_node("btn_region_other"), txt=gui.get_node("txt_other"), scroll=0.99209382553101},
+		[dex.regions.KANTO]={name="Kanto", low=1, high=dex.max_index[dex.regions.KANTO], button=gui.get_node("btn_region1"), txt=gui.get_node("txt_kanto"), scroll=0.00001},
+		[dex.regions.JOHTO]={name="Johto", low=dex.max_index[dex.regions.KANTO]+1, high=dex.max_index[dex.regions.JOHTO], button=gui.get_node("btn_region2"), txt=gui.get_node("txt_johto"), scroll=0.2455770522356},
+		[dex.regions.HOENN]={name="Hoenn", low=dex.max_index[dex.regions.JOHTO]+1, high=dex.max_index[dex.regions.HOENN], button=gui.get_node("btn_region3"), txt=gui.get_node("txt_hoenn"), scroll=0.40909090638161},
+		[dex.regions.SINNOH]={name="Sinnoh", low=dex.max_index[dex.regions.HOENN]+1, high=dex.max_index[dex.regions.SINNOH], button=gui.get_node("btn_region4"), txt=gui.get_node("txt_sinnoh"), scroll=0.63041377067566},
+		[dex.regions.UNOVA]={name="Unova", low=dex.max_index[dex.regions.SINNOH]+1, high=dex.max_index[dex.regions.UNOVA], button=gui.get_node("btn_region5"), txt=gui.get_node("txt_unova"), scroll=0.80159193277359},
 	}
 
 	url.POKEDEX = msg.url()
 	msg.post(url.MENU, "show")
 	self.all_pokemons = pokedex.unique
 	self.filtered_list = pokedex.unique
+
 	self.mark_menu_active = false
 	self.mark_txt = gui.get_node("txt_mark")
 	self.mark_menu = gui.get_node("mark_menu")
@@ -172,7 +183,7 @@ local function scroll_list_click(self, list)
 			for i=1, 5 do
 				local sprite_node = entry.nodes[hash("pokemon_row/pokemon" .. i .. "/pokemon_sprite")]
 				if gui.pick_node(sprite_node, action_position.x, action_position.y) then
-					local species = self.filtered_list[(list.selected_item-1)*5 + i]
+					local species = reindex(self.filtered_list)[(list.selected_item-1)*5 + i]
 					if species and mark_as then
 						dex.set(species, mark_as)
 						update_dex_data(self)
@@ -213,19 +224,22 @@ function on_input(self, action_id, action)
 	action_position.x = action.x
 	action_position.y = action.y
 	gooey.button("btn_region1", action_id, action, function()
-		scroll_to_position(self, region_map[1].scroll)
+		scroll_to_position(self, region_map[dex.regions.KANTO].scroll)
 	end)
 	gooey.button("btn_region2", action_id, action, function()
-		scroll_to_position(self, region_map[2].scroll)
+		scroll_to_position(self, region_map[dex.regions.JOHTO].scroll)
 	end)
 	gooey.button("btn_region3", action_id, action, function()
-		scroll_to_position(self, region_map[3].scroll)
+		scroll_to_position(self, region_map[dex.regions.HOENN].scroll)
 	end)
 	gooey.button("btn_region4", action_id, action, function()
-		scroll_to_position(self, region_map[4].scroll)
+		scroll_to_position(self, region_map[dex.regions.SINNOH].scroll)
 	end)
 	gooey.button("btn_region5", action_id, action, function()
-		scroll_to_position(self, region_map[5].scroll)
+		scroll_to_position(self, region_map[dex.regions.UNOVA].scroll)
+	end)
+	gooey.button("btn_region_other", action_id, action, function()
+		scroll_to_position(self, region_map[dex.regions.OTHER].scroll)
 	end)
 	local a = gooey.button("btn_mark", action_id, action, function()
 		toogle_mark_menu(self)
