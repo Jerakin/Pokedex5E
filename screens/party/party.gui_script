@@ -23,7 +23,7 @@ end
 
 function on_input(self, action_id, action)
 	local consume = inventory.on_input(action_id, action)
-	party.on_input(action_id, action, consume)
+	
 	gooey.button("btn_edit", action_id, action, function()
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:EditByButton",
@@ -33,13 +33,17 @@ function on_input(self, action_id, action)
 		monarch.show("edit", {}, {id=id})
 	end)
 
-	gooey.button("btn_storage", action_id, action, function()
+	local storage_b = gooey.button("btn_storage", action_id, action, function()
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:PCByButton",
 			value = tracking_id[monarch.top()]
 		}
 		monarch.show("storage")
 	end)
+	if storage_b.over then
+		return true
+	end
+	party.on_input(action_id, action, consume)
 end
 
 function final(self)
