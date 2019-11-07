@@ -7,6 +7,7 @@ local gui_colors = require "utils.gui_colors"
 local gui_utils = require "utils.gui"
 local search_bar =  require "screens.pokedex.search"
 local url = require "utils.url"
+local dex_data = require "pokedex.dex_data"
 
 local pokedex_data = {}
 local action_position = vmath.vector3()
@@ -103,7 +104,7 @@ end
 
 local function set_active_button(list)
 	local active
-	for _, index in pairs(dex.order) do
+	for _, index in pairs(dex_data.order) do
 		local region = region_map[index]
 		gui.play_flipbook(region.button, "common_up")
 		gui.set_color(region.txt, gui_colors.BUTTON_TEXT)
@@ -135,26 +136,26 @@ local function update_list(list)
 end
 
 local function update_pokedex_info(self)
-	gui.set_text(gui.get_node("txt_seen_kanto"), dex.get_region_seen(dex.regions.KANTO))
-	gui.set_text(gui.get_node("txt_seen_johto"), dex.get_region_seen(dex.regions.JOHTO))
-	gui.set_text(gui.get_node("txt_seen_hoenn"), dex.get_region_seen(dex.regions.HOENN))
-	gui.set_text(gui.get_node("txt_seen_sinnoh"), dex.get_region_seen(dex.regions.SINNOH))
-	gui.set_text(gui.get_node("txt_seen_unova"), dex.get_region_seen(dex.regions.UNOVA))
-	gui.set_text(gui.get_node("txt_caught_kanto"), dex.get_region_caught(dex.regions.KANTO))
-	gui.set_text(gui.get_node("txt_caught_johto"), dex.get_region_caught(dex.regions.JOHTO))
-	gui.set_text(gui.get_node("txt_caught_hoenn"), dex.get_region_caught(dex.regions.HOENN))
-	gui.set_text(gui.get_node("txt_caught_sinnoh"), dex.get_region_caught(dex.regions.SINNOH))
-	gui.set_text(gui.get_node("txt_caught_unova"), dex.get_region_caught(dex.regions.UNOVA))
+	gui.set_text(gui.get_node("txt_seen_kanto"), dex_data.get_region_seen(dex_data.regions.KANTO))
+	gui.set_text(gui.get_node("txt_seen_johto"), dex_data.get_region_seen(dex_data.regions.JOHTO))
+	gui.set_text(gui.get_node("txt_seen_hoenn"), dex_data.get_region_seen(dex_data.regions.HOENN))
+	gui.set_text(gui.get_node("txt_seen_sinnoh"), dex_data.get_region_seen(dex_data.regions.SINNOH))
+	gui.set_text(gui.get_node("txt_seen_unova"), dex_data.get_region_seen(dex_data.regions.UNOVA))
+	gui.set_text(gui.get_node("txt_caught_kanto"), dex_data.get_region_caught(dex_data.regions.KANTO))
+	gui.set_text(gui.get_node("txt_caught_johto"), dex_data.get_region_caught(dex_data.regions.JOHTO))
+	gui.set_text(gui.get_node("txt_caught_hoenn"), dex_data.get_region_caught(dex_data.regions.HOENN))
+	gui.set_text(gui.get_node("txt_caught_sinnoh"), dex_data.get_region_caught(dex_data.regions.SINNOH))
+	gui.set_text(gui.get_node("txt_caught_unova"), dex_data.get_region_caught(dex_data.regions.UNOVA))
 end
 
 function init(self)
 	region_map = {
-		[dex.regions.OTHER]={name="Others", low=dex.max_index[dex.regions.UNOVA]+1, high=dex.max_index[dex.regions.OTHER], button=gui.get_node("btn_region_other"), txt=gui.get_node("txt_other"), scroll=0.99209382553101},
-		[dex.regions.KANTO]={name="Kanto", low=1, high=dex.max_index[dex.regions.KANTO], button=gui.get_node("btn_region1"), txt=gui.get_node("txt_kanto"), scroll=0.00001},
-		[dex.regions.JOHTO]={name="Johto", low=dex.max_index[dex.regions.KANTO]+1, high=dex.max_index[dex.regions.JOHTO], button=gui.get_node("btn_region2"), txt=gui.get_node("txt_johto"), scroll=0.2455770522356},
-		[dex.regions.HOENN]={name="Hoenn", low=dex.max_index[dex.regions.JOHTO]+1, high=dex.max_index[dex.regions.HOENN], button=gui.get_node("btn_region3"), txt=gui.get_node("txt_hoenn"), scroll=0.40909090638161},
-		[dex.regions.SINNOH]={name="Sinnoh", low=dex.max_index[dex.regions.HOENN]+1, high=dex.max_index[dex.regions.SINNOH], button=gui.get_node("btn_region4"), txt=gui.get_node("txt_sinnoh"), scroll=0.63041377067566},
-		[dex.regions.UNOVA]={name="Unova", low=dex.max_index[dex.regions.SINNOH]+1, high=dex.max_index[dex.regions.UNOVA], button=gui.get_node("btn_region5"), txt=gui.get_node("txt_unova"), scroll=0.80159193277359},
+		[dex_data.regions.OTHER]={name="Others", low=dex_data.max_index[dex_data.regions.UNOVA]+1, high=dex_data.max_index[dex_data.regions.OTHER], button=gui.get_node("btn_region_other"), txt=gui.get_node("txt_other"), scroll=0.99209382553101},
+		[dex_data.regions.KANTO]={name="Kanto", low=1, high=dex_data.max_index[dex_data.regions.KANTO], button=gui.get_node("btn_region1"), txt=gui.get_node("txt_kanto"), scroll=0.00001},
+		[dex_data.regions.JOHTO]={name="Johto", low=dex_data.max_index[dex_data.regions.KANTO]+1, high=dex_data.max_index[dex_data.regions.JOHTO], button=gui.get_node("btn_region2"), txt=gui.get_node("txt_johto"), scroll=0.2455770522356},
+		[dex_data.regions.HOENN]={name="Hoenn", low=dex_data.max_index[dex_data.regions.JOHTO]+1, high=dex_data.max_index[dex_data.regions.HOENN], button=gui.get_node("btn_region3"), txt=gui.get_node("txt_hoenn"), scroll=0.40909090638161},
+		[dex_data.regions.SINNOH]={name="Sinnoh", low=dex_data.max_index[dex_data.regions.HOENN]+1, high=dex_data.max_index[dex_data.regions.SINNOH], button=gui.get_node("btn_region4"), txt=gui.get_node("txt_sinnoh"), scroll=0.63041377067566},
+		[dex_data.regions.UNOVA]={name="Unova", low=dex_data.max_index[dex_data.regions.SINNOH]+1, high=dex_data.max_index[dex_data.regions.UNOVA], button=gui.get_node("btn_region5"), txt=gui.get_node("txt_unova"), scroll=0.80159193277359},
 	}
 
 	url.POKEDEX = msg.url()
@@ -224,22 +225,22 @@ function on_input(self, action_id, action)
 	action_position.x = action.x
 	action_position.y = action.y
 	gooey.button("btn_region1", action_id, action, function()
-		scroll_to_position(self, region_map[dex.regions.KANTO].scroll)
+		scroll_to_position(self, region_map[dex_data.regions.KANTO].scroll)
 	end)
 	gooey.button("btn_region2", action_id, action, function()
-		scroll_to_position(self, region_map[dex.regions.JOHTO].scroll)
+		scroll_to_position(self, region_map[dex_data.regions.JOHTO].scroll)
 	end)
 	gooey.button("btn_region3", action_id, action, function()
-		scroll_to_position(self, region_map[dex.regions.HOENN].scroll)
+		scroll_to_position(self, region_map[dex_data.regions.HOENN].scroll)
 	end)
 	gooey.button("btn_region4", action_id, action, function()
-		scroll_to_position(self, region_map[dex.regions.SINNOH].scroll)
+		scroll_to_position(self, region_map[dex_data.regions.SINNOH].scroll)
 	end)
 	gooey.button("btn_region5", action_id, action, function()
-		scroll_to_position(self, region_map[dex.regions.UNOVA].scroll)
+		scroll_to_position(self, region_map[dex_data.regions.UNOVA].scroll)
 	end)
 	gooey.button("btn_region_other", action_id, action, function()
-		scroll_to_position(self, region_map[dex.regions.OTHER].scroll)
+		scroll_to_position(self, region_map[dex_data.regions.OTHER].scroll)
 	end)
 	local a = gooey.button("btn_mark", action_id, action, function()
 		toogle_mark_menu(self)
