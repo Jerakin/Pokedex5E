@@ -1,6 +1,6 @@
 local M = {}
 
-M.regions = {OTHER=0, KANTO=1, JOHTO=2, HOENN=3, SINNOH=4, UNOVA=5}
+M.regions = {OTHER=0, KANTO=1, JOHTO=2, HOENN=3, SINNOH=4, UNOVA=5, KALOS=6}
 
 
 
@@ -10,7 +10,8 @@ M.max_index = {
 	[M.regions.JOHTO]=251,
 	[M.regions.HOENN]=386, 
 	[M.regions.SINNOH]=493, 
-	[M.regions.UNOVA]=649, 
+	[M.regions.UNOVA]=649,
+	[M.regions.KALOS]=721,
 	[M.regions.OTHER]=9999999
 }
 
@@ -21,6 +22,7 @@ M.order = {
 	M.regions.HOENN,
 	M.regions.SINNOH,
 	M.regions.UNOVA,
+	M.regions.KALOS,
 	M.regions.OTHER
 }
 
