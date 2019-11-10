@@ -381,9 +381,13 @@ function M.init(self, pokemon)
 	gui.set_enabled(self.move_node, false)
 	gui.set_enabled(gui.get_node("change_pokemon/checkmark_eviolite_mark"), false)
 
-	local is_shiny =_pokemon.is_shiny(self.pokemon) or false
-	gui.set_enabled(gui.get_node("change_pokemon/checkmark_shiny_mark"), is_shiny)
-	gooey.checkbox("change_pokemon/bg_shiny").set_checked(is_shiny)
+	if self.pokemon then
+		local is_shiny =_pokemon.is_shiny(self.pokemon) or false
+		gui.set_enabled(gui.get_node("change_pokemon/checkmark_shiny_mark"), is_shiny)
+		gooey.checkbox("change_pokemon/bg_shiny").set_checked(is_shiny)
+	else
+		gui.set_enabled(gui.get_node("change_pokemon/checkmark_shiny_mark"), false)
+	end
 	update_sections(true)
 end
 
