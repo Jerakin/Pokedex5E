@@ -7,7 +7,7 @@ input_location = Path().home() / "downloads" / "api-data-master" / "data" / "api
 output_location = Path(__file__).parent.parent.parent / "assets" / "datafiles"
 
 output_data = {}
-pokemon_index_cap = 649
+pokemon_index_cap = 721
 
 for index in range(pokemon_index_cap):
     index += 1
