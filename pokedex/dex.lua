@@ -1,5 +1,6 @@
 local profiles = require "pokedex.profiles"
 local pokedex = require "pokedex.pokedex"
+local dex_data = require "pokedex.dex_data"
 local storage = require "pokedex.storage"
 local utils = require "utils.utils"
 local log = require "utils.log"
@@ -7,18 +8,25 @@ local log = require "utils.log"
 local M = {}
 
 local dex = {}
-local dex_stats = {[1]={[1]=0, [2]=0}, [2]={[1]=0, [2]=0}, [3]={[1]=0, [2]=0}, [4]={[1]=0, [2]=0}, [5]={[1]=0, [2]=0}}
+
 local initialized = false
 
 M.states = {SEEN=1, CAUGHT=2, UNENCOUNTERED=3}
 
-M.regions = {KANTO=1, JOHTO=2, HOENN=3, SINNOH=4, UNOVA=5}
+local dex_stats = {
+	[dex_data.regions.OTHER]={[1]=0, [2]=0}, 
+	[dex_data.regions.KANTO]={[1]=0, [2]=0}, 
+	[dex_data.regions.JOHTO]={[1]=0, [2]=0}, 
+	[dex_data.regions.HOENN]={[1]=0, [2]=0}, 
+	[dex_data.regions.SINNOH]={[1]=0, [2]=0}, 
+	[dex_data.regions.UNOVA]={[1]=0, [2]=0}
+}
 
-local dex_indexes = {[1]=151, [2]=251, [3]=386, [4]=493, [5]=649}
 
 local function region_from_index(index)
 	local is_region = 0
-	for region, number in ipairs(dex_indexes) do
+	for _, region in ipairs(dex_data.order) do
+		number = dex_data.max_index[region]
 		is_region = region
 		if index <= number then
 			break
@@ -29,11 +37,13 @@ end
 
 function M.update_region_stats()
 	dex_stats = {
-		[1]={[1]=0, [2]=0}, 
-		[2]={[1]=0, [2]=0}, 
-		[3]={[1]=0, [2]=0}, 
-		[4]={[1]=0, [2]=0}, 
-		[5]={[1]=0, [2]=0}
+		[dex_data.regions.OTHER]={[1]=0, [2]=0}, 
+		[dex_data.regions.KANTO]={[1]=0, [2]=0}, 
+		[dex_data.regions.JOHTO]={[1]=0, [2]=0}, 
+		[dex_data.regions.HOENN]={[1]=0, [2]=0}, 
+		[dex_data.regions.SINNOH]={[1]=0, [2]=0}, 
+		[dex_data.regions.UNOVA]={[1]=0, [2]=0}
+		
 	}
 
 	for index, state in pairs(dex) do

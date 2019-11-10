@@ -20,6 +20,8 @@ local gui_utils = require "utils.gui"
 
 local STATS = {"STR", "DEX", "CON", "INT", "WIS", "CHA"}
 
+local POKEMON_SPECIES_TEXT_SCALE = vmath.vector3(1)
+
 local M = {}
 
 M.block = false
@@ -58,6 +60,7 @@ local function collapse_buttons()
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_moves"), button_state[M.config[hash("change_pokemon/moves")].active])
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_abilities"), button_state[M.config[hash("change_pokemon/abilities")].active])
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_feats"), button_state[M.config[hash("change_pokemon/feats")].active])
+	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_item"), button_state[M.config[hash("change_pokemon/held_item")].active])
 	gui.set_enabled(gui.get_node("change_pokemon/btn_reset_abilities"), M.config[hash("change_pokemon/abilities")].active)
 end
 
@@ -173,7 +176,7 @@ local function redraw_moves(self)
 	for _, b in pairs(move_buttons_list) do
 		gui.delete_node(gui.get_node(b.node))
 	end
-
+	self.move_buttons = {}
 	move_buttons_list = {}
 	for i=1, moves_count do
 		local nodes = gui.clone_tree(self.move_node)
@@ -199,6 +202,7 @@ local function redraw_moves(self)
 			local icon_node = move_buttons_list[data.index].icon
 			
 			gui.set_text(move_node, move:upper())
+			gui.set_scale(move_node, vmath.vector3(0.8))
 			gui_utils.scale_text_to_fit_size(move_node)
 			gui.set_color(move_node, movedex.get_move_color(move))
 			gui.play_flipbook(icon_node, movedex.get_move_icon(move))
@@ -371,6 +375,7 @@ function M.init(self, pokemon)
 	gui.set_enabled(gui.get_node("change_pokemon/ability/root"), false)
 	gui.set_enabled(gui.get_node("change_pokemon/btn_reset_abilities"), false)
 	gui.set_color(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector4(1))
+	gui.set_scale(gui.get_node("change_pokemon/species"), POKEMON_SPECIES_TEXT_SCALE)
 	gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
 	self.move_node = gui.get_node("change_pokemon/btn_move")
 	gui.set_enabled(self.move_node, false)
@@ -408,7 +413,7 @@ function M.on_message(self, message_id, message, sender)
 			gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.TEXT)
 			gui.set_text(gui.get_node("change_pokemon/species"), _pokemon.get_current_species(self.pokemon):upper())
 			gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
-			gui.set_scale(gui.get_node("change_pokemon/species"), vmath.vector3(0.8))
+			gui.set_scale(gui.get_node("change_pokemon/species"), POKEMON_SPECIES_TEXT_SCALE)
 			if self.register_buttons_after_species then self.register_buttons_after_species(self) end
 		elseif message_id == hash("evolve") then
 			flow.start(function()

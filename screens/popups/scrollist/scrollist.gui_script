@@ -46,7 +46,7 @@ function init(self)
 	self.list_items = utils.shallow_copy(d.items)
 	update_list(gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.list_items))
 	gui.set_enabled(gui.get_node("cursor"), false)
-	gui_utils.scale_text_to_fit_size(gui.get_node("topbar/title"))
+	--gui_utils.scale_text_to_fit_size(gui.get_node("topbar/title"))
 end
 
 local function filter_list(self, search_string)

@@ -17,7 +17,7 @@ local screeninfo = require "utils.screeninfo"
 local log = require "utils.log"
 local fakemon = require "fakemon.fakemon"
 local settings = require "pokedex.settings"
-
+local url = require "utils.url"
 
 local function send_crash_on_start()
 	crash.write_dump()
@@ -31,27 +31,51 @@ local function send_crash_on_start()
 	end
 end
 
-local function send_crash_analytics(source, message, traceback)
-	gameanalytics.addErrorEvent {
-		severity = "Critical",
-		message = message .. "\n" .. traceback
-	}
+local error_table = {}
+local VERSION = sys.get_config("project.version")
+-- https://gameanalytics.com/docs/item/ga-data
+-- https://gameanalytics.com/docs/item/resource-events
+
+local function error_handler(source, message, traceback)
+	-- don't flood the same unique message more than once
+	local traceback_hash = hash(traceback)
+	if error_table[traceback_hash] ~= nil then
+		return false
+	else
+		error_table[traceback_hash] = true
+	end
+
+	local severity_rating = "Critical"
+	if sys.get_engine_info().is_debug then
+		severity_rating = "Debug"
+	end
+	local error_message = VERSION .. " - " .. source .. " - " .. message .. " - " .. traceback
+	if gameanalytics then
+		gameanalytics.addErrorEvent {
+			severity = severity_rating,
+			message = error_message
+		}	
+	end
+
 end
+
 
 local function window_resized()
 	msg.post("@render:", "window_event")
 end
 
 function init(self)
+	collectionfactory.create("/menu#collectionfactory")
+	msg.post(url.MENU, "hide")
 	local system = sys.get_sys_info().system_name
 	window.set_listener(window_resized)
 
-	if system == "HTML5" then
+	if not gameanalytics then
 		gameanalytics = require "utils.mock_gameanalytics"
 		log.info("HTML5: Skipping GameAnalytics")
 	end
 	send_crash_on_start()
-	sys.set_error_handler(send_crash_analytics)
+	sys.set_error_handler(error_handler)
 	defsave.appname = "pokedex5E"
 	defsave.verbose = false
 	defsave.use_default_data = false
@@ -67,7 +91,19 @@ function init(self)
 
 	
 	if system == "Windows" or system == "Darwin" then
-		--defos.set_view_size(0, 0, 720*0.5, 1280*0.5)
+		local project = vmath.vector3(640, 1136, 1)
+		local project2 = vmath.vector3(719, 1280, 1)
+		local pixel = vmath.vector3(1440, 2560, 0.3)
+		local galaxya8 = vmath.vector3(1080, 2220, 0.45)
+		local tab8 = vmath.vector3(800, 1280, 0.75)
+		local square = vmath.vector3(800, 800, 1)
+		local iphonex = vmath.vector3(1125, 2436, 0.4)
+		local iphonese = vmath.vector3(640, 1136, 1)
+		local umx = vmath.vector3(480, 854, 1)
+		
+		local using = tab8
+		
+		msg.post("@render:", "resize", { width = using.x*using.z, height = using.y*using.z } )
 	end
 	msg.post("#", "show_splash")
 	

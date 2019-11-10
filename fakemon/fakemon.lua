@@ -7,8 +7,12 @@ local zzlib = require "utils.zzlib"
 local file = require "utils.file"
 
 local M = {}
-
-GITHUB_URL = "https://raw.githubusercontent.com/Jerakin/FakemonPackages/master"
+if sys.get_engine_info().is_debug then
+	print("Using FakemonPackages/devlop")
+	GITHUB_URL = "https://raw.githubusercontent.com/Jerakin/FakemonPackages/develop"
+else
+	GITHUB_URL = "https://raw.githubusercontent.com/Jerakin/FakemonPackages/master"
+end
 
 M.INDEX = nil
 M.BUSY = false

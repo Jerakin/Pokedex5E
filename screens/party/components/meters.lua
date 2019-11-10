@@ -8,8 +8,7 @@ local information = require "screens.party.components.information"
 local M = {}
 
 local active_buttons = {}
-
-local current_id
+local active_pokemon_id
 local active_nodes 
 local function update_hp_meter(nodes, max, current)
 	local max_size = gui.get_size(nodes["pokemon/hp_bar_bg"])
@@ -117,6 +116,7 @@ end
 function M.create(nodes, pokemon_id)
 	local pokemon = storage.get_copy(pokemon_id)
 	active_nodes = nodes
+	active_pokemon_id = pokemon_id
 	active_buttons = {}
 	gui.set_text(nodes["pokemon/txt_loyalty"], party_utils.add_operation(storage.get_pokemon_loyalty(pokemon_id)))
 	add_loyalty_buttons(nodes, pokemon)
@@ -180,6 +180,8 @@ function M.on_message(message_id, message)
 				value = hp
 			}
 		end
+	elseif message_id == hash("refresh_hp") then
+		M.setup_hp(active_nodes, active_pokemon_id)
 	end
 end
 

@@ -4,7 +4,3 @@ function init(self)
 	gui.set_render_order(gro.SPLASH)
 	gui.set_text(gui.get_node("version_number"), sys.get_config("project.version"))
 end
-
-function final(self)
-	collectionfactory.create("/menu#collectionfactory")
-end

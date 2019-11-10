@@ -49,7 +49,7 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "template1"
+  id: "bottom_bar"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -90,12 +90,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/shadow"
-  id: "template1/shadow"
+  id: "bottom_bar/shadow"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_STRETCH
-  parent: "template1"
+  parent: "bottom_bar"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -145,12 +145,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/square"
-  id: "template1/btm_bar"
+  id: "bottom_bar/btm_bar"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_BOTTOM
   pivot: PIVOT_S
   adjust_mode: ADJUST_MODE_STRETCH
-  parent: "template1"
+  parent: "bottom_bar"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -168,8 +168,62 @@ nodes {
 }
 nodes {
   position {
+    x: 360.0
+    y: 1280.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
     x: 0.0
     y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/title_backing"
+  id: "root"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_STRETCH
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: -360.0
+    y: -1280.0
     z: 0.0
     w: 1.0
   }
@@ -199,6 +253,7 @@ nodes {
   }
   type: TYPE_TEMPLATE
   id: "template"
+  parent: "root"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -208,7 +263,7 @@ nodes {
 nodes {
   position {
     x: 360.0
-    y: 1202.0
+    y: 1204.0
     z: 0.0
     w: 1.0
   }
@@ -226,7 +281,7 @@ nodes {
   }
   size {
     x: 720.0
-    y: 20.0
+    y: 30.0
     z: 0.0
     w: 1.0
   }
@@ -256,7 +311,7 @@ nodes {
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 1.0
+  alpha: 0.5
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -317,7 +372,7 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
+    x: -273.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -353,7 +408,7 @@ nodes {
   id: "template/title"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_TOP
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_W
   outline {
     x: 1.0
     y: 1.0
@@ -382,8 +437,8 @@ nodes {
 }
 nodes {
   position {
-    x: 538.0
-    y: 40.0
+    x: 178.0
+    y: -1240.0
     z: 0.0
     w: 1.0
   }
@@ -419,6 +474,7 @@ nodes {
   yanchor: YANCHOR_BOTTOM
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -499,8 +555,8 @@ nodes {
 }
 nodes {
   position {
-    x: 50.0
-    y: 1245.0
+    x: -310.0
+    y: -35.0
     z: 0.0
     w: 1.0
   }
@@ -536,6 +592,7 @@ nodes {
   yanchor: YANCHOR_TOP
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -553,8 +610,8 @@ nodes {
 }
 nodes {
   position {
-    x: 197.0
-    y: 40.0
+    x: -163.0
+    y: -1240.0
     z: 0.0
     w: 1.0
   }
@@ -590,6 +647,7 @@ nodes {
   yanchor: YANCHOR_BOTTOM
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -670,8 +728,8 @@ nodes {
 }
 nodes {
   position {
-    x: 360.0
-    y: 1177.0
+    x: 0.0
+    y: -103.0
     z: 0.0
     w: 1.0
   }
@@ -706,7 +764,8 @@ nodes {
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_TOP
   pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
+  adjust_mode: ADJUST_MODE_STRETCH
+  parent: "root"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -2217,14 +2276,14 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.7019608
+    y: 0.101960786
+    z: 0.101960786
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "gui/square"
   id: "scroll_list"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_TOP
@@ -2344,7 +2403,7 @@ nodes {
 nodes {
   position {
     x: -225.0
-    y: -100.0
+    y: -93.0
     z: 0.0
     w: 1.0
   }
@@ -2525,7 +2584,9 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Bulbasaur\n"
-  "Lv. 10"
+  "Strong\n"
+  "Lv. 10\n"
+  ""
   font: "script"
   id: "pokemon/pokemon1/txt_pokemon"
   xanchor: XANCHOR_NONE
@@ -2681,7 +2742,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -100.0
+    y: -93.0
     z: 0.0
     w: 1.0
   }
@@ -2862,7 +2923,9 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Bulbasaur\n"
-  "Lv. 10"
+  "Strong\n"
+  "Lv. 10\n"
+  ""
   font: "script"
   id: "pokemon/pokemon2/txt_pokemon"
   xanchor: XANCHOR_NONE
@@ -3018,7 +3081,7 @@ nodes {
 nodes {
   position {
     x: 225.0
-    y: -100.0
+    y: -93.0
     z: 0.0
     w: 1.0
   }
@@ -3199,7 +3262,9 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "Bulbasaur\n"
-  "Lv. 10"
+  "Strong\n"
+  "Lv. 10\n"
+  ""
   font: "script"
   id: "pokemon/pokemon3/txt_pokemon"
   xanchor: XANCHOR_NONE
@@ -4164,8 +4229,269 @@ nodes {
 }
 nodes {
   position {
-    x: 837.0
-    y: -173.0
+    x: 343.0
+    y: -1174.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_TEMPLATE
+  id: "scrollbar"
+  parent: "root"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  template: "/templates/scrollbar.gui"
+  template_node_child: false
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 20.0
+    y: 650.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/scroll_bar"
+  id: "scrollbar/bar"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_S
+  adjust_mode: ADJUST_MODE_STRETCH
+  parent: "scrollbar"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 15.0
+    z: 0.0
+    w: 15.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  overridden_fields: 4
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 602.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 50.0
+    y: 96.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/transparent"
+  id: "scrollbar/handle"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "scrollbar/bar"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  overridden_fields: 1
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 0.91
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 15.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.8
+    y: 0.8
+    z: 0.8
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/scroll_bar"
+  id: "scrollbar/visual"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "scrollbar/handle"
+  layer: "gui"
+  inherit_alpha: false
+  slice9 {
+    x: 0.0
+    y: 15.0
+    z: 0.0
+    w: 15.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: -157.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/add_backing"
+  id: "dropdown_root"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -4201,6 +4527,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_FIT
+  parent: "dropdown_root"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -4608,213 +4935,6 @@ nodes {
   template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 703.0
-    y: 106.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_TEMPLATE
-  id: "scrollbar"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  template: "/templates/scrollbar.gui"
-  template_node_child: false
-}
-nodes {
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 20.0
-    y: 670.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/scroll_bar"
-  id: "scrollbar/bar"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_S
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "scrollbar"
-  layer: ""
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 15.0
-    z: 0.0
-    w: 15.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  overridden_fields: 4
-  overridden_fields: 17
-  template_node_child: true
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: 0.0
-    y: 622.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 50.0
-    y: 96.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: ""
-  id: "scrollbar/handle"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "scrollbar/bar"
-  layer: ""
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 0.0
-  overridden_fields: 1
-  template_node_child: true
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 0.91
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 15.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.8
-    y: 0.8
-    z: 0.8
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/scroll_bar"
-  id: "scrollbar/visual"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "scrollbar/handle"
-  layer: ""
-  inherit_alpha: false
-  slice9 {
-    x: 0.0
-    y: 15.0
-    z: 0.0
-    w: 15.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: true
-  size_mode: SIZE_MODE_MANUAL
 }
 layers {
   name: "gui"

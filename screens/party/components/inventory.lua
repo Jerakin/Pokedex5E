@@ -57,10 +57,17 @@ function M.create()
 	create_party_indicators(party_pokemons)
 end
 
+local clicked
+local inv_b
 function M.on_input(action_id, action)
+	clicked = false
 	for _, b in pairs(buttons) do
-		gooey.button(b.node, action_id, action, b.func)
+		inv_b = gooey.button(b.node, action_id, action, b.func)
+		if inv_b.pressed_now then
+			clicked = true
+		end
 	end
+	return clicked
 end
 
 return M

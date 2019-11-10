@@ -547,11 +547,18 @@ function M.get_move_index(pokemon, move)
 end
 
 function M.reset(pokemon)
-	M.set_current_hp(pokemon, M.get_max_hp(pokemon))
+	M.set_current_hp(pokemon, M.get_total_max_hp(pokemon))
 	for name, move in pairs(M.get_moves(pokemon)) do
 		M.reset_move_pp(pokemon, name)
 	end
+	pokemon.statuses = {}
 end
+
+function M.reset_in_storage(pokemon)
+	M.reset(pokemon)
+	storage.update_pokemon(pokemon)
+end
+
 
 function M.get_vulnerabilities(pokemon)
 	return pokedex.get_pokemon_vulnerabilities(M.get_current_species(pokemon))

@@ -8,6 +8,8 @@ local gui_utils = require "utils.gui"
 local dex = require "pokedex.dex"
 local url = require "utils.url"
 
+local POKEMON_SPECIES_TEXT_SCALE = vmath.vector3(1.5)
+
 local function cm_to_feet(cm)
 	local inches = cm * 0.393700787
 	local feet = math.floor(inches/12)
@@ -75,7 +77,8 @@ function init(self)
 		gui.set_position(gui.get_node("btn_caught"), caught)
 		gui.set_position(gui.get_node("btn_seen"), p_seen)
 	end
-	
+
+	gui.set_scale(gui.get_node("txt_species"), POKEMON_SPECIES_TEXT_SCALE)
 	gui_utils.scale_text_to_fit_size(gui.get_node("txt_species"))
 end
 

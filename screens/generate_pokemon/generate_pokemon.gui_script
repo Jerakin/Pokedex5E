@@ -11,6 +11,7 @@ local gooey = require "gooey.gooey"
 local dropdown = require "screens.generate_pokemon.dropdown"
 local tracking_id = require "utils.tracking_id"
 local gui_utils = require "utils.gui"
+local gui_extra_functions = require "gui_extra_functions.gui_extra_functions"
 
 local storage_data = {}
 local action_position = vmath.vector3()
@@ -178,6 +179,7 @@ end
 
 function init(self)
 	gooey.acquire_input()
+	gui_extra_functions.init()
 	msg.post(url.MENU, "hide")
 	self.trainer_class_list = filters.trainer_class_list()
 	self.habitat_list = filters.habitat_list()
@@ -194,8 +196,7 @@ function init(self)
 	self.filtered_pokemons = get_filtered(self)
 	
 	update_storage_data(self)
-	gui_utils.scale_fit_node_with_stretch(gui.get_node("scroll_list"))
-	
+
 	update_list(gooey.dynamic_list("storage", "scroll_list", "pokemon/row", self.pokemon_rows))
 	update_colors(self)
 end

@@ -3,6 +3,7 @@ local utils = require "utils.utils"
 local movedex = require "pokedex.moves"
 local log = require "utils.log"
 local fakemon = require "fakemon.fakemon"
+local dex_data = require "pokedex.dex_data"
 
 local M = {}
 
@@ -74,6 +75,11 @@ function M.init()
 					abilities[name] = data
 				end
 			end
+			if fakemon.DATA["evolve.json"] then
+				for name, data in pairs(fakemon.DATA["evolve.json"]) do
+					evolvedata[name] = data
+				end
+			end
 		end
 		M.list, M.total, M.unique = list()
 		initialized = true
@@ -123,10 +129,10 @@ end
 
 function M.get_icon(pokemon)
 	local data = M.get_pokemon(pokemon)
+	local sprite = M.get_sprite(pokemon)
 	if data.fakemon then
-		
 		if data.icon and data.icon ~= "" then
-			local path = fakemon.APP_ROOT .. fakemon.PACKAGE_NAME .. utils.os_sep .. data.icon 
+			local path = fakemon.UNZIP_PATH .. utils.os_sep .. data.icon 
 			local file = io.open(path, "rb")
 			if not file then
 				return "-1MissingNo", "sprite0"
@@ -137,11 +143,13 @@ function M.get_icon(pokemon)
 
 			gui.new_texture("icon" .. pokemon, img.width, img.height, img.type, img.buffer, false)
 			return nil, "icon" .. pokemon
+		elseif data.index < dex_data.max_index[#dex_data.order -1] then
+			return sprite, "sprite0"
 		end
 		return "-2Pokeball", "sprite0"
 	end
 	
-	local sprite = M.get_sprite(pokemon)
+	
 	return sprite, "sprite0"
 end
 
@@ -171,6 +179,8 @@ function M.get_sprite(pokemon)
 
 			gui.new_texture("sprite" .. pokemon, img.width, img.height, img.type, img.buffer, false)
 			return nil, "sprite" ..  pokemon
+		elseif data.index < dex_data.max_index[#dex_data.order -1] then
+			return pokemon_index .. pokemon, "pokemon0"
 		end
 		return "-2Pokeball", "pokemon0"
 	end

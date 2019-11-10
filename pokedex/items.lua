@@ -41,8 +41,8 @@ M.type_increase = {
 function M.init()
 	if not initialized then
 		items = file.load_json_from_resource("/assets/datafiles/items.json")
-		if fakemon.items then
-			for name, data in pairs(fakemon.items) do
+		if fakemon.DATA and fakemon.DATA["items.json"] then
+			for name, data in pairs(fakemon.DATA["items.json"]) do
 				items[name] = data
 			end
 		end
