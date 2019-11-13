@@ -6,6 +6,7 @@ local party_utils = require "screens.party.utils"
 local gooey = require "gooey.gooey"
 local utils = require "utils.utils"
 local gui_utils = require "utils.gui"
+local gui_colors = require "utils.gui_colors"
 local monarch = require "monarch.monarch"
 local url = require "utils.url"
 local scrollhandler = require "screens.party.components.scrollhandler"
@@ -27,7 +28,7 @@ local function setup_main_information(nodes, pokemon)
 	local nickname = _pokemon.get_nickname(pokemon)
 	local species = _pokemon.get_current_species(pokemon)
 	nickname = nickname or species:upper()
-
+	
 	local pokemon_sprite, texture = _pokemon.get_sprite(pokemon)
 	gui.set_texture(nodes["pokemon/pokemon_sprite"], texture)
 	if pokemon_sprite then

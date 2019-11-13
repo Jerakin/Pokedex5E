@@ -10,6 +10,9 @@ local M = {}
 local active_ability_lists = {[1]={}, [2]={}}
 local active_page
 local start_position
+local is_playing = {}
+
+
 local function setup_entry(nodes, name, desc, p, i)
 	local root_node
 	local name_node
@@ -83,7 +86,35 @@ function M.create(nodes, pokemon, index)
 	gui.set_enabled(nodes["pokemon/ability/background"], false)
 	start_position = gui.get_position(nodes["pokemon/ability/background"])
 	setup_features(nodes, pokemon)
+
+	local id = _pokemon.get_id(pokemon)
+	if  _pokemon.is_shiny(pokemon) then
+		if not is_playing[index] then
+			is_playing[index] = true
+			gui.play_particlefx(nodes["pokemon/shiny_bg"])
+			gui.play_particlefx(nodes["pokemon/shiny_fg"])
+			gui.play_particlefx(nodes["pokemon/shiny_star_bg"])
+			gui.set_color(nodes["pokemon/pokemon_portrait"], vmath.vector4(230/255, 179/255, 77/255, 1))
+			gui.set_color(nodes["pokemon/shiny_bg"], vmath.vector4(1))
+			gui.set_color(nodes["pokemon/shiny_fg"], vmath.vector4(1))
+			gui.set_color(nodes["pokemon/shiny_star_bg"], vmath.vector4(1))
+		end
+	else
+		is_playing[index] = false
+		gui.stop_particlefx(nodes["pokemon/shiny_bg"])
+		gui.stop_particlefx(nodes["pokemon/shiny_fg"])
+		gui.stop_particlefx(nodes["pokemon/shiny_star_bg"])
+		gui.set_color(nodes["pokemon/pokemon_portrait"], vmath.vector4(1))
+		gui.set_color(nodes["pokemon/shiny_bg"], vmath.vector4(1,1,1, 0))
+		gui.set_color(nodes["pokemon/shiny_fg"], vmath.vector4(1,1,1, 0))
+		gui.set_color(nodes["pokemon/shiny_star_bg"], vmath.vector4(1,1,1, 0))
+		
+	end
+	
 end
 
+function M.final()
+	is_playing = {}
+end
 
 return M
