@@ -7395,7 +7395,7 @@ nodes {
 }
 nodes {
   position {
-    x: 63.0
+    x: 109.0
     y: -3.0
     z: 0.0
     w: 1.0
@@ -7413,7 +7413,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 187.0
+    x: 155.0
     y: 55.0
     z: 0.0
     w: 1.0
@@ -7513,7 +7513,7 @@ nodes {
 }
 nodes {
   position {
-    x: 255.0
+    x: 272.0
     y: -3.0
     z: 0.0
     w: 1.0
@@ -7531,7 +7531,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 187.0
+    x: 154.0
     y: 55.0
     z: 0.0
     w: 1.0
@@ -7568,7 +7568,7 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
+    x: 4.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -7932,7 +7932,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 300.0
+    x: 310.0
     y: 46.0
     z: 0.0
     w: 1.0
@@ -8064,7 +8064,7 @@ nodes {
 }
 nodes {
   position {
-    x: 203.75
+    x: 204.0
     y: 1.25
     z: 0.0
     w: 1.0
@@ -8119,7 +8119,7 @@ nodes {
 }
 nodes {
   position {
-    x: -210.0
+    x: -214.0
     y: 1.25
     z: 0.0
     w: 1.0
@@ -8174,7 +8174,7 @@ nodes {
 }
 nodes {
   position {
-    x: 46.0
+    x: 45.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -8237,7 +8237,7 @@ nodes {
 }
 nodes {
   position {
-    x: 41.0
+    x: 40.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -8301,7 +8301,7 @@ nodes {
 nodes {
   position {
     x: 209.0
-    y: -307.0
+    y: -303.0
     z: 0.0
     w: 1.0
   }
@@ -8318,8 +8318,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 300.0
-    y: 55.0
+    x: 285.0
+    y: 47.0
     z: 0.0
     w: 1.0
   }
@@ -8331,7 +8331,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/add_backing"
+  texture: "gui/details_backing"
   id: "pokemon/held_item"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -8341,10 +8341,10 @@ nodes {
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 15.0
-    y: 15.0
-    z: 15.0
-    w: 30.0
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -8379,9 +8379,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.9254902
-    y: 0.56078434
-    z: 0.09411765
+    x: 0.0
+    y: 0.0
+    z: 0.0
     w: 1.0
   }
   type: TYPE_TEXT
@@ -11146,6 +11146,116 @@ nodes {
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
+}
+nodes {
+  position {
+    x: -6.0
+    y: -3.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 54.0
+    y: 55.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/trait_border"
+  id: "pokemon/bg_gender"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "pokemon/poke_info"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 5.0
+    y: 5.0
+    z: 5.0
+    w: 5.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.25
+    y: 0.25
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 120.0
+    y: 120.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/male"
+  id: "pokemon/gender_icon"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "pokemon/bg_gender"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_AUTO
 }
 nodes {
   position {
