@@ -38,6 +38,10 @@ local feat_to_attribute = {
 	Acrobat="DEX"
 }
 
+M.GENDERLESS = 0
+M.MALE = 1
+M.FEMALE = 2
+
 local loyalty_hp = {
 	[-3] = {HP=0},
 	[-2] = {HP=0},
@@ -89,6 +93,19 @@ local function ASI_points(pokemon)
 	else
 		return 5 - total
 	end
+end
+
+function M.genderized(pokemon)
+	local species = M.get_current_species(pokemon)
+	return pokedex.genderized(species)
+end
+
+function M.get_gender(pokemon)
+	return pokemon.gender
+end
+
+function M.set_gender(pokemon, gender)
+	pokemon.gender = gender
 end
 
 function M.get_ASI_point_increase(pokemon)

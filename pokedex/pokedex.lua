@@ -13,6 +13,7 @@ local abilities = {}
 local evolvedata
 local leveldata
 local exp_grid
+local genders
 
 local initialized = false
 local function list()
@@ -56,6 +57,7 @@ function M.init()
 		evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
 		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
 		exp_grid = file.load_json_from_resource("/assets/datafiles/exp_grid.json")
+		genders = file.load_json_from_resource("/assets/datafiles/gender.json")
 		if fakemon.DATA then
 			if fakemon.DATA["pokemon.json"] then
 				log.info("Merging Pokemon data")
@@ -80,6 +82,11 @@ function M.init()
 					evolvedata[name] = data
 				end
 			end
+			if fakemon.DATA["gender.json"] then
+				for name, data in pairs(fakemon.DATA["gender.json"]) do
+					genders[name] = data
+				end
+			end
 		end
 		M.list, M.total, M.unique = list()
 		initialized = true
@@ -100,6 +107,11 @@ local function dex_extra(pokemon)
 		log.error("Can't find extra information for " .. tostring(pokemon))
 	end
 	return mon or pokedex_extra["MissingNo"]
+end
+
+function M.genderized(pokemon)
+	local g = genders[pokemon]
+	return g~=nil, g
 end
 
 function M.get_flavor(pokemon)

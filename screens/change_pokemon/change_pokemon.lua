@@ -28,7 +28,7 @@ M.block = false
 
 local active_buttons = {}
 local move_buttons_list = {}
-
+local genderized = false
 local button_state = {[true]="minus", [false]="plus"}
 
 M.config = {
@@ -62,6 +62,37 @@ local function collapse_buttons()
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_feats"), button_state[M.config[hash("change_pokemon/feats")].active])
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_item"), button_state[M.config[hash("change_pokemon/held_item")].active])
 	gui.set_enabled(gui.get_node("change_pokemon/btn_reset_abilities"), M.config[hash("change_pokemon/abilities")].active)
+end
+
+local function set_gender_icon(gender)
+	local g = {
+		[_pokemon.MALE] = gui.get_node("change_pokemon/male"),
+		[_pokemon.FEMALE] = gui.get_node("change_pokemon/female")
+	}
+	
+	if gender == _pokemon.GENDERLESS or genderized then
+		gui.set_enabled(g[_pokemon.MALE], false)
+		gui.set_enabled(g[_pokemon.FEMALE], false)
+		if gender == _pokemon.GENDERLESS then
+			return 
+		end
+	end
+	gui.set_color(g[_pokemon.MALE], gui_colors.HERO_TEXT)
+	gui.set_color(g[_pokemon.FEMALE], gui_colors.HERO_TEXT)
+	
+	if genderized then
+		gui.set_enabled(g[gender], true)
+		gui.set_color(g[gender], gui_colors.HERO_TEXT)
+	elseif gender ~= nil then
+		gui.set_color(g[gender], gui_colors.ORANGE)
+	end
+end
+
+local function set_gender(self, new_gender)
+	local gender = _pokemon.get_gender(self.pokemon)
+	new_gender = gender ~= new_gender and new_gender or nil
+	set_gender_icon(new_gender)
+	_pokemon.set_gender(self.pokemon, new_gender)
 end
 
 local function update_sections(instant)
@@ -385,6 +416,12 @@ function M.init(self, pokemon)
 		local is_shiny =_pokemon.is_shiny(self.pokemon) or false
 		gui.set_enabled(gui.get_node("change_pokemon/checkmark_shiny_mark"), is_shiny)
 		gooey.checkbox("change_pokemon/bg_shiny").set_checked(is_shiny)
+		local g, gender = _pokemon.genderized(self.pokemon)
+		genderized = g
+		if gender == nil then
+			gender = _pokemon.get_gender(self.pokemon)
+		end
+		set_gender_icon(gender)
 	else
 		gui.set_enabled(gui.get_node("change_pokemon/checkmark_shiny_mark"), false)
 	end
@@ -418,6 +455,9 @@ function M.on_message(self, message_id, message, sender)
 			gui.set_text(gui.get_node("change_pokemon/species"), _pokemon.get_current_species(self.pokemon):upper())
 			gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
 			gui.set_scale(gui.get_node("change_pokemon/species"), POKEMON_SPECIES_TEXT_SCALE)
+			local g, gender = _pokemon.genderized(self.pokemon)
+			genderized = g
+			set_gender_icon(gender)
 			if self.register_buttons_after_species then self.register_buttons_after_species(self) end
 		elseif message_id == hash("evolve") then
 			flow.start(function()
@@ -635,6 +675,15 @@ function M.on_input(self, action_id, action)
 	gooey.checkbox("change_pokemon/bg_eviolite", action_id, action, function(checkbox) on_eviolite_checked(self, checkbox) end, update_eviolite_checkbox)
 	
 
+	if not genderized then
+		gooey.button("change_pokemon/female", action_id, action, function()
+			set_gender(self, _pokemon.FEMALE)
+		end)
+		
+		gooey.button("change_pokemon/male", action_id, action, function()
+			set_gender(self, _pokemon.MALE)
+		end)
+	end
 	gooey.button("change_pokemon/hp/btn_minus", action_id, action, function()
 		if _pokemon.have_ability(self.pokemon, "Paper Thin") then
 			monarch.show("info", nil, {text="Ability: Paper Thin\nThis Pokemon's max HP is always 1"})

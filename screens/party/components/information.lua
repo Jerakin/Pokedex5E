@@ -143,6 +143,21 @@ local function setup_info_tab(nodes, pokemon)
 			gui.set_text(nodes["pokemon/traits/txt_" .. split[1]:lower()], split[2])
 		end
 	end
+	local g = {
+		[_pokemon.GENDERLESS] = "transparent",
+		[_pokemon.MALE] = "male",
+		[_pokemon.FEMALE] = "female"
+	}
+	local genderized, gender = _pokemon.genderized(pokemon)
+	if not genderized then
+		gender = _pokemon.get_gender(pokemon)
+	end
+	if gender ~= nil then
+		gui.set_enabled(nodes["pokemon/gender_icon"], true)
+		gui.play_flipbook(nodes["pokemon/gender_icon"], g[gender])
+	else
+		gui.set_enabled(nodes["pokemon/gender_icon"], false)
+	end
 end
 
 function M.on_input(action_id, action)
