@@ -851,8 +851,7 @@ function M.get_move_data(pokemon, move_name)
 	move_data.power = move["Move Power"]
 	move_data.save = move.Save
 	move_data.time = move["Move Time"]
-
-	if move_data.damage then
+	if move_data.damage or move.atk then
 		move_data.AB = mod + M.get_proficency_bonus(pokemon)
 	end
 	if move_data.save then
