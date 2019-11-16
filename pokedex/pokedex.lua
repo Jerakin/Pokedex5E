@@ -15,6 +15,10 @@ local leveldata
 local exp_grid
 local genders
 
+M.GENDERLESS = 0
+M.MALE = 1
+M.FEMALE = 2
+
 local initialized = false
 local function list()
 	local temp = {}
@@ -339,17 +343,32 @@ function M.get_evolved_from(pokemon)
 	return "MissingNo"
 end
 
-function M.get_evolution_possible(pokemon)
+function M.get_evolution_possible(pokemon, gender)
 	local d = M.get_evolution_data(pokemon)
-	return (d and d.level) and true or false
+	local gender_allow = false
+	if d and d.into then
+		for _, species in pairs(d.into) do
+			if genders[species] == nil or (genders[species] and genders[species] == gender) then
+				gender_allow = true
+			end
+		end
+	end
+	return (d and d.level and gender_allow) and true or false
 end
 
 function M.get_evolution_level(pokemon)
 	return M.get_evolution_data(pokemon).level
 end
 
-function M.get_evolutions(pokemon)
-	return M.get_evolution_data(pokemon).into
+function M.get_evolutions(pokemon, gender)
+	local d = M.get_evolution_data(pokemon)
+	local evolutions = {}
+	for _, species in pairs(d.into) do
+		if  genders[species] == nil or (genders[species] and genders[species] == gender) then
+			table.insert(evolutions, species)
+		end
+	end
+	return evolutions
 end
 
 function M.evolve_points(pokemon)

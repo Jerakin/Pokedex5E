@@ -38,9 +38,9 @@ local feat_to_attribute = {
 	Acrobat="DEX"
 }
 
-M.GENDERLESS = 0
-M.MALE = 1
-M.FEMALE = 2
+M.GENDERLESS = pokedex.GENDERLESS
+M.MALE = pokedex.MALE
+M.FEMALE = pokedex.FEMALE
 
 local loyalty_hp = {
 	[-3] = {HP=0},
