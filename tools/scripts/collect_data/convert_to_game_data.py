@@ -172,6 +172,7 @@ def convert_move_data(input_file):
     reg_damage_dice = re.compile("(?i)(?:(\d)x|X|)(\d+|)d(\d+)\s*(\+\s*move|)(?:\+\s*(\d)|)(\+\s*level|)")
     healing = re.compile(r"((?:re|\b)gain.\b.*hit points)")
     reg_saving_throw = re.compile("(?:(?:make|with|succeed on) a (.{3}) sav)")
+    is_attack = re.compile("(?:melee|ranged) attack")
     converted = {}
 
     with open(input_file, "r") as fp:
@@ -221,6 +222,9 @@ def convert_move_data(input_file):
                     if is_healing:
                         is_healing_move = True
 
+                    is_damage = is_attack.search(value)
+                    if is_damage:
+                        converted[move]["atk"] = True
                 converted[move][attribute] = value
 
         with open(output_location / "moves.json", "w") as f:
