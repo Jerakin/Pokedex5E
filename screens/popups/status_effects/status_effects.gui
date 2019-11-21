@@ -1258,7 +1258,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "A burned creature\'s attacks deal half their normal damage. In addition, the creature takes an amount of fire damage equal to its proficiency bonus at the beginning of each of its turns until it faints or is cured of its burns. (Fire types are immune to this status condition)"
+  text: "A burned creature\'s attacks deal half their normal damage. In addition, the creature takes an amount of typeless damage equal to its proficiency bonus at the beginning of each of its turns until it faints or is cured of its burns. (Fire types are immune to this status condition)"
   font: "script"
   id: "status_burned/description"
   xanchor: XANCHOR_NONE
@@ -1284,6 +1284,7 @@ nodes {
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
+  overridden_fields: 8
   template_node_child: true
   text_leading: 1.1
   text_tracking: 0.0
@@ -1482,7 +1483,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "A poisoned creature has disadvantage on all ability checks and attack rolls, and takes an amount of poison damage equal to its proficiency bonus at the end of each of its turns until it faints or is cured of its poison. If a poisoned creature uses a move that requires a saving throw, the target(s) have advantage on the roll. (Poison and Steel types are immune to this status condition)"
+  text: "A poisoned creature has disadvantage on all ability checks and attack rolls, and takes an amount of typeless damage equal to its proficiency bonus at the end of each of its turns until it faints or is cured of its poison. If a poisoned creature uses a move that requires a saving throw, the target(s) have advantage on the roll. (Poison and Steel types are immune to this status condition)"
   font: "script"
   id: "status_poisoned/description"
   xanchor: XANCHOR_NONE
