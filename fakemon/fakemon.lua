@@ -174,7 +174,7 @@ function M.download_package(package)
 			log.info("FINISHED DOWNLOAD")
 		else
 			local e = "Fakemon:DownloadPackage:HTTP:" .. res.status  .. " URL: " .. package_url
-			log.warning(e)
+			log.warn(e)
 			gameanalytics.addErrorEvent {
 				severity = "Warning",
 				message = e
