@@ -4,6 +4,7 @@ local movedex = require "pokedex.moves"
 local log = require "utils.log"
 local fakemon = require "fakemon.fakemon"
 local dex_data = require "pokedex.dex_data"
+local ptypes = require "ptypes.main"
 
 local M = {}
 
@@ -223,15 +224,18 @@ function M.get_index_number(pokemon)
 end
 
 function M.get_pokemon_vulnerabilities(pokemon)
-	return M.get_pokemon(pokemon).Vul
+	local types = M.get_pokemon_type(pokemon)
+	return ptypes.Model(unpack(types)).vulnerabilities
 end
 
 function M.get_pokemon_immunities(pokemon)
-	return M.get_pokemon(pokemon).Imm
+	local types = M.get_pokemon_type(pokemon)
+	return ptypes.Model(unpack(types)).immunities
 end
 
 function M.get_pokemon_resistances(pokemon)
-	return M.get_pokemon(pokemon).Res
+	local types = M.get_pokemon_type(pokemon)
+	return ptypes.Model(unpack(types)).resistances
 end
 
 function M.get_walking_speed(pokemon)

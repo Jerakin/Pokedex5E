@@ -16,63 +16,19 @@ evolve_json = root / "evolve.json"
 
 images_path = root.parent / "textures"
 
-# def add(find_species, add_species, j_data):
-#     for species, children in j_data.items():
-#         if children:
-#             add(find_species, add_species, children)
-#         if find_species == species:
-#             j_data[species][add_species] = {}
-#
-#
-# def build_evolve_data(evolve_tree):
-#     tree = {}
-#     for species, into in evolve_tree.items():
-#         total_stages = 1
-#         tree[species] = {"current_stage": 1,"total_stages": 1}
-#         if into:
-#             tree[species]["into"] = []
-#         for child, children in into.items():
-#             total_stages = max(2, total_stages)
-#             tree[child] = {"current_stage": 2, "total_stages": 2}
-#             tree[species]["total_stages"] = 2
-#             tree[species]["into"].append(child)
-#             if children:
-#                 tree[child]["into"] = []
-#             for grand_child in children:
-#                 total_stages = max(3, total_stages)
-#                 tree[child]["into"].append(grand_child)
-#                 tree[grand_child] = {"current_stage": 3, "total_stages": 3}
-#                 tree[species]["total_stages"] = 3
-#                 tree[child]["total_stages"] = 3
-#     return tree
-#
-#
-# def evolve():
-#     tree = {}
-#     with open(evolve_json, "r") as f:
-#         evolve_data = json.load(f)
-#         for species, data in evolve_data.items():
-#             current = data["current_stage"]
-#             if current == 1:
-#                 tree[species] = {}
-#
-#                 if "into" in data and data["into"]:
-#                     for into in data["into"]:
-#                         tree[species][into] = {}
-#             else:
-#                 if "into" in data and data["into"]:
-#                     for into in data["into"]:
-#                         add(species, into, tree)
-#
-#     new_evolve = build_evolve_data(tree)
-#
-#     for species, data in evolve_data.items():
-#         if "points" in data:
-#             new_evolve[species]["points"] = data["points"]
-#             new_evolve[species]["level"] = data["level"]
-#
-#     with open(evolve_json, "w", encoding="utf-8") as f:
-#         json.dump(new_evolve, f, indent="  ", ensure_ascii=False)
+def remove_weakness():
+    with open(pokemons_json, "r") as f:
+        pokemon_data = json.load(f)
+    for species, data in pokemon_data.items():
+        if "Vul" in data:
+            del data["Vul"]
+        if "Res" in data:
+            del data["Res"]
+        if "Imm" in data:
+            del data["Imm"]
+
+    with open(pokemons_json, "w") as f:
+        json.dump(pokemon_data, f, indent="  ", ensure_ascii=False)
 
 
 def evolve():
@@ -185,4 +141,4 @@ def long_vulnerabilities():
 
 
 
-long_vulnerabilities()
+remove_weakness()

@@ -576,7 +576,6 @@ function M.reset_in_storage(pokemon)
 	storage.update_pokemon(pokemon)
 end
 
-
 function M.get_vulnerabilities(pokemon)
 	return pokedex.get_pokemon_vulnerabilities(M.get_current_species(pokemon))
 end

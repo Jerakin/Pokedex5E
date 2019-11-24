@@ -17,10 +17,10 @@ def get_pokemon_index(pokemon_list, pokemon):
 def convert_pokemon_data(input_file):
     convert_to_int = ["AC", "Hit Dice", "HP", "WSp", "Ssp", "Fsp", "Ev", "MIN LVL FD", "Climbing Speed"]
     convert_to_float = ["SR"]
-    convert_to_list = ["Skill", "Res", "Vul", "Imm", "Senses"]
+    convert_to_list = ["Skill", "Senses"]
     attributes = ["STR", "CON", "DEX", "INT", "WIS", "CHA"]
     text_to_short = {"Strength": "STR", "Constitution": "CON", "Dexterity": "DEX", "Intelligence": "INT", "Wisdom": "WIS", "Charisma": "CHA"}
-    ignore = ["Ev", "Evolve Bonus", "Description 17", "Evo Stages"]
+    ignore = ["Ev", "Evolve Bonus", "Description 17", "Evo Stages", "Res", "Vul", "Imm"]
     reg_starting_moves = re.compile("Starting Moves: ([A-Za-z ,-12]*)")
     reg_tm_moves = re.compile("TM: (.*)")
 
