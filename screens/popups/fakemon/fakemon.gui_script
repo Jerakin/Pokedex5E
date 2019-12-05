@@ -66,14 +66,7 @@ function init(self)
 			table.insert(self.all_items, index)
 		end
 		self.list_items = utils.shallow_copy(self.all_items)
-		
-		
-		--[[fakemon.download_package("Baby Birds")
-		flow.until_true(function() return not fakemon.BUSY end)
-		fakemon.unpack()
-		flow.until_true(function() return not fakemon.BUSY end)
-		fakemon.load_package()--]]
-		
+
 		update_list(gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.list_items))
 	end)
 	
