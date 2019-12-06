@@ -20,7 +20,7 @@ function M.set_active(index, instant)
 	if instant then
 		gui.set_position(t, pos)
 	else
-		gui.animate(t, "position", pos, gui.EASING_INSINE, 0.3)
+		gui.animate(t, "position", pos, gui.EASING_OUTCUBIC, 0.2)
 	end
 end
 
