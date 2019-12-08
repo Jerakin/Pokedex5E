@@ -57,8 +57,9 @@ local function reset()
 end
 
 local function on_checked(checkbox, status)
-	storage.set_status_effect(pokemon_id, status, checkbox.checked)
-	if checkbox.checked then
+	local statuses = storage.get_status_effects(pokemon_id)
+	storage.set_status_effect(pokemon_id, status, not statuses[status])
+	if statuses[status] then
 		gameanalytics.addDesignEvent {
 			eventId = "Party:Status:Add",
 			value = status
@@ -73,7 +74,8 @@ local function on_checked(checkbox, status)
 end
 
 local function update_checkbox(checkbox, _status)
-	gui.play_flipbook(checkbox.node, checkbox.checked and statuses.status_images[_status] .. "_down" or statuses.status_images[_status] .. "_up")
+	local status = storage.get_status_effects(pokemon_id)
+	gui.play_flipbook(checkbox.node, status[_status] and statuses.status_images[_status] .. "_down" or statuses.status_images[_status] .. "_up")
 end
 
 function on_input(self, action_id, action)
@@ -87,6 +89,14 @@ function on_input(self, action_id, action)
 	gooey.checkbox("asleep", action_id, action, function(checkbox) on_checked(checkbox, statuses.status.ASLEEP) end, function(c) update_checkbox(c, statuses.status.ASLEEP) end)
 	gooey.checkbox("confused", action_id, action, function(checkbox) on_checked(checkbox, statuses.status.CONFUSED) end, function(c) update_checkbox(c, statuses.status.CONFUSED) end)
 
+	gooey.button("status_poisoned/box", action_id, action, function(b) on_checked(b, statuses.status.POISONED) end, function(c) update_checkbox(gooey.checkbox("poisoned"), statuses.status.POISONED) end)
+	gooey.button("status_frozen/box", action_id, action, function(b) on_checked(b, statuses.status.FROZEN) end, function(c) update_checkbox(gooey.checkbox("frozen"), statuses.status.FROZEN) end)
+	gooey.button("status_paralyzed/box", action_id, action, function(b) on_checked(b, statuses.status.PARALYZED) end, function(c) update_checkbox(gooey.checkbox("paralyzed"), statuses.status.PARALYZED) end)
+	gooey.button("status_burned/box", action_id, action, function(b) on_checked(b, statuses.status.BURNING) end, function(c) update_checkbox(gooey.checkbox("burning"), statuses.status.BURNING) end)
+	gooey.button("status_asleep/box", action_id, action, function(b) on_checked(b, statuses.status.ASLEEP) end, function(c) update_checkbox(gooey.checkbox("asleep"), statuses.status.ASLEEP) end)
+	gooey.button("status_confused/box", action_id, action, function(b) on_checked(b, statuses.status.CONFUSED) end, function(c) update_checkbox(gooey.checkbox("confused"), statuses.status.CONFUSED) end)
+
+	
 	if action.pressed then
 		self.start.x = action.x
 		self.start.y = action.y

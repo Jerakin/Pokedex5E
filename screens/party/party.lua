@@ -84,7 +84,7 @@ function M.show(index)
 			monarch.show("input", {}, {sender=msg.url(), message="update_exp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_exp(id)})
 		end)
 
-		button.register(nodes["pokemon/hp_bar_bg"], function()
+		button.register(nodes["pokemon/hp_bg"], function()
 			monarch.show("input", {}, {sender=msg.url(), message="update_hp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_current_hp(id)})
 		end)
 	else
