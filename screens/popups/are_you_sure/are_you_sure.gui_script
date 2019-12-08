@@ -32,8 +32,14 @@ local function exit()
 end
 
 function on_input(self, action_id, action)
-	gooey.button("btn_confirm", action_id, action, confirm, function(b) gooey_buttons.common_button(b, gui.get_node("txt_confim")) end)
-	gooey.button("btn_exit", action_id, action, exit, function(b) gooey_buttons.common_button(b, gui.get_node("txt_exit")) end)
+	local confirm_b = gooey.button("btn_confirm", action_id, action, confirm, function(b) gooey_buttons.common_button(b, gui.get_node("txt_confim")) end)
+	if confirm_b.consumed then
+		return true
+	end
+	local exit_b = gooey.button("btn_exit", action_id, action, exit, function(b) gooey_buttons.common_button(b, gui.get_node("txt_exit")) end)
+	if exit_b.consumed then
+		return true
+	end
 	local g = gooey.button("box", action_id, action, function() end)
 	if not g.over then
 		gooey.button("dimmer", action_id, action, function() monarch.back() end)
