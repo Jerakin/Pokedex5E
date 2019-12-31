@@ -83,7 +83,7 @@ local function reset()
 	}
 	_pokemon.reset_move_pp(data.pokemon, data.name)
 	gui.set_text(gui.get_node("txt_pp"), move_data.PP .. "/" .. move_data.PP)
-	notify.notify("PP for " .. data.name .. " have been reseted")
+	notify.notify("PP for " .. data.name .. " has been reset")
 	msg.post(url.PARTY, "refresh")
 end
 
