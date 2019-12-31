@@ -83,11 +83,12 @@ local function update_items(item)
 	for i=1, 5 do
 		local sprite_node = item.nodes["pokemon_row/pokemon" .. i .. "/pokemon_sprite"]
 		local pokeball = item.nodes["pokemon_row/pokemon" .. i .. "/caught"]
-		local background = item.nodes["pokemon_row/pokemon" .. i .. "/background"]
 		local index = item.nodes["pokemon_row/pokemon" .. i .. "/index"]
 		local data = pokedex_data[item.data]
 		if data and data[i] ~= nil then
-			gui.set_enabled(background, true)
+			gui.set_enabled(sprite_node, true)
+			gui.set_enabled(pokeball, true)
+			gui.set_enabled(index, true)
 			gui.set_enabled(index, data[i].state_map.index)
 			gui.set_text(index, data[i].index)
 			gui.set_color(sprite_node, data[i].state_map.pokemon_color)
@@ -97,7 +98,9 @@ local function update_items(item)
 				gui.play_flipbook(sprite_node, data[i].sprite)
 			end
 		else
-			gui.set_enabled(background, false)
+			gui.set_enabled(sprite_node, false)
+			gui.set_enabled(pokeball, false)
+			gui.set_enabled(index, false)
 		end
 	end
 end
