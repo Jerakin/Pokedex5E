@@ -2,6 +2,16 @@ local gui_colors = require "utils.gui_colors"
 
 local M = {}
 
+function M.google(button)
+	if button.pressed_now then
+		gui.play_flipbook(button.node, hash("btn_google_signin_dark_pressed_ios@3x"))
+	elseif button.released_now then
+		gui.play_flipbook(button.node, hash("btn_google_signin_dark_normal_ios@3x"))
+	elseif not button.pressed and button.out_now then
+		gui.play_flipbook(button.node, hash("btn_google_signin_dark_normal_ios@3x"))
+	end
+end
+
 function M.common_button(button, text_node)
 	if button.pressed_now then
 		gui.play_flipbook(button.node, hash("common_down"))

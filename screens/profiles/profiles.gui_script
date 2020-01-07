@@ -42,6 +42,7 @@ end
 
 
 local function activate(slot)
+	pprint(slot)
 	profiles.set_active(slot)
 	storage.load(profiles.get_active())
 	dex.load(profiles.get_active())
