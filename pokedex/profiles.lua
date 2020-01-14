@@ -2,6 +2,8 @@ local monarch = require "monarch.monarch"
 local defsave = require "defsave.defsave"
 local md5 = require "utils.md5"
 local log = require "utils.log"
+
+
 local M = {}
 
 local profiles = {}
@@ -79,6 +81,7 @@ function M.set_active(slot)
 end
 
 function M.save()
+	profiles.lastModifiedTimestamp = os.time()
 	defsave.set("profiles", "profiles", profiles)
 	defsave.save("profiles")
 end
