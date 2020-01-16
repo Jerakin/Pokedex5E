@@ -1,5 +1,5 @@
 local defsave = require "defsave.defsave"
-local json = require "defsave.json"
+local json4lua = require "utils.json4lua"
 
 local M = {}
 
@@ -22,18 +22,20 @@ local function collect_data()
 	local data = {}
 	defsave.load("profiles")
 	local profiles = defsave.get("profiles", "profiles")
+	
 	data.profiles = profiles
 	for slot, profile_data in pairs(profiles.slots) do
-		local file_name = profile_data.name
+		local file_name = profile_data.file_name
 		if not defsave.is_loaded(file_name) then
 			local loaded = defsave.load(file_name)
-			data[profile_data.name] = {}
-
-			data[profile_data.name].storage = defsave.get(file_name, "storage")
-			data[profile_data.name].active = defsave.get(file_name, "active")
-			data[profile_data.name].counters = defsave.get(file_name, "counters")
-			data[profile_data.name].sorting = defsave.get(file_name, "sorting")
 		end
+		data[file_name] = {}
+
+		data[file_name].storage = defsave.get(file_name, "storage")
+		data[file_name].active = defsave.get(file_name, "active")
+		data[file_name].counters = defsave.get(file_name, "counters")
+		data[file_name].sorting = defsave.get(file_name, "sorting")
+	
 	end
 	return data
 end
@@ -47,18 +49,24 @@ local function extract_data(s_data)
 	if s_data == "" then
 		return
 	end
-	local data = json.decode(s_data)
+	local data = json4lua.decode(s_data)
+
 	defsave.load("profiles")
 	defsave.set("profiles", "profiles", data.profiles)
 	defsave.save("profiles")
 
-	for slot, profile_data in pairs(data.slots) do
-		file_name = profile_data.name
+	
+	for slot, profile_data in pairs(data.profiles.slots) do
+		
+		local file_name = profile_data.file_name
+		pprint(file_name)
+		pprint(data[file_name])
 		defsave.load(file_name)
-		defsave.set(file_name, "storage", data.slots[slot].storage)
-		defsave.set(file_name, "active", data.slots[slot].active)
-		defsave.set(file_name, "counters", data.slots[slot].counters)
-		defsave.set(file_name, "sorting", data.slots[slot].sorting)
+		defsave.set(file_name, "storage", data[file_name].storage)
+		defsave.set(file_name, "active", data[file_name].active)
+		defsave.set(file_name, "counters", data[file_name].counters)
+		defsave.set(file_name, "sorting", data[file_name].sorting)
+		
 		defsave.save(file_name)
 	end
 	defsave.save_all(true)
@@ -152,7 +160,7 @@ end
 function M.set_data()
 	if gpgs then
 		local data = collect_data()
-		local success, error_message = gpgs.snapshot_set_data(json.encode(data))
+		local success, error_message = gpgs.snapshot_set_data(json4lua.encode(data))
 		if success then
 			print("COMMIT IS SUCCESSFULL")
 		else
