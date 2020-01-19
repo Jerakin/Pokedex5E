@@ -18,7 +18,7 @@ local log = require "utils.log"
 local fakemon = require "fakemon.fakemon"
 local settings = require "pokedex.settings"
 local url = require "utils.url"
-local cloud_save = require "utils.cloud_save"
+local save = require "utils.save"
 
 local function send_crash_on_start()
 	crash.write_dump()
@@ -61,13 +61,22 @@ local function error_handler(source, message, traceback)
 end
 
 
-local function window_resized()
-	msg.post("@render:", "window_event")
+local function window_resized(self, event, data)
+	if event == window.WINDOW_EVENT_RESIZED then
+		msg.post("@render:", "window_event")
+	elseif event == window.WINDOW_EVENT_FOCUS_LOST then
+		save.save()
+	end
+end
+
+function update(self, dt)
+	save.update(dt)
 end
 
 function init(self)
 	collectionfactory.create("/menu#collectionfactory")
 	msg.post(url.MENU, "hide")
+	url.MAIN = msg.url()
 	local system = sys.get_sys_info().system_name
 	window.set_listener(window_resized)
 
@@ -122,10 +131,11 @@ function init(self)
 		natures.init()
 		pokedex.init()
 
-		cloud_save.init()
-		flow.until_true( function() return cloud_save.is_ready() end)
+		save.init()
+		save.load()
+		flow.until_true( function() return save.is_ready() end)
+		print("CLOUD SAVE IS DONE")
 		
-		profiles.init()
 		flow.delay(1) -- Extra timeout for loading screen
 		flow.until_true( function() return not monarch.is_busy() end)
 		if profiles.is_new_game() then 
@@ -136,7 +146,6 @@ function init(self)
 			flow.until_true(function() return profiles.get_active_slot() end)
 		end
 
-		storage.init()
 		dex.init()
 		items.init()
 		filters.init()
@@ -183,13 +192,15 @@ function on_message(self, message_id, message, sender)
 			value = tracking_id[monarch.top()]
 		}
 		monarch.show("add")
+	elseif message_id == hash("commit") then
+		save.commit()
+	elseif message_id == hash("delete_slot") then
+		save.delete(message.file_name)
 	end
 end
 
 
 function final(self)
-	cloud_save.final()
-	storage.save()
-	settings.save()
+	save.final()
 	log.info("Clean Exit")
 end

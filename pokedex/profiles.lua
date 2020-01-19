@@ -2,7 +2,7 @@ local monarch = require "monarch.monarch"
 local defsave = require "defsave.defsave"
 local md5 = require "utils.md5"
 local log = require "utils.log"
-
+local url = require "utils.url"
 
 local M = {}
 
@@ -30,7 +30,7 @@ function M.add(profile_name, slot)
 	end
 	
 	table.insert(profiles.slots, profile)
-	M.save()
+	msg.post(url.MAIN, "commit")
 	return profile
 end
 
@@ -46,19 +46,19 @@ function M.update(slot, data)
 		end
 		profiles.slots[slot][key] = value
 	end
-	M.save()
+	msg.post(url.MAIN, "commit")
 end
 
 function M.delete(slot)
 	local f_name = M.get_file_name(slot)
-	defsave.delete(f_name)
+	msg.post(url.MAIN, "delete_slot", {file_name=f_name})
 	for index, profile in pairs(M.get_all_profiles()) do
 		if index == slot then
 			table.remove(profiles.slots, index)
 			break
 		end
 	end
-	M.save()
+	msg.post(url.MAIN, "commit")
 end
 
 function M.is_new_game()
@@ -77,13 +77,7 @@ end
 function M.set_active(slot)
 	active_slot = slot
 	profiles.last_used = slot
-	M.save()
-end
-
-function M.save()
-	profiles.lastModifiedTimestamp = os.time()
-	defsave.set("profiles", "profiles", profiles)
-	defsave.save("profiles")
+	msg.post(url.MAIN, "commit")
 end
 
 function M.get_active()
@@ -117,16 +111,19 @@ end
 
 function M.set_party(party)
 	profiles.slots[active_slot].party = party
-	M.save()
+	msg.post(url.MAIN, "commit")
+end
+
+function M.get_profiles()
+	return profiles
 end
 
 function M.get_latest()
 	return profiles.last_used
 end
 
-local function load_profiles()
-	local loaded = defsave.load("profiles")
-	profiles = defsave.get("profiles", "profiles")
+function M.set_profile_data(data)
+	profiles = data
 end
 
 local function convert_to_rolling_profile_slot()
@@ -146,15 +143,6 @@ local function convert_to_rolling_profile_slot()
 	active_slot = nil
 	profiles = new_profiles
 	profiles.last_used = nil
-end
-
-function M.init()
-	load_profiles()
-	convert_to_rolling_profile_slot()
-	local latest = M.get_latest()
-	if latest then
-		M.set_active(latest)
-	end
 end
 
 return M

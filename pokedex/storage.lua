@@ -1,10 +1,10 @@
-local defsave = require "defsave.defsave"
 local json = require "defsave.json"
 local md5 = require "utils.md5"
 local utils = require "utils.utils"
 local profiles = require "pokedex.profiles"
 local pokedex = require "pokedex.pokedex"
 local log = require "utils.log"
+local url = require "utils.url"
 
 local M = {}
 
@@ -12,7 +12,40 @@ local storage = {}
 local active = {}
 local counters = {}
 local sorting = {}
-local initialized = false
+
+function M.set_storage(data)
+	storage = data
+end
+
+function M.set_active(data)
+	active = data
+end
+
+function M.set_counters(data)
+	counters = data
+end
+	
+function M.set_sorting(data)
+	sorting = data
+end
+
+function M.get_storage()
+	return storage
+end
+
+function M.get_active()
+	return active
+end
+
+function M.get_counters()
+	return counters
+end
+
+function M.get_sorting()
+	return sorting
+end
+
+
 
 local function get_id(pokemon)
 	local m = md5.new()
@@ -141,7 +174,7 @@ function M.update_pokemon(pokemon)
 	elseif active[id] then
 		active[id] = pokemon
 	end
-	M.save()
+	msg.post(url.MAIN, "commit")
 end
 
 function M.set_evolution_at_level(id, level)
@@ -155,7 +188,7 @@ function M.set_evolution_at_level(id, level)
 	end
 	
 	table.insert(p.level.evolved, level)
-	M.save()
+	msg.post(url.MAIN, "commit")
 end
 
 function M.get_sorting_method()
@@ -179,21 +212,21 @@ end
 function M.set_pokemon_move_pp(id, move, pp)
 	local p = get(id)
 	p.moves[move].pp = pp
-	M.save()
+	msg.post(url.MAIN, "commit")
 	return p.moves[move].pp
 end
 
 function M.set_pokemon_exp(id, exp)
 	local p = get(id)
 	p.exp = exp
-	M.save()
+	msg.post(url.MAIN, "commit")
 end
 
 function M.set_pokemon_loyalty(id, loyalty)
 	local p = get(id)
 	local c =  math.min(math.max(loyalty, -3), 3)
 	p.loyalty = c
-	M.save()
+	msg.post(url.MAIN, "commit")
 end
 
 function M.get_pokemon_loyalty(id)
@@ -218,7 +251,7 @@ function M.set_status_effect(id, effect, enabled)
 		enabled = nil
 	end
 	pokemon.statuses[effect] = enabled
-	M.save()
+	msg.post(url.MAIN, "commit")
 end
 
 function M.get_pokemon_current_hp(id)
@@ -228,7 +261,7 @@ end
 function M.set_pokemon_current_hp(id, hp)
 	local p = get(id)
 	p.hp.current = hp
-	M.save()
+	msg.post(url.MAIN, "commit")
 end
 
 function M.get_pokemon_current_level(id)
@@ -239,7 +272,7 @@ function M.set_pokemon_max_hp(id, hp)
 	local p = get(id)
 	p.hp.max = hp
 	p.hp.edited = true
-	M.save()
+	msg.post(url.MAIN, "commit")
 end
 
 function M.release_pokemon(id)
@@ -248,7 +281,7 @@ function M.release_pokemon(id)
 	counters.released = next(counters) ~= nil and counters.released + 1 or 1
 	profiles.update(profiles.get_active_slot(), counters)
 	profiles.set_party(get_party())
-	M.save()
+	msg.post(url.MAIN, "commit")
 end
 
 function M.get_total()
@@ -275,44 +308,7 @@ function M.add(pokemon)
 	end
 
 	profiles.set_party(get_party())
-	M.save()
-	profiles.save()
-end
-
-function M.save()
-	if profiles.get_active_slot() then
-		local profile = profiles.get_active_file_name()
-		defsave.set(profile, "storage", storage)
-		defsave.set(profile, "active", active)
-		defsave.set(profile, "counters", counters)
-		defsave.set(profile, "sorting", sorting)
-		defsave.save(profile)
-	end
-end
-
-function M.load(profile)
-	local file_name = profile.file_name
-	if not defsave.is_loaded(file_name) then
-		local loaded = defsave.load(file_name)
-	end
-	storage = defsave.get(file_name, "storage")
-	active = defsave.get(file_name, "active")
-	counters = defsave.get(file_name, "counters")
-	sorting = defsave.get(file_name, "sorting")
-	-- Default counters
-	if next(counters) == nil then
-		counters = {caught=0, released=0, seen=0}
-	end
-end
-
-function M.init()
-	if not initialized then
-		local profile = profiles.get_active()
-		if profile then
-			M.load(profile)
-		end
-		initialized = true
-	end
+	msg.post(url.MAIN, "commit")
 end
 
 local function assign_slot_numbers()
@@ -340,7 +336,7 @@ function M.swap(storage_id, inventory_id)
 	active[storage_id] = storage_pokemon
 	storage[storage_id] = nil
 	profiles.set_party(get_party())
-	M.save()
+	msg.post(url.MAIN, "commit")
 end
 
 function M.move_to_storage(id)
@@ -356,7 +352,7 @@ function M.move_to_storage(id)
 	storage[id] = pokemon
 	active[id] = nil
 	profiles.set_party(get_party())
-	M.save()
+	msg.post(url.MAIN, "commit")
 end
 
 function M.free_space_in_inventory()
@@ -375,7 +371,7 @@ function M.move_to_inventory(id)
 		active[id] = pokemon
 		storage[id] = nil
 		profiles.set_party(get_party())
-		M.save()
+		msg.post(url.MAIN, "commit")
 	else
 		assert(false, "Your party is full")
 	end

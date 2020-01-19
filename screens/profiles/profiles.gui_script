@@ -8,6 +8,7 @@ local url = require "utils.url"
 local dex = require "pokedex.dex"
 local gooey = require "gooey.gooey"
 local party = require "screens.party.party"
+local save = require "utils.save"
 
 local function delete(profile)
 	profiles.delete(profile)
@@ -42,9 +43,9 @@ end
 
 
 local function activate(slot)
-	pprint(slot)
+	save.save()
 	profiles.set_active(slot)
-	storage.load(profiles.get_active())
+	save.load_profile(profiles.get_active())
 	dex.load(profiles.get_active())
 	if #storage.list_of_ids_in_inventory() > 0 then
 		monarch.show("party")

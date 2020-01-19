@@ -7,6 +7,9 @@ local url = require "utils.url"
 local gooey_buttons = require "utils.gooey_buttons"
 local tracking_id = require "utils.tracking_id"
 local dex = require "pokedex.dex"
+local save = require "utils.save"
+
+
 local slot
 
 local function refresh_input(self, input, node_id)
@@ -48,7 +51,7 @@ local function okay()
 	if name ~= "ENTER NAME" then
 		local profile = profiles.add(name, slot)
 		profiles.set_active(profile.slot)
-		storage.load(profiles.get_active())
+		save.load_profile(profiles.get_active())
 		dex.load(profiles.get_active())
 		monarch.show("add")
 	end
