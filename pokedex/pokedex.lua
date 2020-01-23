@@ -176,8 +176,10 @@ function M.get_sprite(pokemon)
 		return "-1MissingNo", "pokemon0"
 	end
 	local pokemon_sprite = pokemon_index .. pokemon
-	if pokemon_index == 32 or pokemon_index == 29 then
-		pokemon_sprite = pokemon_sprite:sub(1, -5)
+	
+	if pokemon_index == 32 or pokemon_index == 29 or pokemon_index == 678 then
+		pokemon_sprite = pokemon_sprite:gsub(" ♀", "-f")
+		pokemon_sprite = pokemon_sprite:gsub(" ♂", "-m")
 	elseif pokemon_index == 493 then
 		return "493Arceus", "pokemon0"
 	end
