@@ -13,7 +13,7 @@ def main():
         data = json.load(f)
         for pokemon, data in data.items():
             index = data["index"]
-            if index in indexes or index < 493:
+            if index in indexes or index < 649:
                 continue
 
             indexes.append(index)
@@ -47,4 +47,6 @@ def convert(path):
                 print(im.mode)
 
 
-convert(Path("/Users/mattias.hedberg/Documents/repositories/Pokedex5E/assets/textures/sprites"))
+# convert(Path(__file__).parent.parent.parent.parent.parent / "assets" / "textures" / "sprites")
+
+main()
