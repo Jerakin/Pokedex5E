@@ -16,20 +16,6 @@ evolve_json = root / "evolve.json"
 
 images_path = root.parent / "textures"
 
-def remove_weakness():
-    with open(pokemons_json, "r") as f:
-        pokemon_data = json.load(f)
-    for species, data in pokemon_data.items():
-        if "Vul" in data:
-            del data["Vul"]
-        if "Res" in data:
-            del data["Res"]
-        if "Imm" in data:
-            del data["Imm"]
-
-    with open(pokemons_json, "w") as f:
-        json.dump(pokemon_data, f, indent="  ", ensure_ascii=False)
-
 
 def evolve():
     with open(evolve_json, "r") as f:
@@ -55,15 +41,19 @@ def pokedex_order():
 
 
 def habitat():
+
     with open(habitat_json, "r") as fp:
-        with open(pokemon_order_json, "r") as f:
+        with open(pokemons_json, "r") as f:
             pokemon_data = json.load(f)
+            pokemon_list = [x for x in pokemon_data]
+
             habitat_data = json.load(fp)
 
             for _, pokemon_list in habitat_data.items():
                 for poke in pokemon_list:
-                    pokemon_data["number"].remove(poke)
-            print(pokemon_data["number"])
+                    pokemon_list.remove(poke)
+            print("Not in habitat")
+            print(pokemon_list)
 
 
 def pokedex_extra():
@@ -74,7 +64,7 @@ def pokedex_extra():
             try:
                 pokedex_extra_data[species]
             except:
-                print("Can't find", species)
+                print("Pokedex: Can't find", species)
 
 
 def moves():
@@ -140,5 +130,24 @@ def long_vulnerabilities():
     print(length)
 
 
+def remove_vulnerabilities():
+    with pokemons_json.open("r") as fp:
+        pokemon_data = json.load(fp)
+    for p, data in pokemon_data.items():
+        for t in ["Vul", "Res", "Imm"]:
+            if t in data:
+                del data[t]
 
-remove_weakness()
+    with pokemons_json.open("w") as fp:
+        json.dump(pokemon_data, fp, indent="  ", ensure_ascii=False)
+
+
+def validate_all():
+    images()
+    abilities()
+    moves()
+    pokedex_extra()
+    habitat()
+    evolve()
+
+validate_all()
