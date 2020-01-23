@@ -15,7 +15,7 @@ def main():
         data = json.load(f)
         for pokemon, data in data.items():
             index = data["index"]
-            if index in indexes or index < 493:
+            if index in indexes or index < 650:
                 continue
 
             raw_url = "https://bulbapedia.bulbagarden.net/wiki/File:{:03d}{}.png".format(index, pokemon)
