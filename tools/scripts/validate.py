@@ -59,12 +59,14 @@ def habitat():
 def pokedex_extra():
     with open(pokedex_extra_json, "r", encoding="utf8") as fp:
         pokedex_extra_data = json.load(fp)
+    with open(pokemons_json, "r") as f:
+        pokemon_data = json.load(f)
 
-        for species in pokedex_order():
-            try:
-                pokedex_extra_data[species]
-            except:
-                print("Pokedex: Can't find", species)
+    for species, data in pokemon_data.items():
+        try:
+            pokedex_extra_data[str(data["index"])]
+        except:
+            print("Pokedex: Can't find", species)
 
 
 def moves():

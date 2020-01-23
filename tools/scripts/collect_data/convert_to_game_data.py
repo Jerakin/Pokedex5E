@@ -21,7 +21,7 @@ def convert_pokemon_data(input_file):
     attributes = ["STR", "CON", "DEX", "INT", "WIS", "CHA"]
     text_to_short = {"Strength": "STR", "Constitution": "CON", "Dexterity": "DEX", "Intelligence": "INT", "Wisdom": "WIS", "Charisma": "CHA"}
     ignore = ["Ev", "Evolve Bonus", "Description 17", "Evo Stages", "Res", "Vul", "Imm"]
-    reg_starting_moves = re.compile("Starting Moves: ([A-Za-z ,-12]*)")
+    reg_starting_moves = re.compile("Starting Moves: ([A-Za-z ,-12']*)")
     reg_tm_moves = re.compile("TM: (.*)")
 
     type_names = ["Normal", "Fighting", "Flying", "Poison", "Ground", "Rock", "Bug", "Ghost", "Steel", "Fire", "Water",
