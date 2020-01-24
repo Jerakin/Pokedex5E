@@ -2,6 +2,8 @@ local monarch = require "monarch.monarch"
 local url = require "utils.url"
 local tracking_id = require "utils.tracking_id"
 local gooey = require "gooey.gooey"
+local flow = require "utils.flow"
+local version = require "screens.popups.version_dialog.version"
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
@@ -15,7 +17,13 @@ function on_input(self, action_id, action)
 	local b = gooey.button("support_me", action_id, action, function()
 		sys.open_url("https://Ko-fi.com/jerakin")
 	end)
-	
+	local a = gooey.button("version_btn", action_id, action, function()
+		flow.start(function()
+			local up_to_date, latest_version = version.check_version()
+			--monarch.show("version", {}, {up_to_date=up_to_date, latest_version=latest_version})
+		end)
+		
+	end)
 	if not b.over and not self.lock and action_id == hash("touch") and action.released then
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:Back",

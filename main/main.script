@@ -19,6 +19,7 @@ local fakemon = require "fakemon.fakemon"
 local settings = require "pokedex.settings"
 local url = require "utils.url"
 
+
 local function send_crash_on_start()
 	crash.write_dump()
 	local handle = crash.load_previous()
@@ -115,7 +116,7 @@ function init(self)
 			fakemon.init()
 			flow.until_true(function() return not fakemon.BUSY end)
 		end
-
+		
 		movedex.init()
 		natures.init()
 		pokedex.init()

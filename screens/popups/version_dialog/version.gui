@@ -202,7 +202,7 @@ nodes {
   }
   size {
     x: 600.0
-    y: 180.0
+    y: 150.0
     z: 0.0
     w: 1.0
   }
@@ -309,7 +309,7 @@ nodes {
 }
 nodes {
   position {
-    x: 160.0
+    x: 143.733
     y: -157.0
     z: 0.0
     w: 1.0
@@ -327,7 +327,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 250.0
+    x: 310.0
     y: 70.0
     z: 0.0
     w: 1.0
@@ -341,7 +341,7 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/common_up"
-  id: "btn_confirm"
+  id: "btn_open"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -382,8 +382,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
-    y: 100.0
+    x: 100.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -395,9 +395,9 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "YES"
+  text: "OPEN BROWSER"
   font: "script_bold"
-  id: "txt_confim"
+  id: "txt_open"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -415,7 +415,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "btn_confirm"
+  parent: "btn_open"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -427,7 +427,7 @@ nodes {
 }
 nodes {
   position {
-    x: -163.0
+    x: -179.267
     y: -157.0
     z: 0.0
     w: 1.0
@@ -459,7 +459,7 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/common_up"
-  id: "btn_exit"
+  id: "btn_close"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -500,8 +500,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
-    y: 100.0
+    x: 100.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -513,9 +513,9 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "NO"
+  text: "CLOSE"
   font: "script_bold"
-  id: "txt_exit"
+  id: "txt_close"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -533,7 +533,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "btn_exit"
+  parent: "btn_close"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
