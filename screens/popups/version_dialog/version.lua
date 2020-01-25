@@ -32,7 +32,9 @@ function M.check_version()
 		flow.until_true(function() return not M.BUSY end)
 		if M.releases then
 			local current_version = M.current_version()
-
+			if M.releases[current_version] == nil then
+				return
+			end
 			if M.releases.latest == M.releases[current_version].number then
 				return true, 0
 			else
