@@ -9,7 +9,6 @@ M.releases = nil
 
 function M.get_latest()
 	http.request(version_url, "GET", function(self, id, res)
-		print(res.status)
 		if res.status == 200 or res.status == 304 then
 			M.releases = json.decode(res.response)
 		else
@@ -33,6 +32,7 @@ function M.check_version()
 		flow.until_true(function() return not M.BUSY end)
 		if M.releases then
 			local current_version = M.current_version()
+
 			if M.releases.latest == M.releases[current_version].number then
 				return true, 0
 			else

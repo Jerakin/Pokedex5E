@@ -9,24 +9,12 @@ function init(self)
         text = "You have the latest version"
         gui.set_enabled(gui.get_node("btn_open"), false)
     else
-        text = "Your are " .. self.data.versions_behind .. "versions behind!"
+        text = "Your are " .. self.data.versions_behind .. " versions behind!"
     end
     gui.set_text(gui.get_node("txt"), text)
-end
-
-function final(self)
-end
-
-function update(self, dt)
-end
-
-function on_message(self, message_id, message, sender)
 end
 
 function on_input(self, action_id, action)
     gooey.button("btn_close", action_id, action, function() monarch.back() end)
     gooey.button("btn_open", action_id, action, function() sys.open_url(self.data.url) end)
-end
-
-function on_reload(self)
 end
