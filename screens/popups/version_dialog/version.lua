@@ -7,8 +7,6 @@ M.BUSY = false
 
 M.releases = nil
 
-
-
 function M.get_latest()
 	http.request(version_url, "GET", function(self, id, res)
 		print(res.status)
@@ -35,10 +33,10 @@ function M.check_version()
 		flow.until_true(function() return not M.BUSY end)
 		if M.releases then
 			local current_version = M.current_version()
-			if M.releases.latest == current_version then
-				return true, M.releases.latest
+			if M.releases.latest == M.releases[current_version].number then
+				return true, 0
 			else
-				return false, M.releases.latest
+				return false, M.releases.latest - M.releases[current_version].number, M.releases[current_version].url
 			end
 		end
 	end
