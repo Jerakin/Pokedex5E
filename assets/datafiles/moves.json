@@ -5460,7 +5460,7 @@
     "Duration": "Instantaneous",
     "Range": "100ft",
     "Save": "DEX",
-    "Description": "You summon a gigantic firebolt the strikes down from the heavens in a 30 foot circle, centered on a point within range. All creatures caught in the blast must make a DEX save against your Move DC, taking 4d4 + MOVE electric damage on a failure, or half as much on a success. If Fusion Bolt was already used this round, double the damage dealt.",
+    "Description": "You summon a gigantic lightning bolt that strikes down from the heavens in a 30 foot circle, centered on a point within range. All creatures caught in the blast must make a DEX save against your Move DC, taking 4d4 + MOVE electric damage on a failure, or half as much on a success. If Fusion Bolt was already used this round, double the damage dealt.",
     "Damage": {
       "1": {
         "amount": 4,
@@ -5494,7 +5494,7 @@
     "Duration": "Instantaneous",
     "Range": "100ft",
     "Save": "DEX",
-    "Description": "You summon a gigantic fireball the strikes down from the heavens in a 30 foot circle, centered on a point within range. All creatures caught in the blast must make a DEX save against your Move DC, taking 4d4 + MOVE fire damage on a failure, or half as much on a success. If Fusion Flare was already used this round, double the damage dealt. Fusion Flare may be used to thaw out the user from the frozen status before attacking.",
+    "Description": "You summon a gigantic fireball that strikes down from the heavens in a 30 foot circle, centered on a point within range. All creatures caught in the blast must make a DEX save against your Move DC, taking 4d4 + MOVE fire damage on a failure, or half as much on a success. If Fusion Flare was already used this round, double the damage dealt. Fusion Flare may be used to thaw out the user from the frozen status before attacking.",
     "Damage": {
       "1": {
         "amount": 4,
@@ -10286,7 +10286,7 @@
     "Duration": "Instantaneous",
     "Range": "40ft",
     "atk": true,
-    "Description": "You send a blast of cold snow at an opponent. Make a ranged attack roll on an opponent, doing 1d6 + MOVE ice damage on a hit. If the natural attack roll is 18 or higher, the target is frozen.",
+    "Description": "You send a blast of cold snow at an opponent. Make a ranged attack roll on an opponent, doing 1d6 + MOVE cold damage on a hit. If the natural attack roll is 18 or higher, the target is frozen.",
     "Damage": {
       "1": {
         "amount": 1,
@@ -11932,29 +11932,7 @@
     "PP": 3,
     "Duration": "3 rounds, Concentration",
     "Range": "100ft",
-    "Description": "You stir up a massive sandstorm in a 30 foot radius, centered on a point in range. Any non rock-, steel-, or ground-type creature in the area at the beginning of their turn take an amount of rock damage equal to their level divided by 4, rounded up. The Sandstorm lasts for 3 rounds.",
-    "Damage": {
-      "1": {
-        "amount": 1,
-        "dice_max": 6,
-        "move": false
-      },
-      "5": {
-        "amount": 1,
-        "dice_max": 12,
-        "move": false
-      },
-      "10": {
-        "amount": 2,
-        "dice_max": 8,
-        "move": false
-      },
-      "17": {
-        "amount": 4,
-        "dice_max": 6,
-        "move": false
-      }
-    }
+    "Description": "You stir up a massive sandstorm in a 30 foot radius, centered on a point in range. Any non rock-, steel-, or ground-type creature in the area at the beginning of their turn take an amount of rock damage equal to their level divided by 4, rounded up. The Sandstorm lasts for 3 rounds."
   },
   "Scald": {
     "Type": "Water",
@@ -14014,7 +13992,7 @@
     "Duration": "Instantaneous",
     "Range": "Melee",
     "atk": true,
-    "Description": "You attempt a forceful grapple on a target. Make a melee attack, doing 2d6 + MOVE fighting damage on a hit, but taking a quarter of the damage dealt in recoil. On a hit, the target is restrained. As long as the target is restrained on your subsequent turns, this move can be activated again as a bonus action with an automatic hit, dealing 2d6 fighting damage.",
+    "Description": "You attempt a forceful grapple on a target. Make a melee attack, doing 2d6 + MOVE fighting damage on a hit, but taking a quarter of the damage dealt in recoil. On a hit, the target is grappled. As long as the target is grappled on your subsequent turns, this move can be activated again as a bonus action with an automatic hit, dealing 2d6 fighting damage with a quarter of the damage dealt in recoil.",
     "Damage": {
       "1": {
         "amount": 2,
@@ -15898,7 +15876,7 @@
     "Range": "60ft",
     "Save": "STR",
     "atk": true,
-    "Description": "You create a wave of water that swirls around an opponent in range. Make a ranged attack roll. On a hit, the target takes 1d6 + MOVE water damage and is restrained. At the beginning of each of its turns, it may attempt to escape with a STR save against your Move DC. On each successive turn, if the creature is still grappled, you may use this move again (as an action) and automatically hit.",
+    "Description": "You create a wave of water that swirls around an opponent in range. Make a ranged attack roll. On a hit, the target takes 1d6 + MOVE water damage and is restrained. At the beginning of each of its turns, it may attempt to escape with a STR save against your Move DC. On each successive turn, if the creature is still restrained, you may use this move again (as an action) and automatically hit.",
     "Damage": {
       "1": {
         "amount": 1,
