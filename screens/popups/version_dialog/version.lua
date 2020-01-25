@@ -1,7 +1,7 @@
 local flow = require "utils.flow"
 local M = {}
 
-local version_url = "https://raw.githubusercontent.com/Jerakin/Pokedex5E/version_dialog/assets/datafiles/releases.json"
+local version_url = "https://raw.githubusercontent.com/Jerakin/Pokedex5E/master/assets/datafiles/releases.json"
 
 M.BUSY = false
 
