@@ -79,7 +79,7 @@ function init(self)
 		table.insert(active_buttons, b)
 	end
 
-	if storage.get_total() == 0 then
+	if not storage.is_initialized() or storage.get_total() == 0 then
 		gui.set_enabled(gui.get_node("change_pokemon/btn_close"), false)
 	end
 	

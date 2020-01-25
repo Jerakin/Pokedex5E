@@ -127,7 +127,7 @@ local function load_profiles()
 end
 
 local function convert_to_rolling_profile_slot()
-	if profiles.slots then
+	if profiles.slots or next(profiles) == nil then
 		return
 	end
 	

@@ -14,6 +14,10 @@ local counters = {}
 local sorting = {}
 local initialized = false
 
+function M.is_initialized()
+	return initialized
+end
+
 local function get_id(pokemon)
 	local m = md5.new()
 	local p = utils.deep_copy(pokemon)
@@ -291,6 +295,7 @@ function M.save()
 end
 
 function M.load(profile)
+	initialized = false
 	local file_name = profile.file_name
 	if not defsave.is_loaded(file_name) then
 		local loaded = defsave.load(file_name)
