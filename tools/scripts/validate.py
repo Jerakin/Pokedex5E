@@ -18,9 +18,13 @@ images_path = root.parent / "textures"
 
 
 def evolve():
+    with open(pokemons_json, "r") as f:
+        pokemon_data = json.load(f)
     with open(evolve_json, "r") as f:
         evolve_data = json.load(f)
         for species, data in evolve_data.items():
+            if species not in pokemon_data:
+                print("Species {} not in evolve data".format(species))
             current = data["current_stage"]
             total = data["total_stages"]
             if current == total:
@@ -41,7 +45,6 @@ def pokedex_order():
 
 
 def habitat():
-
     with open(habitat_json, "r") as fp:
         with open(pokemons_json, "r") as f:
             pokemon_data = json.load(f)
