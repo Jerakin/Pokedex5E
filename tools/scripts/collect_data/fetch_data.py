@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import gspread
 import json
 import os

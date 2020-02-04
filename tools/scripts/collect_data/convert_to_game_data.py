@@ -80,7 +80,7 @@ def convert_pokemon_data(input_file):
                     lvl_moves = reg_level_moves.findall(value)
                     if lvl_moves:
                         for level, moves in lvl_moves:
-                            output_pokemon_data[pokemon]["Moves"]["Level"][level] = [x for x in moves.split(", ").replace(",", "") if x]
+                            output_pokemon_data[pokemon]["Moves"]["Level"][level] = [x.replace(",", "") for x in moves.split(", ") if x.replace(",", "")]
                     tm_moves = reg_tm_moves.search(value)
                     if tm_moves:
                         if "EVERY TM" in value:

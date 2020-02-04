@@ -6042,7 +6042,7 @@
     "Move Time": "1 action",
     "PP": 3,
     "Duration": "3 rounds, Concentration",
-    "Range": "30ft radius",
+    "Range": "100ft",
     "Description": "You stir up a massive hail storm in a 30 foot radius, centered on a point in range. Any non ice-type creature in the area at the beginning of their turn take an amount of ice damage equal to their level divided by 4, rounded up. The hail storm lasts for 3 rounds."
   },
   "Hammer Arm": {
@@ -8205,9 +8205,9 @@
     "Move Time": "1 bonus action",
     "PP": 15,
     "Duration": "Instantaneous",
-    "Range": "30ft",
+    "Range": "10ft",
     "atk": true,
-    "Description": "You rush forward to punch with incredible speed. Choose a target withing 10 feet of you. You rush forward to slam a fist into the creature, avoiding all attacks of opportunity. Make a melee attack on that creature, dealing 1d4 steel damage on a hit.",
+    "Description": "You rush forward to punch with incredible speed. Choose a target withing 10 feet of you. You rush forward to slam a fist into the creature, avoiding all attacks of opportunity. Make a melee attack on that creature, dealing 1d4 fighting damage on a hit.",
     "Damage": {
       "1": {
         "amount": 1,
@@ -10911,7 +10911,7 @@
     "PP": 3,
     "Duration": "1 minute, Concentration",
     "Range": "Self",
-    "Description": "You go into a fit of rage, attacking with relentless fury. While you are raging, you gain +1 on all damage rolls (only once per turn for multi-attack moves like Swift, Fury Swipes, Bubble, etc.), have resistance to normal damage, and have advantage on all Strength checks. Your rage ends if you are incapacitated or if you have not attacked a hostile target since your last turn, or taken any damage since then."
+    "Description": "You go into a fit of rage, attacking with relentless fury. While you are raging, you gain +1 on all damage rolls (only once per move), have resistance to normal damage, and have advantage on all Strength checks. Your rage ends if you are incapacitated or if you have not attacked a hostile target since your last turn, or taken any damage since then."
   },
   "Rage Powder": {
     "Type": "Bug",
@@ -11700,7 +11700,7 @@
     "Duration": "Instantaneous",
     "Range": "Melee",
     "atk": true,
-    "Description": "You roll into a foe, repeatedly making attacks with increasing strength. Make a melee attack on an opponent, doing 1d6 + MOVE rock damage on a hit. If you use this move in back to back turns, double the dice on each hit for a maximum of 5 successive turns. Ex: 1d6 on first hit, 2d6 on second, 4d6, 8d6, 16d6. The damage resets if any of the attacks miss, or if you are incapacitated.",
+    "Description": "You roll into a foe, repeatedly making attacks with increasing strength. Make a melee attack on an opponent, dealing 1d6 + MOVE rock damage on a hit. If you use this move on your turn in consecutive rounds, double the dice on each successful attack for a maximum of 5 attacks. Ex: 1d6 on first hit, 2d6 on second, 4d6, 8d6, 16d6. The damage resets if any of the attacks fail to damage an opponent, if your speed is reduced to 0, or if you are incapacitated.",
     "Damage": {
       "1": {
         "amount": 1,
@@ -12393,7 +12393,7 @@
     "Move Power": [
       "DEX"
     ],
-    "Move Time": "1 action",
+    "Move Time": "1 bonus action",
     "PP": 20,
     "Duration": "Instantaneous",
     "Range": "Melee",
@@ -13273,7 +13273,7 @@
     "Duration": "1 round, Concentration",
     "Range": "80ft line",
     "Save": "DEX",
-    "Description": "When you use this move, soak in solar energy and prepare to unleash a devastating beam. On your next turn, if you keep your concentration, use an action to create a 80 foot line of solar energy, 5 feet wide. Any creature caught in the line must succeed on a DEX save or take 3d8 + MOVE grass damage on a fail and half as much on a save. If this move in used in daylight, the damage increases by 2d6.",
+    "Description": "When you use this move, soak in solar energy and prepare to unleash a devastating beam. On your next turn, if you keep your concentration, use an action to create a 80 foot line of solar energy, 5 feet wide. Any creature caught in the line must succeed on a DEX save or take 3d8 + MOVE grass damage on a fail and half as much on a save. If this move in used in harsh sunlight, the damage increases by 2d6.",
     "Damage": {
       "1": {
         "amount": 3,
@@ -13932,7 +13932,7 @@
     "Duration": "Instantaneous",
     "Range": "Melee",
     "atk": true,
-    "Description": "This move is known by all Pokémon, and can be used at any time. Make a melee attack roll, doing damage equal to 2 + MOVE normal damage on a hit."
+    "Description": "This move is known by all Pokémon, and can be used at any time. Make a melee attack roll, doing damage equal to 2 + MOVE typeless damage on a hit."
   },
   "Struggle Bug": {
     "Type": "Bug",
@@ -15333,32 +15333,32 @@
     "Move Power": [
       "DEX"
     ],
-    "Move Time": "1 action",
+    "Move Time": "1 bonus action",
     "PP": 20,
     "Duration": "Instantaneous",
-    "Range": "Melee",
+    "Range": "10ft",
     "atk": true,
-    "Description": "You whirl your fists with a fast attack that hits before your opponent has a chance to strike. At the beginning of a round of combat, you may announce that you are using this move, immediately jumping to the top of the initiative order for that round only. Make a melee attack on an opponent, dealing 1d6 + MOVE fighting damage on a hit.",
+    "Description": "You whirl your fists with a fast attack that hits before your opponent has a chance to strike. As a bonus action, you may make rush to an opponent in range and a quick melee attack on an opponent, dealing 1d4 + MOVE fighting damage on a hit.",
     "Damage": {
       "1": {
         "amount": 1,
-        "dice_max": 6,
-        "move": true
+        "dice_max": 4,
+        "move": false
       },
       "5": {
         "amount": 1,
-        "dice_max": 12,
-        "move": true
+        "dice_max": 6,
+        "move": false
       },
       "10": {
-        "amount": 2,
-        "dice_max": 8,
-        "move": true
+        "amount": 1,
+        "dice_max": 10,
+        "move": false
       },
       "17": {
-        "amount": 4,
-        "dice_max": 6,
-        "move": true
+        "amount": 1,
+        "dice_max": 12,
+        "move": false
       }
     }
   },
