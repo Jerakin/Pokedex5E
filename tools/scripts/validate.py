@@ -5,6 +5,7 @@ import os
 root = Path(__file__).parent.parent.parent / "assets" / "datafiles"
 habitat_json = root / "habitat.json"
 pokemons_json = root / "pokemon.json"
+pokemon_folder = root / "pokemon"
 pokedex_extra_json = root / "pokedex_extra.json"
 pokemon_order_json = root / "pokemon_order.json"
 moves_json = root / "moves.json"
@@ -155,4 +156,31 @@ def validate_all():
     habitat()
     evolve()
 
-validate_all()
+
+def pokemon_list():
+    with open(pokemons_json, "r", encoding="utf-8") as f:
+        pokemon_data = json.load(f)
+    index_list = {}
+    for species, data in pokemon_data.items():
+        index = data["index"]
+        if index > 0:
+            if index not in index_list:
+                index_list[index] = []
+            index_list[index].append(species)
+
+    with open(root / "index_order.json", "w") as fp:
+        json.dump(index_list, fp)
+
+
+def split():
+    with open(pokemons_json, "r", encoding="utf-8") as f:
+        pokemon_data = json.load(f)
+
+    for species, data in pokemon_data.items():
+        species = species.replace(" ♀", "-f")
+        species = species.replace(" ♂", "-m")
+
+        with open(pokemon_folder / (species + ".json"), "w", encoding="utf8") as fp:
+            json.dump(data, fp, indent="  ", ensure_ascii=False)
+
+split()

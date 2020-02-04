@@ -22,25 +22,36 @@ M.FEMALE = 2
 
 local initialized = false
 local function list()
-	local temp = {}
-
-	-- Group based on index and create unique list
-	local unique = {}
-	for species, data in pairs(pokedex) do
-		local index = data.index
-		if index > 0 then
-			if not temp[index] then
-				unique[index] = species
-				temp[index] = {}
-			end
-			table.insert(temp[index], species)
+	local _index_list = file.load_json_from_resource("/assets/datafiles/index_order.json")
+	
+	local index_list = {}
+	local index = 1
+	while true do
+		if _index_list[tostring(index)] then
+			index_list[index] = _index_list[tostring(index)]
+			index = index + 1
+		else
+			break
 		end
 	end
 	
+	-- Group based on index and create unique list
+	local unique = {}
+	for species, data in pairs(pokedex) do
+		index = data.index
+		if index > 0 then
+			if not index_list[index] then
+				unique[index] = species
+				index_list[index] = {}
+			end
+			table.insert(index_list[index], species)
+		end
+	end
+
 	-- Create the order top to down
-	local index = 1
+	index = 1
 	local order = {}
-	for _, pokemons in pairs(temp) do
+	for _, pokemons in pairs(index_list) do
 		for _, species in pairs(pokemons) do
 			order[index] = species
 			index = index + 1
@@ -48,15 +59,18 @@ local function list()
 	end
 
 	return order, #order, unique
+	
 end
 
 function M.get_whole_pokedex()
 	return pokedex
 end
 
+
 function M.init()
 	if not initialized then
-		pokedex = file.load_json_from_resource("/assets/datafiles/pokemon.json")
+		pokedex = {}
+		pokedex["MissingNo"] = file.load_json_from_resource("/assets/datafiles/pokemon/MissingNo.json")
 		pokedex_extra = file.load_json_from_resource("/assets/datafiles/pokedex_extra.json")
 		abilities = file.load_json_from_resource("/assets/datafiles/abilities.json")
 		evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
@@ -312,16 +326,24 @@ function M.get_pokemon(pokemon)
 	if pokedex[pokemon] then
 		return utils.deep_copy(pokedex[pokemon])
 	else
-		local e = string.format("Can not find Pokemon: '%s'\n%s", tostring(pokemon), debug.traceback())
-		if not warning_list[tostring(pokemon)] then
-			gameanalytics.addErrorEvent {
-				severity = "Critical",
-				message = e
-			}
-			log.error(e)
+		local pokemon_species = pokemon:gsub(" ♀", "-f")
+		pokemon_species = pokemon_species:gsub(" ♂", "-m")
+		local pokemon_json = file.load_json_from_resource("/assets/datafiles/pokemon/".. pokemon_species .. ".json")
+		if pokemon_json ~= nil then
+			pokedex[pokemon] = pokemon_json
+			return utils.deep_copy(pokedex[pokemon])
+		else
+			local e = string.format("Can not find Pokemon: '%s'\n%s", tostring(pokemon), debug.traceback())
+			if not warning_list[tostring(pokemon)] then
+				gameanalytics.addErrorEvent {
+					severity = "Critical",
+					message = e
+				}
+				log.error(e)
+			end
+			warning_list[tostring(pokemon)] = true
+			return pokedex["MissingNo"]
 		end
-		warning_list[tostring(pokemon)] = true
-		return pokedex["MissingNo"]
 	end
 end
 
