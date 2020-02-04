@@ -47,18 +47,26 @@ def convert_pokemon_data(input_file):
             print(e)
             import sys
             sys.exit(3)
+
         for pokemon, _ in file_data.items():  # We are using the list of pokemons for the evolve data so
+            pokemon = pokemon.replace(" - Small", "").replace("\n", " ")
+            if "Average" in pokemon or "Large" in pokemon or "Supersize" in pokemon:
+                continue
             output_pokemon_list.append(pokemon)  # need to construct that first
 
         for pokemon, data in file_data.items():
-            output_pokemon_data = {"Moves": {"Level": {}}, "index": -1, "Abilities":[]}
-            output_evolve_data[pokemon] = {"into": [], "current_stage":1, "total_stages": 1}
+            pokemon = pokemon.replace(" - Small", "").replace("\n", " ")
+            if "Average" in pokemon or "Large" in pokemon or "Supersize" in pokemon:
+                continue
+            output_pokemon_data = {"Moves": {"Level": {}}, "index": -1, "Abilities": []}
+            output_evolve_data[pokemon] = {"into": [], "current_stage": 1, "total_stages": 1}
 
             for attribute, value in data.items():
                 if not value or value == "None" or attribute in ignore:
                     continue
                 if attribute == "Index Number":
                     output_pokemon_data["index"] = int(value)
+
                     if int(value) not in output_index_numbers:
                         output_index_numbers[int(value)] = []
                     output_index_numbers[int(value)].append(pokemon)
@@ -161,8 +169,7 @@ def convert_pokemon_data(input_file):
             species = pokemon.replace(" ♀", "-f")
             species = species.replace(" ♂", "-m")
             with open(pokemon_folder / (species + ".json"), "w", encoding="utf8") as f:
-                json.dump(data, fp, indent="  ", ensure_ascii=False)
-
+                json.dump(output_pokemon_data, f, indent="  ", ensure_ascii=False)
         with open(output_location / "evolve.json", "w", encoding="utf8") as f:
             json.dump(output_evolve_data, f, indent="  ", ensure_ascii=False)
             print("Exported {}".format(output_location / "evolve.json"))
@@ -265,6 +272,7 @@ def main():
     for data_file in input_location.iterdir():
         if data_file.name in data_sheets:
             data_sheets[data_file.name](data_file)
+
 
 if __name__ == '__main__':
     main()
