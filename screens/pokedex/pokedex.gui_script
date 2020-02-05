@@ -161,14 +161,13 @@ function init(self)
 		[dex_data.regions.HOENN]={name="Hoenn", low=dex_data.max_index[dex_data.regions.JOHTO]+1, high=dex_data.max_index[dex_data.regions.HOENN], button=gui.get_node("btn_region3"), txt=gui.get_node("txt_hoenn"), scroll=0.36296102404594},
 		[dex_data.regions.SINNOH]={name="Sinnoh", low=dex_data.max_index[dex_data.regions.HOENN]+1, high=dex_data.max_index[dex_data.regions.SINNOH], button=gui.get_node("btn_region4"), txt=gui.get_node("txt_sinnoh"), scroll=0.55948656797409},
 		[dex_data.regions.UNOVA]={name="Unova", low=dex_data.max_index[dex_data.regions.SINNOH]+1, high=dex_data.max_index[dex_data.regions.UNOVA], button=gui.get_node("btn_region5"), txt=gui.get_node("txt_unova"), scroll=0.71236383914948},
-		[dex_data.regions.KALOS]={name="Kalos", low=dex_data.max_index[dex_data.regions.UNOVA]+1, high=dex_data.max_index[dex_data.regions.KALOS], button=gui.get_node("btn_region5"), txt=gui.get_node("txt_unova"), scroll=0.93745929002762},
+		[dex_data.regions.KALOS]={name="Kalos", low=dex_data.max_index[dex_data.regions.UNOVA]+1, high=dex_data.max_index[dex_data.regions.KALOS], button=gui.get_node("btn_region6"), txt=gui.get_node("txt_kalos"), scroll=0.93745929002762},
 	}
 
 	url.POKEDEX = msg.url()
 	msg.post(url.MENU, "show")
 	self.all_pokemons = pokedex.unique
 	self.filtered_list = pokedex.unique
-
 	local rows = math.ceil(#self.all_pokemons/5)
 	if #self.all_pokemons ~= dex_data.max_index[dex_data.regions.KALOS] then
 		for region, data in pairs(region_map) do

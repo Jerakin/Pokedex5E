@@ -23,20 +23,21 @@ M.FEMALE = 2
 local initialized = false
 local function list()
 	local _index_list = file.load_json_from_resource("/assets/datafiles/index_order.json")
-	
 	local index_list = {}
+	local unique = {}
 	local index = 1
 	while true do
 		if _index_list[tostring(index)] then
+			if not index_list[index] then
+				unique[index] = _index_list[tostring(index)][1]
+			end
 			index_list[index] = _index_list[tostring(index)]
 			index = index + 1
 		else
 			break
 		end
 	end
-	
-	-- Group based on index and create unique list
-	local unique = {}
+	-- Add fakemons
 	for species, data in pairs(pokedex) do
 		index = data.index
 		if index > 0 then
