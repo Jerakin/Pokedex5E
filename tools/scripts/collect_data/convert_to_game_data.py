@@ -39,6 +39,7 @@ def convert_pokemon_data(input_file):
     output_pokemon_list = []
     output_evolve_data = {}
     output_index_numbers = {}
+    output_filter_data = {}
     with open(input_file, "r", encoding="utf8") as fp:
         try:
             file_data = json.load(fp)
@@ -49,24 +50,24 @@ def convert_pokemon_data(input_file):
             sys.exit(3)
 
         for pokemon, _ in file_data.items():  # We are using the list of pokemons for the evolve data so
-            pokemon = pokemon.replace(" - Small", "").replace("\n", " ")
+            pokemon = pokemon.replace(" - Small", "").replace("\n", " ").replace("Zygarde Complete Form", "Zygarde Complete Forme")
             if "Average" in pokemon or "Large" in pokemon or "Supersize" in pokemon:
                 continue
             output_pokemon_list.append(pokemon)  # need to construct that first
 
         for pokemon, data in file_data.items():
-            pokemon = pokemon.replace(" - Small", "").replace("\n", " ")
+            pokemon = pokemon.replace(" - Small", "").replace("\n", " ").replace("Zygarde Complete Form", "Zygarde Complete Forme")
             if "Average" in pokemon or "Large" in pokemon or "Supersize" in pokemon:
                 continue
             output_pokemon_data = {"Moves": {"Level": {}}, "index": -1, "Abilities": []}
             output_evolve_data[pokemon] = {"into": [], "current_stage": 1, "total_stages": 1}
-
+            output_filter_data[pokemon] = {}
             for attribute, value in data.items():
                 if not value or value == "None" or attribute in ignore:
                     continue
                 if attribute == "Index Number":
                     output_pokemon_data["index"] = int(value)
-
+                    output_filter_data[pokemon]["index"] = int(value)
                     if int(value) not in output_index_numbers:
                         output_index_numbers[int(value)] = []
                     output_index_numbers[int(value)].append(pokemon)
@@ -162,12 +163,15 @@ def convert_pokemon_data(input_file):
                     if false_positive:
                         output_evolve_data.pop(pokemon, None)
                     continue
+                if attribute in ["MIN LVL FD", "SR", "Type"]:
+                    output_filter_data[pokemon][attribute] = value
                 output_pokemon_data[attribute] = value
             if pokemon in output_evolve_data and len(output_evolve_data[pokemon]["into"]) == 0:
                 del output_evolve_data[pokemon]["into"]
 
             species = pokemon.replace(" ♀", "-f")
             species = species.replace(" ♂", "-m")
+            species = species.replace("é", "e")
             with open(pokemon_folder / (species + ".json"), "w", encoding="utf8") as f:
                 json.dump(output_pokemon_data, f, indent="  ", ensure_ascii=False)
         with open(output_location / "evolve.json", "w", encoding="utf8") as f:
@@ -176,6 +180,9 @@ def convert_pokemon_data(input_file):
 
         with open(output_location / "index_order.json", "w", encoding="utf8") as f:
             json.dump(output_index_numbers, f, indent="  ", ensure_ascii=False)
+
+        with open(output_location / "filter_data.json", "w", encoding="utf8") as f:
+            json.dump(output_filter_data, f, indent="  ", ensure_ascii=False)
 
 
 def convert_move_data(input_file):

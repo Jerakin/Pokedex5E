@@ -26,7 +26,7 @@ local img_map = {["Water's-edge"] = "Waters-edge", Forest = "Forest", Cave = "Ca
 local number_map = {["1/8"]=0.125, ["1/4"]=0.25, ["1/2"]=0.5, ["1"]=1, ["2"]=2, ["3"]=3, ["4"]=4, ["5"]=5, ["6"]=6, ["7"]=7,["8"]=8,
 ["9"]=9, ["10"]=10, ["11"]=11, ["12"]=12, ["13"]=13, ["14"]=14, ["15"]=15}
 local sr = {"1/8", "1/4", "1/2", "1", "2", "3", "4", "5", "6", "7","8", "9", "10", "11", "12", "13", "14", "15"}
-local generations = {"1", "2", "3", "4", "5"}
+local generations = {"1", "2", "3", "4", "5", "6"}
 
 function final(self)
 	selected_pokemon = {}
@@ -163,7 +163,7 @@ local function update_colors(self)
 	else
 		gui.set_color(gui.get_node("txt_min_generation"), gui_colors.HERO_TEXT)
 	end
-	if self.max_generation == 5 then
+	if self.max_generation == 6 then
 		gui.set_color(gui.get_node("txt_max_generation"), gui_colors.HERO_TEXT_FADED)
 	else
 		gui.set_color(gui.get_node("txt_max_generation"), gui_colors.HERO_TEXT)
@@ -191,7 +191,7 @@ function init(self)
 	self.max_sr = 15
 	self.level = 0
 	self.min_generation = 0
-	self.max_generation = 5
+	self.max_generation = 6
 	
 	self.filtered_pokemons = get_filtered(self)
 	
@@ -211,7 +211,7 @@ local function reset_filters(self)
 	self.max_sr = 15
 	self.level = 0
 	self.min_generation = 0
-	self.max_generation = 5
+	self.max_generation = 6
 	
 	gui.set_text(gui.get_node("txt_trainer"), self.trainer_class:upper())
 	gui.set_text(gui.get_node("txt_habitat"), self.habitat:upper())
@@ -316,7 +316,7 @@ function on_input(self, action_id, action)
 
 	gooey.button("btn_clear_generation", action_id, action, function()
 		self.min_generation = 0
-		self.max_generation = 5
+		self.max_generation = 6
 		gui.set_text(gui.get_node("txt_min_generation"), "MIN")
 		gui.set_text(gui.get_node("txt_max_generation"), "MAX")
 		update_pokemons_list_view(self)

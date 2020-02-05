@@ -69,8 +69,8 @@ local function _trainer_classes_list()
 end
 
 local function generation_list()
-	local dex_indexes = {[1]=151, [2]=251, [3]=386, [4]=493, [5]=649}
-	local gen = {[1]={}, [2]={}, [3]={}, [4]={}, [5]={}}
+	local dex_indexes = {[1]=151, [2]=251, [3]=386, [4]=493, [5]=649, [6]=721}
+	local gen = {[1]={}, [2]={}, [3]={}, [4]={}, [5]={}, [6]={}}
 	for pokemon, data in pairs(_pokedex) do
 		local index = data.index
 		if index <= dex_indexes[1] then
@@ -83,6 +83,8 @@ local function generation_list()
 			table.insert(gen[4], pokemon)
 		elseif index <= dex_indexes[5] then
 			table.insert(gen[5], pokemon)
+		elseif index <= dex_indexes[6] then
+			table.insert(gen[6], pokemon)
 		end
 	end
 	return gen
@@ -90,7 +92,7 @@ end
 
 function M.init()
 	if not initialized then
-		_pokedex = pokedex.get_whole_pokedex()
+		_pokedex =file.load_json_from_resource("/assets/datafiles/filter_data.json")
 		trainer_classes = file.load_json_from_resource("/assets/datafiles/trainer_classes.json")
 		trainer_classes_list = _trainer_classes_list()
 		habitats = file.load_json_from_resource("/assets/datafiles/habitat.json")
@@ -99,7 +101,10 @@ function M.init()
 		table.insert(trainer_classes_list, 1, "Optional")
 		if fakemon.pokemon then
 			for name, data in pairs(fakemon.pokemon) do
-				_pokedex[name] = data
+				_pokedex[name].index = data.index
+				_pokedex[name].SR = data.SR
+				_pokedex[name].Type = data.Type
+				_pokedex[name]["MIN LVL FD"] = data["MIN LVL FD"]
 			end
 		end
 		if fakemon.trainer_classes then
