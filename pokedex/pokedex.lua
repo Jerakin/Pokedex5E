@@ -328,6 +328,7 @@ function M.get_pokemon(pokemon)
 	else
 		local pokemon_species = pokemon:gsub(" ♀", "-f")
 		pokemon_species = pokemon_species:gsub(" ♂", "-m")
+		pokemon_species = pokemon_species:gsub("é", "e")
 		local pokemon_json = file.load_json_from_resource("/assets/datafiles/pokemon/".. pokemon_species .. ".json")
 		if pokemon_json ~= nil then
 			pokedex[pokemon] = pokemon_json
