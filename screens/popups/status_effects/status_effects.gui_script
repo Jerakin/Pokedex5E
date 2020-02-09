@@ -84,6 +84,10 @@ function on_input(self, action_id, action)
 	if self.lock then
 		return
 	end
+	local close_button = gooey.button("btn_close", action_id, action, close)
+	if close_button.consumed then
+		return
+	end
 	if action.pressed then
 		self.start.x = action.x
 		self.start.y = action.y
@@ -139,5 +143,5 @@ function on_input(self, action_id, action)
 	if action.released then
 		self.is_scrolling = false
 	end
-	gooey.button("btn_close", action_id, action, close)
+	
 end
