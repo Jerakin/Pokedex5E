@@ -4,7 +4,7 @@ import json
 
 input_path = Path("trainer_classes.json")
 root = Path(__file__).parent.parent.parent
-pokemon = root / "assets/datafiles/pokemon.json"
+pokemon = root / "assets/datafiles/filter_data.json"
 
 output_path = root / r"assets"/ "datafiles" / "trainer_classes.json"
 
@@ -25,7 +25,8 @@ with open(input_path, "r") as f:
     for trainer, pokemons in data.items():
         pokemon_list = []
         for index in pokemons:
-            pokemon_list.extend(pokemon_index[index])
+            if index in pokemon_index:
+                pokemon_list.extend(pokemon_index[index])
 
         pokemon_list.sort()
         new_json[trainer] = pokemon_list

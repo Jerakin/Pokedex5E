@@ -33,7 +33,7 @@ def main():
         r = requests.get(raw_url)
         for m in re.findall(dirty_reg, clean_content(str(r.content))):
             index = int(m)
-            if index < 649 and index not in new_json[trainer]:
+            if index not in new_json[trainer]:
                 new_json[trainer].append(index)
 
     for trainer, p_list in new_json.items():
