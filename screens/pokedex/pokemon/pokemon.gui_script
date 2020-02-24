@@ -11,7 +11,7 @@ local url = require "utils.url"
 local POKEMON_SPECIES_TEXT_SCALE = vmath.vector3(1.5)
 
 local function cm_to_feet(cm)
-	local inches = cm * 0.393700787
+	local inches = cm / 2.45
 	local feet = math.floor(inches/12)
 	local inches = math.fmod(feet, 12)
 	return feet .. "'" .. inches .. '"' 
