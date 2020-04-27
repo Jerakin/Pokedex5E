@@ -802,7 +802,7 @@ local function get_damage_mod_stab(pokemon, move)
 	modifier = modifier ~= nil and modifier or 0
 
 	for _, t in pairs(M.get_type(pokemon)) do
-		if move.Type == t and move.Damage then
+		if move.Type == t and move.atk then
 			stab_damage = M.get_STAB_bonus(pokemon)
 			stab = true
 		end
