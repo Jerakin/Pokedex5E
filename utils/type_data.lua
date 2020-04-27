@@ -46,6 +46,10 @@ local M = {
 local mt = {}
 mt.__index = function(self, i)
 	if i == nil or rawget(M, i) == nil then
+		if i == "Fighting/Flying" then
+			return rawget(M, "Fighting")
+		end
+
 		local e = "Type '" .. tostring(i) .. "' does not exist"
 		gameanalytics.addErrorEvent {
 			severity = "Error",
