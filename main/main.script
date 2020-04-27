@@ -149,7 +149,7 @@ function init(self)
 		local sysinfo = sys.get_sys_info()
 		if sysinfo.system_name == "Android" then
 			local up_to_date, versions_behind, _ = version.check_version()
-			if not up_to_date then
+			if not up_to_date and versions_behind then
 				timer.delay(3, false, function()
 					notify.notify("Pokedex5e is " ..versions_behind .. " versions behind!")
 				end)
