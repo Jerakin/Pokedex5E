@@ -58,7 +58,6 @@ local function reset()
 end
 
 local function on_checked(checkbox, status)
-	print(status)
 	local statuses = storage.get_status_effects(pokemon_id)
 	storage.set_status_effect(pokemon_id, status, not statuses[status])
 	if statuses[status] then
