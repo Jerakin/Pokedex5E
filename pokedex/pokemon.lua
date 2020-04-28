@@ -802,7 +802,7 @@ local function get_damage_mod_stab(pokemon, move)
 	modifier = modifier ~= nil and modifier or 0
 
 	for _, t in pairs(M.get_type(pokemon)) do
-		if move.Type == t and move.atk then
+		if move.Type == t and move.ab then
 			stab_damage = M.get_STAB_bonus(pokemon)
 			stab = true
 		end
@@ -850,7 +850,7 @@ function M.get_move_data(pokemon, move_name)
 	move_data.power = move["Move Power"]
 	move_data.save = move.Save
 	move_data.time = move["Move Time"]
-	if move.atk then
+	if move.ab then
 		move_data.AB = mod + M.get_proficency_bonus(pokemon)
 	end
 	if move_data.save then
