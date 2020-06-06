@@ -78,8 +78,8 @@ function init(self)
 		local b = {node="btn_add", func=function() add_pokemon(self) end, refresh=function(b) gooey_buttons.common_button(b, gui.get_node("txt_add")) end}
 		table.insert(active_buttons, b)
 	end
-
-	if not storage.is_initialized() or storage.get_total() == 0 then
+	--not storage.is_initialized() or 
+	if storage.get_total() == 0 then
 		gui.set_enabled(gui.get_node("change_pokemon/btn_close"), false)
 	end
 	
