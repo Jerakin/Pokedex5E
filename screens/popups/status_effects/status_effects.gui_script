@@ -109,7 +109,7 @@ function on_input(self, action_id, action)
 			gooey.checkbox("confused", action_id, action, function(checkbox) on_checked(checkbox, statuses.status.CONFUSED) end, function(c) update_checkbox(c, statuses.status.CONFUSED) end)
 		end)
 		
-		if not checkbox_group.consumed then
+		if not checkbox_group.consumed and gui.pick_node(self.scroll_area, action.x, action.y) then
 			gooey.button("status_poisoned/box", action_id, action, function(b) on_checked(b, statuses.status.POISONED) end, function(c) update_checkbox(gooey.checkbox("poisoned"), statuses.status.POISONED) end)
 			gooey.button("status_frozen/box", action_id, action, function(b) on_checked(b, statuses.status.FROZEN) end, function(c) update_checkbox(gooey.checkbox("frozen"), statuses.status.FROZEN) end)
 			gooey.button("status_paralyzed/box", action_id, action, function(b) on_checked(b, statuses.status.PARALYZED) end, function(c) update_checkbox(gooey.checkbox("paralyzed"), statuses.status.PARALYZED) end)
