@@ -10,6 +10,7 @@ local feats = require "pokedex.feats"
 local storage = require "pokedex.storage"
 local profiles = require "pokedex.profiles"
 local filters = require "pokedex.filters"
+local trainer = require "pokedex.trainer"
 local flow = require "utils.flow"
 local gui_colors = require "utils.gui_colors"
 local notify = require "utils.notify"
@@ -117,11 +118,11 @@ function init(self)
 			fakemon.init()
 			flow.until_true(function() return not fakemon.BUSY end)
 		end
-		
 		movedex.init()
 		natures.init()
 		pokedex.init()
 		profiles.init()
+
 		flow.delay(1) -- Extra timeout for loading screen
 		flow.until_true( function() return not monarch.is_busy() end)
 		if profiles.is_new_game() then 
@@ -131,7 +132,7 @@ function init(self)
 			monarch.show("profiles")
 			flow.until_true(function() return profiles.get_active_slot() end)
 		end
-
+		trainer.load()
 		storage.init()
 		dex.init()
 		items.init()

@@ -3,6 +3,7 @@ local monarch = require "monarch.monarch"
 local profiles = require "pokedex.profiles"
 local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
+local trainer = require "pokedex.trainer"
 local gui_colors = require "utils.gui_colors"
 local url = require "utils.url"
 local dex = require "pokedex.dex"
@@ -44,6 +45,7 @@ end
 local function activate(slot)
 	profiles.set_active(slot)
 	storage.load(profiles.get_active())
+	trainer.load(profiles.get_active())
 	dex.load(profiles.get_active())
 	if #storage.list_of_ids_in_inventory() > 0 then
 		monarch.show("party")

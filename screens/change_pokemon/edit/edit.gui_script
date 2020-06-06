@@ -73,7 +73,7 @@ function init(self)
 	if not evolution_possible then
 		gui.set_enabled(self.evolve_button, false)
 	
-	elseif evolution_possible and not _pokemon.get_consumed_eviolite(self.pokemon) and evolution_level <= _pokemon.get_current_level(self.pokemon) then
+	elseif evolution_possible and not consumed_eviolite and evolution_level <= _pokemon.get_current_level(self.pokemon) then
 		self.evolve_button_active = true
 		gui.set_enabled(self.evolve_button, true)
 		gui.set_color(gui.get_node("txt_evolve"), gui_colors.BUTTON_TEXT)

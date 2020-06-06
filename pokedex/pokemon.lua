@@ -4,6 +4,7 @@ local natures = require "pokedex.natures"
 local storage = require "pokedex.storage"
 local movedex = require "pokedex.moves"
 local items = require "pokedex.items"
+local trainer = require "pokedex.trainer"
 
 local M = {}
 
@@ -118,7 +119,8 @@ function M.get_attributes(pokemon)
 	local added = M.get_added_attributes(pokemon) or {}
 	local natures = natures.get_nature_attributes(M.get_nature(pokemon)) or {}
 	local feats = get_attributes_from_feats(pokemon)
-	return add_tables(add_tables(add_tables(add_tables(base, added), natures), increased), feats)
+	local trainer_attributes = trainer.get_attributes()
+	return add_tables(add_tables(add_tables(add_tables(add_tables(base, added), natures), increased), feats), trainer_attributes)
 end
 
 function M.get_max_attributes(pokemon)
@@ -783,6 +785,7 @@ local function get_damage_mod_stab(pokemon, move)
 	local stab_damage = 0
 	local total = M.get_total_attribute
 	local floored_mod
+	local trainer_stab = 0
 	-- Pick the highest of the moves power
 	local total = M.get_attributes(pokemon)
 	if move["Move Power"] then
@@ -802,11 +805,16 @@ local function get_damage_mod_stab(pokemon, move)
 	modifier = modifier ~= nil and modifier or 0
 
 	for _, t in pairs(M.get_type(pokemon)) do
+		trainer_stab = trainer_stab + trainer.get_type_master_STAB(t)
 		if move.Type == t and move.stab then
-			stab_damage = M.get_STAB_bonus(pokemon)
+			stab_damage = M.get_STAB_bonus(pokemon) + trainer.get_all_levels_STAB() + trainer.get_STAB(t)
 			stab = true
 		end
 	end
+	if stab then
+		stab_damage = stab_damage + trainer_stab
+	end
+	
 	local index = level_index(M.get_current_level(pokemon))
 	
 	local move_damage = move.Damage
@@ -819,7 +827,7 @@ local function get_damage_mod_stab(pokemon, move)
 		damage = times_prefix .. move_damage[index].amount .. "d" .. move_damage[index].dice_max
 		local extra = stab_damage + (move_damage[index].modifier or 0) + (move_damage[index].level and M.get_current_level(pokemon) or 0)
 		if move_damage[index].move then
-			extra = extra + modifier
+			extra = extra + modifier + trainer.get_damage()
 		end
 
 		if extra ~= 0 then
@@ -829,7 +837,6 @@ local function get_damage_mod_stab(pokemon, move)
 			end
 			damage = damage .. symbol .. extra
 		end
-		ab = modifier + M.get_proficency_bonus(pokemon)
 	end
 	return damage, modifier, stab
 end	
@@ -851,7 +858,7 @@ function M.get_move_data(pokemon, move_name)
 	move_data.save = move.Save
 	move_data.time = move["Move Time"]
 	if move.ab then
-		move_data.AB = mod + M.get_proficency_bonus(pokemon)
+		move_data.AB = mod + M.get_proficency_bonus(pokemon) + trainer.get_attack_roll()
 	end
 	if move_data.save then
 		move_data.save_dc = 8 + mod + M.get_proficency_bonus(pokemon)

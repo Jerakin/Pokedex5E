@@ -2,6 +2,7 @@ local monarch = require "monarch.monarch"
 local gooey = require "gooey.gooey"
 local profiles = require "pokedex.profiles"
 local storage = require "pokedex.storage"
+local trainer = require "pokedex.trainer"
 local gro = require "utils.gui_render_order"
 local url = require "utils.url"
 local gooey_buttons = require "utils.gooey_buttons"
@@ -49,6 +50,7 @@ local function okay()
 		local profile = profiles.add(name, slot)
 		profiles.set_active(profile.slot)
 		storage.load(profiles.get_active())
+		trainer.load(profiles.get_active())
 		dex.load(profiles.get_active())
 		monarch.show("add")
 	end

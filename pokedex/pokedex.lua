@@ -5,6 +5,8 @@ local log = require "utils.log"
 local fakemon = require "fakemon.fakemon"
 local dex_data = require "pokedex.dex_data"
 local ptypes = require "ptypes.main"
+local trainer = require "pokedex.trainer"
+
 
 local M = {}
 
@@ -387,7 +389,7 @@ function M.get_evolution_possible(pokemon, gender)
 end
 
 function M.get_evolution_level(pokemon)
-	return M.get_evolution_data(pokemon).level
+	return M.get_evolution_data(pokemon).level + trainer.get_evolution_level()
 end
 
 function M.get_evolutions(pokemon, gender)

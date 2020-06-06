@@ -22,6 +22,7 @@ local map = {
 	[hash("import")] = "btn_import",
 	[hash("pokedex")] = "btn_pokedex",
 	[hash("settings")] = "btn_settings",
+	[hash("trainer")] = "btn_trainer",
 }
 
 local function hide(self)
@@ -75,6 +76,7 @@ function init(self)
 	self.btn_debug = gui.get_node("btn_debug")
 	self.menu = gui.get_node("menu")
 	self.btn_import = gui.get_node("btn_import")
+	self.btn_trainer = gui.get_node("btn_trainer")
 	gui.set_enabled(self.menu, false)
 	if not clipboard then
 		gui.set_enabled(self.btn_import, false)
@@ -164,6 +166,15 @@ function init(self)
 		toggle(self)
 	end, {no_shake=true})
 
+	button.register("btn_trainer", function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:Trainer",
+			value = tracking_id[monarch.top()]
+		}
+		monarch.show("trainer")
+		toggle(self)
+	end, {no_shake=true})
+	
 	if sys.get_engine_info().is_debug then
 		button.register("btn_debug", function()
 			monarch.show("debug")
