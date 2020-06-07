@@ -60,11 +60,13 @@ end
 local enabled = vmath.vector3(0)
 local disabled = vmath.vector3(0, -449, 0)
 local system  = sys.get_sys_info().system_name
-local function keyboard_toggle(toggle)
+local function keyboard_toggle(self, toggle)
 	local pos = disabled
 	if system == "Android" or system == "iPhone OS" then
+		gui.set_enabled(self.seach_background, false)
 		if toggle then
 			pos = enabled
+			gui.set_enabled(self.seach_background, true)
 		end
 		gui.set_position(gui.get_node("search"), pos)
 	end
@@ -76,9 +78,9 @@ function M.on_input(self, action_id, action)
 	end)
 	if input.enabled then
 		if input.selected then
-			keyboard_toggle(true)
+			keyboard_toggle(self, true)
 		else
-			keyboard_toggle(false)
+			keyboard_toggle(self, false)
 		end
 	end
 end

@@ -120,7 +120,8 @@ function init(self)
 	self.scrolling_data = {}
 	msg.post(url.MENU, "hide")
 	self.seach_text = gui.get_node("search_text")
-	
+	self.seach_background = gui.get_node("search_backing")
+	gui.set_enabled(self.seach_background, false)
 	active_slot = profiles.get_active_slot()
 	self.all_slots = profiles.get_all_profiles()
 
