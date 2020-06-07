@@ -20,6 +20,7 @@ local fakemon = require "fakemon.fakemon"
 local settings = require "pokedex.settings"
 local url = require "utils.url"
 local version = require "screens.popups.version_dialog.version"
+local backup = require "utils.backup"
 
 
 local function send_crash_on_start()
@@ -82,6 +83,11 @@ function init(self)
 	defsave.appname = "pokedex5E"
 	defsave.verbose = false
 	defsave.use_default_data = false
+	
+	if sys.get_engine_info().is_debug and share then
+		backup.save_backup()
+	end
+
 	settings.load()
 	msg.post("@render:", "clear_color", {color=gui_colors.BACKGROUND})
 	
@@ -195,7 +201,9 @@ end
 
 
 function final(self)
-	storage.save()
-	settings.save()
+	if not debug.loaded_backup then
+		storage.save()
+		settings.save()
+	end
 	log.info("Clean Exit")
 end

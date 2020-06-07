@@ -96,7 +96,6 @@ function M.get_active_file_name()
 end
 
 function M.get_file_name(slot)
-	pprint(slot)
 	return profiles.slots[slot].file_name
 end
 

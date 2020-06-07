@@ -51,7 +51,13 @@ function init(self)
 	msg.post(".", "acquire_input_focus")
 	msg.post(url.MENU, "hide")
 	game_analyctics()
+	local sys_info = sys.get_sys_info()
+	local system = sys_info.system_name
 
+	gui.set_enabled(gui.get_node("load/btn"), false)
+	if system == "Windows" then
+		gui.set_enabled(gui.get_node("load/btn"), true)
+	end
 end
 
 function final(self)
@@ -91,4 +97,9 @@ function on_input(self, action_id, action)
 			print("##### NO LOGS #####")
 		end
 	end)
+
+	if gui.pick_node(gui.get_node("load/btn"), action.x, action.y) and action.pressed then
+		debug.load_backup()
+	end
+	
 end
