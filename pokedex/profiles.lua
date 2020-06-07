@@ -96,6 +96,7 @@ function M.get_active_file_name()
 end
 
 function M.get_file_name(slot)
+	pprint(slot)
 	return profiles.slots[slot].file_name
 end
 
@@ -118,7 +119,7 @@ function M.set_party(party)
 end
 
 function M.get_latest()
-	return profiles.last_used
+	return profiles.slots[profiles.last_used] and profiles.last_used or nil
 end
 
 local function load_profiles()
