@@ -118,7 +118,11 @@ function M.set_party(party)
 end
 
 function M.get_latest()
-	return profiles.slots[profiles.last_used] and profiles.last_used or nil
+	if next(profiles) ~= nil then
+		if profiles.last_used ~= nil and profiles.last_used <= #profiles.slots then
+			return profiles.last_used
+		end
+	end
 end
 
 local function load_profiles()

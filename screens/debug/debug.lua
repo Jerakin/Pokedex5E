@@ -12,6 +12,8 @@ local backup = require "utils.backup"
 local M = {}
 
 M.loaded_backup = false
+M.SHARE = false
+
 local function add_pokemon(species)
 	local level = math.min(rnd.range(1, 20), pokedex.get_minimum_wild_level(species))
 	generate.add_pokemon(species, level)

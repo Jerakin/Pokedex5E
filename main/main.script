@@ -84,7 +84,7 @@ function init(self)
 	defsave.verbose = false
 	defsave.use_default_data = false
 	
-	if sys.get_engine_info().is_debug and share then
+	if sys.get_engine_info().is_debug and share and debug.SHARE then
 		backup.save_backup()
 	end
 
