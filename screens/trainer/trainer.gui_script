@@ -6,6 +6,7 @@ local profiles = require "pokedex.profiles"
 local type_data = require "utils.type_data"
 local gesture = require "utils.gesture"
 local gui_colors = require "utils.gui_colors"
+local url = require "utils.url"
 
 
 local type_buttons = {
@@ -79,6 +80,7 @@ end
 
 function init(self)
     msg.post(".", "acquire_input_focus")
+    msg.post(url.MENU, "show")
     local name = profiles.get_active_slot() ~= nil and profiles.get_active_name() or "Trainer"
     gui.set_text(gui.get_node("top_divider/title"), name)
 
