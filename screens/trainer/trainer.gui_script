@@ -43,6 +43,8 @@ local function redraw()
     for name, _type in pairs(type_buttons) do
         gui.set_text(gui.get_node("type_master/" .. name .. "/value"), trainer.get_type_master_STAB(_type))
         gui.set_text(gui.get_node("stab/" .. name .. "/value"), trainer.get_STAB(_type))
+        gui.set_text(gui.get_node("move_attack_bonus/" .. name .. "/value"), trainer.get_move_type_attack_bonus(_type))
+        gui.set_text(gui.get_node("pokemon_attack_bonus/" .. name .. "/value"), trainer.get_pokemon_type_attack_bonus({_type}))
     end
     
     for _, attribute in pairs({"STR", "DEX", "CON", "INT", "WIS", "CHA"}) do
@@ -64,7 +66,7 @@ local function shake(node)
 end
 
 local function activate_tab(self, tab_number)
-    for i=1, 3 do
+    for i=1, 5 do
         if tab_number == i then
             gui.play_flipbook(self.tabs[tab_number].tab, "common_down")
             gui.set_color(self.tabs[tab_number].text, gui_colors.BUTTON_TEXT_PRESSED)
@@ -87,6 +89,8 @@ function init(self)
     for name, _type in pairs(type_buttons) do
         gui.set_color(gui.get_node("type_master/" .. name .. "/title"), type_data[_type].color)
         gui.set_color(gui.get_node("stab/" .. name .. "/title"), type_data[_type].color)
+        gui.set_color(gui.get_node("pokemon_attack_bonus/" .. name .. "/title"), type_data[_type].color)
+        gui.set_color(gui.get_node("move_attack_bonus/" .. name .. "/title"), type_data[_type].color)
     end
 
     self.tabs = {
@@ -107,14 +111,30 @@ function init(self)
             tab = gui.get_node("tab_3"),
             text = gui.get_node("text_3"),
             bg =gui.get_node("tab_3_content")
+        },
+        [4] = {
+            name = "tab_4",
+            tab = gui.get_node("tab_4"),
+            text = gui.get_node("text_4"),
+            bg =gui.get_node("tab_4_content")
+        },
+        [5] = {
+            name = "tab_5",
+            tab = gui.get_node("tab_5"),
+            text = gui.get_node("text_5"),
+            bg =gui.get_node("tab_5_content")
         }
     }
     
-    gui.set_position(self.tabs[1].bg, vmath.vector3(0, -90, 0))
-    gui.set_position(self.tabs[2].bg, vmath.vector3(0, -90, 0))
-    gui.set_position(self.tabs[3].bg, vmath.vector3(0, -90, 0))
+    gui.set_position(self.tabs[1].bg, vmath.vector3(0, -140, 0))
+    gui.set_position(self.tabs[2].bg, vmath.vector3(0, -140, 0))
+    gui.set_position(self.tabs[3].bg, vmath.vector3(0, -140, 0))
+    gui.set_position(self.tabs[4].bg, vmath.vector3(0, -140, 0))
+    gui.set_position(self.tabs[5].bg, vmath.vector3(0, -140, 0))
     gui.set_enabled(self.tabs[2].bg, false)
     gui.set_enabled(self.tabs[3].bg, false)
+    gui.set_enabled(self.tabs[4].bg, false)
+    gui.set_enabled(self.tabs[5].bg, false)
     activate_tab(self, 1)
     redraw()
 end
@@ -139,6 +159,14 @@ function on_input(self, action_id, action)
         activate_tab(self, 3)
     end)
     
+    gooey.button(self.tabs[4].name, action_id, action, function()
+        activate_tab(self, 4)
+    end)
+    
+    gooey.button(self.tabs[5].name, action_id, action, function()
+        activate_tab(self, 5)
+    end)
+    
     gooey.button("attack/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_attack_roll(trainer.get_attack_roll() - 1) end) end, gooey_buttons.minus_button)
     gooey.button("attack/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_attack_roll(trainer.get_attack_roll() + 1) end) end, gooey_buttons.plus_button)
 
@@ -159,8 +187,16 @@ function on_input(self, action_id, action)
     for name, _type in pairs(type_buttons) do
         gooey.button("type_master/" .. name .. "/buttons/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_type_master_STAB(_type, trainer.get_type_master_STAB(_type) + 1) end) end, gooey_buttons.plus_button)
         gooey.button("type_master/" .. name .."/buttons/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_type_master_STAB(_type, trainer.get_type_master_STAB(_type) - 1) end) end, gooey_buttons.minus_button)
+        
+        gooey.button("pokemon_attack_bonus/" .. name .."/buttons/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_pokemon_type_attack_bonus(_type, trainer.get_pokemon_type_attack_bonus({_type}) + 1) end) end, gooey_buttons.plus_button)
+        gooey.button("pokemon_attack_bonus/" .. name .."/buttons/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_pokemon_type_attack_bonus(_type, trainer.get_pokemon_type_attack_bonus({_type}) - 1) end) end, gooey_buttons.minus_button)
+
+        gooey.button("move_attack_bonus/" .. name .."/buttons/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_move_type_attack_bonus(_type, trainer.get_move_type_attack_bonus(_type) + 1) end) end, gooey_buttons.plus_button)
+        gooey.button("move_attack_bonus/" .. name .."/buttons/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_move_type_attack_bonus(_type, trainer.get_move_type_attack_bonus(_type) - 1) end) end, gooey_buttons.minus_button)
+        
         gooey.button("stab/" .. name .. "/buttons/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_STAB(_type, trainer.get_STAB(_type) + 1) end) end, gooey_buttons.plus_button)
         gooey.button("stab/" .. name .."/buttons/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_STAB(_type, trainer.get_STAB(_type) - 1) end) end, gooey_buttons.minus_button)
+        
     end
 
 end

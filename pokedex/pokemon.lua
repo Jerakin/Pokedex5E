@@ -858,7 +858,7 @@ function M.get_move_data(pokemon, move_name)
 	move_data.save = move.Save
 	move_data.time = move["Move Time"]
 	if move.ab then
-		move_data.AB = mod + M.get_proficency_bonus(pokemon) + trainer.get_attack_roll()
+		move_data.AB = mod + M.get_proficency_bonus(pokemon) + trainer.get_attack_roll() + trainer.get_move_type_attack_bonus(move_data.type) + trainer.get_pokemon_type_attack_bonus(M.get_type(pokemon))
 	end
 	if move_data.save then
 		move_data.save_dc = 8 + mod + M.get_proficency_bonus(pokemon)

@@ -6,8 +6,10 @@ local M = {}
 local trainer
 
 local _trainer = {ab=0, dmg=0, evo=0, all_stab=0,
-	tm_stab={Normal=0, Fire=0, Water=0, Electric=0, Grass=0, Ice=0, Fighting=0, Poison=0, Ground=0, Flying=0, Psychic=0, Bug=0, Rock=0, Ghost=0, Dragon=0, Dark=0, Steel=0, Fairy=0},
-	stab  = {Normal=0, Fire=0, Water=0, Electric=0, Grass=0, Ice=0, Fighting=0, Poison=0, Ground=0, Flying=0, Psychic=0, Bug=0, Rock=0, Ghost=0, Dragon=0, Dark=0, Steel=0, Fairy=0},
+	tm_stab ={Normal=0, Fire=0, Water=0, Electric=0, Grass=0, Ice=0, Fighting=0, Poison=0, Ground=0, Flying=0, Psychic=0, Bug=0, Rock=0, Ghost=0, Dragon=0, Dark=0, Steel=0, Fairy=0},
+	stab    = {Normal=0, Fire=0, Water=0, Electric=0, Grass=0, Ice=0, Fighting=0, Poison=0, Ground=0, Flying=0, Psychic=0, Bug=0, Rock=0, Ghost=0, Dragon=0, Dark=0, Steel=0, Fairy=0},
+	move_type_ab = {Normal=0, Fire=0, Water=0, Electric=0, Grass=0, Ice=0, Fighting=0, Poison=0, Ground=0, Flying=0, Psychic=0, Bug=0, Rock=0, Ghost=0, Dragon=0, Dark=0, Steel=0, Fairy=0},
+	pokemon_type_ab = {Normal=0, Fire=0, Water=0, Electric=0, Grass=0, Ice=0, Fighting=0, Poison=0, Ground=0, Flying=0, Psychic=0, Bug=0, Rock=0, Ghost=0, Dragon=0, Dark=0, Steel=0, Fairy=0},
 	attributes = {STR=0, DEX=0, CON=0, WIS=0, INT=0, CHA=0}
 }
 
@@ -44,6 +46,35 @@ function M.get_attributes()
 	return trainer.attributes
 end
 
+function M.get_move_type_attack_bonus(_type)
+	if trainer.move_type_ab[_type] ~= nil then
+		return trainer.move_type_ab[_type]
+	end
+	return 0
+end
+
+function M.get_pokemon_type_attack_bonus(_types)
+	local num
+	for _, t in pairs(_types) do
+		local ab = trainer.pokemon_type_ab[_type]
+		if ab ~= nil then
+			if num == nil then
+				num = ab
+			else
+				num = math.max(num, ab)
+			end
+		end
+	end
+	return num or 0
+end
+
+function M.get_type_attack_bonus(_type)
+	if trainer.type_ab[_type] ~= nil then
+		return trainer.type_ab[_type]
+	end
+	return 0
+end
+
 function M.set_attack_roll(value)
 	trainer.ab = value
 end
@@ -72,6 +103,14 @@ function M.set_attribute(attribute, value)
 	trainer.attributes[attribute] = value
 end
 
+function M.set_move_type_attack_bonus(_type, value)
+	trainer.move_type_ab[_type] = value
+end
+
+function M.set_pokemon_type_attack_bonus(_type, value)
+	trainer.pokemon_type_ab[_type] = value
+end
+
 function M.load(_profile)
 	local profile = _profile
 	local file_name
@@ -85,6 +124,12 @@ function M.load(_profile)
 	end
 	trainer = defsave.get(file_name, "trainer")
 	trainer = next(trainer) == nil and utils.deep_copy(_trainer) or trainer
+
+	for key, value in pairs(_trainer) do
+		if trainer[key] == nil then
+			trainer[key] = utils.deep_copy(value)
+		end
+	end
 end
 
 function M.save()
