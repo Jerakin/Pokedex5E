@@ -799,9 +799,17 @@ local function get_damage_mod_stab(pokemon, move)
 				else
 					modifier = floored_mod
 				end
+			elseif mod == "Any" then
+				print("ANY!")
+				local max = 0
+				for k, v in pairs(total) do
+					max = math.max(v, max)
+				end
+				modifier = math.floor((max - 10) / 2)
 			end
 		end
 	end
+	
 	modifier = modifier ~= nil and modifier or 0
 
 	for _, t in pairs(M.get_type(pokemon)) do
