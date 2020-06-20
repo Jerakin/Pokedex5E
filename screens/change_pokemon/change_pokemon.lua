@@ -244,11 +244,8 @@ end
 
 local function update_ASI(self)
 	local max_improve_node = gui.get_node("change_pokemon/asi/asi_points")
-	local available_at_level = pokedex.level_data(_pokemon.get_current_level(self.pokemon)).ASI
-	local available_at_caught = pokedex.level_data(_pokemon.get_caught_level(self.pokemon)).ASI
-	local ASI_gained = _pokemon.get_ASI_point_increase(self.pokemon)
-	local current = (available_at_level-available_at_caught) * ASI_gained - _pokemon.ability_score_points(self.pokemon)
-
+	local current = _pokemon.get_available_ASI(self.pokemon)
+	
 	gui.set_text(max_improve_node, current)
 	if current == 0 then
 		gui.set_color(max_improve_node, gui_colors.TEXT)

@@ -96,6 +96,14 @@ local function ASI_points(pokemon)
 	end
 end
 
+function M.get_available_ASI(pokemon)
+	local available_at_level = pokedex.level_data(M.get_current_level(pokemon)).ASI
+	local available_at_caught = pokedex.level_data(M.get_caught_level(pokemon)).ASI
+	local ASI_gained = M.get_ASI_point_increase(pokemon)
+	return (available_at_level-available_at_caught) * ASI_gained - M.ability_score_points(pokemon) + trainer.get_asi()
+end
+
+
 function M.genderized(pokemon)
 	local species = M.get_current_species(pokemon)
 	return pokedex.genderized(species)
