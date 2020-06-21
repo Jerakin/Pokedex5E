@@ -40,6 +40,7 @@ local function redraw()
     gui.set_text(gui.get_node("evolution_level_value"), trainer.get_evolution_level())
     gui.set_text(gui.get_node("damage_value"), trainer.get_damage())
     gui.set_text(gui.get_node("asi_value"), trainer.get_asi())
+    gui.set_text(gui.get_node("move_value"), trainer.get_move())
 
     for name, _type in pairs(type_buttons) do
         gui.set_text(gui.get_node("type_master/" .. name .. "/value"), trainer.get_type_master_STAB(_type))
@@ -173,6 +174,9 @@ function on_input(self, action_id, action)
 
     gooey.button("evolution_level/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_evolution_level(trainer.get_evolution_level() - 1) end) end, gooey_buttons.minus_button)
     gooey.button("evolution_level/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_evolution_level(trainer.get_evolution_level() + 1) end) end, gooey_buttons.plus_button)
+
+    gooey.button("move/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_move(trainer.get_move() - 1) end) end, gooey_buttons.minus_button)
+    gooey.button("move/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_move(trainer.get_move() + 1) end) end, gooey_buttons.plus_button)
     
     gooey.button("asi/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_asi(trainer.get_asi() - 1) end) end, gooey_buttons.minus_button)
     gooey.button("asi/btn_plus",  action_id, action, function() redraw_wrap(function() trainer.set_asi(trainer.get_asi() + 1) end) end, gooey_buttons.plus_button)

@@ -839,11 +839,11 @@ local function get_damage_mod_stab(pokemon, move)
 		if move_damage[index].times then
 			times_prefix = move_damage[index].times .. "x"
 		end
-		
+
 		damage = times_prefix .. move_damage[index].amount .. "d" .. move_damage[index].dice_max
-		local extra = stab_damage + (move_damage[index].modifier or 0) + (move_damage[index].level and M.get_current_level(pokemon) or 0)
+		local extra = stab_damage + (move_damage[index].modifier or 0) + (move_damage[index].level and M.get_current_level(pokemon) or 0) + trainer.get_damage()
 		if move_damage[index].move then
-			extra = extra + modifier + trainer.get_damage()
+			extra = extra + modifier + trainer.get_move()
 		end
 
 		if extra ~= 0 then

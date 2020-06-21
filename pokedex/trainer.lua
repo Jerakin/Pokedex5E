@@ -5,7 +5,7 @@ local M = {}
 
 local trainer
 
-local _trainer = {ab=0, dmg=0, evo=0, all_stab=0, asi=0,
+local _trainer = {ab=0, dmg=0, evo=0, all_stab=0, asi=0, move=0,
 	tm_stab ={Normal=0, Fire=0, Water=0, Electric=0, Grass=0, Ice=0, Fighting=0, Poison=0, Ground=0, Flying=0, Psychic=0, Bug=0, Rock=0, Ghost=0, Dragon=0, Dark=0, Steel=0, Fairy=0},
 	stab    = {Normal=0, Fire=0, Water=0, Electric=0, Grass=0, Ice=0, Fighting=0, Poison=0, Ground=0, Flying=0, Psychic=0, Bug=0, Rock=0, Ghost=0, Dragon=0, Dark=0, Steel=0, Fairy=0},
 	move_type_ab = {Normal=0, Fire=0, Water=0, Electric=0, Grass=0, Ice=0, Fighting=0, Poison=0, Ground=0, Flying=0, Psychic=0, Bug=0, Rock=0, Ghost=0, Dragon=0, Dark=0, Steel=0, Fairy=0},
@@ -15,6 +15,10 @@ local _trainer = {ab=0, dmg=0, evo=0, all_stab=0, asi=0,
 
 function M.get_asi()
 	return trainer.asi
+end
+
+function M.get_move()
+	return trainer.move
 end
 
 function M.get_attack_roll()
@@ -77,6 +81,11 @@ function M.get_type_attack_bonus(_type)
 	end
 	return 0
 end
+
+function M.set_move(value)
+	trainer.move = value
+end
+
 
 function M.set_asi(value)
 	trainer.asi = value
