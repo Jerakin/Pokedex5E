@@ -11,49 +11,47 @@ function init(self)
 
 	self.pokemon = share.get_clipboard()
 
-	local txtNode = gui.get_node("txt")
-	local txtTitleNode = gui.get_node("txt_title")
-	local btnExitNode = gui.get_node("btn_exit")
-	local boxNode = gui.get_node("box")	
-	local btnConfirmNode = gui.get_node("btn_confirm")
+	local node_txt = gui.get_node("txt")
+	local node_txt_title = gui.get_node("txt_title")
+	local node_btn_exit = gui.get_node("btn_exit")
+	local node_box = gui.get_node("box")	
+	local node_btn_confirm = gui.get_node("btn_confirm")
 	
-	local btnConfirmPos = gui.get_position(btnConfirmNode)	
-	local txtMetrics = gui.get_text_metrics_from_node(txtNode)
+	local pos_btn_confirm = gui.get_position(node_btn_confirm)	
+	local metrics_txt = gui.get_text_metrics_from_node(node_txt)
 	
 	if self.pokemon then		
 		local species = _pokemon.get_nickname(self.pokemon) or _pokemon.get_current_species(self.pokemon)
 		local level = _pokemon.get_current_level(self.pokemon)
-		gui.set_text(txtNode, "Do you want to import level " .. level .. " " .. species .. "?")
+		gui.set_text(node_txt, "Do you want to import level " .. level .. " " .. species .. "?")
 	else		
-		gui.set_text(txtTitleNode, "Import Failed")
+		gui.set_text(node_txt_title, "Import Failed")
 		gui.set_text(gui.get_node("txt_confim"), "Ok")		
-		gui.set_text(txtNode, "To import, first copy a Pokemon string to your clipboard.\n\nPokemon strings can be exported from \"Someone's PC\"")
+		gui.set_text(node_txt, "To import, first copy a Pokemon string to your clipboard.\n\nPokemon strings can be exported from \"Someone's PC\"")
 
 		-- Only use 1 button, cancel wouldn't do anything anyway
-		gui.set_enabled(btnExitNode, false)
-		btnConfirmPos.x = 0		
+		gui.set_enabled(node_btn_exit, false)
+		pos_btn_confirm.x = 0		
 	end
 
-	-- Shift everything around to account for the new size of the text node. This would be
-	-- much better done with GUI anchoring / pivots or something, but I couldn't figure out how those worked.
+	-- Shift everything around to account for the new size of the text node
 
-	local newTxtMetrics = gui.get_text_metrics_from_node(txtNode)
-	local txtSizeDiff = newTxtMetrics.height - txtMetrics.height
-	
+	local metrics_txt_new = gui.get_text_metrics_from_node(node_txt)
+	local diff_txt_size = metrics_txt_new.height - metrics_txt.height
 
-	local txtTitlePos = gui.get_position(txtTitleNode)
-	local btnExitPos = gui.get_position(btnExitNode)
-	local boxSize = gui.get_size(boxNode)	
+	local pos_txt_title = gui.get_position(node_txt_title)
+	local pos_btn_exit = gui.get_position(node_btn_exit)
+	local size_box = gui.get_size(node_box)	
 	
-	txtTitlePos.y = txtTitlePos.y + txtSizeDiff/2
-	btnConfirmPos.y = btnConfirmPos.y - txtSizeDiff/2
-	btnExitPos.y = btnExitPos.y - txtSizeDiff/2
-	boxSize.y = boxSize.y + txtSizeDiff
+	pos_txt_title.y = pos_txt_title.y + diff_txt_size/2
+	pos_btn_confirm.y = pos_btn_confirm.y - diff_txt_size/2
+	pos_btn_exit.y = pos_btn_exit.y - diff_txt_size/2
+	size_box.y = size_box.y + diff_txt_size
 	
-	gui.set_position(txtTitleNode, txtTitlePos)
-	gui.set_position(btnConfirmNode, btnConfirmPos)
-	gui.set_position(btnExitNode, btnExitPos)
-	gui.set_size(boxNode, boxSize)
+	gui.set_position(node_txt_title, pos_txt_title)
+	gui.set_position(node_btn_confirm, pos_btn_confirm)
+	gui.set_position(node_btn_exit, pos_btn_exit)
+	gui.set_size(node_box, size_box)
 end
 
 
