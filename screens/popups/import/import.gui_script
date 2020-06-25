@@ -10,13 +10,50 @@ function init(self)
 	gui.set_render_order(render_order.POPUP_ON_POPUP)
 
 	self.pokemon = share.get_clipboard()
-	if self.pokemon then
+
+	local txtNode = gui.get_node("txt")
+	local txtTitleNode = gui.get_node("txt_title")
+	local btnExitNode = gui.get_node("btn_exit")
+	local boxNode = gui.get_node("box")	
+	local btnConfirmNode = gui.get_node("btn_confirm")
+	
+	local btnConfirmPos = gui.get_position(btnConfirmNode)	
+	local txtMetrics = gui.get_text_metrics_from_node(txtNode)
+	
+	if self.pokemon then		
 		local species = _pokemon.get_nickname(self.pokemon) or _pokemon.get_current_species(self.pokemon)
-		gui.set_text(gui.get_node("txt"), "Do you want to import " .. species .. "?")
-	else
-		gui.set_text(gui.get_node("txt_confim"), "Ok")
-		gui.set_text(gui.get_node("txt"), "Could not import the pokemon")
+		local level = _pokemon.get_current_level(self.pokemon)
+		gui.set_text(txtNode, "Do you want to import level " .. level .. " " .. species .. "?")
+	else		
+		gui.set_text(txtTitleNode, "Import Failed")
+		gui.set_text(gui.get_node("txt_confim"), "Ok")		
+		gui.set_text(txtNode, "To import, first copy a Pokemon string to your clipboard.\n\nPokemon strings can be exported from \"Someone's PC\"")
+
+		-- Only use 1 button, cancel wouldn't do anything anyway
+		gui.set_enabled(btnExitNode, false)
+		btnConfirmPos.x = 0		
 	end
+
+	-- Shift everything around to account for the new size of the text node. This would be
+	-- much better done with GUI anchoring / pivots or something, but I couldn't figure out how those worked.
+
+	local newTxtMetrics = gui.get_text_metrics_from_node(txtNode)
+	local txtSizeDiff = newTxtMetrics.height - txtMetrics.height
+	
+
+	local txtTitlePos = gui.get_position(txtTitleNode)
+	local btnExitPos = gui.get_position(btnExitNode)
+	local boxSize = gui.get_size(boxNode)	
+	
+	txtTitlePos.y = txtTitlePos.y + txtSizeDiff/2
+	btnConfirmPos.y = btnConfirmPos.y - txtSizeDiff/2
+	btnExitPos.y = btnExitPos.y - txtSizeDiff/2
+	boxSize.y = boxSize.y + txtSizeDiff
+	
+	gui.set_position(txtTitleNode, txtTitlePos)
+	gui.set_position(btnConfirmNode, btnConfirmPos)
+	gui.set_position(btnExitNode, btnExitPos)
+	gui.set_size(boxNode, boxSize)
 end
 
 
