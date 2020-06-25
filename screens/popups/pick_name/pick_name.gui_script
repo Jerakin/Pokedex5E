@@ -12,7 +12,12 @@ local slot
 
 local function refresh_input(self, input, node_id)
 	if input.empty and not input.selected then
-		gui.set_text(input.node, "ENTER NAME")
+		local input_name = "ENTER NAME"
+		local existing_profile = profiles.get_slot(slot)
+		if existing_profile ~= nil then
+			input_name = existing_profile.name
+		end
+		gui.set_text(input.node, input_name)
 	end
 
 	local cursor = gui.get_node("cursor")
@@ -37,7 +42,22 @@ function init(self)
 	self.sender = monarch.data("pick_name") and monarch.data("pick_name").sender or nil
 	slot = monarch.data("pick_name") and monarch.data("pick_name").slot or nil
 	gui.set_enabled(gui.get_node("cursor"), false)
-	if monarch.top() == hash("splash") then
+
+	if slot ~= nil then
+		local existing_profile = profiles.get_slot(slot)
+		if existing_profile ~= nil then
+			gui.set_text(gui.get_node("name_text"), existing_profile.name)
+		end
+	end
+
+	-- If there are no profiles, or there is just 1 and it's us, then you can't go back
+	local can_go_back = true
+	if #profiles.get_all_profiles() == 0 then
+		can_go_back = false
+	elseif #profiles.get_all_profiles() == 1 and profiles.get_slot(slot) ~= nil then
+		can_go_back = false
+	end
+	if not can_go_back then
 		gui.set_enabled(gui.get_node("btn_cancel"), false)
 		gui.set_position(gui.get_node("btn_okay"), vmath.vector3(0,-148,0))
 	end
@@ -47,7 +67,12 @@ end
 local function okay()
 	local name = gui.get_text(gui.get_node("name_text"))
 	if name ~= "ENTER NAME" then
-		local profile = profiles.add(name, slot)
+		local profile = profiles.get_slot(slot)
+		if profile == nil then
+			profile = profiles.add(name, slot)
+		else
+			profiles.update(slot, { name = name })
+		end
 		profiles.set_active(profile.slot)
 		storage.load(profiles.get_active())
 		trainer.load(profiles.get_active())
@@ -57,6 +82,11 @@ local function okay()
 end
 
 local function cancel()
+	local existing_profile = profiles.get_slot(slot)
+	if existing_profile ~= nil then
+		profiles.delete(slot)
+	end
+		
 	gameanalytics.addDesignEvent {
 		eventId = "Navigation:Back",
 		value = tracking_id[monarch.top()]
