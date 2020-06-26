@@ -49,16 +49,16 @@ function M.get_max_active_pokemon()
 end
 
 function M.set_max_active_pokemon(new_max)
-	local range_min, range_max = M.get_max_active_pokemon_range()
-	if new_max < range_min then
-		new_max = range_min
-	elseif new_max > range_max then
-		new_max = range_max
-	end
+	new_max = M.clamp_max_active_pokemon(new_max)
 	if new_max ~= max_active_pokemon then
 		max_active_pokemon = new_max
 		M.save()
 	end
+end
+
+function M.clamp_max_active_pokemon(new_max)
+	local range_min, range_max = M.get_max_active_pokemon_range()
+	return math.max(range_min, math.max(range_min, new_max))
 end
 
 function M.is_party_full()
@@ -334,7 +334,7 @@ function M.load(profile)
 	sorting = defsave.get(file_name, "sorting")
 
 	local settings = defsave.get(file_name, "settings")
-	max_active_pokemon = settings.max_active_pokemon or 6
+	max_active_pokemon = M.clamp_max_active_pokemon(settings.max_active_pokemon or 6)
 	
 	-- Default counters
 	if next(counters) == nil then
@@ -401,7 +401,7 @@ function M.free_space_in_inventory()
 	for _, _ in pairs(active) do
 		index = index + 1
 	end
-	return index < 6, index + 1
+	return index < M.get_max_active_pokemon(), index + 1
 end
 
 function M.move_to_inventory(id)
