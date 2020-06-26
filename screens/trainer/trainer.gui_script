@@ -1,6 +1,7 @@
 local monarch = require "monarch.monarch"
 local gooey = require "gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
+local storage = require "pokedex.storage"
 local trainer = require "pokedex.trainer"
 local profiles = require "pokedex.profiles"
 local type_data = require "utils.type_data"
@@ -52,6 +53,12 @@ local function redraw()
     for _, attribute in pairs({"STR", "DEX", "CON", "INT", "WIS", "CHA"}) do
         gui.set_text(gui.get_node("attributes/" .. attribute), trainer.get_attribute(attribute))
     end
+
+    local max_active_pokemon = storage.get_max_active_pokemon()
+    local max_active_pokemon_range_low, max_active_pokemon_range_high = storage.get_max_active_pokemon_range()
+    gui.set_text(gui.get_node("max_active_pokemon/value"), max_active_pokemon)
+    gui.set_enabled(gui.get_node("max_active_pokemon/ctrl/btn_minus"), max_active_pokemon > max_active_pokemon_range_low)
+    gui.set_enabled(gui.get_node("max_active_pokemon/ctrl/btn_plus"),  max_active_pokemon < max_active_pokemon_range_high)
 end
 
 local initial_scale = vmath.vector3(1, 1,0)
@@ -125,6 +132,12 @@ function init(self)
             tab = gui.get_node("tab_5"),
             text = gui.get_node("text_5"),
             bg =gui.get_node("tab_5_content")
+        },
+        [6] = {
+            name = "tab_6",
+            tab = gui.get_node("tab_6"),
+            text = gui.get_node("text_6"),
+            bg =gui.get_node("tab_6_content")
         }
     }
 
@@ -188,6 +201,9 @@ function on_input(self, action_id, action)
         gooey.button("stab/" .. name .."/buttons/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_STAB(_type, trainer.get_STAB(_type) - 1) end) end, gooey_buttons.minus_button)
         
     end
+
+    gooey.button("max_active_pokemon/ctrl/btn_plus",  action_id, action, function() redraw_wrap(function() storage.set_max_active_pokemon(storage.get_max_active_pokemon() + 1) end) end, gooey_buttons.plus_button)
+    gooey.button("max_active_pokemon/ctrl/btn_minus", action_id, action, function() redraw_wrap(function() storage.set_max_active_pokemon(storage.get_max_active_pokemon() - 1) end) end, gooey_buttons.minus_button)
 
 end
 

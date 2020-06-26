@@ -13,6 +13,7 @@ local active = {}
 local counters = {}
 local sorting = {}
 local initialized = false
+local max_active_pokemon = 6
 
 function M.is_initialized()
 	return initialized
@@ -39,12 +40,33 @@ local function getKeysSortedByValue(tbl, sortFunction)
 	return keys
 end
 
+function M.get_max_active_pokemon_range()
+	return 1,6
+end
+
+function M.get_max_active_pokemon()
+	return max_active_pokemon
+end
+
+function M.set_max_active_pokemon(new_max)
+	local range_min, range_max = M.get_max_active_pokemon_range()
+	if new_max < range_min then
+		new_max = range_min
+	elseif new_max > range_max then
+		new_max = range_max
+	end
+	if new_max ~= max_active_pokemon then
+		max_active_pokemon = new_max
+		M.save()
+	end
+end
+
 function M.is_party_full()
 	local counter = 0
 	for _, _ in pairs(active) do
 		counter = counter + 1
 	end
-	return counter >= 6
+	return counter >= M.get_max_active_pokemon()
 end
 
 local function sort_on_index(a, b)
@@ -290,6 +312,12 @@ function M.save()
 		defsave.set(profile, "active", active)
 		defsave.set(profile, "counters", counters)
 		defsave.set(profile, "sorting", sorting)
+
+		local settings = {
+			max_active_pokemon = max_active_pokemon
+		}
+		defsave.set(profile, "settings", settings)
+		
 		defsave.save(profile)
 	end
 end
@@ -304,6 +332,10 @@ function M.load(profile)
 	active = defsave.get(file_name, "active")
 	counters = defsave.get(file_name, "counters")
 	sorting = defsave.get(file_name, "sorting")
+
+	local settings = defsave.get(file_name, "settings")
+	max_active_pokemon = settings.max_active_pokemon or 6
+	
 	-- Default counters
 	if next(counters) == nil then
 		counters = {caught=0, released=0, seen=0}
