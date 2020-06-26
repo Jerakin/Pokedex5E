@@ -75,6 +75,7 @@ end
 local function setup_inventory(self)
 	local inventory = storage.list_of_ids_in_inventory()
 
+	
 	local hasSecondRow = false
 	for i=1, 6 do
 		local row = math.ceil(i/3)
@@ -100,12 +101,26 @@ local function setup_inventory(self)
 		end
 	end
 
+	local node_tutorial_bg = gui.get_node("max_active_pokemon_tutorial")
+	
 	-- Shrink background if they have few enough Pokémon shown to not need 2 rows
 	if not hasSecondRow then
+		local shift_amount = 170
 		local node_swap_bg = gui.get_node("swap_background")
 		local size_swap_bg = gui.get_size(node_swap_bg)
-		size_swap_bg.y = size_swap_bg.y - 170
+		size_swap_bg.y = size_swap_bg.y - shift_amount
 		gui.set_size(node_swap_bg, size_swap_bg)
+
+		local tutorial_pos = gui.get_position(node_tutorial_bg)
+		tutorial_pos.y = tutorial_pos.y + shift_amount
+		gui.set_position(node_tutorial_bg, tutorial_pos)
+	end
+
+	-- Hide the "you can increase your max slots" text if user is already at max
+	local _, max_slots_range_max = storage.get_max_active_pokemon_range()
+	local max_slots = storage.get_max_active_pokemon()
+	if max_slots >= max_slots_range_max then
+		gui.set_enabled(node_tutorial_bg, false)
 	end
 end
 
