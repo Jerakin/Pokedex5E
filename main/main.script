@@ -131,13 +131,7 @@ function init(self)
 
 		flow.delay(1) -- Extra timeout for loading screen
 		flow.until_true( function() return not monarch.is_busy() end)
-		if profiles.is_new_game() then 
-			monarch.show("pick_name", nil, {sender=msg.url(), slot=1})
-			flow.until_true(function() return profiles.get_active_slot() end)
-		elseif not profiles.get_active_slot() then
-			monarch.show("profiles")
-			flow.until_true(function() return profiles.get_active_slot() end)
-		end
+
 		trainer.load()
 		storage.init()
 		dex.init()
@@ -145,12 +139,19 @@ function init(self)
 		filters.init()
 		feats.init()
 		
-		if #storage.list_of_ids_in_inventory() > 0 then
+
+		if profiles.is_new_game() then 
+			monarch.show("pick_name", nil, {sender=msg.url(), slot=1})
+		elseif not profiles.get_active_slot() then
+			msg.post("#", "show_profile")
+		elseif #storage.list_of_ids_in_inventory() > 0 then
 			msg.post("#", "show_party")
 		elseif #storage.list_of_ids_in_storage() > 0 then
 			msg.post("#", "show_storage")
 		else
-			msg.post("#", "show_add")
+			-- We have an active slot but is has no pokemon. We don't currently support having
+			-- no Pokemon (yet), so for now go to the profile screen
+			msg.post("#", "show_profile")
 		end
 
 		local sysinfo = sys.get_sys_info()
@@ -190,12 +191,6 @@ function on_message(self, message_id, message, sender)
 			value = tracking_id[monarch.top()]
 		}
 		monarch.show("storage")
-	elseif message_id == hash("show_add") then
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Add",
-			value = tracking_id[monarch.top()]
-		}
-		monarch.show("add")
 	end
 end
 

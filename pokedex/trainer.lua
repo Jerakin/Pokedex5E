@@ -139,6 +139,9 @@ function M.load(_profile)
 	else
 		file_name = _profile.file_name
 	end
+	if file_name == nil then
+		return
+	end
 	if not defsave.is_loaded(file_name) then
 		local loaded = defsave.load(file_name)
 	end
