@@ -32,6 +32,13 @@ function M.add(profile_name, slot)
 	return profile
 end
 
+function M.get_slot(slot)
+	if slot ~= nil and #profiles.slots <= slot then
+		return profiles.slots[slot]
+	end
+	return nil
+end
+
 function M.update(slot, data)
 	for key, value in pairs(data) do
 		if not profiles.slots[slot] then
@@ -96,7 +103,7 @@ function M.get_active_file_name()
 end
 
 function M.get_file_name(slot)
-	return profiles.slots[slot].file_name
+	return slot ~= nil and profiles.slots[slot].file_name or nil
 end
 
 function M.get_active_name()
