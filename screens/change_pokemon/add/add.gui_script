@@ -86,6 +86,10 @@ function init(self)
 	button.register("change_pokemon/btn_species", function()
 		monarch.show("scrollist", {}, {items=pokedex.list, message_id="species", sender=msg.url(), title="Pick your Pokemon"})
 	end)
+	
+	if storage.is_party_full() then
+		gui.set_text(gui.get_node("txt_add"), "ADD TO PC")
+	end
 end
 
 function final(self)

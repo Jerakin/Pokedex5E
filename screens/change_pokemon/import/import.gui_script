@@ -77,6 +77,10 @@ function init(self)
 	
 	local b = {node="btn_add", func=function() add_pokemon(self) end, refresh=function(b) gooey_buttons.common_button(b, gui.get_node("txt_add")) end}
 	table.insert(active_buttons, b)
+
+	if storage.is_party_full() then
+		gui.set_text(gui.get_node("txt_add"), "IMPORT TO PC")
+	end
 end
 
 function final(self)
