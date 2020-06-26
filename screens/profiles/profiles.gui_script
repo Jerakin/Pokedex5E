@@ -24,12 +24,9 @@ local INACTIVE_SIZE = vmath.vector3(380, 105, 0)
 local active_slot = 0
 
 local function setup_pokemon_images(self, nodes, slot)
-	if not self.all_slots[slot].party then
-		return
-	end
 	for i=1, 6 do
 		local img_node = nodes["profile_slot/pokemon" .. i]
-		if self.all_slots[slot].party[i] then
+		if self.all_slots[slot].party and self.all_slots[slot].party[i] then
 			local pokemon_sprite, texture = pokedex.get_icon(self.all_slots[slot].party[i])
 			gui.set_texture(img_node, texture)
 			if pokemon_sprite then

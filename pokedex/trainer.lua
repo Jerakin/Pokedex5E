@@ -63,7 +63,7 @@ end
 function M.get_pokemon_type_attack_bonus(_types)
 	local num
 	for _, t in pairs(_types) do
-		local ab = trainer.pokemon_type_ab[_type]
+		local ab = trainer.pokemon_type_ab[t]
 		if ab ~= nil then
 			if num == nil then
 				num = ab
@@ -73,6 +73,10 @@ function M.get_pokemon_type_attack_bonus(_types)
 		end
 	end
 	return num or 0
+end
+
+function M.get_pokemon_type_attack_bonus_single(_type)
+	return trainer.pokemon_type_ab[_type] or 0
 end
 
 function M.get_type_attack_bonus(_type)
@@ -134,6 +138,9 @@ function M.load(_profile)
 		file_name = profiles.get_active_file_name()
 	else
 		file_name = _profile.file_name
+	end
+	if file_name == nil then
+		return
 	end
 	if not defsave.is_loaded(file_name) then
 		local loaded = defsave.load(file_name)
