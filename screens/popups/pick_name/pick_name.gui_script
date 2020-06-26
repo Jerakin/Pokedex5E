@@ -9,14 +9,6 @@ local gooey_buttons = require "utils.gooey_buttons"
 local tracking_id = require "utils.tracking_id"
 local dex = require "pokedex.dex"
 local slot
-local max_active_pokemon = 3
-
-local function redraw()
-	local max_active_pokemon_range_low, max_active_pokemon_range_high = storage.get_max_active_pokemon_range()
-	gui.set_text(gui.get_node("max_active_pokemon/value"), max_active_pokemon)
-	gui.set_enabled(gui.get_node("max_active_pokemon/ctrl/btn_minus"), max_active_pokemon > max_active_pokemon_range_low)
-	gui.set_enabled(gui.get_node("max_active_pokemon/ctrl/btn_plus"),  max_active_pokemon < max_active_pokemon_range_high)
-end
 
 local function refresh_input(self, input, node_id)
 	if input.empty and not input.selected then
@@ -49,9 +41,6 @@ function init(self)
 		gui.set_enabled(gui.get_node("btn_cancel"), false)
 		gui.set_position(gui.get_node("btn_okay"), vmath.vector3(0,-148,0))
 	end
-
-	max_active_pokemon = 3
-	redraw()
 end
 
 
@@ -63,7 +52,6 @@ local function okay()
 		storage.load(profiles.get_active())
 		trainer.load(profiles.get_active())
 		dex.load(profiles.get_active())
-		storage.set_max_active_pokemon(max_active_pokemon)
 		monarch.show("add")
 	end
 end
@@ -76,19 +64,11 @@ local function cancel()
 	monarch.back()
 end
 
-local function redraw_wrap(fnc)
-	fnc()
-	redraw()
-end
-
 function on_input(self, action_id, action)
 	gooey.input("name_text", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, {max_length = 10, allowed_characters="[%a%d]", use_marked_text=false}, function(input)
 		refresh_input(self, input, "name_text")
 	end)
 	gooey.button("btn_okay", action_id, action, okay, function(b) gooey_buttons.common_button(b, gui.get_node("btn_text")) end)
 	gooey.button("btn_cancel", action_id, action, cancel, function(b) gooey_buttons.common_button(b, gui.get_node("btn_text1")) end)
-
-	gooey.button("max_active_pokemon/ctrl/btn_plus",  action_id, action, function() redraw_wrap(function() max_active_pokemon = max_active_pokemon + 1 end) end, gooey_buttons.plus_button)
-	gooey.button("max_active_pokemon/ctrl/btn_minus", action_id, action, function() redraw_wrap(function() max_active_pokemon = max_active_pokemon - 1 end) end, gooey_buttons.minus_button)
 	return true
 end
