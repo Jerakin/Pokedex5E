@@ -25,11 +25,6 @@ local function pokemon_image(species)
 end
 
 local function exit(self)
-	if storage.is_party_full() then
-		notify.notify(self.pokemon.species.current .. " added to PC")
-	else
-		notify.notify(self.pokemon.species.current .. " added to party")
-	end
 	local stack = monarch.get_stack()
 	for i=#monarch.get_stack(), 1, -1 do
 		if stack[i] == hash("storage") then
@@ -60,6 +55,11 @@ local function add_pokemon(self)
 		value = _pokemon.get_index_number(self.pokemon)
 	}
 	dex.set(self.pokemon.species.current, dex.states.CAUGHT)
+	if storage.is_party_full() then
+		notify.notify(self.pokemon.species.current .. " added to PC")
+	else
+		notify.notify(self.pokemon.species.current .. " added to party")
+	end
 	storage.add(self.pokemon)
 	exit(self)
 end

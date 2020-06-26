@@ -18,11 +18,6 @@ local HAVE_EVOLVED = false
 local active_buttons = {}
 
 local function exit(self)
-	if storage.is_party_full() then
-		notify.notify(self.pokemon.species.current .. " added to PC")
-	else
-		notify.notify(self.pokemon.species.current .. " added to party")
-	end
 	local stack = monarch.get_stack()
 	for i=#monarch.get_stack(), 1, -1 do
 		if stack[i] == hash("storage") then
@@ -56,6 +51,11 @@ local function add_pokemon(self)
 	self.pokemon.level.caught = _pokemon.get_current_level(self.pokemon)
 	self.pokemon.hp.current = _pokemon.get_total_max_hp(self.pokemon)
 	dex.set(self.pokemon.species.current, dex.states.CAUGHT)
+	if storage.is_party_full() then
+		notify.notify(self.pokemon.species.current .. " added to PC")
+	else
+		notify.notify(self.pokemon.species.current .. " added to party")
+	end
 	storage.add(self.pokemon)
 	exit(self)
 end
