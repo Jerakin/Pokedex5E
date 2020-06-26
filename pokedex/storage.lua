@@ -41,7 +41,7 @@ local function getKeysSortedByValue(tbl, sortFunction)
 end
 
 function M.get_max_active_pokemon_range()
-	return 1,6
+	return 2,6
 end
 
 function M.get_max_active_pokemon()
