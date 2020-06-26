@@ -17,6 +17,11 @@ local tracking_id = require "utils.tracking_id"
 local gui_utils = require "utils.gui"
 local share = require "pokedex.share"
 
+-- Because the "swap pokemon" popup isn't actually its own screen, it doesn't re-init and reset positions of everything
+-- every time it shows up. Therefore, I can't dynamically adjust things for it each time, I need to store their initial values
+local y_size_swap_bg
+local y_pos_tutorial
+
 local function join_table(title, T, sep)
 	if T then
 		return title .. table.concat(T, sep)
@@ -106,13 +111,14 @@ local function setup_inventory(self)
 	-- Shrink background if they have few enough Pokémon shown to not need 2 rows
 	if not has_second_row then
 		local shift_amount = 170
+		-- NOTE: values were stored during init because the GUI doesn't get reset when this "popup" reopens - it's just enabled/disabled
 		local node_swap_bg = gui.get_node("swap_background")
 		local size_swap_bg = gui.get_size(node_swap_bg)
-		size_swap_bg.y = size_swap_bg.y - shift_amount
+		size_swap_bg.y = y_size_swap_bg - shift_amount 
 		gui.set_size(node_swap_bg, size_swap_bg)
 
 		local tutorial_pos = gui.get_position(node_tutorial_bg)
-		tutorial_pos.y = tutorial_pos.y + shift_amount
+		tutorial_pos.y = y_pos_tutorial + shift_amount
 		gui.set_position(node_tutorial_bg, tutorial_pos)
 	end
 
@@ -242,6 +248,9 @@ function init(self)
 		gui.set_enabled(gui.get_node("btn_move"), false)
 		gui.set_enabled(gui.get_node("btn_release"), false)
 	end
+
+	y_size_swap_bg = gui.get_size(gui.get_node("swap_background")).y
+	y_pos_tutorial = gui.get_position(gui.get_node("max_active_pokemon_tutorial")).y
 end
 
 
