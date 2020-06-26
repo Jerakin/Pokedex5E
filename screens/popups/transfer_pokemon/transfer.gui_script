@@ -75,6 +75,7 @@ end
 local function setup_inventory(self)
 	local inventory = storage.list_of_ids_in_inventory()
 
+	local hasSecondRow = false
 	for i=1, 6 do
 		local row = math.ceil(i/3)
 		local p = math.fmod(i-1, 3) + 1
@@ -83,15 +84,28 @@ local function setup_inventory(self)
 		local sprite = gui.get_node("row" .. row .."/pokemon" .. p .. "/pokemon_sprite")
 		local text = gui.get_node("row" .. row .."/pokemon" .. p .. "/txt_pokemon")
 		local held_item = gui.get_node("row" .. row .."/pokemon" .. p .. "/held_item")
+		local background = gui.get_node("row" .. row .. "/pokemon" .. p .. "/background")
 		if pokemon then
 			gui.set_text(text, _pokemon.get_current_species(pokemon):upper() .. "\nLv. " .. _pokemon.get_current_level(pokemon))
 			gui.set_enabled(held_item, _pokemon.get_held_item(pokemon) ~= nil)
 			gui.set_enabled(sprite, true)
 			set_pokemon_sprite(sprite, pokemon)
 			table.insert(inventory_buttons, inventory_button(self, sprite, inventory[i], self.pokemon_id))
+
+			if (row == 2) then
+				hasSecondRow = true
+			end
 		else
-			gui.set_enabled(sprite, false)
+			gui.set_enabled(background, false)
 		end
+	end
+
+	-- Shrink background if they have few enough Pokémon shown to not need 2 rows
+	if not hasSecondRow then
+		local node_swap_bg = gui.get_node("swap_background")
+		local size_swap_bg = gui.get_size(node_swap_bg)
+		size_swap_bg.y = size_swap_bg.y - 170
+		gui.set_size(node_swap_bg, size_swap_bg)
 	end
 end
 
