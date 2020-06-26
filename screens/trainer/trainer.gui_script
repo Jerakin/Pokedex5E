@@ -47,7 +47,7 @@ local function redraw()
         gui.set_text(gui.get_node("type_master/" .. name .. "/value"), trainer.get_type_master_STAB(_type))
         gui.set_text(gui.get_node("stab/" .. name .. "/value"), trainer.get_STAB(_type))
         gui.set_text(gui.get_node("move_attack_bonus/" .. name .. "/value"), trainer.get_move_type_attack_bonus(_type))
-        gui.set_text(gui.get_node("pokemon_attack_bonus/" .. name .. "/value"), trainer.get_pokemon_type_attack_bonus({_type}))
+        gui.set_text(gui.get_node("pokemon_attack_bonus/" .. name .. "/value"), trainer.get_pokemon_type_attack_bonus_single(_type))
     end
     
     for _, attribute in pairs({"STR", "DEX", "CON", "INT", "WIS", "CHA"}) do
@@ -191,8 +191,8 @@ function on_input(self, action_id, action)
         gooey.button("type_master/" .. name .. "/buttons/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_type_master_STAB(_type, trainer.get_type_master_STAB(_type) + 1) end) end, gooey_buttons.plus_button)
         gooey.button("type_master/" .. name .."/buttons/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_type_master_STAB(_type, trainer.get_type_master_STAB(_type) - 1) end) end, gooey_buttons.minus_button)
         
-        gooey.button("pokemon_attack_bonus/" .. name .."/buttons/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_pokemon_type_attack_bonus(_type, trainer.get_pokemon_type_attack_bonus({_type}) + 1) end) end, gooey_buttons.plus_button)
-        gooey.button("pokemon_attack_bonus/" .. name .."/buttons/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_pokemon_type_attack_bonus(_type, trainer.get_pokemon_type_attack_bonus({_type}) - 1) end) end, gooey_buttons.minus_button)
+        gooey.button("pokemon_attack_bonus/" .. name .."/buttons/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_pokemon_type_attack_bonus(_type, trainer.get_pokemon_type_attack_bonus_single(_type) + 1) end) end, gooey_buttons.plus_button)
+        gooey.button("pokemon_attack_bonus/" .. name .."/buttons/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_pokemon_type_attack_bonus(_type, trainer.get_pokemon_type_attack_bonus_single(_type) - 1) end) end, gooey_buttons.minus_button)
 
         gooey.button("move_attack_bonus/" .. name .."/buttons/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_move_type_attack_bonus(_type, trainer.get_move_type_attack_bonus(_type) + 1) end) end, gooey_buttons.plus_button)
         gooey.button("move_attack_bonus/" .. name .."/buttons/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_move_type_attack_bonus(_type, trainer.get_move_type_attack_bonus(_type) - 1) end) end, gooey_buttons.minus_button)
