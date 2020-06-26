@@ -86,7 +86,10 @@ local function setup_inventory(self)
 		local row = math.ceil(i/3)
 		local p = math.fmod(i-1, 3) + 1
 
-		local pokemon = storage.get_copy(inventory[i])
+		local pokemon
+		if i <= #inventory then
+			pokemon = storage.get_copy(inventory[i])
+		end
 		local sprite = gui.get_node("row" .. row .."/pokemon" .. p .. "/pokemon_sprite")
 		local text = gui.get_node("row" .. row .."/pokemon" .. p .. "/txt_pokemon")
 		local held_item = gui.get_node("row" .. row .."/pokemon" .. p .. "/held_item")
