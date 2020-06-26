@@ -303,18 +303,28 @@ end
 
 function on_input(self, action_id, action)
 	local b = button.on_input(action_id, action)
-	local c, a, d
-	if self.move_button_enabled then
-		a = gooey.button("btn_move", action_id, action, function() move(self) end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_move")) end)
-		c = gooey.button("btn_release", action_id, action, function() release(self) end)
-		d = gooey.button("btn_share", action_id, action, function() share.export(self.pokemon_id) end, gooey_buttons.share)
-	end
-	gooey.button("btn_close", action_id, action, back, gooey_buttons.close_button)
-	gooey.button("btn_cancel", action_id, action, function() cancel_swap(self) end, gooey_buttons.close_button)
-	local g = gooey.button("background", action_id, action, function() end)
 
-	if not a.over and not b and not c.over and not d.over and not g.over then
-		gooey.button("dimmer", action_id, action, back)
+	if gui.is_enabled(self.swap) then
+		local bg1 = gooey.button("swap_background", action_id, action, function() end)
+		local bg2 = gooey.button("max_active_pokemon_tutorial", action_id, action, function() end)
+		if not b and not bg1.over and not bg2.over then
+			gooey.button("dimmer1", action_id, action, function() cancel_swap(self) end)
+		end
+	else
+		local c, a, d
+		if self.move_button_enabled then
+			a = gooey.button("btn_move", action_id, action, function() move(self) end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_move")) end)
+			c = gooey.button("btn_release", action_id, action, function() release(self) end)
+			d = gooey.button("btn_share", action_id, action, function() share.export(self.pokemon_id) end, gooey_buttons.share)
+		end
+		gooey.button("btn_close", action_id, action, back, gooey_buttons.close_button)
+		gooey.button("btn_cancel", action_id, action, function() cancel_swap(self) end, gooey_buttons.close_button)
+		local g = gooey.button("background", action_id, action, function() end)
+
+		if not a.over and not b and not c.over and not d.over and not g.over then
+			gooey.button("dimmer", action_id, action, back)
+		end
 	end
+	
 	return true
 end
