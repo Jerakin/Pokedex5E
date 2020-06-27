@@ -1,6 +1,7 @@
 local monarch = require "monarch.monarch"
 local gooey = require "gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
+local storage = require "pokedex.storage"
 local trainer = require "pokedex.trainer"
 local profiles = require "pokedex.profiles"
 local type_data = require "utils.type_data"
@@ -52,6 +53,12 @@ local function redraw()
     for _, attribute in pairs({"STR", "DEX", "CON", "INT", "WIS", "CHA"}) do
         gui.set_text(gui.get_node("attributes/" .. attribute), trainer.get_attribute(attribute))
     end
+
+    local max_active_pokemon = storage.get_max_active_pokemon()
+    local max_active_pokemon_range_low, max_active_pokemon_range_high = storage.get_max_active_pokemon_range()
+    gui.set_text(gui.get_node("max_active_pokemon/value"), max_active_pokemon)
+    gui.set_enabled(gui.get_node("max_active_pokemon/ctrl/btn_minus"), max_active_pokemon > max_active_pokemon_range_low)
+    gui.set_enabled(gui.get_node("max_active_pokemon/ctrl/btn_plus"),  max_active_pokemon < max_active_pokemon_range_high)
 end
 
 local initial_scale = vmath.vector3(1, 1,0)
@@ -68,7 +75,7 @@ local function shake(node)
 end
 
 local function activate_tab(self, tab_number)
-    for i=1, 5 do
+    for i=1, #self.tabs do
         if tab_number == i then
             gui.play_flipbook(self.tabs[tab_number].tab, "common_down")
             gui.set_color(self.tabs[tab_number].text, gui_colors.BUTTON_TEXT_PRESSED)
@@ -125,18 +132,19 @@ function init(self)
             tab = gui.get_node("tab_5"),
             text = gui.get_node("text_5"),
             bg =gui.get_node("tab_5_content")
+        },
+        [6] = {
+            name = "tab_6",
+            tab = gui.get_node("tab_6"),
+            text = gui.get_node("text_6"),
+            bg =gui.get_node("tab_6_content")
         }
     }
-    
-    gui.set_position(self.tabs[1].bg, vmath.vector3(0, -140, 0))
-    gui.set_position(self.tabs[2].bg, vmath.vector3(0, -140, 0))
-    gui.set_position(self.tabs[3].bg, vmath.vector3(0, -140, 0))
-    gui.set_position(self.tabs[4].bg, vmath.vector3(0, -140, 0))
-    gui.set_position(self.tabs[5].bg, vmath.vector3(0, -140, 0))
-    gui.set_enabled(self.tabs[2].bg, false)
-    gui.set_enabled(self.tabs[3].bg, false)
-    gui.set_enabled(self.tabs[4].bg, false)
-    gui.set_enabled(self.tabs[5].bg, false)
+
+    for i=1, #self.tabs do
+        gui.set_position(self.tabs[i].bg, vmath.vector3(0, -140, 0))
+        gui.set_enabled(self.tabs[i].bg, false)
+    end
     activate_tab(self, 1)
     redraw()
 end
@@ -149,25 +157,12 @@ end
 
 
 function on_input(self, action_id, action)
-    gooey.button(self.tabs[1].name, action_id, action, function()
-        activate_tab(self, 1)
-    end)
-
-    gooey.button(self.tabs[2].name, action_id, action, function()
-        activate_tab(self, 2)
-    end)
-    
-    gooey.button(self.tabs[3].name, action_id, action, function()
-        activate_tab(self, 3)
-    end)
-    
-    gooey.button(self.tabs[4].name, action_id, action, function()
-        activate_tab(self, 4)
-    end)
-    
-    gooey.button(self.tabs[5].name, action_id, action, function()
-        activate_tab(self, 5)
-    end)
+    for i=1, #self.tabs do
+        local this_i = i
+        gooey.button(self.tabs[this_i].name, action_id, action, function()
+            activate_tab(self, this_i)
+        end)
+    end
     
     gooey.button("attack/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_attack_roll(trainer.get_attack_roll() - 1) end) end, gooey_buttons.minus_button)
     gooey.button("attack/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_attack_roll(trainer.get_attack_roll() + 1) end) end, gooey_buttons.plus_button)
@@ -206,6 +201,9 @@ function on_input(self, action_id, action)
         gooey.button("stab/" .. name .."/buttons/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_STAB(_type, trainer.get_STAB(_type) - 1) end) end, gooey_buttons.minus_button)
         
     end
+
+    gooey.button("max_active_pokemon/ctrl/btn_plus",  action_id, action, function() redraw_wrap(function() storage.set_max_active_pokemon(storage.get_max_active_pokemon() + 1) end) end, gooey_buttons.plus_button)
+    gooey.button("max_active_pokemon/ctrl/btn_minus", action_id, action, function() redraw_wrap(function() storage.set_max_active_pokemon(storage.get_max_active_pokemon() - 1) end) end, gooey_buttons.minus_button)
 
 end
 
