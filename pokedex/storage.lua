@@ -12,6 +12,7 @@ local storage = {}
 local active = {}
 local counters = {}
 local sorting = {}
+local encounters = {}
 local initialized = false
 local max_active_pokemon = 6
 

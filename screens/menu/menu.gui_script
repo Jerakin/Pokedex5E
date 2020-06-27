@@ -14,6 +14,7 @@ local share = require "pokedex.share"
 local map = {
 	[hash("party")] = "btn_party",
 	[hash("storage")] = "btn_storage",
+	[hash("encounters")] = "btn_encounters",
 	[hash("add")] = "btn_add",
 	[hash("profiles")] = "btn_profiles",
 	[hash("about")] = "btn_about",
@@ -69,6 +70,7 @@ function init(self)
 	self.block_input = false
 	self.btn_party = gui.get_node("btn_party")
 	self.btn_storage = gui.get_node("btn_storage")
+	self.btn_encounters = gui.get_node("btn_encounters")
 	self.btn_profiles = gui.get_node("btn_profiles")
 	self.btn_about = gui.get_node("btn_about")
 	self.btn_menu = gui.get_node("btn_menu")
@@ -118,6 +120,15 @@ function init(self)
 			value = tracking_id[monarch.top()]
 		}
 		monarch.show("generate_pokemon")
+		toggle(self)
+	end, {no_shake=true})
+
+	button.register(self.btn_encounters, function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:EncountersByMenu",
+			value = tracking_id[monarch.top()]
+		}
+		monarch.show("encounters")
 		toggle(self)
 	end, {no_shake=true})
 
