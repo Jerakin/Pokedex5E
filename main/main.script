@@ -8,6 +8,7 @@ local dex = require "pokedex.dex"
 local items = require "pokedex.items"
 local feats = require "pokedex.feats"
 local storage = require "pokedex.storage"
+local patch = require "pokedex.patch"
 local profiles = require "pokedex.profiles"
 local filters = require "pokedex.filters"
 local trainer = require "pokedex.trainer"
@@ -138,7 +139,7 @@ function init(self)
 		items.init()
 		filters.init()
 		feats.init()
-		
+		patch.init()
 
 		if profiles.is_new_game() then 
 			monarch.show("pick_name", nil, {sender=msg.url(), slot=1})

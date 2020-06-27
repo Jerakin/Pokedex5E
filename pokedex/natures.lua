@@ -1,11 +1,13 @@
 local file = require "utils.file"
 local log = require "utils.log"
 local fakemon = require "fakemon.fakemon"
+local patch = require "pokedex.patch"
 
 local M = {}
 
 local initialized = false
 local natures
+local patch_key = "Nature"
 
 local function list()
 	local temp_list = {}
@@ -46,9 +48,47 @@ function M.init()
 			end
 		end
 		M.list, M.total = list()
+		
+		local nature_keys = {}
+		local modifier_keys_seen = {}
+		local modifier_keys = {}
+		for n_k, n_v in pairs(natures) do
+			table.insert(nature_keys, n_k)
+			for a_k,_ in pairs(n_v) do
+				if modifier_keys_seen[a_k] == nil then
+					modifier_keys_seen[a_k] = true
+					table.insert(modifier_keys, a_k)
+				end
+			end
+		end
+		table.sort(modifier_keys)
+
+		local schema =
+		{
+			type = "table",
+			keys = nature_keys,
+			value_type = "table",
+			values =
+			{
+				DisplayName = 
+				{
+					type = "string",
+					name = "Display Name",
+				},
+				Attributes =
+				{
+					type = "table",
+					keys = modifier_keys,
+					value_type = "number",
+				},
+			},
+		}
+
+		print("Nature Schema:")
+		patch.dump_schema(schema)
+		
 		initialized = true
 	end
 end
-
 
 return M
