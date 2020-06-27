@@ -12,6 +12,10 @@ local function activate_pokemon(index)
 	party.switch_to_slot(index)
 end
 
+local function activate_unused_pokemon(index)
+	-- User tapped an unused pokeball (empty slot), eat input
+end
+
 function M.set_active(index, instant)
 	local n = gui.get_node("party_indicator/inventory_pokemon_" .. index .. "/pokemon_sprite")
 	local t = gui.get_node("party_indicator/active")
@@ -46,6 +50,9 @@ local function create_party_indicators(pokemons_in_party)
 			gui.set_texture(party_sprite, "gui")
 			gui.set_color(party_sprite, gui_colors.INACTIVE)
 			gui.play_flipbook(party_sprite, "sort_type")
+			
+			local b = {node="party_indicator/inventory_pokemon_" .. i .. "/pokemon_sprite", func=function() activate_unused_pokemon(i) end}
+			table.insert(buttons, b)
 		end
 	end
 end
