@@ -52,8 +52,6 @@ function M.init()
 			end
 		end
 		M.list, M.total = list()
-
-		patch.register_patch_key(patch_key)
 		
 		initialized = true
 	end

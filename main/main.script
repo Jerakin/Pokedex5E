@@ -125,6 +125,7 @@ function init(self)
 			fakemon.init()
 			flow.until_true(function() return not fakemon.BUSY end)
 		end
+		patch.init()
 		movedex.init()
 		natures.init()
 		pokedex.init()
@@ -139,7 +140,6 @@ function init(self)
 		items.init()
 		filters.init()
 		feats.init()
-		patch.init()
 
 		if profiles.is_new_game() then 
 			monarch.show("pick_name", nil, {sender=msg.url(), slot=1})

@@ -6,6 +6,7 @@ local fakemon = require "fakemon.fakemon"
 local dex_data = require "pokedex.dex_data"
 local ptypes = require "ptypes.main"
 local trainer = require "pokedex.trainer"
+local patch = require "pokedex.patch"
 
 
 local M = {}
@@ -17,6 +18,7 @@ local evolvedata
 local leveldata
 local exp_grid
 local genders
+local patch_key = "Pokedex"
 
 M.GENDERLESS = 0
 M.MALE = 1
@@ -334,6 +336,8 @@ function M.get_pokemon(pokemon)
 		pokemon_species = pokemon_species:gsub("é", "e")
 		local pokemon_json = file.load_json_from_resource("/assets/datafiles/pokemon/".. pokemon_species .. ".json")
 		if pokemon_json ~= nil then
+			local pokemon_patch = patch.get_patch_data(patch_key, {pokemon_species})
+			utils.deep_merge_into(pokemon_json, pokemon_patch)
 			pokedex[pokemon] = pokemon_json
 			return utils.deep_copy(pokedex[pokemon])
 		else
