@@ -21,7 +21,8 @@ end
 
 local function update_listitem(list, item)
 	gui.set_text(item.nodes["txt_desc"], format_text(item.data))
-	gui.set_text(item.nodes["txt_item"], item.data:upper())
+	local patched_data = natures.get_nature_display(item.data)
+	gui.set_text(item.nodes["txt_item"], patched_data:upper())
 	if item.index == list.selected_item then
 		selected_item = item.data
 	end
@@ -68,7 +69,8 @@ local function filter_list(self, search_string)
 	if #search_string > 0 then
 		self.list_items = {}
 		for i=#self.all_items, 1, -1 do
-			if starts_with(self.all_items[i], search_string) then
+			local patched_item = natures.get_nature_display(self.all_items[i])
+			if starts_with(patched_item, search_string) then
 				table.insert(self.list_items, 1, self.all_items[i])
 			end
 		end

@@ -14,6 +14,7 @@ function M.init()
 	-- TEMP, example data that could be loaded up
 	table.insert(patch_data, {
 		name = "Patch 1",
+		enabled = true,
 		data = {
 			Nature = {
 				Dumb = {
@@ -25,10 +26,23 @@ function M.init()
 	
 	table.insert(patch_data, {
 		name = "Patch 2",
+		enabled = true,
 		data = {
 			Nature = {
 				Dumb = {
 					DisplayName = "Quiet"
+				}
+			}
+		}
+	})
+
+	table.insert(patch_data, {
+		name = "Patch 3",
+		enabled = false,
+		data = {
+			Nature = {
+				Dumb = {
+					DisplayName = "Bananas"
 				}
 			}
 		}
@@ -72,16 +86,17 @@ function M.get_patch_data(key, path)
 	end
 	
 	for i=#patch_data, 1, -1 do
-		
-		local current = patch_data[i].data[key]
-		for j=1,#path do
-			if current == nil then
-				break
+		if patch_data[i].enabled then
+			local current = patch_data[i].data[key]
+			for j=1,#path do
+				if current == nil then
+					break
+				end
+				current = current[path[j]]
 			end
-			current = current[path[j]]
-		end
-		if current ~= nil then
-			return current
+			if current ~= nil then
+				return current
+			end
 		end
 	end
 	return nil

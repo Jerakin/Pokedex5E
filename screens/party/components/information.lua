@@ -1,5 +1,6 @@
 local _pokemon = require "pokedex.pokemon"
 local pokedex = require "pokedex.pokedex"
+local natures = require "pokedex.natures"
 local storage = require "pokedex.storage"
 local items = require "pokedex.items"
 local party_utils = require "screens.party.utils"
@@ -98,7 +99,8 @@ local function setup_info_tab(nodes, pokemon)
 	local sr = pokedex.get_pokemon_SR(_pokemon.get_current_species(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_sr"], number_map[sr] or sr)
 
-	gui.set_text(nodes["pokemon/traits/txt_nature"], _pokemon.get_nature(pokemon):upper())
+	local patched_nature = natures.get_nature_display(_pokemon.get_nature(pokemon))
+	gui.set_text(nodes["pokemon/traits/txt_nature"], patched_nature:upper())
 	gui.set_text(nodes["pokemon/traits/txt_stab"], _pokemon.get_STAB_bonus(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_prof"], _pokemon.get_proficency_bonus(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_exp"], _pokemon.get_pokemon_exp_worth(pokemon))

@@ -27,6 +27,10 @@ function M.is_nature(nature)
 	return M.get_nature_attributes(nature) and true or false
 end
 
+function M.get_nature_display(nature)
+	return patch.get_patch_data(patch_key, {nature, "DisplayName"}) or nature
+end
+
 function M.get_nature_attributes(nature)
 	if natures[nature] then
 		return natures[nature]
