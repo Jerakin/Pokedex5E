@@ -352,10 +352,10 @@ function M.init()
 	end
 end
 
-local function assign_slot_numbers()
+local function assign_slot_numbers(group)
 	log.info("Assigning slot numbers")
 	local index = 1
-	for id, pokemon in pairs(active) do
+	for id, pokemon in pairs(group) do
 		pokemon.slot = index
 		index = index + 1
 	end
@@ -366,7 +366,7 @@ function M.swap(storage_id, inventory_id)
 	local inventory_pokemon = utils.deep_copy(active[inventory_id])
 	local slot = inventory_pokemon.slot 
 	if not slot then
-		assign_slot_numbers()
+		assign_slot_numbers(active)
 		inventory_pokemon = utils.deep_copy(active[inventory_id])
 		slot = inventory_pokemon.slot 
 	end
@@ -383,7 +383,7 @@ end
 function M.move_to_storage(id)
 	local pokemon = utils.deep_copy(active[id])
 	if not pokemon.slot then
-		assign_slot_numbers()
+		assign_slot_numbers(active)
 	end
 	
 	for p_id, data in pairs(active) do
