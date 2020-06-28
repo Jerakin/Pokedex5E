@@ -1,6 +1,7 @@
 local log = require "utils.log"
 local utils = require "utils.utils"
 local defsave = require "defsave.defsave"
+local json = require "defsave.json"
 local settings = require "pokedex.settings"
 local log = require "utils.log"
 local flow = require "utils.flow"
@@ -12,12 +13,11 @@ M.is_busy = false
 
 local initialized = false
 local patch_data_keys = {}
-local patch_index
 local patch_data
 local patch_data_compiled
 
 local os_sep = package.config:sub(1, 1)
-local patch_index = "patch"
+local patch_file = "patch"
 local patches_key = "patches"
 local patch_dir
 
@@ -29,58 +29,73 @@ end
 local function compile_patch_data()
 	patch_data_compiled = {}
 	for i=1,#patch_data do
-		if patch_data[i].enabled then
-			utils.deep_merge_into(patch_data_compiled, patch_data[i].data)
+		if patch_data[i].enabled and patch_data[i].data ~= nil then
+			-- first .data here is the download, which includes meta information about the patch like the name and description.
+			-- second .data here is the actual data, like what things should be patched and how
+			utils.deep_merge_into(patch_data_compiled, patch_data[i].data.data)
 		end
 	end
 
 	-- TODO: Some sort of event for everything to key off if they need to reset caches or something for new patch data
 end
 
-local function load_patch_index()
-	M.is_busy = true
-	flow.start(function()
-		local loaded_patch_index = defsave.file_exists(patch_index) and defsave.load(patch_index)
-		if loaded_patch_index then
-			patch_index = defsave.get(patch_file, patches_key) or {}
-		else
-			patch_index = {}
-		end
-
-		patch_data = {}
-		
-		for i=1,#patch_index do
-			local file_name = patch_index[i].file
-			if file_name ~= nil then
-				if file_exists(file_name) then					
-					local this_patch_data = file.load_file(patch_index[i].file)
-					if this_patch_data ~= nil then
-						table.insert(patch_data, this_patch_data)
+local function download_all_patches()
+	return flow.start(function()		
+		for i=1,#patch_data do
+			local this_patch_data = patch_data[i]
+			local num_to_download = 0
+			if this_patch_data.url ~= nil then
+				num_to_download = num_to_download + 1
+				http.request(this_patch_data.url, "GET", function(self, id, res)
+					if res.status == 200 or res.status == 304 then
+						this_patch_data.data = json.decode(res.response)	
+						this_patch_data.last_download_success = os.date()
+						this_patch_data.error = nil
 					else
-						table.insert(patch_data, { name = "ERROR", description = "Could not load patch file " .. tostring(patch_index[i].file) })
+						this_patch_data.error = tostring(res.status) .. ": " .. tostring(res.response)
 					end
-				else
-					table.insert(patch_data, { name = "ERROR", description = "Could not find patch file " .. tostring(patch_index[i].file) })
-				end
-			else
-				table.insert(patch_data, { name = "ERROR", description = "Unknown patch file" })
+					this_patch_data.last_download_attempt = os.date()
+					num_to_download = num_to_download - 1
+				end)
 			end
+			flow.until_true(function() return num_to_download == 0 end)
 		end
-
-		-- If I understood how all this works right (I probably did not), the above should have loaded an index file (if one exists) and then M.is_loaded
-		-- some json into our patch_data. But I don't have time to test it right now, so just committing with a comment.
-
-		compile_patch_data()
-		M.is_busy = false
 	end)
 end
 	
 function M.init()
 	if not initialized then
-		initialized = true
+		M.is_busy = true
+		flow.start(function()				
+			patch_dir = defsave.get_file_path("") .. "patches" .. os_sep
 
-		patch_dir = defsave.get_file_path("") .. "patches" .. os_sep
-		load_patch_index()
+			defsave.load(patch_file)
+			patch_data =  defsave.get(patch_file, patches_key) or {}
+
+			-- TEMP
+			if next(patch_data) == nil then
+				patch_data =
+				{
+					{
+						enabled = true,
+						url = "https://raw.githubusercontent.com/magroader/Pokemon5EPatchExample/master/nature_rename.json",
+					},
+					{
+						enabled = true,
+						url = "https://raw.githubusercontent.com/magroader/Pokemon5EPatchExample/master/speed_adjust.json",
+					},
+				}
+				download_all_patches()
+				defsave.set(patch_file, patches_key, patch_data)
+				defsave.save(patch_file)
+			end
+			-- END TEMP
+			
+			compile_patch_data()
+
+			M.is_busy = false
+			initialized = true
+		end)
 	end
 end
 
