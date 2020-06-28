@@ -12,7 +12,6 @@ local M = {}
 M.is_busy = false
 
 local initialized = false
-local patch_data_keys = {}
 local patch_data
 local patch_data_compiled
 
@@ -49,12 +48,12 @@ local function download_all_patches()
 				http.request(this_patch_data.url, "GET", function(self, id, res)
 					if res.status == 200 or res.status == 304 then
 						this_patch_data.data = json.decode(res.response)	
-						this_patch_data.last_download_success = os.date()
+						this_patch_data.last_download_success = os.time()
 						this_patch_data.error = nil
 					else
 						this_patch_data.error = tostring(res.status) .. ": " .. tostring(res.response)
 					end
-					this_patch_data.last_download_attempt = os.date()
+					this_patch_data.last_download_attempt = os.time()
 					num_to_download = num_to_download - 1
 				end)
 			end
@@ -82,6 +81,34 @@ function M.init()
 					},
 					{
 						enabled = true,
+						url = "https://raw.githubusercontent.com/magroader/Pokemon5EPatchExample/master/speed_adjust.json",
+					},
+					{
+						enabled = false,
+						url = "https://raw.githubusercontent.com/magroader/Pokemon5EPatchExample/master/speed_adjust.json",
+					},
+					{
+						enabled = false,
+						url = "https://raw.githubusercontent.com/magroader/Pokemon5EPatchExample/master/speed_adjust.json",
+					},
+					{
+						enabled = false,
+						url = "https://raw.githubusercontent.com/magroader/Pokemon5EPatchExample/master/speed_adjust.json",
+					},
+					{
+						enabled = false,
+						url = "https://raw.githubusercontent.com/magroader/Pokemon5EPatchExample/master/speed_adjust.json",
+					},
+					{
+						enabled = false,
+						url = "https://raw.githubusercontent.com/magroader/Pokemon5EPatchExample/master/speed_adjust.json",
+					},
+					{
+						enabled = false,
+						url = "https://raw.githubusercontent.com/magroader/Pokemon5EPatchExample/master/speed_adjust.json",
+					},
+					{
+						enabled = false,
 						url = "https://raw.githubusercontent.com/magroader/Pokemon5EPatchExample/master/speed_adjust.json",
 					},
 				}
@@ -113,11 +140,24 @@ function M.get_patch_data(key, path)
 	return nil
 end
 
-function M.get_patch_names()
+function M.get_all_patch_data_details()
 	local ret = {}
-	for i=1, #patch_data, 1 do
-		table.insert(ret, patch_data[i].name)
+	
+	for i=1, #patch_data do
+		local this_details = {}
+		table.insert(ret, this_details)
+		
+		local this_data = patch_data[i]
+		this_details.url = this_data.url
+		this_details.last_download_success = this_data.last_download_success
+		this_details.enabled = this_data.enabled
+		if this_data.data ~= nil then
+			this_details.name = this_data.data.name
+			this_details.description = this_data.data.description
+			this_details.author = this_data.data.author
+		end		
 	end
+
 	return ret
 end
 

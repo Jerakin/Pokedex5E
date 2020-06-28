@@ -44,4 +44,8 @@ function on_input(self, action_id, action)
 			msg.post("@system:", "reboot")
 		end)
 	end, function(button) gooey_buttons.common_button(button, gui.get_node("txt_paste")) end)
+	
+	gooey.button("btn_choose_patches", action_id, action, function()
+		monarch.show("patch")
+	end, function(button) gooey_buttons.common_button(button, gui.get_node("txt_paste")) end)
 end

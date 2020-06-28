@@ -31,6 +31,7 @@ local M = {
 	[hash("pokedex")] = 222,
 	[hash("settings")] = 223,
 	[hash("fakemon")] = 224,
+	[hash("patch")] = 225,
 }
 
 return M

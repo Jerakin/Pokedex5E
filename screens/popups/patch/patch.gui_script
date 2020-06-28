@@ -1,0 +1,139 @@
+local monarch  = require "monarch.monarch"
+local url = require "utils.url"
+local render_order = require "utils.gui_render_order"
+local gooey_buttons = require "utils.gooey_buttons"
+local gooey = require "gooey.gooey"
+local utils = require "utils.utils"
+local gui_utils = require "utils.gui"
+local patch = require "pokedex.patch"
+local flow = require "utils.flow"
+
+local selected_item
+local all_item_details = {}
+
+local function close()
+	monarch.back()
+end
+
+local function update_listitem(list, item)
+	local data = all_item_details[item.data]
+	
+	gui.set_text(item.nodes["txt_title"], tostring(data.name) or "<Unknown Patch>")
+	gui.set_text(item.nodes["txt_description"], tostring(data.description) or "")
+	
+	local author_text = ""
+	if data.author ~= nil then
+		author_text = "by: " .. tostring(data.author)
+	end
+	gui.set_text(item.nodes["txt_author"], author_text)
+
+	local download_datetime_text = ""
+	if data.last_download_success ~= nil and type(data.last_download_success) == "number" then
+		download_datetime_text = "Last update: " .. os.date("%c", data.last_download_success)
+	end
+	gui.set_text(item.nodes["txt_last_update"], download_datetime_text)
+	
+	if item.index == list.selected_item then
+		selected_item = item.data
+	end
+end
+
+local function update_list(list)
+	gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar").scroll_to(0, list.scroll.y)
+	for i,item in ipairs(list.items) do
+		if item.data and item.data ~= "" then
+			update_listitem(list, item)
+		end
+	end
+end
+
+local function on_item_selected(list)
+	for i,item in ipairs(list.items) do
+		if item.data and item.index == list.selected_item then
+			print("TODO item " .. tostring(item.index) .. " selected")
+		end
+	end
+end
+
+function init(self)
+	msg.post(url.MENU, "hide")
+	gui.set_enabled(gui.get_node("cursor"), false)
+
+	all_item_details = {}
+	self.all_items = {}
+	self.list_items = {}
+	update_list(gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.all_items))
+	
+	flow.start(function()
+		all_item_details = patch.get_all_patch_data_details()
+
+		if all_item_details ~= nil then
+			for index, _ in pairs(all_item_details) do
+				table.insert(self.all_items, index)
+			end
+			self.list_items = utils.shallow_copy(self.all_items)
+		
+			update_list(gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.list_items))
+		end
+	end)
+end
+
+local function filter_list(self, search_string)
+	local function starts_with(str, start)
+		return string.lower(str):sub(1, #start) == string.lower(start)
+	end
+	local function is_in(_in, str)
+		return string.lower(_in):find(string.lower(str))
+	end
+	if #search_string > 0 then
+		self.list_items = {}
+		for i=#self.all_items, 1, -1 do
+			if starts_with(all_item_details[self.all_items[i]].name, search_string) then
+				table.insert(self.list_items, 1, self.all_items[i])
+			end
+		end
+		update_list(gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.list_items))
+	else
+		self.list_items = self.all_items
+	end
+end
+
+local function refresh_input(self, input, node_id)
+	if input.empty and not input.selected then
+		gui.set_text(input.node, "SEARCH")
+	end
+
+	local cursor = gui.get_node("cursor")
+	if input.selected then
+		if input.empty then
+			gui.set_text(input.node, "")
+		end
+		gui.set_enabled(cursor, true)
+		gui.set_position(cursor, vmath.vector3(input.total_width*0.5, 0, 0))
+		gui.cancel_animation(cursor, gui.PROP_COLOR)
+		gui.set_color(cursor, vmath.vector4(0,0,0,1))
+		gui.animate(cursor, gui.PROP_COLOR, vmath.vector4(1,1,1,0), gui.EASING_INSINE, 0.8, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
+	else
+		gui.set_enabled(cursor, false)
+		gui.cancel_animation(cursor, gui.PROP_COLOR)
+	end
+	filter_list(self, input.text .. input.marked_text)
+end
+
+local function on_scrolled(self, scrollbar)
+	gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.list_items).scroll_to(0, scrollbar.scroll.y)
+end
+
+
+function on_input(self, action_id, action)
+	if next(self.list_items) ~= nil then
+		local list = gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.list_items, action_id, action, on_item_selected, update_list)
+		if list.max_y and list.max_y > 0 then
+			gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar", action_id, action, function(scrollbar) on_scrolled(self, scrollbar) end)
+		end
+	end
+	gooey.input("search_text", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, {use_marked_text=false}, function(input)
+		refresh_input(self, input, "search_text")
+	end)
+	gooey.button("btn_quit", action_id, action, close, gooey_buttons.close_button)
+end
