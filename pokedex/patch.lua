@@ -1,12 +1,30 @@
 local log = require "utils.log"
 local utils = require "utils.utils"
+local defsave = require "defsave.defsave"
+local settings = require "pokedex.settings"
+local log = require "utils.log"
+local flow = require "utils.flow"
+local file = require "utils.file"
 
 local M = {}
 
+M.is_busy = false
+
 local initialized = false
 local patch_data_keys = {}
-local patch_data = {}
+local patch_index
+local patch_data
 local patch_data_compiled
+
+local os_sep = package.config:sub(1, 1)
+local patch_index = "patch"
+local patches_key = "patches"
+local patch_dir
+
+local function file_exists(name)
+	local f = io.open(name, "r")
+	return f ~= nil and io.close(f)
+end
 
 local function compile_patch_data()
 	patch_data_compiled = {}
@@ -18,65 +36,52 @@ local function compile_patch_data()
 
 	-- TODO: Some sort of event for everything to key off if they need to reset caches or something for new patch data
 end
+
+local function load_patch_index()
+	M.is_busy = true
+	flow.start(function()
+		local loaded_patch_index = defsave.file_exists(patch_index) and defsave.load(patch_index)
+		if loaded_patch_index then
+			patch_index = defsave.get(patch_file, patches_key) or {}
+		else
+			patch_index = {}
+		end
+
+		patch_data = {}
+		
+		for i=1,#patch_index do
+			local file_name = patch_index[i].file
+			if file_name ~= nil then
+				if file_exists(file_name) then					
+					local this_patch_data = file.load_file(patch_index[i].file)
+					if this_patch_data ~= nil then
+						table.insert(patch_data, this_patch_data)
+					else
+						table.insert(patch_data, { name = "ERROR", description = "Could not load patch file " .. tostring(patch_index[i].file) })
+					end
+				else
+					table.insert(patch_data, { name = "ERROR", description = "Could not find patch file " .. tostring(patch_index[i].file) })
+				end
+			else
+				table.insert(patch_data, { name = "ERROR", description = "Unknown patch file" })
+			end
+		end
+
+		-- If I understood how all this works right (I probably did not), the above should have loaded an index file (if one exists) and then M.is_loaded
+		-- some json into our patch_data. But I don't have time to test it right now, so just committing with a comment.
+
+		compile_patch_data()
+		M.is_busy = false
+	end)
+end
 	
 function M.init()
 	if not initialized then
 		initialized = true
+
+		patch_dir = defsave.get_file_path("") .. "patches" .. os_sep
+		load_patch_index()
 	end
-
-	-- TEMP, example data that could be loaded up
-	table.insert(patch_data, {
-		name = "Patch 1",
-		enabled = false,
-		data = {}
-	})
-	table.insert(patch_data, {
-		name = "Patch 2",
-		enabled = true,
-		data = {
-			Nature = {
-				Dumb = {
-					DisplayName = "Silly",
-				}
-			},
-			Pokedex = {
-				Electrode = {
-					WSp = 90,
-				},
-			},
-		}
-	})
-	
-	table.insert(patch_data, {
-		name = "Patch 3",
-		enabled = true,
-		data = {
-			Nature = {
-				Dumb = {
-					DisplayName = "Quiet",
-				}
-			},
-			Pokedex = {
-				Electrode = {
-					["Climbing Speed"] = 30,
-				},
-			},
-		}
-	})
-
-	table.insert(patch_data, {
-		name = "Patch 4",
-		enabled = false,
-		data = {
-			Nature = {
-				Dumb = {
-					DisplayName = "Bananas",
-				}
-			}
-		}
-	})
-
-	compile_patch_data()
 end
 
 function M.get_patch_data(key, path)

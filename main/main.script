@@ -126,6 +126,8 @@ function init(self)
 			flow.until_true(function() return not fakemon.BUSY end)
 		end
 		patch.init()
+		flow.until_true(function() return not patch.is_busy end)
+		
 		movedex.init()
 		natures.init()
 		pokedex.init()

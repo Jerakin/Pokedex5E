@@ -2,7 +2,6 @@ local defsave = require "defsave.defsave"
 local settings = require "pokedex.settings"
 local log = require "utils.log"
 local flow = require "utils.flow"
-local defsave = require "defsave.defsave"
 local zzlib = require "utils.zzlib"
 local file = require "utils.file"
 
