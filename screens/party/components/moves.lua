@@ -44,6 +44,17 @@ local function update_pp(pokemon, move)
 	p.x = p.x + gui.get_text_metrics_from_node(pp_current).width * gui.get_scale(pp_current).x
 	p.y = cp.y
 	gui.set_position(pp_max, p)
+
+	-- I would like to do this, but completely hiding just 1 of the buttons ends up looking kinda weird.
+	-- if would be better if there were some sort of "grayed out" state for buttons, but I can't find one...
+	--gui.set_enabled(gui.get_node("btn_minus_" .. current_index .. move), _pokemon.can_decrease_move_pp(pokemon, move))
+	--gui.set_enabled(gui.get_node("btn_plus_"  .. current_index .. move), _pokemon.can_increase_move_pp(pokemon, move))
+	
+	-- ... but it definitely doesn't look good to have buttons that you can NEVER press, so hide those
+	if type(current) ~= "number" then
+		gui.set_enabled(gui.get_node("btn_minus_" .. current_index .. move), false)
+		gui.set_enabled(gui.get_node("btn_plus_"  .. current_index .. move), false)
+	end
 end
 
 local function bind_buttons(nodes, name)
@@ -53,8 +64,10 @@ local function bind_buttons(nodes, name)
 		}
 		
 		local pp = _pokemon.decrease_move_pp(current_pokemon, name)
-		storage.set_pokemon_move_pp(_pokemon.get_id(current_pokemon), name, pp)
-		update_pp(current_pokemon, name)
+		if pp ~= nil then
+			storage.set_pokemon_move_pp(_pokemon.get_id(current_pokemon), name, pp)
+			update_pp(current_pokemon, name)
+		end			
 	end, refresh=gooey_buttons.minus_button
 	}
 
@@ -64,8 +77,10 @@ local function bind_buttons(nodes, name)
 		}
 		
 		local pp = _pokemon.increase_move_pp(current_pokemon, name)
-		storage.set_pokemon_move_pp(_pokemon.get_id(current_pokemon), name, pp)
-		update_pp(current_pokemon, name)
+		if pp ~= nil then
+			storage.set_pokemon_move_pp(_pokemon.get_id(current_pokemon), name, pp)
+			update_pp(current_pokemon, name)
+		end
 	end, refresh=gooey_buttons.plus_button
 	}
 
@@ -191,7 +206,7 @@ function M.create(nodes, pokemon, index)
 	current_pokemon = pokemon
 	active_move_lists[index].data = {}
 	active_move_lists[index].root = {}
-	local _moves = _pokemon.get_moves(pokemon)
+	local _moves = _pokemon.get_moves(pokemon, {append_known_to_all=true})
 	for _, name in pairs(getKeysSortedByValue(_moves, sort_on_index(a, b))) do
 		table.insert(active_move_lists[index].data, name)
 	end

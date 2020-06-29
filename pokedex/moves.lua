@@ -8,6 +8,7 @@ local M = {}
 
 
 local movedata = {}
+local known_to_all_moves = {}
 local move_machines
 
 local initialized = false
@@ -34,6 +35,13 @@ function M.get_move_pp(move)
 	return M.get_move_data(move).PP
 end
 
+function M.get_known_to_all_moves()
+	return known_to_all_moves
+end
+
+function M.is_move_known_to_all(move)
+	return M.get_known_to_all_moves()[move]
+end
 
 function M.get_move_type(move)
 	return M.get_move_data(move).Type
@@ -89,6 +97,10 @@ function M.init()
 		end
 
 		M.list = list()
+
+		-- I wanted to make this data-driven, but wasn't sure how MDATA.json is generated and how to test convert_to_game_data.py
+		known_to_all_moves = { Struggle = M.get_move_data("Struggle") }
+		
 		initialized = true
 	end
 end
