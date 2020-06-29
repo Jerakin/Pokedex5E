@@ -557,7 +557,15 @@ function M.get_skills(pokemon)
 end
 
 function M.get_move_pp(pokemon, move)
-	return pokemon.moves[move].pp
+	-- If the move somehow became nil (which can happen in corrupted data cases due to issue https://github.com/Jerakin/Pokedex5E/issues/407),
+	-- reset it to the move's base pp to avoid exceptions in other places. Ideally the corruption would never happen in the first place, but
+	-- some save data is already corrupt.
+	local pp = pokemon.moves[move].pp
+	if pp == nil then
+		pp = movedex.get_move_pp(move)
+		pokemon.moves[move].pp = pp
+	end
+	return pp
 end
 
 function M.get_move_pp_max(pokemon, move)
