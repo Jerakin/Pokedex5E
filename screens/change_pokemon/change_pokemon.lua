@@ -201,8 +201,7 @@ end
 local function redraw_moves(self)
 	local position = vmath.vector3()
 	local _, c = _pokemon.have_feat(self.pokemon, "Extra Move")
-	local known_to_all_c = #movedex.get_known_to_all_moves()
-	local moves_count = 4 + c + known_to_all_c
+	local moves_count = 4 + c
 	M.config[hash("change_pokemon/moves")].open.y = M.config[hash("change_pokemon/moves")].closed.y + math.ceil(moves_count/ 2) * 70
 
 	for _, b in pairs(move_buttons_list) do
