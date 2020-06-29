@@ -141,7 +141,6 @@ local function setup_move(pokemon, name, index)
 	local pp_max = gui.get_node("move_" .. index .. "/txt_pp_max")
 	gui.set_enabled(gui.get_node("move_" .. index .. "/root"), true)
 	local current = _pokemon.get_move_pp(pokemon, name)
-	local current = _pokemon.get_move_pp(pokemon, name)
 	if type(current) == "number" then
 		local max = _pokemon.get_move_pp_max(pokemon, name)
 		gui.set_text(pp_current, current)
