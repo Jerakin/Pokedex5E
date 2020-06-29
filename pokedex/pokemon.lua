@@ -562,8 +562,8 @@ function M.get_move_pp(pokemon, move)
 	-- some save data is already corrupt.
 	local pp = pokemon.moves[move].pp
 	if pp == nil then
-		pp = movedex.get_move_pp(move)
-		pokemon.moves[move].pp = pp
+		M.reset_move_pp(pokemon, move)
+		pp = pokemon.moves[move].pp
 	end
 	return pp
 end
@@ -572,7 +572,8 @@ function M.get_move_pp_max(pokemon, move)
 	local _, pp_extra = M.have_feat(pokemon, "Tireless")
 	local move_pp = movedex.get_move_pp(move)
 	if type(move_pp) == "string" then
-		return 99
+		-- probably move with Unlimited uses, i.e. Struggle
+		return move_pp
 	end
 	return movedex.get_move_pp(move) + pp_extra
 end
