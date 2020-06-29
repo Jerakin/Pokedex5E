@@ -587,12 +587,13 @@ function M.get_move_pp(pokemon, move)
 end
 
 function M.get_move_pp_max(pokemon, move)
-	local _, pp_extra = M.have_feat(pokemon, "Tireless")
 	local move_pp = movedex.get_move_pp(move)
 	if type(move_pp) == "string" then
-		return 99
+		return move_pp
+	else
+		local _, pp_extra = M.have_feat(pokemon, "Tireless")
+		return movedex.get_move_pp(move) + pp_extra
 	end
-	return movedex.get_move_pp(move) + pp_extra
 end
 
 function M.reset(pokemon)

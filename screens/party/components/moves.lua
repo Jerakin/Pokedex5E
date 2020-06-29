@@ -8,6 +8,7 @@ local gooey_buttons = require "utils.gooey_buttons"
 local monarch = require "monarch.monarch"
 local tracking_id = require "utils.tracking_id"
 local scrollhandler = require "screens.party.components.scrollhandler"
+local movedex = require "pokedex.moves"
 
 local M = {}
 
@@ -22,21 +23,31 @@ local function update_pp(pokemon, move)
 	local pp_current = gui.get_node("txt_pp_current_" .. current_index .. move)
 	local pp_max = gui.get_node("txt_pp_max_" .. current_index .. move)
 
-	local current = _pokemon.get_move_pp(pokemon, move)
-	if type(current) == "number" then
+	local valid_pp_numbers = false
+	local dex_pp = movedex.get_move_pp(move)
+	if type(dex_pp) == "number" then
+		local current = _pokemon.get_move_pp(pokemon, move)
 		local max = _pokemon.get_move_pp_max(pokemon, move)
-		gui.set_text(pp_current, current)
-		gui.set_text(pp_max, "/" .. max)
-		if current == 0 then
-			gui.set_color(pp_current, gui_colors.RED)
-		elseif current < max then
-			gui.set_color(pp_current, gui_colors.RED)
-		else
-			gui.set_color(pp_current, gui_colors.GREEN)
+		if type(current) == "number" and type(max) == "number" then
+			gui.set_text(pp_current, current)
+			gui.set_text(pp_max, "/" .. max)
+			if current == 0 then
+				gui.set_color(pp_current, gui_colors.RED)
+			elseif current < max then
+				gui.set_color(pp_current, gui_colors.RED)
+			else
+				gui.set_color(pp_current, gui_colors.GREEN)
+			end
+			valid_pp_numbers = true
 		end
-	else
+	end
+	
+	if not valid_pp_numbers then
+		-- Weird state - something with this pp was not a number. This is probably one of the many
+		-- edge cases with Struggle, the only move currently with a non-number amount of pp (Unlimited).
+		-- Show the text instead as the text we got from the movedex
 		gui.set_text(pp_current, "")
-		gui.set_text(pp_max, string.sub(current, 1, 5) .. ".")
+		gui.set_text(pp_max, string.sub(dex_pp, 1, 5) .. ".")
 	end
 	
 	local p = gui.get_position(pp_current)
@@ -51,7 +62,7 @@ local function update_pp(pokemon, move)
 	--gui.set_enabled(gui.get_node("btn_plus_"  .. current_index .. move), _pokemon.can_increase_move_pp(pokemon, move))
 	
 	-- ... but it definitely doesn't look good to have buttons that you can NEVER press, so hide those
-	if type(current) ~= "number" then
+	if not valid_pp_numbers then
 		gui.set_enabled(gui.get_node("btn_minus_" .. current_index .. move), false)
 		gui.set_enabled(gui.get_node("btn_plus_"  .. current_index .. move), false)
 	end
