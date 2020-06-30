@@ -580,7 +580,15 @@ end
 function M.get_move_pp(pokemon, move)
 	local pokemon_move = pokemon.moves[move]
 	if pokemon_move then
-		return pokemon_move.pp
+		-- If the move somehow became nil (which can happen in corrupted data cases due to issue https://github.com/Jerakin/Pokedex5E/issues/407),
+		-- reset it to the move's base pp to avoid exceptions in other places. Ideally the corruption would never happen in the first place, but
+		-- some save data is already corrupt.
+		local pp = pokemon_move.pp
+		if pp == nil then
+			M.reset_move_pp(pokemon, move)
+			pp = pokemon.moves[move].pp
+		end
+		return pp
 	end
 	-- The pokemon doesn't actually "know" this move - likely a "known to all" move. Return pp of the move itself
 	return movedex.get_move_pp(move)
@@ -589,6 +597,7 @@ end
 function M.get_move_pp_max(pokemon, move)
 	local move_pp = movedex.get_move_pp(move)
 	if type(move_pp) == "string" then
+		-- probably move with Unlimited uses, i.e. Struggle
 		return move_pp
 	else
 		local _, pp_extra = M.have_feat(pokemon, "Tireless")
