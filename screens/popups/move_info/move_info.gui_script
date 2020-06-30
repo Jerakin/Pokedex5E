@@ -100,7 +100,7 @@ local function reset()
 	end	
 	gui.set_text(gui.get_node("txt_pp"), pp_text)
 	notify.notify("PP for " .. data.name .. " has been reset")
-	msg.post(url.PARTY, "refresh")
+	msg.post(url.PARTY, "refresh_pp")
 end
 
 function on_input(self, action_id, action)
