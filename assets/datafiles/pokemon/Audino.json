@@ -1,10 +1,15 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Healer",
+    "Regenerator"
+  ],
+  "HP": 70,
+  "Hidden Ability": "Klutz",
+  "Hit Dice": 12,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Double Slap",
-        "Attract"
-      ],
       "10": [
         "Secret Power",
         "Entrainment"
@@ -19,6 +24,10 @@
         "Double-Edge",
         "Hyper Voice",
         "Last Resort"
+      ],
+      "6": [
+        "Double Slap",
+        "Attract"
       ]
     },
     "Starting Moves": [
@@ -76,36 +85,27 @@
       100
     ]
   },
-  "index": 531,
-  "Abilities": [
-    "Healer",
-    "Regenerator"
+  "SR": 10.0,
+  "Skill": [
+    "Medicine",
+    "Perception"
   ],
   "Type": [
     "Normal",
     "Fairy"
   ],
-  "SR": 10.0,
-  "AC": 16,
-  "Hit Dice": 12,
-  "HP": 70,
   "WSp": 25,
   "attributes": {
-    "STR": 15,
-    "DEX": 13,
+    "CHA": 16,
     "CON": 18,
+    "DEX": 13,
     "INT": 6,
-    "WIS": 10,
-    "CHA": 16
+    "STR": 15,
+    "WIS": 10
   },
-  "MIN LVL FD": 5,
+  "index": 531,
   "saving_throws": [
     "CON",
     "CHA"
-  ],
-  "Skill": [
-    "Medicine",
-    "Perception"
-  ],
-  "Hidden Ability": "Klutz"
+  ]
 }

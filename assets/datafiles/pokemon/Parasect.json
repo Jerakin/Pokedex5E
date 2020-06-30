@@ -1,9 +1,15 @@
 {
+  "AC": 15,
+  "Abilities": [
+    "Effect Spore",
+    "Dry Skin"
+  ],
+  "HP": 55,
+  "Hidden Ability": "Damp",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Fury Cutter"
-      ],
       "10": [
         "Spore"
       ],
@@ -16,6 +22,9 @@
         "Aromatherapy",
         "Rage Powder",
         "X-Scissor"
+      ],
+      "6": [
+        "Fury Cutter"
       ]
     },
     "Starting Moves": [
@@ -59,39 +68,30 @@
       100
     ]
   },
-  "index": 47,
-  "Abilities": [
-    "Effect Spore",
-    "Dry Skin"
-  ],
-  "Type": [
-    "Bug",
-    "Grass"
-  ],
   "SR": 7.0,
-  "AC": 15,
-  "Hit Dice": 10,
-  "HP": 55,
-  "WSp": 30,
   "Senses": [
     "Darkvision 50ft.",
     "Tremorsense 60ft."
-  ],
-  "attributes": {
-    "STR": 16,
-    "DEX": 12,
-    "CON": 16,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "CON"
   ],
   "Skill": [
     "Nature",
     "Survival"
   ],
-  "Hidden Ability": "Damp"
+  "Type": [
+    "Bug",
+    "Grass"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 10,
+    "CON": 16,
+    "DEX": 12,
+    "INT": 6,
+    "STR": 16,
+    "WIS": 12
+  },
+  "index": 47,
+  "saving_throws": [
+    "CON"
+  ]
 }

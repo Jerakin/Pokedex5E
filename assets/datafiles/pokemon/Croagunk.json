@@ -1,15 +1,16 @@
 {
+  "AC": 12,
+  "Abilities": [
+    "Anticipation",
+    "Dry Skin"
+  ],
+  "Evolve": "Toxicroak",
+  "HP": 17,
+  "Hidden Ability": "Poison Touch",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Poison Sting",
-        "Taunt"
-      ],
-      "6": [
-        "Pursuit",
-        "Feint Attack",
-        "Revenge"
-      ],
       "10": [
         "Swagger",
         "Mud Bomb",
@@ -24,6 +25,15 @@
         "Sludge Bomb",
         "Flatter",
         "Belch"
+      ],
+      "2": [
+        "Poison Sting",
+        "Taunt"
+      ],
+      "6": [
+        "Pursuit",
+        "Feint Attack",
+        "Revenge"
       ]
     },
     "Starting Moves": [
@@ -71,39 +81,29 @@
       100
     ]
   },
-  "index": 453,
-  "Abilities": [
-    "Anticipation",
-    "Dry Skin"
-  ],
-  "Type": [
-    "Poison",
-    "Fighting"
-  ],
   "SR": 0.25,
-  "AC": 12,
-  "Hit Dice": 6,
-  "HP": 17,
-  "WSp": 25,
-  "Ssp": 25,
   "Senses": [
     "Darkvision 30ft"
-  ],
-  "attributes": {
-    "STR": 11,
-    "DEX": 13,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 10
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Toxicroak",
-  "saving_throws": [
-    "CON"
   ],
   "Skill": [
     "Survival"
   ],
-  "Hidden Ability": "Poison Touch"
+  "Ssp": 25,
+  "Type": [
+    "Poison",
+    "Fighting"
+  ],
+  "WSp": 25,
+  "attributes": {
+    "CHA": 10,
+    "CON": 12,
+    "DEX": 13,
+    "INT": 6,
+    "STR": 11,
+    "WIS": 10
+  },
+  "index": 453,
+  "saving_throws": [
+    "CON"
+  ]
 }

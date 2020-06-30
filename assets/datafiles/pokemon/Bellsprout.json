@@ -1,15 +1,15 @@
 {
+  "AC": 11,
+  "Abilities": [
+    "Chlorophyll"
+  ],
+  "Evolve": "Weepinbell",
+  "HP": 18,
+  "Hidden Ability": "Gluttony",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Growth",
-        "Wrap"
-      ],
-      "6": [
-        "Sleep Powder",
-        "Poison Powder",
-        "Stun Spore"
-      ],
       "10": [
         "Acid",
         "Knock Off"
@@ -23,6 +23,15 @@
         "Poison Jab",
         "Slam",
         "Wring Out"
+      ],
+      "2": [
+        "Growth",
+        "Wrap"
+      ],
+      "6": [
+        "Sleep Powder",
+        "Poison Powder",
+        "Stun Spore"
       ]
     },
     "Starting Moves": [
@@ -57,38 +66,29 @@
       100
     ]
   },
-  "index": 69,
-  "Abilities": [
-    "Chlorophyll"
-  ],
-  "Type": [
-    "Grass",
-    "Poison"
-  ],
   "SR": 0.25,
-  "AC": 11,
-  "Hit Dice": 6,
-  "HP": 18,
-  "WSp": 20,
   "Senses": [
     "Tremorsense 20ft."
-  ],
-  "attributes": {
-    "STR": 10,
-    "DEX": 12,
-    "CON": 14,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 10
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Weepinbell",
-  "saving_throws": [
-    "CON"
   ],
   "Skill": [
     "Nature",
     "Survival"
   ],
-  "Hidden Ability": "Gluttony"
+  "Type": [
+    "Grass",
+    "Poison"
+  ],
+  "WSp": 20,
+  "attributes": {
+    "CHA": 10,
+    "CON": 14,
+    "DEX": 12,
+    "INT": 6,
+    "STR": 10,
+    "WIS": 10
+  },
+  "index": 69,
+  "saving_throws": [
+    "CON"
+  ]
 }

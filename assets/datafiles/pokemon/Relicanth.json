@@ -1,10 +1,15 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Swift Swim",
+    "Rock Head"
+  ],
+  "HP": 42,
+  "Hidden Ability": "Sturdy",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Rock Tomb",
-        "Ancient Power"
-      ],
       "10": [
         "Dive",
         "Take Down"
@@ -17,6 +22,10 @@
         "Hydro Pump",
         "Double-Edge",
         "Head Smash"
+      ],
+      "6": [
+        "Rock Tomb",
+        "Ancient Power"
       ]
     },
     "Starting Moves": [
@@ -63,38 +72,29 @@
       100
     ]
   },
-  "index": 369,
-  "Abilities": [
-    "Swift Swim",
-    "Rock Head"
-  ],
-  "Type": [
-    "Water",
-    "Rock"
-  ],
   "SR": 8.0,
-  "AC": 16,
-  "Hit Dice": 10,
-  "HP": 42,
-  "Ssp": 20,
   "Senses": [
     "Blindsight 80ft."
-  ],
-  "attributes": {
-    "STR": 18,
-    "DEX": 13,
-    "CON": 18,
-    "INT": 6,
-    "WIS": 8,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "CON"
   ],
   "Skill": [
     "Survival",
     "History"
   ],
-  "Hidden Ability": "Sturdy"
+  "Ssp": 20,
+  "Type": [
+    "Water",
+    "Rock"
+  ],
+  "attributes": {
+    "CHA": 10,
+    "CON": 18,
+    "DEX": 13,
+    "INT": 6,
+    "STR": 18,
+    "WIS": 8
+  },
+  "index": 369,
+  "saving_throws": [
+    "CON"
+  ]
 }

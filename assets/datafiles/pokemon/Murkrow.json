@@ -1,14 +1,16 @@
 {
+  "AC": 13,
+  "Abilities": [
+    "Insomnia",
+    "Super Luck"
+  ],
+  "Fsp": 30,
+  "HP": 20,
+  "Hidden Ability": "Prankster",
+  "Hit Dice": 10,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Pursuit",
-        "Haze"
-      ],
-      "6": [
-        "Wing Attack",
-        "Night Shade"
-      ],
       "10": [
         "Assurance",
         "Taunt"
@@ -23,6 +25,14 @@
         "Sucker Punch",
         "Torment",
         "Quash"
+      ],
+      "2": [
+        "Pursuit",
+        "Haze"
+      ],
+      "6": [
+        "Wing Attack",
+        "Night Shade"
       ]
     },
     "Starting Moves": [
@@ -66,40 +76,30 @@
       100
     ]
   },
-  "index": 198,
-  "Abilities": [
-    "Insomnia",
-    "Super Luck"
-  ],
-  "Type": [
-    "Dark",
-    "Flying"
-  ],
   "SR": 2.0,
-  "AC": 13,
-  "Hit Dice": 10,
-  "HP": 20,
-  "WSp": 20,
-  "Fsp": 30,
   "Senses": [
     "Darkvision 30ft."
-  ],
-  "attributes": {
-    "STR": 12,
-    "DEX": 16,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 14,
-    "CHA": 8
-  },
-  "MIN LVL FD": 1,
-  "saving_throws": [
-    "WIS",
-    "DEX"
   ],
   "Skill": [
     "Insight",
     "Deception"
   ],
-  "Hidden Ability": "Prankster"
+  "Type": [
+    "Dark",
+    "Flying"
+  ],
+  "WSp": 20,
+  "attributes": {
+    "CHA": 8,
+    "CON": 12,
+    "DEX": 16,
+    "INT": 6,
+    "STR": 12,
+    "WIS": 14
+  },
+  "index": 198,
+  "saving_throws": [
+    "WIS",
+    "DEX"
+  ]
 }

@@ -1,10 +1,15 @@
 {
+  "AC": 14,
+  "Abilities": [
+    "Intimidate",
+    "Quick Feet"
+  ],
+  "HP": 45,
+  "Hidden Ability": "Moxie",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Roar",
-        "Swagger"
-      ],
       "10": [
         "Assurance",
         "Scary Face",
@@ -19,6 +24,10 @@
         "Take Down",
         "Sucker Punch",
         "Play Rough"
+      ],
+      "6": [
+        "Roar",
+        "Swagger"
       ]
     },
     "Starting Moves": [
@@ -63,36 +72,27 @@
       100
     ]
   },
-  "index": 262,
-  "Abilities": [
-    "Intimidate",
-    "Quick Feet"
-  ],
-  "Type": [
-    "Dark"
-  ],
   "SR": 5.0,
-  "AC": 14,
-  "Hit Dice": 10,
-  "HP": 45,
-  "WSp": 35,
   "Senses": [
     "Darkvision 50ft."
-  ],
-  "attributes": {
-    "STR": 15,
-    "DEX": 15,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "DEX"
   ],
   "Skill": [
     "Stealth"
   ],
-  "Hidden Ability": "Moxie"
+  "Type": [
+    "Dark"
+  ],
+  "WSp": 35,
+  "attributes": {
+    "CHA": 10,
+    "CON": 12,
+    "DEX": 15,
+    "INT": 6,
+    "STR": 15,
+    "WIS": 12
+  },
+  "index": 262,
+  "saving_throws": [
+    "DEX"
+  ]
 }

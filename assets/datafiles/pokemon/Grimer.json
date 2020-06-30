@@ -1,15 +1,16 @@
 {
+  "AC": 12,
+  "Abilities": [
+    "Stench",
+    "Sticky Hold"
+  ],
+  "Evolve": "Muk",
+  "HP": 19,
+  "Hidden Ability": "Poison Touch",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Harden",
-        "Mud-Slap"
-      ],
-      "6": [
-        "Disable",
-        "Sludge",
-        "Mud Bomb"
-      ],
       "10": [
         "Minimize",
         "Fling"
@@ -24,6 +25,15 @@
         "Acid Armor",
         "Memento",
         "Belch"
+      ],
+      "2": [
+        "Harden",
+        "Mud-Slap"
+      ],
+      "6": [
+        "Disable",
+        "Sludge",
+        "Mud Bomb"
       ]
     },
     "Starting Moves": [
@@ -65,37 +75,27 @@
       100
     ]
   },
-  "index": 88,
-  "Abilities": [
-    "Stench",
-    "Sticky Hold"
-  ],
-  "Type": [
-    "Poison"
-  ],
   "SR": 0.5,
-  "AC": 12,
-  "Hit Dice": 6,
-  "HP": 19,
-  "WSp": 15,
   "Senses": [
     "Darkvision 30ft."
-  ],
-  "attributes": {
-    "STR": 14,
-    "DEX": 9,
-    "CON": 16,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 8
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Muk",
-  "saving_throws": [
-    "CON"
   ],
   "Skill": [
     "Stealth"
   ],
-  "Hidden Ability": "Poison Touch"
+  "Type": [
+    "Poison"
+  ],
+  "WSp": 15,
+  "attributes": {
+    "CHA": 8,
+    "CON": 16,
+    "DEX": 9,
+    "INT": 6,
+    "STR": 14,
+    "WIS": 10
+  },
+  "index": 88,
+  "saving_throws": [
+    "CON"
+  ]
 }
