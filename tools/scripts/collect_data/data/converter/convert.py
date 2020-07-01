@@ -67,7 +67,7 @@ def _clean_output(d):
 class Pokemon:
     RE_STARTING_MOVES = re.compile("Starting Moves: ([A-Za-z ,-12']*)")
     RE_TM_MOVES = re.compile("TM: (.*)")
-    RE_LEVEL_MOVES = re.compile("Level (\d+): ([A-Za-z ,-]*)")
+    RE_LEVEL_MOVES = re.compile("Level (\d+): ([A-Za-z ,'-]*)")
 
     def __init__(self, header):
         self.header = header
@@ -106,8 +106,6 @@ class Pokemon:
         self.output_data["Abilities"].append(csv_row[self.header.index("Ability2")])
         self.output_data["Hidden Ability"] = _string(csv_row[self.header.index("HiddenAbility")])
 
-        _clean(self.output_data["Abilities"])
-
     def setup_senses(self, csv_row):
         self.output_data["Senses"] = _list(csv_row[self.header.index("Senses")])
 
@@ -116,9 +114,6 @@ class Pokemon:
 
     def setup_skill(self, csv_row):
         self.output_data["Skill"] = _list(csv_row[self.header.index("Skill")])
-        _clean(self.output_data["Skill"])
-        if not self.output_data["Skill"]:
-            del self.output_data["Skill"]
 
     def setup_saving_throws(self, csv_row):
         self.output_data["saving_throws"] = []
@@ -129,9 +124,6 @@ class Pokemon:
             self.output_data["saving_throws"].append(first_saving_throw)
             self.output_data["saving_throws"].append(csv_row[self.header.index("ST2")])
             self.output_data["saving_throws"].append(csv_row[self.header.index("ST3")])
-        _clean(self.output_data["saving_throws"])
-        if not self.output_data["saving_throws"]:
-            del self.output_data["saving_throws"]
 
     def setup_moves(self, csv_row):
         self.output_data["Moves"] = {}
@@ -155,8 +147,23 @@ class Pokemon:
             else:
                 self.output_data["Moves"]["TM"] = [int(x) for x in re.findall(r"[0-9]+", tm_moves.group(1))]
 
+    def cleanup(self):
+        _clean(self.output_data["Abilities"])
+
+        _clean(self.output_data["Skill"])
+        if not self.output_data["Skill"]:
+            del self.output_data["Skill"]
+
+        _clean(self.output_data["saving_throws"])
+        if not self.output_data["saving_throws"]:
+            del self.output_data["saving_throws"]
+
         if not self.output_data["Moves"]["TM"]:
             del self.output_data["Moves"]["TM"]
+
+        for level in ["2", "6", "10", "14", "18"]:
+            if level in self.output_data["Moves"]["Level"] and not self.output_data["Moves"]["Level"][level]:
+                del self.output_data["Moves"]["Level"][level]
 
     def setup(self, csv_row):
         self.name = fix_species_name(csv_row[self.header.index(POKEMON)])
@@ -177,6 +184,7 @@ class Pokemon:
 
         if self.name in util.MERGE_POKEMON_DATA:
             util.merge(self.output_data, util.MERGE_POKEMON_DATA[self.name])
+        self.cleanup()
 
     def save(self):
         name = clean_file_name(self.name)
@@ -197,6 +205,7 @@ class Evolve:
 
     def add(self, csv_row):
         species = fix_species_name(csv_row[self.header.index(POKEMON)])
+
         self.output_data[species] = {}
         self.output_data[species]["into"] = []
         self.output_data[species]["current_stage"] = _int(csv_row[self.header.index("Evo Stages with Eviolite")])
@@ -220,18 +229,22 @@ class Evolve:
             match = self.RE_MOVE.search(evolve_text)
             if match:
                 self.output_data[species]["move"] = match.group(1)
-            else:
-                match = self.RE_HOLDING.search(evolve_text)
-                if match:
-                    self.output_data[species]["holding"] = match.group(1)
+            # else:
+            #     match = self.RE_HOLDING.search(evolve_text)
+            #     if match:
+            #         self.output_data[species]["holding"] = match.group(1)
 
-        if not self.output_data[species]["level"]:
-            del self.output_data[species]["level"]
-        if not self.output_data[species]["into"]:
-            del self.output_data[species]["into"]
-
-        if self.output_data[species]["current_stage"] == 1 and self.output_data[species]["total_stages"] == 1:
+        if self.output_data[species]["current_stage"] == 1 and self.output_data[species]["total_stages"] == 1 and not self.output_data[species]["level"]:
             del self.output_data[species]
+
+        if species in self.output_data:
+            if not self.output_data[species]["level"]:
+                del self.output_data[species]["level"]
+            if not self.output_data[species]["into"]:
+                del self.output_data[species]["into"]
+
+        if species in util.MERGE_EVOLVE_DATA:
+            util.merge(self.output_data[species], util.MERGE_EVOLVE_DATA[species])
 
     def save(self):
         with (util.OUTPUT / "evolve.json").open("w", encoding="utf-8") as fp:
@@ -283,6 +296,9 @@ class FilterData:
         self.output_data[species]["Type"] = _list(csv_row[self.header.index("Type")], "/")
         self.output_data[species]["SR"] = _float(csv_row[self.header.index("SR")])
         self.output_data[species]["MIN LVL FD"] = _int(csv_row[self.header.index("MIN LVL FD")])
+
+        if species in util.MERGE_FILTER_DATA:
+            util.merge(self.output_data[species], util.MERGE_FILTER_DATA[species])
 
     def save(self):
         with (util.OUTPUT / "filter_data.json").open("w", encoding="utf-8") as fp:

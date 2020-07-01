@@ -10,6 +10,7 @@ POKEMON_OUTPUT = OUTPUT / "pokemon"
 
 ATTRIBUTES = ["STR", "CON", "DEX", "INT", "WIS", "CHA"]
 
+
 def __load(path):
     with path.open(encoding="utf-8") as fp:
         json_data = json.load(fp)
@@ -22,6 +23,8 @@ def load_extra(name):
 
 
 MERGE_POKEMON_DATA = load_extra("pokemon")
+MERGE_EVOLVE_DATA = load_extra("evolve")
+MERGE_FILTER_DATA = load_extra("filter_data")
 
 
 def merge(a, b, path=None):
