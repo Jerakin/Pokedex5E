@@ -154,4 +154,4 @@ def convert_mdata(input_csv, header=DEFAULT_HEADER):
 
 
 if __name__ == '__main__':
-    convert_mdata(util.ROOT / "MDATA.csv")
+    convert_mdata(util.DATA / "MDATA.csv")

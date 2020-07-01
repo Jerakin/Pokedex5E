@@ -29,9 +29,7 @@ def convert_all(folder):
 
 
 if __name__ == '__main__':
-    if True:
-        convert_all(util.DATA)
-    elif len(sys.argv) == 2:
+    if len(sys.argv) == 2:
         argument = Path(sys.argv[1])
         if argument.exists():
             if argument.is_file() and argument.suffix == ".json":
