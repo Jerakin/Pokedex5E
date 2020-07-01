@@ -1,8 +1,10 @@
 import re
 import csv
 import json
-
-from collect_data.data.converter import util
+try:
+    import scripts.source_data.util.util as util
+except ModuleNotFoundError:
+    from util import util
 
 POKEMON = "Pokémon"
 DEFAULT_HEADER = ("Index Number", "Evo Stages with Eviolite", "Evo Stages w/o Eviolite", POKEMON, "Type", "SR", "AC",
@@ -270,6 +272,8 @@ def convert_pdata(input_csv, header=DEFAULT_HEADER):
         total = 0
         for row in reader:
             total += 1
+            if not row:
+                continue
             pokemon_list.append(row)
 
         # Rewind the csv file and create all the json files
@@ -282,7 +286,9 @@ def convert_pdata(input_csv, header=DEFAULT_HEADER):
         index_order = IndexOrder(header)
 
         for index, row in enumerate(reader, 1):
-            util.update_progress(index/total)
+            if not row:
+                continue
+            util.update_progress(index / total)
 
             # Each row is one Pokemon
             poke = Pokemon(header)
@@ -299,4 +305,4 @@ def convert_pdata(input_csv, header=DEFAULT_HEADER):
 
 
 if __name__ == '__main__':
-    convert_pdata(util.CONVERTER / "PDATA.csv")
+    convert_pdata(util.DATA / "PDATA.csv")

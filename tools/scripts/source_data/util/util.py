@@ -3,9 +3,11 @@ from pathlib import Path
 import sys
 
 
-CONVERTER = Path(__file__).parent
-ASSETS = CONVERTER / "assets"
-OUTPUT = CONVERTER.parent.parent.parent.parent.parent / "assets" / "datafiles"
+ROOT = Path(__file__).parent.parent
+DATA = ROOT / "data"
+ASSETS = ROOT / "converters" / "assets"
+
+OUTPUT = ROOT.parent.parent.parent / "assets" / "datafiles"
 POKEMON_OUTPUT = OUTPUT / "pokemon"
 MOVES_OUTPUT = OUTPUT / "moves"
 

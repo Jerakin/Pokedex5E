@@ -2,8 +2,10 @@ import re
 import csv
 import json
 
-from collect_data.data.converter import util
-
+try:
+    import scripts.source_data.util.util as util
+except ModuleNotFoundError:
+    from util import util
 
 POKEMON = "Pokémon"
 DEFAULT_HEADER = ("Name", "Type", "Move Power", "Move Time", "PP", "Duration", "Range", "Description",
@@ -139,7 +141,9 @@ def convert_mdata(input_csv, header=DEFAULT_HEADER):
         next(reader)
 
         for index, row in enumerate(reader, 1):
-            util.update_progress(index/total)
+            if not row:
+                continue
+            util.update_progress(index / total)
 
             # Each row is one Pokemon
             move = Move(header)
@@ -150,4 +154,4 @@ def convert_mdata(input_csv, header=DEFAULT_HEADER):
 
 
 if __name__ == '__main__':
-    convert_mdata(util.CONVERTER / "MDATA.csv")
+    convert_mdata(util.ROOT / "MDATA.csv")
