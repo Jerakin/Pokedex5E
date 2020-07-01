@@ -4,48 +4,12 @@ import json
 
 from collect_data.data.converter import util
 
-
-export_folder = ""
-
 POKEMON = "Pokémon"
-
 DEFAULT_HEADER = ("Index Number", "Evo Stages with Eviolite", "Evo Stages w/o Eviolite", POKEMON, "Type", "SR", "AC",
                   "Hit Dice", "HP", "", "", "WSp", "Ssp", "Fsp", "Senses", "STR", "DEX", "CON", "INT", "WIS", "CHA",
                   "MIN LVL FD", "Ev", "Evolve", "Evo Stages", "ST1", "ST2", "ST3", "Skill", "Res", "Vul", "Imm",
                   "Ability1", "Ability2", "HiddenAbility", "Moves", "Evolution for sheet", "Evolve Bonus",
                   "Climbing Speed", "Burrowing Speed", "Description 17")
-
-
-def _int(value):
-    if value:
-        return int(value)
-    return None
-
-
-def _float(value):
-    if value:
-        return float(value)
-    return None
-
-
-def _string(value):
-    if value and value != "None":
-        return value.strip('"').strip()
-    return None
-
-
-def _list(value, sep=','):
-    if value:
-        return [_string(x) for x in value.split(sep)]
-    return None
-
-
-def _clean(obj):
-    if not obj:
-        return
-    for index in range(len(obj))[::-1]:
-        if not obj[index] or obj[index] == "None":
-            del obj[index]
 
 
 def clean_file_name(value):
@@ -54,14 +18,6 @@ def clean_file_name(value):
 
 def fix_species_name(value):
     return value.replace(" - Small", "").replace("\n", " ").replace("Zygarde Complete Form", "Zygarde Complete Forme")
-
-
-def _clean_output(d):
-    if type(d) is dict:
-        return dict((k, _clean_output(v)) for k, v in d.items() if v is not None)
-        # return {k: v for k, clean_output(v) in d.items() if v is not None}
-    else:
-        return d
 
 
 class Pokemon:
@@ -76,44 +32,44 @@ class Pokemon:
         self.valid = True
 
     def setup_basic_stats(self, csv_row):
-        self.output_data["index"] = _int(csv_row[self.header.index("Index Number")])
-        self.output_data["SR"] = _float(csv_row[self.header.index("SR")])
-        self.output_data["Hit Dice"] = _int(csv_row[self.header.index("Hit Dice")])
-        self.output_data["MIN LVL FD"] = _int(csv_row[self.header.index("MIN LVL FD")])
-        self.output_data["HP"] = _int(csv_row[self.header.index("HP")])
-        self.output_data["AC"] = _int(csv_row[self.header.index("AC")])
-        self.output_data["Evolve"] = _string(csv_row[self.header.index("Evolve")])
+        self.output_data["index"] = util.ensure_int(csv_row[self.header.index("Index Number")])
+        self.output_data["SR"] = util.ensure_float(csv_row[self.header.index("SR")])
+        self.output_data["Hit Dice"] = util.ensure_int(csv_row[self.header.index("Hit Dice")])
+        self.output_data["MIN LVL FD"] = util.ensure_int(csv_row[self.header.index("MIN LVL FD")])
+        self.output_data["HP"] = util.ensure_int(csv_row[self.header.index("HP")])
+        self.output_data["AC"] = util.ensure_int(csv_row[self.header.index("AC")])
+        self.output_data["Evolve"] = util.ensure_string(csv_row[self.header.index("Evolve")])
 
     def setup_speed(self, csv_row):
-        self.output_data["WSp"] = _int(csv_row[self.header.index("WSp")])
-        self.output_data["Ssp"] = _int(csv_row[self.header.index("Ssp")])
-        self.output_data["Fsp"] = _int(csv_row[self.header.index("Fsp")])
-        self.output_data["Climbing Speed"] = _int(csv_row[self.header.index("Climbing Speed")])
-        self.output_data["Burrowing Speed"] = _string(csv_row[self.header.index("Burrowing Speed")])
+        self.output_data["WSp"] = util.ensure_int(csv_row[self.header.index("WSp")])
+        self.output_data["Ssp"] = util.ensure_int(csv_row[self.header.index("Ssp")])
+        self.output_data["Fsp"] = util.ensure_int(csv_row[self.header.index("Fsp")])
+        self.output_data["Climbing Speed"] = util.ensure_int(csv_row[self.header.index("Climbing Speed")])
+        self.output_data["Burrowing Speed"] = util.ensure_string(csv_row[self.header.index("Burrowing Speed")])
 
     def setup_attributes(self, csv_row):
         self.output_data["attributes"] = {}
-        self.output_data["attributes"]["STR"] = _int(csv_row[self.header.index("STR")])
-        self.output_data["attributes"]["DEX"] = _int(csv_row[self.header.index("DEX")])
-        self.output_data["attributes"]["CON"] = _int(csv_row[self.header.index("CON")])
-        self.output_data["attributes"]["INT"] = _int(csv_row[self.header.index("INT")])
-        self.output_data["attributes"]["WIS"] = _int(csv_row[self.header.index("WIS")])
-        self.output_data["attributes"]["CHA"] = _int(csv_row[self.header.index("CHA")])
+        self.output_data["attributes"]["STR"] = util.ensure_int(csv_row[self.header.index("STR")])
+        self.output_data["attributes"]["DEX"] = util.ensure_int(csv_row[self.header.index("DEX")])
+        self.output_data["attributes"]["CON"] = util.ensure_int(csv_row[self.header.index("CON")])
+        self.output_data["attributes"]["INT"] = util.ensure_int(csv_row[self.header.index("INT")])
+        self.output_data["attributes"]["WIS"] = util.ensure_int(csv_row[self.header.index("WIS")])
+        self.output_data["attributes"]["CHA"] = util.ensure_int(csv_row[self.header.index("CHA")])
 
     def setup_abilities(self, csv_row):
         self.output_data["Abilities"] = []
         self.output_data["Abilities"].append(csv_row[self.header.index("Ability1")])
         self.output_data["Abilities"].append(csv_row[self.header.index("Ability2")])
-        self.output_data["Hidden Ability"] = _string(csv_row[self.header.index("HiddenAbility")])
+        self.output_data["Hidden Ability"] = util.ensure_string(csv_row[self.header.index("HiddenAbility")])
 
     def setup_senses(self, csv_row):
-        self.output_data["Senses"] = _list(csv_row[self.header.index("Senses")])
+        self.output_data["Senses"] = util.ensure_list(csv_row[self.header.index("Senses")])
 
     def setup_type(self, csv_row):
-        self.output_data["Type"] = _list(csv_row[self.header.index("Type")], "/")
+        self.output_data["Type"] = util.ensure_list(csv_row[self.header.index("Type")], "/")
 
     def setup_skill(self, csv_row):
-        self.output_data["Skill"] = _list(csv_row[self.header.index("Skill")])
+        self.output_data["Skill"] = util.ensure_list(csv_row[self.header.index("Skill")])
 
     def setup_saving_throws(self, csv_row):
         self.output_data["saving_throws"] = []
@@ -133,7 +89,7 @@ class Pokemon:
         move_text = csv_row[self.header.index("Moves")]
         starting_moves = self.RE_STARTING_MOVES.match(move_text)
         if starting_moves:
-            self.output_data["Moves"]["Starting Moves"] = _list(starting_moves.group(1))
+            self.output_data["Moves"]["Starting Moves"] = util.ensure_list(starting_moves.group(1))
 
         lvl_moves = self.RE_LEVEL_MOVES.findall(move_text)
         if lvl_moves:
@@ -148,13 +104,13 @@ class Pokemon:
                 self.output_data["Moves"]["TM"] = [int(x) for x in re.findall(r"[0-9]+", tm_moves.group(1))]
 
     def cleanup(self):
-        _clean(self.output_data["Abilities"])
+        util.clean_object(self.output_data["Abilities"])
 
-        _clean(self.output_data["Skill"])
+        util.clean_object(self.output_data["Skill"])
         if not self.output_data["Skill"]:
             del self.output_data["Skill"]
 
-        _clean(self.output_data["saving_throws"])
+        util.clean_object(self.output_data["saving_throws"])
         if not self.output_data["saving_throws"]:
             del self.output_data["saving_throws"]
 
@@ -189,7 +145,7 @@ class Pokemon:
     def save(self):
         name = clean_file_name(self.name)
         with (util.POKEMON_OUTPUT / (name + ".json")).open("w", encoding="utf-8") as fp:
-            json.dump(_clean_output(self.output_data), fp, ensure_ascii=False, indent="  ", sort_keys=True)
+            json.dump(util.clean_dict(self.output_data), fp, ensure_ascii=False, indent="  ", sort_keys=True)
 
 
 class Evolve:
@@ -208,8 +164,8 @@ class Evolve:
 
         self.output_data[species] = {}
         self.output_data[species]["into"] = []
-        self.output_data[species]["current_stage"] = _int(csv_row[self.header.index("Evo Stages with Eviolite")])
-        self.output_data[species]["total_stages"] = _int(csv_row[self.header.index("Evo Stages w/o Eviolite")])
+        self.output_data[species]["current_stage"] = util.ensure_int(csv_row[self.header.index("Evo Stages with Eviolite")])
+        self.output_data[species]["total_stages"] = util.ensure_int(csv_row[self.header.index("Evo Stages w/o Eviolite")])
         evolve_text = csv_row[self.header.index("Evolution for sheet")]
 
         # Iterate all Pokemon names and see if they are in the description
@@ -270,7 +226,7 @@ class IndexOrder:
         self.output_data = {}
 
     def add(self, csv_row):
-        value = _int(csv_row[self.header.index("Index Number")])
+        value = util.ensure_int(csv_row[self.header.index("Index Number")])
         species = fix_species_name(csv_row[self.header.index(POKEMON)])
 
         if value not in self.output_data:
@@ -291,11 +247,11 @@ class FilterData:
         species = fix_species_name(csv_row[self.header.index(POKEMON)])
         if species not in self.output_data:
             self.output_data[species] = {}
-        self.output_data[species]["index"] = _int(csv_row[self.header.index("Index Number")])
+        self.output_data[species]["index"] = util.ensure_int(csv_row[self.header.index("Index Number")])
 
-        self.output_data[species]["Type"] = _list(csv_row[self.header.index("Type")], "/")
-        self.output_data[species]["SR"] = _float(csv_row[self.header.index("SR")])
-        self.output_data[species]["MIN LVL FD"] = _int(csv_row[self.header.index("MIN LVL FD")])
+        self.output_data[species]["Type"] = util.ensure_list(csv_row[self.header.index("Type")], "/")
+        self.output_data[species]["SR"] = util.ensure_float(csv_row[self.header.index("SR")])
+        self.output_data[species]["MIN LVL FD"] = util.ensure_int(csv_row[self.header.index("MIN LVL FD")])
 
         if species in util.MERGE_FILTER_DATA:
             util.merge(self.output_data[species], util.MERGE_FILTER_DATA[species])
@@ -305,44 +261,42 @@ class FilterData:
             json.dump(self.output_data, fp, ensure_ascii=False, indent="  ")
 
 
-class ConverterPokemon:
-    def __init__(self, input_csv, header=DEFAULT_HEADER):
+def convert_pdata(input_csv, header=DEFAULT_HEADER):
+    with open(input_csv, "r", encoding="utf-8") as fp:
+        # We need to first create a list of all Pokemon for later use
+        reader = csv.reader(fp, delimiter=",", quotechar='"')
 
-        with open(input_csv, "r", encoding="utf-8") as fp:
-            # We need to first create a list of all Pokemon for later use
-            reader = csv.reader(fp, delimiter=",", quotechar='"')
+        pokemon_list = PokemonList(header)
+        total = 0
+        for row in reader:
+            total += 1
+            pokemon_list.append(row)
 
-            pokemon_list = PokemonList(header)
-            total = 0
-            for row in reader:
-                total += 1
-                pokemon_list.append(row)
+        # Rewind the csv file and create all the json files
+        fp.seek(0)
+        reader = csv.reader(fp, delimiter=",", quotechar='"')
+        next(reader)
 
-            # Rewind the csv file and create all the json files
-            fp.seek(0)
-            reader = csv.reader(fp, delimiter=",", quotechar='"')
-            next(reader)
+        evolve = Evolve(header, pokemon_list)
+        filter_data = FilterData(header)
+        index_order = IndexOrder(header)
 
-            evolve = Evolve(header, pokemon_list)
-            filter_data = FilterData(header)
-            index_order = IndexOrder(header)
+        for index, row in enumerate(reader, 1):
+            util.update_progress(index/total)
 
-            for index, row in enumerate(reader, 1):
-                util.update_progress(index/total)
+            # Each row is one Pokemon
+            poke = Pokemon(header)
+            poke.setup(row)
+            if poke.valid:
+                poke.save()
 
-                # Each row is one Pokemon
-                poke = Pokemon(header)
-                poke.setup(row)
-                if poke.valid:
-                    poke.save()
-
-                    evolve.add(row)
-                    filter_data.add(row)
-                    index_order.add(row)
-            evolve.save()
-            filter_data.save()
-            index_order.save()
+                evolve.add(row)
+                filter_data.add(row)
+                index_order.add(row)
+        evolve.save()
+        filter_data.save()
+        index_order.save()
 
 
 if __name__ == '__main__':
-    ConverterPokemon(util.CONVERTER / "PDATA.csv")
+    convert_pdata(util.CONVERTER / "PDATA.csv")

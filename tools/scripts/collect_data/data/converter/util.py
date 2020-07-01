@@ -62,3 +62,43 @@ def update_progress(progress):
     text = "\rPercent: [{}] {:.1f}% {}".format("#"*block + "-"*(bar_length-block), progress*100, status)
     sys.stdout.write(text)
     sys.stdout.flush()
+
+
+def ensure_int(value):
+    if value:
+        return int(value)
+    return None
+
+
+def ensure_float(value):
+    if value:
+        return float(value)
+    return None
+
+
+def ensure_string(value):
+    if value and value != "None":
+        return value.strip('"').strip()
+    return None
+
+
+def ensure_list(value, sep=','):
+    if value:
+        return [ensure_string(x) for x in value.split(sep)]
+    return None
+
+
+def clean_object(obj):
+    if not obj:
+        return
+    for index in range(len(obj))[::-1]:
+        if not obj[index] or obj[index] == "None":
+            del obj[index]
+
+
+def clean_dict(d):
+    if type(d) is dict:
+        return dict((k, clean_dict(v)) for k, v in d.items() if v is not None)
+        # return {k: v for k, clean_output(v) in d.items() if v is not None}
+    else:
+        return d
