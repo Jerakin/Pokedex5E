@@ -471,8 +471,29 @@ function M.set_move(pokemon, new_move, index)
 	pokemon.moves[new_move] = {pp=pp, index=index}
 end
 
-function M.get_moves(pokemon)
-	return pokemon.moves
+function M.get_moves(pokemon, options)
+	local append_known_to_all = false
+	if options ~= nil then
+		append_known_to_all = options.append_known_to_all == true
+	end
+
+	if append_known_to_all then
+		local ret = {}
+		local count = 1
+		for k,v in pairs(pokemon.moves) do
+			if not movedex.is_move_known_to_all(k) then -- Pokemon has this move in its move set, but ALL Pokemon know this move. We'll ignore this move for now, and tack it on later so it shows up at the end.
+				ret[k] = v
+				count = count + 1
+			end
+		end
+		for k,v in pairs(movedex.get_known_to_all_moves()) do
+			ret[k] = {pp=movedex.get_move_pp(k), index=count}
+			count = count + 1
+		end
+		return ret
+	else
+		return pokemon.moves
+	end
 end
 
 function M.get_nature(pokemon)
@@ -557,29 +578,31 @@ function M.get_skills(pokemon)
 end
 
 function M.get_move_pp(pokemon, move)
-	-- If the move somehow became nil (which can happen in corrupted data cases due to issue https://github.com/Jerakin/Pokedex5E/issues/407),
-	-- reset it to the move's base pp to avoid exceptions in other places. Ideally the corruption would never happen in the first place, but
-	-- some save data is already corrupt.
-	local pp = pokemon.moves[move].pp
-	if pp == nil then
-		M.reset_move_pp(pokemon, move)
-		pp = pokemon.moves[move].pp
+	local pokemon_move = pokemon.moves[move]
+	if pokemon_move then
+		-- If the move somehow became nil (which can happen in corrupted data cases due to issue https://github.com/Jerakin/Pokedex5E/issues/407),
+		-- reset it to the move's base pp to avoid exceptions in other places. Ideally the corruption would never happen in the first place, but
+		-- some save data is already corrupt.
+		local pp = pokemon_move.pp
+		if pp == nil then
+			M.reset_move_pp(pokemon, move)
+			pp = pokemon.moves[move].pp
+		end
+		return pp
 	end
-	return pp
+	-- The pokemon doesn't actually "know" this move - likely a "known to all" move. Return pp of the move itself
+	return movedex.get_move_pp(move)
 end
 
 function M.get_move_pp_max(pokemon, move)
-	local _, pp_extra = M.have_feat(pokemon, "Tireless")
 	local move_pp = movedex.get_move_pp(move)
 	if type(move_pp) == "string" then
 		-- probably move with Unlimited uses, i.e. Struggle
 		return move_pp
+	else
+		local _, pp_extra = M.have_feat(pokemon, "Tireless")
+		return movedex.get_move_pp(move) + pp_extra
 	end
-	return movedex.get_move_pp(move) + pp_extra
-end
-
-function M.get_move_index(pokemon, move)
-	return pokemon.moves[move].index
 end
 
 function M.reset(pokemon)
@@ -607,25 +630,50 @@ function M.get_resistances(pokemon)
 	return pokedex.get_pokemon_resistances(M.get_current_species(pokemon))
 end
 
-function M.decrease_move_pp(pokemon, move)
-	local move_pp = M.get_move_pp(pokemon, move)
-	if type(move_pp) == "string" then
-		return
+function M.can_decrease_move_pp(pokemon, move)
+	local pokemon_move = pokemon.moves[move]
+	if pokemon_move ~= nil then
+		local move_pp = M.get_move_pp(pokemon, move)
+		if type(move_pp) == "string" then
+			return false
+		end
+		return move_pp > 0
 	end
-	local pp = math.max(move_pp - 1, 0)
-	pokemon.moves[move].pp = pp
-	return pp
+	return false
+end
+
+function M.decrease_move_pp(pokemon, move)
+	if M.can_decrease_move_pp(pokemon, move) then
+		local move_pp = M.get_move_pp(pokemon, move)
+		local pp = math.max(move_pp - 1, 0)
+		pokemon.moves[move].pp = pp
+		return pp
+	end
+	return nil
+end
+
+function M.can_increase_move_pp(pokemon, move)
+	local pokemon_move = pokemon.moves[move]
+	if pokemon_move ~= nil then
+		local move_pp = M.get_move_pp(pokemon, move)
+		if type(move_pp) == "string" then
+			return false
+		end
+		local max_pp = M.get_move_pp_max(pokemon, move)
+		return move_pp < max_pp
+	end
+	return false
 end
 
 function M.increase_move_pp(pokemon, move)
-	local move_pp = M.get_move_pp(pokemon, move)
-	if type(move_pp) == "string" then
-		return
+	if M.can_increase_move_pp(pokemon, move) then
+		local move_pp = M.get_move_pp(pokemon, move)
+		local max_pp = M.get_move_pp_max(pokemon, move)
+		local pp = math.min(move_pp + 1, max_pp)
+		pokemon.moves[move].pp = pp
+		return pp
 	end
-	local max_pp = M.get_move_pp_max(pokemon, move)
-	local pp = math.min(move_pp + 1, max_pp)
-	pokemon.moves[move].pp = pp
-	return pp
+	return nil
 end
 
 
