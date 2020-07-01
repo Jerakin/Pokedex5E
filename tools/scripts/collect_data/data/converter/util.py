@@ -7,6 +7,7 @@ CONVERTER = Path(__file__).parent
 ASSETS = CONVERTER / "assets"
 OUTPUT = CONVERTER.parent.parent.parent.parent.parent / "assets" / "datafiles"
 POKEMON_OUTPUT = OUTPUT / "pokemon"
+MOVES_OUTPUT = OUTPUT / "moves"
 
 ATTRIBUTES = ["STR", "CON", "DEX", "INT", "WIS", "CHA"]
 
@@ -25,6 +26,7 @@ def load_extra(name):
 MERGE_POKEMON_DATA = load_extra("pokemon")
 MERGE_EVOLVE_DATA = load_extra("evolve")
 MERGE_FILTER_DATA = load_extra("filter_data")
+MERGE_MOVE_DATA = load_extra("moves")
 
 
 def merge(a, b, path=None):
