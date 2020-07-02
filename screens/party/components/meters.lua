@@ -10,13 +10,32 @@ local M = {}
 local active_buttons = {}
 local active_pokemon_id
 local active_nodes 
-local function update_hp_meter(nodes, max, current)
+local function update_hp_meter(nodes, max, current, temp_hp)
 	local max_size = gui.get_size(nodes["pokemon/hp_bar_bg"])
-	local percent = current/max
-	local size = gui.get_size(nodes["pokemon/hp_bar_bg1"])
 
-	size.x = math.max(math.min(percent * max_size.x, max_size.x), 0)
-	gui.set_size(nodes["pokemon/hp_bar_bg1"], size)
+	local node_cur = nodes["pokemon/hp_bar_bg1"]
+	local size_cur = gui.get_size(node_cur)
+	local pos_cur = gui.get_position(node_cur)
+
+	local node_temp_bar = nodes["pokemon/hp_bar_bg_temp"]
+	local size_temp = gui.get_size(node_temp_bar)
+	local pos_temp = gui.get_position(node_temp_bar)
+	
+
+	-- Set current HP size based on current HP's percentage of max+temp
+	local percent_cur = current/(max+temp_hp)
+	size_cur.x = math.max(math.min(percent_cur * max_size.x, max_size.x), 0)
+	gui.set_size(node_cur, size_cur)
+
+	-- Set temp HP size and position based on temp HP's percentage of max+temp, shifted over to sit next to current bar
+	local percent_temp = temp_hp/(max+temp_hp)	
+	size_temp.x = math.max(math.min(percent_temp * max_size.x, max_size.x), 0)
+	gui.set_size(node_temp_bar, size_temp)
+
+	pos_temp.x = pos_cur.x + size_cur.x
+	gui.set_position(node_temp_bar, pos_temp)
+	
+	gui.set_enabled(node_temp_bar, temp_hp > 0)
 end
 
 
@@ -109,8 +128,13 @@ function M.setup_hp(nodes, pokemon_id)
 	local pokemon = storage.get_copy(pokemon_id)
 	local max = _pokemon.get_total_max_hp(pokemon)
 	local current = _pokemon.get_current_hp(pokemon)
-	gui.set_text(nodes["pokemon/txt_hp"],"HP: " .. current .. "/ " .. max)
-	update_hp_meter(nodes, max, current)
+	local temp_hp = _pokemon.get_temp_hp(pokemon)
+	local hp_text = "HP: " .. current .. "/ " .. max
+	if temp_hp > 0 then
+		hp_text = hp_text .. " +" .. temp_hp
+	end
+	gui.set_text(nodes["pokemon/txt_hp"],hp_text)
+	update_hp_meter(nodes, max, current, temp_hp)
 end
 
 function M.create(nodes, pokemon_id)
