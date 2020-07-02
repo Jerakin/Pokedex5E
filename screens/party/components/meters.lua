@@ -51,15 +51,28 @@ end
 
 local function add_hp_buttons(nodes, pokemon)
 	local id = party_utils.set_id(nodes["pokemon/hp/btn_plus"])
-	local plus = {node=id, func=function()
-		gameanalytics.addDesignEvent {
-			eventId = "Party:HP:Increase"
-		}
-		local pokemon_id = _pokemon.get_id(pokemon)
-		M.add_hp(pokemon_id, 1)
-		information.refresh(pokemon_id)
-		M.setup_hp(nodes, pokemon_id) end, refresh=gooey_buttons.plus_button
+	local plus = {
+		node=id,
+		func=function(button)
+			local pokemon_id = _pokemon.get_id(pokemon)
+			if button.long_pressed then
+				gameanalytics.addDesignEvent {
+					eventId = "Party:HP:TempChange"
+				}
+				print("TODO - pop up dialog about temp HP")
+			else
+				gameanalytics.addDesignEvent {
+					eventId = "Party:HP:Increase"
+				}
+				M.add_hp(pokemon_id, 1)
+			end
+			information.refresh(pokemon_id)
+			M.setup_hp(nodes, pokemon_id)
+		end,
+		refresh=gooey_buttons.plus_button,
+		long_pressed_time = 0.5
 	}
+	
 	local id = party_utils.set_id(nodes["pokemon/hp/btn_minus"])
 
 	local minus = {node=id, func=function()
@@ -151,7 +164,10 @@ end
 
 function M.on_input(action_id, action)
 	for _, b in pairs(active_buttons) do
-		gooey.button(b.node, action_id, action, b.func, b.refresh)
+		local button = gooey.button(b.node, action_id, action, b.func, b.refresh)
+		if b.long_pressed_time then
+			gooey_buttons.set_long_pressed_time(button, 0.5)
+		end
 	end
 end
 

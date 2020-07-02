@@ -65,6 +65,10 @@ function M.plus_button(button)
 	end
 end
 
+function M.set_long_pressed_time(button, time)
+	button.long_pressed_time = time
+end
+
 function M.minus_button(button)
 	if button.pressed_now then
 		gui.play_flipbook(button.node, hash("minus_down"))
