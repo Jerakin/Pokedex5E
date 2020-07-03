@@ -18,22 +18,37 @@ local function update_hp_meter(nodes, max, current, temp_hp)
 	local size_cur = gui.get_size(node_cur)
 	local pos_cur = gui.get_position(node_cur)
 
+	local node_over = nodes["pokemon/hp_bar_bg2"]
+	local size_over = gui.get_size(node_over)
+	local pos_over = gui.get_position(node_over)
+
 	local node_temp_bar = nodes["pokemon/hp_bar_bg_temp"]
 	local size_temp = gui.get_size(node_temp_bar)
 	local pos_temp = gui.get_position(node_temp_bar)
-	
 
-	-- Set current HP size based on current HP's percentage of max+temp
-	local percent_cur = current/(max+temp_hp)
+	temp_hp = math.max(0, temp_hp) -- just in case
+	local current_not_over = math.max(0, math.min(current, max))
+	local over = math.max(0, current-max)
+	local total_max = math.max(max+over+temp_hp, 1) -- avoid divide by 0
+	
+	-- Set current HP size based on current HP's percentage of total_max
+	local percent_cur = current_not_over/total_max
 	size_cur.x = math.max(math.min(percent_cur * max_size.x, max_size.x), 0)
 	gui.set_size(node_cur, size_cur)
 
-	-- Set temp HP size and position based on temp HP's percentage of max+temp, shifted over to sit next to current bar
-	local percent_temp = temp_hp/(max+temp_hp)	
+	-- If there's somehow an overage (not sure why this is possible, but I didn't want to break old behavior), display that next to the current bar
+	local percent_over = over / total_max
+	size_over.x = math.max(math.min(percent_over * max_size.x, max_size.x), 0)
+	pos_over.x = pos_cur.x + size_cur.x
+	gui.set_size(node_over, size_over)
+	gui.set_position(node_over, pos_over)
+
+	-- Set temp HP size and position based on temp HP's percentage of total_max, shifted over to sit next to current/over bars
+	local percent_temp = temp_hp / total_max
 	size_temp.x = math.max(math.min(percent_temp * max_size.x, max_size.x), 0)
 	gui.set_size(node_temp_bar, size_temp)
 
-	pos_temp.x = pos_cur.x + size_cur.x
+	pos_temp.x = pos_over.x + size_over.x
 	gui.set_position(node_temp_bar, pos_temp)
 	
 	gui.set_enabled(node_temp_bar, temp_hp > 0)
@@ -54,26 +69,39 @@ function M.add_loyalty(id, loyalty)
 	storage.set_pokemon_loyalty(id, current + loyalty)
 end
 
+function M.show_temp_hp_selector(id)
+	local temp_hp = storage.get_pokemon_temp_hp(id)
+	monarch.show("input", {},
+	{
+		sender=msg.url(),
+		message="temp_hp",
+		allowed_characters="[%d]",
+		default_text=temp_hp,
+		help_text="Specify temporary HP.\n\nReminder: Temporary HP does not stack!"
+	})
+end
+
+function M.reduce_hp(id)
+	local temp_hp = storage.get_pokemon_temp_hp(id)
+	if temp_hp > 0 then
+		M.set_temp_hp(id, temp_hp-1)
+	else
+		M.add_hp(id, -1)
+	end
+end
+
 local function add_hp_buttons(nodes, pokemon)
 	local id = party_utils.set_id(nodes["pokemon/hp/btn_plus"])
 	local plus = {
 		node=id,
 		func=function(button)
+			local pokemon_id = _pokemon.get_id(pokemon)
 			if button.long_pressed then
-				local temp_hp = _pokemon.get_temp_hp(pokemon)
-				monarch.show("input", {},
-				{
-					sender=msg.url(),
-					message="temp_hp",
-					allowed_characters="[%d]",
-					default_text=temp_hp,
-					help_text="Specify temporary HP.\n\nReminder: Temporary HP does not stack!"
-				})
+				M.show_temp_hp_selector(pokemon_id)
 			else
 				gameanalytics.addDesignEvent {
 					eventId = "Party:HP:Increase"
 				}
-				local pokemon_id = _pokemon.get_id(pokemon)
 				M.add_hp(pokemon_id, 1)
 			end
 			information.refresh(pokemon_id)
@@ -90,7 +118,8 @@ local function add_hp_buttons(nodes, pokemon)
 			eventId = "Party:HP:Decreae"
 		}
 		local pokemon_id = _pokemon.get_id(pokemon)
-		M.add_hp(pokemon_id, -1)
+
+		M.reduce_hp(pokemon_id)
 		information.refresh(pokemon_id)
 		M.setup_hp(nodes, pokemon_id) end, refresh=gooey_buttons.minus_button
 		
