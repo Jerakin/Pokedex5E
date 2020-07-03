@@ -259,7 +259,7 @@ end
 
 function M.set_pokemon_temp_hp(id, temp_hp)
 	local p = get(id)
-	p.hp.temp = temp_hp
+	p.hp.temp = math.max(0, temp_hp)
 	M.save()
 end
 

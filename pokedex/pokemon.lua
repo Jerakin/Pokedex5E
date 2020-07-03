@@ -347,7 +347,7 @@ function M.get_current_hp(pokemon)
 end
 
 function M.set_temp_hp(pokemon, temp_hp)
-	pokemon.hp.temp = temp_hp
+	pokemon.hp.temp = math.max(0, temp_hp)
 end
 
 function M.get_temp_hp(pokemon)
