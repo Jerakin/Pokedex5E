@@ -5,6 +5,7 @@ local gooey = require "gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
 local storage = require "pokedex.storage"
 local information = require "screens.party.components.information"
+local monarch = require "monarch.monarch"
 local M = {}
 
 local active_buttons = {}
@@ -44,6 +45,10 @@ function M.add_hp(id, hp)
 	storage.set_pokemon_current_hp(id, current + hp)
 end
 
+function M.set_temp_hp(id, temp_hp)
+	storage.set_pokemon_temp_hp(id, temp_hp)
+end
+
 function M.add_loyalty(id, loyalty)
 	local current = storage.get_pokemon_loyalty(id)
 	storage.set_pokemon_loyalty(id, current + loyalty)
@@ -54,16 +59,21 @@ local function add_hp_buttons(nodes, pokemon)
 	local plus = {
 		node=id,
 		func=function(button)
-			local pokemon_id = _pokemon.get_id(pokemon)
 			if button.long_pressed then
-				gameanalytics.addDesignEvent {
-					eventId = "Party:HP:TempChange"
-				}
-				print("TODO - pop up dialog about temp HP")
+				local temp_hp = _pokemon.get_temp_hp(pokemon)
+				monarch.show("input", {},
+				{
+					sender=msg.url(),
+					message="temp_hp",
+					allowed_characters="[%d]",
+					default_text=temp_hp,
+					help_text="Specify temporary HP.\n\nReminder: Temporary HP does not stack!"
+				})
 			else
 				gameanalytics.addDesignEvent {
 					eventId = "Party:HP:Increase"
 				}
+				local pokemon_id = _pokemon.get_id(pokemon)
 				M.add_hp(pokemon_id, 1)
 			end
 			information.refresh(pokemon_id)
@@ -222,6 +232,16 @@ function M.on_message(message_id, message)
 		end
 	elseif message_id == hash("refresh_hp") then
 		M.setup_hp(active_nodes, active_pokemon_id)
+	elseif message_id == hash("temp_hp") then
+		local active_pokemon_id = storage.list_of_ids_in_inventory()[message.active_index]
+		local temp_hp, expr = parse_number(message.str, 0)
+		if not expr then
+			gameanalytics.addDesignEvent {
+				eventId = "Party:HP:TempChange"
+			}
+			M.set_temp_hp(active_pokemon_id, math.max(temp_hp, 0))
+			M.setup_hp(active_nodes, active_pokemon_id)
+		end
 	end
 end
 

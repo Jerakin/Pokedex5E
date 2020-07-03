@@ -17,6 +17,10 @@ function init(self)
 	self.text_node = gui.get_node("txt")
 	gui.set_enabled(self.cursor, false)
 	gui.set_text(self.text_node, self.default_text)
+
+	if data.help_text then
+		gui.set_text(gui.get_node("help_text"), data.help_text)
+	end
 end
 
 local function exit(self)

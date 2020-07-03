@@ -346,6 +346,10 @@ function M.get_current_hp(pokemon)
 	return pokemon.hp.current
 end
 
+function M.set_temp_hp(pokemon, temp_hp)
+	pokemon.hp.temp = temp_hp
+end
+
 function M.get_temp_hp(pokemon)
 	return pokemon.hp.temp or 0
 end
