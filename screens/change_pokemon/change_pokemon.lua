@@ -232,6 +232,7 @@ local function redraw_moves(self)
 			local move_node = move_buttons_list[data.index].text
 			local icon_node = move_buttons_list[data.index].icon
 			
+			move_buttons_list[data.index].move_name = move
 			gui.set_text(move_node, move:upper())
 			gui.set_scale(move_node, vmath.vector3(0.8))
 			gui_utils.scale_text_to_fit_size(move_node)
@@ -386,7 +387,8 @@ local function decrease(self, stat)
 end
 
 local function pick_move(self)
-	monarch.show("moves_scrollist", {}, {species=_pokemon.get_current_species(self.pokemon), level=_pokemon.get_current_level(self.pokemon), current_moves=_pokemon.get_moves(self.pokemon, {append_known_to_all=true}), message_id="move", sender=msg.url()})
+	local move_to_replace = move_buttons_list[self.move_button_index].move_name
+	monarch.show("moves_scrollist", {}, {species=_pokemon.get_current_species(self.pokemon), level=_pokemon.get_current_level(self.pokemon), current_moves=_pokemon.get_moves(self.pokemon, {append_known_to_all=true}), move_to_replace=move_to_replace, message_id="move", sender=msg.url()})
 end
 
 

@@ -30,11 +30,10 @@ local function update_list(list)
 	end
 end
 
-local function on_item_selected(list)
+local function on_item_selected(self, list)
 	for i,item in ipairs(list.items) do
 		if item.data and item.index == list.selected_item then
-			msg.post(sender, message_id, {item=item.data})
-			monarch.back()
+			monarch.show("moves_confirm", {}, {message_id=message_id, sender=sender, move_to_replace=self.move_to_replace, replacement_move=item.data})
 		end
 	end
 end
@@ -90,7 +89,8 @@ function init(self)
 	self.level = d.level
 	self.species = d.species
 	self.current_moves = d.current_moves
-	self.sub_list = "current"
+	self.move_to_replace = d.move_to_replace
+	self.sub_list = "current"	
 	local starting_moves = pokedex.get_pokemons_moves(self.species, self.level)
 	self.all_items = filter_out_current_moves(self, starting_moves)
 	self.list_items = utils.shallow_copy(self.all_items)
@@ -147,7 +147,7 @@ end
 
 function on_input(self, action_id, action)
 	if next(self.list_items) ~= nil then
-		local list = gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items, action_id, action, on_item_selected, update_list)
+		local list = gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items, action_id, action, function(item) on_item_selected(self, item) end, update_list)
 		if list.max_y and list.max_y > 0 then
 			gooey.vertical_scrollbar("scrollist/scrollbar/handle", "scrollist/scrollbar/bar", action_id, action, function(scrollbar) on_scrolled(self, scrollbar) end)
 		end
