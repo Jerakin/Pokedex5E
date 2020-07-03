@@ -2,6 +2,7 @@ local monarch  = require "monarch.monarch"
 local render_order = require "utils.gui_render_order"
 local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
+local gui_utils = require "utils.gui"
 
 local data
 
@@ -19,7 +20,7 @@ function init(self)
 	gui.set_text(self.text_node, self.default_text)
 
 	if data.help_text then
-		gui.set_text(gui.get_node("help_text"), data.help_text)
+		gui_utils.adjust_for_text_change_vertical("help_text", data.help_text, {"frame"}, {"background", "btn_okay"})
 	end
 end
 
