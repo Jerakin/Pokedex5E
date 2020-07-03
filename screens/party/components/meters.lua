@@ -152,9 +152,11 @@ function M.setup_hp(nodes, pokemon_id)
 	local max = _pokemon.get_total_max_hp(pokemon)
 	local current = _pokemon.get_current_hp(pokemon)
 	local temp_hp = _pokemon.get_temp_hp(pokemon)
-	local hp_text = "HP: " .. current .. "/ " .. max
+	local hp_text = "HP: " .. current 
 	if temp_hp > 0 then
-		hp_text = hp_text .. " +" .. temp_hp
+		hp_text = hp_text .. "/" .. max .. " +" .. temp_hp
+	else
+		hp_text = hp_text .. "/ " .. max
 	end
 	gui.set_text(nodes["pokemon/txt_hp"],hp_text)
 	update_hp_meter(nodes, max, current, temp_hp)
