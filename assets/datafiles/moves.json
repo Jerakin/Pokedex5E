@@ -6827,7 +6827,7 @@
     "PP": 5,
     "Duration": "10 minutes",
     "Range": "60ft",
-    "Description": "You can use a bonus action on your turn to choose one ally other than yourself within 60 feet of you who can hear you. That ally can add ato one ability check, attack roll, or saving throw it makes within the next 10 minutes, before the result of the roll is called by the DM. An ally being helped can only have oneavailable at a time.",
+    "Description": "You can use a bonus action on your turn to choose one ally other than yourself within 60 feet of you who can hear you. That ally can add the dice to one ability check, attack roll, or saving throw it makes within the next 10 minutes, before the result of the roll is called by the DM. An ally being helped can only have one dice available at a time.",
     "Damage": {
       "1": {
         "amount": 0,
@@ -14761,6 +14761,28 @@
     "Range": "Melee",
     "ab": true,
     "Description": "This move is known by all Pokémon, and can be used at any time. Make a melee attack roll, doing damage equal to 2 + MOVE typeless damage on a hit.",
+    "Damage": {
+      "1": {
+        "amount": 2,
+        "dice_max": 1,
+        "move": true
+      },
+      "5": {
+        "amount": 2,
+        "dice_max": 1,
+        "move": true
+      },
+      "10": {
+        "amount": 2,
+        "dice_max": 1,
+        "move": true
+      },
+      "17": {
+        "amount": 2,
+        "dice_max": 1,
+        "move": true
+      }
+    },
     "stab": true
   },
   "Struggle Bug": {
@@ -15358,7 +15380,7 @@
     "Duration": "1 minute",
     "Range": "100ft",
     "Save": "WIS",
-    "Description": "You shake your tail at a targetn, distracting it and opening up its defenses. The creature must make a WIS save against your Move DC. On a fail, allies add +1 to any attack they target it with for the duration. This modifier can be stacked if it fails multiple tail whip saves, up to a maximum of +5.",
+    "Description": "You shake your tail at a target, distracting it and opening up its defenses. The creature must make a WIS save against your Move DC. On a fail, allies add +1 to any attack they target it with for the duration. This modifier can be stacked if it fails multiple tail whip saves, up to a maximum of +5.",
     "ab": false,
     "stab": false
   },
