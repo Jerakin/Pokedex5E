@@ -12,6 +12,10 @@ local function join_table(title, T, sep)
 	return "-"
 end
 
+function M.get_size(str_node_prefix)
+	return gui.get_size(gui.get_node(str_node_prefix .. "/background"))
+end
+
 function M.setup_move(pokemon, str_node_prefix, move_name)
 
 	local move_data = nil
