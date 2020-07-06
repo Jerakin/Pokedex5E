@@ -387,7 +387,7 @@ local function decrease(self, stat)
 end
 
 local function pick_move(self)
-	monarch.show("moves_scrollist", {}, {species=_pokemon.get_current_species(self.pokemon), level=_pokemon.get_current_level(self.pokemon), current_moves=_pokemon.get_moves(self.pokemon), message_id="move", sender=msg.url()})
+	monarch.show("moves_scrollist", {}, {species=_pokemon.get_current_species(self.pokemon), level=_pokemon.get_current_level(self.pokemon), current_moves=_pokemon.get_moves(self.pokemon, {append_known_to_all=true}), message_id="move", sender=msg.url()})
 end
 
 
