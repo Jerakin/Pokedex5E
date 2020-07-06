@@ -33,7 +33,7 @@ function M.add(profile_name, slot)
 end
 
 function M.get_slot(slot)
-	if slot ~= nil and #profiles.slots <= slot then
+	if slot ~= nil and profiles.slots and #profiles.slots <= slot then
 		return profiles.slots[slot]
 	end
 	return nil
@@ -91,7 +91,7 @@ function M.save()
 end
 
 function M.get_active()
-	return profiles.slots[active_slot]
+	return profiles.slots and profiles.slots[active_slot]
 end
 
 function M.get_active_slot()
