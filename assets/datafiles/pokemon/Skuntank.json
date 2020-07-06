@@ -1,11 +1,16 @@
 {
+  "AC": 14,
+  "Abilities": [
+    "Stench",
+    "Aftermath"
+  ],
+  "Climbing Speed": 20,
+  "HP": 66,
+  "Hidden Ability": "Keen Eye",
+  "Hit Dice": 12,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Feint",
-        "Acid Spray",
-        "Bite"
-      ],
       "10": [
         "Slash",
         "Toxic",
@@ -19,6 +24,11 @@
       "18": [
         "Explosion",
         "Belch"
+      ],
+      "6": [
+        "Feint",
+        "Acid Spray",
+        "Bite"
       ]
     },
     "Starting Moves": [
@@ -66,38 +76,28 @@
       100
     ]
   },
-  "index": 435,
-  "Abilities": [
-    "Stench",
-    "Aftermath"
+  "SR": 8.0,
+  "Senses": [
+    "Darkvision 60ft"
+  ],
+  "Skill": [
+    "Survival"
   ],
   "Type": [
     "Poison",
     "Dark"
   ],
-  "SR": 8.0,
-  "AC": 14,
-  "Hit Dice": 12,
-  "HP": 66,
   "WSp": 35,
-  "Senses": [
-    "Darkvision 60ft"
-  ],
   "attributes": {
-    "STR": 15,
-    "DEX": 16,
+    "CHA": 8,
     "CON": 18,
+    "DEX": 16,
     "INT": 6,
-    "WIS": 12,
-    "CHA": 8
+    "STR": 15,
+    "WIS": 12
   },
-  "MIN LVL FD": 5,
+  "index": 435,
   "saving_throws": [
     "CON"
-  ],
-  "Skill": [
-    "Survival"
-  ],
-  "Hidden Ability": "Keen Eye",
-  "Climbing Speed": 20
+  ]
 }

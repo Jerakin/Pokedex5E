@@ -1,17 +1,16 @@
 {
+  "AC": 12,
+  "Abilities": [
+    "Oblivious",
+    "Anticipation"
+  ],
+  "Evolve": "Whiscash",
+  "HP": 17,
+  "Hidden Ability": "Hydration",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Mud Sport",
-        "Water Sport",
-        "Water Gun",
-        "Mud Bomb"
-      ],
-      "6": [
-        "Amnesia",
-        "Water Pulse",
-        "Magnitude"
-      ],
       "10": [
         "Rest",
         "Snore",
@@ -24,6 +23,17 @@
       ],
       "18": [
         "Fissure"
+      ],
+      "2": [
+        "Mud Sport",
+        "Water Sport",
+        "Water Gun",
+        "Mud Bomb"
+      ],
+      "6": [
+        "Amnesia",
+        "Water Pulse",
+        "Magnitude"
       ]
     },
     "Starting Moves": [
@@ -57,36 +67,26 @@
       100
     ]
   },
-  "index": 339,
-  "Abilities": [
-    "Oblivious",
-    "Anticipation"
-  ],
-  "Type": [
-    "Water",
-    "Ground"
-  ],
   "SR": 0.25,
-  "AC": 12,
-  "Hit Dice": 6,
-  "HP": 17,
-  "Ssp": 30,
-  "attributes": {
-    "STR": 10,
-    "DEX": 13,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 10
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Whiscash",
-  "saving_throws": [
-    "CON"
-  ],
   "Skill": [
     "Perception",
     "Investigation"
   ],
-  "Hidden Ability": "Hydration"
+  "Ssp": 30,
+  "Type": [
+    "Water",
+    "Ground"
+  ],
+  "attributes": {
+    "CHA": 10,
+    "CON": 12,
+    "DEX": 13,
+    "INT": 6,
+    "STR": 10,
+    "WIS": 10
+  },
+  "index": 339,
+  "saving_throws": [
+    "CON"
+  ]
 }

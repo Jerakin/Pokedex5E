@@ -1,12 +1,14 @@
 {
+  "AC": 14,
+  "Abilities": [
+    "Shed Skin"
+  ],
+  "HP": 38,
+  "Hidden Ability": "Infiltrator",
+  "Hit Dice": 8,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Screech",
-        "Venoshock",
-        "Glare",
-        "Poison Fang"
-      ],
       "10": [
         "Night Slash",
         "Gastro Acid",
@@ -22,6 +24,12 @@
       "18": [
         "Coil",
         "Wring Out"
+      ],
+      "6": [
+        "Screech",
+        "Venoshock",
+        "Glare",
+        "Poison Fang"
       ]
     },
     "Starting Moves": [
@@ -67,36 +75,28 @@
       100
     ]
   },
-  "index": 336,
-  "Abilities": [
-    "Shed Skin"
-  ],
-  "Type": [
-    "Poison"
-  ],
   "SR": 5.0,
-  "AC": 14,
-  "Hit Dice": 8,
-  "HP": 38,
-  "WSp": 25,
   "Senses": [
     "Darkvision 30ft."
-  ],
-  "attributes": {
-    "STR": 15,
-    "DEX": 15,
-    "CON": 15,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "CON"
   ],
   "Skill": [
     "Deception",
     "Intimidation"
   ],
-  "Hidden Ability": "Infiltrator"
+  "Type": [
+    "Poison"
+  ],
+  "WSp": 25,
+  "attributes": {
+    "CHA": 10,
+    "CON": 15,
+    "DEX": 15,
+    "INT": 6,
+    "STR": 15,
+    "WIS": 10
+  },
+  "index": 336,
+  "saving_throws": [
+    "CON"
+  ]
 }

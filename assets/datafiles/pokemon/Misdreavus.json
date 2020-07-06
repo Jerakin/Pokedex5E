@@ -1,10 +1,14 @@
 {
+  "AC": 15,
+  "Abilities": [
+    "Levitate"
+  ],
+  "Fsp": 30,
+  "HP": 40,
+  "Hit Dice": 8,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Confuse Ray",
-        "Mean Look"
-      ],
       "10": [
         "Hex",
         "Psybeam",
@@ -18,6 +22,10 @@
         "Perish Song",
         "Grudge",
         "Power Gem"
+      ],
+      "6": [
+        "Confuse Ray",
+        "Mean Look"
       ]
     },
     "Starting Moves": [
@@ -65,36 +73,28 @@
       100
     ]
   },
-  "index": 200,
-  "Abilities": [
-    "Levitate"
-  ],
-  "Type": [
-    "Ghost"
-  ],
   "SR": 7.0,
-  "AC": 15,
-  "Hit Dice": 8,
-  "HP": 40,
-  "Fsp": 30,
   "Senses": [
     "Darkvision 30ft."
-  ],
-  "attributes": {
-    "STR": 14,
-    "DEX": 15,
-    "CON": 14,
-    "INT": 6,
-    "WIS": 14,
-    "CHA": 12
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "WIS",
-    "CHA"
   ],
   "Skill": [
     "Stealth",
     "Deception"
+  ],
+  "Type": [
+    "Ghost"
+  ],
+  "attributes": {
+    "CHA": 12,
+    "CON": 14,
+    "DEX": 15,
+    "INT": 6,
+    "STR": 14,
+    "WIS": 14
+  },
+  "index": 200,
+  "saving_throws": [
+    "WIS",
+    "CHA"
   ]
 }

@@ -1,10 +1,15 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Keen Eye",
+    "Iron Fist"
+  ],
+  "HP": 45,
+  "Hidden Ability": "Inner Focus",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Bullet Punch",
-        "Mach Punch"
-      ],
       "10": [
         "Feint",
         "Vacuum Wave",
@@ -22,6 +27,10 @@
         "Focus Punch",
         "Counter",
         "Close Combat"
+      ],
+      "6": [
+        "Bullet Punch",
+        "Mach Punch"
       ]
     },
     "Starting Moves": [
@@ -60,35 +69,26 @@
       100
     ]
   },
-  "index": 107,
-  "Abilities": [
-    "Keen Eye",
-    "Iron Fist"
-  ],
-  "Type": [
-    "Fighting"
-  ],
   "SR": 7.0,
-  "AC": 16,
-  "Hit Dice": 10,
-  "HP": 45,
-  "WSp": 30,
-  "attributes": {
-    "STR": 16,
-    "DEX": 14,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "STR",
-    "DEX"
-  ],
   "Skill": [
     "Athletics",
     "Acrobatics"
   ],
-  "Hidden Ability": "Inner Focus"
+  "Type": [
+    "Fighting"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 10,
+    "CON": 12,
+    "DEX": 14,
+    "INT": 6,
+    "STR": 16,
+    "WIS": 12
+  },
+  "index": 107,
+  "saving_throws": [
+    "STR",
+    "DEX"
+  ]
 }

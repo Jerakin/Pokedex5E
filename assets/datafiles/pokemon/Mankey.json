@@ -1,15 +1,17 @@
 {
+  "AC": 12,
+  "Abilities": [
+    "Vital Spirit",
+    "Anger Point"
+  ],
+  "Climbing Speed": 20,
+  "Evolve": "Primeape",
+  "HP": 16,
+  "Hidden Ability": "Defiant",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Fury Swipes",
-        "Karate Chop"
-      ],
-      "6": [
-        "Pursuit",
-        "Seismic Toss",
-        "Swagger"
-      ],
       "10": [
         "Cross Chop",
         "Assurance"
@@ -23,6 +25,15 @@
         "Screech",
         "Outrage",
         "Final Gambit"
+      ],
+      "2": [
+        "Fury Swipes",
+        "Karate Chop"
+      ],
+      "6": [
+        "Pursuit",
+        "Seismic Toss",
+        "Swagger"
       ]
     },
     "Starting Moves": [
@@ -71,37 +82,26 @@
       100
     ]
   },
-  "index": 56,
-  "Abilities": [
-    "Vital Spirit",
-    "Anger Point"
-  ],
-  "Type": [
-    "Fighting"
-  ],
   "SR": 0.5,
-  "AC": 12,
-  "Hit Dice": 6,
-  "HP": 16,
-  "WSp": 20,
-  "attributes": {
-    "STR": 12,
-    "DEX": 14,
-    "CON": 11,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 8
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Primeape",
-  "saving_throws": [
-    "DEX",
-    "STR"
-  ],
   "Skill": [
     "Athletics",
     "Acrobatics"
   ],
-  "Hidden Ability": "Defiant",
-  "Climbing Speed": 20
+  "Type": [
+    "Fighting"
+  ],
+  "WSp": 20,
+  "attributes": {
+    "CHA": 8,
+    "CON": 11,
+    "DEX": 14,
+    "INT": 6,
+    "STR": 12,
+    "WIS": 10
+  },
+  "index": 56,
+  "saving_throws": [
+    "DEX",
+    "STR"
+  ]
 }

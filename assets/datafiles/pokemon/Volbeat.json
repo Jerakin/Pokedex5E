@@ -1,11 +1,17 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Illuminate",
+    "Swarm"
+  ],
+  "Climbing Speed": 20,
+  "Fsp": 25,
+  "HP": 33,
+  "Hidden Ability": "Prankster",
+  "Hit Dice": 8,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Struggle Bug",
-        "Moonlight",
-        "Tail Glow"
-      ],
       "10": [
         "Signal Beam",
         "Protect"
@@ -19,6 +25,11 @@
         "Play Rough",
         "Double-Edge",
         "Infestation"
+      ],
+      "6": [
+        "Struggle Bug",
+        "Moonlight",
+        "Tail Glow"
       ]
     },
     "Starting Moves": [
@@ -64,37 +75,26 @@
       100
     ]
   },
-  "index": 313,
-  "Abilities": [
-    "Illuminate",
-    "Swarm"
-  ],
-  "Type": [
-    "Bug"
-  ],
   "SR": 7.0,
-  "AC": 16,
-  "Hit Dice": 8,
-  "HP": 33,
-  "WSp": 20,
-  "Fsp": 25,
-  "attributes": {
-    "STR": 16,
-    "DEX": 14,
-    "CON": 16,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "WIS",
-    "CHA"
-  ],
   "Skill": [
     "Nature",
     "Persuasion"
   ],
-  "Hidden Ability": "Prankster",
-  "Climbing Speed": 20
+  "Type": [
+    "Bug"
+  ],
+  "WSp": 20,
+  "attributes": {
+    "CHA": 10,
+    "CON": 16,
+    "DEX": 14,
+    "INT": 6,
+    "STR": 16,
+    "WIS": 12
+  },
+  "index": 313,
+  "saving_throws": [
+    "WIS",
+    "CHA"
+  ]
 }

@@ -1,14 +1,16 @@
 {
+  "AC": 12,
+  "Abilities": [
+    "Oblivious",
+    "Own Tempo"
+  ],
+  "Evolve": "Slowbro",
+  "HP": 20,
+  "Hidden Ability": "Regenerator",
+  "Hit Dice": 8,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Growl",
-        "Water Gun"
-      ],
-      "6": [
-        "Confusion",
-        "Disable"
-      ],
       "10": [
         "Headbutt"
       ],
@@ -23,6 +25,14 @@
         "Rain Dance",
         "Psych Up",
         "Heal Pulse"
+      ],
+      "2": [
+        "Growl",
+        "Water Gun"
+      ],
+      "6": [
+        "Confusion",
+        "Disable"
       ]
     },
     "Starting Moves": [
@@ -70,38 +80,28 @@
       100
     ]
   },
-  "index": 79,
-  "Abilities": [
-    "Oblivious",
-    "Own Tempo"
-  ],
-  "Type": [
-    "Water",
-    "Psychic"
-  ],
   "SR": 0.5,
-  "AC": 12,
-  "Hit Dice": 8,
-  "HP": 20,
-  "WSp": 15,
-  "Ssp": 25,
-  "attributes": {
-    "STR": 12,
-    "DEX": 8,
-    "CON": 14,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Slowbro",
-  "saving_throws": [
-    "CON",
-    "WIS"
-  ],
   "Skill": [
     "Insight",
     "History"
   ],
-  "Hidden Ability": "Regenerator"
+  "Ssp": 25,
+  "Type": [
+    "Water",
+    "Psychic"
+  ],
+  "WSp": 15,
+  "attributes": {
+    "CHA": 10,
+    "CON": 14,
+    "DEX": 8,
+    "INT": 6,
+    "STR": 12,
+    "WIS": 12
+  },
+  "index": 79,
+  "saving_throws": [
+    "CON",
+    "WIS"
+  ]
 }

@@ -1,14 +1,17 @@
 {
+  "AC": 13,
+  "Abilities": [
+    "Pickup",
+    "Technician"
+  ],
+  "Climbing Speed": 30,
+  "Evolve": "Persian",
+  "HP": 16,
+  "Hidden Ability": "Unnerve",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Bite",
-        "Fake Out"
-      ],
-      "6": [
-        "Fury Swipes",
-        "Screech"
-      ],
       "10": [
         "Feint Attack",
         "Taunt"
@@ -23,6 +26,14 @@
         "Captivate",
         "Night Slash",
         "Feint"
+      ],
+      "2": [
+        "Bite",
+        "Fake Out"
+      ],
+      "6": [
+        "Fury Swipes",
+        "Screech"
       ]
     },
     "Starting Moves": [
@@ -62,41 +73,30 @@
       100
     ]
   },
-  "index": 52,
-  "Abilities": [
-    "Pickup",
-    "Technician"
-  ],
-  "Type": [
-    "Normal"
-  ],
   "SR": 0.5,
-  "AC": 13,
-  "Hit Dice": 6,
-  "HP": 16,
-  "WSp": 30,
   "Senses": [
     "Darkvision 30ft."
-  ],
-  "attributes": {
-    "STR": 10,
-    "DEX": 15,
-    "CON": 10,
-    "INT": 8,
-    "WIS": 10,
-    "CHA": 12
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Persian",
-  "saving_throws": [
-    "DEX",
-    "CHA"
   ],
   "Skill": [
     "Persuasion",
     "Deception",
     "Sleight of Hand"
   ],
-  "Hidden Ability": "Unnerve",
-  "Climbing Speed": 30
+  "Type": [
+    "Normal"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 12,
+    "CON": 10,
+    "DEX": 15,
+    "INT": 8,
+    "STR": 10,
+    "WIS": 10
+  },
+  "index": 52,
+  "saving_throws": [
+    "DEX",
+    "CHA"
+  ]
 }

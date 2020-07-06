@@ -1,15 +1,16 @@
 {
+  "AC": 14,
+  "Abilities": [
+    "Run Away",
+    "Pickup"
+  ],
+  "Climbing Speed": 30,
+  "HP": 25,
+  "Hidden Ability": "Skill Link",
+  "Hit Dice": 8,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Astonish",
-        "Baton Pass"
-      ],
-      "6": [
-        "Tickle",
-        "Fury Swipes",
-        "Swift"
-      ],
       "10": [
         "Screech",
         "Agility",
@@ -21,6 +22,15 @@
       ],
       "18": [
         "Last Resort"
+      ],
+      "2": [
+        "Astonish",
+        "Baton Pass"
+      ],
+      "6": [
+        "Tickle",
+        "Fury Swipes",
+        "Swift"
       ]
     },
     "Starting Moves": [
@@ -65,35 +75,25 @@
       100
     ]
   },
-  "index": 190,
-  "Abilities": [
-    "Run Away",
-    "Pickup"
-  ],
-  "Type": [
-    "Normal"
-  ],
   "SR": 3.0,
-  "AC": 14,
-  "Hit Dice": 8,
-  "HP": 25,
-  "WSp": 30,
-  "attributes": {
-    "STR": 13,
-    "DEX": 15,
-    "CON": 14,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 10
-  },
-  "MIN LVL FD": 1,
-  "saving_throws": [
-    "DEX"
-  ],
   "Skill": [
     "Acrobatics",
     "Sleight of Hand"
   ],
-  "Hidden Ability": "Skill Link",
-  "Climbing Speed": 30
+  "Type": [
+    "Normal"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 10,
+    "CON": 14,
+    "DEX": 15,
+    "INT": 6,
+    "STR": 13,
+    "WIS": 10
+  },
+  "index": 190,
+  "saving_throws": [
+    "DEX"
+  ]
 }

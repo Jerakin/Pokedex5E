@@ -1,11 +1,15 @@
 {
+  "AC": 15,
+  "Abilities": [
+    "Anticipation",
+    "Dry Skin"
+  ],
+  "HP": 55,
+  "Hidden Ability": "Poison Touch",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Pursuit",
-        "Feint Attack",
-        "Revenge"
-      ],
       "10": [
         "Swagger",
         "Mud Bomb",
@@ -20,6 +24,11 @@
         "Sludge Bomb",
         "Flatter",
         "Belch"
+      ],
+      "6": [
+        "Pursuit",
+        "Feint Attack",
+        "Revenge"
       ]
     },
     "Starting Moves": [
@@ -73,39 +82,30 @@
       100
     ]
   },
-  "index": 454,
-  "Abilities": [
-    "Anticipation",
-    "Dry Skin"
-  ],
-  "Type": [
-    "Poison",
-    "Fighting"
-  ],
   "SR": 8.0,
-  "AC": 15,
-  "Hit Dice": 10,
-  "HP": 55,
-  "WSp": 30,
-  "Ssp": 30,
   "Senses": [
     "Darkvision 60ft"
-  ],
-  "attributes": {
-    "STR": 15,
-    "DEX": 17,
-    "CON": 17,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "CON",
-    "DEX"
   ],
   "Skill": [
     "Survival"
   ],
-  "Hidden Ability": "Poison Touch"
+  "Ssp": 30,
+  "Type": [
+    "Poison",
+    "Fighting"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 10,
+    "CON": 17,
+    "DEX": 17,
+    "INT": 6,
+    "STR": 15,
+    "WIS": 12
+  },
+  "index": 454,
+  "saving_throws": [
+    "CON",
+    "DEX"
+  ]
 }

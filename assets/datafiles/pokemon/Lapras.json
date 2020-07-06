@@ -1,10 +1,15 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Water Absorb",
+    "Shell Armor"
+  ],
+  "HP": 70,
+  "Hidden Ability": "Hydration",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Water Pulse",
-        "Body Slam"
-      ],
       "10": [
         "Rain Dance",
         "Perish Song"
@@ -17,6 +22,10 @@
         "Safeguard",
         "Hydro Pump",
         "Sheer Cold"
+      ],
+      "6": [
+        "Water Pulse",
+        "Body Slam"
       ]
     },
     "Starting Moves": [
@@ -62,37 +71,28 @@
       100
     ]
   },
-  "index": 131,
-  "Abilities": [
-    "Water Absorb",
-    "Shell Armor"
-  ],
-  "Type": [
-    "Water",
-    "Ice"
-  ],
   "SR": 10.0,
-  "AC": 16,
-  "Hit Dice": 10,
-  "HP": 70,
-  "WSp": 10,
-  "Ssp": 50,
-  "attributes": {
-    "STR": 17,
-    "DEX": 14,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 14
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "DEX",
-    "CHA"
-  ],
   "Skill": [
     "Survival",
     "Persuasion"
   ],
-  "Hidden Ability": "Hydration"
+  "Ssp": 50,
+  "Type": [
+    "Water",
+    "Ice"
+  ],
+  "WSp": 10,
+  "attributes": {
+    "CHA": 14,
+    "CON": 12,
+    "DEX": 14,
+    "INT": 6,
+    "STR": 17,
+    "WIS": 12
+  },
+  "index": 131,
+  "saving_throws": [
+    "DEX",
+    "CHA"
+  ]
 }

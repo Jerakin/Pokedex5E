@@ -1,11 +1,16 @@
 {
+  "AC": 15,
+  "Abilities": [
+    "Pickup",
+    "Cheek Pouch"
+  ],
+  "Burrowing Speed": "25",
+  "HP": 57,
+  "Hidden Ability": "Huge Power",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Take Down",
-        "Mud Shot",
-        "Double Kick"
-      ],
       "10": [
         "Odor Sleuth",
         "Flail"
@@ -19,6 +24,11 @@
         "Facade",
         "Earthquake",
         "Hammer Arm"
+      ],
+      "6": [
+        "Take Down",
+        "Mud Shot",
+        "Double Kick"
       ]
     },
     "Starting Moves": [
@@ -73,38 +83,28 @@
       100
     ]
   },
-  "index": 660,
-  "Abilities": [
-    "Pickup",
-    "Cheek Pouch"
+  "SR": 8.0,
+  "Senses": [
+    "Darkvision 15ft"
+  ],
+  "Skill": [
+    "Survival"
   ],
   "Type": [
     "Normal",
     "Ground"
   ],
-  "SR": 8.0,
-  "AC": 15,
-  "Hit Dice": 10,
-  "HP": 57,
   "WSp": 30,
-  "Senses": [
-    "Darkvision 15ft"
-  ],
   "attributes": {
-    "STR": 14,
-    "DEX": 14,
+    "CHA": 10,
     "CON": 17,
+    "DEX": 14,
     "INT": 6,
-    "WIS": 12,
-    "CHA": 10
+    "STR": 14,
+    "WIS": 12
   },
-  "MIN LVL FD": 5,
+  "index": 660,
   "saving_throws": [
     "CON"
-  ],
-  "Skill": [
-    "Survival"
-  ],
-  "Hidden Ability": "Huge Power",
-  "Burrowing Speed": "25"
+  ]
 }

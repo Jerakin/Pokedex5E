@@ -1,11 +1,16 @@
 {
+  "AC": 15,
+  "Abilities": [
+    "Rock Head",
+    "Sturdy"
+  ],
+  "Evolve": "Golem",
+  "HP": 55,
+  "Hidden Ability": "Sand Veil",
+  "Hit Dice": 8,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Magnitude",
-        "Rock Throw",
-        "Smack Down"
-      ],
       "10": [
         "Bulldoze",
         "Self-Destruct"
@@ -19,6 +24,11 @@
         "Explosion",
         "Double-Edge",
         "Stone Edge"
+      ],
+      "6": [
+        "Magnitude",
+        "Rock Throw",
+        "Smack Down"
       ]
     },
     "Starting Moves": [
@@ -61,40 +71,30 @@
       100
     ]
   },
-  "index": 75,
-  "Abilities": [
-    "Rock Head",
-    "Sturdy"
-  ],
-  "Type": [
-    "Rock",
-    "Ground"
-  ],
   "SR": 6.0,
-  "AC": 15,
-  "Hit Dice": 8,
-  "HP": 55,
-  "WSp": 25,
   "Senses": [
     "Tremorsense 50ft."
-  ],
-  "attributes": {
-    "STR": 16,
-    "DEX": 10,
-    "CON": 16,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "Evolve": "Golem",
-  "saving_throws": [
-    "CON",
-    "STR"
   ],
   "Skill": [
     "Athletics",
     "Survival"
   ],
-  "Hidden Ability": "Sand Veil"
+  "Type": [
+    "Rock",
+    "Ground"
+  ],
+  "WSp": 25,
+  "attributes": {
+    "CHA": 10,
+    "CON": 16,
+    "DEX": 10,
+    "INT": 6,
+    "STR": 16,
+    "WIS": 12
+  },
+  "index": 75,
+  "saving_throws": [
+    "CON",
+    "STR"
+  ]
 }
