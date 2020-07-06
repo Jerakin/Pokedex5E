@@ -1,10 +1,16 @@
 {
+  "AC": 15,
+  "Abilities": [
+    "Run Away",
+    "Guts"
+  ],
+  "Climbing Speed": 20,
+  "HP": 45,
+  "Hidden Ability": "Hustle",
+  "Hit Dice": 8,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Pursuit",
-        "Assurance"
-      ],
       "10": [
         "Hyper Fang",
         "Crunch"
@@ -16,6 +22,10 @@
       "18": [
         "Double-Edge",
         "Endeavor"
+      ],
+      "6": [
+        "Pursuit",
+        "Assurance"
       ]
     },
     "Starting Moves": [
@@ -63,38 +73,28 @@
       100
     ]
   },
-  "index": 20,
-  "Abilities": [
-    "Run Away",
-    "Guts"
-  ],
-  "Type": [
-    "Normal"
-  ],
   "SR": 5.0,
-  "AC": 15,
-  "Hit Dice": 8,
-  "HP": 45,
-  "WSp": 30,
   "Senses": [
     "Darkvision 50ft."
-  ],
-  "attributes": {
-    "STR": 15,
-    "DEX": 15,
-    "CON": 13,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 8
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "DEX"
   ],
   "Skill": [
     "Perception",
     "Stealth"
   ],
-  "Hidden Ability": "Hustle",
-  "Climbing Speed": 20
+  "Type": [
+    "Normal"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 8,
+    "CON": 13,
+    "DEX": 15,
+    "INT": 6,
+    "STR": 15,
+    "WIS": 12
+  },
+  "index": 20,
+  "saving_throws": [
+    "DEX"
+  ]
 }

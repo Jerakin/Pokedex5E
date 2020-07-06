@@ -1,11 +1,16 @@
 {
+  "AC": 15,
+  "Abilities": [
+    "Sturdy",
+    "Weak Armor"
+  ],
+  "Evolve": "Gigalith",
+  "HP": 55,
+  "Hidden Ability": "Sand Force",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Rock Blast",
-        "Mud-Slap",
-        "Iron Defense"
-      ],
       "10": [
         "Smack Down",
         "Rock Slide"
@@ -17,6 +22,11 @@
       "18": [
         "Stone Edge",
         "Explosion"
+      ],
+      "6": [
+        "Rock Blast",
+        "Mud-Slap",
+        "Iron Defense"
       ]
     },
     "Starting Moves": [
@@ -54,39 +64,29 @@
       100
     ]
   },
-  "index": 525,
-  "Abilities": [
-    "Sturdy",
-    "Weak Armor"
-  ],
-  "Type": [
-    "Rock"
-  ],
   "SR": 7.0,
-  "AC": 15,
-  "Hit Dice": 10,
-  "HP": 55,
-  "WSp": 20,
   "Senses": [
     "Tremorsense 80ft"
-  ],
-  "attributes": {
-    "STR": 17,
-    "DEX": 9,
-    "CON": 16,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "Evolve": "Gigalith",
-  "saving_throws": [
-    "CON",
-    "STR"
   ],
   "Skill": [
     "Survival",
     "Athletics"
   ],
-  "Hidden Ability": "Sand Force"
+  "Type": [
+    "Rock"
+  ],
+  "WSp": 20,
+  "attributes": {
+    "CHA": 10,
+    "CON": 16,
+    "DEX": 9,
+    "INT": 6,
+    "STR": 17,
+    "WIS": 12
+  },
+  "index": 525,
+  "saving_throws": [
+    "CON",
+    "STR"
+  ]
 }

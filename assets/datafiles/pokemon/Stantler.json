@@ -1,10 +1,15 @@
 {
+  "AC": 14,
+  "Abilities": [
+    "Intimidate",
+    "Frisk"
+  ],
+  "HP": 30,
+  "Hidden Ability": "Sap Sipper",
+  "Hit Dice": 8,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Sand Attack",
-        "Take Down"
-      ],
       "10": [
         "Confuse Ray",
         "Calm Mind"
@@ -18,6 +23,10 @@
         "Imprison",
         "Captivate",
         "Me First"
+      ],
+      "6": [
+        "Sand Attack",
+        "Take Down"
       ]
     },
     "Starting Moves": [
@@ -68,34 +77,25 @@
       100
     ]
   },
-  "index": 234,
-  "Abilities": [
-    "Intimidate",
-    "Frisk"
-  ],
-  "Type": [
-    "Normal"
-  ],
   "SR": 5.0,
-  "AC": 14,
-  "Hit Dice": 8,
-  "HP": 30,
-  "WSp": 35,
-  "attributes": {
-    "STR": 15,
-    "DEX": 17,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "DEX"
-  ],
   "Skill": [
     "Athletics",
     "Intimidation"
   ],
-  "Hidden Ability": "Sap Sipper"
+  "Type": [
+    "Normal"
+  ],
+  "WSp": 35,
+  "attributes": {
+    "CHA": 10,
+    "CON": 12,
+    "DEX": 17,
+    "INT": 6,
+    "STR": 15,
+    "WIS": 12
+  },
+  "index": 234,
+  "saving_throws": [
+    "DEX"
+  ]
 }

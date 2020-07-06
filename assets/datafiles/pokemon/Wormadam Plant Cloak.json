@@ -1,10 +1,15 @@
 {
+  "AC": 15,
+  "Abilities": [
+    "Anticipation"
+  ],
+  "Climbing Speed": 15,
+  "HP": 50,
+  "Hidden Ability": "Overcoat",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Hidden Power",
-        "Confusion"
-      ],
       "10": [
         "Razor Leaf",
         "Growth",
@@ -19,6 +24,10 @@
         "Psychic",
         "Leaf Storm",
         "Bug Buzz"
+      ],
+      "6": [
+        "Hidden Power",
+        "Confusion"
       ]
     },
     "Starting Moves": [
@@ -60,38 +69,29 @@
       100
     ]
   },
-  "index": 413,
-  "Abilities": [
-    "Anticipation"
-  ],
-  "Type": [
-    "Bug",
-    "Grass"
-  ],
   "SR": 6.0,
-  "AC": 15,
-  "Hit Dice": 10,
-  "HP": 50,
-  "WSp": 15,
   "Senses": [
     "Darkvision 30ft"
-  ],
-  "attributes": {
-    "STR": 12,
-    "DEX": 12,
-    "CON": 15,
-    "INT": 6,
-    "WIS": 14,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "CON"
   ],
   "Skill": [
     "Nature",
     "Survival"
   ],
-  "Hidden Ability": "Overcoat",
-  "Climbing Speed": 15
+  "Type": [
+    "Bug",
+    "Grass"
+  ],
+  "WSp": 15,
+  "attributes": {
+    "CHA": 10,
+    "CON": 15,
+    "DEX": 12,
+    "INT": 6,
+    "STR": 12,
+    "WIS": 14
+  },
+  "index": 413,
+  "saving_throws": [
+    "CON"
+  ]
 }

@@ -1,10 +1,15 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Sand Veil"
+  ],
+  "Burrowing Speed": "25",
+  "HP": 50,
+  "Hidden Ability": "Sand Rush",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Magnitude",
-        "Swift"
-      ],
       "10": [
         "Fury Swipes",
         "Sand Tomb"
@@ -18,6 +23,10 @@
         "Swords Dance",
         "Sandstorm",
         "Earthquake"
+      ],
+      "6": [
+        "Magnitude",
+        "Swift"
       ]
     },
     "Starting Moves": [
@@ -67,37 +76,28 @@
       100
     ]
   },
-  "index": 28,
-  "Abilities": [
-    "Sand Veil"
-  ],
-  "Type": [
-    "Ground"
-  ],
   "SR": 7.0,
-  "AC": 16,
-  "Hit Dice": 10,
-  "HP": 50,
-  "WSp": 30,
   "Senses": [
     "Tremorsense 80ft."
-  ],
-  "attributes": {
-    "STR": 16,
-    "DEX": 14,
-    "CON": 14,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "CON",
-    "STR"
   ],
   "Skill": [
     "Athletics"
   ],
-  "Hidden Ability": "Sand Rush",
-  "Burrowing Speed": "25"
+  "Type": [
+    "Ground"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 10,
+    "CON": 14,
+    "DEX": 14,
+    "INT": 6,
+    "STR": 16,
+    "WIS": 12
+  },
+  "index": 28,
+  "saving_throws": [
+    "CON",
+    "STR"
+  ]
 }

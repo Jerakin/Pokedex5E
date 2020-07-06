@@ -1,10 +1,17 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Poison Point",
+    "Swarm"
+  ],
+  "Climbing Speed": 25,
+  "Evolve": "Scolipede",
+  "HP": 50,
+  "Hidden Ability": "Speed Boost",
+  "Hit Dice": 8,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Protect",
-        "Poison Tail"
-      ],
       "10": [
         "Bug Bite",
         "Venoshock",
@@ -17,6 +24,10 @@
       "18": [
         "Rock Climb",
         "Double-Edge"
+      ],
+      "6": [
+        "Protect",
+        "Poison Tail"
       ]
     },
     "Starting Moves": [
@@ -52,36 +63,25 @@
       100
     ]
   },
-  "index": 544,
-  "Abilities": [
-    "Poison Point",
-    "Swarm"
+  "SR": 6.0,
+  "Skill": [
+    "Survival"
   ],
   "Type": [
     "Bug",
     "Poison"
   ],
-  "SR": 6.0,
-  "AC": 16,
-  "Hit Dice": 8,
-  "HP": 50,
   "WSp": 25,
   "attributes": {
-    "STR": 16,
-    "DEX": 11,
+    "CHA": 10,
     "CON": 14,
+    "DEX": 11,
     "INT": 6,
-    "WIS": 12,
-    "CHA": 10
+    "STR": 16,
+    "WIS": 12
   },
-  "MIN LVL FD": 5,
-  "Evolve": "Scolipede",
+  "index": 544,
   "saving_throws": [
     "CON"
-  ],
-  "Skill": [
-    "Survival"
-  ],
-  "Hidden Ability": "Speed Boost",
-  "Climbing Speed": 25
+  ]
 }

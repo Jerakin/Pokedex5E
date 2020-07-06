@@ -1,10 +1,14 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Volt Absorb"
+  ],
+  "HP": 45,
+  "Hidden Ability": "Quick Feet",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Quick Attack",
-        "Double Kick"
-      ],
       "10": [
         "Thunder Fang",
         "Pin Missile"
@@ -17,6 +21,10 @@
         "Discharge",
         "Last Resort",
         "Thunder"
+      ],
+      "6": [
+        "Quick Attack",
+        "Double Kick"
       ]
     },
     "Starting Moves": [
@@ -60,34 +68,26 @@
       100
     ]
   },
-  "index": 135,
-  "Abilities": [
-    "Volt Absorb"
-  ],
-  "Type": [
-    "Electric"
-  ],
   "SR": 8.0,
-  "AC": 16,
-  "Hit Dice": 10,
-  "HP": 45,
-  "WSp": 40,
-  "attributes": {
-    "STR": 15,
-    "DEX": 18,
-    "CON": 13,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 14
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "DEX",
-    "CHA"
-  ],
   "Skill": [
     "Perception",
     "Investigation"
   ],
-  "Hidden Ability": "Quick Feet"
+  "Type": [
+    "Electric"
+  ],
+  "WSp": 40,
+  "attributes": {
+    "CHA": 14,
+    "CON": 13,
+    "DEX": 18,
+    "INT": 6,
+    "STR": 15,
+    "WIS": 12
+  },
+  "index": 135,
+  "saving_throws": [
+    "DEX",
+    "CHA"
+  ]
 }

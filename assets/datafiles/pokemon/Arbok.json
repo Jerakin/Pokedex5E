@@ -1,10 +1,15 @@
 {
+  "AC": 15,
+  "Abilities": [
+    "Intimidate",
+    "Shed Skin"
+  ],
+  "HP": 45,
+  "Hidden Ability": "Unnerve",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Glare",
-        "Screech"
-      ],
       "10": [
         "Acid",
         "Spit Up",
@@ -21,6 +26,10 @@
         "Coil",
         "Gunk Shot",
         "Belch"
+      ],
+      "6": [
+        "Glare",
+        "Screech"
       ]
     },
     "Starting Moves": [
@@ -68,38 +77,29 @@
       100
     ]
   },
-  "index": 24,
-  "Abilities": [
-    "Intimidate",
-    "Shed Skin"
-  ],
-  "Type": [
-    "Poison"
-  ],
   "SR": 6.0,
-  "AC": 15,
-  "Hit Dice": 10,
-  "HP": 45,
-  "WSp": 30,
   "Senses": [
     "Darkvision 50ft."
-  ],
-  "attributes": {
-    "STR": 14,
-    "DEX": 16,
-    "CON": 12,
-    "INT": 8,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "CON"
   ],
   "Skill": [
     "Stealth",
     "Deception",
     "Intimidation"
   ],
-  "Hidden Ability": "Unnerve"
+  "Type": [
+    "Poison"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 10,
+    "CON": 12,
+    "DEX": 16,
+    "INT": 8,
+    "STR": 14,
+    "WIS": 12
+  },
+  "index": 24,
+  "saving_throws": [
+    "CON"
+  ]
 }

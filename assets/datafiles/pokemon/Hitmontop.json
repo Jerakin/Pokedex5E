@@ -1,10 +1,15 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Intimidate",
+    "Technician"
+  ],
+  "HP": 45,
+  "Hidden Ability": "Steadfast",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Quick Attack",
-        "Rapid Spin"
-      ],
       "10": [
         "Feint",
         "Counter",
@@ -20,6 +25,10 @@
         "Detect",
         "Close Combat",
         "Endeavor"
+      ],
+      "6": [
+        "Quick Attack",
+        "Rapid Spin"
       ]
     },
     "Starting Moves": [
@@ -59,34 +68,25 @@
       100
     ]
   },
-  "index": 237,
-  "Abilities": [
-    "Intimidate",
-    "Technician"
-  ],
-  "Type": [
-    "Fighting"
-  ],
   "SR": 7.0,
-  "AC": 16,
-  "Hit Dice": 10,
-  "HP": 45,
-  "WSp": 30,
-  "attributes": {
-    "STR": 15,
-    "DEX": 15,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "DEX"
-  ],
   "Skill": [
     "Acrobatics",
     "Intimidation"
   ],
-  "Hidden Ability": "Steadfast"
+  "Type": [
+    "Fighting"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 10,
+    "CON": 12,
+    "DEX": 15,
+    "INT": 6,
+    "STR": 15,
+    "WIS": 12
+  },
+  "index": 237,
+  "saving_throws": [
+    "DEX"
+  ]
 }

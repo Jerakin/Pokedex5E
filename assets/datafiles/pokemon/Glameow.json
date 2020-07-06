@@ -1,15 +1,17 @@
 {
+  "AC": 13,
+  "Abilities": [
+    "Limber",
+    "Own Tempo"
+  ],
+  "Climbing Speed": 30,
+  "Evolve": "Purugly",
+  "HP": 17,
+  "Hidden Ability": "Keen Eye",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Growl",
-        "Scratch",
-        "Hypnosis"
-      ],
-      "6": [
-        "Feint Attack",
-        "Fury Swipes"
-      ],
       "10": [
         "Charm",
         "Assist",
@@ -23,6 +25,15 @@
         "Attract",
         "Hone Claws",
         "Play Rough"
+      ],
+      "2": [
+        "Growl",
+        "Scratch",
+        "Hypnosis"
+      ],
+      "6": [
+        "Feint Attack",
+        "Fury Swipes"
       ]
     },
     "Starting Moves": [
@@ -61,40 +72,29 @@
       100
     ]
   },
-  "index": 431,
-  "Abilities": [
-    "Limber",
-    "Own Tempo"
-  ],
-  "Type": [
-    "Normal"
-  ],
   "SR": 2.0,
-  "AC": 13,
-  "Hit Dice": 6,
-  "HP": 17,
-  "WSp": 30,
   "Senses": [
     "Darkvision 30ft"
-  ],
-  "attributes": {
-    "STR": 10,
-    "DEX": 15,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 14
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Purugly",
-  "saving_throws": [
-    "DEX",
-    "CHA"
   ],
   "Skill": [
     "Stealth",
     "Perception"
   ],
-  "Hidden Ability": "Keen Eye",
-  "Climbing Speed": 30
+  "Type": [
+    "Normal"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 14,
+    "CON": 12,
+    "DEX": 15,
+    "INT": 6,
+    "STR": 10,
+    "WIS": 10
+  },
+  "index": 431,
+  "saving_throws": [
+    "DEX",
+    "CHA"
+  ]
 }

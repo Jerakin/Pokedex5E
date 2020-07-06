@@ -1,10 +1,15 @@
 {
+  "AC": 14,
+  "Abilities": [
+    "Damp",
+    "Water Absorb"
+  ],
+  "HP": 45,
+  "Hidden Ability": "Unaware",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Slam",
-        "Mud Bomb"
-      ],
       "10": [
         "Amnesia",
         "Yawn"
@@ -17,6 +22,10 @@
         "Haze",
         "Mist",
         "Muddy Water"
+      ],
+      "6": [
+        "Slam",
+        "Mud Bomb"
       ]
     },
     "Starting Moves": [
@@ -65,37 +74,28 @@
       100
     ]
   },
-  "index": 195,
-  "Abilities": [
-    "Damp",
-    "Water Absorb"
-  ],
-  "Type": [
-    "Water",
-    "Ground"
-  ],
   "SR": 6.0,
-  "AC": 14,
-  "Hit Dice": 10,
-  "HP": 45,
-  "WSp": 30,
-  "Ssp": 30,
-  "attributes": {
-    "STR": 16,
-    "DEX": 11,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 14,
-    "CHA": 12
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "CON",
-    "STR"
-  ],
   "Skill": [
     "Survival",
     "Athletics"
   ],
-  "Hidden Ability": "Unaware"
+  "Ssp": 30,
+  "Type": [
+    "Water",
+    "Ground"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 12,
+    "CON": 12,
+    "DEX": 11,
+    "INT": 6,
+    "STR": 16,
+    "WIS": 14
+  },
+  "index": 195,
+  "saving_throws": [
+    "CON",
+    "STR"
+  ]
 }

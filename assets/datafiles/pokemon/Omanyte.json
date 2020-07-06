@@ -1,14 +1,16 @@
 {
+  "AC": 15,
+  "Abilities": [
+    "Swift Swim",
+    "Shell Armor"
+  ],
+  "Evolve": "Omastar",
+  "HP": 28,
+  "Hidden Ability": "Weak Armor",
+  "Hit Dice": 8,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Bite",
-        "Water Gun"
-      ],
-      "6": [
-        "Rollout",
-        "Leer"
-      ],
       "10": [
         "Mud Shot"
       ],
@@ -22,6 +24,14 @@
         "Rock Blast",
         "Shell Smash",
         "Hydro Pump"
+      ],
+      "2": [
+        "Bite",
+        "Water Gun"
+      ],
+      "6": [
+        "Rollout",
+        "Leer"
       ]
     },
     "Starting Moves": [
@@ -59,39 +69,29 @@
       100
     ]
   },
-  "index": 138,
-  "Abilities": [
-    "Swift Swim",
-    "Shell Armor"
-  ],
-  "Type": [
-    "Rock",
-    "Water"
-  ],
   "SR": 2.0,
-  "AC": 15,
-  "Hit Dice": 8,
-  "HP": 28,
-  "WSp": 15,
-  "Ssp": 30,
   "Senses": [
     "Darkvision 20ft."
-  ],
-  "attributes": {
-    "STR": 14,
-    "DEX": 11,
-    "CON": 15,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 10
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Omastar",
-  "saving_throws": [
-    "CON"
   ],
   "Skill": [
     "Survival"
   ],
-  "Hidden Ability": "Weak Armor"
+  "Ssp": 30,
+  "Type": [
+    "Rock",
+    "Water"
+  ],
+  "WSp": 15,
+  "attributes": {
+    "CHA": 10,
+    "CON": 15,
+    "DEX": 11,
+    "INT": 6,
+    "STR": 14,
+    "WIS": 10
+  },
+  "index": 138,
+  "saving_throws": [
+    "CON"
+  ]
 }
