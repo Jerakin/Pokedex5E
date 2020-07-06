@@ -1,0 +1,50 @@
+{
+  "type" : "object",
+  "properties" : {
+    "Moves" : {"type" : "object", "properties" : {}},
+    "index" : {"type" : "number"},
+    "Abilities" : {"type" : "array"},
+    "Type" : {"type" : "array"},
+    "SR" : {"type" : "number"},
+    "AC" : {"type" : "number"},
+    "Hit Dice" : {"type" : "number"},
+    "HP" : {"type" : "number"},
+    "WSp" : {"type" : "number"},
+    "FSp" : {"type" : "number"},
+    "Ssp" : {"type" : "number"},
+    "Climbing Speed" : {"type" : "number"},
+    "Burrowing Speed": {"type" : "number"},
+    "Senses" : {"type" : "array"},
+    "attributes" : {
+      "type" : "object",
+      "properties" : {
+        "STR": {"type" : "number"},
+        "DEX": {"type" : "number"},
+        "CON": {"type" : "number"},
+        "INT": {"type" : "number"},
+        "WIS": {"type" : "number"},
+        "CHA": {"type" : "number"},
+      }
+    },
+    "MIN LVL FD" : {"type" : "number"},
+    "Evolve" : {"type" : "number"},
+    "saving_throws" : {"type" : "array"},
+    "Skill" : {"type" : "number"},
+    "Hidden Ability" : {"type" : "number"}
+  },
+  "required": [
+    "Moves",
+    "index",
+    "Abilities",
+    "Type",
+    "SR",
+    "AC",
+    "Hit Dice",
+    "HP",
+    "Senses",
+    "attributes",
+    "MIN LVL FD",
+    "saving_throws",
+    "Skill"
+    ]
+}
