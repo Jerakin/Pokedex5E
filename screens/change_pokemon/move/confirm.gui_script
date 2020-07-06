@@ -6,25 +6,31 @@ local movedex = require "pokedex.moves"
 local pokedex = require "pokedex.pokedex"
 local gooey_button = require "utils.gooey_buttons"
 local url = require "utils.url"
+local move_summary = require "screens.change_pokemon.move.move_summary"
 
 local sender
 local message_id
 
 function init(self)
 	gooey.acquire_input()
+	
 	local d = monarch.data("moves_confirm")
+	
 	sender = d.sender
 	message_id = d.message_id
 	self.replacement_move = d.replacement_move
 	self.move_to_replace = d.move_to_replace
-	print("TEMP move_to_replace = " .. tostring(self.move_to_replace) .. ", replacement_move = " .. tostring(self.replacement_move))
-	if self.move_to_replace == nil then
-		gui.set_text(gui.get_node("txt_accept"), "LEARN")
-		gui.set_enabled(gui.get_node("move_old/root"), false)
-	else
-		gui.set_text(gui.get_node("txt_accept"), "REPLACE")
-	end
+	self.pokemon = d.pokemon
+
+	move_summary.setup_move(self.pokemon, "move_new", self.replacement_move)
+
+	local accept_text = "REPLACE"
 	
+	if not move_summary.setup_move(self.pokemon, "move_old", self.move_to_replace) then
+		accept_text = "LEARN"
+	end	
+	
+	gui.set_text(gui.get_node("txt_accept"), accept_text)
 end
 
 function on_selected()
@@ -36,5 +42,5 @@ function on_input(self, action_id, action)
 	--gooey.button("btn_current_lvl", action_id, action, function() set_current(self) end, function(b) gooey_button.common_button(b, gui.get_node("txt_current_lvl")) end)
 	gooey.button("btn_cancel", action_id, action, function()
 		monarch.back()
-	end, gooey_button.close_button)
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_cancel")) end)
 end

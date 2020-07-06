@@ -33,7 +33,7 @@ end
 local function on_item_selected(self, list)
 	for i,item in ipairs(list.items) do
 		if item.data and item.index == list.selected_item then
-			monarch.show("moves_confirm", {}, {message_id=message_id, sender=sender, move_to_replace=self.move_to_replace, replacement_move=item.data})
+			monarch.show("moves_confirm", {}, {message_id=message_id, sender=sender, move_to_replace=self.move_to_replace, replacement_move=item.data, pokemon=self.pokemon})
 		end
 	end
 end
@@ -90,6 +90,7 @@ function init(self)
 	self.species = d.species
 	self.current_moves = d.current_moves
 	self.move_to_replace = d.move_to_replace
+	self.pokemon = d.pokemon
 	self.sub_list = "current"	
 	local starting_moves = pokedex.get_pokemons_moves(self.species, self.level)
 	self.all_items = filter_out_current_moves(self, starting_moves)
