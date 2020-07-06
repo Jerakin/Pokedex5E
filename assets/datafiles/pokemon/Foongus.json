@@ -1,16 +1,15 @@
 {
+  "AC": 12,
+  "Abilities": [
+    "Effect Spore"
+  ],
+  "Evolve": "Amoonguss",
+  "HP": 20,
+  "Hidden Ability": "Regenerator",
+  "Hit Dice": 8,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Growth",
-        "Astonish",
-        "Bide"
-      ],
-      "6": [
-        "Mega Drain",
-        "Ingrain",
-        "Feint Attack"
-      ],
       "10": [
         "Sweet Scent",
         "Giga Drain",
@@ -24,6 +23,16 @@
         "Solar Beam",
         "Rage Powder",
         "Spore"
+      ],
+      "2": [
+        "Growth",
+        "Astonish",
+        "Bide"
+      ],
+      "6": [
+        "Mega Drain",
+        "Ingrain",
+        "Feint Attack"
       ]
     },
     "Starting Moves": [
@@ -55,38 +64,29 @@
       100
     ]
   },
-  "index": 590,
-  "Abilities": [
-    "Effect Spore"
-  ],
-  "Type": [
-    "Grass",
-    "Poison"
-  ],
   "SR": 0.25,
-  "AC": 12,
-  "Hit Dice": 8,
-  "HP": 20,
-  "WSp": 10,
   "Senses": [
     "Tremorsense 25ft"
-  ],
-  "attributes": {
-    "STR": 12,
-    "DEX": 8,
-    "CON": 15,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 10
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Amoonguss",
-  "saving_throws": [
-    "CON"
   ],
   "Skill": [
     "Nature",
     "Deception"
   ],
-  "Hidden Ability": "Regenerator"
+  "Type": [
+    "Grass",
+    "Poison"
+  ],
+  "WSp": 10,
+  "attributes": {
+    "CHA": 10,
+    "CON": 15,
+    "DEX": 8,
+    "INT": 6,
+    "STR": 12,
+    "WIS": 10
+  },
+  "index": 590,
+  "saving_throws": [
+    "CON"
+  ]
 }

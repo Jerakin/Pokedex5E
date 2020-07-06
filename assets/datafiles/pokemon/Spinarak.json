@@ -1,16 +1,17 @@
 {
+  "AC": 12,
+  "Abilities": [
+    "Swarm",
+    "Insomnia"
+  ],
+  "Climbing Speed": 20,
+  "Evolve": "Ariados",
+  "HP": 18,
+  "Hidden Ability": "Sniper",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Absorb",
-        "Infestation",
-        "Scary Face"
-      ],
-      "6": [
-        "Night Shade",
-        "Shadow Sneak",
-        "Fury Swipes"
-      ],
       "10": [
         "Sucker Punch",
         "Spider Web"
@@ -24,6 +25,16 @@
         "Poison Jab",
         "Cross Poison",
         "Sticky Web"
+      ],
+      "2": [
+        "Absorb",
+        "Infestation",
+        "Scary Face"
+      ],
+      "6": [
+        "Night Shade",
+        "Shadow Sneak",
+        "Fury Swipes"
       ]
     },
     "Starting Moves": [
@@ -58,39 +69,28 @@
       100
     ]
   },
-  "index": 167,
-  "Abilities": [
-    "Swarm",
-    "Insomnia"
+  "SR": 0.25,
+  "Senses": [
+    "Darkvision 30ft."
+  ],
+  "Skill": [
+    "Stealth"
   ],
   "Type": [
     "Bug",
     "Poison"
   ],
-  "SR": 0.25,
-  "AC": 12,
-  "Hit Dice": 6,
-  "HP": 18,
   "WSp": 20,
-  "Senses": [
-    "Darkvision 30ft."
-  ],
   "attributes": {
-    "STR": 11,
-    "DEX": 10,
+    "CHA": 8,
     "CON": 15,
+    "DEX": 10,
     "INT": 6,
-    "WIS": 10,
-    "CHA": 8
+    "STR": 11,
+    "WIS": 10
   },
-  "MIN LVL FD": 1,
-  "Evolve": "Ariados",
+  "index": 167,
   "saving_throws": [
     "DEX"
-  ],
-  "Skill": [
-    "Stealth"
-  ],
-  "Hidden Ability": "Sniper",
-  "Climbing Speed": 20
+  ]
 }

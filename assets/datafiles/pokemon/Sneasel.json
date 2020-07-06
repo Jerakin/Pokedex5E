@@ -1,12 +1,16 @@
 {
+  "AC": 15,
+  "Abilities": [
+    "Inner Focus",
+    "Keen Eye"
+  ],
+  "Climbing Speed": 30,
+  "HP": 30,
+  "Hidden Ability": "Pickpocket",
+  "Hit Dice": 8,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Icy Wind",
-        "Fury Swipes",
-        "Agility",
-        "Metal Claw"
-      ],
       "10": [
         "Hone Claws",
         "Beat Up",
@@ -19,6 +23,12 @@
       "18": [
         "Punishment",
         "Ice Shard"
+      ],
+      "6": [
+        "Icy Wind",
+        "Fury Swipes",
+        "Agility",
+        "Metal Claw"
       ]
     },
     "Starting Moves": [
@@ -72,40 +82,30 @@
       100
     ]
   },
-  "index": 215,
-  "Abilities": [
-    "Inner Focus",
-    "Keen Eye"
-  ],
-  "Type": [
-    "Dark",
-    "Ice"
-  ],
   "SR": 4.0,
-  "AC": 15,
-  "Hit Dice": 8,
-  "HP": 30,
-  "WSp": 30,
   "Senses": [
     "Darkvision 40ft"
-  ],
-  "attributes": {
-    "STR": 13,
-    "DEX": 16,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "DEX"
   ],
   "Skill": [
     "Stealth",
     "Deception",
     "Sleight of Hand"
   ],
-  "Hidden Ability": "Pickpocket",
-  "Climbing Speed": 30
+  "Type": [
+    "Dark",
+    "Ice"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 10,
+    "CON": 12,
+    "DEX": 16,
+    "INT": 6,
+    "STR": 13,
+    "WIS": 12
+  },
+  "index": 215,
+  "saving_throws": [
+    "DEX"
+  ]
 }

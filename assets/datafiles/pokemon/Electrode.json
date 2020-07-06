@@ -1,11 +1,15 @@
 {
+  "AC": 17,
+  "Abilities": [
+    "Soundproof",
+    "Static"
+  ],
+  "HP": 50,
+  "Hidden Ability": "Aftermath",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Rollout",
-        "Screech",
-        "Charge Beam"
-      ],
       "10": [
         "Swift",
         "Electro Ball",
@@ -20,6 +24,11 @@
         "Explosion",
         "Gyro Ball",
         "Mirror Coat"
+      ],
+      "6": [
+        "Rollout",
+        "Screech",
+        "Charge Beam"
       ]
     },
     "Starting Moves": [
@@ -60,33 +69,24 @@
       100
     ]
   },
-  "index": 101,
-  "Abilities": [
-    "Soundproof",
-    "Static"
+  "SR": 7.0,
+  "Skill": [
+    "Stealth"
   ],
   "Type": [
     "Electric"
   ],
-  "SR": 7.0,
-  "AC": 17,
-  "Hit Dice": 10,
-  "HP": 50,
   "WSp": 30,
   "attributes": {
-    "STR": 14,
-    "DEX": 17,
+    "CHA": 8,
     "CON": 15,
+    "DEX": 17,
     "INT": 6,
-    "WIS": 12,
-    "CHA": 8
+    "STR": 14,
+    "WIS": 12
   },
-  "MIN LVL FD": 5,
+  "index": 101,
   "saving_throws": [
     "CON"
-  ],
-  "Skill": [
-    "Stealth"
-  ],
-  "Hidden Ability": "Aftermath"
+  ]
 }

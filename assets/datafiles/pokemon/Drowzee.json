@@ -1,14 +1,16 @@
 {
+  "AC": 14,
+  "Abilities": [
+    "Insomnia",
+    "Forewarn"
+  ],
+  "Evolve": "Hypno",
+  "HP": 17,
+  "Hidden Ability": "Inner Focus",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Disable",
-        "Confusion"
-      ],
-      "6": [
-        "Headbutt",
-        "Poison Gas"
-      ],
       "10": [
         "Meditate",
         "Psybeam"
@@ -24,6 +26,14 @@
         "Nasty Plot",
         "Psyshock",
         "Future Sight"
+      ],
+      "2": [
+        "Disable",
+        "Confusion"
+      ],
+      "6": [
+        "Headbutt",
+        "Poison Gas"
       ]
     },
     "Starting Moves": [
@@ -69,36 +79,26 @@
       100
     ]
   },
-  "index": 96,
-  "Abilities": [
-    "Insomnia",
-    "Forewarn"
-  ],
-  "Type": [
-    "Psychic"
-  ],
   "SR": 0.5,
-  "AC": 14,
-  "Hit Dice": 6,
-  "HP": 17,
-  "WSp": 25,
-  "attributes": {
-    "STR": 13,
-    "DEX": 10,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 14,
-    "CHA": 8
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Hypno",
-  "saving_throws": [
-    "INT",
-    "WIS"
-  ],
   "Skill": [
     "Insight",
     "Persuasion"
   ],
-  "Hidden Ability": "Inner Focus"
+  "Type": [
+    "Psychic"
+  ],
+  "WSp": 25,
+  "attributes": {
+    "CHA": 8,
+    "CON": 12,
+    "DEX": 10,
+    "INT": 6,
+    "STR": 13,
+    "WIS": 14
+  },
+  "index": 96,
+  "saving_throws": [
+    "INT",
+    "WIS"
+  ]
 }

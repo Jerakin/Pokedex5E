@@ -1,10 +1,14 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Leaf Guard"
+  ],
+  "HP": 55,
+  "Hidden Ability": "Chlorophyll",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Grass Whistle",
-        "Magical Leaf"
-      ],
       "10": [
         "Giga Drain",
         "Swords Dance"
@@ -16,6 +20,10 @@
       ],
       "18": [
         "Leaf Blade"
+      ],
+      "6": [
+        "Grass Whistle",
+        "Magical Leaf"
       ]
     },
     "Starting Moves": [
@@ -59,34 +67,26 @@
       100
     ]
   },
-  "index": 470,
-  "Abilities": [
-    "Leaf Guard"
-  ],
-  "Type": [
-    "Grass"
-  ],
   "SR": 8.0,
-  "AC": 16,
-  "Hit Dice": 10,
-  "HP": 55,
-  "WSp": 40,
-  "attributes": {
-    "STR": 18,
-    "DEX": 17,
-    "CON": 16,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "DEX",
-    "CHA"
-  ],
   "Skill": [
     "Perception",
     "Nature"
   ],
-  "Hidden Ability": "Chlorophyll"
+  "Type": [
+    "Grass"
+  ],
+  "WSp": 40,
+  "attributes": {
+    "CHA": 10,
+    "CON": 16,
+    "DEX": 17,
+    "INT": 6,
+    "STR": 18,
+    "WIS": 12
+  },
+  "index": 470,
+  "saving_throws": [
+    "DEX",
+    "CHA"
+  ]
 }

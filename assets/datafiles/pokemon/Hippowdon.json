@@ -1,10 +1,14 @@
 {
+  "AC": 18,
+  "Abilities": [
+    "Sand Stream"
+  ],
+  "HP": 66,
+  "Hidden Ability": "Sand Force",
+  "Hit Dice": 12,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Dig",
-        "Take Down"
-      ],
       "10": [
         "Sand Tomb",
         "Crunch"
@@ -15,6 +19,10 @@
       "18": [
         "Double-Edge",
         "Fissure"
+      ],
+      "6": [
+        "Dig",
+        "Take Down"
       ]
     },
     "Starting Moves": [
@@ -53,37 +61,29 @@
       100
     ]
   },
-  "index": 450,
-  "Abilities": [
-    "Sand Stream"
-  ],
-  "Type": [
-    "Ground"
-  ],
   "SR": 10.0,
-  "AC": 18,
-  "Hit Dice": 12,
-  "HP": 66,
-  "WSp": 25,
   "Senses": [
     "Tremorsense 60ft"
-  ],
-  "attributes": {
-    "STR": 18,
-    "DEX": 13,
-    "CON": 19,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "CON",
-    "STR"
   ],
   "Skill": [
     "Survival",
     "Athletics"
   ],
-  "Hidden Ability": "Sand Force"
+  "Type": [
+    "Ground"
+  ],
+  "WSp": 25,
+  "attributes": {
+    "CHA": 10,
+    "CON": 19,
+    "DEX": 13,
+    "INT": 6,
+    "STR": 18,
+    "WIS": 10
+  },
+  "index": 450,
+  "saving_throws": [
+    "CON",
+    "STR"
+  ]
 }

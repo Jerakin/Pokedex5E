@@ -1,10 +1,15 @@
 {
+  "AC": 15,
+  "Abilities": [
+    "Chlorophyll",
+    "Leaf Guard"
+  ],
+  "HP": 28,
+  "Hidden Ability": "Regenerator",
+  "Hit Dice": 8,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Poison Powder",
-        "Bind"
-      ],
       "10": [
         "Growth",
         "Mega Drain"
@@ -22,6 +27,10 @@
         "Wring Out",
         "Power Whip",
         "Grassy Terrain"
+      ],
+      "6": [
+        "Poison Powder",
+        "Bind"
       ]
     },
     "Starting Moves": [
@@ -60,33 +69,24 @@
       100
     ]
   },
-  "index": 114,
-  "Abilities": [
-    "Chlorophyll",
-    "Leaf Guard"
+  "SR": 5.0,
+  "Skill": [
+    "Nature"
   ],
   "Type": [
     "Grass"
   ],
-  "SR": 5.0,
-  "AC": 15,
-  "Hit Dice": 8,
-  "HP": 28,
   "WSp": 30,
   "attributes": {
-    "STR": 15,
-    "DEX": 14,
+    "CHA": 10,
     "CON": 15,
+    "DEX": 14,
     "INT": 6,
-    "WIS": 10,
-    "CHA": 10
+    "STR": 15,
+    "WIS": 10
   },
-  "MIN LVL FD": 5,
+  "index": 114,
   "saving_throws": [
     "CON"
-  ],
-  "Skill": [
-    "Nature"
-  ],
-  "Hidden Ability": "Regenerator"
+  ]
 }
