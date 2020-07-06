@@ -1,16 +1,16 @@
 {
+  "AC": 12,
+  "Abilities": [
+    "Intimidate",
+    "Moxie"
+  ],
+  "Evolve": "Krokorok",
+  "HP": 17,
+  "Hidden Ability": "Anger Point",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Sand Attack",
-        "Torment",
-        "Sand Tomb"
-      ],
-      "6": [
-        "Assurance",
-        "Mud-Slap",
-        "Embargo"
-      ],
       "10": [
         "Swagger",
         "Crunch",
@@ -24,6 +24,16 @@
       "18": [
         "Earthquake",
         "Thrash"
+      ],
+      "2": [
+        "Sand Attack",
+        "Torment",
+        "Sand Tomb"
+      ],
+      "6": [
+        "Assurance",
+        "Mud-Slap",
+        "Embargo"
       ]
     },
     "Starting Moves": [
@@ -63,39 +73,29 @@
       100
     ]
   },
-  "index": 551,
-  "Abilities": [
-    "Intimidate",
-    "Moxie"
-  ],
-  "Type": [
-    "Ground",
-    "Dark"
-  ],
   "SR": 0.5,
-  "AC": 12,
-  "Hit Dice": 6,
-  "HP": 17,
-  "WSp": 25,
-  "Ssp": 15,
   "Senses": [
     "Darkvision 20ft"
-  ],
-  "attributes": {
-    "STR": 10,
-    "DEX": 13,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 10
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Krokorok",
-  "saving_throws": [
-    "CON"
   ],
   "Skill": [
     "Survival"
   ],
-  "Hidden Ability": "Anger Point"
+  "Ssp": 15,
+  "Type": [
+    "Ground",
+    "Dark"
+  ],
+  "WSp": 25,
+  "attributes": {
+    "CHA": 10,
+    "CON": 12,
+    "DEX": 13,
+    "INT": 6,
+    "STR": 10,
+    "WIS": 10
+  },
+  "index": 551,
+  "saving_throws": [
+    "CON"
+  ]
 }

@@ -1,14 +1,16 @@
 {
+  "AC": 13,
+  "Abilities": [
+    "Intimidate",
+    "Shed Skin"
+  ],
+  "Evolve": "Arbok",
+  "HP": 16,
+  "Hidden Ability": "Unnerve",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Bite",
-        "Glare"
-      ],
-      "6": [
-        "Screech",
-        "Acid"
-      ],
       "10": [
         "Spit Up",
         "Stockpile",
@@ -24,6 +26,14 @@
         "Coil",
         "Gunk Shot",
         "Belch"
+      ],
+      "2": [
+        "Bite",
+        "Glare"
+      ],
+      "6": [
+        "Screech",
+        "Acid"
       ]
     },
     "Starting Moves": [
@@ -64,38 +74,28 @@
       100
     ]
   },
-  "index": 23,
-  "Abilities": [
-    "Intimidate",
-    "Shed Skin"
-  ],
-  "Type": [
-    "Poison"
-  ],
   "SR": 0.5,
-  "AC": 13,
-  "Hit Dice": 6,
-  "HP": 16,
-  "WSp": 30,
   "Senses": [
     "Darkvision 30ft."
-  ],
-  "attributes": {
-    "STR": 12,
-    "DEX": 13,
-    "CON": 11,
-    "INT": 8,
-    "WIS": 10,
-    "CHA": 10
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Arbok",
-  "saving_throws": [
-    "CON"
   ],
   "Skill": [
     "Stealth",
     "Deception"
   ],
-  "Hidden Ability": "Unnerve"
+  "Type": [
+    "Poison"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 10,
+    "CON": 11,
+    "DEX": 13,
+    "INT": 8,
+    "STR": 12,
+    "WIS": 10
+  },
+  "index": 23,
+  "saving_throws": [
+    "CON"
+  ]
 }

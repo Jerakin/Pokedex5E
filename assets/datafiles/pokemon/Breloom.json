@@ -1,11 +1,15 @@
 {
+  "AC": 15,
+  "Abilities": [
+    "Effect Spore",
+    "Poison Heal"
+  ],
+  "HP": 50,
+  "Hidden Ability": "Technician",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Headbutt",
-        "Feint",
-        "Counter"
-      ],
       "10": [
         "Force Palm"
       ],
@@ -16,6 +20,11 @@
       "18": [
         "Seed Bomb",
         "Dynamic Punch"
+      ],
+      "6": [
+        "Headbutt",
+        "Feint",
+        "Counter"
       ]
     },
     "Starting Moves": [
@@ -62,38 +71,29 @@
       100
     ]
   },
-  "index": 286,
-  "Abilities": [
-    "Effect Spore",
-    "Poison Heal"
+  "SR": 7.0,
+  "Senses": [
+    "Darkvision 60ft.",
+    "Tremorsense 60ft."
+  ],
+  "Skill": [
+    "Survival"
   ],
   "Type": [
     "Grass",
     "Fighting"
   ],
-  "SR": 7.0,
-  "AC": 15,
-  "Hit Dice": 10,
-  "HP": 50,
   "WSp": 30,
-  "Senses": [
-    "Darkvision 60ft.",
-    "Tremorsense 60ft."
-  ],
   "attributes": {
-    "STR": 16,
-    "DEX": 15,
+    "CHA": 10,
     "CON": 14,
+    "DEX": 15,
     "INT": 6,
-    "WIS": 12,
-    "CHA": 10
+    "STR": 16,
+    "WIS": 12
   },
-  "MIN LVL FD": 5,
+  "index": 286,
   "saving_throws": [
     "CON"
-  ],
-  "Skill": [
-    "Survival"
-  ],
-  "Hidden Ability": "Technician"
+  ]
 }

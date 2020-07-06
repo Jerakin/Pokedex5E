@@ -1,11 +1,15 @@
 {
+  "AC": 14,
+  "Abilities": [
+    "Natural Cure",
+    "Poison Point"
+  ],
+  "HP": 43,
+  "Hidden Ability": "Leaf Guard",
+  "Hit Dice": 8,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Leech Seed",
-        "Magical Leaf",
-        "Grass Whistle"
-      ],
       "10": [
         "Giga Drain",
         "Toxic Spikes",
@@ -20,6 +24,11 @@
         "Aromatherapy",
         "Synthesis",
         "Petal Dance"
+      ],
+      "6": [
+        "Leech Seed",
+        "Magical Leaf",
+        "Grass Whistle"
       ]
     },
     "Starting Moves": [
@@ -59,36 +68,27 @@
       100
     ]
   },
-  "index": 315,
-  "Abilities": [
-    "Natural Cure",
-    "Poison Point"
+  "SR": 5.0,
+  "Skill": [
+    "Nature",
+    "Survival"
   ],
   "Type": [
     "Grass",
     "Poison"
   ],
-  "SR": 5.0,
-  "AC": 14,
-  "Hit Dice": 8,
-  "HP": 43,
   "WSp": 25,
   "attributes": {
-    "STR": 13,
-    "DEX": 16,
+    "CHA": 10,
     "CON": 16,
+    "DEX": 16,
     "INT": 6,
-    "WIS": 10,
-    "CHA": 10
+    "STR": 13,
+    "WIS": 10
   },
-  "MIN LVL FD": 5,
+  "index": 315,
   "saving_throws": [
     "CON",
     "WIS"
-  ],
-  "Skill": [
-    "Nature",
-    "Survival"
-  ],
-  "Hidden Ability": "Leaf Guard"
+  ]
 }

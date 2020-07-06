@@ -1,10 +1,15 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Limber",
+    "Reckless"
+  ],
+  "HP": 45,
+  "Hidden Ability": "Unburden",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Jump Kick",
-        "Brick Break"
-      ],
       "10": [
         "Focus Energy",
         "Feint",
@@ -20,6 +25,10 @@
         "Endure",
         "Mega Kick",
         "Close Combat"
+      ],
+      "6": [
+        "Jump Kick",
+        "Brick Break"
       ]
     },
     "Starting Moves": [
@@ -61,35 +70,26 @@
       100
     ]
   },
-  "index": 106,
-  "Abilities": [
-    "Limber",
-    "Reckless"
-  ],
-  "Type": [
-    "Fighting"
-  ],
   "SR": 7.0,
-  "AC": 16,
-  "Hit Dice": 10,
-  "HP": 45,
-  "WSp": 30,
-  "attributes": {
-    "STR": 14,
-    "DEX": 16,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "STR",
-    "DEX"
-  ],
   "Skill": [
     "Athletics",
     "Acrobatics"
   ],
-  "Hidden Ability": "Unburden"
+  "Type": [
+    "Fighting"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 10,
+    "CON": 12,
+    "DEX": 16,
+    "INT": 6,
+    "STR": 14,
+    "WIS": 12
+  },
+  "index": 106,
+  "saving_throws": [
+    "STR",
+    "DEX"
+  ]
 }

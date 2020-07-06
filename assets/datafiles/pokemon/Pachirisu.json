@@ -1,16 +1,16 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Run Away",
+    "Pickup"
+  ],
+  "Climbing Speed": 35,
+  "HP": 20,
+  "Hidden Ability": "Volt Absorb",
+  "Hit Dice": 8,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Quick Attack",
-        "Charm",
-        "Spark"
-      ],
-      "6": [
-        "Endure",
-        "Swift",
-        "Nuzzle"
-      ],
       "10": [
         "Electro Ball",
         "Sweet Kiss",
@@ -23,6 +23,16 @@
       "18": [
         "Last Resort",
         "Hyper Fang"
+      ],
+      "2": [
+        "Quick Attack",
+        "Charm",
+        "Spark"
+      ],
+      "6": [
+        "Endure",
+        "Swift",
+        "Nuzzle"
       ]
     },
     "Starting Moves": [
@@ -57,35 +67,25 @@
       100
     ]
   },
-  "index": 417,
-  "Abilities": [
-    "Run Away",
-    "Pickup"
-  ],
-  "Type": [
-    "Electric"
-  ],
   "SR": 6.0,
-  "AC": 16,
-  "Hit Dice": 8,
-  "HP": 20,
-  "WSp": 35,
-  "attributes": {
-    "STR": 13,
-    "DEX": 18,
-    "CON": 15,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 1,
-  "saving_throws": [
-    "DEX"
-  ],
   "Skill": [
     "Acrobatics",
     "Perception"
   ],
-  "Hidden Ability": "Volt Absorb",
-  "Climbing Speed": 35
+  "Type": [
+    "Electric"
+  ],
+  "WSp": 35,
+  "attributes": {
+    "CHA": 10,
+    "CON": 15,
+    "DEX": 18,
+    "INT": 6,
+    "STR": 13,
+    "WIS": 12
+  },
+  "index": 417,
+  "saving_throws": [
+    "DEX"
+  ]
 }

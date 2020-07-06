@@ -1,11 +1,15 @@
 {
+  "AC": 15,
+  "Abilities": [
+    "Illuminate",
+    "Keen Eye"
+  ],
+  "HP": 50,
+  "Hidden Ability": "Analytic",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Crunch",
-        "Hypnosis",
-        "Super Fang"
-      ],
       "10": [
         "After You",
         "Focus Energy",
@@ -19,6 +23,11 @@
         "Mean Look",
         "Baton Pass",
         "Slam"
+      ],
+      "6": [
+        "Crunch",
+        "Hypnosis",
+        "Super Fang"
       ]
     },
     "Starting Moves": [
@@ -65,33 +74,24 @@
       100
     ]
   },
-  "index": 505,
-  "Abilities": [
-    "Illuminate",
-    "Keen Eye"
+  "SR": 6.0,
+  "Skill": [
+    "Investigation"
   ],
   "Type": [
     "Normal"
   ],
-  "SR": 6.0,
-  "AC": 15,
-  "Hit Dice": 10,
-  "HP": 50,
   "WSp": 30,
   "attributes": {
-    "STR": 13,
-    "DEX": 15,
+    "CHA": 10,
     "CON": 15,
+    "DEX": 15,
     "INT": 6,
-    "WIS": 12,
-    "CHA": 10
+    "STR": 13,
+    "WIS": 12
   },
-  "MIN LVL FD": 5,
+  "index": 505,
   "saving_throws": [
     "DEX"
-  ],
-  "Skill": [
-    "Investigation"
-  ],
-  "Hidden Ability": "Analytic"
+  ]
 }

@@ -1,10 +1,16 @@
 {
+  "AC": 14,
+  "Abilities": [
+    "Run Away",
+    "Keen Eye"
+  ],
+  "Climbing Speed": 35,
+  "HP": 45,
+  "Hidden Ability": "Frisk",
+  "Hit Dice": 8,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Helping Hand",
-        "Follow Me"
-      ],
       "10": [
         "Slam",
         "Rest"
@@ -17,6 +23,10 @@
         "Baton Pass",
         "Me First",
         "Hyper Voice"
+      ],
+      "6": [
+        "Helping Hand",
+        "Follow Me"
       ]
     },
     "Starting Moves": [
@@ -68,35 +78,25 @@
       100
     ]
   },
-  "index": 162,
-  "Abilities": [
-    "Run Away",
-    "Keen Eye"
-  ],
-  "Type": [
-    "Normal"
-  ],
   "SR": 5.0,
-  "AC": 14,
-  "Hit Dice": 8,
-  "HP": 45,
-  "WSp": 35,
-  "attributes": {
-    "STR": 14,
-    "DEX": 16,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "DEX"
-  ],
   "Skill": [
     "Acrobatics",
     "Perception"
   ],
-  "Hidden Ability": "Frisk",
-  "Climbing Speed": 35
+  "Type": [
+    "Normal"
+  ],
+  "WSp": 35,
+  "attributes": {
+    "CHA": 10,
+    "CON": 12,
+    "DEX": 16,
+    "INT": 6,
+    "STR": 14,
+    "WIS": 12
+  },
+  "index": 162,
+  "saving_throws": [
+    "DEX"
+  ]
 }

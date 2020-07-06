@@ -1,12 +1,15 @@
 {
+  "AC": 18,
+  "Abilities": [
+    "Keen Eye",
+    "Stall"
+  ],
+  "HP": 35,
+  "Hidden Ability": "Prankster",
+  "Hit Dice": 8,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Detect",
-        "Shadow Sneak",
-        "Feint Attack",
-        "Fake Out"
-      ],
       "10": [
         "Punishment",
         "Knock Off",
@@ -22,6 +25,12 @@
       "18": [
         "Quash",
         "Mean Look"
+      ],
+      "6": [
+        "Detect",
+        "Shadow Sneak",
+        "Feint Attack",
+        "Fake Out"
       ]
     },
     "Starting Moves": [
@@ -73,38 +82,29 @@
       100
     ]
   },
-  "index": 302,
-  "Abilities": [
-    "Keen Eye",
-    "Stall"
-  ],
-  "Type": [
-    "Dark",
-    "Ghost"
-  ],
   "SR": 7.0,
-  "AC": 18,
-  "Hit Dice": 8,
-  "HP": 35,
-  "WSp": 25,
   "Senses": [
     "Darkvision 30ft."
-  ],
-  "attributes": {
-    "STR": 12,
-    "DEX": 10,
-    "CON": 14,
-    "INT": 8,
-    "WIS": 16,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "WIS"
   ],
   "Skill": [
     "Deception",
     "Stealth"
   ],
-  "Hidden Ability": "Prankster"
+  "Type": [
+    "Dark",
+    "Ghost"
+  ],
+  "WSp": 25,
+  "attributes": {
+    "CHA": 10,
+    "CON": 14,
+    "DEX": 10,
+    "INT": 8,
+    "STR": 12,
+    "WIS": 16
+  },
+  "index": 302,
+  "saving_throws": [
+    "WIS"
+  ]
 }

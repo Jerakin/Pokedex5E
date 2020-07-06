@@ -1,10 +1,14 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Snow Cloak"
+  ],
+  "HP": 55,
+  "Hidden Ability": "Ice Body",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Bite",
-        "Ice Fang"
-      ],
       "10": [
         "Ice Shard",
         "Barrier"
@@ -16,6 +20,10 @@
       ],
       "18": [
         "Blizzard"
+      ],
+      "6": [
+        "Bite",
+        "Ice Fang"
       ]
     },
     "Starting Moves": [
@@ -57,34 +65,26 @@
       100
     ]
   },
-  "index": 471,
-  "Abilities": [
-    "Snow Cloak"
-  ],
-  "Type": [
-    "Ice"
-  ],
   "SR": 8.0,
-  "AC": 16,
-  "Hit Dice": 10,
-  "HP": 55,
-  "WSp": 40,
-  "attributes": {
-    "STR": 18,
-    "DEX": 16,
-    "CON": 17,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "DEX",
-    "CHA"
-  ],
   "Skill": [
     "Perception",
     "Survival"
   ],
-  "Hidden Ability": "Ice Body"
+  "Type": [
+    "Ice"
+  ],
+  "WSp": 40,
+  "attributes": {
+    "CHA": 10,
+    "CON": 17,
+    "DEX": 16,
+    "INT": 6,
+    "STR": 18,
+    "WIS": 12
+  },
+  "index": 471,
+  "saving_throws": [
+    "DEX",
+    "CHA"
+  ]
 }

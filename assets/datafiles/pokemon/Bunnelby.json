@@ -1,16 +1,17 @@
 {
+  "AC": 12,
+  "Abilities": [
+    "Pickup",
+    "Cheek Pouch"
+  ],
+  "Burrowing Speed": "20",
+  "Evolve": "Diggersby",
+  "HP": 16,
+  "Hidden Ability": "Huge Power",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Quick Attack",
-        "Double Slap",
-        "Mud-Slap"
-      ],
-      "6": [
-        "Take Down",
-        "Mud Shot",
-        "Double Kick"
-      ],
       "10": [
         "Odor Sleuth",
         "Flail"
@@ -23,6 +24,16 @@
         "Super Fang",
         "Facade",
         "Earthquake"
+      ],
+      "2": [
+        "Quick Attack",
+        "Double Slap",
+        "Mud-Slap"
+      ],
+      "6": [
+        "Take Down",
+        "Mud Shot",
+        "Double Kick"
       ]
     },
     "Starting Moves": [
@@ -67,38 +78,27 @@
       100
     ]
   },
-  "index": 659,
-  "Abilities": [
-    "Pickup",
-    "Cheek Pouch"
-  ],
-  "Type": [
-    "Normal"
-  ],
   "SR": 0.25,
-  "AC": 12,
-  "Hit Dice": 6,
-  "HP": 16,
-  "WSp": 25,
   "Senses": [
     "Darkvision 10ft"
-  ],
-  "attributes": {
-    "STR": 10,
-    "DEX": 12,
-    "CON": 10,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 10
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Diggersby",
-  "saving_throws": [
-    "CON"
   ],
   "Skill": [
     "Survival"
   ],
-  "Hidden Ability": "Huge Power",
-  "Burrowing Speed": "20"
+  "Type": [
+    "Normal"
+  ],
+  "WSp": 25,
+  "attributes": {
+    "CHA": 10,
+    "CON": 10,
+    "DEX": 12,
+    "INT": 6,
+    "STR": 10,
+    "WIS": 10
+  },
+  "index": 659,
+  "saving_throws": [
+    "CON"
+  ]
 }

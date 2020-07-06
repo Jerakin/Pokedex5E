@@ -1,15 +1,16 @@
 {
+  "AC": 13,
+  "Abilities": [
+    "Sturdy",
+    "Weak Armor"
+  ],
+  "Evolve": "Boldore",
+  "HP": 18,
+  "Hidden Ability": "Sand Force",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Sand Attack",
-        "Headbutt"
-      ],
-      "6": [
-        "Rock Blast",
-        "Mud-Slap",
-        "Iron Defense"
-      ],
       "10": [
         "Smack Down",
         "Rock Slide",
@@ -19,6 +20,15 @@
         "Sandstorm",
         "Stone Edge",
         "Explosion"
+      ],
+      "2": [
+        "Sand Attack",
+        "Headbutt"
+      ],
+      "6": [
+        "Rock Blast",
+        "Mud-Slap",
+        "Iron Defense"
       ]
     },
     "Starting Moves": [
@@ -53,37 +63,27 @@
       100
     ]
   },
-  "index": 524,
-  "Abilities": [
-    "Sturdy",
-    "Weak Armor"
-  ],
-  "Type": [
-    "Rock"
-  ],
   "SR": 0.5,
-  "AC": 13,
-  "Hit Dice": 6,
-  "HP": 18,
-  "WSp": 15,
   "Senses": [
     "Tremorsense 40ft"
-  ],
-  "attributes": {
-    "STR": 13,
-    "DEX": 8,
-    "CON": 14,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 10
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Boldore",
-  "saving_throws": [
-    "CON"
   ],
   "Skill": [
     "Survival"
   ],
-  "Hidden Ability": "Sand Force"
+  "Type": [
+    "Rock"
+  ],
+  "WSp": 15,
+  "attributes": {
+    "CHA": 10,
+    "CON": 14,
+    "DEX": 8,
+    "INT": 6,
+    "STR": 13,
+    "WIS": 10
+  },
+  "index": 524,
+  "saving_throws": [
+    "CON"
+  ]
 }

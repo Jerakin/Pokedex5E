@@ -1,14 +1,16 @@
 {
+  "AC": 13,
+  "Abilities": [
+    "Effect Spore",
+    "Dry Skin"
+  ],
+  "Evolve": "Parasect",
+  "HP": 18,
+  "Hidden Ability": "Damp",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Poison Powder",
-        "Stun Spore",
-        "Absorb"
-      ],
-      "6": [
-        "Fury Cutter"
-      ],
       "10": [
         "Spore",
         "Slash"
@@ -21,6 +23,14 @@
         "Aromatherapy",
         "Rage Powder",
         "X-Scissor"
+      ],
+      "2": [
+        "Poison Powder",
+        "Stun Spore",
+        "Absorb"
+      ],
+      "6": [
+        "Fury Cutter"
       ]
     },
     "Starting Moves": [
@@ -58,39 +68,29 @@
       100
     ]
   },
-  "index": 46,
-  "Abilities": [
-    "Effect Spore",
-    "Dry Skin"
+  "SR": 0.25,
+  "Senses": [
+    "Darkvision 30ft.",
+    "Tremorsense 30ft."
+  ],
+  "Skill": [
+    "Nature"
   ],
   "Type": [
     "Bug",
     "Grass"
   ],
-  "SR": 0.25,
-  "AC": 13,
-  "Hit Dice": 6,
-  "HP": 18,
   "WSp": 20,
-  "Senses": [
-    "Darkvision 30ft.",
-    "Tremorsense 30ft."
-  ],
   "attributes": {
-    "STR": 12,
-    "DEX": 9,
+    "CHA": 10,
     "CON": 15,
+    "DEX": 9,
     "INT": 6,
-    "WIS": 10,
-    "CHA": 10
+    "STR": 12,
+    "WIS": 10
   },
-  "MIN LVL FD": 1,
-  "Evolve": "Parasect",
+  "index": 46,
   "saving_throws": [
     "CON"
-  ],
-  "Skill": [
-    "Nature"
-  ],
-  "Hidden Ability": "Damp"
+  ]
 }

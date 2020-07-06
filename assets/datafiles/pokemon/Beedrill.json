@@ -1,10 +1,16 @@
 {
+  "AC": 14,
+  "Abilities": [
+    "Swarm"
+  ],
+  "Climbing Speed": 30,
+  "Fsp": 30,
+  "HP": 47,
+  "Hidden Ability": "Sniper",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Rage",
-        "Pursuit"
-      ],
       "10": [
         "Focus Energy",
         "Venoshock",
@@ -19,6 +25,10 @@
         "Agility",
         "Endeavor",
         "Fell Stinger"
+      ],
+      "6": [
+        "Rage",
+        "Pursuit"
       ]
     },
     "Starting Moves": [
@@ -60,37 +70,27 @@
       100
     ]
   },
-  "index": 15,
-  "Abilities": [
-    "Swarm"
+  "SR": 6.0,
+  "Skill": [
+    "Acrobatics",
+    "Intimidation"
   ],
   "Type": [
     "Bug",
     "Poison"
   ],
-  "SR": 6.0,
-  "AC": 14,
-  "Hit Dice": 10,
-  "HP": 47,
   "WSp": 30,
-  "Fsp": 30,
   "attributes": {
-    "STR": 12,
-    "DEX": 16,
+    "CHA": 10,
     "CON": 13,
+    "DEX": 16,
     "INT": 6,
-    "WIS": 12,
-    "CHA": 10
+    "STR": 12,
+    "WIS": 12
   },
-  "MIN LVL FD": 5,
+  "index": 15,
   "saving_throws": [
     "DEX",
     "CHA"
-  ],
-  "Skill": [
-    "Acrobatics",
-    "Intimidation"
-  ],
-  "Hidden Ability": "Sniper",
-  "Climbing Speed": 30
+  ]
 }

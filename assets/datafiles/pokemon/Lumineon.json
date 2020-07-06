@@ -1,9 +1,15 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Swift Swim",
+    "Storm Drain"
+  ],
+  "HP": 55,
+  "Hidden Ability": "Water Veil",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Water Pulse"
-      ],
       "10": [
         "Captivate",
         "Safeguard"
@@ -17,6 +23,9 @@
         "Bounce",
         "Silver Wind",
         "Soak"
+      ],
+      "6": [
+        "Water Pulse"
       ]
     },
     "Starting Moves": [
@@ -56,38 +65,29 @@
       100
     ]
   },
-  "index": 457,
-  "Abilities": [
-    "Swift Swim",
-    "Storm Drain"
-  ],
-  "Type": [
-    "Water"
-  ],
   "SR": 9.0,
-  "AC": 16,
-  "Hit Dice": 10,
-  "HP": 55,
-  "WSp": 5,
-  "Ssp": 35,
   "Senses": [
     "Darkvision 60ft"
-  ],
-  "attributes": {
-    "STR": 13,
-    "DEX": 18,
-    "CON": 16,
-    "INT": 6,
-    "WIS": 14,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "DEX"
   ],
   "Skill": [
     "Nature",
     "Perception"
   ],
-  "Hidden Ability": "Water Veil"
+  "Ssp": 35,
+  "Type": [
+    "Water"
+  ],
+  "WSp": 5,
+  "attributes": {
+    "CHA": 10,
+    "CON": 16,
+    "DEX": 18,
+    "INT": 6,
+    "STR": 13,
+    "WIS": 14
+  },
+  "index": 457,
+  "saving_throws": [
+    "DEX"
+  ]
 }

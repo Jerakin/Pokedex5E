@@ -1,10 +1,15 @@
 {
+  "AC": 22,
+  "Abilities": [
+    "Sturdy",
+    "Gluttony"
+  ],
+  "HP": 25,
+  "Hidden Ability": "Contrary",
+  "Hit Dice": 8,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Safeguard",
-        "Rest"
-      ],
       "10": [
         "Rock Throw",
         "Gastro Acid",
@@ -20,6 +25,10 @@
         "Power Split",
         "Stone Edge",
         "Sticky Web"
+      ],
+      "6": [
+        "Safeguard",
+        "Rest"
       ]
     },
     "Starting Moves": [
@@ -63,34 +72,25 @@
       100
     ]
   },
-  "index": 213,
-  "Abilities": [
-    "Sturdy",
-    "Gluttony"
+  "SR": 4.0,
+  "Skill": [
+    "Survival"
   ],
   "Type": [
     "Bug",
     "Rock"
   ],
-  "SR": 4.0,
-  "AC": 22,
-  "Hit Dice": 8,
-  "HP": 25,
   "WSp": 10,
   "attributes": {
-    "STR": 10,
-    "DEX": 8,
+    "CHA": 10,
     "CON": 12,
+    "DEX": 8,
     "INT": 6,
-    "WIS": 16,
-    "CHA": 10
+    "STR": 10,
+    "WIS": 16
   },
-  "MIN LVL FD": 5,
+  "index": 213,
   "saving_throws": [
     "CON"
-  ],
-  "Skill": [
-    "Survival"
-  ],
-  "Hidden Ability": "Contrary"
+  ]
 }
