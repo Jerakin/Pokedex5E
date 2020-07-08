@@ -9,6 +9,7 @@ local url = require "utils.url"
 local move_summary = require "screens.change_pokemon.move.move_summary"
 
 function init(self)
+	gui.set_render_order(15)
 	gooey.acquire_input()
 	
 	local d = monarch.data("moves_confirm")
@@ -19,11 +20,11 @@ function init(self)
 	self.move_to_replace = d.move_to_replace
 	self.pokemon = d.pokemon
 
-	move_summary.setup_move(self.pokemon, "move_new", self.replacement_move)
+	move_summary.setup_move("move_new", self.pokemon, self.replacement_move)
 
 	local accept_text = "REPLACE"
 	
-	if not move_summary.setup_move(self.pokemon, "move_old", self.move_to_replace) then
+	if not move_summary.setup_move("move_old", self.pokemon, self.move_to_replace) then
 		accept_text = "LEARN"
 
 		-- Hide the arrow, shrink the screen, and move everything else up

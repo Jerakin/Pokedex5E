@@ -2,6 +2,7 @@ local moves = require "pokedex.moves"
 local type_data = require "utils.type_data"
 local _pokemon = require "pokedex.pokemon"
 local gui_utils = require "utils.gui"
+local gooey = require "gooey.gooey"
 
 local M = {}
 
@@ -16,7 +17,7 @@ function M.get_size(str_node_prefix)
 	return gui.get_size(gui.get_node(str_node_prefix .. "/background"))
 end
 
-function M.setup_move(pokemon, str_node_prefix, move_name)
+function M.setup_move(str_node_prefix, pokemon, move_name)
 
 	local move_data = nil
 	if move_name ~= nil then
@@ -79,6 +80,45 @@ function M.setup_move(pokemon, str_node_prefix, move_name)
 	end
 
 	return is_valid
+end
+
+
+--[[
+local function update_list(list)
+	if list.scroll and list.scroll.y ~= 0 then
+		gooey.vertical_scrollbar("scrollist/scrollbar/handle", "scrollist/scrollbar/bar").scroll_to(0, list.scroll.y)
+	end
+	for i,item in ipairs(list.items) do
+		if item.data and item.data ~= "" then
+			update_listitem(list, item)
+		end
+	end
+end
+
+local function refresh_list(self)
+	self.list_items = utils.shallow_copy(self.all_items)
+	local list = gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items)
+	list.scroll_to(0, 0)
+	update_list(list)
+	gooey.vertical_scrollbar("scrollist/scrollbar/handle", "scrollist/scrollbar/bar").scroll_to(0, 0)
+end
+
+local function on_scrolled(self, scrollbar)
+	gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items).scroll_to(0, scrollbar.scroll.y)
+end
+--]]
+
+function M.on_input(str_node_prefix, action_id, action)
+	-- TODO: Figure out
+	--gooey.vertical_static_list(list_id, stencil_id, item_ids, action_id, action)
+
+	--[[
+	local list = gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items, action_id, action, function(item) on_item_selected(self, item) end, update_list)
+	if list.max_y and list.max_y > 0 then
+		gooey.vertical_scrollbar("scrollist/scrollbar/handle", "scrollist/scrollbar/bar", action_id, action, function(scrollbar) on_scrolled(self, scrollbar) end)
+	end
+	--]]
+	--gooey: function M.vertical_static_list(list_id, stencil_id, item_ids, action_id, action, fn, refresh_fn)
 end
 
 return M
