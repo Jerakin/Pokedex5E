@@ -144,7 +144,7 @@ function init(self)
 			eventId = "Navigation:Import",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("import")
+		monarch.show("qr_read")
 		toggle(self)
 	end, {no_shake=true})
 

@@ -73,7 +73,36 @@ function M.get_clipboard()
 	return
 end
 
+function M.load_qr()
+	if camera.start_capture(camera.CAMERA_TYPE_BACK, camera.CAPTURE_QUALITY_HIGH) then
+--[[
+		-- start loop
 
+		-- camera buffer should be:
+		local info = camera.get_info()
+		-- info has width, height
+
+		-- has stream named rgb, type buffer,VALUE_TYPE_UINT8, value count 1
+		local buffer = camera.get_frame()
+
+		-- (Could theoretically display this if needed?)
+
+		-- I'm not clear on whether the buffer is in the right format for qrcode, qrcore says it needs "An image buffer where the first stream must be of format UINT8 * 3, and have the dimensions width*height"
+		-- but, assuming it does,
+		local qrstring = qrcode.scan(buffer, info.width, info.height, 0) -- 0 is flip_x
+
+		if qrstring ~= nil then
+			-- qr code found, can exit loop and check if it's a pokemon string
+			camera.stop_capture()
+		else
+			-- no qr code found
+		end
+
+		-- end loop
+
+		--]]
+	end
+end
 
 local function decode_status(pokemon)
 	local new = {}
@@ -83,11 +112,14 @@ local function decode_status(pokemon)
 	pokemon.statuses = new
 end
 
-
-function M.export(id)
+function M.generate_qr(id)
 	local pokemon = storage.get_copy(id)
 	decode_status(pokemon)
 	local p_json = ljson.encode(pokemon)
+	return qrcode.generate(p_json)
+end
+
+function M.export(id)
 	clipboard.copy(p_json)
 	notify.notify((pokemon.nickname or pokemon.species.current) .. " copied to clipboard!")
 	gameanalytics.addDesignEvent {

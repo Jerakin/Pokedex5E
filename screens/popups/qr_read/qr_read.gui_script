@@ -1,0 +1,17 @@
+local monarch = require "monarch.monarch"
+local share = require "pokedex.share"
+local url = require "utils.url"
+
+function init(self)
+	gui.set_render_order(14)
+	msg.post(url.MENU, "hide")
+	share.load_qr()
+end
+
+function final(self)
+
+end
+
+function on_input(self, action_id, action)
+
+end
