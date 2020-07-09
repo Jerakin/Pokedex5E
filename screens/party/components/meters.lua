@@ -69,12 +69,24 @@ function M.add_loyalty(id, loyalty)
 	storage.set_pokemon_loyalty(id, current + loyalty)
 end
 
+function M.show_hp_selector(id)
+	local hp = storage.get_pokemon_current_hp(id)
+	monarch.show("input", {},
+	{
+		sender=msg.url(),
+		message="update_hp",
+		allowed_characters="[%d%+%-]",
+		default_text=hp,
+		help_text="Specify new HP (55), subtract (-2), or add (+2)"
+	})
+end
+
 function M.show_temp_hp_selector(id)
 	local temp_hp = storage.get_pokemon_temp_hp(id)
 	monarch.show("input", {},
 	{
 		sender=msg.url(),
-		message="temp_hp",
+		message="update_temp_hp",
 		allowed_characters="[%d]",
 		default_text=temp_hp,
 		help_text="Specify temporary HP.\n\nReminder: Temporary HP does not stack!"
@@ -91,6 +103,20 @@ function M.reduce_hp(id)
 end
 
 local function add_hp_buttons(nodes, pokemon)
+	local id = party_utils.set_id(nodes["pokemon/hp_bar_bg"])
+	local hp_bar = {
+		node=id,
+		func=function(button)
+			local pokemon_id = _pokemon.get_id(pokemon)
+			if button.long_pressed then
+				M.show_temp_hp_selector(pokemon_id)
+			else
+				M.show_hp_selector(pokemon_id)
+			end
+		end,
+		long_pressed_time = 0.5
+	}
+	
 	local id = party_utils.set_id(nodes["pokemon/hp/btn_plus"])
 	local plus = {
 		node=id,
@@ -103,9 +129,9 @@ local function add_hp_buttons(nodes, pokemon)
 					eventId = "Party:HP:Increase"
 				}
 				M.add_hp(pokemon_id, 1)
+				information.refresh(pokemon_id)
+				M.setup_hp(nodes, pokemon_id)
 			end
-			information.refresh(pokemon_id)
-			M.setup_hp(nodes, pokemon_id)
 		end,
 		refresh=gooey_buttons.plus_button,
 		long_pressed_time = 0.5
@@ -122,8 +148,9 @@ local function add_hp_buttons(nodes, pokemon)
 		M.reduce_hp(pokemon_id)
 		information.refresh(pokemon_id)
 		M.setup_hp(nodes, pokemon_id) end, refresh=gooey_buttons.minus_button
-		
 	}
+
+	table.insert(active_buttons, hp_bar)
 	table.insert(active_buttons, plus)
 	table.insert(active_buttons, minus)
 end
@@ -263,7 +290,7 @@ function M.on_message(message_id, message)
 		end
 	elseif message_id == hash("refresh_hp") then
 		M.setup_hp(active_nodes, active_pokemon_id)
-	elseif message_id == hash("temp_hp") then
+	elseif message_id == hash("update_temp_hp") then
 		local active_pokemon_id = storage.list_of_ids_in_inventory()[message.active_index]
 		local temp_hp, expr = parse_number(message.str, 0)
 		if not expr then
