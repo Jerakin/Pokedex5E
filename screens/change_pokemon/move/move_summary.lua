@@ -14,7 +14,7 @@ local function join_table(title, T, sep)
 end
 
 local function update_desc_list(str_node_prefix, action_id, action)
-	gooey.vertical_static_list(str_node_prefix, str_node_prefix .. "/desc_stencil", {str_node_prefix .. "/txt_desc"}, action_id, action)
+	gooey.vertical_static_list(str_node_prefix, str_node_prefix .. "/desc_stencil", {str_node_prefix .. "/txt_desc"}, action_id, action, function() end)
 end
 
 function M.get_size(str_node_prefix)
