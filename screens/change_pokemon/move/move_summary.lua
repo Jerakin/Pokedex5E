@@ -49,6 +49,9 @@ function M.setup_move(str_node_prefix, pokemon, move_name)
 		local node_pp = gui.get_node(str_node_prefix .. "/txt_pp")
 		local node_dmg = gui.get_node(str_node_prefix .. "/txt_dmg")
 
+		local size_desc = gui.get_size(node_desc)
+		local metrics_desc = gui.get_text_metrics_from_node(node_desc)
+
 		gui.set_text(node_name, move_name)
 		gui.set_text(node_desc, move_data.description)
 		gui.set_text(node_time, move_data.time)
@@ -59,8 +62,19 @@ function M.setup_move(str_node_prefix, pokemon, move_name)
 		gui.set_text(node_type, move_data.type)
 		gui.set_text(node_dmg, move_data.damage or "-")
 
+		-- Set up the size of the description so it can be scrolled by the gui static list.
+		-- also set up its position so it's the same as what the list will set it to on first input
+		-- (so it does not suddenly jerk into position).
+		-- NOTE: The item must have CENTER pivot in the Y dimension and 1 scale for the list to work!
+		local metrics_desc_new = gui.get_text_metrics_from_node(node_desc)
+		local diff_desc_size = metrics_desc_new.height - metrics_desc.height
+		size_desc.y = size_desc.y + diff_desc_size
+		gui.set_size(node_desc, size_desc)
+		local pos_desc = gui.get_position(node_desc)
+		pos_desc.y = -size_desc.y/2
+		gui.set_position(node_desc, pos_desc)
+
 		gui_utils.scale_text_to_fit_size(node_name)
-		gui_utils.scale_text_to_fit_size(node_desc)
 		gui_utils.scale_text_to_fit_size(node_time)
 		gui_utils.scale_text_to_fit_size(node_duration)
 		gui_utils.scale_text_to_fit_size(node_range)
@@ -82,43 +96,8 @@ function M.setup_move(str_node_prefix, pokemon, move_name)
 	return is_valid
 end
 
-
---[[
-local function update_list(list)
-	if list.scroll and list.scroll.y ~= 0 then
-		gooey.vertical_scrollbar("scrollist/scrollbar/handle", "scrollist/scrollbar/bar").scroll_to(0, list.scroll.y)
-	end
-	for i,item in ipairs(list.items) do
-		if item.data and item.data ~= "" then
-			update_listitem(list, item)
-		end
-	end
-end
-
-local function refresh_list(self)
-	self.list_items = utils.shallow_copy(self.all_items)
-	local list = gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items)
-	list.scroll_to(0, 0)
-	update_list(list)
-	gooey.vertical_scrollbar("scrollist/scrollbar/handle", "scrollist/scrollbar/bar").scroll_to(0, 0)
-end
-
-local function on_scrolled(self, scrollbar)
-	gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items).scroll_to(0, scrollbar.scroll.y)
-end
---]]
-
 function M.on_input(str_node_prefix, action_id, action)
-	-- TODO: Figure out
-	--gooey.vertical_static_list(list_id, stencil_id, item_ids, action_id, action)
-
-	--[[
-	local list = gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items, action_id, action, function(item) on_item_selected(self, item) end, update_list)
-	if list.max_y and list.max_y > 0 then
-		gooey.vertical_scrollbar("scrollist/scrollbar/handle", "scrollist/scrollbar/bar", action_id, action, function(scrollbar) on_scrolled(self, scrollbar) end)
-	end
-	--]]
-	--gooey: function M.vertical_static_list(list_id, stencil_id, item_ids, action_id, action, fn, refresh_fn)
+	gooey.vertical_static_list(str_node_prefix, str_node_prefix .. "/desc_stencil", {str_node_prefix .. "/txt_desc"}, action_id, action)
 end
 
 return M
