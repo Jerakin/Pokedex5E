@@ -1,11 +1,14 @@
 {
+  "AC": 14,
+  "Abilities": [
+    "Immunity"
+  ],
+  "HP": 38,
+  "Hidden Ability": "Toxic Boost",
+  "Hit Dice": 8,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Hone Claws",
-        "Slash",
-        "Revenge"
-      ],
       "10": [
         "Crush Claw",
         "False Swipe"
@@ -19,6 +22,11 @@
         "Taunt",
         "Swords Dance",
         "Close Combat"
+      ],
+      "6": [
+        "Hone Claws",
+        "Slash",
+        "Revenge"
       ]
     },
     "Starting Moves": [
@@ -72,33 +80,25 @@
       100
     ]
   },
-  "index": 335,
-  "Abilities": [
-    "Immunity"
-  ],
-  "Type": [
-    "Normal"
-  ],
   "SR": 6.0,
-  "AC": 14,
-  "Hit Dice": 8,
-  "HP": 38,
-  "WSp": 30,
-  "attributes": {
-    "STR": 15,
-    "DEX": 17,
-    "CON": 15,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "DEX"
-  ],
   "Skill": [
     "Acrobatics",
     "Athletics"
   ],
-  "Hidden Ability": "Toxic Boost"
+  "Type": [
+    "Normal"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 10,
+    "CON": 15,
+    "DEX": 17,
+    "INT": 6,
+    "STR": 15,
+    "WIS": 10
+  },
+  "index": 335,
+  "saving_throws": [
+    "DEX"
+  ]
 }

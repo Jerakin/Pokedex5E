@@ -1,10 +1,15 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Intimidate",
+    "Anger Point"
+  ],
+  "HP": 70,
+  "Hidden Ability": "Sheer Force",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Pursuit",
-        "Rest"
-      ],
       "10": [
         "Payback"
       ],
@@ -17,6 +22,10 @@
         "Swagger",
         "Thrash",
         "Giga Impact"
+      ],
+      "6": [
+        "Pursuit",
+        "Rest"
       ]
     },
     "Starting Moves": [
@@ -65,35 +74,26 @@
       100
     ]
   },
-  "index": 128,
-  "Abilities": [
-    "Intimidate",
-    "Anger Point"
-  ],
-  "Type": [
-    "Normal"
-  ],
   "SR": 10.0,
-  "AC": 16,
-  "Hit Dice": 10,
-  "HP": 70,
-  "WSp": 40,
-  "attributes": {
-    "STR": 17,
-    "DEX": 18,
-    "CON": 16,
-    "INT": 8,
-    "WIS": 10,
-    "CHA": 8
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "STR",
-    "CON"
-  ],
   "Skill": [
     "Athletics",
     "Intimidation"
   ],
-  "Hidden Ability": "Sheer Force"
+  "Type": [
+    "Normal"
+  ],
+  "WSp": 40,
+  "attributes": {
+    "CHA": 8,
+    "CON": 16,
+    "DEX": 18,
+    "INT": 8,
+    "STR": 17,
+    "WIS": 10
+  },
+  "index": 128,
+  "saving_throws": [
+    "STR",
+    "CON"
+  ]
 }

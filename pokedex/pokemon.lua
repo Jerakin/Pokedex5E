@@ -851,81 +851,87 @@ local function level_index(level)
 end
 
 local function get_damage_mod_stab(pokemon, move)
-	local modifier
-	local damage
-	local ab
-	local stab = false
-	local stab_damage = 0
-	local total = M.get_total_attribute
+	local move_power
+	local dice
+	local stab_damage
 	local floored_mod
 	local trainer_stab = 0
-	-- Pick the highest of the moves power
+	local extra_damage = 0
 	local total = M.get_attributes(pokemon)
+	local index = level_index(M.get_current_level(pokemon))
+	local is_attack = (move.atk == true or move.auto_hit == true) and move.Damage ~= nil
+
+	-- Pick the highest of the moves powers
 	if move["Move Power"] then
 		for _, mod in pairs(move["Move Power"]) do
 			if total[mod] then
 				local floored_mod = math.floor((total[mod] - 10) / 2)
-				if modifier then
-					if floored_mod > modifier then
-						modifier = floored_mod
+				if move_power then
+					if floored_mod > move_power then
+						move_power = floored_mod
 					end
 				else
-					modifier = floored_mod
+					move_power = floored_mod
 				end
 			elseif mod == "Any" then
-				print("ANY!")
 				local max = 0
 				for k, v in pairs(total) do
 					max = math.max(v, max)
 				end
-				modifier = math.floor((max - 10) / 2)
+				move_power = math.floor((max - 10) / 2)
 			end
 		end
 	end
-	
-	modifier = modifier ~= nil and modifier or 0
 
-	for _, t in pairs(M.get_type(pokemon)) do
-		trainer_stab = trainer_stab + trainer.get_type_master_STAB(t)
-		if move.Type == t and move.stab then
-			stab_damage = M.get_STAB_bonus(pokemon) + trainer.get_all_levels_STAB() + trainer.get_STAB(t)
-			stab = true
+	-- Figure out the STAB
+	if is_attack then
+		trainer_stab = trainer.get_all_levels_STAB()
+		for _, t in pairs(M.get_type(pokemon)) do
+			trainer_stab = trainer_stab + trainer.get_type_master_STAB(t)
+			if move.Type == t then
+				stab_damage = M.get_STAB_bonus(pokemon) + trainer.get_STAB(t)
+			end
 		end
+		extra_damage = extra_damage + (stab_damage or 0 + trainer_stab) + trainer.get_damage()
 	end
-	if stab then
-		stab_damage = stab_damage + trainer_stab
-	end
-	
-	local index = level_index(M.get_current_level(pokemon))
-	
+
 	local move_damage = move.Damage
 	if move_damage then
+		-- Some moves uses 5x1d4
 		local times_prefix = ""
 		if move_damage[index].times then
 			times_prefix = move_damage[index].times .. "x"
 		end
 
-		damage = times_prefix .. move_damage[index].amount .. "d" .. move_damage[index].dice_max
-		local extra = stab_damage + (move_damage[index].modifier or 0) + (move_damage[index].level and M.get_current_level(pokemon) or 0) + trainer.get_damage()
+		-- This is the dice representation i.e. "1d6"
+		dice = times_prefix .. move_damage[index].amount .. "d" .. move_damage[index].dice_max
+		
+		-- Add LEVEL to damage if applicable
+		extra_damage = extra_damage + (move_damage[index].level and M.get_current_level(pokemon) or 0)
+
+		-- Add move power
 		if move_damage[index].move then
-			extra = extra + modifier + trainer.get_move()
+			extra_damage = extra_damage + move_power + trainer.get_move()
 		end
 
-		if extra ~= 0 then
+		-- Combine the different parts into one string
+		if extra_damage ~= 0 then
 			local symbol = ""
-			if extra > 0 then
+			if extra_damage > 0 then
 				symbol = "+"
 			end
-			damage = damage .. symbol .. extra
+			dice = dice .. symbol .. extra_damage
 		end
 	end
-	return damage, modifier, stab
+	return dice, move_power, stab_damage
 end	
 
 function M.get_move_data(pokemon, move_name)
 	local move = movedex.get_move_data(move_name)
 	local dmg, mod, stab = get_damage_mod_stab(pokemon, move)
-	
+	local requires_save = move.Save ~= nil
+	local is_attack = (move.atk == true or move.autohit == true) and move.Damage ~= nil
+
 	local move_data = {}
 	move_data.damage = dmg
 	move_data.stab = stab
@@ -938,10 +944,10 @@ function M.get_move_data(pokemon, move_name)
 	move_data.power = move["Move Power"]
 	move_data.save = move.Save
 	move_data.time = move["Move Time"]
-	if move.ab then
+	if is_attack and not move.autohit then
 		move_data.AB = mod + M.get_proficency_bonus(pokemon) + trainer.get_attack_roll() + trainer.get_move_type_attack_bonus(move_data.type) + trainer.get_pokemon_type_attack_bonus(M.get_type(pokemon))
 	end
-	if move_data.save then
+	if requires_save then
 		move_data.save_dc = 8 + mod + M.get_proficency_bonus(pokemon)
 	end
 

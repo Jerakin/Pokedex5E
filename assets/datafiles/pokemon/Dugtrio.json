@@ -1,11 +1,16 @@
 {
+  "AC": 15,
+  "Abilities": [
+    "Sand Veil",
+    "Arena Trap"
+  ],
+  "Burrowing Speed": "30",
+  "HP": 55,
+  "Hidden Ability": "Sand Force",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Mud-Slap",
-        "Magnitude",
-        "Bulldoze"
-      ],
       "10": [
         "Sucker Punch",
         "Mud Bomb"
@@ -18,6 +23,11 @@
         "Slash",
         "Earthquake",
         "Fissure"
+      ],
+      "6": [
+        "Mud-Slap",
+        "Magnitude",
+        "Bulldoze"
       ]
     },
     "Starting Moves": [
@@ -62,39 +72,29 @@
       100
     ]
   },
-  "index": 51,
-  "Abilities": [
-    "Sand Veil",
-    "Arena Trap"
-  ],
-  "Type": [
-    "Ground"
-  ],
   "SR": 8.0,
-  "AC": 15,
-  "Hit Dice": 10,
-  "HP": 55,
-  "WSp": 20,
   "Senses": [
     "Tremorsense 120ft."
-  ],
-  "attributes": {
-    "STR": 15,
-    "DEX": 18,
-    "CON": 16,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "DEX",
-    "CON"
   ],
   "Skill": [
     "Stealth",
     "Athletics"
   ],
-  "Hidden Ability": "Sand Force",
-  "Burrowing Speed": "30"
+  "Type": [
+    "Ground"
+  ],
+  "WSp": 20,
+  "attributes": {
+    "CHA": 10,
+    "CON": 16,
+    "DEX": 18,
+    "INT": 6,
+    "STR": 15,
+    "WIS": 12
+  },
+  "index": 51,
+  "saving_throws": [
+    "DEX",
+    "CON"
+  ]
 }

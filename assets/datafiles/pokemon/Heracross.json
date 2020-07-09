@@ -1,11 +1,17 @@
 {
+  "AC": 18,
+  "Abilities": [
+    "Swarm",
+    "Guts"
+  ],
+  "Climbing Speed": 30,
+  "Fsp": 15,
+  "HP": 50,
+  "Hidden Ability": "Moxie",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Chip Away",
-        "Counter",
-        "Fury Attack"
-      ],
       "10": [
         "Brick Break",
         "Pin Missile"
@@ -17,6 +23,11 @@
       "18": [
         "Close Combat",
         "Reversal"
+      ],
+      "6": [
+        "Chip Away",
+        "Counter",
+        "Fury Attack"
       ]
     },
     "Starting Moves": [
@@ -68,36 +79,25 @@
       100
     ]
   },
-  "index": 214,
-  "Abilities": [
-    "Swarm",
-    "Guts"
+  "SR": 9.0,
+  "Skill": [
+    "Athletics"
   ],
   "Type": [
     "Bug",
     "Fighting"
   ],
-  "SR": 9.0,
-  "AC": 18,
-  "Hit Dice": 10,
-  "HP": 50,
   "WSp": 30,
-  "Fsp": 15,
   "attributes": {
-    "STR": 18,
-    "DEX": 16,
+    "CHA": 10,
     "CON": 14,
+    "DEX": 16,
     "INT": 6,
-    "WIS": 10,
-    "CHA": 10
+    "STR": 18,
+    "WIS": 10
   },
-  "MIN LVL FD": 5,
+  "index": 214,
   "saving_throws": [
     "STR"
-  ],
-  "Skill": [
-    "Athletics"
-  ],
-  "Hidden Ability": "Moxie",
-  "Climbing Speed": 30
+  ]
 }

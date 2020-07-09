@@ -1,10 +1,16 @@
 {
+  "AC": 15,
+  "Abilities": [
+    "Thick Fat",
+    "Own Tempo"
+  ],
+  "Climbing Speed": 35,
+  "HP": 50,
+  "Hidden Ability": "Defiant",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Feint Attack",
-        "Fury Swipes"
-      ],
       "10": [
         "Charm",
         "Assist",
@@ -17,6 +23,10 @@
       "18": [
         "Attract",
         "Hone Claws"
+      ],
+      "6": [
+        "Feint Attack",
+        "Fury Swipes"
       ]
     },
     "Starting Moves": [
@@ -63,38 +73,28 @@
       100
     ]
   },
-  "index": 432,
-  "Abilities": [
-    "Thick Fat",
-    "Own Tempo"
-  ],
-  "Type": [
-    "Normal"
-  ],
   "SR": 8.0,
-  "AC": 15,
-  "Hit Dice": 10,
-  "HP": 50,
-  "WSp": 35,
   "Senses": [
     "Darkvision 60ft"
-  ],
-  "attributes": {
-    "STR": 14,
-    "DEX": 18,
-    "CON": 15,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "DEX"
   ],
   "Skill": [
     "Perception",
     "Intimidation"
   ],
-  "Hidden Ability": "Defiant",
-  "Climbing Speed": 35
+  "Type": [
+    "Normal"
+  ],
+  "WSp": 35,
+  "attributes": {
+    "CHA": 10,
+    "CON": 15,
+    "DEX": 18,
+    "INT": 6,
+    "STR": 14,
+    "WIS": 12
+  },
+  "index": 432,
+  "saving_throws": [
+    "DEX"
+  ]
 }

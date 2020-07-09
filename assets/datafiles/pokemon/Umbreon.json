@@ -1,10 +1,14 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Synchronize"
+  ],
+  "HP": 45,
+  "Hidden Ability": "Inner Focus",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Confuse Ray",
-        "Feint Attack"
-      ],
       "10": [
         "Assurance",
         "Screech"
@@ -16,6 +20,10 @@
       "18": [
         "Mean Look",
         "Guard Swap"
+      ],
+      "6": [
+        "Confuse Ray",
+        "Feint Attack"
       ]
     },
     "Starting Moves": [
@@ -59,36 +67,28 @@
       100
     ]
   },
-  "index": 197,
-  "Abilities": [
-    "Synchronize"
-  ],
-  "Type": [
-    "Dark"
-  ],
   "SR": 8.0,
-  "AC": 16,
-  "Hit Dice": 10,
-  "HP": 45,
-  "WSp": 30,
   "Senses": [
     "Darkvision 30ft."
-  ],
-  "attributes": {
-    "STR": 17,
-    "DEX": 16,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 15,
-    "CHA": 14
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "WIS"
   ],
   "Skill": [
     "Stealth",
     "Deception"
   ],
-  "Hidden Ability": "Inner Focus"
+  "Type": [
+    "Dark"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 14,
+    "CON": 12,
+    "DEX": 16,
+    "INT": 6,
+    "STR": 17,
+    "WIS": 15
+  },
+  "index": 197,
+  "saving_throws": [
+    "WIS"
+  ]
 }

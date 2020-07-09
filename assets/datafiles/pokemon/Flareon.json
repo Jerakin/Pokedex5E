@@ -1,10 +1,14 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Flash Fire"
+  ],
+  "HP": 45,
+  "Hidden Ability": "Guts",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Quick Attack",
-        "Bite"
-      ],
       "10": [
         "Fire Fang",
         "Fire Spin"
@@ -17,6 +21,10 @@
         "Lava Plume",
         "Last Resort",
         "Flare Blitz"
+      ],
+      "6": [
+        "Quick Attack",
+        "Bite"
       ]
     },
     "Starting Moves": [
@@ -57,34 +65,26 @@
       100
     ]
   },
-  "index": 136,
-  "Abilities": [
-    "Flash Fire"
-  ],
-  "Type": [
-    "Fire"
-  ],
   "SR": 8.0,
-  "AC": 16,
-  "Hit Dice": 10,
-  "HP": 45,
-  "WSp": 40,
-  "attributes": {
-    "STR": 18,
-    "DEX": 15,
-    "CON": 13,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 14
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "DEX",
-    "CHA"
-  ],
   "Skill": [
     "Perception",
     "Investigation"
   ],
-  "Hidden Ability": "Guts"
+  "Type": [
+    "Fire"
+  ],
+  "WSp": 40,
+  "attributes": {
+    "CHA": 14,
+    "CON": 13,
+    "DEX": 15,
+    "INT": 6,
+    "STR": 18,
+    "WIS": 12
+  },
+  "index": 136,
+  "saving_throws": [
+    "DEX",
+    "CHA"
+  ]
 }

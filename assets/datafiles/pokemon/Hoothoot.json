@@ -1,16 +1,17 @@
 {
+  "AC": 12,
+  "Abilities": [
+    "Insomnia",
+    "Keen Eye"
+  ],
+  "Evolve": "Noctowl",
+  "Fsp": 25,
+  "HP": 16,
+  "Hidden Ability": "Tinted Lens",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Peck",
-        "Confusion",
-        "Echoed Voice"
-      ],
-      "6": [
-        "Zen Headbutt",
-        "Psycho Shift",
-        "Extrasensory"
-      ],
       "10": [
         "Take Down",
         "Reflect",
@@ -24,6 +25,16 @@
       "18": [
         "Synchronoise",
         "Dream Eater"
+      ],
+      "2": [
+        "Peck",
+        "Confusion",
+        "Echoed Voice"
+      ],
+      "6": [
+        "Zen Headbutt",
+        "Psycho Shift",
+        "Extrasensory"
       ]
     },
     "Starting Moves": [
@@ -63,40 +74,29 @@
       100
     ]
   },
-  "index": 163,
-  "Abilities": [
-    "Insomnia",
-    "Keen Eye"
-  ],
-  "Type": [
-    "Normal",
-    "Flying"
-  ],
   "SR": 0.25,
-  "AC": 12,
-  "Hit Dice": 6,
-  "HP": 16,
-  "WSp": 15,
-  "Fsp": 25,
   "Senses": [
     "Darkvision 60ft."
-  ],
-  "attributes": {
-    "STR": 10,
-    "DEX": 11,
-    "CON": 10,
-    "INT": 6,
-    "WIS": 14,
-    "CHA": 10
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Noctowl",
-  "saving_throws": [
-    "WIS"
   ],
   "Skill": [
     "Perception",
     "Insight"
   ],
-  "Hidden Ability": "Tinted Lens"
+  "Type": [
+    "Normal",
+    "Flying"
+  ],
+  "WSp": 15,
+  "attributes": {
+    "CHA": 10,
+    "CON": 10,
+    "DEX": 11,
+    "INT": 6,
+    "STR": 10,
+    "WIS": 14
+  },
+  "index": 163,
+  "saving_throws": [
+    "WIS"
+  ]
 }

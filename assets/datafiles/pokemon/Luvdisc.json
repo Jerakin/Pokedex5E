@@ -1,11 +1,14 @@
 {
+  "AC": 14,
+  "Abilities": [
+    "Swift Swim"
+  ],
+  "HP": 38,
+  "Hidden Ability": "Hydration",
+  "Hit Dice": 8,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Water Pulse",
-        "Attract",
-        "Heart Stamp"
-      ],
       "10": [
         "Flail",
         "Sweet Kiss"
@@ -19,6 +22,11 @@
         "Soak",
         "Hydro Pump",
         "Safeguard"
+      ],
+      "6": [
+        "Water Pulse",
+        "Attract",
+        "Heart Stamp"
       ]
     },
     "Starting Moves": [
@@ -55,33 +63,25 @@
       100
     ]
   },
-  "index": 370,
-  "Abilities": [
-    "Swift Swim"
-  ],
-  "Type": [
-    "Water"
-  ],
   "SR": 5.0,
-  "AC": 14,
-  "Hit Dice": 8,
-  "HP": 38,
-  "Ssp": 35,
-  "attributes": {
-    "STR": 12,
-    "DEX": 16,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 14,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "DEX"
-  ],
   "Skill": [
     "Acrobatics",
     "Persuasion"
   ],
-  "Hidden Ability": "Hydration"
+  "Ssp": 35,
+  "Type": [
+    "Water"
+  ],
+  "attributes": {
+    "CHA": 10,
+    "CON": 12,
+    "DEX": 16,
+    "INT": 6,
+    "STR": 12,
+    "WIS": 14
+  },
+  "index": 370,
+  "saving_throws": [
+    "DEX"
+  ]
 }

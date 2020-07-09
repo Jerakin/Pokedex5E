@@ -1,15 +1,15 @@
 {
+  "AC": 13,
+  "Abilities": [
+    "Chlorophyll"
+  ],
+  "Evolve": "Gloom",
+  "HP": 17,
+  "Hidden Ability": "Run Away",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Sweet Scent",
-        "Acid"
-      ],
-      "6": [
-        "Poison Powder",
-        "Stun Spore",
-        "Sleep Powder"
-      ],
       "10": [
         "Mega Drain",
         "Lucky Chant",
@@ -24,6 +24,15 @@
         "Moonblast",
         "Petal Dance",
         "Grassy Terrain"
+      ],
+      "2": [
+        "Sweet Scent",
+        "Acid"
+      ],
+      "6": [
+        "Poison Powder",
+        "Stun Spore",
+        "Sleep Powder"
       ]
     },
     "Starting Moves": [
@@ -57,38 +66,29 @@
       100
     ]
   },
-  "index": 43,
-  "Abilities": [
-    "Chlorophyll"
-  ],
-  "Type": [
-    "Grass",
-    "Poison"
-  ],
   "SR": 0.25,
-  "AC": 13,
-  "Hit Dice": 6,
-  "HP": 17,
-  "WSp": 20,
   "Senses": [
     "Darkvision 30ft."
-  ],
-  "attributes": {
-    "STR": 11,
-    "DEX": 11,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 12
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Gloom",
-  "saving_throws": [
-    "CON"
   ],
   "Skill": [
     "Nature",
     "Survival"
   ],
-  "Hidden Ability": "Run Away"
+  "Type": [
+    "Grass",
+    "Poison"
+  ],
+  "WSp": 20,
+  "attributes": {
+    "CHA": 12,
+    "CON": 12,
+    "DEX": 11,
+    "INT": 6,
+    "STR": 11,
+    "WIS": 10
+  },
+  "index": 43,
+  "saving_throws": [
+    "CON"
+  ]
 }

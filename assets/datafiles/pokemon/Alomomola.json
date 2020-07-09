@@ -1,11 +1,15 @@
 {
+  "AC": 13,
+  "Abilities": [
+    "Healer",
+    "Hydration"
+  ],
+  "HP": 65,
+  "Hidden Ability": "Regenerator",
+  "Hit Dice": 20,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Heal Pulse",
-        "Protect",
-        "Water Pulse"
-      ],
       "10": [
         "Wake-Up Slap",
         "Soak",
@@ -21,6 +25,11 @@
         "Healing Wish",
         "Wide Guard",
         "Hydro Pump"
+      ],
+      "6": [
+        "Heal Pulse",
+        "Protect",
+        "Water Pulse"
       ]
     },
     "Starting Moves": [
@@ -60,35 +69,26 @@
       100
     ]
   },
-  "index": 594,
-  "Abilities": [
-    "Healer",
-    "Hydration"
-  ],
-  "Type": [
-    "Water"
-  ],
   "SR": 9.0,
-  "AC": 13,
-  "Hit Dice": 20,
-  "HP": 65,
-  "Ssp": 30,
-  "attributes": {
-    "STR": 12,
-    "DEX": 14,
-    "CON": 23,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 14
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "CON",
-    "WIS"
-  ],
   "Skill": [
     "Medicine",
     "Survival"
   ],
-  "Hidden Ability": "Regenerator"
+  "Ssp": 30,
+  "Type": [
+    "Water"
+  ],
+  "attributes": {
+    "CHA": 14,
+    "CON": 23,
+    "DEX": 14,
+    "INT": 6,
+    "STR": 12,
+    "WIS": 10
+  },
+  "index": 594,
+  "saving_throws": [
+    "CON",
+    "WIS"
+  ]
 }
