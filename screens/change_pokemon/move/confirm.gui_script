@@ -31,13 +31,11 @@ function init(self)
 		local node_arrow = gui.get_node("arrow")
 		local node_old_move = gui.get_node("move_old/root")
 		local node_new_move = gui.get_node("move_new/root")
-		local node_bg = gui.get_node("bg")
 		local node_cancel = gui.get_node("btn_cancel")
 		local node_accept = gui.get_node("btn_accept")
 		
 		size_arrow = gui.get_size(node_arrow)
 		size_old_move = move_summary.get_size("move_old")
-		size_bg = gui.get_size(node_bg)
 		
 		pos_arrow = gui.get_position(node_arrow)
 		pos_old_move = gui.get_position(node_old_move)
@@ -52,7 +50,6 @@ function init(self)
 		pos_cancel.y = pos_cancel.y + shrink_amount/2
 		pos_accept.y = pos_accept.y + shrink_amount/2
 
-		gui.set_size(node_bg, size_bg)
 		gui.set_position(node_new_move, pos_new_move)
 		gui.set_position(node_cancel, pos_cancel)
 		gui.set_position(node_accept, pos_accept)
