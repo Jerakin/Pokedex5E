@@ -228,14 +228,18 @@ function M.create(nodes, pokemon_id)
 	M.setup_hp(nodes, pokemon_id)
 	add_hp_buttons(nodes, pokemon)
 	M.setup_exp(nodes, pokemon_id)
+
+	for _, b in pairs(active_buttons) do
+		local button = gooey.button(b.node)
+		if b.long_pressed_time then
+			gooey_buttons.set_long_pressed_time(button, 0.5)
+		end
+	end
 end
 
 function M.on_input(action_id, action)
 	for _, b in pairs(active_buttons) do
-		local button = gooey.button(b.node, action_id, action, b.func, b.refresh)
-		if b.long_pressed_time then
-			gooey_buttons.set_long_pressed_time(button, 0.5)
-		end
+		gooey.button(b.node, action_id, action, b.func, b.refresh)
 	end
 end
 
