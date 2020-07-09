@@ -36,8 +36,6 @@ function M.setup_move(str_node_prefix, pokemon, move_name)
 		-- NOTE: This code was in large part stolen from move_info.gui_script, which the move summary was based on. It has a similar general layout
 		-- but is more compressed to fit 2 on a screen better, and since it fits 2 on a screen we split it out into its own component
 
-		-- TODO: This does not quite fit long descriptions, see Acid Spray
-		
 		local node_name = gui.get_node(str_node_prefix .. "/txt_name")
 		local node_desc = gui.get_node(str_node_prefix .. "/txt_desc")
 		local node_time = gui.get_node(str_node_prefix .. "/txt_time")
