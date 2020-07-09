@@ -13,6 +13,10 @@ local function join_table(title, T, sep)
 	return "-"
 end
 
+local function update_desc_list(str_node_prefix, action_id, action)
+	gooey.vertical_static_list(str_node_prefix, str_node_prefix .. "/desc_stencil", {str_node_prefix .. "/txt_desc"}, action_id, action)
+end
+
 function M.get_size(str_node_prefix)
 	return gui.get_size(gui.get_node(str_node_prefix .. "/background"))
 end
@@ -61,16 +65,12 @@ function M.setup_move(str_node_prefix, pokemon, move_name)
 		gui.set_text(node_dmg, move_data.damage or "-")
 
 		-- Set up the size of the description so it can be scrolled by the gui static list.
-		-- also set up its position so it's the same as what the list will set it to on first input
-		-- (so it does not suddenly jerk into position).
 		-- NOTE: The item must have CENTER pivot in the Y dimension and 1 scale for the list to work!
 		local metrics_desc_new = gui.get_text_metrics_from_node(node_desc)
 		local diff_desc_size = metrics_desc_new.height - metrics_desc.height
 		size_desc.y = size_desc.y + diff_desc_size
 		gui.set_size(node_desc, size_desc)
-		local pos_desc = gui.get_position(node_desc)
-		pos_desc.y = -size_desc.y/2
-		gui.set_position(node_desc, pos_desc)
+		update_desc_list(str_node_prefix)
 
 		gui_utils.scale_text_to_fit_size(node_name)
 		gui_utils.scale_text_to_fit_size(node_time)
@@ -95,7 +95,7 @@ function M.setup_move(str_node_prefix, pokemon, move_name)
 end
 
 function M.on_input(str_node_prefix, action_id, action)
-	gooey.vertical_static_list(str_node_prefix, str_node_prefix .. "/desc_stencil", {str_node_prefix .. "/txt_desc"}, action_id, action)
+	update_desc_list(str_node_prefix, action_id, action)
 end
 
 return M
