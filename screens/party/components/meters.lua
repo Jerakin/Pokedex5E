@@ -230,9 +230,8 @@ function M.create(nodes, pokemon_id)
 	M.setup_exp(nodes, pokemon_id)
 
 	for _, b in pairs(active_buttons) do
-		local button = gooey.button(b.node)
 		if b.long_pressed_time then
-			gooey_buttons.set_long_pressed_time(button, b.long_pressed_time)
+			gooey.button(b.node).set_long_pressed_time(b.long_pressed_time)
 		end
 	end
 end
