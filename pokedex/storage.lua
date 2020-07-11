@@ -258,6 +258,16 @@ function M.set_pokemon_current_hp(id, hp)
 	M.save()
 end
 
+function M.get_pokemon_temp_hp(id)
+	return get(id).hp.temp
+end
+
+function M.set_pokemon_temp_hp(id, temp_hp)
+	local p = get(id)
+	p.hp.temp = math.max(0, temp_hp)
+	M.save()
+end
+
 function M.get_pokemon_current_level(id)
 	return get(id).level.current
 end

@@ -426,7 +426,6 @@ function M.init(self, pokemon)
 end
 
 function M.final(self)
-	msg.post(url.MENU, "show")
 	active_buttons = {}
 	move_buttons_list = {}
 	button.unregister()

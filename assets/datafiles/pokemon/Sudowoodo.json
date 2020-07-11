@@ -1,10 +1,15 @@
 {
+  "AC": 15,
+  "Abilities": [
+    "Sturdy",
+    "Rock Head"
+  ],
+  "HP": 50,
+  "Hidden Ability": "Rattled",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Mimic",
-        "Feint Attack"
-      ],
       "10": [
         "Rock Tomb",
         "Block"
@@ -19,6 +24,10 @@
         "Stone Edge",
         "Hammer Arm",
         "Head Smash"
+      ],
+      "6": [
+        "Mimic",
+        "Feint Attack"
       ]
     },
     "Starting Moves": [
@@ -64,38 +73,29 @@
       100
     ]
   },
-  "index": 185,
-  "Abilities": [
-    "Sturdy",
-    "Rock Head"
-  ],
-  "Type": [
-    "Rock"
-  ],
   "SR": 7.0,
-  "AC": 15,
-  "Hit Dice": 10,
-  "HP": 50,
-  "WSp": 30,
   "Senses": [
     "Tremorsense 60ft."
-  ],
-  "attributes": {
-    "STR": 18,
-    "DEX": 10,
-    "CON": 14,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "CON",
-    "STR"
   ],
   "Skill": [
     "Nature",
     "Survival"
   ],
-  "Hidden Ability": "Rattled"
+  "Type": [
+    "Rock"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 10,
+    "CON": 14,
+    "DEX": 10,
+    "INT": 6,
+    "STR": 18,
+    "WIS": 12
+  },
+  "index": 185,
+  "saving_throws": [
+    "CON",
+    "STR"
+  ]
 }

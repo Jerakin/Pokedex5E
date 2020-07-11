@@ -1,16 +1,17 @@
 {
+  "AC": 12,
+  "Abilities": [
+    "Limber",
+    "Unburden"
+  ],
+  "Climbing Speed": 25,
+  "Evolve": "Liepard",
+  "HP": 16,
+  "Hidden Ability": "Prankster",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Assist",
-        "Sand Attack",
-        "Fury Swipes"
-      ],
-      "6": [
-        "Pursuit",
-        "Torment",
-        "Fake Out"
-      ],
       "10": [
         "Hone Claws",
         "Assurance",
@@ -25,6 +26,16 @@
         "Nasty Plot",
         "Sucker Punch",
         "Play Rough"
+      ],
+      "2": [
+        "Assist",
+        "Sand Attack",
+        "Fury Swipes"
+      ],
+      "6": [
+        "Pursuit",
+        "Torment",
+        "Fake Out"
       ]
     },
     "Starting Moves": [
@@ -66,38 +77,27 @@
       100
     ]
   },
-  "index": 509,
-  "Abilities": [
-    "Limber",
-    "Unburden"
-  ],
-  "Type": [
-    "Dark"
-  ],
   "SR": 1.0,
-  "AC": 12,
-  "Hit Dice": 6,
-  "HP": 16,
-  "WSp": 25,
   "Senses": [
     "Darkvision 25ft"
-  ],
-  "attributes": {
-    "STR": 10,
-    "DEX": 14,
-    "CON": 10,
-    "INT": 8,
-    "WIS": 12,
-    "CHA": 12
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Liepard",
-  "saving_throws": [
-    "DEX"
   ],
   "Skill": [
     "Sleight of Hand"
   ],
-  "Hidden Ability": "Prankster",
-  "Climbing Speed": 25
+  "Type": [
+    "Dark"
+  ],
+  "WSp": 25,
+  "attributes": {
+    "CHA": 12,
+    "CON": 10,
+    "DEX": 14,
+    "INT": 8,
+    "STR": 10,
+    "WIS": 12
+  },
+  "index": 509,
+  "saving_throws": [
+    "DEX"
+  ]
 }

@@ -1,16 +1,17 @@
 {
+  "AC": 12,
+  "Abilities": [
+    "Forewarn",
+    "Synchronize"
+  ],
+  "Evolve": "Musharna",
+  "Fsp": 20,
+  "HP": 20,
+  "Hidden Ability": "Telepathy",
+  "Hit Dice": 8,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Lucky Chant",
-        "Yawn",
-        "Psybeam",
-        "Imprison"
-      ],
-      "6": [
-        "Moonlight",
-        "Hypnosis"
-      ],
       "10": [
         "Zen Headbutt",
         "Synchronoise",
@@ -25,6 +26,16 @@
       "18": [
         "Telekinesis",
         "Stored Power"
+      ],
+      "2": [
+        "Lucky Chant",
+        "Yawn",
+        "Psybeam",
+        "Imprison"
+      ],
+      "6": [
+        "Moonlight",
+        "Hypnosis"
       ]
     },
     "Starting Moves": [
@@ -67,38 +78,27 @@
       100
     ]
   },
-  "index": 517,
-  "Abilities": [
-    "Forewarn",
-    "Synchronize"
-  ],
-  "Type": [
-    "Psychic"
-  ],
   "SR": 2.0,
-  "AC": 12,
-  "Hit Dice": 8,
-  "HP": 20,
-  "Fsp": 20,
   "Senses": [
     "Truesight 20ft"
-  ],
-  "attributes": {
-    "STR": 11,
-    "DEX": 9,
-    "CON": 15,
-    "INT": 8,
-    "WIS": 16,
-    "CHA": 10
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Musharna",
-  "saving_throws": [
-    "CON",
-    "WIS"
   ],
   "Skill": [
     "Insight"
   ],
-  "Hidden Ability": "Telepathy"
+  "Type": [
+    "Psychic"
+  ],
+  "attributes": {
+    "CHA": 10,
+    "CON": 15,
+    "DEX": 9,
+    "INT": 8,
+    "STR": 11,
+    "WIS": 16
+  },
+  "index": 517,
+  "saving_throws": [
+    "CON",
+    "WIS"
+  ]
 }

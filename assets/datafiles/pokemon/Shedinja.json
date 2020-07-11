@@ -1,10 +1,16 @@
 {
+  "AC": 12,
+  "Abilities": [
+    "Wonder Guard",
+    "Paper Thin"
+  ],
+  "Climbing Speed": 10,
+  "Fsp": 30,
+  "HP": 6,
+  "Hit Dice": 0,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Spite",
-        "Shadow Sneak"
-      ],
       "10": [
         "Mind Reader",
         "Confuse Ray"
@@ -16,6 +22,10 @@
       ],
       "18": [
         "Phantom Force"
+      ],
+      "6": [
+        "Spite",
+        "Shadow Sneak"
       ]
     },
     "Starting Moves": [
@@ -55,39 +65,29 @@
       100
     ]
   },
-  "index": 292,
-  "Abilities": [
-    "Wonder Guard",
-    "Paper Thin"
-  ],
-  "Type": [
-    "Bug",
-    "Ghost"
-  ],
   "SR": 1.0,
-  "AC": 12,
-  "Hit Dice": 0,
-  "HP": 6,
-  "Fsp": 30,
   "Senses": [
     "Darkvision 60ft.",
     "Truesight 10ft."
-  ],
-  "attributes": {
-    "STR": 13,
-    "DEX": 14,
-    "CON": 0,
-    "INT": 8,
-    "WIS": 18,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "WIS"
   ],
   "Skill": [
     "Nature",
     "Insight"
   ],
-  "Climbing Speed": 10
+  "Type": [
+    "Bug",
+    "Ghost"
+  ],
+  "attributes": {
+    "CHA": 10,
+    "CON": 0,
+    "DEX": 14,
+    "INT": 8,
+    "STR": 13,
+    "WIS": 18
+  },
+  "index": 292,
+  "saving_throws": [
+    "WIS"
+  ]
 }

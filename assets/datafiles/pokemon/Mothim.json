@@ -1,10 +1,16 @@
 {
+  "AC": 13,
+  "Abilities": [
+    "Swarm"
+  ],
+  "Climbing Speed": 15,
+  "Fsp": 30,
+  "HP": 45,
+  "Hidden Ability": "Tinted Lens",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Hidden Power",
-        "Confusion"
-      ],
       "10": [
         "Gust",
         "Poison Powder",
@@ -18,6 +24,10 @@
       "18": [
         "Psychic",
         "Bug Buzz"
+      ],
+      "6": [
+        "Hidden Power",
+        "Confusion"
       ]
     },
     "Starting Moves": [
@@ -61,39 +71,29 @@
       100
     ]
   },
-  "index": 414,
-  "Abilities": [
-    "Swarm"
-  ],
-  "Type": [
-    "Bug",
-    "Flying"
-  ],
   "SR": 4.0,
-  "AC": 13,
-  "Hit Dice": 10,
-  "HP": 45,
-  "WSp": 15,
-  "Fsp": 30,
   "Senses": [
     "Darkvision 50ft"
-  ],
-  "attributes": {
-    "STR": 13,
-    "DEX": 15,
-    "CON": 13,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "DEX"
   ],
   "Skill": [
     "Nature",
     "Survival"
   ],
-  "Hidden Ability": "Tinted Lens",
-  "Climbing Speed": 15
+  "Type": [
+    "Bug",
+    "Flying"
+  ],
+  "WSp": 15,
+  "attributes": {
+    "CHA": 10,
+    "CON": 13,
+    "DEX": 15,
+    "INT": 6,
+    "STR": 13,
+    "WIS": 12
+  },
+  "index": 414,
+  "saving_throws": [
+    "DEX"
+  ]
 }

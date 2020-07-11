@@ -1,11 +1,15 @@
 {
+  "AC": 14,
+  "Abilities": [
+    "Chlorophyll"
+  ],
+  "Evolve": "Vileplume",
+  "HP": 50,
+  "Hidden Ability": "Stench",
+  "Hit Dice": 8,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Poison Powder",
-        "Stun Spore",
-        "Sleep Powder"
-      ],
       "10": [
         "Mega Drain",
         "Lucky Chant"
@@ -20,6 +24,11 @@
         "Petal Dance",
         "Petal Blizzard",
         "Grassy Terrain"
+      ],
+      "6": [
+        "Poison Powder",
+        "Stun Spore",
+        "Sleep Powder"
       ]
     },
     "Starting Moves": [
@@ -56,38 +65,29 @@
       100
     ]
   },
-  "index": 44,
-  "Abilities": [
-    "Chlorophyll"
-  ],
-  "Type": [
-    "Grass",
-    "Poison"
-  ],
   "SR": 5.0,
-  "AC": 14,
-  "Hit Dice": 8,
-  "HP": 50,
-  "WSp": 20,
   "Senses": [
     "Darkvision 50ft."
-  ],
-  "attributes": {
-    "STR": 14,
-    "DEX": 12,
-    "CON": 15,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "Evolve": "Vileplume",
-  "saving_throws": [
-    "CON"
   ],
   "Skill": [
     "Nature",
     "Survival"
   ],
-  "Hidden Ability": "Stench"
+  "Type": [
+    "Grass",
+    "Poison"
+  ],
+  "WSp": 20,
+  "attributes": {
+    "CHA": 10,
+    "CON": 15,
+    "DEX": 12,
+    "INT": 6,
+    "STR": 14,
+    "WIS": 12
+  },
+  "index": 44,
+  "saving_throws": [
+    "CON"
+  ]
 }

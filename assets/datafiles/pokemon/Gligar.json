@@ -1,16 +1,17 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Hyper Cutter",
+    "Sand Veil"
+  ],
+  "Climbing Speed": 25,
+  "Fsp": 30,
+  "HP": 18,
+  "Hidden Ability": "Immunity",
+  "Hit Dice": 8,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Harden",
-        "Knock Off",
-        "Quick Attack"
-      ],
-      "6": [
-        "Fury Cutter",
-        "Feint Attack",
-        "Acrobatics"
-      ],
       "10": [
         "Slash",
         "U-Turn"
@@ -23,6 +24,16 @@
       "18": [
         "Swords Dance",
         "Guillotine"
+      ],
+      "2": [
+        "Harden",
+        "Knock Off",
+        "Quick Attack"
+      ],
+      "6": [
+        "Fury Cutter",
+        "Feint Attack",
+        "Acrobatics"
       ]
     },
     "Starting Moves": [
@@ -73,40 +84,29 @@
       100
     ]
   },
-  "index": 207,
-  "Abilities": [
-    "Hyper Cutter",
-    "Sand Veil"
-  ],
-  "Type": [
-    "Ground",
-    "Flying"
-  ],
   "SR": 3.0,
-  "AC": 16,
-  "Hit Dice": 8,
-  "HP": 18,
-  "WSp": 30,
-  "Fsp": 30,
   "Senses": [
     "Darkvision 30ft."
-  ],
-  "attributes": {
-    "STR": 16,
-    "DEX": 15,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 10
-  },
-  "MIN LVL FD": 1,
-  "saving_throws": [
-    "DEX"
   ],
   "Skill": [
     "Acrobatics",
     "Stealth"
   ],
-  "Hidden Ability": "Immunity",
-  "Climbing Speed": 25
+  "Type": [
+    "Ground",
+    "Flying"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 10,
+    "CON": 12,
+    "DEX": 15,
+    "INT": 6,
+    "STR": 16,
+    "WIS": 10
+  },
+  "index": 207,
+  "saving_throws": [
+    "DEX"
+  ]
 }

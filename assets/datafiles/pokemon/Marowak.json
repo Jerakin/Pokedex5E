@@ -1,10 +1,15 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Rock Head",
+    "Lightning Rod"
+  ],
+  "HP": 50,
+  "Hidden Ability": "Battle Armor",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Leer",
-        "Focus Energy"
-      ],
       "10": [
         "Bonemerang",
         "Rage"
@@ -19,6 +24,10 @@
         "Double-Edge",
         "Retaliate",
         "Bone Rush"
+      ],
+      "6": [
+        "Leer",
+        "Focus Energy"
       ]
     },
     "Starting Moves": [
@@ -67,35 +76,26 @@
       100
     ]
   },
-  "index": 105,
-  "Abilities": [
-    "Rock Head",
-    "Lightning Rod"
-  ],
-  "Type": [
-    "Ground"
-  ],
   "SR": 7.0,
-  "AC": 16,
-  "Hit Dice": 10,
-  "HP": 50,
-  "WSp": 30,
-  "attributes": {
-    "STR": 18,
-    "DEX": 12,
-    "CON": 14,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "CON",
-    "STR"
-  ],
   "Skill": [
     "Survival",
     "Athletics"
   ],
-  "Hidden Ability": "Battle Armor"
+  "Type": [
+    "Ground"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 10,
+    "CON": 14,
+    "DEX": 12,
+    "INT": 6,
+    "STR": 18,
+    "WIS": 12
+  },
+  "index": 105,
+  "saving_throws": [
+    "CON",
+    "STR"
+  ]
 }

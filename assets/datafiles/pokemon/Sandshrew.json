@@ -1,16 +1,16 @@
 {
+  "AC": 14,
+  "Abilities": [
+    "Sand Veil"
+  ],
+  "Burrowing Speed": "15",
+  "Evolve": "Sandslash",
+  "HP": 17,
+  "Hidden Ability": "Sand Rush",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Poison Sting",
-        "Rollout",
-        "Rapid Spin",
-        "Fury Cutter"
-      ],
-      "6": [
-        "Magnitude",
-        "Swift"
-      ],
       "10": [
         "Fury Swipes",
         "Sand Tomb",
@@ -24,6 +24,16 @@
         "Swords Dance",
         "Sandstorm",
         "Earthquake"
+      ],
+      "2": [
+        "Poison Sting",
+        "Rollout",
+        "Rapid Spin",
+        "Fury Cutter"
+      ],
+      "6": [
+        "Magnitude",
+        "Swift"
       ]
     },
     "Starting Moves": [
@@ -63,37 +73,27 @@
       100
     ]
   },
-  "index": 27,
-  "Abilities": [
-    "Sand Veil"
-  ],
-  "Type": [
-    "Ground"
-  ],
   "SR": 0.5,
-  "AC": 14,
-  "Hit Dice": 6,
-  "HP": 17,
-  "WSp": 20,
   "Senses": [
     "Tremorsense 60ft"
-  ],
-  "attributes": {
-    "STR": 14,
-    "DEX": 10,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 10
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Sandslash",
-  "saving_throws": [
-    "CON"
   ],
   "Skill": [
     "Athletics"
   ],
-  "Hidden Ability": "Sand Rush",
-  "Burrowing Speed": "15"
+  "Type": [
+    "Ground"
+  ],
+  "WSp": 20,
+  "attributes": {
+    "CHA": 10,
+    "CON": 12,
+    "DEX": 10,
+    "INT": 6,
+    "STR": 14,
+    "WIS": 10
+  },
+  "index": 27,
+  "saving_throws": [
+    "CON"
+  ]
 }

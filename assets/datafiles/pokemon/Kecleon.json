@@ -1,11 +1,15 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Color Change"
+  ],
+  "Climbing Speed": 25,
+  "HP": 44,
+  "Hidden Ability": "Protean",
+  "Hit Dice": 8,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Feint Attack",
-        "Psybeam",
-        "Ancient Power"
-      ],
       "10": [
         "Slash",
         "Camouflage"
@@ -18,6 +22,11 @@
         "Substitute",
         "Sucker Punch",
         "Synchronoise"
+      ],
+      "6": [
+        "Feint Attack",
+        "Psybeam",
+        "Ancient Power"
       ]
     },
     "Starting Moves": [
@@ -71,34 +80,25 @@
       100
     ]
   },
-  "index": 352,
-  "Abilities": [
-    "Color Change"
-  ],
-  "Type": [
-    "Normal"
-  ],
   "SR": 6.0,
-  "AC": 16,
-  "Hit Dice": 8,
-  "HP": 44,
-  "WSp": 25,
-  "attributes": {
-    "STR": 15,
-    "DEX": 10,
-    "CON": 15,
-    "INT": 6,
-    "WIS": 14,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "CON"
-  ],
   "Skill": [
     "Stealth",
     "Deception"
   ],
-  "Hidden Ability": "Protean",
-  "Climbing Speed": 25
+  "Type": [
+    "Normal"
+  ],
+  "WSp": 25,
+  "attributes": {
+    "CHA": 10,
+    "CON": 15,
+    "DEX": 10,
+    "INT": 6,
+    "STR": 15,
+    "WIS": 14
+  },
+  "index": 352,
+  "saving_throws": [
+    "CON"
+  ]
 }

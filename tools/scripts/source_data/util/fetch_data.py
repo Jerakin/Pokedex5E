@@ -1,33 +1,39 @@
 # -*- coding: utf-8 -*-
 import gspread
+import csv
 import json
 import os
 import sys
+from pathlib import Path
+
 from oauth2client.service_account import ServiceAccountCredentials
 
-output_location = os.path.join(os.path.dirname(__file__), "data")
-data_sheets = ["IDATA", "MDATA", "PDATA", "TDATA"]
+try:
+    import scripts.source_data.util.util as util
+except ModuleNotFoundError:
+    from util import util
 
 
-def convert_to_json(worksheet):
-    output_file = os.path.join(output_location, worksheet.title + ".json")
-    all_values = worksheet.get_all_values()
-    header_row = all_values[:1][0]
-    output_data = {}
+DATA_SHEETS = ["IDATA", "MDATA", "PDATA", "TDATA"]
 
-    for row in all_values[1:]:
-        output_data[row[0]] = {}
-        for i, cell_value in enumerate(row):
-            if i == 0: # Skipping first row
-                continue
-            title = header_row[i]
-            output_data[row[0]][title] = cell_value.strip()
 
-    # Save it as utf-8
+def save_worksheet(worksheet):
+    if not util.DATA.exists():
+        util.DATA.mkdir(parents=True)
+
+    output_file = Path(util.DATA) / (worksheet.title + ".csv")
+
     with open(output_file, "w", encoding="utf-8") as f:
-        data = json.dumps(output_data, ensure_ascii=False)
-        f.write(data)
-        print("Exported {}".format(output_file))
+        writer = csv.writer(f, delimiter=",", quotechar='"')
+        content = worksheet.get_all_values()
+        for row in content:
+            new_row = []
+            for record in row:
+                new_row.append(record)
+            try:
+                writer.writerow(new_row)
+            except (UnicodeEncodeError, UnicodeDecodeError):
+                print("Caught unicode error")
 
 
 def get_worksheet(cred_file):
@@ -45,8 +51,10 @@ def get_worksheet(cred_file):
 def main(cred_file):
     wks = get_worksheet(cred_file)
     for worksheet in wks.worksheets():
-        if worksheet.title in data_sheets:
-            convert_to_json(worksheet)
+        if worksheet.title in DATA_SHEETS:
+            save_worksheet(worksheet)
+    return util.DATA
+
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
