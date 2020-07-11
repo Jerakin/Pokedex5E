@@ -1,10 +1,15 @@
 {
+  "AC": 17,
+  "Abilities": [
+    "Early Bird",
+    "Flash Fire"
+  ],
+  "HP": 45,
+  "Hidden Ability": "Unnerve",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Bite",
-        "Odor Sleuth"
-      ],
       "10": [
         "Beat Up",
         "Fire Fang"
@@ -19,6 +24,10 @@
         "Crunch",
         "Nasty Plot",
         "Inferno"
+      ],
+      "6": [
+        "Bite",
+        "Odor Sleuth"
       ]
     },
     "Starting Moves": [
@@ -66,38 +75,29 @@
       100
     ]
   },
-  "index": 229,
-  "Abilities": [
-    "Early Bird",
-    "Flash Fire"
-  ],
-  "Type": [
-    "Dark",
-    "Fire"
-  ],
   "SR": 8.0,
-  "AC": 17,
-  "Hit Dice": 10,
-  "HP": 45,
-  "WSp": 40,
   "Senses": [
     "Darkvision 60ft."
-  ],
-  "attributes": {
-    "STR": 15,
-    "DEX": 17,
-    "CON": 12,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "DEX"
   ],
   "Skill": [
     "Stealth",
     "Athletics"
   ],
-  "Hidden Ability": "Unnerve"
+  "Type": [
+    "Dark",
+    "Fire"
+  ],
+  "WSp": 40,
+  "attributes": {
+    "CHA": 10,
+    "CON": 12,
+    "DEX": 17,
+    "INT": 6,
+    "STR": 15,
+    "WIS": 12
+  },
+  "index": 229,
+  "saving_throws": [
+    "DEX"
+  ]
 }

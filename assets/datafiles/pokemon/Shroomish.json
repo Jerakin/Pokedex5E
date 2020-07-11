@@ -1,6 +1,25 @@
 {
+  "AC": 13,
+  "Abilities": [
+    "Effect Spore",
+    "Poison Heal"
+  ],
+  "Evolve": "Breloom",
+  "HP": 18,
+  "Hidden Ability": "Quick Feet",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
+      "10": [
+        "Giga Drain",
+        "Growth"
+      ],
+      "14": [
+        "Toxic",
+        "Seed Bomb",
+        "Spore"
+      ],
       "2": [
         "Stun Spore",
         "Leech Seed",
@@ -10,15 +29,6 @@
         "Headbutt",
         "Poison Powder",
         "Worry Seed"
-      ],
-      "10": [
-        "Giga Drain",
-        "Growth"
-      ],
-      "14": [
-        "Toxic",
-        "Seed Bomb",
-        "Spore"
       ]
     },
     "Starting Moves": [
@@ -51,38 +61,28 @@
       100
     ]
   },
-  "index": 285,
-  "Abilities": [
-    "Effect Spore",
-    "Poison Heal"
-  ],
-  "Type": [
-    "Grass"
-  ],
   "SR": 0.5,
-  "AC": 13,
-  "Hit Dice": 6,
-  "HP": 18,
-  "WSp": 25,
   "Senses": [
     "Darkvision 30ft.",
     "Tremorsense 30ft."
   ],
-  "attributes": {
-    "STR": 13,
-    "DEX": 10,
-    "CON": 14,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 10
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Breloom",
-  "saving_throws": [
-    "CON"
-  ],
   "Skill": [
     "Survival"
   ],
-  "Hidden Ability": "Quick Feet"
+  "Type": [
+    "Grass"
+  ],
+  "WSp": 25,
+  "attributes": {
+    "CHA": 10,
+    "CON": 14,
+    "DEX": 10,
+    "INT": 6,
+    "STR": 13,
+    "WIS": 10
+  },
+  "index": 285,
+  "saving_throws": [
+    "CON"
+  ]
 }

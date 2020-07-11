@@ -1,15 +1,17 @@
 {
+  "AC": 15,
+  "Abilities": [
+    "Battle Armor",
+    "Sniper"
+  ],
+  "Climbing Speed": 20,
+  "Evolve": "Drapion",
+  "HP": 18,
+  "Hidden Ability": "Keen Eye",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Knock Off",
-        "Pin Missile",
-        "Acupressure"
-      ],
-      "6": [
-        "Pursuit",
-        "Bug Bite"
-      ],
       "10": [
         "Poison Fang",
         "Venoshock",
@@ -24,6 +26,15 @@
         "Crunch",
         "Cross Poison",
         "Fell Stinger"
+      ],
+      "2": [
+        "Knock Off",
+        "Pin Missile",
+        "Acupressure"
+      ],
+      "6": [
+        "Pursuit",
+        "Bug Bite"
       ]
     },
     "Starting Moves": [
@@ -67,40 +78,29 @@
       100
     ]
   },
-  "index": 451,
-  "Abilities": [
-    "Battle Armor",
-    "Sniper"
-  ],
-  "Type": [
-    "Poison",
-    "Bug"
-  ],
   "SR": 2.0,
-  "AC": 15,
-  "Hit Dice": 6,
-  "HP": 18,
-  "WSp": 25,
   "Senses": [
     "Darkvision 30ft"
-  ],
-  "attributes": {
-    "STR": 13,
-    "DEX": 13,
-    "CON": 14,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 10
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Drapion",
-  "saving_throws": [
-    "CON"
   ],
   "Skill": [
     "Stealth",
     "Deception"
   ],
-  "Hidden Ability": "Keen Eye",
-  "Climbing Speed": 20
+  "Type": [
+    "Poison",
+    "Bug"
+  ],
+  "WSp": 25,
+  "attributes": {
+    "CHA": 10,
+    "CON": 14,
+    "DEX": 13,
+    "INT": 6,
+    "STR": 13,
+    "WIS": 10
+  },
+  "index": 451,
+  "saving_throws": [
+    "CON"
+  ]
 }

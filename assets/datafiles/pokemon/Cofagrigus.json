@@ -1,10 +1,14 @@
 {
+  "AC": 19,
+  "Abilities": [
+    "Mummy"
+  ],
+  "Fsp": 30,
+  "HP": 50,
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Hex",
-        "Will-O-Wisp"
-      ],
       "10": [
         "Ominous Wind",
         "Curse"
@@ -18,6 +22,10 @@
         "Grudge",
         "Mean Look",
         "Destiny Bond"
+      ],
+      "6": [
+        "Hex",
+        "Will-O-Wisp"
       ]
     },
     "Starting Moves": [
@@ -62,35 +70,27 @@
       100
     ]
   },
-  "index": 563,
-  "Abilities": [
-    "Mummy"
-  ],
-  "Type": [
-    "Ghost"
-  ],
   "SR": 9.0,
-  "AC": 19,
-  "Hit Dice": 10,
-  "HP": 50,
-  "Fsp": 30,
   "Senses": [
     "Truesight 30ft"
-  ],
-  "attributes": {
-    "STR": 15,
-    "DEX": 11,
-    "CON": 14,
-    "INT": 8,
-    "WIS": 16,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "WIS"
   ],
   "Skill": [
     "Insight",
     "Intimidation"
+  ],
+  "Type": [
+    "Ghost"
+  ],
+  "attributes": {
+    "CHA": 10,
+    "CON": 14,
+    "DEX": 11,
+    "INT": 8,
+    "STR": 15,
+    "WIS": 16
+  },
+  "index": 563,
+  "saving_throws": [
+    "WIS"
   ]
 }

@@ -1,11 +1,14 @@
 {
+  "AC": 16,
+  "Abilities": [
+    "Swift Swim"
+  ],
+  "HP": 50,
+  "Hidden Ability": "Hydration",
+  "Hit Dice": 8,
+  "MIN LVL FD": 5,
   "Moves": {
     "Level": {
-      "6": [
-        "Water Pulse",
-        "Amnesia",
-        "Aqua Ring"
-      ],
       "10": [
         "Captivate",
         "Dive",
@@ -18,6 +21,11 @@
       "18": [
         "Coil",
         "Hydro Pump"
+      ],
+      "6": [
+        "Water Pulse",
+        "Amnesia",
+        "Aqua Ring"
       ]
     },
     "Starting Moves": [
@@ -58,37 +66,29 @@
       100
     ]
   },
-  "index": 368,
-  "Abilities": [
-    "Swift Swim"
-  ],
-  "Type": [
-    "Water"
-  ],
   "SR": 8.0,
-  "AC": 16,
-  "Hit Dice": 8,
-  "HP": 50,
-  "Ssp": 35,
   "Senses": [
     "Truesight 10ft."
-  ],
-  "attributes": {
-    "STR": 16,
-    "DEX": 15,
-    "CON": 15,
-    "INT": 6,
-    "WIS": 12,
-    "CHA": 10
-  },
-  "MIN LVL FD": 5,
-  "saving_throws": [
-    "WIS",
-    "CHA"
   ],
   "Skill": [
     "Survival",
     "Persuasion"
   ],
-  "Hidden Ability": "Hydration"
+  "Ssp": 35,
+  "Type": [
+    "Water"
+  ],
+  "attributes": {
+    "CHA": 10,
+    "CON": 15,
+    "DEX": 15,
+    "INT": 6,
+    "STR": 16,
+    "WIS": 12
+  },
+  "index": 368,
+  "saving_throws": [
+    "WIS",
+    "CHA"
+  ]
 }

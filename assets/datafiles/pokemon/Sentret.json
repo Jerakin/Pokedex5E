@@ -1,14 +1,17 @@
 {
+  "AC": 11,
+  "Abilities": [
+    "Run Away",
+    "Keen Eye"
+  ],
+  "Climbing Speed": 30,
+  "Evolve": "Furret",
+  "HP": 16,
+  "Hidden Ability": "Frisk",
+  "Hit Dice": 6,
+  "MIN LVL FD": 1,
   "Moves": {
     "Level": {
-      "2": [
-        "Quick Attack",
-        "Fury Swipes"
-      ],
-      "6": [
-        "Helping Hand",
-        "Follow Me"
-      ],
       "10": [
         "Slam",
         "Rest",
@@ -21,6 +24,14 @@
       "18": [
         "Me First",
         "Hyper Voice"
+      ],
+      "2": [
+        "Quick Attack",
+        "Fury Swipes"
+      ],
+      "6": [
+        "Helping Hand",
+        "Follow Me"
       ]
     },
     "Starting Moves": [
@@ -63,36 +74,25 @@
       100
     ]
   },
-  "index": 161,
-  "Abilities": [
-    "Run Away",
-    "Keen Eye"
-  ],
-  "Type": [
-    "Normal"
-  ],
   "SR": 0.125,
-  "AC": 11,
-  "Hit Dice": 6,
-  "HP": 16,
-  "WSp": 30,
-  "attributes": {
-    "STR": 12,
-    "DEX": 10,
-    "CON": 10,
-    "INT": 6,
-    "WIS": 10,
-    "CHA": 12
-  },
-  "MIN LVL FD": 1,
-  "Evolve": "Furret",
-  "saving_throws": [
-    "DEX"
-  ],
   "Skill": [
     "Acrobatics",
     "Perception"
   ],
-  "Hidden Ability": "Frisk",
-  "Climbing Speed": 30
+  "Type": [
+    "Normal"
+  ],
+  "WSp": 30,
+  "attributes": {
+    "CHA": 12,
+    "CON": 10,
+    "DEX": 10,
+    "INT": 6,
+    "STR": 12,
+    "WIS": 10
+  },
+  "index": 161,
+  "saving_throws": [
+    "DEX"
+  ]
 }
