@@ -1,52 +1,35 @@
 local gooey = require "gooey.gooey"
 
--- This lua file works with the basic vertical list and scrollbar components build into the Pokemon app. It helps set up some of the
--- basic usage of matching up the list with the scrollbar, hiding the scrollbar when it's not needed, and that sort of thing
-
-local M = {}
-
-local function get_scrollbar_handle(str_scrollbar_root)
-	local str_handle = "scrollbar/handle"
-	if str_scrollbar_root and str_scrollbar_root ~= '' then
-		str_handle = str_scrollbar_root .. "/" .. str_handle
-	end
-	return str_handle
-end
-
-local function get_scrollbar_bar(str_scrollbar_root)
-	local str_bar = "scrollbar/bar"
-	if str_scrollbar_root and str_scrollbar_root ~= '' then
-		str_bar = str_scrollbar_root .. "/" .. str_bar
-	end
-	return str_bar
-end
-
-local function on_scrolled(str_list_root, items, scrollbar)
+local function on_scrolled(data, items, scrollbar)
 	if items ~= nil then
-		gooey.dynamic_list(str_list_root, str_list_root .. "/scroll_area", str_list_root .. "/btn_item", items).scroll_to(0, scrollbar.scroll.y)
+		gooey.dynamic_list(data.list_id, data.list_stencil, data.list_item_template, items).scroll_to(0, scrollbar.scroll.y)
 	end
 end
 
-local function update_list(str_list_root, str_scrollbar_root, update_listitem, list)
-	local scrollbar = gooey.vertical_scrollbar(get_scrollbar_handle(str_scrollbar_root), get_scrollbar_bar(str_scrollbar_root))
+local function update_list(data, list)
+	local scrollbar = gooey.vertical_scrollbar(data.scrollbar_handle, data.scrollbar_bar)
 	scrollbar.set_visible(list.max_y and list.max_y > 0)
 	scrollbar.scroll_to(0, list.scroll.y)
 	
 	for i,item in ipairs(list.items) do
 		if item.data and item.data ~= "" then
-			update_listitem(list, item)
+			data.fn_update_item(list, item)
 		end
 	end
 end
 
-function M.vertical_scrolling_list_refresh(str_list_root, str_scrollbar_root, items, update_listitem, scroll_to_top)
-	local list = gooey.dynamic_list(str_list_root, str_list_root .. "/scroll_area", str_list_root .. "/btn_item", items)
+
+
+local SCROLLING_LIST = {}
+
+function SCROLLING_LIST.refresh(data, items, scroll_to_top)
+	local list = gooey.dynamic_list(data.list_id, data.list_stencil, data.list_item_template, items)
 	if scroll_to_top then
 		list.scroll_to(0, 0)
 	end
-	update_list(str_list_root, str_scrollbar_root, update_listitem, list)
+	update_list(data, list)
 
-	local scrollbar = gooey.vertical_scrollbar(get_scrollbar_handle(str_scrollbar_root), get_scrollbar_bar(str_scrollbar_root))
+	local scrollbar = gooey.vertical_scrollbar(data.scrollbar_handle, data.scrollbar_bar)
 	scrollbar.set_visible(list.max_y and list.max_y > 0)
 	
 	if scroll_to_top then
@@ -54,11 +37,39 @@ function M.vertical_scrolling_list_refresh(str_list_root, str_scrollbar_root, it
 	end
 end
 
-function M.vertical_scrolling_list_on_input(str_list_root, str_scrollbar_root, items, action_id, action, update_listitem, on_item_selected)
+function SCROLLING_LIST.on_input(data, items, action_id, action)
 	if next(items) ~= nil then
-		gooey.dynamic_list(str_list_root, str_list_root .. "/scroll_area", str_list_root .. "/btn_item", items, action_id, action, on_item_selected, function(list) update_list(str_list_root, str_scrollbar_root, update_listitem, list) end)
-		gooey.vertical_scrollbar(get_scrollbar_handle(str_scrollbar_root), get_scrollbar_bar(str_scrollbar_root), action_id, action, function(scrollbar) on_scrolled(str_list_root, items, scrollbar) end)
+		gooey.dynamic_list(data.list_id, data.list_stencil, data.list_item_template, items, action_id, action, data.fn_on_item_selected, function(list) update_list(data, list) end)
+		gooey.vertical_scrollbar(data.scrollbar_handle, data.scrollbar_bar, action_id, action, function(scrollbar) on_scrolled(data, items, scrollbar) end)
 	end	
+end
+
+
+
+local M = {}
+
+-- Return value of create will be able to have the SCROLLING_LIST functions called on it, and will automatically pass the provided data along for the ride
+function M.create(list_id, list_stencil, list_item_template, scrollbar_handle, scrollbar_bar, fn_update_item, fn_on_item_selected)
+	local data =
+	{
+		list_id             = list_id,
+		list_stencil        = list_stencil,
+		list_item_template  = list_item_template,
+		scrollbar_handle    = scrollbar_handle,
+		scrollbar_bar       = scrollbar_bar,
+		fn_update_item      = fn_update_item,
+		fn_on_item_selected = fn_on_item_selected,
+	}
+
+	-- Populate the return valid with "public" functions from the SCROLLING_LIST table.
+	-- This seems to be (sort of) the way gooey does these things, even though it's not really how lua seems
+	-- to want to work (unless I'm misunderstanding standards in creating tables and calling functions,
+	-- using metatables, and that sort of thing)
+	local instance = {}
+	for name,fn in pairs(SCROLLING_LIST) do
+		instance[name] = function(...) fn(data, ...) end
+	end
+	return instance
 end
 
 return M

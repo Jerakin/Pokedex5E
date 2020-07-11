@@ -374,7 +374,7 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/details_backing"
-  id: "scrollist/scroll_area"
+  id: "scroll_area"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_TOP
   pivot: PIVOT_N
@@ -429,12 +429,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/add_backing"
-  id: "scrollist/btn_item"
+  id: "btn_item"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "scrollist/scroll_area"
+  parent: "scroll_area"
   layer: "gui"
   inherit_alpha: false
   slice9 {
@@ -503,7 +503,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "scrollist/btn_item"
+  parent: "btn_item"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
@@ -566,7 +566,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "scrollist/btn_item"
+  parent: "btn_item"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
