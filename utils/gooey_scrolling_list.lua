@@ -54,7 +54,7 @@ function M.vertical_scrolling_list_refresh(str_list_root, str_scrollbar_root, it
 	end
 end
 
-function M.vertical_scrolling_list_on_input(str_list_root, str_scrollbar_root, items, action, action_id, update_listitem, on_item_selected)
+function M.vertical_scrolling_list_on_input(str_list_root, str_scrollbar_root, items, action_id, action, update_listitem, on_item_selected)
 	if next(items) ~= nil then
 		gooey.dynamic_list(str_list_root, str_list_root .. "/scroll_area", str_list_root .. "/btn_item", items, action_id, action, on_item_selected, function(list) update_list(str_list_root, str_scrollbar_root, update_listitem, list) end)
 		gooey.vertical_scrollbar(get_scrollbar_handle(str_scrollbar_root), get_scrollbar_bar(str_scrollbar_root), action_id, action, function(scrollbar) on_scrolled(str_list_root, items, scrollbar) end)
