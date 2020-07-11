@@ -15,4 +15,12 @@ M.TEXT = vmath.vector4(38/255, 36/255, 32/255, 1)
 M.GREEN = vmath.vector4(3/255, 136/255, 12/255, 1)
 M.RED = vmath.vector4(185/255, 48/255, 49/255, 1)
 M.SHINY = vmath.vector4(0, 0, 0, 1)
+
+M.HEALTH_TEMPORAY = vmath.vector4(81/255, 194/255, 255/255, 1)
+M.HEALTH_MISSING = vmath.vector4(186/255, 186/255, 186/255, 1)
+M.HEALTH_ABOVE_MAX = vmath.vector4(0/255, 255/255, 0/255, 1)
+M.HEALTH_HEALTHY = vmath.vector4(81/255, 189/255, 62/255, 1)
+M.HEALTH_DAMAGED = vmath.vector4(252/255, 255/255, 59/255, 1)
+M.HEALTH_CRITICAL = vmath.vector4(255/255, 27/255, 65/255, 1)
+
 return M

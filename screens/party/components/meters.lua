@@ -6,6 +6,8 @@ local gooey_buttons = require "utils.gooey_buttons"
 local storage = require "pokedex.storage"
 local information = require "screens.party.components.information"
 local monarch = require "monarch.monarch"
+local gui_colors = require "utils.gui_colors"
+
 local M = {}
 
 local active_buttons = {}
@@ -52,6 +54,16 @@ local function update_hp_meter(nodes, max, current, temp_hp)
 	gui.set_position(node_temp_bar, pos_temp)
 	
 	gui.set_enabled(node_temp_bar, temp_hp > 0)
+
+	local color = gui_colors.HEALTH_HEALTHY
+	
+	if current / max < 0.32 then
+		color = gui_colors.HEALTH_CRITICAL
+	elseif current / max < 0.75 then
+		color = gui_colors.HEALTH_DAMAGED
+	end
+
+	gui.set_color(node_cur, color)
 end
 
 
@@ -228,7 +240,11 @@ function M.create(nodes, pokemon_id)
 	M.setup_hp(nodes, pokemon_id)
 	add_hp_buttons(nodes, pokemon)
 	M.setup_exp(nodes, pokemon_id)
-
+	
+	gui.set_color(nodes["pokemon/hp_bar_bg2"], gui_colors.HEALTH_ABOVE_MAX)
+	gui.set_color(nodes["pokemon/hp_bar_bg"], gui_colors.HEALTH_MISSING)
+	gui.set_color(nodes["pokemon/hp_bar_bg_temp"], gui_colors.HEALTH_TEMPORAY)
+	
 	for _, b in pairs(active_buttons) do
 		if b.long_pressed_time then
 			gooey.button(b.node).set_long_pressed_time(b.long_pressed_time)
