@@ -83,10 +83,6 @@ function M.show(index)
 		button.register(nodes["pokemon/exp_bg"], function()
 			monarch.show("input", {}, {sender=msg.url(), message="update_exp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_exp(id)})
 		end)
-
-		button.register(nodes["pokemon/hp_bg"], function()
-			monarch.show("input", {}, {sender=msg.url(), message="update_hp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_current_hp(id)})
-		end)
 	else
 		local e = "Party can not show pokemon with id: " .. tostring(id) .. "\n" .. debug.traceback()
 		gameanalytics.addErrorEvent {
