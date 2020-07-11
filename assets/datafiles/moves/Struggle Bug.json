@@ -1,0 +1,35 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 1,
+      "dice_max": 6,
+      "move": true
+    },
+    "10": {
+      "amount": 2,
+      "dice_max": 8,
+      "move": true
+    },
+    "17": {
+      "amount": 5,
+      "dice_max": 4,
+      "move": true
+    },
+    "5": {
+      "amount": 1,
+      "dice_max": 10,
+      "move": true
+    }
+  },
+  "Description": "You resist an attack, fighting back against an opponent. When hit by a melee attack, you may use a reaction to immediately retaliate with an attack roll of your own, dealing bug damage on a hit.",
+  "Duration": "instantaneous",
+  "Move Power": [
+    "STR",
+    "DEX"
+  ],
+  "Move Time": "1 reaction",
+  "PP": 3,
+  "Range": "Melee",
+  "Type": "Bug",
+  "atk": true
+}

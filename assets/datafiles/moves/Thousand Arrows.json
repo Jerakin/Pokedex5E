@@ -1,0 +1,35 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 2,
+      "dice_max": 8,
+      "move": true
+    },
+    "10": {
+      "amount": 3,
+      "dice_max": 10,
+      "move": true
+    },
+    "17": {
+      "amount": 4,
+      "dice_max": 12,
+      "move": true
+    },
+    "5": {
+      "amount": 2,
+      "dice_max": 10,
+      "move": true
+    }
+  },
+  "Description": "You summon forth a volley of green arrows to pierce your foes. All creatures in a 30 ft radius, centered on a point within range, must make a DEX save against your Move DC, taking ground damage on a hit, or half as much on a save. Flying-type creatures or ones withe Levitate, Magnet Rise, or similar ability CAN be hit by this move. Any creature that fails the saving throw falls to the ground and is now \"grounded\". Grounded creatures are susceptible to to ground-type moves until they raise up, regardless of their type or ability.",
+  "Duration": "Instataneouus",
+  "Move Power": [
+    "DEX",
+    "WIS"
+  ],
+  "Move Time": "1 action",
+  "PP": 5,
+  "Range": "100ft",
+  "Save": "DEX",
+  "Type": "Ground"
+}
