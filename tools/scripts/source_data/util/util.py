@@ -5,7 +5,7 @@ import sys
 
 ROOT = Path(__file__).parent.parent
 DATA = ROOT / "data"
-ASSETS = ROOT / "converters" / "assets"
+ASSETS = ROOT / "assets"
 
 OUTPUT = ROOT.parent.parent.parent / "assets" / "datafiles"
 POKEMON_OUTPUT = OUTPUT / "pokemon"
