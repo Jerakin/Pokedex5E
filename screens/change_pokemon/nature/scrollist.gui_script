@@ -45,7 +45,7 @@ function init(self)
 	self.all_items = utils.shallow_copy(d.items)
 	self.list_items = utils.shallow_copy(d.items)
 	
-	self.scrolling_list = gooey_scrolling_list.create("scrollist", "scroll_area", "btn_item", "scrollbar/handle", "scrollbar/bar", update_listitem, on_item_selected)
+	self.scrolling_list = gooey_scrolling_list.create_vertical_dynamic("scrollist", "scroll_area", "btn_item", "scrollbar/handle", "scrollbar/bar", update_listitem, on_item_selected)
 	self.scrolling_list.refresh(self.list_items, false)
 	gui.set_enabled(gui.get_node("cursor"), false)
 end

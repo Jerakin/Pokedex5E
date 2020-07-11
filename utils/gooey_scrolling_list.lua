@@ -49,7 +49,7 @@ end
 local M = {}
 
 -- Return value of create will be able to have the SCROLLING_LIST functions called on it, and will automatically pass the provided data along for the ride
-function M.create(list_id, list_stencil, list_item_template, scrollbar_handle, scrollbar_bar, fn_update_item, fn_on_item_selected)
+function M.create_vertical_dynamic(list_id, list_stencil, list_item_template, scrollbar_handle, scrollbar_bar, fn_update_item, fn_on_item_selected)
 	local data =
 	{
 		list_id             = list_id,
