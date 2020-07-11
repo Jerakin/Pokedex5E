@@ -1,0 +1,35 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 3,
+      "dice_max": 6,
+      "move": true
+    },
+    "10": {
+      "amount": 6,
+      "dice_max": 6,
+      "move": true
+    },
+    "17": {
+      "amount": 7,
+      "dice_max": 8,
+      "move": true
+    },
+    "5": {
+      "amount": 3,
+      "dice_max": 8,
+      "move": true
+    }
+  },
+  "Description": "Powerful electric energy arcs out from you, hitting any creature in a 20 foot radius, centered on you. Creatures caught in the area must make a DEX save against your Move DC, taking electric damage on a fail, and half as much on a success. Creatures that fail the saving throw by 5 or more become paralyzed.",
+  "Duration": "Instantaneous",
+  "Move Power": [
+    "STR",
+    "DEX"
+  ],
+  "Move Time": "1 action",
+  "PP": 5,
+  "Range": "20ft",
+  "Save": "DEX",
+  "Type": "Electric"
+}
