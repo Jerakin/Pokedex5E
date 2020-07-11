@@ -4,8 +4,10 @@ import json
 
 try:
     import scripts.source_data.util.util as util
+    import scripts.source_data.util.remove_dice_in_description as remove_dice_in_description
 except ModuleNotFoundError:
     from util import util
+    from util import remove_dice_in_description
 
 POKEMON = "Pokémon"
 DEFAULT_HEADER = ("Name", "Type", "Move Power", "Move Time", "PP", "Duration", "Range", "Description",
@@ -119,10 +121,13 @@ class Move:
         if not self.output_data["Move Power"]:
             del self.output_data["Move Power"]
 
+        remove_dice_in_description.remove_dice(self.output_data)
+
     def save(self):
-        raise NotImplemented
-        # with (util.MOVES_OUTPUT / (self.name +".json")).open("w", encoding="utf-8") as fp:
-        #     json.dump(util.clean_dict(self.output_data), fp, ensure_ascii=False, indent="  ", sort_keys=True)
+        if not util.MOVES_OUTPUT.exists():
+            util.MOVES_OUTPUT.mkdir()
+        with (util.MOVES_OUTPUT / (self.name +".json")).open("w", encoding="utf-8") as fp:
+            json.dump(util.clean_dict(self.output_data), fp, ensure_ascii=False, indent="  ", sort_keys=True)
 
 
 def convert_mdata(input_csv, header=DEFAULT_HEADER):
@@ -148,9 +153,7 @@ def convert_mdata(input_csv, header=DEFAULT_HEADER):
             # Each row is one Pokemon
             move = Move(header)
             move.setup(row)
-            output[move.name] = move.output_data
-    with open(util.OUTPUT / "moves.json", "w", encoding="utf-8") as fp:
-        json.dump(output, fp, ensure_ascii=False, indent="  ", sort_keys=False)
+            move.save()
 
 
 if __name__ == '__main__':

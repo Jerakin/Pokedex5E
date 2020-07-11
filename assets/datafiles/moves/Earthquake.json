@@ -1,0 +1,34 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 4,
+      "dice_max": 4,
+      "move": true
+    },
+    "10": {
+      "amount": 4,
+      "dice_max": 8,
+      "move": true
+    },
+    "17": {
+      "amount": 8,
+      "dice_max": 6,
+      "move": true
+    },
+    "5": {
+      "amount": 2,
+      "dice_max": 12,
+      "move": true
+    }
+  },
+  "Description": "You create a tremor in the ground in a 10 foot radius, centered on you. Each creature in the area must succeed on a DEX save against your Move DC, taking ground damage on a fail and be knocked prone. On a success, they take half as much damage and are not knocked prone. The area becomes difficult terrain. Flying creature are immune to this attack.",
+  "Duration": "Instantaneous",
+  "Move Power": [
+    "STR"
+  ],
+  "Move Time": "1 action",
+  "PP": 5,
+  "Range": "10ft",
+  "Save": "DEX",
+  "Type": "Ground"
+}

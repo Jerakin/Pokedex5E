@@ -1,0 +1,35 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 3,
+      "dice_max": 8,
+      "move": true
+    },
+    "10": {
+      "amount": 4,
+      "dice_max": 12,
+      "move": true
+    },
+    "17": {
+      "amount": 8,
+      "dice_max": 8,
+      "move": true
+    },
+    "5": {
+      "amount": 5,
+      "dice_max": 6,
+      "move": true
+    }
+  },
+  "Description": "Explosive projectiles rain down upon your opponents in a 10 foot radius. Any creature caught in the blast must succeed on a DEX save against your Move DC or take fire damage on a fail and half as much on a success. This move saps you of energy, and you may not make any attack until after the end of your next turn.",
+  "Duration": "Instantaneous",
+  "Move Power": [
+    "STR",
+    "DEX"
+  ],
+  "Move Time": "1 action, recharge",
+  "PP": 3,
+  "Range": "50ft",
+  "Save": "DEX",
+  "Type": "Fire"
+}
