@@ -135,6 +135,9 @@ class Move:
 
 def convert_mdata(input_csv, header=DEFAULT_HEADER):
     move_list = {}
+    # Export the error move
+    with open(util.MOVES_OUTPUT / "Error.json", "w", encoding="utf-8") as fp:
+        json.dump(error_move, fp, ensure_ascii=False, indent="  ", sort_keys=False)
 
     # convert and export all moves from the CSV
     with open(input_csv, "r", encoding="utf-8") as fp:
