@@ -123,6 +123,9 @@ class Move:
 
         remove_dice_in_description.remove_dice(self.output_data)
 
+    def search_data(self):
+        return {}
+
     def save(self):
         if not util.MOVES_OUTPUT.exists():
             util.MOVES_OUTPUT.mkdir()
@@ -131,8 +134,9 @@ class Move:
 
 
 def convert_mdata(input_csv, header=DEFAULT_HEADER):
-    output = {}
-    output["Error"] = error_move
+    move_list = {}
+
+    # convert and export all moves from the CSV
     with open(input_csv, "r", encoding="utf-8") as fp:
         reader = csv.reader(fp, delimiter=",", quotechar='"')
 
@@ -154,6 +158,11 @@ def convert_mdata(input_csv, header=DEFAULT_HEADER):
             move = Move(header)
             move.setup(row)
             move.save()
+            move_list[move.name] = move.search_data()
+
+    move_list["Error"] = {}
+    with open(util.OUTPUT / "move_index.json", "w", encoding="utf-8") as fp:
+        json.dump(move_list, fp, ensure_ascii=False, indent="  ", sort_keys=False)
 
 
 if __name__ == '__main__':

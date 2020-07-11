@@ -6,7 +6,7 @@ local fakemon = require "fakemon.fakemon"
 
 local M = {}
 
-
+local index = {}
 local movedata = {}
 local known_to_all_moves = {}
 local move_machines
@@ -72,7 +72,7 @@ end
 
 local function list()
 	local l = {}
-	for m, d in pairs(movedata) do
+	for m, d in pairs(index) do
 		table.insert(l, m)
 	end
 	table.sort(l)
@@ -96,6 +96,7 @@ end
 function M.init()
 	if not initialized then
 		movedata = {}
+		index = file.load_json_from_resource("/assets/datafiles/move_index.json")
 		move_machines = file.load_json_from_resource("/assets/datafiles/move_machines.json")
 
 		if fakemon.DATA and fakemon.DATA["moves.json"] then
