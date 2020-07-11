@@ -718,7 +718,7 @@ nodes {
   }
   size {
     x: 210.0
-    y: 45.0
+    y: 44.0
     z: 0.0
     w: 1.0
   }
@@ -899,7 +899,7 @@ nodes {
   }
   size {
     x: 210.0
-    y: 45.0
+    y: 44.0
     z: 0.0
     w: 1.0
   }
@@ -1080,7 +1080,7 @@ nodes {
   }
   size {
     x: 210.0
-    y: 45.0
+    y: 44.0
     z: 0.0
     w: 1.0
   }
@@ -1261,7 +1261,7 @@ nodes {
   }
   size {
     x: 210.0
-    y: 45.0
+    y: 44.0
     z: 0.0
     w: 1.0
   }
@@ -1542,7 +1542,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -70.0
+    y: -65.0
     z: 0.0
     w: 1.0
   }
@@ -1560,7 +1560,7 @@ nodes {
   }
   size {
     x: 210.0
-    y: 45.0
+    y: 34.0
     z: 0.0
     w: 1.0
   }
@@ -1723,7 +1723,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -123.0
+    y: -106.0
     z: 0.0
     w: 1.0
   }
@@ -1741,7 +1741,7 @@ nodes {
   }
   size {
     x: 210.0
-    y: 45.0
+    y: 34.0
     z: 0.0
     w: 1.0
   }
@@ -1904,7 +1904,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -175.0
+    y: -148.0
     z: 0.0
     w: 1.0
   }
@@ -1922,7 +1922,7 @@ nodes {
   }
   size {
     x: 210.0
-    y: 45.0
+    y: 34.0
     z: 0.0
     w: 1.0
   }
@@ -2086,7 +2086,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -228.0
+    y: -190.0
     z: 0.0
     w: 1.0
   }
@@ -2104,7 +2104,7 @@ nodes {
   }
   size {
     x: 210.0
-    y: 45.0
+    y: 34.0
     z: 0.0
     w: 1.0
   }
@@ -2266,6 +2266,187 @@ nodes {
 }
 nodes {
   position {
+    x: 0.0
+    y: -233.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 210.0
+    y: 34.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/trait_border"
+  id: "traits/border_burrow"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "traits/speeds_backing"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 5.0
+    y: 5.0
+    z: 5.0
+    w: 5.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 13.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.5
+    y: 0.5
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 230.0
+    y: 40.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.60784316
+    y: 0.60784316
+    z: 0.60784316
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "BURROWING"
+  font: "script"
+  id: "traits/title_burrow"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_E
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: true
+  parent: "traits/border_burrow"
+  layer: "script"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: true
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 22.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.65
+    y: 0.65
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 50.0
+    y: 50.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "10ft"
+  font: "script"
+  id: "traits/txt_burrow"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_W
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: true
+  parent: "traits/border_burrow"
+  layer: "script"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: true
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
     x: -237.0
     y: -131.0
     z: 0.0
@@ -2385,7 +2566,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -52.0
+    y: -48.0
     z: 0.0
     w: 1.0
   }
@@ -2403,7 +2584,7 @@ nodes {
   }
   size {
     x: 200.0
-    y: 198.0
+    y: 202.0
     z: 0.0
     w: 1.0
   }
