@@ -10,6 +10,7 @@ local gooey = require "gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
 local tracking_id = require "utils.tracking_id"
 local share = require "pokedex.share"
+local screens = require "utils.screens"
 
 local map = {
 	[hash("party")] = "btn_party",
@@ -90,7 +91,7 @@ function init(self)
 			eventId = "Navigation:PartyByMenu",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("party")
+		monarch.show(screens.PARTY)
 		toggle(self)
 	end, {no_shake=true})
 
@@ -99,7 +100,7 @@ function init(self)
 			eventId = "Navigation:PCByMenu",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("storage")
+		monarch.show(screens.STORAGE)
 		toggle(self)
 	end, {no_shake=true})
 
@@ -108,7 +109,7 @@ function init(self)
 			eventId = "Navigation:AboutByMenu",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("about")
+		monarch.show(screens.ABOUT)
 		toggle(self)
 	end, {no_shake=true})
 
@@ -117,7 +118,7 @@ function init(self)
 			eventId = "Navigation:GenerateByMenu",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("generate_pokemon")
+		monarch.show(screens.GENERATE_POKEMON)
 		toggle(self)
 	end, {no_shake=true})
 
@@ -126,7 +127,7 @@ function init(self)
 			eventId = "Navigation:ProfilesByMenu",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("profiles")
+		monarch.show(screens.PROFILES)
 		toggle(self)
 	end, {no_shake=true})
 
@@ -135,7 +136,7 @@ function init(self)
 			eventId = "Navigation:AddByMenu",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("add")
+		monarch.show(screens.ADD)
 		toggle(self)
 	end, {no_shake=true})
 	
@@ -144,7 +145,7 @@ function init(self)
 			eventId = "Navigation:Import",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("import")
+		monarch.show(screens.IMPORT)
 		toggle(self)
 	end, {no_shake=true})
 
@@ -153,7 +154,7 @@ function init(self)
 			eventId = "Navigation:Pokedex",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("pokedex")
+		monarch.show(screens.POKEDEX)
 		toggle(self)
 	end, {no_shake=true})
 
@@ -162,7 +163,7 @@ function init(self)
 			eventId = "Navigation:Settings",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("settings")
+		monarch.show(screens.SETTINGS)
 		toggle(self)
 	end, {no_shake=true})
 
@@ -171,13 +172,13 @@ function init(self)
 			eventId = "Navigation:Trainer",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("trainer")
+		monarch.show(screens.TRAINER)
 		toggle(self)
 	end, {no_shake=true})
 	
 	if sys.get_engine_info().is_debug then
 		button.register("btn_debug", function()
-			monarch.show("debug")
+			monarch.show(screens.DEBUG)
 			toggle(self)
 		end, {no_shake=true})
 	else

@@ -21,7 +21,7 @@ local settings = require "pokedex.settings"
 local url = require "utils.url"
 local version = require "screens.popups.version_dialog.version"
 local backup = require "utils.backup"
-
+local screens = require "utils.screens"
 
 local function send_crash_on_start()
 	crash.write_dump()
@@ -141,7 +141,7 @@ function init(self)
 		
 
 		if profiles.is_new_game() then 
-			monarch.show("pick_name", nil, {sender=msg.url(), slot=1})
+			monarch.show(screens.PICK_NAME, nil, {sender=msg.url(), slot=1})
 		elseif not profiles.get_active_slot() then
 			msg.post("#", "show_profile")
 		elseif #storage.list_of_ids_in_inventory() > 0 then
@@ -172,25 +172,25 @@ function on_message(self, message_id, message, sender)
 			eventId = "Navigation:Profiles",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("profiles")
+		monarch.show(screens.PROFILES)
 	elseif message_id == hash("show_party") then
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:Party",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("party")
+		monarch.show(screens.PARTY)
 	elseif message_id == hash("show_splash") then
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:Splash",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("splash")
+		monarch.show(screens.SPLASH)
 	elseif message_id == hash("show_storage") then
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:PC",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("storage")
+		monarch.show(screens.STORAGE)
 	end
 end
 

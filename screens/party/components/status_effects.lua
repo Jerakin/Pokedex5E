@@ -4,6 +4,7 @@ local gooey = require "gooey.gooey"
 local monarch = require "monarch.monarch"
 local gui_colors = require "utils.gui_colors"
 local statuses = require "pokedex.statuses"
+local screens = require "utils.screens"
 
 local M = {}
 
@@ -57,7 +58,7 @@ end
 
 function M.on_input(action_id, action)
 	if active_page then
-		gooey.button("btn_status" .. active_page, action_id, action, function() monarch.show("status_effects", nil, {pokemon_id=current_pokemon_id}) end)
+		gooey.button("btn_status" .. active_page, action_id, action, function() monarch.show(screens.STATUS_EFFECTS, nil, {pokemon_id=current_pokemon_id}) end)
 	end
 end
 

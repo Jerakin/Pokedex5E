@@ -6,6 +6,7 @@ local flow = require "utils.flow"
 local version = require "screens.popups.version_dialog.version"
 local gooey_buttons = require "utils.gooey_buttons"
 local log = require "utils.log"
+local screens = require "utils.screens"
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
@@ -32,7 +33,7 @@ function on_input(self, action_id, action)
 		flow.start(function()
 			local up_to_date, versions_behind, url = version.check_version()
 			if up_to_date ~= nil then
-				monarch.show("version", {}, {up_to_date=up_to_date, versions_behind=versions_behind, url=url})
+				monarch.show(screens.VERSION, {}, {up_to_date=up_to_date, versions_behind=versions_behind, url=url})
 			else
 				log.info("Version got nil")
 			end

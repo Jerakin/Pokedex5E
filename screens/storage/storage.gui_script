@@ -11,6 +11,7 @@ local gooey_buttons = require "utils.gooey_buttons"
 local searchbar = require "screens.storage.searchbar"
 local tracking_id = require "utils.tracking_id"
 local gui_utils = require "utils.gui"
+local screens = require "utils.screens"
 
 local function table_of_rows(self)
 	local l = {}
@@ -108,7 +109,7 @@ local function on_item_selected(self, list)
 							eventId = "Navigation:Transfer",
 							value = tracking_id[monarch.top()]
 						}
-						monarch.show("transfer_pokemon", {}, {id=pokemon_id, to="PARTY"})
+						monarch.show(screens.TRANSFER_POKEMON, {}, {id=pokemon_id, to="PARTY"})
 					end
 				end
 			end
@@ -138,21 +139,21 @@ function on_input(self, action_id, action)
 			eventId = "Navigation:PartyByButton",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("party")
+		monarch.show(screens.PARTY)
 	end)
 	gooey.button("btn_sort", action_id, action, function()
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:Sorting",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("sorting")
+		monarch.show(screens.SORTING)
 	end, gooey_buttons.pokemon_sort_button)
 	gooey.button("btn_add", action_id, action, function()
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:AddByButton",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("add") end)
+		monarch.show(screens.ADD) end)
 	searchbar.on_input(self, action_id, action)
 end
 

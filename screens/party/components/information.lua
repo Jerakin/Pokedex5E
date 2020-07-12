@@ -10,13 +10,15 @@ local gui_colors = require "utils.gui_colors"
 local monarch = require "monarch.monarch"
 local url = require "utils.url"
 local scrollhandler = require "screens.party.components.scrollhandler"
+local constants = require "utils.constants"
+local screens = require "utils.screens"
+
 
 local M = {}
 local active = {}
 local touching = false
 local _action = vmath.vector3(0)
 local POKEMON_SPECIES_TEXT_SCALE = vmath.vector3(1.5)
-local number_map = {[0.125]="1/8", [0.25]="1/4", [0.5]="1/2"}
 
 local item_button
 local rest_button
@@ -64,7 +66,7 @@ function M.refresh(pokemon_id)
 	local pokemon = storage.get_copy(pokemon_id)
 	gui.set_text(active["pokemon/traits/txt_catch"], _pokemon.get_catch_rate(pokemon))
 	local st_attributes = _pokemon.get_saving_throw_modifier(pokemon)
-	for i, stat in pairs({"STR", "DEX", "CON", "INT", "WIS", "CHA"}) do
+	for i, stat in pairs(constants.ABILITY_LIST) do
 		local save_node = "pokemon/txt_" .. stat:lower() .. "_save"
 		gui.set_text(active[save_node], party_utils.add_operation(st_attributes[stat]))
 	end	
@@ -79,7 +81,7 @@ local function setup_info_tab(nodes, pokemon)
 
 	local st_attributes = _pokemon.get_saving_throw_modifier(pokemon)
 	local total_attributes = _pokemon.get_attributes(pokemon)
-	for i, stat in pairs({"STR", "DEX", "CON", "INT", "WIS", "CHA"}) do
+	for i, stat in pairs(constants.ABILITY_LIST) do
 		local mod_node = "pokemon/txt_" .. stat:lower() .. "_mod"
 		local score_node = "pokemon/txt_" .. stat:lower() .. "_score"
 		local save_node = "pokemon/txt_" .. stat:lower() .. "_save"
@@ -96,7 +98,7 @@ local function setup_info_tab(nodes, pokemon)
 	gui.set_text(nodes["pokemon/traits/txt_skills"], skill_string)
 
 	local sr = pokedex.get_pokemon_SR(_pokemon.get_current_species(pokemon))
-	gui.set_text(nodes["pokemon/traits/txt_sr"], number_map[sr] or sr)
+	gui.set_text(nodes["pokemon/traits/txt_sr"], constants.NUMBER_TO_SR[sr])
 
 	gui.set_text(nodes["pokemon/traits/txt_nature"], _pokemon.get_nature(pokemon):upper())
 	gui.set_text(nodes["pokemon/traits/txt_stab"], _pokemon.get_STAB_bonus(pokemon))
@@ -168,12 +170,12 @@ function M.on_input(action_id, action)
 	if item_button then
 		gooey.button(item_button, action_id, action, function()
 			local item = _pokemon.get_held_item(active_pokemon)
-			monarch.show("info", nil, {text=items.get_description(item)})
+			monarch.show(screens.INFO, nil, {text=items.get_description(item)})
 		end)
 	end
 
 	gooey.button(rest_button, action_id, action, function() 
-		monarch.show("are_you_sure", nil, {title="Pokémon Center", text="We heal your Pokémon back to perfect health!\nShall we heal your Pokémon?", sender=msg.url(), id="full_rest"})
+		monarch.show(screens.ARE_YOU_SURE, nil, {title="Pokémon Center", text="We heal your Pokémon back to perfect health!\nShall we heal your Pokémon?", sender=msg.url(), id="full_rest"})
 	end)
 end
 

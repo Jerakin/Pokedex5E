@@ -12,6 +12,7 @@ local gooey = require "gooey.gooey"
 local notify = require "utils.notify"
 local tracking_id = require "utils.tracking_id"
 local dex = require "pokedex.dex"
+local screens = require "utils.screens"
 
 local HAVE_EVOLVED = false
 
@@ -32,13 +33,13 @@ local function exit(self)
 				eventId = "Navigation:PC",
 				value = tracking_id[monarch.top()]
 			}
-			monarch.show("storage")
+			monarch.show(screens.STORAGE)
 		elseif stack[i] == hash("party") or stack[i] == hash("profiles") then
 			gameanalytics.addDesignEvent {
 				eventId = "Navigation:Party",
 				value = tracking_id[monarch.top()]
 			}
-			monarch.show("party")
+			monarch.show(screens.PARTY)
 		end
 	end
 
@@ -46,7 +47,7 @@ local function exit(self)
 		eventId = "Navigation:Party",
 		value = tracking_id[monarch.top()]
 	}
-	monarch.show("party")
+	monarch.show(screens.PARTY)
 end
 
 local function add_pokemon(self)

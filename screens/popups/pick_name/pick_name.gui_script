@@ -8,6 +8,7 @@ local url = require "utils.url"
 local gooey_buttons = require "utils.gooey_buttons"
 local tracking_id = require "utils.tracking_id"
 local dex = require "pokedex.dex"
+local screens = require "utils.screens"
 local slot
 
 local function refresh_input(self, input, node_id)
@@ -78,7 +79,7 @@ local function okay()
 		trainer.load(profiles.get_active())
 		dex.load(profiles.get_active())
 		storage.set_max_active_pokemon(3) -- default value for new profiles
-		monarch.show("add")
+		monarch.show(screens.ADD)
 	end
 end
 

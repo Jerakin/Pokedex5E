@@ -7,6 +7,7 @@ local storage = require "pokedex.storage"
 local information = require "screens.party.components.information"
 local monarch = require "monarch.monarch"
 local gui_colors = require "utils.gui_colors"
+local screens = require "utils.screens"
 
 local M = {}
 
@@ -83,7 +84,7 @@ end
 
 function M.show_hp_selector(id)
 	local hp = storage.get_pokemon_current_hp(id)
-	monarch.show("input", {},
+	monarch.show(screens.INPUT, {},
 	{
 		sender=msg.url(),
 		message="update_hp",
@@ -95,7 +96,7 @@ end
 
 function M.show_temp_hp_selector(id)
 	local temp_hp = storage.get_pokemon_temp_hp(id)
-	monarch.show("input", {},
+	monarch.show(screens.INPUT, {},
 	{
 		sender=msg.url(),
 		message="update_temp_hp",

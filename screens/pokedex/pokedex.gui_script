@@ -8,6 +8,7 @@ local gui_utils = require "utils.gui"
 local search_bar =  require "screens.pokedex.search"
 local url = require "utils.url"
 local dex_data = require "pokedex.dex_data"
+local screens = require "utils.screens"
 
 local pokedex_data = {}
 local action_position = vmath.vector3()
@@ -205,7 +206,7 @@ local function scroll_list_click(self, list)
 						update_pokedex_info(self)
 						pokedex_data[list.selected_item][i].state = state_map[mark_as]
 					elseif species and mark_as == nil then
-						monarch.show("pokedex_pokemon", nil, {species=species, row=list.selected_item, index=i, sender=msg.url()})
+						monarch.show(screens.POKEDEX_POKEMON, nil, {species=species, row=list.selected_item, index=i, sender=msg.url()})
 					end
 				end
 			end

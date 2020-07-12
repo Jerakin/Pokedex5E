@@ -9,6 +9,7 @@ local monarch = require "monarch.monarch"
 local tracking_id = require "utils.tracking_id"
 local scrollhandler = require "screens.party.components.scrollhandler"
 local movedex = require "pokedex.moves"
+local screens = require "utils.screens"
 
 local M = {}
 
@@ -100,7 +101,7 @@ local function bind_buttons(nodes, name)
 			eventId = "Navigation:MoveInfo",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("move_info", {}, {pokemon=current_pokemon, name=name, data=_pokemon.get_moves(current_pokemon)[name]})
+		monarch.show(screens.MOVE_INFO, {}, {pokemon=current_pokemon, name=name, data=_pokemon.get_moves(current_pokemon)[name]})
 	end
 	}
 

@@ -16,6 +16,7 @@ local notify = require "utils.notify"
 local tracking_id = require "utils.tracking_id"
 local gui_utils = require "utils.gui"
 local share = require "pokedex.share"
+local screens = require "utils.screens"
 
 -- Because the "swap pokemon" popup isn't actually its own screen, it doesn't re-init and reset positions of everything
 -- every time it shows up. Therefore, I can't dynamically adjust things for it each time, I need to store their initial values
@@ -288,7 +289,7 @@ end
 local function release(self)
 	if not storage.is_inventory_pokemon(self.pokemon_id) or #storage.list_of_ids_in_inventory() ~= 1 then
 		local title = "RELEASE " .. self.nickname
-		monarch.show("are_you_sure", nil, {title=title, data=self.pokemon_id, sender=msg.url()})
+		monarch.show(screens.ARE_YOU_SURE, nil, {title=title, data=self.pokemon_id, sender=msg.url()})
 	end
 end
 
