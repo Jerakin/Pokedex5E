@@ -68,8 +68,15 @@ function SCROLLING_LIST.on_input(data, items, action_id, action)
 		local list = gooey.dynamic_list(data.list_id, data.list_stencil, data.list_item_template, items, action_id, action, data.fn_on_item_selected, function(list) update_list(data, list) end)
 		
 		update_handle_size(data, list)
-		gooey.vertical_scrollbar(data.scrollbar_handle, data.scrollbar_bar, action_id, action, function(scrollbar) on_scrolled(data, items, scrollbar) end)
+		if data.allow_scrollbar_input then
+			gooey.vertical_scrollbar(data.scrollbar_handle, data.scrollbar_bar, action_id, action, function(scrollbar) on_scrolled(data, items, scrollbar) end)
+		end
 	end	
+end
+
+function SCROLLING_LIST.scroll_to_top(data, items)	
+	gooey.dynamic_list(data.list_id, data.list_stencil, data.list_item_template, items).scroll_to(0, 0)
+	gooey.vertical_scrollbar(data.scrollbar_handle, data.scrollbar_bar).scroll_to(0, 0)
 end
 
 
@@ -77,7 +84,7 @@ end
 local M = {}
 
 -- Return value of create will be able to have the SCROLLING_LIST functions called on it, and will automatically pass the provided data along for the ride
-function M.create_vertical_dynamic(list_id, list_stencil, list_item_template, scrollbar_handle, scrollbar_bar, scrollbar_visual, fn_update_item, fn_on_item_selected)
+function M.create_vertical_dynamic(list_id, list_stencil, list_item_template, scrollbar_handle, scrollbar_bar, scrollbar_visual, fn_update_item, fn_on_item_selected, options)
 	local data =
 	{
 		list_id             = list_id,
@@ -88,9 +95,15 @@ function M.create_vertical_dynamic(list_id, list_stencil, list_item_template, sc
 		scrollbar_visual    = scrollbar_visual,
 		fn_update_item      = fn_update_item,
 		fn_on_item_selected = fn_on_item_selected,
+		
+		allow_scrollbar_input = true,
 	}
+	
+	data.min_handle_length = options and options.min_handle_length or 40
 
-	data.min_handle_length = 40 -- could be configuratble
+	if options and options.allow_scrollbar_input ~= nil then
+		data.allow_scrollbar_input = options.allow_scrollbar_input
+	end
 
 	-- Populate the return valid with "public" functions from the SCROLLING_LIST table.
 	-- This seems to be (sort of) the way gooey does these things, even though it's not really how lua seems
@@ -98,7 +111,7 @@ function M.create_vertical_dynamic(list_id, list_stencil, list_item_template, sc
 	-- using metatables, and that sort of thing)
 	local instance = {}
 	for name,fn in pairs(SCROLLING_LIST) do
-		instance[name] = function(...) fn(data, ...) end
+		instance[name] = function(...) return fn(data, ...) end
 	end
 	return instance
 end
