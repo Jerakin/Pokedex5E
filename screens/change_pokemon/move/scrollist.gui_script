@@ -84,7 +84,7 @@ function init(self)
 	gui.set_text(gui.get_node("scrollist/topbar/title"), "Choose New Move")
 	gui.set_enabled(gui.get_node("scrollist/cursor"), false)
 
-	self.scrolling_list = gooey_scrolling_list.create_vertical_dynamic("scrollist", "scrollist/scroll_area", "scrollist/btn_item", "scrollist/scrollbar/handle", "scrollist/scrollbar/bar", update_listitem, on_item_selected)
+	self.scrolling_list = gooey_scrolling_list.create_vertical_dynamic("scrollist", "scrollist/scroll_area", "scrollist/btn_item", "scrollist/scrollbar/handle", "scrollist/scrollbar/bar", "scrollist/scrollbar/visual", update_listitem, on_item_selected)
 	self.scrolling_list.refresh(self.list_items, true)
 end
 
