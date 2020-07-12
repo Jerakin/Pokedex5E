@@ -69,16 +69,6 @@ function SCROLLING_LIST.on_input(data, items, action_id, action)
 		
 		update_handle_size(data, list)
 		gooey.vertical_scrollbar(data.scrollbar_handle, data.scrollbar_bar, action_id, action, function(scrollbar) on_scrolled(data, items, scrollbar) end)
-
-		--[[
-		print("==== DUMPING LIST ====")
-		for k,v in pairs(list) do
-			if type(v) ~= "function" and type(v) ~= "table" then
-				print("list: k=" .. tostring(k) .. ", v=" .. tostring(v) .. " (" .. type(v) .. ")")
-			end
-		end
-		print("==== END DUMP ====")
-		--]]
 	end	
 end
 
