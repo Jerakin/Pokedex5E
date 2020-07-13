@@ -1,0 +1,34 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 1,
+      "dice_max": 6,
+      "move": true
+    },
+    "10": {
+      "amount": 1,
+      "dice_max": 10,
+      "move": true
+    },
+    "17": {
+      "amount": 1,
+      "dice_max": 12,
+      "move": true
+    },
+    "5": {
+      "amount": 1,
+      "dice_max": 8,
+      "move": true
+    }
+  },
+  "Description": "You roll into a foe, repeatedly making attacks with increasing strength. Make a melee attack on an opponent, dealing rock damage on a hit. If you use this move on your turn in consecutive rounds, double the dice on each successful attack for a maximum of 5 attacks. Ex: on first hit, on second, , , . The damage resets if any of the attacks fail to damage an opponent, if your speed is reduced to 0, or if you are incapacitated.",
+  "Duration": "Instantaneous",
+  "Move Power": [
+    "STR"
+  ],
+  "Move Time": "1 action",
+  "PP": 10,
+  "Range": "Melee",
+  "Type": "Rock",
+  "atk": true
+}

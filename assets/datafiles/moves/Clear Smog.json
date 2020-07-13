@@ -1,0 +1,35 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 1,
+      "dice_max": 8,
+      "move": true
+    },
+    "10": {
+      "amount": 4,
+      "dice_max": 4,
+      "move": true
+    },
+    "17": {
+      "amount": 3,
+      "dice_max": 10,
+      "move": true
+    },
+    "5": {
+      "amount": 2,
+      "dice_max": 6,
+      "move": true
+    }
+  },
+  "Description": "You throw a clump of special mud that has the power to remove all stat changes from a target. Make a ranged attack, dealing poison damage on a hit. On a hit, any stat changes affecting the target since the beginning of battle are reset.",
+  "Duration": "Instantaneous",
+  "Move Power": [
+    "DEX",
+    "CON"
+  ],
+  "Move Time": "1 action",
+  "PP": 10,
+  "Range": "20ft",
+  "Type": "Poison",
+  "atk": true
+}
