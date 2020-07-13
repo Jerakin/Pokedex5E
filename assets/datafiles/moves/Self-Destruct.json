@@ -1,0 +1,34 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 5,
+      "dice_max": 6,
+      "move": true
+    },
+    "10": {
+      "amount": 6,
+      "dice_max": 10,
+      "move": true
+    },
+    "17": {
+      "amount": 8,
+      "dice_max": 12,
+      "move": true
+    },
+    "5": {
+      "amount": 4,
+      "dice_max": 10,
+      "move": true
+    }
+  },
+  "Description": "You release a massive explosion in a 30 foot radius, fainting immediately after the attack. Creatures in the area must make a DEX save against your Move DC. If your creature has at least half its hit points left, anyone in range takes normal damage on a fail, or half as much on a success. If your creature has less than half of its hitpoints left, the damage is halved for a failed save, and quartered for a success.",
+  "Duration": "Instantaneous",
+  "Move Power": [
+    "STR"
+  ],
+  "Move Time": "1 action",
+  "PP": 3,
+  "Range": "30ft",
+  "Save": "DEX",
+  "Type": "Normal"
+}

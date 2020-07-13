@@ -1,0 +1,35 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 1,
+      "dice_max": 4,
+      "move": true
+    },
+    "10": {
+      "amount": 1,
+      "dice_max": 12,
+      "move": true
+    },
+    "17": {
+      "amount": 4,
+      "dice_max": 4,
+      "move": true
+    },
+    "5": {
+      "amount": 2,
+      "dice_max": 4,
+      "move": true
+    }
+  },
+  "Description": "You hurl mud at a target in range. Make a ranged attack roll, doing ground damage on a hit. On a hit, the target adds -1 to its attack rolls for the rest of the encounter. This decrease may be stacked, up to a maximum of -5 to hit. The target may take an action to remove any mud from its face, resetting the effect.",
+  "Duration": "Instantaneous",
+  "Move Power": [
+    "STR",
+    "DEX"
+  ],
+  "Move Time": "1 action",
+  "PP": 5,
+  "Range": "40ft",
+  "Type": "Ground",
+  "atk": true
+}

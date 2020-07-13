@@ -273,6 +273,10 @@ function M.get_climbing_speed(pokemon)
 	return M.get_pokemon(pokemon)["Climbing Speed"] or 0
 end
 
+function M.get_burrow_speed(pokemon)
+	return M.get_pokemon(pokemon)["Burrowing Speed"] or 0
+end
+
 function M.get_pokemon_type(pokemon)
 	return M.get_pokemon(pokemon).Type
 end

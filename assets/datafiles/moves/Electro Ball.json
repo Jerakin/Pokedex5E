@@ -1,0 +1,34 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 1,
+      "dice_max": 6,
+      "move": true
+    },
+    "10": {
+      "amount": 2,
+      "dice_max": 8,
+      "move": true
+    },
+    "17": {
+      "amount": 4,
+      "dice_max": 6,
+      "move": true
+    },
+    "5": {
+      "amount": 1,
+      "dice_max": 12,
+      "move": true
+    }
+  },
+  "Description": "You hurl an electric orb at a target in range. Make a ranged attack roll, dealing electric damage on a hit. Compare the target and user's highest speed type (walking, flying, etc.). If the user's speed is higher, roll the next tier's damage dice for this move. In the case of level 17 or higher, double the damage dice.",
+  "Duration": "Instantaneous",
+  "Move Power": [
+    "DEX"
+  ],
+  "Move Time": "1 action",
+  "PP": 5,
+  "Range": "40ft",
+  "Type": "Electric",
+  "atk": true
+}
