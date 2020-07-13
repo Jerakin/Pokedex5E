@@ -1,4 +1,4 @@
-local gooey = require "screens.generate_pokemon.gooey.gooey"
+local gooey = require "gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
 local gooey_scrolling_list = require "utils.gooey_scrolling_list"
 
