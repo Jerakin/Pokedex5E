@@ -7,6 +7,7 @@ local trainer = require "pokedex.trainer"
 local gui_colors = require "utils.gui_colors"
 local url = require "utils.url"
 local dex = require "pokedex.dex"
+local gooey_scrolling_list = require "utils.gooey_scrolling_list"
 local gooey = require "gooey.gooey"
 local party = require "screens.party.party"
 local seachbar = require "screens.profiles.searchbar"
@@ -59,7 +60,7 @@ local function set_id(node)
 	return "profile_" .. i
 end
 
-local function update_items(self, item)
+local function update_item(self, item)
 	if next(self.all_slots) == nil then
 		return
 	end
@@ -85,16 +86,6 @@ local function update_items(self, item)
 end
 
 
-local function update_list(self, list)
-	gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar").scroll_to(0, list.scroll.y)
-	for i,item in ipairs(list.items) do
-		if item.data and item.data ~= "" then
-			update_items(self, item)
-		end
-	end
-end
-
-
 local function delete_profile(self, slot)
 	if profiles.get_active_slot() == slot then
 		profiles.set_active(nil)
@@ -107,9 +98,23 @@ local function delete_profile(self, slot)
 		table.insert(self.scrolling_data, index)
 	end
 	self.filtered_list = utils.deep_copy(self.scrolling_data)
-	update_list(self, gooey.dynamic_list("profile_list", "scroll", "profile_slot/btn_root", self.filtered_list))
+	self.scrolling_list.refresh(self.filtered_list)
 end
 
+local function profile_list_clicked(list)
+	for key, entry in pairs(list.items) do
+		if entry.index == list.selected_item then
+			local value = entry.data
+			if value then
+				if gui.pick_node(entry.nodes["profile_slot/btn_slot"], list.action_pos.x, list.action_pos.y) then
+					activate(value)
+				elseif gui.pick_node(entry.nodes["profile_slot/btn_delete"], list.action_pos.x, list.action_pos.y) then
+					monarch.show("are_you_sure", nil, {sender=msg.url(), data=value, title="Delete Profile"})
+				end
+			end
+		end
+	end
+end
 
 function init(self)
 	button.acquire()
@@ -127,8 +132,10 @@ function init(self)
 	end
 	
 	self.filtered_list = utils.deep_copy(self.scrolling_data)
+
+	self.scrolling_list = gooey_scrolling_list.create_vertical_dynamic("profile_list", "scroll", "profile_slot/btn_root", "scrollbar/handle", "scrollbar/bar", "scrollbar/visual", function(list, item) update_item(self, item) end, profile_list_clicked)
+	self.scrolling_list.refresh(self.filtered_list)
 	
-	update_list(self, gooey.dynamic_list("profile_list", "scroll", "profile_slot/btn_root", self.filtered_list))
 end
 
 
@@ -138,7 +145,7 @@ function on_message(self, message_id, message, sender)
 			delete_profile(self, message.data)
 		end
 	elseif message_id == hash("search") then
-		update_list(self, gooey.dynamic_list("profile_list", "scroll", "profile_slot/btn_root", self.filtered_list))
+		self.scrolling_list.refresH(self.filtered_list)
 	end
 end
 
@@ -150,34 +157,10 @@ function final(self)
 	self.scrolling_data = {}
 end
 
-
-local function on_scrolled(self, scrollbar)
-	gooey.dynamic_list("profile_list", "scroll", "profile_slot/btn_root", self.filtered_list).scroll_to(0, scrollbar.scroll.y)
-end
-
-
-local function profile_list_clicked(list)
-	for key, entry in pairs(list.items) do
-		if entry.index == list.selected_item then
-			local value = entry.data
-			if value then
-				if gui.pick_node(entry.nodes["profile_slot/btn_slot"], list.action_pos.x, list.action_pos.y) then
-					activate(value)
-				elseif gui.pick_node(entry.nodes["profile_slot/btn_delete"], list.action_pos.x, list.action_pos.y) then
-					monarch.show("are_you_sure", nil, {sender=msg.url(), data=value, title="Delete Profile"})
-				end
-			end
-		end
-	end
-end
-
 function on_input(self, action_id, action)
 	seachbar.on_input(self, action_id, action)
 	if next(self.filtered_list) ~= nil then
-		local list = gooey.dynamic_list("profile_list", "scroll", "profile_slot/btn_root", self.filtered_list, action_id, action, profile_list_clicked, function(list) update_list(self, list) end)
-		if list.max_y and list.max_y > 0 then
-			gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar", action_id, action, function(scroll) on_scrolled(self, scroll) end)
-		end
+		self.scrolling_list.on_input(self.filtered_list, action_id, action)
 	end
 	gooey.button("new_profile", action_id, action, function()
 		monarch.show("pick_name", nil, {sender=msg.url(), slot=#self.all_slots+1})
