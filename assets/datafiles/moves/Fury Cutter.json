@@ -1,0 +1,35 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 1,
+      "dice_max": 4,
+      "move": true
+    },
+    "10": {
+      "amount": 2,
+      "dice_max": 4,
+      "move": true
+    },
+    "17": {
+      "amount": 2,
+      "dice_max": 6,
+      "move": true
+    },
+    "5": {
+      "amount": 1,
+      "dice_max": 6,
+      "move": true
+    }
+  },
+  "Description": "You unleash series of cuts against a creature that increase in strength. When you activate this move, make a melee attack on a target in range, doing bug damage on a hit. If you continue to use this move on consecutive turns, double the dice roll for damage each time you hit. The multiplier maxes out at 8x the original damage. The damage resets if any of the attacks miss, or if you are incapacitated.",
+  "Duration": "Instantaneous",
+  "Move Power": [
+    "STR",
+    "DEX"
+  ],
+  "Move Time": "1 action",
+  "PP": 10,
+  "Range": "Melee",
+  "Type": "Bug",
+  "atk": true
+}

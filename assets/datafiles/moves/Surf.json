@@ -1,0 +1,35 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 2,
+      "dice_max": 8,
+      "move": true
+    },
+    "10": {
+      "amount": 3,
+      "dice_max": 10,
+      "move": true
+    },
+    "17": {
+      "amount": 4,
+      "dice_max": 12,
+      "move": true
+    },
+    "5": {
+      "amount": 2,
+      "dice_max": 10,
+      "move": true
+    }
+  },
+  "Description": "You create a powerful wave that crashes down on an opponent in a 30ft cone, centered on you. Any creature caught in the blast must make a DEX saving throw, taking water damage and falling prone on a failure, or half as much without falling prone on a success.",
+  "Duration": "Instantaneous",
+  "Move Power": [
+    "STR",
+    "DEX"
+  ],
+  "Move Time": "1 action",
+  "PP": 10,
+  "Range": "30ft cone",
+  "Save": "DEX",
+  "Type": "Water"
+}

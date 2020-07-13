@@ -1,0 +1,35 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 2,
+      "dice_max": 8,
+      "move": true
+    },
+    "10": {
+      "amount": 3,
+      "dice_max": 10,
+      "move": true
+    },
+    "17": {
+      "amount": 4,
+      "dice_max": 12,
+      "move": true
+    },
+    "5": {
+      "amount": 2,
+      "dice_max": 10,
+      "move": true
+    }
+  },
+  "Description": "You turn an opponent's own power against it. Make a melee attack roll using your MOVE power. On a hit, the target takes dark damage using their own MOVE power.",
+  "Duration": "Instantaneous",
+  "Move Power": [
+    "STR",
+    "WIS"
+  ],
+  "Move Time": "1 action",
+  "PP": 10,
+  "Range": "Melee",
+  "Type": "Dark",
+  "atk": true
+}

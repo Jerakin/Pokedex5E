@@ -1,0 +1,35 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 1,
+      "dice_max": 12,
+      "move": true
+    },
+    "10": {
+      "amount": 2,
+      "dice_max": 12,
+      "move": true
+    },
+    "17": {
+      "amount": 6,
+      "dice_max": 6,
+      "move": true
+    },
+    "5": {
+      "amount": 2,
+      "dice_max": 8,
+      "move": true
+    }
+  },
+  "Description": "You sing an ancient song that damages opponents in range with the chance to put them asleep. Any creature in a 20ft circle, centered on you, must make a CON save against your Move DC, taking normal damage on a failure, or half as much ona success. Any creature that fails the save by more than 5 is put to sleep.",
+  "Duration": "Instantaneous",
+  "Move Power": [
+    "CHA",
+    "WIS"
+  ],
+  "Move Time": "1 action",
+  "PP": 5,
+  "Range": "20ft circle",
+  "Save": "CON",
+  "Type": "Normal"
+}
