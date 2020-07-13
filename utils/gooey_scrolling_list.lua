@@ -16,6 +16,10 @@ local function update_list(data, list)
 			data.fn_update_item(list, item)
 		end
 	end
+
+	if data.fn_on_list_update ~= nil then
+		data.fn_on_list_update(list)
+	end
 end
 
 local function update_handle_size(data, list)
@@ -74,16 +78,32 @@ function SCROLLING_LIST.on_input(data, items, action_id, action)
 	end	
 end
 
-function SCROLLING_LIST.scroll_to_top(data, items)	
-	gooey.dynamic_list(data.list_id, data.list_stencil, data.list_item_template, items).scroll_to(0, 0)
-	gooey.vertical_scrollbar(data.scrollbar_handle, data.scrollbar_bar).scroll_to(0, 0)
+function SCROLLING_LIST.scroll_to_position(data, items, pos)
+	gooey.dynamic_list(data.list_id, data.list_stencil, data.list_item_template, items).scroll_to(0, pos)
+	gooey.vertical_scrollbar(data.scrollbar_handle, data.scrollbar_bar).scroll_to(0, pos)
 end
 
+function SCROLLING_LIST.scroll_to_start(data, items)	
+	SCROLLING_LIST.scroll_to_position(data, items, 0)
+end
 
 
 local M = {}
 
--- Return value of create will be able to have the SCROLLING_LIST functions called on it, and will automatically pass the provided data along for the ride
+-- Create an object that can be used to update and handle input for a vertical list.
+-- @param list_id Unique identifier for the list
+-- @param list_stencil Node string for the list stencil
+-- @param list_item_template Node string for the list's item template 
+-- @param scrollbar_handle Node string for the scrollbar handle
+-- @param scrollbar_bar Node string for the scrollbar background bar
+-- @param scrollbar_visual Node string for the scrollbar handle visual
+-- @param fn_update_item Function to update an item with its data, will be passed (list, item) info from gooey
+-- @param fn_on_item_selected Function to be called when an item is selected, will be passed  (list) info from gooey
+-- @param options A set of optional values:
+--          min_handle_length - minimum pixels for the handle (integer)
+--          allow_scrollbar_input - Whether to allow input on the scrollbar handle (boolean)
+--          fn_on_list_update - function to be called when the list updates, passing (list) info from gooey
+-- @return An object you can call the SCROLLING_LIST functions called on (minus needing to pass the first "data" param)
 function M.create_vertical_dynamic(list_id, list_stencil, list_item_template, scrollbar_handle, scrollbar_bar, scrollbar_visual, fn_update_item, fn_on_item_selected, options)
 	local data =
 	{
@@ -100,15 +120,12 @@ function M.create_vertical_dynamic(list_id, list_stencil, list_item_template, sc
 	}
 	
 	data.min_handle_length = options and options.min_handle_length or 40
+	data.fn_on_list_update = options and options.fn_on_list_update or nil
 
 	if options and options.allow_scrollbar_input ~= nil then
 		data.allow_scrollbar_input = options.allow_scrollbar_input
 	end
 
-	-- Populate the return valid with "public" functions from the SCROLLING_LIST table.
-	-- This seems to be (sort of) the way gooey does these things, even though it's not really how lua seems
-	-- to want to work (unless I'm misunderstanding standards in creating tables and calling functions,
-	-- using metatables, and that sort of thing)
 	local instance = {}
 	for name,fn in pairs(SCROLLING_LIST) do
 		instance[name] = function(...) return fn(data, ...) end

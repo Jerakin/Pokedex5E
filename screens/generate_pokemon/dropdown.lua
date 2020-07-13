@@ -110,7 +110,7 @@ function DROPDOWN.on_input(data, list_items, action_id, action)
 	
 	local b = gooey.button(data.button_id, action_id, action, function() 
 		if active.name ~= data.name then
-			data.scrolling_list.scroll_to_top(list_items)
+			data.scrolling_list.scroll_to_start(list_items)
 		end
 		button_click(data) end)
 	if not active_obj.active then
