@@ -51,11 +51,11 @@ function M.load_backup()
 end
 
 function M.start_server()
-	network.broadcast()
+	network.broadcast(50000)
 end
 
 function M.find_servers()
-	network.find_broadcast()
+	network.find_broadcast(50000)
 end
 
 return M
