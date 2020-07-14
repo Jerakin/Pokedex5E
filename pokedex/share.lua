@@ -7,6 +7,8 @@ local dex = require "pokedex.dex"
 local pokedex = require "pokedex.pokedex"
 local statuses = require "pokedex.statuses"
 
+local send_pokemon = require "pokedex.network.send_pokemon"
+
 local M = {}
 
 local function load_json(j)
@@ -87,6 +89,9 @@ end
 function M.export(id)
 	local pokemon = storage.get_copy(id)
 	decode_status(pokemon)
+
+	send_pokemon.send_pokemon(pokemon)
+	--[[
 	local p_json = ljson.encode(pokemon)
 	clipboard.copy(p_json)
 	notify.notify((pokemon.nickname or pokemon.species.current) .. " copied to clipboard!")
@@ -94,6 +99,7 @@ function M.export(id)
 		eventId = "Share:Export",
 		value = pokedex.get_index_number(pokemon.species.current)
 	}
+	--]]
 end
 
 return M

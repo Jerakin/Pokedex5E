@@ -12,6 +12,7 @@ local profiles = require "pokedex.profiles"
 local filters = require "pokedex.filters"
 local trainer = require "pokedex.trainer"
 local network = require "pokedex.network"
+local network_registration = require "pokedex.network.registration"
 local flow = require "utils.flow"
 local gui_colors = require "utils.gui_colors"
 local notify = require "utils.notify"
@@ -140,7 +141,7 @@ function init(self)
 		filters.init()
 		feats.init()
 		network.init()
-		
+		network_registration.init()		
 
 		if profiles.is_new_game() then 
 			monarch.show("pick_name", nil, {sender=msg.url(), slot=1})

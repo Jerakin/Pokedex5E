@@ -1,12 +1,15 @@
 local p2p_discovery = require "defnet.p2p_discovery"
 local tcp_server = require "defnet.tcp_server"
 local tcp_client = require "defnet.tcp_client"
+local ljson = require "defsave.json"
 
 local p2p
 local server
 local version
 
 local BROADCAST_PORT = 50000
+
+local client_callbacks = {}
 
 local function get_broadcast_name()
 	return "Pokedex5E-" .. version
@@ -18,7 +21,19 @@ local function on_server_data(data, ip, port, client)
 end
 
 local function on_client_data(data)
-	print("Client received ", data)
+	local success = false
+	if pcall(function() json_data = json.decode(data) end) then
+		if type(json_data) == "table" and json_data.type and type(json_data.type) == "string" and json_data.payload then
+			local cb = client_callbacks[json_data.type]
+			if cb then
+				cb(json_data.payload)
+			end
+		end
+	end
+
+	if not success then
+		print("Client received unknown data: ", tostring(data))
+	end
 end
 
 local function on_client_connected(ip, port, client)
@@ -49,6 +64,10 @@ function M.init()
 	elseif system == "HTML5" then
 		version = sys.get_config("gameanalytics.build_html5", nil)
 	end
+end
+
+function M.register_client_callback(key, fn)
+	client_callbacks[key] = fn
 end
 
 function M.update(dt)
@@ -91,12 +110,6 @@ function M.start_server(port)
 	end
 end
 
-function M.server_send_message(message)
-	if server ~= nil then
-		server.broadcast(message)
-	end
-end
-
 function M.start_client(server_ip, server_port)
 	if client == nil then
 		client = tcp_client.create(server_ip, server_port, on_client_data, function()
@@ -106,9 +119,16 @@ function M.start_client(server_ip, server_port)
 	end
 end
 
-function M.client_send_message(message)
-	if client ~= nil then
-		client.send(message)
+function M.server_send_data(key, data)
+	if server ~= nil then
+		-- TODO: choose client, queue up for client send
+		local data =
+		{
+			key=key,
+			payload=data,
+		}
+		local encoded = ljson.encode(data) .. "\n"
+		server.broadcast(encoded)
 	end
 end
 
