@@ -20,11 +20,12 @@ function init(self)
 	self.move_to_replace = d.move_to_replace
 	self.pokemon = d.pokemon
 
-	move_summary.setup_move("move_new", self.pokemon, self.replacement_move)
+	self.move_new = move_summary.create("move_new", self.pokemon, self.replacement_move)
+	self.move_old = move_summary.create("move_old", self.pokemon, self.move_to_replace)
 
 	local accept_text = "REPLACE"
 	
-	if not move_summary.setup_move("move_old", self.pokemon, self.move_to_replace) then
+	if not self.move_old.is_valid_move() then
 		accept_text = "LEARN"
 
 		-- Hide the arrow, shrink the screen, and move everything else up
@@ -35,7 +36,7 @@ function init(self)
 		local node_accept = gui.get_node("btn_accept")
 		
 		size_arrow = gui.get_size(node_arrow)
-		size_old_move = move_summary.get_size("move_old")
+		size_old_move = self.move_old.get_size()
 		
 		pos_arrow = gui.get_position(node_arrow)
 		pos_old_move = gui.get_position(node_old_move)
@@ -45,7 +46,6 @@ function init(self)
 
 		local shrink_amount = (size_arrow.y + size_old_move.y)/2 + (pos_old_move.y - pos_arrow.y) + 34
 		
-		size_bg.y = size_bg.y - shrink_amount
 		pos_new_move.y = pos_new_move.y + shrink_amount/2
 		pos_cancel.y = pos_cancel.y + shrink_amount/2
 		pos_accept.y = pos_accept.y + shrink_amount/2
@@ -61,8 +61,8 @@ function init(self)
 end
 
 function on_input(self, action_id, action)
-	move_summary.on_input("move_old", action_id, action)
-	move_summary.on_input("move_new", action_id, action)
+	self.move_new.on_input(action_id, action)
+	self.move_old.on_input(action_id, action)
 	
 	gooey.button("btn_accept", action_id, action, function()
 		msg.post(self.sender, self.message_id, {item=self.replacement_move})
