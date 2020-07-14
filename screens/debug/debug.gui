@@ -1687,7 +1687,7 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "find_servers"
+  id: "find_and_connect_server"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -1728,12 +1728,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/common_up"
-  id: "find_servers/btn"
+  id: "find_and_connect_server/btn"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_BOTTOM
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "find_servers"
+  parent: "find_and_connect_server"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -1782,9 +1782,9 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Find Servers"
+  text: "Find/Connect"
   font: "script_bold"
-  id: "find_servers/txt"
+  id: "find_and_connect_server/txt"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -1802,7 +1802,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "find_servers/btn"
+  parent: "find_and_connect_server/btn"
   layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0

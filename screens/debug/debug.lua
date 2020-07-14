@@ -51,11 +51,14 @@ function M.load_backup()
 end
 
 function M.start_server()
-	network.broadcast(50000)
+	network.start_server(8190)
 end
 
-function M.find_servers()
-	network.find_broadcast(50000)
+function M.find_and_connect_to_server()
+	network.find_broadcast(function(ip, port)
+		network.start_client(ip, port)
+		network.client_send_message("Hello this is the client sending a message to the server")
+	end)
 end
 
 return M

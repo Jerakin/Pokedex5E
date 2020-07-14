@@ -202,6 +202,7 @@ end
 
 
 function final(self)
+	network.final()
 	if not debug.loaded_backup then
 		storage.save()
 		settings.save()
