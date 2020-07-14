@@ -10,6 +10,9 @@ local version
 local BROADCAST_PORT = 50000
 
 local client_callbacks = {}
+local client_connected_callbacks = {}
+
+local M = {}
 
 local function get_broadcast_name()
 	return "Pokedex5E-" .. version
@@ -39,20 +42,15 @@ end
 
 local function on_client_connected(ip, port, client)
 	print("Client", ip, "connected")
+
+	for i=1,#client_connected_callbacks do
+		client_connected_callbacks[i](client)
+	end
 end
 
 local function on_client_disconnected(ip, port, client)
 	print("Client", ip, "disconnected")
 end
-
-local function broadcast()
-	if version ~= nil and p2p == nil then
-		p2p = p2p_discovery.create(BROADCAST_PORT)
-		p2p.broadcast(get_broadcast_name())
-	end
-end
-
-local M = {}
 
 function M.init()
 	local system = sys.get_sys_info().system_name
@@ -69,6 +67,14 @@ end
 
 function M.register_client_callback(key, fn)
 	client_callbacks[key] = fn
+end
+
+function M.register_client_connected_callback(cb)
+	table.insert(client_connected_callbacks, cb)
+end
+
+function M.get_version()
+	return version
 end
 
 function M.update(dt)
@@ -94,6 +100,13 @@ function M.final()
 	end
 end
 
+local function broadcast()
+	if version ~= nil and p2p == nil then
+		p2p = p2p_discovery.create(BROADCAST_PORT)
+		p2p.broadcast(get_broadcast_name())
+	end
+end
+
 function M.find_broadcast(fn_found)
 	if version ~= nil and p2p == nil then
 		p2p = p2p_discovery.create(BROADCAST_PORT)
@@ -114,22 +127,33 @@ end
 function M.start_client(server_ip, server_port)
 	if client == nil then
 		client = tcp_client.create(server_ip, server_port, on_client_data, function()
-			client.destroy()
-			client = nil
+			M.stop_client()
 		end)
 	end
 end
 
-function M.server_send_data(key, data)
+function M.stop_client()
+	if client ~= nil then
+		client.destroy()
+		client = nil
+	end
+end
+
+-- TODO: Instead of sending directly, could queue up messages to be sent to a user when they are available.
+-- This would probably be another module sitting atop the network.
+function M.server_send_data(key, data, client)
 	if server ~= nil then
-		-- TODO: choose client, queue up for client send
 		local data =
 		{
 			key=key,
 			payload=data,
 		}
 		local encoded = ljson.encode(data) .. "\n"
-		server.broadcast(encoded)
+		if client ~= nil then
+			server.send(encoded, client)
+		else
+			server.broadcast(encoded)
+		end
 	end
 end
 
