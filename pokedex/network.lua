@@ -23,10 +23,11 @@ end
 local function on_client_data(data)
 	local success = false
 	if pcall(function() json_data = json.decode(data) end) then
-		if type(json_data) == "table" and json_data.type and type(json_data.type) == "string" and json_data.payload then
-			local cb = client_callbacks[json_data.type]
+		if type(json_data) == "table" and json_data.key and type(json_data.key) == "string" and json_data.payload then
+			local cb = client_callbacks[json_data.key]
 			if cb then
 				cb(json_data.payload)
+				success = true
 			end
 		end
 	end

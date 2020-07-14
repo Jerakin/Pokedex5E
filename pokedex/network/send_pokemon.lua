@@ -1,5 +1,9 @@
+local dex = require "pokedex.dex"
 local network = require "pokedex.network"
+local notify = require "utils.notify"
+local storage = require "pokedex.storage"
 local url = require "utils.url"
+
 
 local KEY = "SEND_POKEMON"
 
