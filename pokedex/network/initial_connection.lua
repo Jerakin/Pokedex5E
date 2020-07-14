@@ -5,9 +5,9 @@ local KEY = "INITIAL_CONNECTION"
 
 local function on_client_connected(client)
 	local initial_packet = {
-		version = version,
+		version = network.get_version(),
 	}
-	M.server_send_data(INITIAL_PACKET_KEY, initial_packet, client)
+	network.server_send_data(KEY, initial_packet, client)
 end
 
 local function on_client_initial_packet(packet)
