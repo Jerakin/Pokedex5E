@@ -8,6 +8,7 @@ local defsave = require "defsave.defsave"
 local movedex = require "pokedex.moves"
 local generate = require "screens.generate_pokemon.generate_pokemon"
 local backup = require "utils.backup"
+local network = require "pokedex.network"
 
 local M = {}
 
@@ -47,6 +48,14 @@ function M.load_backup()
 		backup.load_backup(file_path)
 		M.loaded_backup = true
 	end
+end
+
+function M.start_server()
+	network.broadcast()
+end
+
+function M.find_servers()
+	network.find_broadcast()
 end
 
 return M

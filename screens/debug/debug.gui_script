@@ -101,5 +101,13 @@ function on_input(self, action_id, action)
 	if gui.pick_node(gui.get_node("load/btn"), action.x, action.y) and action.pressed then
 		debug.load_backup()
 	end
+
+	gooey.button("start_server/btn", action_id, action, function()
+		debug.start_server()
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("start_server/txt")) end)
+
+	gooey.button("find_servers/btn", action_id, action, function()
+		debug.find_servers()
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("find_servers/txt")) end)
 	
 end

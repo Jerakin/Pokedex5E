@@ -11,6 +11,7 @@ local storage = require "pokedex.storage"
 local profiles = require "pokedex.profiles"
 local filters = require "pokedex.filters"
 local trainer = require "pokedex.trainer"
+local network = require "pokedex.network"
 local flow = require "utils.flow"
 local gui_colors = require "utils.gui_colors"
 local notify = require "utils.notify"
@@ -164,6 +165,10 @@ function init(self)
 			end 
 		end
 	end)
+end
+
+function update(self, dt)
+	network.update(dt)
 end
 
 function on_message(self, message_id, message, sender)
