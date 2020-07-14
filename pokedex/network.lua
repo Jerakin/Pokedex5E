@@ -14,11 +14,11 @@ end
 
 local function on_server_data(data, ip, port, client)
 	print("Server received", data, "from", ip)
-	return "Some server response"
+	return "This is the server responding to a client message\n"
 end
 
 local function on_client_data(data)
-	print("Client client received ", data)
+	print("Client received ", data)
 end
 
 local function on_client_connected(ip, port, client)

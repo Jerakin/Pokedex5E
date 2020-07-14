@@ -54,11 +54,11 @@ function M.start_server()
 	network.start_server(8190)
 end
 
-function M.find_and_connect_to_server()
+function M.find_and_connect_to_server()	
 	network.find_broadcast(function(ip, port)
-		network.start_client(ip, port)
-		network.client_send_message("Hello this is the client sending a message to the server")
-	end)
+		network.start_client(ip, 8190)
+		network.client_send_message("Hello this is the client sending a message to the server\n")
+	end)	
 end
 
 return M
