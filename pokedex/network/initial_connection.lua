@@ -19,7 +19,7 @@ local function on_client_initial_packet(packet)
 	end
 
 	if server_version ~= client_version then
-		notify.notify("Disconnected from server due to mismatched versions (was " .. tostring(server_version) .. ", ours is " .. tostring(client_version) .. ')')
+		notify.notify("Could not connect! Version mismatch:\n\"" .. tostring(server_version) .. "\" vs. \"" .. tostring(client_version) .. "\"")
 		network.stop_client()
 	else
 		-- TODO could have other systems register for initial connection stuff

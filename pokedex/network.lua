@@ -110,10 +110,10 @@ end
 function M.find_broadcast(fn_found)
 	if version ~= nil and p2p == nil then
 		p2p = p2p_discovery.create(BROADCAST_PORT)
-		p2p.listen(get_broadcast_name(), function(ip, port)
-			fn_found(ip, port)
-		end)
 	end
+	p2p.listen(get_broadcast_name(), function(ip, port)
+		fn_found(ip, port)
+	end)
 end
 
 function M.start_server(port)
