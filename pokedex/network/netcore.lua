@@ -71,7 +71,7 @@ local function client_on_data(data)
 
 			-- Check for initial packet key
 			if json_data.key == INITIAL_PACKET_KEY then
-				client_process_initial_packet(packet)
+				client_process_initial_packet(json_data.payload)
 				success = true
 			else
 				local cb = client_data_cbs[json_data.key]
