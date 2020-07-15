@@ -11,6 +11,11 @@ local BROADCAST_PORT = 50000
 
 local client_callbacks = {}
 local client_connected_callbacks = {}
+local server_active_callbacks = {}
+local server_callbacks = {}
+local client_disconnect_callbacks = {}
+
+local FAKE_SERVER_CLIENT = {}
 
 local M = {}
 
@@ -19,8 +24,20 @@ local function get_broadcast_name()
 end
 
 local function on_server_data(data, ip, port, client)
-	print("Server received", data, "from", ip)
-	return "This is the server responding to a client message\n"
+	local success = false
+	if pcall(function() json_data = json.decode(data) end) then
+		if type(json_data) == "table" and json_data.key and type(json_data.key) == "string" and json_data.payload then
+			local cb = server_callbacks[json_data.key]
+			if cb then
+				cb(client, json_data.payload)
+				success = true
+			end
+		end
+	end
+
+	if not success then
+		print("Server received unknown data: " .. tostring(data) .. " from client: " .. ip)
+	end
 end
 
 local function on_client_data(data)
@@ -36,7 +53,7 @@ local function on_client_data(data)
 	end
 
 	if not success then
-		print("Client received unknown data: ", tostring(data))
+		print("Client received unknown data: " .. tostring(data))
 	end
 end
 
@@ -65,12 +82,26 @@ function M.init()
 	end
 end
 
+-- TODO: these functions are pretty confusingly named
+
 function M.register_client_callback(key, fn)
 	client_callbacks[key] = fn
 end
 
+function M.register_server_callback(key, fn)
+	server_callbacks[key] = fn
+end
+
 function M.register_client_connected_callback(cb)
 	table.insert(client_connected_callbacks, cb)
+end
+
+function M.register_server_active_callback(cb)
+	table.insert(server_active_callbacks, cb)
+end
+
+function M.register_client_disconnect(cb)
+	table.insert(client_disconnect_callbacks, cb)
 end
 
 function M.get_version()
@@ -90,24 +121,14 @@ function M.update(dt)
 end
 
 function M.final()
-	if server ~= nil then
-		server.stop()
-		server = nil
-	end
-	if client ~= nil then
-		client.destroy()
-		client = nil
-	end
-end
-
-local function broadcast()
-	if version ~= nil and p2p == nil then
-		p2p = p2p_discovery.create(BROADCAST_PORT)
-		p2p.broadcast(get_broadcast_name())
-	end
+	p2p = nil
+	M.stop_server()
+	M.stop_client()
 end
 
 function M.find_broadcast(fn_found)
+	M.stop_server()
+	
 	if version ~= nil and p2p == nil then
 		p2p = p2p_discovery.create(BROADCAST_PORT)
 	end
@@ -117,14 +138,37 @@ function M.find_broadcast(fn_found)
 end
 
 function M.start_server(port)
+	p2p = nil
+	M.stop_client()
+	
 	if server == nil then
-		broadcast()
+		p2p = p2p_discovery.create(BROADCAST_PORT)
+		p2p.broadcast(get_broadcast_name())
+		
 		server = tcp_server.create(port, on_server_data, on_client_connected, on_client_disconnected)
 		server.start()
+
+		for i=1,#server_active_callbacks do
+			server_active_callbacks[i](true)
+		end
+	end
+end
+
+function M.stop_server()
+	p2p = nil
+	if server ~= nil then
+		server.stop()
+		server = nil
+
+		for i=1,#server_active_callbacks do
+			server_active_callbacks[i](false)
+		end
 	end
 end
 
 function M.start_client(server_ip, server_port)
+	M.stop_server()
+	
 	if client == nil then
 		client = tcp_client.create(server_ip, server_port, on_client_data, function()
 			M.stop_client()
@@ -136,24 +180,53 @@ function M.stop_client()
 	if client ~= nil then
 		client.destroy()
 		client = nil
+
+		for i=1,#client_disconnect_callbacks do
+			client_disconnect_callbacks[i]()
+		end
 	end
 end
 
--- TODO: Instead of sending directly, could queue up messages to be sent to a user when they are available.
--- This would probably be another module sitting atop the network.
-function M.server_send_data(key, data, client)
+function M.send_to_client(key, payload, client)
 	if server ~= nil then
+		if client ~= FAKE_SERVER_CLIENT then
+			
+			local data =
+			{
+				key=key,
+				payload=payload,
+			}
+			local encoded = ljson.encode(data) .. "\n"
+			server.send(encoded, client)
+		else
+			-- We are the client this is sending to, jsu call the client callback
+			local cb = client_callbacks[key]
+			if cb then
+				cb(payload)
+			end
+		end
+	else
+		print("TODO Error, tried to send to client when not the server - this is bad!")
+	end
+end
+
+function M.send_to_server(key, payload)	
+	if client ~= nil then		
 		local data =
 		{
 			key=key,
-			payload=data,
+			payload=payload,
 		}
 		local encoded = ljson.encode(data) .. "\n"
-		if client ~= nil then
-			server.send(encoded, client)
-		else
-			server.broadcast(encoded)
+		client.send(encoded)		
+	elseif server ~= nil then
+		-- We ARE the server, just send straight to the callback
+		local cb = server_callbacks[key]
+		if cb then
+			cb(FAKE_SERVER_CLIENT, payload)
 		end
+	else
+		print("TODO Error, not connected at all")
 	end
 end
 

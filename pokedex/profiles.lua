@@ -2,6 +2,8 @@ local monarch = require "monarch.monarch"
 local defsave = require "defsave.defsave"
 local md5 = require "utils.md5"
 local log = require "utils.log"
+local membership = require "pokedex.network.membership"
+
 local M = {}
 
 local profiles = {}
@@ -82,6 +84,11 @@ end
 function M.set_active(slot)
 	active_slot = slot
 	profiles.last_used = slot
+
+	if slot and profiles.slots and profiles.slots[slot] then
+		membership.set_local_member_data(M.get_active_name(), M.get_active_file_name())
+	end
+	
 	M.save()
 end
 

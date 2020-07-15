@@ -37,7 +37,7 @@ function M.init()
 end
 
 function M.send_pokemon(pokemon)
-	network.server_send_data(KEY, pokemon)
+	network.send_to_client(KEY, pokemon)
 end
 
 return M

@@ -8,6 +8,7 @@ local url = require "utils.url"
 local gooey_buttons = require "utils.gooey_buttons"
 local tracking_id = require "utils.tracking_id"
 local dex = require "pokedex.dex"
+
 local slot
 
 local function refresh_input(self, input, node_id)
