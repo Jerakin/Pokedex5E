@@ -69,17 +69,26 @@ function init(self)
 end
 
 local function filter_list(self, search_string)
-	local function starts_with(str, start)
-		return string.lower(str):sub(1, #start) == string.lower(start)
+	local function starts_with(index, start)
+		local name = fakemon.INDEX[index].name
+		return string.lower(name):sub(1, #start) == string.lower(start)
 	end
-	local function is_in(_in, str)
-		return string.lower(_in):find(string.lower(str))
+	local function is_in(index, str)
+		local name = fakemon.INDEX[index].name
+		return string.lower(name):find(string.lower(str))
 	end
 	if #search_string > 0 then
 		self.list_items = {}
 		for i=#self.all_items, 1, -1 do
 			if starts_with(self.all_items[i], search_string) then
 				table.insert(self.list_items, 1, self.all_items[i])
+			end
+		end
+		if #self.list_items == 0 then
+			for i=#self.all_items, 1, -1 do
+				if is_in(self.all_items[i], search_string) then
+					table.insert(self.list_items, 1, self.all_items[i])
+				end
 			end
 		end
 		self.scrolling_list.refresh(self.list_items)
