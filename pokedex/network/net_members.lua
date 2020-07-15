@@ -57,14 +57,14 @@ end
 local function on_client_member_message(payload)
 	local success = false
 	if payload and payload.key and payload.message and payload.from then
-		local cb =  client_member_message_cbs[key]
+		local cb =  client_member_message_cbs[payload.key]
 		if cb then
 			cb(payload.from, payload.message)
 		end
 	end
 
 	if not success then
-		print("Unknown member message or key, key=", tostring(key), "message=", tostring(message), "from=", from)
+		print("Unknown member message or key, key=", tostring(payload.key), "message=", tostring(payload.message), "from=", from)
 	end
 end
 
