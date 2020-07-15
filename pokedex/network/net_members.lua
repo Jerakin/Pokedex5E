@@ -78,12 +78,12 @@ local function on_client_member_message(payload)
 end
 
 local function on_server_member_message(client, payload)
-	local key = message.key
+	local key = payload.key
 	local message = payload.message
 	local from = payload.from
 
-	if message.to and key and message and from then
-		local to_client = server_member_clients[message.to]
+	if payload.to and key and message and from then
+		local to_client = server_member_clients[payload.to]
 
 		local send_payload =
 		{

@@ -38,7 +38,7 @@ function M.init()
 end
 
 function M.send_pokemon(member, pokemon_id, send_type)
-	local pokemon = share.get_sendable_pokemon_copy(id)
+	local pokemon = share.get_sendable_pokemon_copy(pokemon_id)
 
 	local message = 
 	{
