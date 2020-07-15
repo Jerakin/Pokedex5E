@@ -27,12 +27,13 @@ local function get_broadcast_name()
 end
 
 local function server_on_data(data, ip, port, client)
+	local response = nil
 	local success = false
 	if pcall(function() json_data = json.decode(data) end) then
 		if type(json_data) == "table" and json_data.key and type(json_data.key) == "string" and json_data.payload then
 			local cb = server_data_cbs[json_data.key]
 			if cb then
-				cb(client, json_data.payload)
+				response = cb(client, json_data.payload)
 				success = true
 			end
 		end
@@ -41,6 +42,8 @@ local function server_on_data(data, ip, port, client)
 	if not success then
 		print("Server received unknown data: " .. tostring(data) .. " from client: " .. ip)
 	end
+
+	-- NOTE: Could send response as return value here, not sure how to do that best
 end
 
 local function client_process_initial_packet(packet)

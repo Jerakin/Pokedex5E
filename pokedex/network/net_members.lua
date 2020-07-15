@@ -6,6 +6,7 @@ local server_member_clients = {}
 local server_outgoing_messages = {}
 
 local external_member_list = {}
+local external_member_id_index_map = {}
 local local_member_data = {}
 
 local client_member_message_cbs = {}
@@ -27,7 +28,9 @@ local function on_connection_change()
 	send_local_data()
 
 	if not netcore.is_connected() then
+		-- Should we clear this out?
 		external_member_list = {}
+		external_member_id_index_map = {}
 		server_member_clients = {}
 		broadcast.send(M.MEMBERS_CHANGED_MESSAGE)
 	end
@@ -35,6 +38,12 @@ end
 
 local function on_client_members_data(other_members_data)
 	external_member_list = other_members_data
+	
+	external_member_id_index_map = {}
+	for i=1,#external_member_list do
+		external_member_id_index_map[external_member_list[i].unique_id] = i
+	end
+	
 	broadcast.send(M.MEMBERS_CHANGED_MESSAGE)
 end
 
@@ -47,7 +56,7 @@ local function on_server_members_data(client, member_data)
 		local other_members_data = {}
 		for k2,v2 in pairs(server_member_data) do
 			if k ~= k2 then
-				other_members_data[k2] = v2
+				table.insert(other_members_data, v2)
 			end
 		end
 		netcore.send_to_client(MEMBERS_KEY, other_members_data, v)
@@ -69,12 +78,12 @@ local function on_client_member_message(payload)
 end
 
 local function on_server_member_message(client, payload)
-	local key = message.key
+	local key = payload.key
 	local message = payload.message
 	local from = payload.from
 
-	if message.to and key and message and from then
-		local to_client = server_member_clients[message.to]
+	if payload.to and key and message and from then
+		local to_client = server_member_clients[payload.to]
 
 		local send_payload =
 		{
@@ -141,7 +150,12 @@ function M.get_other_members()
 end
 
 function M.get_member_name(member_obj)
-	return external_member_list[member_obj.unique_id] or member_obj.name
+	local index = external_member_id_index_map[member_obj.unique_id]
+	if index then
+		return external_member_list[index].name
+	else
+		return member_obj.name
+	end
 end
 
 function M.get_member_key(member_obj)
