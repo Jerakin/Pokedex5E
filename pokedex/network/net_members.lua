@@ -19,7 +19,7 @@ M.MEMBERS_CHANGED_MESSAGE = "net_members_members_changed"
 
 local function send_local_data()
 	if netcore.is_connected() and local_member_data ~= nil then
-		netcore.send_to_server(KEY, local_member_data)
+		netcore.send_to_server(MEMBERS_KEY, local_member_data)
 	end
 end
 
