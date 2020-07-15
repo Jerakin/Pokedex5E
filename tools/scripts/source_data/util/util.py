@@ -29,6 +29,7 @@ MERGE_POKEMON_DATA = load_extra("pokemon")
 MERGE_EVOLVE_DATA = load_extra("evolve")
 MERGE_FILTER_DATA = load_extra("filter_data")
 MERGE_MOVE_DATA = load_extra("moves")
+MERGE_ABILITY_DATA = load_extra("abilities")
 
 
 def merge(a, b, path=None):
