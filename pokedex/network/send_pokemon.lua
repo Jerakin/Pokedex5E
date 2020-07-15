@@ -33,7 +33,7 @@ end
 local M = {}
 
 function M.init()
-	netcore.register_client_callback(KEY, on_pokemon_receieved)
+	netcore.register_client_data_callback(KEY, on_pokemon_receieved)
 end
 
 function M.send_pokemon(pokemon)

@@ -2,6 +2,7 @@ local p2p_discovery = require "defnet.p2p_discovery"
 local tcp_server = require "defnet.tcp_server"
 local tcp_client = require "defnet.tcp_client"
 local ljson = require "defsave.json"
+local notify = require "utils.notify"
 
 local p2p
 local server
@@ -9,12 +10,14 @@ local version
 
 local BROADCAST_PORT = 50000
 
-local client_callbacks = {}
-local client_connected_callbacks = {}
-local server_active_callbacks = {}
-local server_callbacks = {}
-local client_disconnect_callbacks = {}
+local is_verified_client_connected = false
+local client_connect_initial_data = {}
 
+local client_data_cbs = {}
+local server_data_cbs = {}
+local connection_changed_cbs = {}
+
+local INITIAL_PACKET_KEY = "INITIAL_PACKET"
 local FAKE_SERVER_CLIENT = {}
 
 local M = {}
@@ -23,11 +26,11 @@ local function get_broadcast_name()
 	return "Pokedex5E-" .. version
 end
 
-local function on_server_data(data, ip, port, client)
+local function server_on_data(data, ip, port, client)
 	local success = false
 	if pcall(function() json_data = json.decode(data) end) then
 		if type(json_data) == "table" and json_data.key and type(json_data.key) == "string" and json_data.payload then
-			local cb = server_callbacks[json_data.key]
+			local cb = server_data_cbs[json_data.key]
 			if cb then
 				cb(client, json_data.payload)
 				success = true
@@ -40,14 +43,42 @@ local function on_server_data(data, ip, port, client)
 	end
 end
 
-local function on_client_data(data)
+local function client_process_initial_packet(packet)
+	local server_version = "Unknown"
+	local client_version = version
+
+	if packet and packet.version then
+		server_version = packet.version
+	end
+
+	if server_version ~= client_version then
+		notify.notify("Could not connect! Version mismatch:\n\"" .. tostring(server_version) .. "\" vs. \"" .. tostring(client_version) .. "\"")
+		M.stop_client()
+	else
+		-- TODO could have other systems register for initial connection stuff?
+		is_verified_client_connected = true
+
+		for i=1,#connection_changed_cbs do
+			connection_changed_cbs[i](is_verified_client_connected)
+		end
+	end	
+end
+
+local function client_on_data(data)
 	local success = false
 	if pcall(function() json_data = json.decode(data) end) then
 		if type(json_data) == "table" and json_data.key and type(json_data.key) == "string" and json_data.payload then
-			local cb = client_callbacks[json_data.key]
-			if cb then
-				cb(json_data.payload)
+
+			-- Check for initial packet key
+			if json_data.key == INITIAL_PACKET_KEY then
+				client_process_initial_packet(packet)
 				success = true
+			else
+				local cb = client_data_cbs[json_data.key]
+				if cb then
+					cb(json_data.payload)
+					success = true
+				end
 			end
 		end
 	end
@@ -57,15 +88,20 @@ local function on_client_data(data)
 	end
 end
 
-local function on_client_connected(ip, port, client)
+local function server_on_client_connected(ip, port, client)
 	print("Client", ip, "connected")
 
-	for i=1,#client_connected_callbacks do
-		client_connected_callbacks[i](client)
-	end
+	-- Send client a packet to indicate what version of the app we are - if they are using the wrong version, they are expected to disconnect.
+	local initial_packet = {
+		version = version,
+	}
+
+	-- TODO: Should there be other information in the initial packet? Perhaps a list of known members?
+	
+	M.send_to_client(INITIAL_PACKET_KEY, initial_packet, client)
 end
 
-local function on_client_disconnected(ip, port, client)
+local function server_on_client_disconnected(ip, port, client)
 	print("Client", ip, "disconnected")
 end
 
@@ -82,30 +118,16 @@ function M.init()
 	end
 end
 
--- TODO: these functions are pretty confusingly named
-
-function M.register_client_callback(key, fn)
-	client_callbacks[key] = fn
+function M.register_client_data_callback(key, fn)
+	client_data_cbs[key] = fn
 end
 
-function M.register_server_callback(key, fn)
-	server_callbacks[key] = fn
+function M.register_server_data_callback(key, fn)
+	server_data_cbs[key] = fn
 end
 
-function M.register_client_connected_callback(cb)
-	table.insert(client_connected_callbacks, cb)
-end
-
-function M.register_server_active_callback(cb)
-	table.insert(server_active_callbacks, cb)
-end
-
-function M.register_client_disconnect(cb)
-	table.insert(client_disconnect_callbacks, cb)
-end
-
-function M.get_version()
-	return version
+function M.register_connection_change_cb(cb)
+	table.insert(connection_changed_cbs, cb)
 end
 
 function M.update(dt)
@@ -145,13 +167,15 @@ function M.start_server(port)
 		p2p = p2p_discovery.create(BROADCAST_PORT)
 		p2p.broadcast(get_broadcast_name())
 		
-		server = tcp_server.create(port, on_server_data, on_client_connected, on_client_disconnected)
+		server = tcp_server.create(port, server_on_data, server_on_client_connected, server_on_client_disconnected)
 		server.start()
 
-		for i=1,#server_active_callbacks do
-			server_active_callbacks[i](true)
+		for i=1,#connection_changed_cbs do
+			connection_changed_cbs[i](true)
 		end
+		return true
 	end
+	return false
 end
 
 function M.stop_server()
@@ -160,8 +184,8 @@ function M.stop_server()
 		server.stop()
 		server = nil
 
-		for i=1,#server_active_callbacks do
-			server_active_callbacks[i](false)
+		for i=1,#connection_changed_cbs do
+			connection_changed_cbs[i](false)
 		end
 	end
 end
@@ -170,19 +194,25 @@ function M.start_client(server_ip, server_port)
 	M.stop_server()
 	
 	if client == nil then
-		client = tcp_client.create(server_ip, server_port, on_client_data, function()
+		client = tcp_client.create(server_ip, server_port, client_on_data, function()
 			M.stop_client()
 		end)
+		return true
 	end
+	return false
 end
 
 function M.stop_client()
 	if client ~= nil then
+		local was_verified = is_verified_client_connected
+		is_verified_client_connected = false
 		client.destroy()
 		client = nil
 
-		for i=1,#client_disconnect_callbacks do
-			client_disconnect_callbacks[i]()
+		if was_verified ~= is_verified_client_connected then
+			for i=1,#connection_changed_cbs do
+				connection_changed_cbs[i](is_verified_client_connected)
+			end
 		end
 	end
 end
@@ -200,7 +230,7 @@ function M.send_to_client(key, payload, client)
 			server.send(encoded, client)
 		else
 			-- We are the client this is sending to, jsu call the client callback
-			local cb = client_callbacks[key]
+			local cb = client_data_cbs[key]
 			if cb then
 				cb(payload)
 			end
@@ -221,13 +251,17 @@ function M.send_to_server(key, payload)
 		client.send(encoded)		
 	elseif server ~= nil then
 		-- We ARE the server, just send straight to the callback
-		local cb = server_callbacks[key]
+		local cb = server_data_cbs[key]
 		if cb then
 			cb(FAKE_SERVER_CLIENT, payload)
 		end
 	else
 		print("TODO Error, not connected at all")
 	end
+end
+
+function M.is_connected()
+	return (server ~= nil) or (client ~= nil and is_verified_client_connected)
 end
 
 return M

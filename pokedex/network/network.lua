@@ -1,6 +1,5 @@
 local netcore = require "pokedex.network.netcore"
-local validated_connection = require "pokedex.network.validated_connection"
-local membership = require "pokedex.network.membership"
+local net_members = require "pokedex.network.net_members"
 local send_pokemon = require "pokedex.network.send_pokemon"
 
 local M = {}
@@ -8,9 +7,8 @@ local M = {}
 function M.init()
 	netcore.init()
 
-	membership.init()
+	net_members.init()
 	send_pokemon.init()
-	validated_connection.init()
 end
 
 function M.update()
