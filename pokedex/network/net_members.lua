@@ -30,7 +30,7 @@ local function on_client_data(other_members_data)
 
 	print("net_members.on_client_data - We got data about other members:")
 	for k,v in pairs(external_member_list) do
-		print("  " .. tostring(v) .. " (" .. tostring(v.name) .. ")")
+		print("  " .. tostring(v.name) .. " (" .. tostring(k) .. ")")
 	end
 
 	-- TODO send event about member list update
