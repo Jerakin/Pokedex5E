@@ -126,6 +126,22 @@ function M.get_active_name()
 	end
 end
 
+function M.set_active_name(new_name)
+	if profiles.slots[active_slot] then
+		if profiles.slots[active_slot] ~= new_name then
+			profiles.slots[active_slot].name = new_name
+			M.save()
+		end
+	else
+		local e = "Can not find active_slot " .. tostring(active_slot) ..  "\n" .. debug.traceback()
+		gameanalytics.addErrorEvent {
+			severity = "Critical",
+			message = e
+		}
+		log.error(e)
+	end
+end
+
 function M.set_party(party)
 	profiles.slots[active_slot].party = party
 	M.save()
