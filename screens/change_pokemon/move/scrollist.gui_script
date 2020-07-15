@@ -20,11 +20,10 @@ local function update_listitem(list, item)
 	end
 end
 
-local function on_item_selected(list)
+local function on_item_selected(self, list)
 	for i,item in ipairs(list.items) do
 		if item.data and item.index == list.selected_item then
-			msg.post(sender, message_id, {item=item.data})
-			monarch.back()
+			monarch.show("moves_confirm", {}, {message_id=message_id, sender=sender, move_to_replace=self.move_to_replace, replacement_move=item.data, pokemon=self.pokemon})
 		end
 	end
 end
@@ -77,14 +76,16 @@ function init(self)
 	self.level = d.level
 	self.species = d.species
 	self.current_moves = d.current_moves
-	self.sub_list = "current"
+	self.move_to_replace = d.move_to_replace
+	self.pokemon = d.pokemon
+	self.sub_list = "current"	
 	local starting_moves = pokedex.get_pokemons_moves(self.species, self.level)
 	self.all_items = filter_out_current_moves(self, starting_moves)
 	self.list_items = utils.shallow_copy(self.all_items)
 	gui.set_text(gui.get_node("scrollist/topbar/title"), "Choose New Move")
 	gui.set_enabled(gui.get_node("scrollist/cursor"), false)
 
-	self.scrolling_list = gooey_scrolling_list.create_vertical_dynamic("scrollist", "scrollist/scroll_area", "scrollist/btn_item", "scrollist/scrollbar/handle", "scrollist/scrollbar/bar", "scrollist/scrollbar/visual", update_listitem, on_item_selected)
+	self.scrolling_list = gooey_scrolling_list.create_vertical_dynamic("scrollist", "scrollist/scroll_area", "scrollist/btn_item", "scrollist/scrollbar/handle", "scrollist/scrollbar/bar", "scrollist/scrollbar/visual", update_listitem, function(list) on_item_selected(self, list) end)
 	self.scrolling_list.refresh(self.list_items, true)
 end
 
