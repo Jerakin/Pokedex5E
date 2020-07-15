@@ -1,5 +1,5 @@
 local dex = require "pokedex.dex"
-local network = require "pokedex.network"
+local netcore = require "pokedex.network.netcore"
 local notify = require "utils.notify"
 local storage = require "pokedex.storage"
 local url = require "utils.url"
@@ -33,11 +33,11 @@ end
 local M = {}
 
 function M.init()
-	network.register_client_callback(KEY, on_pokemon_receieved)
+	netcore.register_client_callback(KEY, on_pokemon_receieved)
 end
 
 function M.send_pokemon(pokemon)
-	network.send_to_client(KEY, pokemon)
+	netcore.send_to_client(KEY, pokemon)
 end
 
 return M

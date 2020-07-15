@@ -1,5 +1,5 @@
 local validated_connection = require "pokedex.network.validated_connection"
-local network = require "pokedex.network"
+local netcore = require "pokedex.network.netcore"
 
 local server_member_data = {}
 local server_member_clients = {}
@@ -11,12 +11,21 @@ local KEY = "MEMBERSHIP"
 
 local function send_local_data()
 	if validated_connection.is_connected() and local_member_data ~= nil then
-		network.send_to_server(KEY, local_member_data)
+		netcore.send_to_server(KEY, local_member_data)
 	end
 end
 
 local function on_connection_change()
 	send_local_data()
+
+	if not validated_connection.is_connected() then
+		-- No longer connected, clear out member list
+		server_member_clients = {}
+		server_member_data = {}
+		external_member_list = {}
+
+		-- TODO send event about member list update
+	end
 end
 
 local function on_client_data(other_members_data)
@@ -25,6 +34,8 @@ local function on_client_data(other_members_data)
 	for k,v in pairs(external_member_list) do
 		print("We now know about user " .. tostring(k) .. " with name: " .. tostring(v.name))
 	end
+
+	-- TODO send event about member list update
 end
 
 local function on_server_data(client, member_data) 
@@ -39,7 +50,7 @@ local function on_server_data(client, member_data)
 				other_members_data[k2] = v2
 			end
 		end
-		network.send_to_client(KEY, other_members_data, v)
+		netcore.send_to_client(KEY, other_members_data, v)
 	end
 end
 
@@ -47,8 +58,8 @@ local M = {}
 
 function M.init()
 	validated_connection.register_connection_change(on_connection_change)
-	network.register_client_callback(KEY, on_client_data)
-	network.register_server_callback(KEY, on_server_data)
+	netcore.register_client_callback(KEY, on_client_data)
+	netcore.register_server_callback(KEY, on_server_data)
 end
 
 function M.set_local_member_data(name, unique_id)

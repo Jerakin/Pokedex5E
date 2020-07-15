@@ -1,4 +1,4 @@
-local network = require "pokedex.network"
+local netcore = require "pokedex.network.netcore"
 local notify = require "utils.notify"
 
 local KEY = "VALIDATED_CONNECTION"
@@ -18,9 +18,9 @@ end
 
 local function on_client_connected(client)
 	local initial_packet = {
-		version = network.get_version(),
+		version = netcore.get_version(),
 	}
-	network.send_to_client(KEY, initial_packet, client)
+	netcore.send_to_client(KEY, initial_packet, client)
 end
 
 local function on_client_disconnect()
@@ -36,7 +36,7 @@ end
 local function on_client_initial_packet(packet)
 	if not is_connected then
 		local server_version = "Unknown"
-		local client_version = network.get_version()
+		local client_version = netcore.get_version()
 		
 		if packet and packet.version then
 			server_version = packet.version
@@ -44,7 +44,7 @@ local function on_client_initial_packet(packet)
 
 		if server_version ~= client_version then
 			notify.notify("Could not connect! Version mismatch:\n\"" .. tostring(server_version) .. "\" vs. \"" .. tostring(client_version) .. "\"")
-			network.stop_client()
+			netcore.stop_client()
 		else
 			-- TODO could have other systems register for initial connection stuff
 			is_connected = true
@@ -59,10 +59,10 @@ end
 local M = {}
 
 function M.init()
-	network.register_client_connected_callback(on_client_connected)
-	network.register_client_callback(KEY, on_client_initial_packet)
-	network.register_server_active_callback(on_server_active_callback)
-	network.register_client_disconnect(on_client_disconnect)
+	netcore.register_client_connected_callback(on_client_connected)
+	netcore.register_client_callback(KEY, on_client_initial_packet)
+	netcore.register_server_active_callback(on_server_active_callback)
+	netcore.register_client_disconnect(on_client_disconnect)
 end
 
 function M.register_connection_change(cb)
