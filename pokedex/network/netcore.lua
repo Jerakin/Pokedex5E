@@ -229,7 +229,7 @@ function M.send_to_client(key, payload, client)
 			local encoded = ljson.encode(data) .. "\n"
 			server.send(encoded, client)
 		else
-			-- We are the client this is sending to, jsu call the client callback
+			-- We are the client this is sending to, just call the client callback
 			local cb = client_data_cbs[key]
 			if cb then
 				cb(payload)

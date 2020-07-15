@@ -1,43 +1,52 @@
 local dex = require "pokedex.dex"
-local netcore = require "pokedex.network.netcore"
+local share = require "pokedex.share"
+local net_members = require "pokedex.network.net_members"
 local notify = require "utils.notify"
 local storage = require "pokedex.storage"
 local url = require "utils.url"
 
-
 local KEY = "SEND_POKEMON"
-
--- TODO maybe make use of share.lua for all this
-local function validate(pokemon)
-	if pokemon and type(pokemon) == "table" and pokemon.species and pokemon.species.current and
-	pokemon.hp and pokemon.hp.current then
-		return true
-	end
-	return nil
-end
-
-local function on_pokemon_receieved(pokemon)
-	if pokemon and validate(pokemon) then
-		storage.add(pokemon)
-		dex.set(pokemon.species.current, dex.states.CAUGHT)
-		if url.PARTY then
-			msg.post(url.PARTY, "refresh")
-		elseif url.STORAGE then
-			msg.post(url.STORAGE, "inventory_updated")
-			msg.post(url.STORAGE, "storage_updated")
-		end
-		notify.notify("Welcome " .. (pokemon.nickname or pokemon.species.current) .. "!")
-	end	
-end
 
 local M = {}
 
-function M.init()
-	netcore.register_client_data_callback(KEY, on_pokemon_receieved)
+M.SEND_TYPE_CATCH = "Catch"
+M.SEND_TYPE_GIFT = "Gift"
+
+local function on_pokemon_receieved(from_member, message)
+	local pokemon = message.pokemon
+	local send_type = message.send_type
+	local from_name = net_members.get_member_name(from_member)
+	
+	if send_type and pokemon and share.validate(pokemon) then
+		share.add_new_pokemon(pokemon)
+
+		local notify_msg
+		local pkmn_name = (pokemon.nickname or pokemon.species.current)
+		if send_type == M.SEND_TYPE_CATCH then
+			notify_msg = "You caught " .. pkmn_name .."!"
+		elseif send_type == M.SEND_TYPE_GIFT then
+			notify_msg = from_name .. " sent you " .. pkmn_name .."!"
+		else
+			notify_msg = "Welcome " .. pkmn_name .. "!"
+		end
+		notify.notify(notify_msg)
+	end	
 end
 
-function M.send_pokemon(pokemon)
-	netcore.send_to_client(KEY, pokemon)
+function M.init()
+	net_members.register_member_message_callback(KEY, on_pokemon_receieved)
+end
+
+function M.send_pokemon(member, pokemon_id, send_type)
+	local pokemon = share.get_sendable_pokemon_copy(id)
+
+	local message = 
+	{
+		pokemon=pokemon,
+		send_type=send_type,
+	}
+
+	net_members.send_message_to_member(KEY, message, net_members.get_member_key(member))
 end
 
 return M

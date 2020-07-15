@@ -12,10 +12,14 @@ function M.init()
 end
 
 function M.update()
+	net_members.update()
+	
 	netcore.update()
 end
 
 function M.final()
+	net_members.final()
+	
 	netcore.final()
 end
 

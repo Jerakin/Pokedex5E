@@ -7,8 +7,6 @@ local dex = require "pokedex.dex"
 local pokedex = require "pokedex.pokedex"
 local statuses = require "pokedex.statuses"
 
-local send_pokemon = require "pokedex.network.send_pokemon"
-
 local M = {}
 
 local function load_json(j)
@@ -21,30 +19,26 @@ local function load_json(j)
 	end
 end
 
-local function validate(pokemon)
-	if pokemon and type(pokemon) == "table" and pokemon.species and pokemon.species.current and
-	pokemon.hp and pokemon.hp.current then
-		return true
+function M.add_new_pokemon(pokemon)
+	storage.add(pokemon)
+	dex.set(pokemon.species.current, dex.states.CAUGHT)
+	if url.PARTY then
+		msg.post(url.PARTY, "refresh")
+	elseif url.STORAGE then
+		msg.post(url.STORAGE, "inventory_updated")
+		msg.post(url.STORAGE, "storage_updated")
 	end
-	return nil
 end
 
 function M.import()
 	local pokemon = load_json(clipboard.paste())
 	if pokemon then
-		if not validate(pokemon) then
+		if not M.validate(pokemon) then
 			notify.notify("Pokemon data is incomplete")
 			notify.notify(clipboard.paste())
 			return 
 		end
-		storage.add(pokemon)
-		dex.set(pokemon.species.current, dex.states.CAUGHT)
-		if url.PARTY then
-			msg.post(url.PARTY, "refresh")
-		elseif url.STORAGE then
-			msg.post(url.STORAGE, "inventory_updated")
-			msg.post(url.STORAGE, "storage_updated")
-		end
+		M.add_new_pokemon(pokemon)
 		notify.notify("Welcome " .. (pokemon.nickname or pokemon.species.current) .. "!")
 		gameanalytics.addDesignEvent {
 			eventId = "Share:Import",
@@ -66,7 +60,7 @@ end
 function M.get_clipboard()
 	local pokemon = load_json(clipboard.paste())
 	if pokemon then
-		if not validate(pokemon) then
+		if not M.validate(pokemon) then
 			return 
 		end
 		encode_status(pokemon)
@@ -85,13 +79,23 @@ local function decode_status(pokemon)
 	pokemon.statuses = new
 end
 
+function M.validate(pokemon)
+	if pokemon and type(pokemon) == "table" and pokemon.species and pokemon.species.current and
+	pokemon.hp and pokemon.hp.current then
+		return true
+	end
+	return nil
+end
 
-function M.export(id)
+function M.get_sendable_pokemon_copy(id)
 	local pokemon = storage.get_copy(id)
 	decode_status(pokemon)
+	return pokemon
+end
 
-	send_pokemon.send_pokemon(pokemon)
-	--[[
+function M.export(id)
+	local pokemon = M.get_sendable_pokemon_copy(id)
+	
 	local p_json = ljson.encode(pokemon)
 	clipboard.copy(p_json)
 	notify.notify((pokemon.nickname or pokemon.species.current) .. " copied to clipboard!")
@@ -99,7 +103,6 @@ function M.export(id)
 		eventId = "Share:Export",
 		value = pokedex.get_index_number(pokemon.species.current)
 	}
-	--]]
 end
 
 return M
