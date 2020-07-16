@@ -12,7 +12,7 @@ local M = {}
 M.SEND_TYPE_CATCH = "Catch"
 M.SEND_TYPE_GIFT = "Gift"
 
-local function on_pokemon_receieved(from_member, message)
+local function on_pokemon_receieved(from_member_id, message)
 	local pokemon = message.pokemon
 	local send_type = message.send_type
 	local from_name = net_members.get_member_name(from_member)

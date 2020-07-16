@@ -80,30 +80,16 @@ local function on_client_member_message(payload)
 end
 
 local function on_server_member_message(member_id, payload)
-	local key = payload.key
-	local message = payload.message
-	local from = payload.from
-
-	if payload.to and key and message and from then
-		local to_client = server_member_clients[payload.to]
-
+	if payload.to and payload.key and payload.message then
+		
 		local send_payload =
 		{
-			key=key,
-			message=message,
-			from=from,
+			key=payload.key,
+			message=payload.message,
+			from=member_id,
 		}
 		
-		if to_client then
-			netcore.send_to_client(MEMBER_MESSAGE_KEY, send_payload, to_client)
-		else
-			local messages_to_member = server_outgoing_messages[to]
-			if not messages_to_member then
-				messages_to_member = {}
-				server_outgoing_messages[to] = messages_to_member
-			end
-			table.insert(messages_to_member, send_payload)
-		end
+		netcore.send_to_client(MEMBER_MESSAGE_KEY, send_payload, payload.to)
 	end
 end
 
@@ -137,12 +123,12 @@ function M.get_other_members()
 	return external_member_list
 end
 
-function M.get_member_name(member_obj)
-	local index = external_member_id_index_map[member_obj.unique_id]
+function M.get_member_name(member_id)
+	local index = external_member_id_index_map[member_id]
 	if index then
 		return external_member_list[index].name
 	else
-		return member_obj.name
+		return "Someone"
 	end
 end
 
@@ -156,7 +142,6 @@ function M.send_message_to_member(key, message, member_key)
 		to=member_key,
 		key=key,
 		message=message,
-		from=local_member_data,
 	}
 	netcore.send_to_server(MEMBER_MESSAGE_KEY, payload)
 end
