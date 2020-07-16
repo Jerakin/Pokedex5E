@@ -545,7 +545,8 @@ function M.send_to_client(key, payload, client_unique_id)
 				-- If client requires a receipt, give it an id
 				if client_data_cbs[key].ensure_send then
 					known_client_info.latest_sent_message_id = known_client_info.latest_sent_message_id+1
-					data.message_id = known_client_info.latest_sent_message_id,
+					data.message_id = known_client_info.latest_sent_message_id
+					print("TEMP data.message_id=", tostring(data.message_id))
 					table.insert(known_client_info.outgoing_messages, data)
 				end
 
@@ -587,7 +588,8 @@ function M.send_to_server(key, payload)
 				-- If client requires a receipt, give it an id
 				if server_data_cbs[key].ensure_send then
 					server_info.latest_sent_message_id = server_info.latest_sent_message_id+1
-					data.message_id = server_info.latest_sent_message_id,
+					data.message_id = server_info.latest_sent_message_id
+					print("TEMP data.message_id=", tostring(data.message_id))
 					table.insert(server_info.outgoing_messages, data)
 				end
 				
