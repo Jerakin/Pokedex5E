@@ -68,7 +68,7 @@ local function server_process_received_message(client, message_id)
 
 		-- Remove this from the outgoing messages so we don't try to send it again next time we connect
 		local this_message
-		while i < #client_info.outgoing_messages do
+		for i=1,#client_info.outgoing_messages do
 			this_message = client_info.outgoing_messages[i]
 			if this_message.message_id == message_id then
 				table.remove(client_info.outgoing_messages, i)
@@ -94,7 +94,7 @@ local function client_process_received_message(message_id)
 
 		-- Remove this from the outgoing messages so we don't try to send it again next time we connect
 		local this_message
-		while i < #server_info.outgoing_messages do
+		for i=1,#server_info.outgoing_messages do
 			this_message = server_info.outgoing_messages[i]
 			if this_message.message_id == message_id then
 				table.remove(server_info.outgoing_messages, i)
@@ -546,7 +546,6 @@ function M.send_to_client(key, payload, client_unique_id)
 				if client_data_cbs[key].ensure_send then
 					known_client_info.latest_sent_message_id = known_client_info.latest_sent_message_id+1
 					data.message_id = known_client_info.latest_sent_message_id
-					print("TEMP data.message_id=", tostring(data.message_id))
 					table.insert(known_client_info.outgoing_messages, data)
 				end
 
@@ -589,7 +588,6 @@ function M.send_to_server(key, payload)
 				if server_data_cbs[key].ensure_send then
 					server_info.latest_sent_message_id = server_info.latest_sent_message_id+1
 					data.message_id = server_info.latest_sent_message_id
-					print("TEMP data.message_id=", tostring(data.message_id))
 					table.insert(server_info.outgoing_messages, data)
 				end
 				
