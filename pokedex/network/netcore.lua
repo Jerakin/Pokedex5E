@@ -8,6 +8,14 @@ local p2p
 local server
 local version
 
+-- Whether to take any received messages and push them into a queue to be processed during
+-- update. Doing this because it's hard to breakpoint debug things inside the server coroutines,
+-- but also it's nice to be able to have a spot we can put, say, fake network slowdowns
+local QUEUE_RECEIVED_MESSAGES = true
+
+local server_received_message_queue = {}
+local client_received_message_queue = {}
+
 local BROADCAST_PORT = 50000
 
 local profile_unique_id = nil
@@ -37,17 +45,19 @@ local function get_broadcast_name()
 end
 
 local function send_to_server_internal(message)
-	-- TODO after encoding, encrypt
-	print("About to encode message", tostring(message))
-	local encoded = ljson.encode(message) .. "\n"
-	client.send(encoded)
+	if client then
+		-- TODO after encoding, encrypt
+		local encoded = ljson.encode(message) .. "\n"
+		client.send(encoded)
+	end
 end
 
 local function send_to_client_internal(message, client)
-	-- TODO after encoding, encrypt
-	print("About to encode message", tostring(message))
-	local encoded = ljson.encode(message) .. "\n"
-	server.send(encoded, client)
+	if server then
+		-- TODO after encoding, encrypt
+		local encoded = ljson.encode(message) .. "\n"
+		server.send(encoded, client)
+	end
 end
 
 local function server_process_received_message(client, message_id)
@@ -239,12 +249,12 @@ local function server_on_data(data, ip, port, client)
 						-- Call callbacks for this message
 						local cb = server_data_cbs[json_data.key].server_received
 						if cb then
-							cb(client, json_data.payload)
+							cb(client_unique_id, json_data.payload)
 						end
 					end
 					success = true
 				else
-					-- Client sent us a message despite not being verified. Tell them to go away.
+					-- Client sent us a message despite not being verified. Disconnect them for misbehaving.
 					server.remove_client(client)
 					success = true
 				end
@@ -253,8 +263,19 @@ local function server_on_data(data, ip, port, client)
 	end
 
 	if not success then
-		print("Server received unknown data: " .. tostring(data) .. " from client: " .. ip)
+		print("Server received unknown data: " .. tostring(data) .. " from client: " .. tostring(ip) .. ", removing it!")
+		server.remove_client(client)
 	end
+end
+
+local function server_on_data_queue(data, ip, port, client)
+	table.insert(server_received_message_queue,
+	{
+		data=data,
+		ip=ip,
+		port=port,
+		client=client,
+	})
 end
 
 local function client_on_data(data)
@@ -308,12 +329,23 @@ local function client_on_data(data)
 	end
 
 	if not success then
-		print("Client received unknown data: " .. tostring(data))
+		print("Client received unknown data from server: " .. tostring(data))
+		M.stop_client()
 	end
+end
+
+local function client_on_data_queue(data)
+	table.insert(server_received_message_queue,
+	{
+		data=data,
+	})
 end
 
 local function server_on_client_connected(ip, port, client)
 	print("Client", ip, "connected")
+	-- Server will wait for client to send info about its version before deciding the
+	-- client if officially recognized. If it sends anything other than the version
+	-- message, it'll get booted when it sends a message
 end
 
 local function server_on_client_disconnected(ip, port, client)
@@ -380,6 +412,24 @@ function M.update(dt)
 	if client ~= nil then
 		client.update()
 	end
+
+	if #server_received_message_queue > 0 then
+		local server_queue = server_received_message_queue
+		server_received_message_queue = {}
+		for i=1,#server_queue do
+			local obj = server_queue[i]
+			server_on_data(obj.data, obj.ip, obj.port, obj.client)
+		end
+	end
+
+	if #client_received_message_queue > 0 then
+		local client_queue = client_received_message_queue
+		client_received_message_queue = {}
+		for i=1,#client_queue do
+			local obj = client_queue[i]
+			client_on_data(obj.data)
+		end
+	end
 end
 
 function M.final()
@@ -406,8 +456,9 @@ function M.start_server(port)
 	if server == nil and profile_unique_id then
 		p2p = p2p_discovery.create(BROADCAST_PORT)
 		p2p.broadcast(get_broadcast_name())
-		
-		server = tcp_server.create(port, server_on_data, server_on_client_connected, server_on_client_disconnected)
+
+		local data_func = QUEUE_RECEIVED_MESSAGES and server_on_data_queue or server_on_data		
+		server = tcp_server.create(port, data_func, server_on_client_connected, server_on_client_disconnected)
 		server.start()
 
 		for i=1,#connection_changed_cbs do
@@ -434,10 +485,11 @@ function M.start_client(server_ip, server_port)
 	M.stop_server()
 	
 	if client == nil and profile_unique_id then
-		client = tcp_client.create(server_ip, server_port, client_on_data, function()
+		local data_func = QUEUE_RECEIVED_MESSAGES and client_on_data_queue or client_on_data	
+		client = tcp_client.create(server_ip, server_port, data_func, function()
 
 			if client_connection_status == CLIENT_VERIFYING then
-				notify.notify("Could not connect! Server is probably\nrunning a different version of the app.")
+				notify.notify("Could not connect! Server may be using\na different version (yours is " .. version .. ").")
 			end
 			M.stop_client()
 		end)
@@ -498,7 +550,7 @@ function M.send_to_client(key, payload, client_unique_id)
 				end
 
 				if known_client_info.client then
-					send_to_client_internal(known_client_info.client, data)
+					send_to_client_internal(data, known_client_info.client)
 				end
 			else
 				assert(nil, "send_to_client tried to send to a client we had not heard about")

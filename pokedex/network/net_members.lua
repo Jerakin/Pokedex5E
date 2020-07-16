@@ -38,18 +38,16 @@ end
 local function on_client_members_data(other_members_data)
 	external_member_list = other_members_data
 
-	print("TEMP Got new data about members:")
 	external_member_id_index_map = {}
 	for i=1,#external_member_list do
-		print("- external_member_list[i].name")
 		external_member_id_index_map[external_member_list[i].unique_id] = i
 	end
 	
 	broadcast.send(M.MEMBERS_CHANGED_MESSAGE)
 end
 
-local function on_server_members_data(member_unique_id, member_data)
-	server_member_data[member_unique_id] = member_data
+local function on_server_members_data(member_id, member_data)
+	server_member_data[member_id] = member_data
 
 	-- Send each member data about everyone but themselves
 	local all_client_ids = netcore.server_get_connected_ids()
@@ -77,11 +75,11 @@ local function on_client_member_message(payload)
 	end
 
 	if not success then
-		print("Unknown member message or key, key=", tostring(payload.key), "message=", tostring(payload.message), "from=", from)
+		assert(nil, "Unknown member message or key, key=", tostring(payload.key), "message=", tostring(payload.message), "from=", from)
 	end
 end
 
-local function on_server_member_message(client, payload)
+local function on_server_member_message(member_id, payload)
 	local key = payload.key
 	local message = payload.message
 	local from = payload.from
