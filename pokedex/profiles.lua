@@ -2,7 +2,10 @@ local monarch = require "monarch.monarch"
 local defsave = require "defsave.defsave"
 local md5 = require "utils.md5"
 local log = require "utils.log"
+
+-- Maybe switch this relationship to event-driven
 local net_members = require "pokedex.network.net_members"
+local netcore = require "pokedex.network.netcore"
 
 local M = {}
 
@@ -86,7 +89,10 @@ function M.set_active(slot)
 	profiles.last_used = slot
 
 	if slot and profiles.slots and profiles.slots[slot] then
-		net_members.set_local_member_data(M.get_active_name(), M.get_active_file_name())
+		netcore.set_unique_id(M.get_active_file_name())
+		net_members.set_local_member_data(M.get_active_name())
+	else
+		netcore.set_unique_id(nil)
 	end
 	
 	M.save()

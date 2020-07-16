@@ -12,8 +12,6 @@ function M.init()
 end
 
 function M.update()
-	net_members.update()
-	
 	netcore.update()
 end
 

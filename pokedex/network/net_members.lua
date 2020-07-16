@@ -1,9 +1,8 @@
 local netcore = require "pokedex.network.netcore"
 local broadcast = require "utils.broadcast"
+local utils = require "utils.utils"
 
 local server_member_data = {}
-local server_member_clients = {}
-local server_outgoing_messages = {}
 
 local external_member_list = {}
 local external_member_id_index_map = {}
@@ -38,28 +37,34 @@ end
 
 local function on_client_members_data(other_members_data)
 	external_member_list = other_members_data
-	
+
+	print("TEMP Got new data about members:")
 	external_member_id_index_map = {}
 	for i=1,#external_member_list do
+		print("- external_member_list[i].name")
 		external_member_id_index_map[external_member_list[i].unique_id] = i
 	end
 	
 	broadcast.send(M.MEMBERS_CHANGED_MESSAGE)
 end
 
-local function on_server_members_data(client, member_data) 
-	server_member_clients[member_data.unique_id] = client
-	server_member_data[member_data.unique_id] = member_data
+local function on_server_members_data(member_unique_id, member_data)
+	server_member_data[member_unique_id] = member_data
 
 	-- Send each member data about everyone but themselves
-	for k,v in pairs(server_member_clients) do
+	local all_client_ids = netcore.server_get_connected_ids()
+	for i=1,#all_client_ids do
+		local this_client_id = all_client_ids[i]		
 		local other_members_data = {}
-		for k2,v2 in pairs(server_member_data) do
-			if k ~= k2 then
-				table.insert(other_members_data, v2)
+		for k,v in pairs(server_member_data) do
+			if k ~= this_client_id then
+				local copy = utils.deep_copy(v)
+				copy.unique_id = k
+				table.insert(other_members_data, copy)
 			end
 		end
-		netcore.send_to_client(MEMBERS_KEY, other_members_data, v)
+		print("Sending to ", this_client_id, " info about other members")
+		netcore.send_to_client(MEMBERS_KEY, other_members_data, this_client_id)
 	end
 end
 
@@ -114,29 +119,15 @@ function M.init()
 	netcore.register_server_data_callback(MEMBER_MESSAGE_KEY, on_server_member_message)
 end
 
-function M.update()
-	-- If we had any messages queued up and weren't able to send them earlier, send them now
-	for k,v in pairs(server_outgoing_messages) do
-		local to_client = server_member_clients[message.to]
-		if to_client then
-			local ar = v
-			server_outgoing_messages[k] = nil
-			for i=1,#ar do
-				netcore.send_to_client(MEMBER_MESSAGE_KEY, ar[i], to_client)
-			end
-		end
-	end
-end
-
 function M.final()
-	-- save outgoing messages?
+	-- TODO: save server_member_data
+	-- TODO: save external_member_list and perhaps external_member_id_index_map (though I think that can be generated)
 end
 
-function M.set_local_member_data(name, unique_id)
+function M.set_local_member_data(name)
 	local_member_data =
 	{
 		name = name,
-		unique_id = unique_id,
 	}
 	send_local_data()
 end
