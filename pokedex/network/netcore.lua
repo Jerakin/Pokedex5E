@@ -299,7 +299,7 @@ local function client_on_data(data)
 					assert(message_id, "client_on_data server did not send message_id")
 
 					local server_info = client_known_server_info[client_current_server_unique_id]
-					assert(server_info, "client_on_data could not find server info for " .. client_unique_id)
+					assert(server_info, "client_on_data could not find server info for " .. client_current_server_unique_id)
 
 					if message_id > server_info.latest_received_message_id then
 						server_info.latest_received_message_id = message_id
