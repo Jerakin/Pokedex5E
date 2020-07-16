@@ -38,12 +38,14 @@ end
 
 local function send_to_server_internal(message)
 	-- TODO after encoding, encrypt
+	print("About to encode message", tostring(message))
 	local encoded = ljson.encode(message) .. "\n"
 	client.send(encoded)
 end
 
 local function send_to_client_internal(message, client)
 	-- TODO after encoding, encrypt
+	print("About to encode message", tostring(message))
 	local encoded = ljson.encode(message) .. "\n"
 	server.send(encoded, client)
 end
@@ -200,8 +202,10 @@ local function server_on_data(data, ip, port, client)
 		if type(json_data) == "table" and json_data.key and type(json_data.key) == "string" and json_data.payload then
 			if json_data.key == INITIAL_PACKET_KEY then
 				server_process_initial_packet(client, json_data.payload)
+				success = true
 			elseif json_data.key == RECEIVED_MESSAGE_KEY then
 				server_process_received_message(client, json_data.payload)
+				success = true
 			else
 				local client_unique_id = server_client_to_unique_id[client]
 				if client_unique_id then
@@ -236,12 +240,13 @@ local function server_on_data(data, ip, port, client)
 						local cb = server_data_cbs[json_data.key].server_received
 						if cb then
 							cb(client, json_data.payload)
-							success = true
 						end
 					end
+					success = true
 				else
 					-- Client sent us a message despite not being verified. Tell them to go away.
 					server.remove_client(client)
+					success = true
 				end
 			end
 		end
@@ -259,8 +264,10 @@ local function client_on_data(data)
 		if type(json_data) == "table" and json_data.key and type(json_data.key) == "string" and json_data.payload then
 			if json_data.key == INITIAL_PACKET_KEY then
 				client_process_initial_packet_response(json_data.payload)
+				success = true
 			elseif json_data.key == RECEIVED_MESSAGE_KEY then
 				client_process_received_message(json_data.payload)
+				success = true
 			else
 				
 				local do_callbacks = true
@@ -293,9 +300,9 @@ local function client_on_data(data)
 					local cb = client_data_cbs[json_data.key].client_received
 					if cb then
 						cb(json_data.payload)
-						success = true
 					end
 				end
+				success = true
 			end
 		end
 	end

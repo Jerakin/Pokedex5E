@@ -63,7 +63,6 @@ local function on_server_members_data(member_unique_id, member_data)
 				table.insert(other_members_data, copy)
 			end
 		end
-		print("Sending to ", this_client_id, " info about other members")
 		netcore.send_to_client(MEMBERS_KEY, other_members_data, this_client_id)
 	end
 end
