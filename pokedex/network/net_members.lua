@@ -71,6 +71,7 @@ local function on_client_member_message(payload)
 		local cb =  client_member_message_cbs[payload.key]
 		if cb then
 			cb(payload.from, payload.message)
+			success = true
 		end
 	end
 

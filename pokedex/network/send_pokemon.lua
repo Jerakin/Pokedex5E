@@ -15,7 +15,7 @@ M.SEND_TYPE_GIFT = "Gift"
 local function on_pokemon_receieved(from_member_id, message)
 	local pokemon = message.pokemon
 	local send_type = message.send_type
-	local from_name = net_members.get_member_name(from_member)
+	local from_name = net_members.get_member_name(from_member_id)
 	
 	if send_type and pokemon and share.validate(pokemon) then
 		share.add_new_pokemon(pokemon)
