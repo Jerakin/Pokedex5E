@@ -532,7 +532,6 @@ end
 
 function M.send_to_client(key, payload, client_unique_id)
 	if server ~= nil then
-		local server_cb = client_data_cbs[key].server_confirmed
 		if client_unique_id ~= profile_unique_id then
 			local known_client_info = server_known_client_info[client_unique_id]
 			if known_client_info then
@@ -543,9 +542,8 @@ function M.send_to_client(key, payload, client_unique_id)
 					payload=payload,
 				}
 
-				-- TODO Maybe this should be a flag on registration?
-				-- If server requires confirmation of this message, let's track it
-				if server_cb then
+				-- If client requires a receipt, give it an id
+				if client_data_cbs[key].ensure_send then
 					known_client_info.latest_sent_message_id = known_client_info.latest_sent_message_id+1
 					data.message_id = known_client_info.latest_sent_message_id,
 					table.insert(known_client_info.outgoing_messages, data)
@@ -563,6 +561,7 @@ function M.send_to_client(key, payload, client_unique_id)
 			if client_cb then
 				client_cb(payload)
 			end
+			local server_cb = client_data_cbs[key].server_confirmed
 			if server_cb then
 				server_cb(profile_unique_id, payload)
 			end
@@ -574,7 +573,6 @@ end
 
 function M.send_to_server(key, payload)	
 	if client ~= nil then
-		local client_cb = server_data_cbs[key].client_confirmed
 		if client_current_server_unique_id then
 			
 			local server_info = client_known_server_info[client_current_server_unique_id]
@@ -586,9 +584,8 @@ function M.send_to_server(key, payload)
 					payload=payload,
 				}
 				
-				-- If client requires confirmation of this message, let's track it
-				-- TODO Maybe this should be a flag on registration?
-				if client_cb then
+				-- If client requires a receipt, give it an id
+				if server_data_cbs[key].ensure_send then
 					server_info.latest_sent_message_id = server_info.latest_sent_message_id+1
 					data.message_id = server_info.latest_sent_message_id,
 					table.insert(server_info.outgoing_messages, data)
@@ -607,6 +604,7 @@ function M.send_to_server(key, payload)
 		if server_cb then
 			server_cb(profile_unique_id, payload)
 		end
+		local client_cb = server_data_cbs[key].client_confirmed
 		if client_cb then
 			client_cb(payload)
 		end
