@@ -99,8 +99,8 @@ function M.init()
 	netcore.register_client_data_callback(MEMBERS_KEY, on_client_members_data)
 	netcore.register_server_data_callback(MEMBERS_KEY, on_server_members_data)
 	
-	netcore.register_client_data_callback(MEMBER_MESSAGE_KEY, on_client_member_message)
-	netcore.register_server_data_callback(MEMBER_MESSAGE_KEY, on_server_member_message)
+	netcore.register_client_data_callback(MEMBER_MESSAGE_KEY, on_client_member_message, true)
+	netcore.register_server_data_callback(MEMBER_MESSAGE_KEY, on_server_member_message, true)
 end
 
 function M.final()

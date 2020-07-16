@@ -222,8 +222,8 @@ local function server_on_data(data, ip, port, client)
 
 					local do_callbacks = true
 					
-					-- If this message requires a message receipt, send one
-					if server_data_cbs[json_data.key].client_confirmed then
+					-- If this message requires ensuring it is sent, we need to send a receipt
+					if server_data_cbs[json_data.key].ensure_send then
 						local message_id = json_data.message_id
 						assert(message_id, "server_on_data client did not send message_id")
 
@@ -293,8 +293,8 @@ local function client_on_data(data)
 				
 				local do_callbacks = true
 					
-				-- If this message requires a message receipt, send one
-				if client_data_cbs[json_data.key].server_confirmed then					
+				-- If this message requires ensuring it is sent, we need to send a receipt
+				if client_data_cbs[json_data.key].ensure_send then					
 					local message_id = json_data.message_id
 					assert(message_id, "client_on_data server did not send message_id")
 
@@ -382,19 +382,21 @@ function M.set_unique_id(id)
 	end
 end
 
-function M.register_client_data_callback(key, fn_on_client_received, fn_on_server_confirmed)
+function M.register_client_data_callback(key, fn_on_client_received, ensure_send, fn_on_server_confirmed)
 	client_data_cbs[key] =
 	{
 		client_received = fn_on_client_received,
 		server_confirmed = fn_on_server_confirmed,
+		ensure_send = ensure_send,
 	}
 end
 
-function M.register_server_data_callback(key, fn_on_server_received, fn_on_client_confirmed)
+function M.register_server_data_callback(key, fn_on_server_received, ensure_send, fn_on_client_confirmed)
 	server_data_cbs[key] =
 	{
 		server_received = fn_on_server_received,
 		client_confirmed = fn_on_client_confirmed,
+		ensure_send = ensure_send,
 	}
 end
 
