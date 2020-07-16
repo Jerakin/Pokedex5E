@@ -335,7 +335,7 @@ local function client_on_data(data)
 end
 
 local function client_on_data_queue(data)
-	table.insert(server_received_message_queue,
+	table.insert(client_received_message_queue,
 	{
 		data=data,
 	})
