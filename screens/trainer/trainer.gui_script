@@ -59,6 +59,9 @@ local function redraw()
     gui.set_text(gui.get_node("max_active_pokemon/value"), max_active_pokemon)
     gui.set_enabled(gui.get_node("max_active_pokemon/ctrl/btn_minus"), max_active_pokemon > max_active_pokemon_range_low)
     gui.set_enabled(gui.get_node("max_active_pokemon/ctrl/btn_plus"),  max_active_pokemon < max_active_pokemon_range_high)
+
+    local profile_name = profiles.get_active_name()
+    gui.set_text(gui.get_node("text_change_profile_name"), "PROFILE NAME:\n" .. profile_name)
 end
 
 local initial_scale = vmath.vector3(1, 1,0)
@@ -86,6 +89,19 @@ local function activate_tab(self, tab_number)
             gui.set_color(self.tabs[i].text, gui_colors.BUTTON_TEXT)
             gui.set_enabled(self.tabs[i].bg, false)
         end
+    end
+end
+
+local function update_profile_name(self)
+    monarch.show("input", {}, {sender=msg.url(), message="update_profile_name", help_text="Input new profile name.", default_text=profiles.get_active_name()})
+end
+
+function on_message(self, message_id, message)
+    if message_id == hash("update_profile_name") then
+        local new_name = message.str
+        profiles.set_active_name(new_name)
+        gui.set_text(gui.get_node("top_divider/title"), new_name)
+        redraw()
     end
 end
 
@@ -155,7 +171,6 @@ local function redraw_wrap(fnc)
     redraw()
 end
 
-
 function on_input(self, action_id, action)
     for i=1, #self.tabs do
         local this_i = i
@@ -205,6 +220,7 @@ function on_input(self, action_id, action)
     gooey.button("max_active_pokemon/ctrl/btn_plus",  action_id, action, function() redraw_wrap(function() storage.set_max_active_pokemon(storage.get_max_active_pokemon() + 1) end) end, gooey_buttons.plus_button)
     gooey.button("max_active_pokemon/ctrl/btn_minus", action_id, action, function() redraw_wrap(function() storage.set_max_active_pokemon(storage.get_max_active_pokemon() - 1) end) end, gooey_buttons.minus_button)
 
+    gooey.button("change_profile_name", action_id, action, function() update_profile_name(self) end, function(b) gooey_buttons.common_button(b, gui.get_node("text_change_profile_name")) end )
 end
 
 function on_reload(self)

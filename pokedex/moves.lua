@@ -6,7 +6,7 @@ local fakemon = require "fakemon.fakemon"
 
 local M = {}
 
-
+local index = {}
 local movedata = {}
 local known_to_all_moves = {}
 local move_machines
@@ -14,20 +14,28 @@ local move_machines
 local initialized = false
 
 local warning_list = {}
+
+
 function M.get_move_data(move)
 	if movedata[move] then
 		return movedata[move]
 	else
-		if not warning_list[tostring(move)] then
-			local e = string.format("Can not find move data for: '%s'", tostring(move))
-			gameanalytics.addErrorEvent {
-				severity = "Critical",
-				message = e
-			}
-			log.error(e)
+		local move_json = file.load_json_from_resource("/assets/datafiles/moves/".. move .. ".json")
+		if move_json ~= nil then
+			movedata[move] = move_json
+			return movedata[move]
+		else
+			if not warning_list[tostring(move)] then
+				local e = string.format("Can not find move data for: '%s'", tostring(move))
+				gameanalytics.addErrorEvent {
+					severity = "Critical",
+					message = e
+				}
+				log.error(e)
+			end
+			warning_list[tostring(move)] = true
+			return movedata["Error"]
 		end
-		warning_list[tostring(move)] = true
-		return movedata["Error"]
 	end
 end
 
@@ -64,7 +72,7 @@ end
 
 local function list()
 	local l = {}
-	for m, d in pairs(movedata) do
+	for m, d in pairs(index) do
 		table.insert(l, m)
 	end
 	table.sort(l)
@@ -87,7 +95,8 @@ end
 
 function M.init()
 	if not initialized then
-		movedata = file.load_json_from_resource("/assets/datafiles/moves.json")
+		movedata = {}
+		index = file.load_json_from_resource("/assets/datafiles/move_index.json")
 		move_machines = file.load_json_from_resource("/assets/datafiles/move_machines.json")
 
 		if fakemon.DATA and fakemon.DATA["moves.json"] then

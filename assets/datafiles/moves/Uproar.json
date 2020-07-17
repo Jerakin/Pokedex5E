@@ -1,0 +1,35 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 2,
+      "dice_max": 8,
+      "move": true
+    },
+    "10": {
+      "amount": 3,
+      "dice_max": 10,
+      "move": true
+    },
+    "17": {
+      "amount": 4,
+      "dice_max": 12,
+      "move": true
+    },
+    "5": {
+      "amount": 2,
+      "dice_max": 10,
+      "move": true
+    }
+  },
+  "Description": "You cause an uproar on the battlefield in a 30 foot circle, centered on you, for three rounds of combat. During the uproar, you cannot use any other Move, and any creature in range is prevented from falling asleep. (This include creatures that would purposefully fall asleep using moves like Rest) In addition, opponents must make a CON save against your Move DC at the start of each turn. On a fail, the opponent takes normal damage.",
+  "Duration": "3 Rounds, Concentration",
+  "Move Power": [
+    "STR",
+    "DEX"
+  ],
+  "Move Time": "1 action",
+  "PP": 5,
+  "Range": "30ft circle",
+  "Save": "CON",
+  "Type": "Normal"
+}

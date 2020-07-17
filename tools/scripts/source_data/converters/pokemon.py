@@ -47,7 +47,7 @@ class Pokemon:
         self.output_data["Ssp"] = util.ensure_int(csv_row[self.header.index("Ssp")])
         self.output_data["Fsp"] = util.ensure_int(csv_row[self.header.index("Fsp")])
         self.output_data["Climbing Speed"] = util.ensure_int(csv_row[self.header.index("Climbing Speed")])
-        self.output_data["Burrowing Speed"] = util.ensure_string(csv_row[self.header.index("Burrowing Speed")])
+        self.output_data["Burrowing Speed"] = util.ensure_int(csv_row[self.header.index("Burrowing Speed")])
 
     def setup_attributes(self, csv_row):
         self.output_data["attributes"] = {}

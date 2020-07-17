@@ -1,4 +1,4 @@
-#Data Generation
+# Data Generation
 The app is based on the data in [DM Pokémon Builder Gen I - VI.xlsx](https://docs.google.com/spreadsheets/d/10kCrBWr2nlPcvnriN40-4mQpsg4uUCVbDHFJXEfdfYo/edit)
 by Joe. There is a script ([`fetch_data.py`](https://github.com/Jerakin/Pokedex5E/blob/master/tools/scripts/collect_data/fetch_data.py))
 that downloads the csv and then does a naive conversion to json. The data is downloaded with a service account.

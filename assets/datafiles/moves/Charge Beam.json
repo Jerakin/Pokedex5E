@@ -1,0 +1,35 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 1,
+      "dice_max": 8,
+      "move": true
+    },
+    "10": {
+      "amount": 4,
+      "dice_max": 4,
+      "move": true
+    },
+    "17": {
+      "amount": 3,
+      "dice_max": 10,
+      "move": true
+    },
+    "5": {
+      "amount": 2,
+      "dice_max": 6,
+      "move": true
+    }
+  },
+  "Description": "You send a beam of electric energy at an opponent that has a chance to power you up. Make a ranged attack, dealing electric damage on a hit. If the natural attack roll is 10 or higher and the attack hits, add your proficiency bonus to the damage.",
+  "Duration": "Instantaneous",
+  "Move Power": [
+    "STR",
+    "DEX"
+  ],
+  "Move Time": "1 action",
+  "PP": 5,
+  "Range": "50ft",
+  "Type": "Electric",
+  "atk": true
+}

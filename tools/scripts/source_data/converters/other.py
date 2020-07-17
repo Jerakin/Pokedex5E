@@ -6,7 +6,12 @@ except ModuleNotFoundError:
     from util import util
 
 
-def __convert(_input, name, key):
+MERGE_DATA = {
+    "abilities": util.MERGE_ABILITY_DATA
+}
+
+
+def __convert(_input, file_name, key):
     json_data = {}
     with open(_input, "r", encoding="utf-8") as fp:
         reader = csv.reader(fp, delimiter=",", quotechar='"')
@@ -14,9 +19,12 @@ def __convert(_input, name, key):
 
         for row in reader:
             if row:
-                json_data[row[0]] = {key: row[1].strip()}
+                name = row[0]
+                json_data[name] = {key: row[1].strip()}
+                if file_name in MERGE_DATA and name in MERGE_DATA[file_name]:
+                    util.merge(json_data[name], MERGE_DATA[file_name][name])
 
-    with open(util.OUTPUT / (name + ".json"), "w", encoding="utf-8") as f:
+    with open(util.OUTPUT / (file_name + ".json"), "w", encoding="utf-8") as f:
         json.dump(json_data, f, indent="  ", ensure_ascii=False, sort_keys=True)
 
 

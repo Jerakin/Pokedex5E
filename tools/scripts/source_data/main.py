@@ -1,5 +1,6 @@
 from pathlib import Path
 import sys
+from gspread.exceptions import SpreadsheetNotFound
 
 try:
     import scripts.source_data.converters.other as other
@@ -33,8 +34,13 @@ if __name__ == '__main__':
         argument = Path(sys.argv[1])
         if argument.exists():
             if argument.is_file() and argument.suffix == ".json":
-                _folder = fetch.main(cred_file=argument)
+                try:
+                    _folder = fetch.main(cred_file=argument)
+                except SpreadsheetNotFound:
+                    print("SpreadsheetNotFound: Could not find the spreadsheet on the service account")
+                    sys.exit(1)
                 convert_all(_folder)
+
             elif argument.is_dir():
                 convert_all(argument)
             else:
