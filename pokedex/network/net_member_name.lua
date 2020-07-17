@@ -10,12 +10,8 @@ local function active_profile_name_changed()
 end
 
 function M.init()
-	if not initialized then
-		profiles.register_active_name_changed_cb(active_profile_name_changed)
-		active_profile_name_changed()
-		
-		initialized = true
-	end
+	profiles.register_active_name_changed_cb(active_profile_name_changed)
+	active_profile_name_changed()
 end
 
 function M.get_name(member_id)
