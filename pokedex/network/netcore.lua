@@ -548,6 +548,7 @@ end
 function M.stop_client()
 	if client ~= nil then
 		local previous_status = client_connection_status
+		client_current_server_unique_id = nil
 		client_connection_status = CLIENT_NOT_CONNECTED
 		client.destroy()
 		client = nil
