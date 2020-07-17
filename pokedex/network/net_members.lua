@@ -115,6 +115,11 @@ local function on_server_members_data(member_id, payload)
 		local other_members_data = {}
 		for k,v in pairs(server_member_data) do		
 			if k ~= member_id then
+				-- TEMP
+				print("Server data sending to ", tostring(member_id), ":")
+				for k,v in pairs(server_member_data[member_id]) do
+					print("  k=", tostring(k), "v=", tostring(v))
+				end
 				table.insert(other_members_data, {id=k, data=v})
 			end
 		end
@@ -163,7 +168,7 @@ function M.init()
 		netcore.register_client_data_callback(MEMBER_MESSAGE_KEY, on_client_member_message, true)
 		netcore.register_server_data_callback(MEMBER_MESSAGE_KEY, on_server_member_message, true)
 
-		local_member_data = { data = {} }
+		local_member_data = {}
 		
 		initialized = true
 	end
