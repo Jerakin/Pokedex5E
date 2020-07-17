@@ -1,6 +1,7 @@
 local dex = require "pokedex.dex"
 local share = require "pokedex.share"
 local net_members = require "pokedex.network.net_members"
+local net_member_name = require "pokedex.network.net_member_name"
 local notify = require "utils.notify"
 local storage = require "pokedex.storage"
 local url = require "utils.url"
@@ -16,7 +17,7 @@ local function on_pokemon_receieved(from_member_id, message)
 	local pokemon = message.pokemon
 	local send_type = message.send_type
 	print("TEMP from_member_id=",tostring(from_member_id))
-	local from_name = net_members.get_member_name(from_member_id)
+	local from_name = net_member_name.get_member_name(from_member_id)
 	-- TODO: name was nil, why? did we not get a name?
 	
 	if send_type and pokemon and share.validate(pokemon) then

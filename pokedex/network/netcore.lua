@@ -664,6 +664,10 @@ function M.get_server_id()
 	end
 end
 
+function M.get_local_id()
+	return profile_unique_id
+end
+
 function M.is_connected()
 	return (server ~= nil) or (client ~= nil and client_connection_status == CLIENT_CONNECTED)
 end
