@@ -200,9 +200,9 @@ function M.get_data_for_member(key, member_id)
 	if member_id == nil or member_id == netcore.get_local_id() then
 		return local_member_data[key]
 	else
-		local index = net_members.get_members_id_map()[member_id]
+		local index = get_members_id_map()[member_id]
 		if index then
-			local list = net_members.get_members_list()
+			local list = get_members_list()
 			if not list[index].data then
 				list[index].data = {}
 			end
