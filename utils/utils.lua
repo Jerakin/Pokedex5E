@@ -25,7 +25,7 @@ function M.deep_copy(T)
 	return copy
 end
 
-function M.function dump_table(o)
+function M.dump_table(o)
 	if type(o) == 'table' then
 		local s = '{ '
 		for k,v in pairs(o) do
