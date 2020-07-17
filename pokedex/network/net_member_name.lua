@@ -6,7 +6,7 @@ local NAME_KEY = "name"
 local M = {}
 
 local function active_profile_name_changed()
-	net_members.update_member_data(NAME_KEY, profiles.get_active_name())
+	net_members.update_member_data(NAME_KEY, profiles.get_active_slot() and profiles.get_active_name() or nil)
 end
 
 function M.init()
