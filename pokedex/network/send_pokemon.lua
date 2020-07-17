@@ -1,10 +1,7 @@
-local dex = require "pokedex.dex"
 local share = require "pokedex.share"
 local net_members = require "pokedex.network.net_members"
 local net_member_name = require "pokedex.network.net_member_name"
 local notify = require "utils.notify"
-local storage = require "pokedex.storage"
-local url = require "utils.url"
 
 local KEY = "SEND_POKEMON"
 
