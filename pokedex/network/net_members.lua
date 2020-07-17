@@ -31,11 +31,7 @@ local function on_connection_change()
 	send_local_data(true)
 
 	if not netcore.is_connected() then
-		-- Should we clear this out?
-		external_member_list = {}
-		external_member_id_index_map = {}
 		server_member_clients = {}
-		broadcast.send(M.MEMBERS_CHANGED_MESSAGE)
 	end
 end
 
@@ -49,18 +45,20 @@ local function on_client_members_data(new_members_data)
 			local existing_data = external_member_list[existing_data_index]
 			made_change = utils.deep_merge_into(existing_data, new_member_data) or made_change
 		else
-			external_member_id_index_map[new_unique_id] = #external_member_list
 			table.insert(external_member_list, new_member_data)
+			external_member_id_index_map[new_unique_id] = #external_member_list
 			made_change = true
 		end
 	end
-	
-	broadcast.send(M.MEMBERS_CHANGED_MESSAGE)
+
+	if made_change then
+		broadcast.send(M.MEMBERS_CHANGED_MESSAGE)
+	end
 end
 
 local function on_server_members_data(member_id, payload)
 	local member_data = payload.member_data
-	member_data.member_id = member_id -- ensure everyone knows this member's unique id
+	member_data.unique_id = member_id -- ensure everyone knows this member's unique id
 	server_member_data[member_id] = member_data
 
 	-- Send the new member's data to everyone else
@@ -82,13 +80,16 @@ local function on_server_members_data(member_id, payload)
 				table.insert(other_members_data, copy)
 			end
 		end
-		netcore.send_to_client(MEMBER_DATA_KEY, other_members_data, member_id)
+		if next(other_members_data) then
+			netcore.send_to_client(MEMBER_DATA_KEY, other_members_data, member_id)
+		end
 	end
 end
 
 local function on_client_member_message(payload)
 	local success = false
 	if payload and payload.key and payload.message and payload.from then
+		print(" payload.from=", tostring( payload.from))
 		local cb =  client_member_message_cbs[payload.key]
 		if cb then
 			cb(payload.from, payload.message)
