@@ -101,9 +101,6 @@ local function on_server_members_data(member_id, payload)
 		local other_members_data = {}
 		for k,v in pairs(server_member_data) do		
 			if k ~= member_id then
-				for k,v in pairs(server_member_data[member_id]) do
-					print("  k=", tostring(k), "v=", tostring(v))
-				end
 				table.insert(other_members_data, {id=k, data=v})
 			end
 		end
