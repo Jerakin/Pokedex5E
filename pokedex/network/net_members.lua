@@ -190,12 +190,23 @@ function M.get_other_members()
 end
 
 function M.get_member_name(member_id)
+	print("TEMP member_id=", tostring(member_id))
 	local index = get_members_id_map()[member_id]
+	print("TEMP index=", tostring(index))
 	if index then
-		return get_members_list()[index].name
-	else
-		return "Someone"
+		for i=1,#get_members_list() do
+			local member = get_members_list()[i]
+			print("TEMP member=", tostring(member))
+			for k,v in pairs(member) do
+				print("TEMP k=", tostring(k), "v=", tostring(v))
+			end			
+		end
+		local name = get_members_list()[index].name
+		if name then
+			return name
+		end
 	end
+	return "Someone"
 end
 
 function M.get_member_key(member_obj)
