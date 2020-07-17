@@ -30,12 +30,12 @@ end
 
 local function get_members_list()
 	local server_id = netcore.get_server_id()
-	return member_info_by_server[server_id].list
+	return server_id and member_info_by_server[server_id].list or {}
 end
 
 local function get_members_id_map()
 	local server_id = netcore.get_server_id()
-	return member_info_by_server[server_id].map
+	return server_id and member_info_by_server[server_id].map or {}
 end
 
 local function on_connection_change()

@@ -3,6 +3,7 @@ local tcp_server = require "defnet.tcp_server"
 local tcp_client = require "defnet.tcp_client"
 local ljson = require "defsave.json"
 local notify = require "utils.notify"
+local profiles = require "pokedex.profiles"
 
 local p2p
 local server
@@ -361,6 +362,18 @@ local function server_on_client_disconnected(ip, port, client)
 	end
 end
 
+local function set_unique_id(id)
+	if profile_unique_id ~= id then
+		profile_unique_id = id
+		M.stop_server()
+		M.stop_client()
+	end
+end
+
+local function on_active_profile_changed()
+	set_unique_id(profiles.get_active_file_name())
+end
+
 function M.init()
 	local system = sys.get_sys_info().system_name
 	if system == "Windows" then
@@ -372,14 +385,31 @@ function M.init()
 	elseif system == "HTML5" then
 		version = sys.get_config("gameanalytics.build_html5", nil)
 	end
+
+	on_active_profile_changed()
+	profiles.register_active_profile_changed_cb(on_active_profile_changed)
 end
 
-function M.set_unique_id(id)
-	if profile_unique_id ~= id then
-		profile_unique_id = id
-		M.stop_server()
-		M.stop_client()
+function M.load(profile)
+	local data = profile.netcore
+	if data ~= nil then
+		server_known_client_info=data.server_known_client_info
+		client_known_server_info=data.client_known_server_info
+	else
+		server_known_client_info = {}
+		client_known_server_info = {}
 	end
+end
+
+function M.save()
+	profiles.update(profiles.get_active_slot(),
+	{
+		netcore =
+		{
+			server_known_client_info=server_known_client_info,
+			client_known_server_info=client_known_server_info,
+		}
+	})
 end
 
 function M.register_client_data_callback(key, fn_on_client_received, ensure_send, fn_on_server_confirmed)

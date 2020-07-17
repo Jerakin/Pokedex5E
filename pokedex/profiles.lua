@@ -4,9 +4,6 @@ local md5 = require "utils.md5"
 local log = require "utils.log"
 local broadcast = require "utils.broadcast"
 
--- Maybe switch this relationship to event-driven
-local netcore = require "pokedex.network.netcore"
-
 local M = {}
 
 local profiles = {}
@@ -97,12 +94,6 @@ end
 function M.set_active(slot)
 	active_slot = slot
 	profiles.last_used = slot
-
-	if slot and profiles.slots and profiles.slots[slot] then
-		netcore.set_unique_id(M.get_active_file_name())
-	else
-		netcore.set_unique_id(nil)
-	end
 
 	for i=1,#active_profile_changed_cbs do
 		active_profile_changed_cbs[i]()
