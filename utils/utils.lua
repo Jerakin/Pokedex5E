@@ -26,6 +26,43 @@ function M.deep_copy(T)
 end
 
 
+local function deep_merge_into_recurse(target, copy_from)
+	local changed = false
+	for k_copy_from, v_copy_from in pairs(copy_from) do
+		local v_target = target[k_copy_from]
+		if v_target ~= nil then
+			-- Value existed before, verify types match and then replace it
+			if type(v_target) == type(v_copy_from) then
+				if type(v_target) == 'table' then
+					changed = deep_merge_into_recurse(v_target, v_copy_from) or changed
+				else
+					if v_target ~= v_copy_from then
+						target[k_copy_from] = v_copy_from
+						changed = true
+					end
+				end
+			end
+		else
+			-- Value didn't exist before, add it
+			if type(v_copy_from) == 'table' then	
+				target[k_copy_from] = M.deep_copy(v_copy_from)
+			else
+				target[k_copy_from] = v_copy_from
+			end
+			changed = true
+		end
+	end
+	return changed	
+end
+
+function M.deep_merge_into(target, copy_from)
+	if target ~= nil and copy_from ~= nil and type(target) == 'table' and type(copy_from) == 'table' then
+		return deep_merge_into_recurse(target, copy_from)
+	end
+	return false
+end
+
+
 function M.length(T)
 	local count = 0
 	for _ in pairs(T) do count = count + 1 end
