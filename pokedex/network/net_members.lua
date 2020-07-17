@@ -4,11 +4,10 @@ local utils = require "utils.utils"
 
 local server_member_data = {}
 
-local external_member_list = {}
-local external_member_id_index_map = {}
 local local_member_data = {}
+local member_info_by_server = {}
 
-local client_member_message_cbs = {}
+local member_message_cbs = {}
 
 local MEMBER_DATA_KEY = "NET_MEMBERS_DATA"
 local MEMBER_MESSAGE_KEY = "NET_MEMBERS_MESSAGE"
@@ -27,26 +26,50 @@ local function send_local_data(request_all_members)
 	end
 end
 
-local function on_connection_change()
-	send_local_data(true)
+local function get_members_list()
+	local server_id = netcore.get_server_id()
+	return member_info_by_server[server_id].list
+end
 
-	if not netcore.is_connected() then
-		server_member_clients = {}
-	end
+local function get_members_id_map()
+	local server_id = netcore.get_server_id()
+	return member_info_by_server[server_id].map
+end
+
+local function on_connection_change()
+	if netcore.is_connected() then
+		-- Ensure we know 
+		local server_id = netcore.get_server_id()
+		if not member_info_by_server[server_id] then
+			member_info_by_server[server_id] =
+			{
+				list = {},
+				map = {},
+			}
+		end
+		
+		send_local_data(true)
+	else
+		server_member_clients = {}		
+	end	
 end
 
 local function on_client_members_data(new_members_data)
 	local made_change = false
+
+	local member_map = get_members_id_map()
+	local member_list = get_members_list()
+	
 	for i=1,#new_members_data do
 		local new_member_data = new_members_data[i]
 		local new_unique_id = new_member_data.unique_id
-		local existing_data_index = external_member_id_index_map[new_unique_id]
+		local existing_data_index = member_map[new_unique_id]
 		if existing_data_index then
-			local existing_data = external_member_list[existing_data_index]
+			local existing_data = member_list[existing_data_index]
 			made_change = utils.deep_merge_into(existing_data, new_member_data) or made_change
 		else
-			table.insert(external_member_list, new_member_data)
-			external_member_id_index_map[new_unique_id] = #external_member_list
+			table.insert(member_list, new_member_data)
+			member_map[new_unique_id] = #member_list
 			made_change = true
 		end
 	end
@@ -90,7 +113,7 @@ local function on_client_member_message(payload)
 	local success = false
 	if payload and payload.key and payload.message and payload.from then
 		print(" payload.from=", tostring( payload.from))
-		local cb =  client_member_message_cbs[payload.key]
+		local cb =  member_message_cbs[payload.key]
 		if cb then
 			cb(payload.from, payload.message)
 			success = true
@@ -127,7 +150,7 @@ end
 
 function M.final()
 	-- TODO: save server_member_data
-	-- TODO: save external_member_list and perhaps external_member_id_index_map (though I think that can be generated)
+	-- TODO: save get_members_list()
 end
 
 function M.set_local_member_data(name)
@@ -139,17 +162,17 @@ function M.set_local_member_data(name)
 end
 
 function M.has_other_members()
-	return #external_member_list > 0
+	return #get_members_list() > 0
 end
 
 function M.get_other_members()
-	return external_member_list
+	return get_members_list()
 end
 
 function M.get_member_name(member_id)
-	local index = external_member_id_index_map[member_id]
+	local index = get_members_id_map()[member_id]
 	if index then
-		return external_member_list[index].name
+		return get_members_list()[index].name
 	else
 		return "Someone"
 	end
@@ -171,7 +194,7 @@ end
 
 -- cb takes (from_member, message)
 function M.register_member_message_callback(key, cb)
-	client_member_message_cbs[key] = cb
+	member_message_cbs[key] = cb
 end
 
 return M

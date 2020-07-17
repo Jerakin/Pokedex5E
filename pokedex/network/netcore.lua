@@ -624,6 +624,16 @@ function M.server_get_connected_ids()
 	return ret
 end
 
+function M.get_server_id()
+	if server ~= nil then
+		return profile_unique_id
+	elseif client ~= nil then
+		return client_current_server_unique_id
+	else
+		return nil
+	end
+end
+
 function M.is_connected()
 	return (server ~= nil) or (client ~= nil and client_connection_status == CLIENT_CONNECTED)
 end
