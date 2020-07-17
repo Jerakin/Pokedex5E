@@ -25,6 +25,19 @@ function M.deep_copy(T)
 	return copy
 end
 
+function M.function dump_table(o)
+	if type(o) == 'table' then
+		local s = '{ '
+		for k,v in pairs(o) do
+			if type(k) ~= 'number' then k = '"'..k..'"' end
+			s = s .. '['..k..'] = ' .. dump(v) .. ','
+		end
+		return s .. '} '
+	else
+		return tostring(o)
+	end
+end
+
 
 local function deep_merge_into_recurse(target, copy_from)
 	local changed = false

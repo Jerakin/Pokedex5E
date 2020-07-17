@@ -16,8 +16,7 @@ M.SEND_TYPE_GIFT = "Gift"
 local function on_pokemon_receieved(from_member_id, message)
 	local pokemon = message.pokemon
 	local send_type = message.send_type
-	print("TEMP from_member_id=",tostring(from_member_id))
-	local from_name = net_member_name.get_member_name(from_member_id)
+	local from_name = net_member_name.get_name(from_member_id)
 	-- TODO: name was nil, why? did we not get a name?
 	
 	if send_type and pokemon and share.validate(pokemon) then
@@ -49,7 +48,7 @@ function M.send_pokemon(member, pokemon_id, send_type)
 		send_type=send_type,
 	}
 
-	net_members.send_message_to_member(KEY, message, net_members.get_member_key(member))
+	net_members.send_message_to_member(KEY, message, net_members.get_member_id(member))
 end
 
 return M

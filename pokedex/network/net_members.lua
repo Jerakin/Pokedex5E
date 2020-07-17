@@ -74,12 +74,6 @@ local function on_client_members_data(new_members_data)
 			member_map[this_id] = #member_list
 			made_change = true
 		end
-
-		-- TEMP
-		print("Client new data received for ", tostring(this_id), ":")
-		for k,v in pairs(member_list[member_map[this_id]]) do
-			print("  k=", tostring(k), "v=", tostring(v))
-		end
 	end
 
 	if made_change then
@@ -93,20 +87,12 @@ local function on_server_members_data(member_id, payload)
 	end
 	utils.deep_merge_into(server_member_data[member_id], payload.member_data)
 
-
-	-- TEMP
-	print("Server data received for ", tostring(member_id), ":")
-	for k,v in pairs(server_member_data[member_id]) do
-		print("  k=", tostring(k), "v=", tostring(v))
-	end
-	
-
 	-- Send the new member's data to everyone else
 	local all_client_ids = netcore.server_get_connected_ids()
 	for i=1,#all_client_ids do
 		local this_client_id = all_client_ids[i]
 		if this_client_id ~= member_id then
-			netcore.send_to_client(MEMBER_DATA_KEY, {member_data}, this_client_id)
+			netcore.send_to_client(MEMBER_DATA_KEY, {{id=member_id, data=payload.member_data}}, this_client_id)
 		end
 	end
 
@@ -115,8 +101,6 @@ local function on_server_members_data(member_id, payload)
 		local other_members_data = {}
 		for k,v in pairs(server_member_data) do		
 			if k ~= member_id then
-				-- TEMP
-				print("Server data sending to ", tostring(member_id), ":")
 				for k,v in pairs(server_member_data[member_id]) do
 					print("  k=", tostring(k), "v=", tostring(v))
 				end
@@ -132,7 +116,6 @@ end
 local function on_client_member_message(payload)
 	local success = false
 	if payload and payload.key and payload.message and payload.from then
-		print(" payload.from=", tostring( payload.from))
 		local cb =  member_message_cbs[payload.key]
 		if cb then
 			cb(payload.from, payload.message)
@@ -204,32 +187,22 @@ function M.get_other_members()
 	return get_members_list()
 end
 
-function M.get_member_key(member_obj)
-	return member_obj.unique_id
-end
-
 function M.update_member_data(key, data)
 	local_member_data[key] = data
 	send_local_data(false)
+end
+
+function M.get_member_id(member_obj)
+	return member_obj.id
 end
 
 function M.get_data_for_member(key, member_id)
 	if member_id == nil or member_id == netcore.get_local_id() then
 		return local_member_data[key]
 	else
-		print("TEMP member_id=", tostring(member_id))
 		local index = net_members.get_members_id_map()[member_id]
-		print("TEMP index=", tostring(index))
 		if index then
 			local list = net_members.get_members_list()
-			-- TEMP
-			for i=1,#list do
-				local member = list[i]
-				print("TEMP member=", tostring(member))
-				for k,v in pairs(member) do
-					print("TEMP k=", tostring(k), "v=", tostring(v))
-				end			
-			end
 			if not list[index].data then
 				list[index].data = {}
 			end
