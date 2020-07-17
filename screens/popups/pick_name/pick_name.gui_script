@@ -8,6 +8,7 @@ local url = require "utils.url"
 local gooey_buttons = require "utils.gooey_buttons"
 local tracking_id = require "utils.tracking_id"
 local dex = require "pokedex.dex"
+local network = require "pokedex.network.network"
 
 local slot
 
@@ -75,6 +76,7 @@ local function okay()
 			profiles.update(slot, { name = name })
 		end
 		profiles.set_active(profile.slot)
+		network.load(profiles.get_active())
 		storage.load(profiles.get_active())
 		trainer.load(profiles.get_active())
 		dex.load(profiles.get_active())

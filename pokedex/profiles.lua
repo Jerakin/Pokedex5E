@@ -2,15 +2,25 @@ local monarch = require "monarch.monarch"
 local defsave = require "defsave.defsave"
 local md5 = require "utils.md5"
 local log = require "utils.log"
+local broadcast = require "utils.broadcast"
 
 -- Maybe switch this relationship to event-driven
-local net_members = require "pokedex.network.net_members"
 local netcore = require "pokedex.network.netcore"
 
 local M = {}
 
 local profiles = {}
 local active_slot
+
+-- TODO: Should probably use broadcast, but I couldn't figure out how to get it to work on a non-UI screen
+local active_profile_changed_cbs = {}
+function M.register_active_profile_changed_cb(cb)
+	table.insert(active_profile_changed_cbs, cb)
+end
+local active_name_changed_cbs = {}
+function M.register_active_name_changed_cb(cb)
+	table.insert(active_name_changed_cbs, cb)
+end
 
 local function generate_id()
 	local m = md5.new()
@@ -90,9 +100,12 @@ function M.set_active(slot)
 
 	if slot and profiles.slots and profiles.slots[slot] then
 		netcore.set_unique_id(M.get_active_file_name())
-		net_members.set_local_member_data(M.get_active_name())
 	else
 		netcore.set_unique_id(nil)
+	end
+
+	for i=1,#active_profile_changed_cbs do
+		active_profile_changed_cbs[i]()
 	end
 	
 	M.save()
@@ -136,6 +149,11 @@ function M.set_active_name(new_name)
 	if profiles.slots[active_slot] then
 		if profiles.slots[active_slot] ~= new_name then
 			profiles.slots[active_slot].name = new_name
+
+			for i=1,#active_name_changed_cbs do
+				active_name_changed_cbs[i]()
+			end
+			
 			M.save()
 		end
 	else

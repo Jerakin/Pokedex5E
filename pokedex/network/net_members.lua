@@ -1,7 +1,9 @@
 local netcore = require "pokedex.network.netcore"
 local broadcast = require "utils.broadcast"
 local utils = require "utils.utils"
+local profiles = require "pokedex.profiles"
 
+local initialized = false
 local server_member_data = {}
 
 local local_member_data = {}
@@ -52,6 +54,11 @@ local function on_connection_change()
 	else
 		server_member_clients = {}		
 	end	
+end
+
+local function active_profile_name_changed()
+	local_member_data.name = profiles.get_active_name()
+	send_local_data(false)
 end
 
 local function on_client_members_data(new_members_data)
@@ -140,25 +147,38 @@ local function on_server_member_message(member_id, payload)
 end
 
 function M.init()
-	netcore.register_connection_change_cb(on_connection_change)
-	netcore.register_client_data_callback(MEMBER_DATA_KEY, on_client_members_data)
-	netcore.register_server_data_callback(MEMBER_DATA_KEY, on_server_members_data)
-	
-	netcore.register_client_data_callback(MEMBER_MESSAGE_KEY, on_client_member_message, true)
-	netcore.register_server_data_callback(MEMBER_MESSAGE_KEY, on_server_member_message, true)
+	if not initialized then
+		netcore.register_connection_change_cb(on_connection_change)
+		netcore.register_client_data_callback(MEMBER_DATA_KEY, on_client_members_data)
+		netcore.register_server_data_callback(MEMBER_DATA_KEY, on_server_members_data)
+		
+		netcore.register_client_data_callback(MEMBER_MESSAGE_KEY, on_client_member_message, true)
+		netcore.register_server_data_callback(MEMBER_MESSAGE_KEY, on_server_member_message, true)
+
+		profiles.register_active_name_changed_cb(active_profile_name_changed)
+	end
 end
 
-function M.final()
-	-- TODO: save server_member_data
-	-- TODO: save get_members_list()
+function M.load(profile)
+	local data = profile.net_members
+	if data ~= nil then
+		server_member_data = data.server_member_data
+		member_info_by_server = data.member_info_by_server
+	else
+		server_member_data = {}
+		member_info_by_server = {}
+	end
 end
 
-function M.set_local_member_data(name)
-	local_member_data =
+function M.save()
+	profiles.update(profiles.get_active_slot(),
 	{
-		name = name,
-	}
-	send_local_data(false)
+		net_members =
+		{
+			server_member_data=server_member_data,
+			member_info_by_server=member_info_by_server,
+		}
+	})
 end
 
 function M.has_other_members()
