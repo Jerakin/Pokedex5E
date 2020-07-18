@@ -182,7 +182,8 @@ end
 local function client_process_initial_packet_response(packet)
 	if packet.version ~= version then
 		local server_version = packet.version or "Unknown"
-		notify.notify("Could not connect to server, version mismatch!\nServer version: " .. tostring(server_version) .. ", our version: " .. tostring(version))
+		notify.notify("Wrong server version!\nServer: " .. tostring(server_version) .. ", Ours: " .. tostring(version))
+		M.stop_client()
 	else
 		client_latest_server_unique_id = packet.server_unique_id
 		if client_latest_server_unique_id then
