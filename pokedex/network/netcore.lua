@@ -29,7 +29,7 @@ local server_known_client_info = {}
 local server_client_to_unique_id = {}
 
 local client_known_server_info = {}
-local client_current_server_unique_id = nil
+local client_latest_server_unique_id = nil
 
 local CLIENT_NOT_CONNECTED = 0
 local CLIENT_VERIFYING     = 1
@@ -89,9 +89,9 @@ local function server_process_received_message(client, message_id)
 end
 
 local function client_process_received_message(message_id)
-	if client_current_server_unique_id then
-		local server_info = client_known_server_info[client_current_server_unique_id]
-		assert(server_info, "client_process_received_message could not find server info for " .. client_current_server_unique_id)
+	if client_latest_server_unique_id then
+		local server_info = client_known_server_info[client_latest_server_unique_id]
+		assert(server_info, "client_process_received_message could not find server info for " .. client_latest_server_unique_id)
 
 		-- Remove this from the outgoing messages so we don't try to send it again next time we connect
 		local this_message
@@ -169,9 +169,9 @@ local function server_process_initial_packet(client, packet)
 end
 
 local function client_process_initial_packet_response(packet)
-	client_current_server_unique_id = packet.server_unique_id
-	if client_current_server_unique_id then
-		local known_server_info = client_known_server_info[client_current_server_unique_id]
+	client_latest_server_unique_id = packet.server_unique_id
+	if client_latest_server_unique_id then
+		local known_server_info = client_known_server_info[client_latest_server_unique_id]
 		if not known_server_info then
 			known_server_info =
 			{
@@ -179,7 +179,7 @@ local function client_process_initial_packet_response(packet)
 				latest_received_message_id = 0,
 				outgoing_messages = {},
 			}
-			client_known_server_info[client_current_server_unique_id] = known_server_info
+			client_known_server_info[client_latest_server_unique_id] = known_server_info
 		end
 
 		client_connection_status = CLIENT_CONNECTED
@@ -299,8 +299,8 @@ local function client_on_data(data)
 					local message_id = json_data.message_id
 					assert(message_id, "client_on_data server did not send message_id")
 
-					local server_info = client_known_server_info[client_current_server_unique_id]
-					assert(server_info, "client_on_data could not find server info for " .. client_current_server_unique_id)
+					local server_info = client_known_server_info[client_latest_server_unique_id]
+					assert(server_info, "client_on_data could not find server info for " .. client_latest_server_unique_id)
 
 					if message_id > server_info.latest_received_message_id then
 						server_info.latest_received_message_id = message_id
@@ -395,9 +395,11 @@ function M.load(profile)
 	if data ~= nil then
 		server_known_client_info=data.server_known_client_info
 		client_known_server_info=data.client_known_server_info
+		client_latest_server_unique_id = data.client_known_server_info
 	else
 		server_known_client_info = {}
 		client_known_server_info = {}
+		client_latest_server_unique_id = nil
 	end
 end
 
@@ -408,6 +410,7 @@ function M.save()
 		{
 			server_known_client_info=server_known_client_info,
 			client_known_server_info=client_known_server_info,
+			client_latest_server_unique_id=client_latest_server_unique_id,
 		}
 	})
 end
@@ -489,6 +492,8 @@ function M.start_server(port)
 		p2p = p2p_discovery.create(BROADCAST_PORT)
 		p2p.broadcast(get_broadcast_name())
 
+		client_latest_server_unique_id = profile_unique_id
+
 		local data_func = QUEUE_RECEIVED_MESSAGES and server_on_data_queue or server_on_data		
 		server = tcp_server.create(port, data_func, server_on_client_connected, server_on_client_disconnected)
 		server.start()
@@ -548,7 +553,6 @@ end
 function M.stop_client()
 	if client ~= nil then
 		local previous_status = client_connection_status
-		client_current_server_unique_id = nil
 		client_connection_status = CLIENT_NOT_CONNECTED
 		client.destroy()
 		client = nil
@@ -604,9 +608,9 @@ end
 
 function M.send_to_server(key, payload)	
 	if client ~= nil then
-		if client_current_server_unique_id then
+		if client_latest_server_unique_id then
 			
-			local server_info = client_known_server_info[client_current_server_unique_id]
+			local server_info = client_known_server_info[client_latest_server_unique_id]
 			if server_info then
 				
 				local data =
@@ -656,13 +660,15 @@ function M.server_get_connected_ids()
 end
 
 function M.get_server_id()
-	if server ~= nil then
-		return profile_unique_id
-	elseif client ~= nil then
-		return client_current_server_unique_id
-	else
-		return nil
+	return client_latest_server_unique_id
+end
+
+function M.get_known_server_ids()
+	local ret = {}
+	for k,_ in pairs(client_known_server_info) do
+		table.insert(ret, k)
 	end
+	return ret	
 end
 
 function M.get_local_id()
