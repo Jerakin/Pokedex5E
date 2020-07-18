@@ -128,8 +128,17 @@ local function server_process_initial_packet(client, packet)
 	end
 
 	if server_version ~= client_version then
-		server.remove_client(client)
-		M.stop_client()
+		-- This client is the wrong version, tell it to go away
+		local initial_response_message = 
+		{
+			key = INITIAL_PACKET_KEY,
+			payload = 
+			{
+				version = version,
+			},
+			-- no message_id for the initial packet
+		}
+		send_to_client_internal(initial_response_message, client)
 	else
 		if client_unique_id then
 			local known_client_info = server_known_client_info[client_unique_id]
@@ -151,6 +160,7 @@ local function server_process_initial_packet(client, packet)
 				key = INITIAL_PACKET_KEY,
 				payload = 
 				{
+					version = version,
 					server_unique_id = profile_unique_id,
 					latest_received_message_id = known_client_info.latest_received_message_id,
 				},
@@ -170,40 +180,45 @@ local function server_process_initial_packet(client, packet)
 end
 
 local function client_process_initial_packet_response(packet)
-	client_latest_server_unique_id = packet.server_unique_id
-	if client_latest_server_unique_id then
-		local known_server_info = client_known_server_info[client_latest_server_unique_id]
-		if not known_server_info then
-			known_server_info =
-			{
-				latest_sent_message_id = 0,
-				latest_received_message_id = 0,
-				outgoing_messages = {},
-			}
-			client_known_server_info[client_latest_server_unique_id] = known_server_info
-		end
-
-		-- The server told us what the latest message it received was. Look through the outgoing messages and send
-		-- any messages later than that, removing anything it already received.
-		local latest_message_received = packet.latest_received_message_id
-		local i=1
-		while i < #known_server_info.outgoing_messages do
-			local this_message = known_server_info.outgoing_messages[i]
-			if this_message.message_id > latest_message_received then
-				send_to_server_internal(this_message)
-				i = i+1
-			else
-				table.remove(known_server_info.outgoing_messages, i) -- Server already got this
-				-- TODO: This message should come with some sort of callback attached
-			end
-		end
-
-		client_connection_status = CLIENT_CONNECTED
-		for i=1,#connection_changed_cbs do
-			connection_changed_cbs[i](true)
-		end
+	if packet.version ~= version then
+		local server_version = packet.version or "Unknown"
+		notify.notify("Could not connect to server, version mismatch!\nServer version: " .. tostring(server_version) .. ", our version: " .. tostring(version))
 	else
-		assert(nil, "client_process_initial_packet_response - server did not send unique_id")
+		client_latest_server_unique_id = packet.server_unique_id
+		if client_latest_server_unique_id then
+			local known_server_info = client_known_server_info[client_latest_server_unique_id]
+			if not known_server_info then
+				known_server_info =
+				{
+					latest_sent_message_id = 0,
+					latest_received_message_id = 0,
+					outgoing_messages = {},
+				}
+				client_known_server_info[client_latest_server_unique_id] = known_server_info
+			end
+
+			-- The server told us what the latest message it received was. Look through the outgoing messages and send
+			-- any messages later than that, removing anything it already received.
+			local latest_message_received = packet.latest_received_message_id
+			local i=1
+			while i < #known_server_info.outgoing_messages do
+				local this_message = known_server_info.outgoing_messages[i]
+				if this_message.message_id > latest_message_received then
+					send_to_server_internal(this_message)
+					i = i+1
+				else
+					table.remove(known_server_info.outgoing_messages, i) -- Server already got this
+					-- TODO: This message should come with some sort of callback attached
+				end
+			end
+
+			client_connection_status = CLIENT_CONNECTED
+			for i=1,#connection_changed_cbs do
+				connection_changed_cbs[i](true)
+			end
+		else
+			assert(nil, "client_process_initial_packet_response - server did not send unique_id")
+		end
 	end
 end
 
@@ -256,8 +271,7 @@ local function server_on_data(data, ip, port, client)
 					end
 					success = true
 				else
-					-- Client sent us a message despite not being verified. Disconnect them for misbehaving.
-					server.remove_client(client)
+					-- Client sent us a message despite not being verified. Ignore.
 					success = true
 				end
 			end
