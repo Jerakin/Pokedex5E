@@ -27,6 +27,7 @@ local connection_changed_cbs = {}
 
 local server_known_client_info = {}
 local server_client_to_unique_id = {}
+local server_unique_id_to_client = {}
 
 local client_known_server_info = {}
 local client_latest_server_unique_id = nil
@@ -142,7 +143,7 @@ local function server_process_initial_packet(client, packet)
 				server_known_client_info[client_unique_id] = known_client_info
 			end
 
-			known_client_info.client = client		
+			server_unique_id_to_client[client_unique_id] = client		
 			server_client_to_unique_id[client] = client_unique_id
 
 			local initial_response_message = 
@@ -354,11 +355,8 @@ local function server_on_client_disconnected(ip, port, client)
 
 	local unique_id = server_client_to_unique_id[client]
 	if unique_id then
-		server_client_to_unique_id[client] = nil		
-		local known_client_info = server_known_client_info[client_unique_id]
-		if known_client_info then
-			known_client_info.client = nil
-		end
+		server_client_to_unique_id[client] = nil
+		server_unique_id_to_client[unique_id] = nil
 	end
 end
 
@@ -584,8 +582,8 @@ function M.send_to_client(key, payload, client_unique_id)
 					table.insert(known_client_info.outgoing_messages, data)
 				end
 
-				if known_client_info.client then
-					send_to_client_internal(data, known_client_info.client)
+				if server_unique_id_to_client[client_unique_id] then
+					send_to_client_internal(data, server_unique_id_to_client[client_unique_id])
 				end
 			else
 				assert(nil, "send_to_client tried to send to a client we had not heard about")
