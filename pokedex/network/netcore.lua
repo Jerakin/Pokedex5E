@@ -182,11 +182,6 @@ local function client_process_initial_packet_response(packet)
 			client_known_server_info[client_latest_server_unique_id] = known_server_info
 		end
 
-		client_connection_status = CLIENT_CONNECTED
-		for i=1,#connection_changed_cbs do
-			connection_changed_cbs[i](true)
-		end
-
 		-- The server told us what the latest message it received was. Look through the outgoing messages and send
 		-- any messages later than that, removing anything it already received.
 		local latest_message_received = packet.latest_received_message_id
@@ -200,6 +195,11 @@ local function client_process_initial_packet_response(packet)
 				table.remove(known_server_info.outgoing_messages, i) -- Server already got this
 				-- TODO: This message should come with some sort of callback attached
 			end
+		end
+
+		client_connection_status = CLIENT_CONNECTED
+		for i=1,#connection_changed_cbs do
+			connection_changed_cbs[i](true)
 		end
 	else
 		assert(nil, "client_process_initial_packet_response - server did not send unique_id")
@@ -395,7 +395,7 @@ function M.load(profile)
 	if data ~= nil then
 		server_known_client_info=data.server_known_client_info
 		client_known_server_info=data.client_known_server_info
-		client_latest_server_unique_id = data.client_known_server_info
+		client_latest_server_unique_id=data.client_latest_server_unique_id
 	else
 		server_known_client_info = {}
 		client_known_server_info = {}
@@ -607,9 +607,8 @@ function M.send_to_client(key, payload, client_unique_id)
 end
 
 function M.send_to_server(key, payload)	
-	if client ~= nil then
-		if client_latest_server_unique_id then
-			
+	if client_latest_server_unique_id then
+		if client_latest_server_unique_id ~= profile_unique_id then
 			local server_info = client_known_server_info[client_latest_server_unique_id]
 			if server_info then
 				
@@ -631,20 +630,16 @@ function M.send_to_server(key, payload)
 				assert(nil, "send_to_server attempting to send message to server but no server info is known about that server - something is wrong!")
 			end
 		else
-			assert(nil, "send_to_server attempting to send message to server despite not knowing who the server is - connection must not be set up yet!")
+			-- We ARE the server, just send straight to the callbacks - the message was received and confirmed to be received
+			local server_cb = server_data_cbs[key].server_received
+			if server_cb then
+				server_cb(profile_unique_id, payload)
+			end
+			local client_cb = server_data_cbs[key].client_confirmed
+			if client_cb then
+				client_cb(payload)
+			end
 		end
-	elseif server ~= nil then
-		-- We ARE the server, just send straight to the callbacks - the message was received and confirmed to be received
-		local server_cb = server_data_cbs[key].server_received
-		if server_cb then
-			server_cb(profile_unique_id, payload)
-		end
-		local client_cb = server_data_cbs[key].client_confirmed
-		if client_cb then
-			client_cb(payload)
-		end
-	else
-		assert(nil, "send_to_server not connected to anything, cannot send")
 	end
 end
 

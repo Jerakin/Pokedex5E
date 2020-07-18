@@ -33,10 +33,14 @@ end
 
 function M.load(profile)
 	net_members.load(profile)
+	
+	netcore.load(profile)
 end
 
 function M.save()
 	net_members.save()
+	
+	netcore.save()
 end
 
 return M
