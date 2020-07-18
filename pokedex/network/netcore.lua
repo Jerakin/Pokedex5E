@@ -134,7 +134,7 @@ local function server_process_initial_packet(client, packet)
 			key = INITIAL_PACKET_KEY,
 			payload = 
 			{
-				version = version,
+				version = server_version,
 			},
 			-- no message_id for the initial packet
 		}
