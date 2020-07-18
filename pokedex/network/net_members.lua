@@ -19,18 +19,19 @@ local M = {}
 M.MEMBERS_CHANGED_MESSAGE = "net_members_members_changed"
 
 local function send_local_data(request_all_members)
-	if netcore.is_connected() and local_member_data ~= nil then
-		netcore.send_to_server(MEMBER_DATA_KEY,
-		{
-			member_data=local_member_data,
-			request_all_members=request_all_members,
-		})
-	end
+	netcore.send_to_server(MEMBER_DATA_KEY,
+	{
+		member_data=local_member_data,
+		request_all_members=request_all_members,
+	})
 end
 
 local function get_members_list()
-	local server_id = netcore.get_server_id()
-	return server_id and member_info_by_server[server_id].list or {}
+	if netcore.is_connected() then
+		local server_id = netcore.get_server_id()
+		return server_id and member_info_by_server[server_id].list or {}
+	end
+	return {}
 end
 
 local function get_members_id_map()
@@ -53,7 +54,9 @@ local function on_connection_change()
 		send_local_data(true)
 	else
 		server_member_clients = {}		
-	end	
+	end
+
+	broadcast.send(M.MEMBERS_CHANGED_MESSAGE)
 end
 
 local function on_client_members_data(new_members_data)
