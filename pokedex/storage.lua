@@ -258,7 +258,7 @@ function M.set_pokemon_current_hp(id, hp)
 end
 
 function M.get_pokemon_temp_hp(id)
-	return get(id).hp.temp
+	return get(id).hp.temp or 0
 end
 
 function M.set_pokemon_temp_hp(id, temp_hp)
