@@ -15,7 +15,7 @@ function M.init()
 end
 
 function M.get_name(member_id)
-	return net_members.get_data_for_member(NAME_KEY, member_id)
+	return net_members.get_data_for_member(NAME_KEY, member_id) or "Someone"
 end
 
 return M
