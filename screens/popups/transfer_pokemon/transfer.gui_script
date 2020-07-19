@@ -232,11 +232,16 @@ local function on_send_pokemon(self)
 	-- TODO: go to selection screen, not sending to just first
 	local member = net_members.get_other_members()[1]
 	send_pokemon.send_pokemon(member, self.pokemon_id, send_pokemon.SEND_TYPE_GIFT)
+
+	notify.notify("GOODBEYE, " .. self.nickname .. "!")
+	storage.release_pokemon(self.pokemon_id)	
+	update_storage()
+	back()
 end
 
 local function refresh_send_button(self)
-	self.send_button_enabled = net_members.has_other_members()
-	-- TODO: enable only if you can send it - can't send last pokemon in party, in particular
+	local has_enough_left = not storage.is_inventory_pokemon(self.pokemon_id) or #storage.list_of_ids_in_inventory() > 1
+	self.send_button_enabled = has_enough_left and net_members.has_other_members()
 	gui.set_enabled(gui.get_node("btn_send"), self.send_button_enabled)
 end
 
@@ -305,7 +310,7 @@ local function cancel_swap(self)
 end
 
 local function release(self)
-	if not storage.is_inventory_pokemon(self.pokemon_id) or #storage.list_of_ids_in_inventory() ~= 1 then
+	if not storage.is_inventory_pokemon(self.pokemon_id) or #storage.list_of_ids_in_inventory() > 1 then
 		local title = "RELEASE " .. self.nickname
 		monarch.show("are_you_sure", nil, {title=title, data=self.pokemon_id, sender=msg.url()})
 	end
