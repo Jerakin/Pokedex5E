@@ -181,7 +181,7 @@ end
 local function client_process_initial_packet_response(packet)
 	if packet.version ~= version then
 		local server_version = packet.version or "Unknown"
-		fail_client_connect("Wrong server version!\nServer: " .. tostring(server_version) .. ", Ours: " .. tostring(version))
+		fail_client_connect("Wrong host version!\nHost's: " .. tostring(server_version) .. ", Ours: " .. tostring(version))
 	else
 		client_latest_server_unique_id = packet.server_unique_id
 		if client_latest_server_unique_id then
@@ -520,25 +520,29 @@ function M.start_client(server_ip, server_port, fb_connect_fail)
 		client = tcp_client.create(server_ip, server_port, data_func, function()
 			M.stop_client()			
 			if client_connection_status == CLIENT_VERIFYING then
-				fail_client_connect("Could not connect! Server may be using\na different version (yours is " .. version .. ").")
+				fail_client_connect("Could not connect! Host may be using\na different version (yours is " .. version .. ").")
 			end
 		end)
-		
-		-- Send server a packet to indicate what version of the app we are and what our unique id is
-		local initial_packet =
-		{
-			key = INITIAL_PACKET_KEY,
-			payload =
-			{
-				version = version,
-				unique_id = profile_unique_id,
-			}
-			-- no message_id in initial packet
-		}
 
-		client_connection_status = CLIENT_VERIFYING
-		send_to_server_internal(initial_packet)
-		return true
+		if client then
+			-- Send server a packet to indicate what version of the app we are and what our unique id is
+			local initial_packet =
+			{
+				key = INITIAL_PACKET_KEY,
+				payload =
+				{
+					version = version,
+					unique_id = profile_unique_id,
+				}
+				-- no message_id in initial packet
+			}
+
+			client_connection_status = CLIENT_VERIFYING
+			send_to_server_internal(initial_packet)
+		else
+			fail_client_connect("Could not connect! Host\nmay no longer be active.")
+			return true
+		end
 	end
 	return false
 end
