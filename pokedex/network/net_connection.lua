@@ -3,14 +3,10 @@ local broadcast = require "utils.broadcast"
 local p2p_discovery = require "defnet.p2p_discovery"
 local notify = require "utils.notify"
 
-local p2p_search
-local p2p_broadcast
+local p2p
 local local_host_info = nil
 local DEFAULT_HOST_PORT = 9120
 local DISCOVERY_PORT = 50120
-
-local search_requested = false
-local broadcast_requested = false
 
 local M = {}
 
@@ -24,6 +20,7 @@ M.STATE_CONNECTING = "connecting"
 M.STATE_CONNECTED = "connected"
 
 local current_state = M.STATE_IDLE
+local is_listening = false
 
 local function get_broadcast_name()
 	return "Pokedex5E-" .. netcore.get_version()
@@ -58,8 +55,8 @@ local function on_connection_changed(is_connected)
 			change_state_to(M.STATE_CONNECTED)
 		end
 		if current_state == M.STATE_CONNECTED then
-			search_requested = false
-			p2p_search = nil
+			is_listening = false
+			p2p.stop()
 		end
 	else
 		if current_state == M.STATE_CONNECTING or current_state == M.STATE_CONNECTED or current_state == M.STATE_HOSTING then
@@ -80,40 +77,26 @@ local function on_local_host_found(ip, port)
 	{
 		ip=ip,
 	}
-	search_requested = false
-	p2p_search = nil
+	is_listening = false
+	p2p.stop()
 	broadcast.send(M.MSG_LOCAL_HOST_FOUND, local_host_info)	
 end
 
 function M.init()
 	netcore.register_connection_change_cb(on_connection_changed)
+	p2p = p2p_discovery.create(DISCOVERY_PORT)
 end
 
 function M.final()
 	change_state_to(M.STATE_FINAL)
-	search_requested = false
-	broadcast_requested = false
-	p2p_broadcast = nil
-	p2p_search = nil
+	is_listening = false
+	p2p.stop()
+	p2p = nil
 end
 
 function M.update()
-	if search_requested and not p2p_search then
-		search_requested = false
-		p2p_search = p2p_discovery.create(DISCOVERY_PORT)
-		p2p_search.listen(get_broadcast_name(), on_local_host_found)
-	end
-	if broadcast_requested and not p2p_broadcast then
-		broadcast_requested = false
-		p2p_broadcast = p2p_discovery.create(DISCOVERY_PORT)
-		p2p_broadcast.broadcast(get_broadcast_name())
-	end
-	
-	if p2p_search then
-		p2p_search.update()
-	end
-	if p2p_broadcast then
-		p2p_broadcast.update()
+	if p2p then
+		p2p.update()
 	end
 end
 
@@ -129,10 +112,8 @@ function M.start_host(port)
 	M.disconnect()
 	change_state_to(M.STATE_HOSTING)
 
-	local_host_info = nil
-	search_requested = false
-	p2p_search = nil
-	broadcast_requested = true
+	is_listening = false
+	p2p.broadcast(get_broadcast_name())
 	
 	netcore.start_server(port)	
 end
@@ -159,11 +140,9 @@ function M.disconnect()
 end
 
 function M.find_local_host()
-	if current_state == M.STATE_IDLE and not p2p_search and not search_requested then
-		local_host_info = nil
-		broadcast_requested = false
-		p2p_broadcast = nil
-		search_requested = true
+	if current_state == M.STATE_IDLE and not is_listening then
+		is_listening = true
+		p2p.listen(get_broadcast_name(), on_local_host_found)
 	end
 end
 
