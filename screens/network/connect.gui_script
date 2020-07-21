@@ -1,0 +1,34 @@
+local monarch = require "monarch.monarch"
+local url = require "utils.url"
+local gooey = require "gooey.gooey"
+local gooey_buttons = require "utils.gooey_buttons"
+local button = require "utils.button"
+local netcore = require "pokedex.network.netcore"
+
+local function start_server()
+	netcore.start_server(8190)
+end
+
+local function find_and_connect_to_server()	
+	netcore.find_broadcast(function(ip, port)
+		netcore.start_client(ip, 8190)
+	end)	
+end
+
+function init(self)
+	button.acquire()
+end
+
+function final(self)
+end
+
+function on_input(self, action_id, action)
+	gooey.button("start_server/btn", action_id, action, function()
+		start_server()
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("start_server/txt")) end)
+
+	gooey.button("find_and_connect_server/btn", action_id, action, function()
+		find_and_connect_to_server()
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("find_and_connect_server/txt")) end)
+	
+end

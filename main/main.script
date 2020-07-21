@@ -99,6 +99,8 @@ function init(self)
 	msg.post("/debug", "acquire_input_focus")
 	msg.post("/menu", "acquire_input_focus")
 
+	tracking_id.init()
+
 	
 	if system == "Windows" or system == "Darwin" then
 		local project = vmath.vector3(640, 1136, 1)

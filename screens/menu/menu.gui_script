@@ -23,6 +23,7 @@ local map = {
 	[hash("pokedex")] = "btn_pokedex",
 	[hash("settings")] = "btn_settings",
 	[hash("trainer")] = "btn_trainer",
+	[hash("connect")] = "btn_connect",
 }
 
 local function hide(self)
@@ -77,6 +78,7 @@ function init(self)
 	self.menu = gui.get_node("menu")
 	self.btn_import = gui.get_node("btn_import")
 	self.btn_trainer = gui.get_node("btn_trainer")
+	self.btn_connect = gui.get_node("btn_connect")
 	gui.set_enabled(self.menu, false)
 	if not clipboard then
 		gui.set_enabled(self.btn_import, false)
@@ -172,6 +174,15 @@ function init(self)
 			value = tracking_id[monarch.top()]
 		}
 		monarch.show("trainer")
+		toggle(self)
+	end, {no_shake=true})
+
+	button.register("btn_connect", function()
+		gameanalytics.addDesignEvent {
+			eventId = "Navigation:Connect",
+			value = tracking_id[monarch.top()]
+		}
+		monarch.show("network_connect")
 		toggle(self)
 	end, {no_shake=true})
 	

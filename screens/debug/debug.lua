@@ -8,7 +8,6 @@ local defsave = require "defsave.defsave"
 local movedex = require "pokedex.moves"
 local generate = require "screens.generate_pokemon.generate_pokemon"
 local backup = require "utils.backup"
-local netcore = require "pokedex.network.netcore"
 
 local M = {}
 
@@ -48,16 +47,6 @@ function M.load_backup()
 		backup.load_backup(file_path)
 		M.loaded_backup = true
 	end
-end
-
-function M.start_server()
-	netcore.start_server(8190)
-end
-
-function M.find_and_connect_to_server()	
-	netcore.find_broadcast(function(ip, port)
-		netcore.start_client(ip, 8190)
-	end)	
 end
 
 return M
