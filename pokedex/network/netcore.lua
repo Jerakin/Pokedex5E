@@ -1,11 +1,8 @@
-local p2p_discovery = require "defnet.p2p_discovery"
 local tcp_server = require "defnet.tcp_server"
 local tcp_client = require "defnet.tcp_client"
 local ljson = require "defsave.json"
-local notify = require "utils.notify"
 local profiles = require "pokedex.profiles"
 
-local p2p
 local server
 local version
 
@@ -16,8 +13,6 @@ local QUEUE_RECEIVED_MESSAGES = true
 
 local server_received_message_queue = {}
 local client_received_message_queue = {}
-
-local BROADCAST_PORT = 50000
 
 local profile_unique_id = nil
 
@@ -31,6 +26,7 @@ local server_unique_id_to_client = {}
 
 local client_known_server_info = {}
 local client_latest_server_unique_id = nil
+local client_connect_fail_cb = nil
 
 local CLIENT_NOT_CONNECTED = 0
 local CLIENT_VERIFYING     = 1
@@ -42,8 +38,11 @@ local RECEIVED_MESSAGE_KEY = "RECEIVED_MESSAGE"
 
 local M = {}
 
-local function get_broadcast_name()
-	return "Pokedex5E-" .. version
+local function fail_client_connect(reason)
+	if client_connect_fail_cb then
+		client_connect_fail_cb(reason)
+	end
+	M.stop_client()
 end
 
 local function send_to_server_internal(message)
@@ -182,8 +181,7 @@ end
 local function client_process_initial_packet_response(packet)
 	if packet.version ~= version then
 		local server_version = packet.version or "Unknown"
-		notify.notify("Wrong server version!\nServer: " .. tostring(server_version) .. ", Ours: " .. tostring(version))
-		M.stop_client()
+		fail_client_connect("Wrong server version!\nServer: " .. tostring(server_version) .. ", Ours: " .. tostring(version))
 	else
 		client_latest_server_unique_id = packet.server_unique_id
 		if client_latest_server_unique_id then
@@ -213,6 +211,7 @@ local function client_process_initial_packet_response(packet)
 				end
 			end
 
+			client_connect_fail_cb = nil
 			client_connection_status = CLIENT_CONNECTED
 			for i=1,#connection_changed_cbs do
 				connection_changed_cbs[i](true)
@@ -450,10 +449,7 @@ function M.register_connection_change_cb(cb)
 	table.insert(connection_changed_cbs, cb)
 end
 
-function M.update(dt)
-	if p2p ~= nil then
-		p2p.update()
-	end
+function M.update()
 	if server ~= nil then
 		server.update()
 	end
@@ -481,30 +477,14 @@ function M.update(dt)
 end
 
 function M.final()
-	p2p = nil
 	M.stop_server()
 	M.stop_client()
-end
-
-function M.find_broadcast(fn_found)
-	M.stop_server()
-	
-	if version ~= nil and p2p == nil then
-		p2p = p2p_discovery.create(BROADCAST_PORT)
-	end
-	p2p.listen(get_broadcast_name(), function(ip, port)
-		fn_found(ip, port)
-	end)
 end
 
 function M.start_server(port)
-	p2p = nil
 	M.stop_client()
 	
 	if server == nil and profile_unique_id then
-		p2p = p2p_discovery.create(BROADCAST_PORT)
-		p2p.broadcast(get_broadcast_name())
-
 		client_latest_server_unique_id = profile_unique_id
 
 		local data_func = QUEUE_RECEIVED_MESSAGES and server_on_data_queue or server_on_data		
@@ -520,7 +500,6 @@ function M.start_server(port)
 end
 
 function M.stop_server()
-	p2p = nil
 	if server ~= nil then
 		server.stop()
 		server = nil
@@ -531,17 +510,18 @@ function M.stop_server()
 	end
 end
 
-function M.start_client(server_ip, server_port)
+function M.start_client(server_ip, server_port, fb_connect_fail)
 	M.stop_server()
 	
 	if client == nil and profile_unique_id then
+		
+		client_connect_fail_cb = fb_connect_fail
 		local data_func = QUEUE_RECEIVED_MESSAGES and client_on_data_queue or client_on_data	
 		client = tcp_client.create(server_ip, server_port, data_func, function()
-
+			M.stop_client()			
 			if client_connection_status == CLIENT_VERIFYING then
-				notify.notify("Could not connect! Server may be using\na different version (yours is " .. version .. ").")
+				fail_client_connect("Could not connect! Server may be using\na different version (yours is " .. version .. ").")
 			end
-			M.stop_client()
 		end)
 		
 		-- Send server a packet to indicate what version of the app we are and what our unique id is
@@ -685,6 +665,14 @@ end
 
 function M.is_connected()
 	return (server ~= nil) or (client ~= nil and client_connection_status == CLIENT_CONNECTED)
+end
+
+function M.is_serving()
+	return server ~= nil
+end
+
+function M.get_version()
+	return version
 end
 
 return M

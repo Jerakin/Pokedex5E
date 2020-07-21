@@ -3,32 +3,111 @@ local url = require "utils.url"
 local gooey = require "gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
 local button = require "utils.button"
-local netcore = require "pokedex.network.netcore"
+local net_connection = require "pokedex.network.net_connection"
+local broadcast = require "utils.broadcast"
 
-local function start_server()
-	netcore.start_server(8190)
+local function refresh_status()
+	local enabled = true
+	local text = ""
+
+	local cur_status = net_connection.get_current_state()
+	if cur_status == net_connection.STATE_HOSTING then
+		text = "HOSTING"
+	elseif cur_status == net_connection.STATE_CONNECTING then
+		text = "JOINING"
+	elseif cur_status == net_connection.STATE_CONNECTED then
+		text = "JOINED"
+	else
+		enabled = false
+	end
+
+	local node_status = gui.get_node("txt_status")
+	gui.set_text(node_status, text)
+	gui.set_enabled(node_status, enabled)
 end
 
-local function find_and_connect_to_server()	
-	netcore.find_broadcast(function(ip, port)
-		netcore.start_client(ip, 8190)
-	end)	
+local function refresh_connect_local_button()
+	local enabled = false
+
+	if net_connection.get_current_state() == net_connection.STATE_IDLE then
+		local info = net_connection.get_local_host_info()
+		if info then
+			gui.set_text(gui.get_node("txt_join_local"), "JOIN NEARBY HOST:\n" .. tostring(info.ip))
+			enabled = true
+		end		
+	end
+
+	gui.set_enabled(gui.get_node("btn_join_local"), enabled)
+end
+
+local function refresh_buttons()
+	local host_enable = false
+	local join_enable = false
+	local disconnect_enable = false
+
+	local state = net_connection.get_current_state()
+	if state == net_connection.STATE_IDLE then
+		host_enable = true
+		join_enable = true
+	elseif state == net_connection.STATE_HOSTING or state == net_connection.STATE_CONNECTING or state == net_connection.STATE_CONNECTED then
+		disconnect_enable = true
+	end
+
+	gui.set_enabled(gui.get_node("btn_host"), host_enable)
+	gui.set_enabled(gui.get_node("btn_join"), join_enable)
+	gui.set_enabled(gui.get_node("btn_disconnect"), disconnect_enable)
+
+	refresh_connect_local_button()
+end
+
+local function refresh()
+	refresh_status()
+	refresh_buttons()
 end
 
 function init(self)
 	button.acquire()
+
+	if net_connection.get_current_state() == net_connection.STATE_IDLE then
+		net_connection.find_local_host()
+	end
+
+	refresh()
+	
+	broadcast.register(net_connection.MSG_LOCAL_HOST_FOUND)
+	broadcast.register(net_connection.MSG_STATE_CHANGED)
 end
 
 function final(self)
+	broadcast.unregister(net_connection.MSG_LOCAL_HOST_FOUND)
+	broadcast.unregister(net_connection.MSG_STATE_CHANGED)
+end
+
+function on_message(self, message_id, message)
+	if message_id == net_connection.MSG_LOCAL_HOST_FOUND then
+		refresh_connect_local_button()
+	elseif message_id == net_connection.MSG_STATE_CHANGED then
+		refresh()
+	end
 end
 
 function on_input(self, action_id, action)
-	gooey.button("btn_start_server", action_id, action, function()
-		start_server()
-	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_start_server")) end)
+	gooey.button("btn_host", action_id, action, function()
+		net_connection.start_host()
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_host")) end)
 
-	gooey.button("btn_find_and_connect_server", action_id, action, function()
-		find_and_connect_to_server()
-	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_find_and_connect_server")) end)
-	
+	gooey.button("btn_join", action_id, action, function()
+		net_connection.connect_to_host()
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_join")) end)
+
+	gooey.button("btn_join_local", action_id, action, function()
+		net_connection.connect_to_local_host()
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_join_local")) end)
+
+	gooey.button("btn_disconnect", action_id, action, function()
+		net_connection.disconnect()
+		if net_connection.get_current_state() == net_connection.STATE_IDLE then
+			net_connection.find_local_host()
+		end
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_disconnect")) end)	
 end
