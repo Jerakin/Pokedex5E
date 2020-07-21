@@ -106,8 +106,6 @@ function on_input(self, action_id, action)
 
 	gooey.button("btn_disconnect", action_id, action, function()
 		net_connection.disconnect()
-		if net_connection.get_current_state() == net_connection.STATE_IDLE then
-			net_connection.find_local_host()
-		end
+		net_connection.find_local_host()
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_disconnect")) end)	
 end

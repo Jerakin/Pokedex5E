@@ -8,6 +8,8 @@ local local_host_info = nil
 local DEFAULT_HOST_PORT = 9120
 local DISCOVERY_PORT = 50120
 
+local TEMP_printed_update = false
+
 local M = {}
 
 M.MSG_LOCAL_HOST_FOUND = hash("net_connection_local_host_found")
@@ -53,7 +55,11 @@ local function on_connection_changed(is_connected)
 		if current_state == M.STATE_CONNECTING then
 			change_state_to(M.STATE_CONNECTED)
 		end
-		p2p = nil
+		if current_state == M.STATE_CONNECTED then
+			TEMP_printed_update = false
+			print("now connected, p2p set to nil!")
+			p2p = nil
+		end
 	else
 		if current_state == M.STATE_CONNECTING or current_state == M.STATE_CONNECTED or current_state == M.STATE_HOSTING then
 			change_state_to(M.STATE_IDLE)
@@ -64,6 +70,7 @@ end
 local function on_failed_connect(reason)
 	if current_state == M.STATE_CONNECTING then
 		notify.notify(reason)
+		change_state_to(M.STATE_IDLE)
 	end
 end
 
@@ -72,6 +79,8 @@ local function on_local_host_found(ip, port)
 	{
 		ip=ip,
 	}
+	TEMP_printed_update = false
+	print("local host found, p2p set to nil!")
 	p2p = nil
 	broadcast.send(M.MSG_LOCAL_HOST_FOUND, local_host_info)	
 end
@@ -87,6 +96,9 @@ end
 
 function M.update()
 	if p2p then
+		if not TEMP_printed_update then
+			print("P2P updating!")
+		end
 		p2p.update()
 	end
 end
@@ -103,6 +115,9 @@ function M.start_host(port)
 	M.disconnect()
 	change_state_to(M.STATE_HOSTING)
 
+	TEMP_printed_update = false
+	print("starting host, p2p broadcasting!")
+	local_host_info = nil
 	p2p = p2p_discovery.create(DISCOVERY_PORT)
 	p2p.broadcast(get_broadcast_name())
 	
@@ -132,6 +147,8 @@ end
 
 function M.find_local_host()
 	if current_state == M.STATE_IDLE then
+		TEMP_printed_update = false
+		print("finding local host, p2p set to discovery!")
 		p2p = p2p_discovery.create(DISCOVERY_PORT)
 		p2p.listen(get_broadcast_name(), on_local_host_found)
 	end
