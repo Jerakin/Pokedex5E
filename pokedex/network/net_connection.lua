@@ -3,12 +3,11 @@ local broadcast = require "utils.broadcast"
 local p2p_discovery = require "defnet.p2p_discovery"
 local notify = require "utils.notify"
 
-local p2p
+local p2p_search
+local p2p_broadcast
 local local_host_info = nil
 local DEFAULT_HOST_PORT = 9120
 local DISCOVERY_PORT = 50120
-
-local TEMP_printed_update = false
 
 local M = {}
 
@@ -56,9 +55,7 @@ local function on_connection_changed(is_connected)
 			change_state_to(M.STATE_CONNECTED)
 		end
 		if current_state == M.STATE_CONNECTED then
-			TEMP_printed_update = false
-			print("now connected, p2p set to nil!")
-			p2p = nil
+			p2p_search = nil
 		end
 	else
 		if current_state == M.STATE_CONNECTING or current_state == M.STATE_CONNECTED or current_state == M.STATE_HOSTING then
@@ -79,9 +76,7 @@ local function on_local_host_found(ip, port)
 	{
 		ip=ip,
 	}
-	TEMP_printed_update = false
-	print("local host found, p2p set to nil!")
-	p2p = nil
+	p2p_search = nil
 	broadcast.send(M.MSG_LOCAL_HOST_FOUND, local_host_info)	
 end
 
@@ -91,15 +86,16 @@ end
 
 function M.final()
 	change_state_to(M.STATE_FINAL)
-	p2p = nil
+	p2p_broadcast = nil
+	p2p_search = nil
 end
 
 function M.update()
-	if p2p then
-		if not TEMP_printed_update then
-			print("P2P updating!")
-		end
-		p2p.update()
+	if p2p_search then
+		p2p_search.update()
+	end
+	if p2p_broadcast then
+		p2p_broadcast.update()
 	end
 end
 
@@ -115,11 +111,10 @@ function M.start_host(port)
 	M.disconnect()
 	change_state_to(M.STATE_HOSTING)
 
-	TEMP_printed_update = false
-	print("starting host, p2p broadcasting!")
 	local_host_info = nil
-	p2p = p2p_discovery.create(DISCOVERY_PORT)
-	p2p.broadcast(get_broadcast_name())
+	p2p_search = nil
+	p2p_broadcast = p2p_discovery.create(DISCOVERY_PORT)
+	p2p_broadcast.broadcast(get_broadcast_name())
 	
 	netcore.start_server(port)	
 end
@@ -146,12 +141,11 @@ function M.disconnect()
 end
 
 function M.find_local_host()
-	if current_state == M.STATE_IDLE then
-		TEMP_printed_update = false
-		print("finding local host, p2p set to discovery!")
+	if current_state == M.STATE_IDLE and not p2p_search then
 		local_host_info = nil
-		p2p = p2p_discovery.create(DISCOVERY_PORT)
-		p2p.listen(get_broadcast_name(), on_local_host_found)
+		p2p_broadcast = nil
+		p2p_search = p2p_discovery.create(DISCOVERY_PORT)
+		p2p_search.listen(get_broadcast_name(), on_local_host_found)
 	end
 end
 
