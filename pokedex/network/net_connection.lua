@@ -9,6 +9,9 @@ local local_host_info = nil
 local DEFAULT_HOST_PORT = 9120
 local DISCOVERY_PORT = 50120
 
+local search_requested = false
+local broadcast_requested = false
+
 local M = {}
 
 M.MSG_LOCAL_HOST_FOUND = hash("net_connection_local_host_found")
@@ -55,6 +58,7 @@ local function on_connection_changed(is_connected)
 			change_state_to(M.STATE_CONNECTED)
 		end
 		if current_state == M.STATE_CONNECTED then
+			search_requested = false
 			p2p_search = nil
 		end
 	else
@@ -76,6 +80,7 @@ local function on_local_host_found(ip, port)
 	{
 		ip=ip,
 	}
+	search_requested = false
 	p2p_search = nil
 	broadcast.send(M.MSG_LOCAL_HOST_FOUND, local_host_info)	
 end
@@ -86,11 +91,24 @@ end
 
 function M.final()
 	change_state_to(M.STATE_FINAL)
+	search_requested = false
+	broadcast_requested = false
 	p2p_broadcast = nil
 	p2p_search = nil
 end
 
 function M.update()
+	if search_requested and not p2p_search then
+		search_requested = false
+		p2p_search = p2p_discovery.create(DISCOVERY_PORT)
+		p2p_search.listen(get_broadcast_name(), on_local_host_found)
+	end
+	if broadcast_requested and not p2p_broadcast then
+		broadcast_requested = false
+		p2p_broadcast = p2p_discovery.create(DISCOVERY_PORT)
+		p2p_broadcast.broadcast(get_broadcast_name())
+	end
+	
 	if p2p_search then
 		p2p_search.update()
 	end
@@ -112,9 +130,9 @@ function M.start_host(port)
 	change_state_to(M.STATE_HOSTING)
 
 	local_host_info = nil
+	search_requested = false
 	p2p_search = nil
-	p2p_broadcast = p2p_discovery.create(DISCOVERY_PORT)
-	p2p_broadcast.broadcast(get_broadcast_name())
+	broadcast_requested = true
 	
 	netcore.start_server(port)	
 end
@@ -141,11 +159,11 @@ function M.disconnect()
 end
 
 function M.find_local_host()
-	if current_state == M.STATE_IDLE and not p2p_search then
+	if current_state == M.STATE_IDLE and not p2p_search and not search_requested then
 		local_host_info = nil
+		broadcast_requested = false
 		p2p_broadcast = nil
-		p2p_search = p2p_discovery.create(DISCOVERY_PORT)
-		p2p_search.listen(get_broadcast_name(), on_local_host_found)
+		search_requested = true
 	end
 end
 
