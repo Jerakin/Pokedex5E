@@ -88,6 +88,7 @@ function on_message(self, message_id, message)
 		refresh_connect_local_button()
 	elseif message_id == net_connection.MSG_STATE_CHANGED then
 		refresh()
+		net_connection.find_local_host()
 	end
 end
 

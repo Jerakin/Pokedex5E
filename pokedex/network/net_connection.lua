@@ -149,6 +149,7 @@ function M.find_local_host()
 	if current_state == M.STATE_IDLE then
 		TEMP_printed_update = false
 		print("finding local host, p2p set to discovery!")
+		local_host_info = nil
 		p2p = p2p_discovery.create(DISCOVERY_PORT)
 		p2p.listen(get_broadcast_name(), on_local_host_found)
 	end
