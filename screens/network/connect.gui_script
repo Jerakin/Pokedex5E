@@ -5,6 +5,15 @@ local gooey_buttons = require "utils.gooey_buttons"
 local button = require "utils.button"
 local netcore = require "pokedex.network.netcore"
 local broadcast = require "utils.broadcast"
+local member_list = require "screens.network.member_list"
+local net_members = require "pokedex.network.net_members"
+
+local function refresh_member_list()
+	local enabled = net_members.has_other_members()
+
+	gui.set_enabled(gui.get_node("txt_group_members"), enabled)
+	gui.set_enabled(gui.get_node("list_group_members/root"), enabled)
+end
 
 local function refresh_status()
 	local enabled = true
@@ -63,6 +72,7 @@ end
 local function refresh()
 	refresh_status()
 	refresh_buttons()
+	refresh_member_list()
 end
 
 function init(self)
@@ -72,15 +82,19 @@ function init(self)
 		netcore.find_nearby_server()
 	end
 
+	self.list_group_members = member_list.create("list_group_members")
+
 	refresh()
 	
 	broadcast.register(netcore.MSG_NEARBY_SERVER_FOUND)
 	broadcast.register(netcore.MSG_STATE_CHANGED)
+	broadcast.register(net_members.MEMBERS_CHANGED_MESSAGE)
 end
 
 function final(self)
 	broadcast.unregister(netcore.MSG_NEARBY_SERVER_FOUND)
 	broadcast.unregister(netcore.MSG_STATE_CHANGED)
+	broadcast.unregister(net_members.MEMBERS_CHANGED_MESSAGE)
 end
 
 function on_message(self, message_id, message)
@@ -89,7 +103,11 @@ function on_message(self, message_id, message)
 	elseif message_id == netcore.MSG_STATE_CHANGED then
 		refresh()
 		netcore.find_nearby_server()
+	elseif message_id == net_members.MEMBERS_CHANGED_MESSAGE then
+		refresh_member_list()
 	end
+	
+	self.list_group_members.on_message(message_id, message)
 end
 
 function on_input(self, action_id, action)
@@ -109,4 +127,6 @@ function on_input(self, action_id, action)
 		netcore.disconnect()
 		netcore.find_nearby_server()
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_disconnect")) end)	
+	
+	self.list_group_members.on_input(action_id, action)
 end
