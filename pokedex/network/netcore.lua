@@ -2,9 +2,30 @@ local tcp_server = require "defnet.tcp_server"
 local tcp_client = require "defnet.tcp_client"
 local ljson = require "defsave.json"
 local profiles = require "pokedex.profiles"
+local p2p_discovery = require "defnet.p2p_discovery"
+local notify = require "utils.notify"
+local broadcast = require "utils.broadcast"
+
+local M = {}
+
+M.MSG_NEARBY_SERVER_FOUND = hash("netcore_nearby_server_found")
+M.MSG_STATE_CHANGED = hash("netcore_state_changed")
+
+M.STATE_FINAL = "final"
+M.STATE_IDLE = "idle"
+M.STATE_SERVING = "serving"
+M.STATE_CONNECTING = "connecting"
+M.STATE_CONNECTED = "connected"
+
+local current_state = M.STATE_IDLE
+local is_listening = false
 
 local server
 local version
+local p2p
+local nearby_server_info = nil
+local DEFAULT_HOST_PORT = 9120
+local DISCOVERY_PORT = 50120
 
 -- Whether to take any received messages and push them into a queue to be processed during
 -- update. Doing this because it's hard to breakpoint debug things inside the server coroutines,
@@ -26,23 +47,69 @@ local server_unique_id_to_client = {}
 
 local client_known_server_info = {}
 local client_latest_server_unique_id = nil
-local client_connect_fail_cb = nil
-
-local CLIENT_NOT_CONNECTED = 0
-local CLIENT_VERIFYING     = 1
-local CLIENT_CONNECTED     = 2
-local client_connection_status = CLIENT_NOT_CONNECTED
 
 local INITIAL_PACKET_KEY = "INITIAL_PACKET"
 local RECEIVED_MESSAGE_KEY = "RECEIVED_MESSAGE"
 
-local M = {}
+local function get_broadcast_name()
+	return "Pokedex5E-" .. version
+end
+
+local function is_connected_state(state)
+	return state == M.STATE_CONNECTED or state == M.STATE_SERVING
+end
+
+local function change_state_to(new_state)
+	if new_state ~= current_state and current_state ~= M.STATE_FINAL then
+
+		local old_state_connected = is_connected_state(current_state)
+		local new_state_connected = is_connected_state(new_state)
+		
+		if new_state == M.STATE_SERVING then
+			if current_state == M.STATE_CONNECTING or current_state == M.STATE_CONNECTED then
+				M.stop_client()
+			end
+		elseif new_state == M.STATE_CONNECTING then
+			if current_state == M.STATE_SERVING then
+				M.stop_server()
+			end
+		elseif new_state == M.STATE_CONNECTED then
+			is_listening = false
+			p2p.stop()
+		elseif new_state == M.STATE_IDLE then
+			if current_state == M.STATE_CONNECTING or current_state == M.STATE_CONNECTED then
+				M.stop_client()
+			elseif current_state == M.STATE_SERVING then
+				M.stop_server()
+			end	
+		end
+
+		current_state = new_state		
+		broadcast.send(M.MSG_STATE_CHANGED)
+
+		if old_state_connected ~= new_state_connected then
+			for i=1,#connection_changed_cbs do
+				connection_changed_cbs[i](conneted)
+			end
+		end
+	end
+end
 
 local function fail_client_connect(reason)
-	if client_connect_fail_cb then
-		client_connect_fail_cb(reason)
+	if current_state == M.STATE_CONNECTING then
+		notify.notify(reason)
 	end
-	M.stop_client()
+	change_state_to(M.STATE_IDLE)
+end
+
+local function on_local_host_found(ip, port)
+	nearby_server_info = 
+	{
+		ip=ip,
+	}
+	is_listening = false
+	p2p.stop()
+	broadcast.send(M.MSG_NEARBY_SERVER_FOUND, nearby_server_info)	
 end
 
 local function send_to_server_internal(message)
@@ -211,11 +278,7 @@ local function client_process_initial_packet_response(packet)
 				end
 			end
 
-			client_connect_fail_cb = nil
-			client_connection_status = CLIENT_CONNECTED
-			for i=1,#connection_changed_cbs do
-				connection_changed_cbs[i](true)
-			end
+			change_state_to(M.STATE_CONNECTED)
 		else
 			assert(nil, "client_process_initial_packet_response - server did not send unique_id")
 		end
@@ -398,8 +461,18 @@ function M.init()
 		version = sys.get_config("gameanalytics.build_html5", nil)
 	end
 
+	p2p = p2p_discovery.create(DISCOVERY_PORT)
+	
 	on_active_profile_changed()
 	profiles.register_active_profile_changed_cb(on_active_profile_changed)
+end
+
+function M.final()
+	change_state_to(M.STATE_FINAL)
+	M.disconnect()
+	is_listening = false
+	p2p.stop()
+	p2p = nil
 end
 
 function M.load(profile)
@@ -450,6 +523,9 @@ function M.register_connection_change_cb(cb)
 end
 
 function M.update()
+	if p2p then
+		p2p.update()
+	end
 	if server ~= nil then
 		server.update()
 	end
@@ -476,89 +552,88 @@ function M.update()
 	end
 end
 
-function M.final()
+function M.disconnect()
 	M.stop_server()
 	M.stop_client()
 end
 
 function M.start_server(port)
-	M.stop_client()
+	port = port or DEFAULT_HOST_PORT
 	
-	if server == nil and profile_unique_id then
-		client_latest_server_unique_id = profile_unique_id
+	M.disconnect()
+	
+	client_latest_server_unique_id = profile_unique_id
 
-		local data_func = QUEUE_RECEIVED_MESSAGES and server_on_data_queue or server_on_data		
-		server = tcp_server.create(port, data_func, server_on_client_connected, server_on_client_disconnected)
-		server.start()
+	is_listening = false
+	p2p.broadcast(get_broadcast_name())
 
-		for i=1,#connection_changed_cbs do
-			connection_changed_cbs[i](true)
-		end
-		return true
-	end
-	return false
+	local data_func = QUEUE_RECEIVED_MESSAGES and server_on_data_queue or server_on_data		
+	server = tcp_server.create(port, data_func, server_on_client_connected, server_on_client_disconnected)
+	server.start()
+	
+	change_state_to(M.STATE_SERVING)
 end
 
 function M.stop_server()
 	if server ~= nil then
 		server.stop()
 		server = nil
-
-		for i=1,#connection_changed_cbs do
-			connection_changed_cbs[i](false)
-		end
+		change_state_to(M.STATE_IDLE)
 	end
 end
 
-function M.start_client(server_ip, server_port, fb_connect_fail)
-	M.stop_server()
-	
-	if client == nil and profile_unique_id then
-		
-		client_connect_fail_cb = fb_connect_fail
-		local data_func = QUEUE_RECEIVED_MESSAGES and client_on_data_queue or client_on_data	
-		client = tcp_client.create(server_ip, server_port, data_func, function()
-			M.stop_client()			
-			if client_connection_status == CLIENT_VERIFYING then
-				fail_client_connect("Could not connect! Host may be using\na different version (yours is " .. version .. ").")
-			end
-		end)
+local function start_client(server_ip, server_port)
+	M.disconnect()
 
-		if client then
-			-- Send server a packet to indicate what version of the app we are and what our unique id is
-			local initial_packet =
-			{
-				key = INITIAL_PACKET_KEY,
-				payload =
-				{
-					version = version,
-					unique_id = profile_unique_id,
-				}
-				-- no message_id in initial packet
-			}
+	change_state_to(M.STATE_CONNECTING)
 
-			client_connection_status = CLIENT_VERIFYING
-			send_to_server_internal(initial_packet)
-		else
-			fail_client_connect("Could not connect! Host\nmay no longer be active.")
-			return true
+	local data_func = QUEUE_RECEIVED_MESSAGES and client_on_data_queue or client_on_data	
+	client = tcp_client.create(server_ip, server_port, data_func, function()
+		M.stop_client()			
+		if current_state == M.STATE_CONNECTING then
+			fail_client_connect("Could not connect! Host may be using\na different version (yours is " .. version .. ").")
 		end
+	end)
+
+	if client then
+		-- Send server a packet to indicate what version of the app we are and what our unique id is
+		local initial_packet =
+		{
+			key = INITIAL_PACKET_KEY,
+			payload =
+			{
+				version = version,
+				unique_id = profile_unique_id,
+			}
+			-- no message_id in initial packet
+		}
+
+		send_to_server_internal(initial_packet)
+	else
+		fail_client_connect("Could not connect! Host\nmay no longer be active.")
 	end
-	return false
+end
+
+function M.connect_to_server(ip, port)
+	start_client(ip, port)
+end
+
+function M.connect_to_nearby_server()
+	M.disconnect()
+	if nearby_server_info then
+		local ip = nearby_server_info.ip
+		nearby_server_info = nil
+
+		start_client(ip, DEFAULT_HOST_PORT)
+	end
 end
 
 function M.stop_client()
 	if client ~= nil then
-		local previous_status = client_connection_status
-		client_connection_status = CLIENT_NOT_CONNECTED
 		client.destroy()
 		client = nil
 
-		if previous_status == CLIENT_CONNECTED then
-			for i=1,#connection_changed_cbs do
-				connection_changed_cbs[i](false)
-			end
-		end
+		change_state_to(M.STATE_IDLE)
 	end
 end
 
@@ -667,16 +742,23 @@ function M.get_local_id()
 	return profile_unique_id
 end
 
+function M.find_nearby_server()
+	if current_state == M.STATE_IDLE and not is_listening then
+		is_listening = true
+		p2p.listen(get_broadcast_name(), on_local_host_found)
+	end
+end
+
+function M.get_nearby_server_info()
+	return nearby_server_info
+end
+
+function M.get_current_state()
+	return current_state
+end
+
 function M.is_connected()
-	return (server ~= nil) or (client ~= nil and client_connection_status == CLIENT_CONNECTED)
-end
-
-function M.is_serving()
-	return server ~= nil
-end
-
-function M.get_version()
-	return version
+	return is_connected_state(current_state)
 end
 
 return M
