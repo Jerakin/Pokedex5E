@@ -98,6 +98,9 @@ function M.set_active(slot)
 	for i=1,#active_profile_changed_cbs do
 		active_profile_changed_cbs[i]()
 	end
+	for i=1,#active_name_changed_cbs do
+		active_name_changed_cbs[i]()
+	end
 	
 	M.save()
 end
