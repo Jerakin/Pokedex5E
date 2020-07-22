@@ -460,8 +460,6 @@ function M.init()
 	elseif system == "HTML5" then
 		version = sys.get_config("gameanalytics.build_html5", nil)
 	end
-
-	p2p = p2p_discovery.create(DISCOVERY_PORT)
 	
 	on_active_profile_changed()
 	profiles.register_active_profile_changed_cb(on_active_profile_changed)
@@ -471,8 +469,10 @@ function M.final()
 	change_state_to(M.STATE_FINAL)
 	M.disconnect()
 	is_listening = false
-	p2p.stop()
-	p2p = nil
+	if p2p then
+		p2p.stop()
+		p2p = nil
+	end
 end
 
 function M.load(profile)
@@ -565,6 +565,7 @@ function M.start_server(port)
 	client_latest_server_unique_id = profile_unique_id
 
 	is_listening = false
+	p2p = p2p_discovery.create(DISCOVERY_PORT)
 	p2p.broadcast(get_broadcast_name())
 
 	local data_func = QUEUE_RECEIVED_MESSAGES and server_on_data_queue or server_on_data		
@@ -745,6 +746,7 @@ end
 function M.find_nearby_server()
 	if current_state == M.STATE_IDLE and not is_listening then
 		is_listening = true
+		p2p = p2p_discovery.create(DISCOVERY_PORT)
 		p2p.listen(get_broadcast_name(), on_local_server_found)
 	end
 end
