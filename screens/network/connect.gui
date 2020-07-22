@@ -323,7 +323,7 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/common_up"
-  id: "btn_join_local"
+  id: "btn_join_nearby"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_TOP
   pivot: PIVOT_CENTER
@@ -381,7 +381,7 @@ nodes {
   "127.0.0.1\n"
   ""
   font: "script_bold"
-  id: "txt_join_local"
+  id: "txt_join_nearby"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -399,7 +399,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "btn_join_local"
+  parent: "btn_join_nearby"
   layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0

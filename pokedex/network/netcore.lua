@@ -102,7 +102,7 @@ local function fail_client_connect(reason)
 	change_state_to(M.STATE_IDLE)
 end
 
-local function on_local_host_found(ip, port)
+local function on_local_server_found(ip, port)
 	nearby_server_info = 
 	{
 		ip=ip,
@@ -745,7 +745,7 @@ end
 function M.find_nearby_server()
 	if current_state == M.STATE_IDLE and not is_listening then
 		is_listening = true
-		p2p.listen(get_broadcast_name(), on_local_host_found)
+		p2p.listen(get_broadcast_name(), on_local_server_found)
 	end
 end
 
