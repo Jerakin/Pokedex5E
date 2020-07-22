@@ -16,7 +16,7 @@ local MEMBER_MESSAGE_KEY = "NET_MEMBERS_MESSAGE"
 
 local M = {}
 
-M.MEMBERS_CHANGED_MESSAGE = "net_members_members_changed"
+M.MEMBERS_CHANGED_MESSAGE = hash("net_members_members_changed")
 
 local function send_local_data(request_all_members)
 	netcore.send_to_server(MEMBER_DATA_KEY,
