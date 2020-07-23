@@ -235,18 +235,39 @@ local function on_send_pokemon(self)
 
 	-- self will go away when we leave this screen so keep the variables around
 	local pokemon_id = self.pokemon_id
-	local pokemon_nickname = self.nickname
+	local pokemon_nickname = tostring(self.nickname)
+	local is_local_host = net_members.is_local_member_host()
 	local fn_member_chosen = function(member_id)
-		send_pokemon.send_pokemon(member_id, pokemon_id, send_pokemon.SEND_TYPE_GIFT)
-		local member_name = net_member_name.get_name(member_id)
-		notify.notify("GOODBYE, " .. tostring(pokemon_nickname):upper() .. "!\nHAVE FUN WITH " .. tostring(member_name):upper() .. "!")
+		local member_name = tostring(net_member_name.get_name(member_id))
+
+		local are_you_sure_cb = function(accepted)
+			if accepted then
+				send_pokemon.send_pokemon(member_id, pokemon_id, send_pokemon.SEND_TYPE_GIFT)
+				notify.notify("GOODBYE, " .. (pokemon_nickname .. "!\nHAVE FUN WITH " .. member_name .. "!"))
+				storage.release_pokemon(pokemon_id)	
+				back()
+			end
+		end
+
+		local sub_text = pokemon_nickname .. " will be sent immediately, and will be delivered when "
+		if is_local_host then
+			sub_text = sub_text .. member_name .. " has"
+		else
+			sub_text = sub_text .. " you and " .. member_name .. " have"
+		end
+		sub_text = sub_text .. " joined the group."
 		
-		storage.release_pokemon(pokemon_id)	
-		back()
+		monarch.show("are_you_sure", nil,
+		{
+			title="Are you sure?",
+			text="Send " .. tostring(pokemon_nickname) .. " to " .. member_name .. "?",
+			sub_text=sub_text,
+			cb=are_you_sure_cb,
+		})
 	end
 	monarch.show("network_choose_member", nil,
 	{
-		prompt="WHO SHOULD RECEIVE " .. pokemon_nickname .. "?",
+		prompt="Who should receive " .. pokemon_nickname .. "?",
 		fn_member_chosen=fn_member_chosen,
 	})
 end

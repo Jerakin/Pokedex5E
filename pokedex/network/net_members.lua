@@ -181,6 +181,10 @@ function M.save()
 	})
 end
 
+function M.is_local_member_host()
+	return netcore.get_current_state() == netcore.STATE_SERVING
+end
+
 function M.has_other_members()
 	return #get_members_list() > 0
 end
