@@ -19,11 +19,13 @@ local M = {}
 M.MEMBERS_CHANGED_MESSAGE = hash("net_members_members_changed")
 
 local function send_local_data(request_all_members)
-	netcore.send_to_server(MEMBER_DATA_KEY,
-	{
-		member_data=local_member_data,
-		request_all_members=request_all_members,
-	})
+	if netcore.is_connected() then
+		netcore.send_to_server(MEMBER_DATA_KEY,
+		{
+			member_data=local_member_data,
+			request_all_members=request_all_members,
+		})
+	end
 end
 
 local function get_members_list()
