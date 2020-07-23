@@ -21,11 +21,11 @@ local function on_pokemon_receieved(from_member_id, message)
 		local notify_msg
 		local pkmn_name = (pokemon.nickname or pokemon.species.current)
 		if send_type == M.SEND_TYPE_CATCH then
-			notify_msg = "You caught " .. pkmn_name .."!"
+			notify_msg = "YOU CAUGHT " .. pkmn_name .."!"
 		elseif send_type == M.SEND_TYPE_GIFT then
-			notify_msg = from_name .. " sent you " .. pkmn_name .."!"
+			notify_msg = from_name .. " SEND YOU " .. pkmn_name .."!"
 		else
-			notify_msg = "Welcome " .. pkmn_name .. "!"
+			notify_msg = "WELCOME, " .. pkmn_name .. "!"
 		end
 		notify.notify(notify_msg)
 	end	
@@ -35,7 +35,7 @@ function M.init()
 	net_members.register_member_message_callback(KEY, on_pokemon_receieved)
 end
 
-function M.send_pokemon(member, pokemon_id, send_type)
+function M.send_pokemon(member_id, pokemon_id, send_type)
 	local pokemon = share.get_sendable_pokemon_copy(pokemon_id)
 
 	local message = 
@@ -44,7 +44,7 @@ function M.send_pokemon(member, pokemon_id, send_type)
 		send_type=send_type,
 	}
 
-	net_members.send_message_to_member(KEY, message, net_members.get_member_id(member))
+	net_members.send_message_to_member(KEY, message, member_id)
 end
 
 return M

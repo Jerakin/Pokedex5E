@@ -18,7 +18,9 @@ local gui_utils = require "utils.gui"
 local share = require "pokedex.share"
 local broadcast = require "utils.broadcast"
 local net_members = require "pokedex.network.net_members"
+local net_member_name = require "pokedex.network.net_member_name"
 local send_pokemon = require "pokedex.network.send_pokemon"
+local utils = require "utils.utils"
 
 -- Because the "swap pokemon" popup isn't actually its own screen, it doesn't re-init and reset positions of everything
 -- every time it shows up. Therefore, I can't dynamically adjust things for it each time, I need to store their initial values
@@ -229,14 +231,24 @@ local function setup_info(self)
 end
 
 local function on_send_pokemon(self)
-	-- TODO: go to selection screen, not sending to just first
-	local member = net_members.get_other_members()[1]
-	send_pokemon.send_pokemon(member, self.pokemon_id, send_pokemon.SEND_TYPE_GIFT)
+	local return_accept_data = utils.deep_copy(monarch.data("transfer_pokemon"))
 
-	notify.notify("GOODBEYE, " .. self.nickname .. "!")
-	storage.release_pokemon(self.pokemon_id)	
-	update_storage()
-	back()
+	-- self will go away when we leave this screen so keep the variables around
+	local pokemon_id = self.pokemon_id
+	local pokemon_nickname = self.nickname
+	local fn_member_chosen = function(member_id)
+		send_pokemon.send_pokemon(member_id, pokemon_id, send_pokemon.SEND_TYPE_GIFT)
+		local member_name = net_member_name.get_name(member_id)
+		notify.notify("GOODBYE, " .. tostring(pokemon_nickname):upper() .. "!\nHAVE FUN WITH " .. tostring(member_name):upper() .. "!")
+		
+		storage.release_pokemon(pokemon_id)	
+		back()
+	end
+	monarch.show("network_choose_member", nil,
+	{
+		prompt="WHO SHOULD RECEIVE " .. pokemon_nickname .. "?",
+		fn_member_chosen=fn_member_chosen,
+	})
 end
 
 local function refresh_send_button(self)
@@ -329,7 +341,6 @@ function on_message(self, message_id, message, sender)
 				storage.release_pokemon(message.data)
 				notify.notify(self.nickname .. " WAS RELEASED")
 				update_storage()
-				back()
 			end)
 		end
 	elseif message_id == hash(net_members.MEMBERS_CHANGED_MESSAGE) then

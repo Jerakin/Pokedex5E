@@ -17,11 +17,12 @@ local function update_item(data, list, item)
 end
 
 local function on_item_selected(data, list)
-	for i,item in ipairs(list.items) do
-		if item.data and item.index == list.selected_item then
-			local member_id = item.data.id
-			local name = net_member_name.get_name(member_id)
-			print("TODO Member selected = " .. tostring(name))
+	if data.fn_on_member_chosen then
+		for i,item in ipairs(list.items) do
+			if item.data and item.index == list.selected_item then
+				local member_id = item.data.id
+				data.fn_on_member_chosen(member_id)
+			end
 		end
 	end
 end
@@ -40,9 +41,10 @@ end
 
 local M = {}
 
-function M.create(str_list_root)
+function M.create(str_list_root, fn_on_member_chosen)
 	local data = {}
 
+	data.fn_on_member_chosen = fn_on_member_chosen
 	data.list_root = str_list_root
 	data.scrolling_list = gooey_scrolling_list.create_vertical_dynamic(str_list_root, str_list_root.."/scroll_area", str_list_root.."/btn_item", str_list_root.."/scrollbar/handle", str_list_root.."/scrollbar/bar", str_list_root.."/scrollbar/visual", function(list, item) update_item(data, list, item) end, function(list) on_item_selected(data, list) end)
 	data.scrolling_list.refresh(net_members.get_other_members())

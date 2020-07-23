@@ -25,6 +25,8 @@ local ordered_screens =
 	"settings",
 	"fakemon",
 	"moves_confirm",
+	"network_connect",
+	"network_choose_member",
 }
 
 local M = {}

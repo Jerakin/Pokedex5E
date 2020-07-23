@@ -76,6 +76,7 @@ local function refresh()
 end
 
 function init(self)
+	msg.post(url.MENU, "show")
 	button.acquire()
 
 	if netcore.get_current_state() == netcore.STATE_IDLE then
