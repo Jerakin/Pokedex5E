@@ -30,13 +30,12 @@ local function ensure_server_known(server_id)
 	end
 end
 
-local function send_local_data(request_all_members)
+local function send_local_data()
 	if not active_profile_changing and netcore.is_connected() then
 		ensure_server_known(netcore.get_server_id())
 		netcore.send_to_server(MEMBER_DATA_KEY,
 		{
 			member_data=local_member_data,
-			request_all_members=request_all_members,
 		})
 	end
 end
@@ -61,7 +60,7 @@ end
 
 local function on_connection_change()
 	if netcore.is_connected() then		
-		send_local_data(true)
+		send_local_data()
 	else
 		server_member_clients = {}		
 	end
@@ -95,6 +94,18 @@ local function on_client_members_data(new_members_data)
 	end
 end
 
+local function on_server_cient_connect(client_id)
+	local other_members_data = {}
+	for k,v in pairs(server_member_data) do		
+		if k ~= client_id then
+			table.insert(other_members_data, {id=k, data=v})
+		end
+	end
+	if next(other_members_data) then
+		netcore.send_to_client(MEMBER_DATA_KEY, other_members_data, client_id)
+	end
+end
+
 local function on_server_members_data(member_id, payload)
 	if not server_member_data[member_id] then
 		server_member_data[member_id] = {}
@@ -108,19 +119,6 @@ local function on_server_members_data(member_id, payload)
 		local this_client_id = all_client_ids[i]
 		if this_client_id ~= member_id then
 			netcore.send_to_client(MEMBER_DATA_KEY, {{id=member_id, data=payload.member_data}}, this_client_id)
-		end
-	end
-
-	-- If the new member is requesting data about everyone (which they do on first join), get that for them also
-	if payload.request_all_members then 
-		local other_members_data = {}
-		for k,v in pairs(server_member_data) do		
-			if k ~= member_id then
-				table.insert(other_members_data, {id=k, data=v})
-			end
-		end
-		if next(other_members_data) then
-			netcore.send_to_client(MEMBER_DATA_KEY, other_members_data, member_id)
 		end
 	end
 end
@@ -160,7 +158,7 @@ end
 
 local function on_active_profile_changed()
 	active_profile_changing = false
-	send_local_data(true)
+	send_local_data()
 end
 
 function M.init()
@@ -168,6 +166,7 @@ function M.init()
 		netcore.register_connection_change_cb(on_connection_change)
 		netcore.register_client_data_callback(MEMBER_DATA_KEY, on_client_members_data)
 		netcore.register_server_data_callback(MEMBER_DATA_KEY, on_server_members_data)
+		netcore.register_server_client_connect(on_server_cient_connect)
 		
 		netcore.register_client_data_callback(MEMBER_MESSAGE_KEY, on_client_member_message, true)
 		netcore.register_server_data_callback(MEMBER_MESSAGE_KEY, on_server_member_message, true)
@@ -226,7 +225,7 @@ end
 
 function M.update_member_data(key, data)
 	local_member_data[key] = data
-	send_local_data(false)
+	send_local_data()
 end
 
 function M.get_member_id(member_obj)

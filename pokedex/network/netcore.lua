@@ -43,6 +43,7 @@ local profile_id = nil
 local client_data_cbs = {}
 local server_data_cbs = {}
 local connection_changed_cbs = {}
+local server_client_connect_cbs = {}
 
 local server_known_client_info = {}
 local server_client_to_unique_id = {}
@@ -166,8 +167,14 @@ local function server_send_to_local_client(data)
 	end
 end
 
+local function server_send_client_connect_cbs(client_id)
+	for i=1,#server_client_connect_cbs do
+		server_client_connect_cbs[i](profile_id)
+	end
+end
+
 local function send_local_outgoing_messages()
-	local known_client_info = server_ensure_client_info(profile_id, true)
+	local known_client_info = client_ensure_server_info(profile_id, true)
 	local messages = known_client_info.outgoing_messages
 	if #messages > 0 then
 		known_client_info.outgoing_messages = {}
@@ -284,6 +291,10 @@ local function server_process_initial_packet(client, packet)
 				-- no message_id for the initial packet
 			}
 			send_to_client_internal(initial_response_message, client)
+
+			-- Any newly-connected-user callbacks should be called now, before we send out outgoing message.
+			-- This might, for example, send off a list of other connected client
+			server_send_client_connect_cbs(client_unique_id)
 
 			-- Also send any queued-up outgoing messages. Note that at this point the client does
 			-- not know who we are so they don't know what messages they are missing
@@ -497,6 +508,8 @@ local function set_unique_id(id)
 		M.stop_client()
 
 		if current_state == M.STATE_SERVING then
+			server_ensure_client_info(profile_id, true)
+			server_send_client_connect_cbs(profile_id)
 			send_local_outgoing_messages()
 		end
 	end
@@ -594,6 +607,10 @@ function M.register_server_data_callback(key, fn_on_server_received, ensure_send
 	}
 end
 
+function M.register_server_client_connect(fn_on_server_client_connect)
+	table.insert(server_client_connect_cbs, fn_on_server_client_connect)
+end
+
 function M.register_connection_change_cb(cb)
 	table.insert(connection_changed_cbs, cb)
 end
@@ -647,8 +664,12 @@ function M.start_server(port)
 	local data_func = QUEUE_RECEIVED_MESSAGES and server_on_data_queue or server_on_data		
 	server = tcp_server.create(port, data_func, server_on_client_connected, server_on_client_disconnected)
 	server.start()
+
+	server_ensure_client_info(profile_id, true)
 	
 	change_state_to(M.STATE_SERVING)
+
+	server_send_client_connect_cbs(profile_id)
 	send_local_outgoing_messages()
 end
 
