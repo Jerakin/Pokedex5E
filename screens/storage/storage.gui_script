@@ -13,6 +13,7 @@ local searchbar = require "screens.storage.searchbar"
 local tracking_id = require "utils.tracking_id"
 local gui_utils = require "utils.gui"
 local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local function table_of_rows(self)
 	local l = {}
@@ -95,7 +96,7 @@ end
 function init(self)
 	url.STORAGE = msg.url()
 	gooey.acquire_input()
-	msg.post(url.MENU, "show")
+	msg.post(url.MENU, messages.SHOW)
 	self.action_position = vmath.vector3()
 	self.text_node = gui.get_node("search_text")
 	self.filtered_list = storage.list_of_ids_in_storage()

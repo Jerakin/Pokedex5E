@@ -7,6 +7,7 @@ local pokedex = require "pokedex.pokedex"
 local gooey_button = require "utils.gooey_buttons"
 local gooey_scrolling_list = require "utils.gooey_scrolling_list"
 local url = require "utils.url"
+local messages = require "utils.messages"
 
 local selected_item
 local sender
@@ -24,7 +25,7 @@ end
 local function on_item_selected(self, list)
 	for i,item in ipairs(list.items) do
 		if item.data and item.index == list.selected_item then
-			monarch.show("moves_confirm", {}, {message_id=message_id, sender=sender, move_to_replace=self.move_to_replace, replacement_move=item.data, pokemon=self.pokemon})
+			monarch.show(screens.MOVES_CONFIRM, {}, {message_id=message_id, sender=sender, move_to_replace=self.move_to_replace, replacement_move=item.data, pokemon=self.pokemon})
 		end
 	end
 end
@@ -70,7 +71,7 @@ end
 
 function init(self)
 	gooey.acquire_input()
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	local d = monarch.data("moves_scrollist")
 	sender = d.sender
 	message_id = d.message_id

@@ -22,6 +22,7 @@ local url = require "utils.url"
 local version = require "screens.popups.version_dialog.version"
 local backup = require "utils.backup"
 local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local function send_crash_on_start()
 	crash.write_dump()
@@ -70,7 +71,7 @@ end
 
 function init(self)
 	collectionfactory.create("/menu#collectionfactory")
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	local system = sys.get_sys_info().system_name
 	window.set_listener(window_resized)
 

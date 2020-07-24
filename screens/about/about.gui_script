@@ -7,10 +7,11 @@ local version = require "screens.popups.version_dialog.version"
 local gooey_buttons = require "utils.gooey_buttons"
 local log = require "utils.log"
 local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	gui.set_text(gui.get_node("version"), "Version: " .. sys.get_config("project.version"))
 	gui.set_text(gui.get_node("version_android"), "Version: " .. sys.get_config("project.version"))
 	self.lock = true

@@ -9,6 +9,7 @@ local gesture = require "utils.gesture"
 local gui_colors = require "utils.gui_colors"
 local url = require "utils.url"
 local constants = require "utils.constants"
+local messages = require "utils.messages"
 
 
 local type_buttons = {
@@ -94,7 +95,7 @@ local function activate_tab(self, tab_number)
 end
 
 local function update_profile_name(self)
-    monarch.show("input", {}, {sender=msg.url(), message="update_profile_name", help_text="Input new profile name.", default_text=profiles.get_active_name()})
+    monarch.show(screens.INPUT, {}, {sender=msg.url(), message="update_profile_name", help_text="Input new profile name.", default_text=profiles.get_active_name()})
 end
 
 function on_message(self, message_id, message)
@@ -108,7 +109,7 @@ end
 
 function init(self)
     msg.post(".", "acquire_input_focus")
-    msg.post(url.MENU, "show")
+    msg.post(url.MENU, messages.SHOW)
     local name = profiles.get_active_slot() ~= nil and profiles.get_active_name() or "Trainer"
     gui.set_text(gui.get_node("top_divider/title"), name)
 

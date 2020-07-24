@@ -10,10 +10,11 @@ local settings = require "pokedex.settings"
 local log = require "utils.log"
 local tracking_id = require "utils.tracking_id"
 local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	if sys.get_sys_info().system_name == "HTML5" then
 		gui.set_enabled(gui.get_node("fakemon"), false)
 	else

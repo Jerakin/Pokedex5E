@@ -13,6 +13,7 @@ local party = require "screens.party.party"
 local seachbar = require "screens.profiles.searchbar"
 local utils = require "utils.utils"
 local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local function delete(profile)
 	profiles.delete(profile)
@@ -110,7 +111,7 @@ local function profile_list_clicked(list)
 				if gui.pick_node(entry.nodes["profile_slot/btn_slot"], list.action_pos.x, list.action_pos.y) then
 					activate(value)
 				elseif gui.pick_node(entry.nodes["profile_slot/btn_delete"], list.action_pos.x, list.action_pos.y) then
-					monarch.show("are_you_sure", nil, {sender=msg.url(), data=value, title="Delete Profile"})
+					monarch.show(screens.ARE_YOU_SURE, nil, {sender=msg.url(), data=value, title="Delete Profile"})
 				end
 			end
 		end
@@ -121,7 +122,7 @@ function init(self)
 	button.acquire()
 	url.PROFILES = msg.url()
 	self.scrolling_data = {}
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	self.seach_text = gui.get_node("search_text")
 	self.seach_background = gui.get_node("search_backing")
 	gui.set_enabled(self.seach_background, false)

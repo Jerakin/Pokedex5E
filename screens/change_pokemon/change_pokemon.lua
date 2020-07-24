@@ -19,6 +19,7 @@ local tracking_id = require "utils.tracking_id"
 local gui_utils = require "utils.gui"
 local constants = require "utils.constants"
 local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local POKEMON_SPECIES_TEXT_SCALE = vmath.vector3(1)
 
@@ -389,7 +390,7 @@ end
 local function pick_move(self)
 	self.return_to_screen = monarch.top()
 	local move_to_replace = move_buttons_list[self.move_button_index].move_name
-	monarch.show("moves_scrollist", {}, {species=_pokemon.get_current_species(self.pokemon), level=_pokemon.get_current_level(self.pokemon), pokemon=self.pokemon, current_moves=_pokemon.get_moves(self.pokemon, {append_known_to_all=true}), move_to_replace=move_to_replace, message_id="move", sender=msg.url()})
+	monarch.show(screens.MOVES_SCROLLIST, {}, {species=_pokemon.get_current_species(self.pokemon), level=_pokemon.get_current_level(self.pokemon), pokemon=self.pokemon, current_moves=_pokemon.get_moves(self.pokemon, {append_known_to_all=true}), move_to_replace=move_to_replace, message_id="move", sender=msg.url()})
 end
 
 

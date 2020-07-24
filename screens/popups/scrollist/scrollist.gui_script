@@ -6,6 +6,7 @@ local gooey_scrolling_list = require "utils.gooey_scrolling_list"
 local gooey = require "gooey.gooey"
 local url = require "utils.url"
 local gui_utils = require "utils.gui"
+local messages = require "utils.messages"
 
 local selected_item
 local sender
@@ -28,7 +29,7 @@ local function on_item_selected(list)
 end
 
 function init(self)
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	local d = monarch.data("scrollist")
 	sender = d.sender
 	message_id = d.message_id

@@ -8,6 +8,7 @@ local utils = require "utils.utils"
 local gui_utils = require "utils.gui"
 local fakemon = require "fakemon.fakemon"
 local flow = require "utils.flow"
+local messages = require "utils.messages"
 
 local selected_item
 
@@ -44,7 +45,7 @@ local function on_item_selected(list)
 end
 
 function init(self)
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	gui.set_enabled(gui.get_node("cursor"), false)
 	gui_utils.scale_text_to_fit_size(gui.get_node("topbar/title"))
 	

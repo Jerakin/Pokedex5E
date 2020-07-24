@@ -9,7 +9,10 @@ local gooey_buttons = require "utils.gooey_buttons"
 local tracking_id = require "utils.tracking_id"
 local dex = require "pokedex.dex"
 local screens = require "utils.screens"
+local messages = require "utils.messages"
+
 local slot
+
 
 local function refresh_input(self, input, node_id)
 	if input.empty and not input.selected then
@@ -38,7 +41,7 @@ local function refresh_input(self, input, node_id)
 end
 
 function init(self)
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	gui.set_render_order(gro.POPUP)
 	self.sender = monarch.data("pick_name") and monarch.data("pick_name").sender or nil
 	slot = monarch.data("pick_name") and monarch.data("pick_name").slot or nil

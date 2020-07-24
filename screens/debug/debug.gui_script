@@ -4,6 +4,7 @@ local gooey = require "gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
 local debug = require "screens.debug.debug"
 local gui_utils = require "utils.gui"
+local messages = require "utils.messages"
 
 local function game_analyctics()
 	local active = true
@@ -49,7 +50,7 @@ end
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	game_analyctics()
 	local sys_info = sys.get_sys_info()
 	local system = sys_info.system_name
@@ -61,7 +62,7 @@ function init(self)
 end
 
 function final(self)
-	msg.post(url.MENU, "show")
+	msg.post(url.MENU, messages.SHOW)
 end
 
 function on_input(self, action_id, action)
