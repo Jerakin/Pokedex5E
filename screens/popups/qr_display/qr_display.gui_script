@@ -18,12 +18,11 @@ function init(self)
 	}
 
 	local texture = gui.new_texture(self.qr_texture.name, self.qr_texture.width, self.qr_texture.height, self.qr_texture.format, self.qr_texture.image)
-
+	
 	if texture then
 		self.qr_texture.created = true
 		gui.set_texture(self.qr_node, self.qr_texture.name)
 	end
-	self.touch = {}
 end
 
 function final(self)
@@ -36,10 +35,7 @@ function on_input(self, action_id, action)
 	if gui.pick_node(self.qr_node, action.x, action.y) then
 		return
 	elseif gui.pick_node(self.dimmer, action.x, action.y) then
-		if action.pressed then
-			self.touch.pressed = true
-		end
-		if action.released and self.touch.pressed then
+		if action.released then
 			monarch.back()
 		end
 	end
