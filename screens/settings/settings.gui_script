@@ -13,7 +13,7 @@ local screens = require "utils.screens"
 local messages = require "utils.messages"
 
 function init(self)
-	msg.post(".", "acquire_input_focus")
+	msg.post(".", messages.ACQUIRE_INPUT_FOCUS)
 	msg.post(url.MENU, messages.HIDE)
 	if sys.get_sys_info().system_name == "HTML5" then
 		gui.set_enabled(gui.get_node("fakemon"), false)

@@ -108,7 +108,7 @@ function on_message(self, message_id, message)
 end
 
 function init(self)
-    msg.post(".", "acquire_input_focus")
+    msg.post(".", messages.ACQUIRE_INPUT_FOCUS)
     msg.post(url.MENU, messages.SHOW)
     local name = profiles.get_active_slot() ~= nil and profiles.get_active_name() or "Trainer"
     gui.set_text(gui.get_node("top_divider/title"), name)

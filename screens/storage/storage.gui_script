@@ -115,7 +115,7 @@ function on_input(self, action_id, action)
 	self.action_position.y = action.y
 	inventory.on_input(action_id, action)
 
-	if action_id == hash("touch") and next(self.pokemon_rows) ~= nil then
+	if action_id == hash(messages.TOUCH) and next(self.pokemon_rows) ~= nil then
 		self.scrolling_list.on_input(self.pokemon_rows, action_id, action)
 	end
 

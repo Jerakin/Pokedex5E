@@ -49,7 +49,7 @@ local function game_analyctics()
 end
 
 function init(self)
-	msg.post(".", "acquire_input_focus")
+	msg.post(".", messages.ACQUIRE_INPUT_FOCUS)
 	msg.post(url.MENU, messages.HIDE)
 	game_analyctics()
 	local sys_info = sys.get_sys_info()

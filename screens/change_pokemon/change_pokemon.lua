@@ -395,7 +395,7 @@ end
 
 
 function M.init(self, pokemon)
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 
 	self.list_items = {}
 	self.feats_data = {}

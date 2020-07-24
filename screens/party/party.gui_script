@@ -11,7 +11,7 @@ local screens = require "utils.screens"
 local messages = require "utils.messages"
 
 function init(self)
-	msg.post(".", "acquire_input_focus")
+	msg.post(".", messages.ACQUIRE_INPUT_FOCUS)
 	msg.post(url.MENU, messages.SHOW)
 	url.set("PARTY", msg.url())
 	local index = storage.list_of_ids_in_inventory()[party.get_active_index()] == nil and 1 or party.get_active_index()
