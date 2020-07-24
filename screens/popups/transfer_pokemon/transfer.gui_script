@@ -17,6 +17,7 @@ local tracking_id = require "utils.tracking_id"
 local gui_utils = require "utils.gui"
 local share = require "pokedex.share"
 local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 -- Because the "swap pokemon" popup isn't actually its own screen, it doesn't re-init and reset positions of everything
 -- every time it shows up. Therefore, I can't dynamically adjust things for it each time, I need to store their initial values
@@ -295,7 +296,7 @@ end
 
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("response") then
+	if message_id == messages.RESPONSE then
 		if message.response then
 			flow.start(function()
 				flow.until_true(function() return not monarch.is_busy() end)

@@ -116,10 +116,10 @@ function init(self)
 		
 		msg.post("@render:", "resize", { width = using.x*using.z, height = using.y*using.z } )
 	end
-	msg.post("#", "show_splash")
+	msg.post("#", messages.SHOW_SPLASH)
 	
 	flow.start(function()
-		if system.WEB then
+		if platform.WEB then
 			log.info("HTML5: Skipping LuaFileSystem")
 		else
 			require "utils.lfs_extend"
@@ -145,15 +145,15 @@ function init(self)
 		if profiles.is_new_game() then 
 			monarch.show(screens.PICK_NAME, nil, {sender=msg.url(), slot=1})
 		elseif not profiles.get_active_slot() then
-			msg.post("#", "show_profile")
+			msg.post("#", messages.SHOW_PROFILE)
 		elseif #storage.list_of_ids_in_inventory() > 0 then
-			msg.post("#", "show_party")
+			msg.post("#", messages.SHOW_PARTY)
 		elseif #storage.list_of_ids_in_storage() > 0 then
-			msg.post("#", "show_storage")
+			msg.post("#", messages.SHOW_STORAGE)
 		else
 			-- We have an active slot but is has no pokemon. We don't currently support having
 			-- no Pokemon (yet), so for now go to the profile screen
-			msg.post("#", "show_profile")
+			msg.post("#", messages.SHOW_PROFILE)
 		end
 
 		local sysinfo = sys.get_sys_info()
@@ -169,25 +169,25 @@ function init(self)
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("show_profile") then
+	if message_id == messages.SHOW_PROFILE then
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:Profiles",
 			value = tracking_id[monarch.top()]
 		}
 		monarch.show(screens.PROFILES)
-	elseif message_id == hash("show_party") then
+	elseif message_id == messages.SHOW_PARTY then
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:Party",
 			value = tracking_id[monarch.top()]
 		}
 		monarch.show(screens.PARTY)
-	elseif message_id == hash("show_splash") then
+	elseif message_id == messages.SHOW_SPLASH then
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:Splash",
 			value = tracking_id[monarch.top()]
 		}
 		monarch.show(screens.SPLASH)
-	elseif message_id == hash("show_storage") then
+	elseif message_id == messages.SHOW_STORAGE then
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:PC",
 			value = tracking_id[monarch.top()]

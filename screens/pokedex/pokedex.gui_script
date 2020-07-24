@@ -287,12 +287,12 @@ function on_input(self, action_id, action)
 end
 
 function on_message(self, message_id, message)
-	if message_id == hash("mark") then
+	if message_id == messages.MARK then
 		pokedex_data[message.row][message.index].state = state_map[message.state]
 		update_dex_data(self)
 		self.scrolling_list.refresh(self.pokemon_rows)
 		update_pokedex_info(self)
-	elseif message_id == hash("search") then
+	elseif message_id == messages.SEARCH then
 		update_dex_data(self)
 		is_searching = #pokedex.unique ~= #self.filtered_list
 		self.scrolling_list.refresh(self.pokemon_rows)

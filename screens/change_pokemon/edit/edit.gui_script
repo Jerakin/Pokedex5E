@@ -13,6 +13,7 @@ local gooey = require "gooey.gooey"
 local tracking_id = require "utils.tracking_id"
 local gui_utils = require "utils.gui"
 local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local function pokemon_image(species)
 	local pokemon_sprite, texture = pokedex.get_icon(species)
@@ -104,7 +105,7 @@ end
 
 function on_message(self, message_id, message, sender)
 	pokemon_edit.on_message(self, message_id, message, sender)
-	if message_id == hash("response") and message.response then
+	if message_id == messages.RESPONSE and message.response then
 		if message.id == "evolve" then
 			evolve(self, message.data)
 		end

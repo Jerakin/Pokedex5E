@@ -21,13 +21,13 @@ local active_buttons = {}
 local function exit(self)
 	local stack = monarch.get_stack()
 	for i=#monarch.get_stack(), 1, -1 do
-		if stack[i] == hash("storage") then
+		if stack[i] == screens.STORAGE then
 			gameanalytics.addDesignEvent {
 				eventId = "Navigation:PC",
 				value = tracking_id[monarch.top()]
 			}
 			monarch.show(screens.STORAGE)
-		elseif stack[i] == hash("party") or stack[i] == hash("profiles") then
+		elseif stack[i] == screens.PARTY or stack[i] == screens.PROFILES then
 			gameanalytics.addDesignEvent {
 				eventId = "Navigation:Party",
 				value = tracking_id[monarch.top()]

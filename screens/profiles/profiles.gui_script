@@ -142,11 +142,11 @@ end
 
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("response") then
+	if message_id == messages.RESPONSE then
 		if message.response then
 			delete_profile(self, message.data)
 		end
-	elseif message_id == hash("search") then
+	elseif message_id == messages.SEARCH then
 		self.scrolling_list.refresH(self.filtered_list)
 	end
 end

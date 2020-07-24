@@ -12,7 +12,7 @@ local url = require "utils.url"
 local scrollhandler = require "screens.party.components.scrollhandler"
 local constants = require "utils.constants"
 local screens = require "utils.screens"
-
+local messages = require "utils.messages"
 
 local M = {}
 local active = {}
@@ -190,7 +190,7 @@ function M.create(nodes, pokemon, index)
 end
 
 function M.on_message(message_id, message, sender)
-	if message_id == hash("response") and message.response then
+	if message_id == messages.RESPONSE and message.response then
 		if message.id == "full_rest" then
 			_pokemon.reset_in_storage(active_pokemon)
 			msg.post(url.PARTY, "refresh_status")

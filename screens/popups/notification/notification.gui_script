@@ -42,7 +42,7 @@ function init(self)
 end
 
 function on_input(self, action_id, action)
-	if action_id == hash(messages.TOUCH) and action.pressed and gui.pick_node(self.root, action.x, action.y) and self.status == anim_status.EXIT then
+	if action_id == messages.TOUCH and action.pressed and gui.pick_node(self.root, action.x, action.y) and self.status == anim_status.EXIT then
 		self.instant = 0
 		gui.cancel_animation(self.root, "position")
 		exit(self)

@@ -57,9 +57,9 @@ end
 
 function on_message(self, message_id, message)
 	party.on_message(message_id, message)
-	if message_id == hash("inventory") then
+	if message_id == screens.INVENTORY then
 		inventory.set_active(message.index, message.instant)
-	elseif message_id == hash("refresh") then
+	elseif message_id == messages.REFRESH then
 		inventory.create()
 	end
 end

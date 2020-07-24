@@ -95,11 +95,11 @@ local function activate_tab(self, tab_number)
 end
 
 local function update_profile_name(self)
-    monarch.show(screens.INPUT, {}, {sender=msg.url(), message="update_profile_name", help_text="Input new profile name.", default_text=profiles.get_active_name()})
+    monarch.show(screens.INPUT, {}, {sender=msg.url(), message=messages.UPDATE_PROFILE_NAME, help_text="Input new profile name.", default_text=profiles.get_active_name()})
 end
 
 function on_message(self, message_id, message)
-    if message_id == hash("update_profile_name") then
+    if message_id == messages.UPDATE_PROFILE_NAME then
         local new_name = message.str
         profiles.set_active_name(new_name)
         gui.set_text(gui.get_node("top_divider/title"), new_name)

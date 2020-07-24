@@ -5,6 +5,7 @@ local monarch = require "monarch.monarch"
 local gui_colors = require "utils.gui_colors"
 local statuses = require "pokedex.statuses"
 local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local M = {}
 
@@ -51,7 +52,7 @@ function M.update(nodes, pokemon_id)
 end
 
 function M.on_message(message_id, message)
-	if message_id == hash("refresh_status") then
+	if message_id == messages.REFRESH_STATUS then
 		M.update(active_nodes, current_pokemon_id)
 	end
 end
