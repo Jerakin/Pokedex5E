@@ -232,6 +232,7 @@ local function redraw_moves(self)
 			local move_node = move_buttons_list[data.index].text
 			local icon_node = move_buttons_list[data.index].icon
 			
+			move_buttons_list[data.index].move_name = move
 			gui.set_text(move_node, move:upper())
 			gui.set_scale(move_node, vmath.vector3(0.8))
 			gui_utils.scale_text_to_fit_size(move_node)
@@ -386,7 +387,9 @@ local function decrease(self, stat)
 end
 
 local function pick_move(self)
-	monarch.show(screens.MOVES_SCROLLIST, {}, {species=_pokemon.get_current_species(self.pokemon), level=_pokemon.get_current_level(self.pokemon), current_moves=_pokemon.get_moves(self.pokemon, {append_known_to_all=true}), message_id="move", sender=msg.url()})
+	self.return_to_screen = monarch.top()
+	local move_to_replace = move_buttons_list[self.move_button_index].move_name
+	monarch.show("moves_scrollist", {}, {species=_pokemon.get_current_species(self.pokemon), level=_pokemon.get_current_level(self.pokemon), pokemon=self.pokemon, current_moves=_pokemon.get_moves(self.pokemon, {append_known_to_all=true}), move_to_replace=move_to_replace, message_id="move", sender=msg.url()})
 end
 
 
@@ -467,12 +470,14 @@ function M.on_message(self, message_id, message, sender)
 		elseif message_id == hash("item") then
 			_pokemon.set_held_item(self.pokemon, message.item)
 			gui.set_text(gui.get_node("change_pokemon/txt_item"), message.item:upper())
-		else
+		elseif message_id == hash("move") then
 			if message.item ~= "" then
 				local n = move_buttons_list[self.move_button_index].text
 				_pokemon.set_move(self.pokemon, message.item, self.move_button_index)
 				gui.set_text(n, message.item)
 				gui.set_color(n, movedex.get_move_color(message.item))
+				-- Get out of popups
+				monarch.show(self.return_to_screen, {clear=true})
 			end
 		end
 		redraw(self)

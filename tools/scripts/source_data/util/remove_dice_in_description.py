@@ -1,7 +1,10 @@
 import re
 import json
 
-import scripts.source_data.util.util as util
+try:
+    import scripts.source_data.util.util as util
+except ModuleNotFoundError:
+    from util import util
 
 RE_DAMAGE_DICE = re.compile("(?i)((?:(\d)x|X|)(?:\d+)d(?:\d+)\s*(?:\+\s*move|)(?:\+\s*(?:\d)|)(?:\+\s*level|))")
 

@@ -7,6 +7,7 @@ local generate = require "screens.generate_pokemon.generate_pokemon"
 local gui_colors = require "utils.gui_colors"
 local url = require "utils.url"
 local gooey_buttons = require "utils.gooey_buttons"
+local gooey_scrolling_list = require "utils.gooey_scrolling_list"
 local gooey = require "gooey.gooey"
 local dropdown = require "screens.generate_pokemon.dropdown"
 local tracking_id = require "utils.tracking_id"
@@ -66,7 +67,7 @@ local function update_storage_data(self)
 	end
 end
 
-local function update_items(item)
+local function update_item(list, item)
 	for i=1, 3 do
 		local sprite_node = item.nodes["pokemon/pokemon" .. i .. "/pokemon_sprite"]
 		local text_node = item.nodes["pokemon/pokemon" .. i .. "/txt_pokemon"]
@@ -87,15 +88,6 @@ local function update_items(item)
 			gui.set_text(text_node, data[i].species:upper() .. "\nLv. " .. data[i].level)
 		else
 			gui.set_enabled(background, false)
-		end
-	end
-end
-
-local function update_list(list)
-	gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar").scroll_to(0, list.scroll.y)
-	for i,item in ipairs(list.items) do
-		if item.data then
-			update_items(item)
 		end
 	end
 end
@@ -179,7 +171,7 @@ end
 local function update_pokemons_list_view(self)
 	self.filtered_pokemons = get_filtered(self)
 	update_storage_data(self)
-	update_list(gooey.dynamic_list("storage", "scroll_list", "pokemon/row", self.pokemon_rows))
+	self.scrolling_list.refresh(self.pokemon_rows)
 	update_colors(self)
 end
 
@@ -203,8 +195,49 @@ function init(self)
 	
 	update_storage_data(self)
 
-	update_list(gooey.dynamic_list("storage", "scroll_list", "pokemon/row", self.pokemon_rows))
+	self.scrolling_list = gooey_scrolling_list.create_vertical_dynamic("storage", "scroll_list", "pokemon/row", "scrollbar/handle", "scrollbar/bar", "scrollbar/visual", update_item, function(list) on_item_selected(self, list) end)
+	self.scrolling_list.refresh(self.pokemon_rows)
+
 	update_colors(self)
+
+	self.dropdown_generation_min = dropdown.create("generation_min", "min_generation", "txt_min_generation", "scroll_selection", "scroll_bg", "scroll_text", function()
+		local t = gui.get_text(gui.get_node("txt_min_generation"))
+		self.min_generation = tonumber(t)
+		update_pokemons_list_view(self)
+	end)
+
+	self.dropdown_generation_max = dropdown.create("generation_max", "max_generation", "txt_max_generation", "scroll_selection", "scroll_bg", "scroll_text", function()
+		local t = gui.get_text(gui.get_node("txt_max_generation"))
+		self.max_generation = tonumber(t)
+		update_pokemons_list_view(self)
+	end)
+
+	self.dropdown_sr_min = dropdown.create("sr_min", "min_sr", "txt_min_sr", "scroll_selection", "scroll_bg", "scroll_text", function()
+		local t = gui.get_text(gui.get_node("txt_min_sr"))
+		self.min_sr = number_map[t]
+		update_pokemons_list_view(self)
+	end)
+
+	self.dropdown_sr_max = dropdown.create("sr_max", "max_sr", "txt_max_sr", "scroll_selection", "scroll_bg", "scroll_text", function()
+		local t = gui.get_text(gui.get_node("txt_max_sr"))
+		self.max_sr = number_map[t]
+		update_pokemons_list_view(self)
+	end)
+
+	self.dropdown_habitat = dropdown.create("Habitat", "habitat", "txt_habitat", "scroll_selection", "scroll_bg", "scroll_text", function()
+		self.habitat = gui.get_text(gui.get_node("txt_habitat"))
+		update_pokemons_list_view(self)
+	end)
+
+	self.dropdown_trainers = dropdown.create("Trainers", "trainer", "txt_trainer", "scroll_selection", "scroll_bg", "scroll_text", function()
+		self.trainer_class = gui.get_text(gui.get_node("txt_trainer"))
+		update_pokemons_list_view(self)
+	end)
+
+	self.dropdown_type = dropdown.create("Type", "type", "txt_type", "scroll_selection", "scroll_bg", "scroll_text", function()
+		self.type = gui.get_text(gui.get_node("txt_type"))
+		update_pokemons_list_view(self)
+	end)	
 end
 
 
@@ -233,66 +266,39 @@ local function reset_filters(self)
 	update_pokemons_list_view(self)
 end
 
-local function on_scrolled(self, scrollbar)
-	gooey.dynamic_list("storage", "scroll_list", "pokemon/row", self.pokemon_rows).scroll_to(0, scrollbar.scroll.y)
-end
-
-
 function on_input(self, action_id, action)
 	action_position.x = action.x
 	action_position.y = action.y
-	local a = dropdown.on_input("generation_min", "min_generation", "txt_min_generation", "scroll_selection", "scroll_bg", "scroll_text", GENERATIONS, action_id, action, function()
-		local t = gui.get_text(gui.get_node("txt_min_generation"))
-		self.min_generation = tonumber(t)
-		update_pokemons_list_view(self)
-	end)
-	if a then return true end
+	if self.dropdown_generation_min.on_input(generations, action_id, action) then
+		return true
+	end
 
-	local a = dropdown.on_input("generation_max", "max_generation", "txt_max_generation", "scroll_selection", "scroll_bg", "scroll_text", GENERATIONS, action_id, action, function()
-		local t = gui.get_text(gui.get_node("txt_max_generation"))
-		self.max_generation = tonumber(t)
-		update_pokemons_list_view(self)
-	end)
-	if a then return true end
+	if self.dropdown_generation_max.on_input(generations, action_id, action) then
+		return true
+	end
 	
-	local c = dropdown.on_input("sr_min", "min_sr", "txt_min_sr", "scroll_selection", "scroll_bg", "scroll_text", constants.SR_LIST, action_id, action, function()
-		local t = gui.get_text(gui.get_node("txt_min_sr"))
-		self.min_sr = MIN_SR
-		update_pokemons_list_view(self)
-	end)
-	if c then return true end
+	if self.dropdown_sr_min.on_input(sr, action_id, action) then
+		return true
+	end
 
-	local d = dropdown.on_input("sr_max", "max_sr", "txt_max_sr", "scroll_selection", "scroll_bg", "scroll_text", constants.SR_LIST, action_id, action, function()
-		local t = gui.get_text(gui.get_node("txt_max_sr"))
-		self.max_sr = MAX_SR
-		update_pokemons_list_view(self)
-	end)
-	if d then return true end
+	if self.dropdown_sr_max.on_input(sr, action_id, action) then
+		return true
+	end
 	
-	local a = dropdown.on_input("Habitat", "habitat", "txt_habitat", "scroll_selection", "scroll_bg", "scroll_text", self.habitat_list, action_id, action, function()
-		self.habitat = gui.get_text(gui.get_node("txt_habitat"))
-		update_pokemons_list_view(self)
-	end)
-	if a then return true end
+	if self.dropdown_habitat.on_input(self.habitat_list, action_id, action) then
+		return true
+	end
 		
-	local b = dropdown.on_input("Trainers", "trainer", "txt_trainer", "scroll_selection", "scroll_bg", "scroll_text", self.trainer_class_list, action_id, action, function()
-		self.trainer_class = gui.get_text(gui.get_node("txt_trainer"))
-		update_pokemons_list_view(self)
-	end)
-	if b then return true end
+	if self.dropdown_trainers.on_input(self.trainer_class_list, action_id, action) then
+		return true
+	end
 	
-	local x = dropdown.on_input("Type", "type", "txt_type", "scroll_selection", "scroll_bg", "scroll_text", self.type_list, action_id, action, function()
-		self.type = gui.get_text(gui.get_node("txt_type"))
-		update_pokemons_list_view(self)
-	end)
-	if x then return true end
-
+	if self.dropdown_type.on_input(self.type_list, action_id, action) then
+		return true
+	end
 
 	if next(self.pokemon_rows) ~= nil then
-		local list = gooey.dynamic_list("storage", "scroll_list", "pokemon/row", self.pokemon_rows, action_id, action, function(list) on_item_selected(self, list) end, update_list)
-		if list.max_y and list.max_y > 0 then
-			gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar", action_id, action, function(scrollbar) on_scrolled(self, scrollbar) end)
-		end
+		self.scrolling_list.on_input(self.pokemon_rows, action_id, action)
 	end
 
 	gooey.button("level/btn_plus", action_id, action, function()

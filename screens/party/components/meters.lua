@@ -261,9 +261,23 @@ end
 
 local function parse_number(str, current)
 	local value
+	local err
 	local expr
 	if string.find(str, "[+-]") ~= nil then
-		value = loadstring("return " .. current .. str)() - current
+		value, err = loadstring("return " .. current .. str)()
+		if value ~= nil then
+			value = value - current
+		else
+			local e = "Party:HP:Error" .. err
+			log.error(e)
+
+			gameanalytics.addErrorEvent {
+				severity = "Error",
+				message = e
+			}
+			
+			value = current
+		end
 		expr = true
 	else
 		expr = false
