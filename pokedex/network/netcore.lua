@@ -169,7 +169,7 @@ end
 
 local function server_send_client_connect_cbs(client_id)
 	for i=1,#server_client_connect_cbs do
-		server_client_connect_cbs[i](profile_id)
+		server_client_connect_cbs[i](client_id)
 	end
 end
 
