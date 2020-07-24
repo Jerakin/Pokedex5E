@@ -5,6 +5,8 @@ local profiles = require "pokedex.profiles"
 local p2p_discovery = require "defnet.p2p_discovery"
 local notify = require "utils.notify"
 local broadcast = require "utils.broadcast"
+local settings = require "pokedex.settings"
+local md5 = require "utils.md5"
 
 local M = {}
 
@@ -35,7 +37,8 @@ local QUEUE_RECEIVED_MESSAGES = true
 local server_received_message_queue = {}
 local client_received_message_queue = {}
 
-local profile_unique_id = nil
+local server_id = nil
+local profile_id = nil
 
 local client_data_cbs = {}
 local server_data_cbs = {}
@@ -43,10 +46,10 @@ local connection_changed_cbs = {}
 
 local server_known_client_info = {}
 local server_client_to_unique_id = {}
-local server_unique_id_to_client = {}
+local server_id_to_client = {}
 
 local client_known_server_info = {}
-local client_latest_server_unique_id = nil
+local client_latest_server_id = nil
 
 local INITIAL_PACKET_KEY = "INITIAL_PACKET"
 local RECEIVED_MESSAGE_KEY = "RECEIVED_MESSAGE"
@@ -112,11 +115,66 @@ local function on_local_server_found(ip, port)
 	broadcast.send(M.MSG_NEARBY_SERVER_FOUND, nearby_server_info)	
 end
 
+local function server_ensure_client_info(client_id, is_local)
+	local known_client_info = server_known_client_info[client_id]
+	if not known_client_info then
+		known_client_info = 
+		{
+			is_local = is_local,
+			outgoing_messages = {},
+		}
+
+		if not is_local then
+			known_client_info.latest_sent_message_id = 0
+			known_client_info.latest_received_message_id = 0
+		end
+		server_known_client_info[client_id] = known_client_info
+	end
+	return known_client_info
+end
+
+local function client_ensure_server_info(server_id)
+	local known_server_info = client_known_server_info[server_id]
+	if not known_server_info then
+		known_server_info =
+		{
+			latest_sent_message_id = 0,
+			latest_received_message_id = 0,
+			outgoing_messages = {},
+		}
+		client_known_server_info[server_id] = known_server_info
+	end
+	return known_server_info
+end
+
 local function send_to_server_internal(message)
 	if client then
 		-- TODO after encoding, encrypt
 		local encoded = ljson.encode(message) .. "\n"
 		client.send(encoded)
+	end
+end
+
+local function server_send_to_local_client(data)
+	local client_cb = client_data_cbs[data.key].client_received
+	if client_cb then
+		client_cb(data.payload)
+	end
+	local server_cb = client_data_cbs[data.key].server_confirmed
+	if server_cb then
+		server_cb(server_id, data.payload)
+	end
+end
+
+local function send_local_outgoing_messages()
+	local known_client_info = server_ensure_client_info(profile_id, true)
+	local messages = known_client_info.outgoing_messages
+	if #messages > 0 then
+		known_client_info.outgoing_messages = {}
+		for i=1,#messages do
+			server_send_to_local_client(messages[i])
+		end
+		settings.save()
 	end
 end
 
@@ -140,6 +198,7 @@ local function server_process_received_message(client, message_id)
 			this_message = client_info.outgoing_messages[i]
 			if this_message.message_id == message_id then
 				table.remove(client_info.outgoing_messages, i)
+				settings.save()
 				break
 			end
 		end
@@ -156,9 +215,9 @@ local function server_process_received_message(client, message_id)
 end
 
 local function client_process_received_message(message_id)
-	if client_latest_server_unique_id then
-		local server_info = client_known_server_info[client_latest_server_unique_id]
-		assert(server_info, "client_process_received_message could not find server info for " .. client_latest_server_unique_id)
+	if client_latest_server_id then
+		local server_info = client_known_server_info[client_latest_server_id]
+		assert(server_info, "client_process_received_message could not find server info for " .. client_latest_server_id)
 
 		-- Remove this from the outgoing messages so we don't try to send it again next time we connect
 		local this_message
@@ -173,7 +232,7 @@ local function client_process_received_message(message_id)
 		if this_message then
 			local cb = client_data_cbs[this_message.key].server_confirmed
 			if cb then
-				cb(this_message.payload)
+				cb(client_latest_server_id, this_message.payload)
 			end
 		end
 	else
@@ -207,18 +266,9 @@ local function server_process_initial_packet(client, packet)
 		send_to_client_internal(initial_response_message, client)
 	else
 		if client_unique_id then
-			local known_client_info = server_known_client_info[client_unique_id]
-			if not known_client_info then
-				known_client_info =
-				{
-					latest_sent_message_id = 0,
-					latest_received_message_id = 0,
-					outgoing_messages = {},
-				}
-				server_known_client_info[client_unique_id] = known_client_info
-			end
+			local known_client_info = server_ensure_client_info(client_unique_id, false)
 
-			server_unique_id_to_client[client_unique_id] = client		
+			server_id_to_client[client_unique_id] = client		
 			server_client_to_unique_id[client] = client_unique_id
 
 			local initial_response_message = 
@@ -227,8 +277,9 @@ local function server_process_initial_packet(client, packet)
 				payload = 
 				{
 					version = version,
-					server_unique_id = profile_unique_id,
+					server_id = server_id,
 					latest_received_message_id = known_client_info.latest_received_message_id,
+					latest_sent_message_id = known_client_info.latest_sent_message_id,
 				},
 				-- no message_id for the initial packet
 			}
@@ -250,22 +301,24 @@ local function client_process_initial_packet_response(packet)
 		local server_version = packet.version or "Unknown"
 		fail_client_connect("Wrong host version!\nHost's: " .. tostring(server_version) .. ", Ours: " .. tostring(version))
 	else
-		client_latest_server_unique_id = packet.server_unique_id
-		if client_latest_server_unique_id then
-			local known_server_info = client_known_server_info[client_latest_server_unique_id]
-			if not known_server_info then
-				known_server_info =
-				{
-					latest_sent_message_id = 0,
-					latest_received_message_id = 0,
-					outgoing_messages = {},
-				}
-				client_known_server_info[client_latest_server_unique_id] = known_server_info
+		client_latest_server_id = packet.server_id
+		if client_latest_server_id then
+			local known_server_info = client_ensure_server_info(client_latest_server_id)
+			
+			local latest_message_received = packet.latest_received_message_id
+
+			-- The server may know about a message that is later than what we even think we sent. If that's the case, probably we forgot about this server and are now re-joining it
+			if known_server_info.latest_sent_message_id < latest_message_received then
+				known_server_info.latest_sent_message_id = latest_message_received
 			end
 
-			-- The server told us what the latest message it received was. Look through the outgoing messages and send
-			-- any messages later than that, removing anything it already received.
-			local latest_message_received = packet.latest_received_message_id
+			-- Likewise, the server may think it sent us an earlier message than we received from it. If that's the case, probably the server forgot about us and we are new to it,
+			-- in which case just reset our latest received to be earlier so we get its next messages
+			if known_server_info.latest_received_message_id > packet.latest_sent_message_id then
+				known_server_info.latest_received_message_id = packet.latest_sent_message_id
+			end
+
+			-- Look through the outgoing messages and send any messages later than what the server got last, removing anything we already received.
 			local i=1
 			while i < #known_server_info.outgoing_messages do
 				local this_message = known_server_info.outgoing_messages[i]
@@ -312,6 +365,7 @@ local function server_on_data(data, ip, port, client)
 
 						if message_id > client_info.latest_received_message_id then
 							client_info.latest_received_message_id = message_id
+							settings.save()
 						else
 							-- We already got this message, ignore it
 							do_callbacks = false
@@ -377,8 +431,8 @@ local function client_on_data(data)
 					local message_id = json_data.message_id
 					assert(message_id, "client_on_data server did not send message_id")
 
-					local server_info = client_known_server_info[client_latest_server_unique_id]
-					assert(server_info, "client_on_data could not find server info for " .. client_latest_server_unique_id)
+					local server_info = client_known_server_info[client_latest_server_id]
+					assert(server_info, "client_on_data could not find server info for " .. client_latest_server_id)
 
 					if message_id > server_info.latest_received_message_id then
 						server_info.latest_received_message_id = message_id
@@ -433,20 +487,32 @@ local function server_on_client_disconnected(ip, port, client)
 	local unique_id = server_client_to_unique_id[client]
 	if unique_id then
 		server_client_to_unique_id[client] = nil
-		server_unique_id_to_client[unique_id] = nil
+		server_id_to_client[unique_id] = nil
 	end
 end
 
 local function set_unique_id(id)
-	if profile_unique_id ~= id then
-		profile_unique_id = id
-		M.stop_server()
+	if profile_id ~= id then
+		profile_id = id
 		M.stop_client()
+
+		if current_state == M.STATE_SERVING then
+			send_local_outgoing_messages()
+		end
 	end
 end
 
+local function on_active_profile_changing()
+	M.save()
+end
+
 local function on_active_profile_changed()
-	set_unique_id(profiles.get_active_file_name())
+end
+
+local function generate_id()
+	local m = md5.new()
+	m:update(tostring(socket.gettime()))
+	return md5.tohex(m:finish()):sub(1, 8)
 end
 
 function M.init()
@@ -460,9 +526,21 @@ function M.init()
 	elseif system == "HTML5" then
 		version = sys.get_config("gameanalytics.build_html5", nil)
 	end
+
+	local netcore_settings = settings.get("netcore") or {}
+	if not netcore_settings.server_id then
+		netcore_settings.server_id = generate_id()
+	end
+	if not netcore_settings.server_known_client_info then
+		netcore_settings.server_known_client_info = {}
+	end
+
+	server_known_client_info = netcore_settings.server_known_client_info
+	server_id = netcore_settings.server_id	
 	
-	on_active_profile_changed()
-	profiles.register_active_profile_changed_cb(on_active_profile_changed)
+	settings.set("netcore", netcore_settings)
+
+	profiles.register_active_profile_changing_cb(on_active_profile_changing)
 end
 
 function M.final()
@@ -475,29 +553,27 @@ function M.final()
 	end
 end
 
-function M.load(profile)
+function M.load_profile(profile)
 	local data = profile.netcore
 	if data ~= nil then
-		server_known_client_info=data.server_known_client_info
 		client_known_server_info=data.client_known_server_info
-		client_latest_server_unique_id=data.client_latest_server_unique_id
 	else
-		server_known_client_info = {}
 		client_known_server_info = {}
-		client_latest_server_unique_id = nil
 	end
+
+	set_unique_id(profiles.get_active_file_name())
 end
 
 function M.save()
-	profiles.update(profiles.get_active_slot(),
-	{
-		netcore =
+	if profiles.get_active_slot() then
+		profiles.update(profiles.get_active_slot(),
 		{
-			server_known_client_info=server_known_client_info,
-			client_known_server_info=client_known_server_info,
-			client_latest_server_unique_id=client_latest_server_unique_id,
-		}
-	})
+			netcore =
+			{
+				client_known_server_info=client_known_server_info,
+			}
+		})
+	end
 end
 
 function M.register_client_data_callback(key, fn_on_client_received, ensure_send, fn_on_server_confirmed)
@@ -562,7 +638,7 @@ function M.start_server(port)
 	
 	M.disconnect()
 	
-	client_latest_server_unique_id = profile_unique_id
+	client_latest_server_id = server_id
 
 	is_listening = false
 	p2p = p2p_discovery.create(DISCOVERY_PORT)
@@ -573,6 +649,7 @@ function M.start_server(port)
 	server.start()
 	
 	change_state_to(M.STATE_SERVING)
+	send_local_outgoing_messages()
 end
 
 function M.stop_server()
@@ -604,7 +681,7 @@ local function start_client(server_ip, server_port)
 			payload =
 			{
 				version = version,
-				unique_id = profile_unique_id,
+				unique_id = profile_id,
 			}
 			-- no message_id in initial packet
 		}
@@ -640,39 +717,33 @@ end
 
 function M.send_to_client(key, payload, client_unique_id)
 	if server ~= nil then
-		if client_unique_id ~= profile_unique_id then
-			local known_client_info = server_known_client_info[client_unique_id]
-			if known_client_info then
-				
-				local data =
-				{
-					key=key,
-					payload=payload,
-				}
+		local known_client_info = server_known_client_info[client_unique_id]
+		if known_client_info then			
+			local data =
+			{
+				key=key,
+				payload=payload,
+			}
 
+			if known_client_info.is_local and profile_id == client_unique_id then
+				server_send_to_local_client(data)
+			else
 				-- If client requires a receipt, give it an id
 				if client_data_cbs[key].ensure_send then
-					known_client_info.latest_sent_message_id = known_client_info.latest_sent_message_id+1
-					data.message_id = known_client_info.latest_sent_message_id
+					if not known_client_info.is_local then -- don't need IDs on local clients
+						known_client_info.latest_sent_message_id = known_client_info.latest_sent_message_id+1
+						data.message_id = known_client_info.latest_sent_message_id
+					end
 					table.insert(known_client_info.outgoing_messages, data)
+					settings.save()
 				end
-
-				if server_unique_id_to_client[client_unique_id] then
-					send_to_client_internal(data, server_unique_id_to_client[client_unique_id])
+				
+				if server_id_to_client[client_unique_id] then
+					send_to_client_internal(data, server_id_to_client[client_unique_id])
 				end
-			else
-				assert(nil, "send_to_client tried to send to a client we had not heard about")
 			end
 		else
-			-- We are the client this is sending to, just call the callbacks - the message was received and confirmed to be received
-			local client_cb = client_data_cbs[key].client_received
-			if client_cb then
-				client_cb(payload)
-			end
-			local server_cb = client_data_cbs[key].server_confirmed
-			if server_cb then
-				server_cb(profile_unique_id, payload)
-			end
+			assert(nil, "send_to_client tried to send to a client we had not heard about")
 		end
 	else
 		assert(nil, "send_to_client tried to send to client when not running a server")
@@ -680,9 +751,9 @@ function M.send_to_client(key, payload, client_unique_id)
 end
 
 function M.send_to_server(key, payload)	
-	if client_latest_server_unique_id then
-		if client_latest_server_unique_id ~= profile_unique_id then
-			local server_info = client_known_server_info[client_latest_server_unique_id]
+	if client_latest_server_id then
+		if client_latest_server_id ~= server_id then
+			local server_info = client_known_server_info[client_latest_server_id]
 			if server_info then
 				
 				local data =
@@ -706,11 +777,11 @@ function M.send_to_server(key, payload)
 			-- We ARE the server, just send straight to the callbacks - the message was received and confirmed to be received
 			local server_cb = server_data_cbs[key].server_received
 			if server_cb then
-				server_cb(profile_unique_id, payload)
+				server_cb(profile_id, payload)
 			end
 			local client_cb = server_data_cbs[key].client_confirmed
 			if client_cb then
-				client_cb(payload)
+				client_cb(profile_id, payload)
 			end
 		end
 	end
@@ -719,7 +790,7 @@ end
 function M.server_get_connected_ids()
 	local ret = {}
 	if server then
-		table.insert(ret, profile_unique_id)
+		table.insert(ret, profile_id)
 		for _,v in pairs(server_client_to_unique_id) do
 			table.insert(ret, v)
 		end
@@ -728,7 +799,7 @@ function M.server_get_connected_ids()
 end
 
 function M.get_server_id()
-	return client_latest_server_unique_id
+	return client_latest_server_id
 end
 
 function M.get_known_server_ids()
@@ -740,7 +811,7 @@ function M.get_known_server_ids()
 end
 
 function M.get_local_id()
-	return profile_unique_id
+	return profile_id
 end
 
 function M.find_nearby_server()

@@ -8,8 +8,13 @@ local M = {}
 
 local profiles = {}
 local active_slot
+local profile_changing = false
 
 -- TODO: Should probably use broadcast, but I couldn't figure out how to get it to work on a non-UI screen
+local active_profile_changing_cbs = {}
+function M.register_active_profile_changing_cb(cb)
+	table.insert(active_profile_changing_cbs, cb)
+end
 local active_profile_changed_cbs = {}
 function M.register_active_profile_changed_cb(cb)
 	table.insert(active_profile_changed_cbs, cb)
@@ -92,17 +97,28 @@ function M.get_all_profiles()
 end
 
 function M.set_active(slot)
+	for i=1,#active_profile_changing_cbs do
+		active_profile_changing_cbs[i]()
+	end
+	
 	active_slot = slot
 	profiles.last_used = slot
+	
+	M.save()
+end
 
-	for i=1,#active_profile_changed_cbs do
-		active_profile_changed_cbs[i]()
-	end
+-- Very hacky but I can't figure out a better way to do this without changing the way profiles
+-- work. Currently profiels.gui_script calls set_active, then calls a bunch of load() calls. This
+-- means this module isn't actually aware of when it is done switching profiles, because the load
+-- is still in progress
+function M.set_active_complete()
 	for i=1,#active_name_changed_cbs do
 		active_name_changed_cbs[i]()
 	end
 	
-	M.save()
+	for i=1,#active_profile_changed_cbs do
+		active_profile_changed_cbs[i]()
+	end
 end
 
 function M.save()
@@ -144,11 +160,11 @@ function M.set_active_name(new_name)
 		if profiles.slots[active_slot] ~= new_name then
 			profiles.slots[active_slot].name = new_name
 
+			M.save()
+
 			for i=1,#active_name_changed_cbs do
 				active_name_changed_cbs[i]()
 			end
-			
-			M.save()
 		end
 	else
 		local e = "Can not find active_slot " .. tostring(active_slot) ..  "\n" .. debug.traceback()

@@ -237,6 +237,7 @@ local function on_send_pokemon(self)
 	local pokemon_id = self.pokemon_id
 	local pokemon_nickname = tostring(self.nickname)
 	local is_local_host = net_members.is_local_member_host()
+	local prev_screen = monarch.top(-1)
 	local fn_member_chosen = function(member_id)
 		local member_name = tostring(net_member_name.get_name(member_id))
 
@@ -245,7 +246,7 @@ local function on_send_pokemon(self)
 				send_pokemon.send_pokemon(member_id, pokemon_id, send_pokemon.SEND_TYPE_GIFT)
 				notify.notify("GOODBYE, " .. (pokemon_nickname .. "!\nHAVE FUN WITH " .. member_name .. "!"))
 				storage.release_pokemon(pokemon_id)	
-				back()
+				monarch.show(prev_screen, {clear=true})
 			end
 		end
 

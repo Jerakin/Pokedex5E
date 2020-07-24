@@ -2,10 +2,12 @@ local netcore = require "pokedex.network.netcore"
 local broadcast = require "utils.broadcast"
 local utils = require "utils.utils"
 local profiles = require "pokedex.profiles"
+local settings = require "pokedex.settings"
 
 local initialized = false
 local server_member_data = {}
 
+local active_profile_changing = false
 local local_member_data = nil
 local member_info_by_server = {}
 
@@ -18,8 +20,19 @@ local M = {}
 
 M.MEMBERS_CHANGED_MESSAGE = hash("net_members_members_changed")
 
+local function ensure_server_known(server_id)
+	if not member_info_by_server[server_id] then
+		member_info_by_server[server_id] =
+		{
+			list = {},
+			map = {},
+		}
+	end
+end
+
 local function send_local_data(request_all_members)
-	if netcore.is_connected() then
+	if not active_profile_changing and netcore.is_connected() then
+		ensure_server_known(netcore.get_server_id())
 		netcore.send_to_server(MEMBER_DATA_KEY,
 		{
 			member_data=local_member_data,
@@ -31,28 +44,23 @@ end
 local function get_members_list()
 	if netcore.is_connected() then
 		local server_id = netcore.get_server_id()
-		return server_id and member_info_by_server[server_id].list or {}
+		ensure_server_known(server_id)
+		return member_info_by_server[server_id].list
 	end
 	return {}
 end
 
 local function get_members_id_map()
-	local server_id = netcore.get_server_id()
-	return server_id and member_info_by_server[server_id].map or {}
+	if netcore.is_connected() then
+		local server_id = netcore.get_server_id()
+		ensure_server_known(server_id)
+		return member_info_by_server[server_id].map
+	end
+	return {}
 end
 
 local function on_connection_change()
-	if netcore.is_connected() then
-		-- Ensure we know 
-		local server_id = netcore.get_server_id()
-		if not member_info_by_server[server_id] then
-			member_info_by_server[server_id] =
-			{
-				list = {},
-				map = {},
-			}
-		end
-		
+	if netcore.is_connected() then		
 		send_local_data(true)
 	else
 		server_member_clients = {}		
@@ -66,7 +74,7 @@ local function on_client_members_data(new_members_data)
 
 	local member_map = get_members_id_map()
 	local member_list = get_members_list()
-	
+
 	for i=1,#new_members_data do
 		local new_member_data = new_members_data[i]
 		local this_id = new_member_data.id
@@ -82,6 +90,7 @@ local function on_client_members_data(new_members_data)
 	end
 
 	if made_change then
+		M.save()
 		broadcast.send(M.MEMBERS_CHANGED_MESSAGE)
 	end
 end
@@ -91,6 +100,7 @@ local function on_server_members_data(member_id, payload)
 		server_member_data[member_id] = {}
 	end
 	utils.deep_merge_into(server_member_data[member_id], payload.member_data)
+	settings.save()
 
 	-- Send the new member's data to everyone else
 	local all_client_ids = netcore.server_get_connected_ids()
@@ -144,6 +154,15 @@ local function on_server_member_message(member_id, payload)
 	end
 end
 
+local function on_active_profile_changing()
+	active_profile_changing = true
+end
+
+local function on_active_profile_changed()
+	active_profile_changing = false
+	send_local_data(true)
+end
+
 function M.init()
 	if not initialized then
 		netcore.register_connection_change_cb(on_connection_change)
@@ -154,31 +173,43 @@ function M.init()
 		netcore.register_server_data_callback(MEMBER_MESSAGE_KEY, on_server_member_message, true)
 
 		local_member_data = {}
+
+		local net_members_settings = settings.get("net_members") or {}
+		if not net_members_settings.server_member_data then
+			net_members_settings.server_member_data = {}
+		end
+
+		server_member_data = net_members_settings.server_member_data
+
+		settings.set("net_members", server_member_data)
+
+		profiles.register_active_profile_changing_cb(on_active_profile_changing)
+		profiles.register_active_profile_changed_cb(on_active_profile_changed)
 		
 		initialized = true
 	end
 end
 
-function M.load(profile)
+function M.load_profile(profile)
 	local data = profile.net_members
 	if data ~= nil then
-		server_member_data = data.server_member_data
 		member_info_by_server = data.member_info_by_server
 	else
-		server_member_data = {}
 		member_info_by_server = {}
 	end
 end
 
 function M.save()
-	profiles.update(profiles.get_active_slot(),
-	{
-		net_members =
+	local active_slot = profiles.get_active_slot()
+	if active_slot then
+		profiles.update(active_slot,
 		{
-			server_member_data=server_member_data,
-			member_info_by_server=member_info_by_server,
-		}
-	})
+			net_members =
+			{
+				member_info_by_server=member_info_by_server,
+			}
+		})
+	end
 end
 
 function M.is_local_member_host()
@@ -190,6 +221,7 @@ function M.has_other_members()
 end
 
 function M.get_other_members()
+	print("when get_other_members called, member list was: " .. utils.dump_table(get_members_list()))
 	return get_members_list()
 end
 

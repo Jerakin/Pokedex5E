@@ -18,7 +18,7 @@ function M.init()
 
 		local profile = profiles.get_active()
 		if profile then
-			M.load(profile)
+			M.load_profile(profile)
 		end
 		initialized = true
 	end
@@ -34,10 +34,10 @@ function M.final()
 	netcore.final()
 end
 
-function M.load(profile)
-	net_members.load(profile)
+function M.load_profile(profile)
+	net_members.load_profile(profile)
 	
-	netcore.load(profile)
+	netcore.load_profile(profile)
 end
 
 function M.save()

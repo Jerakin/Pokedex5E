@@ -76,11 +76,12 @@ local function okay()
 			profiles.update(slot, { name = name })
 		end
 		profiles.set_active(profile.slot)
-		network.load(profiles.get_active())
+		network.load_profile(profiles.get_active())
 		storage.load(profiles.get_active())
 		trainer.load(profiles.get_active())
 		dex.load(profiles.get_active())
 		storage.set_max_active_pokemon(3) -- default value for new profiles
+		profiles.set_active_complete()
 		monarch.show("add")
 	end
 end

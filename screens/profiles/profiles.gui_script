@@ -46,12 +46,13 @@ local function activate(slot)
 	storage.load(profiles.get_active())
 	trainer.load(profiles.get_active())
 	dex.load(profiles.get_active())
-	network.load(profiles.get_active())
+	network.load_profile(profiles.get_active())
 	if #storage.list_of_ids_in_inventory() > 0 then
 		monarch.show("party")
 	else
 		monarch.show("add")
 	end
+	profiles.set_active_complete()
 end
 
 
@@ -91,6 +92,7 @@ end
 local function delete_profile(self, slot)
 	if profiles.get_active_slot() == slot then
 		profiles.set_active(nil)
+		profiles.set_active_complete()
 	end
 	profiles.delete(slot)
 	gui.set_text(self.seach_text, "")
