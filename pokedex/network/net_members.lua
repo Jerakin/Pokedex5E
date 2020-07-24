@@ -221,7 +221,6 @@ function M.has_other_members()
 end
 
 function M.get_other_members()
-	print("when get_other_members called, member list was: " .. utils.dump_table(get_members_list()))
 	return get_members_list()
 end
 
