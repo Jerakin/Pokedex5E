@@ -23,6 +23,7 @@ local version = require "screens.popups.version_dialog.version"
 local backup = require "utils.backup"
 local screens = require "utils.screens"
 local messages = require "utils.messages"
+local platform = require "utils.platform"
 
 local function send_crash_on_start()
 	crash.write_dump()
@@ -72,7 +73,7 @@ end
 function init(self)
 	collectionfactory.create("/menu#collectionfactory")
 	msg.post(url.MENU, messages.HIDE)
-	local system = sys.get_sys_info().system_name
+
 	window.set_listener(window_resized)
 
 	if not gameanalytics then
@@ -100,7 +101,7 @@ function init(self)
 	msg.post("/menu", "acquire_input_focus")
 
 	
-	if system == "Windows" or system == "Darwin" then
+	if platform.WINDOWS or platform.MACOS then
 		local project = vmath.vector3(640, 1136, 1)
 		local project2 = vmath.vector3(719, 1280, 1)
 		local pixel = vmath.vector3(1440, 2560, 0.3)
@@ -118,7 +119,7 @@ function init(self)
 	msg.post("#", "show_splash")
 	
 	flow.start(function()
-		if system == "HTML5" then
+		if system.WEB then
 			log.info("HTML5: Skipping LuaFileSystem")
 		else
 			require "utils.lfs_extend"
@@ -156,7 +157,7 @@ function init(self)
 		end
 
 		local sysinfo = sys.get_sys_info()
-		if sysinfo.system_name == "Android" then
+		if platform.ANDROID then
 			local up_to_date, versions_behind, _ = version.check_version()
 			if not up_to_date and versions_behind then
 				timer.delay(3, false, function()

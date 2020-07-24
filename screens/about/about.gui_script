@@ -8,6 +8,7 @@ local gooey_buttons = require "utils.gooey_buttons"
 local log = require "utils.log"
 local screens = require "utils.screens"
 local messages = require "utils.messages"
+local platform = require "utils.platform"
 
 function init(self)
 	msg.post(".", messages.ACQUIRE_INPUT_FOCUS)
@@ -17,9 +18,7 @@ function init(self)
 	self.lock = true
 	timer.delay(0.1, false, function() self.lock = false end)
 
-	self.sysinfo = sys.get_sys_info()
-
-	if self.sysinfo.system_name == "Android" then
+	if platform.ANDROID then
 		gui.set_enabled(gui.get_node("version"), false)
 	else
 		gui.set_enabled(gui.get_node("version_btn"), false)
