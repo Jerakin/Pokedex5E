@@ -114,6 +114,26 @@ function M.share(button)
 	end
 end
 
+function M.qr_share(button)
+	if button.pressed_now then
+		gui.play_flipbook(button.node, hash("share_qr_down"))
+	elseif button.released_now then
+		gui.play_flipbook(button.node, hash("share_qr_up"))
+	elseif not button.pressed and button.out_now then
+		gui.play_flipbook(button.node, hash("share_qr_up"))
+	end
+end
+
+function M.clipboard_share(button)
+	if button.pressed_now then
+		gui.play_flipbook(button.node, hash("share_clipboard_down"))
+	elseif button.released_now then
+		gui.play_flipbook(button.node, hash("share_clipboard_up"))
+	elseif not button.pressed and button.out_now then
+		gui.play_flipbook(button.node, hash("share_clipboard_up"))
+	end
+end
+
 function M.pokemon_sort_button(button)
 	if button.pressed_now then
 		gui.play_flipbook(button.node, hash("pokemon_sort_down"))

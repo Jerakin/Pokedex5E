@@ -19,7 +19,7 @@ local map = {
 	[hash("about")] = "btn_about",
 	[hash("debug")] = "btn_debug",
 	[hash("generate_pokemon")] = "btn_generate",
-	[hash("import")] = "btn_import",
+	[hash("receive")] = "btn_receive",
 	[hash("pokedex")] = "btn_pokedex",
 	[hash("settings")] = "btn_settings",
 	[hash("trainer")] = "btn_trainer",
@@ -75,15 +75,15 @@ function init(self)
 	self.btn_generate = gui.get_node("btn_generate")
 	self.btn_debug = gui.get_node("btn_debug")
 	self.menu = gui.get_node("menu")
-	self.btn_import = gui.get_node("btn_import")
+	self.btn_receive = gui.get_node("btn_receive")
 	self.btn_trainer = gui.get_node("btn_trainer")
 	gui.set_enabled(self.menu, false)
-	if not clipboard then
-		gui.set_enabled(self.btn_import, false)
+	if not clipboard and (not camera or not qrcode)then
+		gui.set_enabled(self.btn_receive, false)
 	end
-		local name = profiles.get_active_slot() ~= nil and profiles.get_active_name() or "Someone"
-		gui.set_text(self.btn_storage, name .. "'s PC")
-
+	
+	local name = profiles.get_active_slot() ~= nil and profiles.get_active_name() or "Someone"
+	gui.set_text(self.btn_storage, name .. "'s PC")
 	
 	button.register(self.btn_party, function()
 		gameanalytics.addDesignEvent {
@@ -139,12 +139,12 @@ function init(self)
 		toggle(self)
 	end, {no_shake=true})
 	
-	button.register("btn_import", function()
+	button.register("btn_receive", function()
 		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Import",
+			eventId = "Navigation:Receive",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("qr_read")
+		monarch.show("receive")
 		toggle(self)
 	end, {no_shake=true})
 

@@ -32,6 +32,7 @@ local M = {
 	[hash("settings")] = 223,
 	[hash("fakemon")] = 224,
 	[hash("moves_confirm")] = 225,
+	[hash("receive")] = 226,
 }
 
 return M

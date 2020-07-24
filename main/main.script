@@ -110,7 +110,7 @@ function init(self)
 		local iphonese = vmath.vector3(640, 1136, 1)
 		local umx = vmath.vector3(480, 854, 1)
 		
-		local using = tab8
+		local using = project2
 		
 		msg.post("@render:", "resize", { width = using.x*using.z, height = using.y*using.z } )
 	end

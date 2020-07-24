@@ -1427,7 +1427,7 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/gradient"
-  id: "btn_import"
+  id: "btn_receive"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -1481,9 +1481,9 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "IMPORT"
+  text: "RECEIVE"
   font: "script"
-  id: "txt_import"
+  id: "txt_receive"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_W
@@ -1501,7 +1501,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "btn_import"
+  parent: "btn_receive"
   layer: "script"
   inherit_alpha: false
   alpha: 1.0
@@ -1550,7 +1550,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "btn_import"
+  parent: "btn_receive"
   layer: "gui"
   inherit_alpha: true
   slice9 {
