@@ -23,7 +23,7 @@ local function on_pokemon_receieved(from_member_id, message)
 		if send_type == M.SEND_TYPE_CATCH then
 			notify_msg = "YOU CAUGHT " .. pkmn_name .."!"
 		elseif send_type == M.SEND_TYPE_GIFT then
-			notify_msg = from_name .. " SEND YOU " .. pkmn_name .."!"
+			notify_msg = from_name .. " SENT YOU " .. pkmn_name .."!"
 		else
 			notify_msg = "WELCOME, " .. pkmn_name .. "!"
 		end
