@@ -64,6 +64,13 @@ local function error_handler(source, message, traceback)
 end
 
 
+local gameanalytics_keys = {
+	["Windows"] = "gameanalytics.game_key_windows",
+	["Android"] = "gameanalytics.game_key_android",
+	["HTML5"] = "gameanalytics.game_key_html5",
+	["iPhone OS"] = "gameanalytics.game_key_ios"
+}
+
 local function window_resized()
 	msg.post("@render:", "window_event")
 end
@@ -71,15 +78,19 @@ end
 function init(self)
 	collectionfactory.create("/menu#collectionfactory")
 	msg.post(url.MENU, "hide")
-	local system = sys.get_sys_info().system_name
+	
 	window.set_listener(window_resized)
-
-	if not gameanalytics then
+	local system = sys.get_sys_info().system_name
+	
+	local ga_config = sys.get_config(gameanalytics_keys[system])
+	if not gameanalytics or ga_config == nil or ga_config == "" then
 		gameanalytics = require "utils.mock_gameanalytics"
-		log.info("HTML5: Skipping GameAnalytics")
+		log.info("Skipping GameAnalytics")
+	else
+		send_crash_on_start()
+		sys.set_error_handler(error_handler)
 	end
-	send_crash_on_start()
-	sys.set_error_handler(error_handler)
+
 	defsave.appname = "pokedex5E"
 	defsave.verbose = false
 	defsave.use_default_data = false
