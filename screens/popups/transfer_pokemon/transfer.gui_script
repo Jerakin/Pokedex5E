@@ -232,7 +232,10 @@ function init(self)
 	self.index = _pokemon.get_index_number(storage.get_copy(d.id))
 	setup_info(self)
 	if not clipboard then
-		gui.set_enabled(gui.get_node("btn_share"), false)
+		gui.set_enabled(gui.get_node("btn_clipboard_share"), false)
+	end
+	if not qrcode then
+		gui.set_enabled(gui.get_node("btn_qr_share"), false)
 	end
 	self.swap = gui.get_node("swap")
 	self.move = gui.get_node("move")
