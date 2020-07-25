@@ -1,3 +1,6 @@
+local log = require "utils.log"
+
+
 local M = {}
 
 -- Menu
@@ -26,9 +29,9 @@ M.SEARCH = hash("search")
 M.NOTIFY = hash("notify")
 M.DONE = hash("done")
 
--- Locations
-M.PARTY = "party"
-M.PC = "PC"
+-- Locations, also used as strings in the interface
+M.LOCATION_PARTY = "PARTY"
+M.LOCATION_PC = "PC"
 
 -- Messages for flow
 M.SHOW_PROFILE = hash("show_profile")
@@ -47,5 +50,21 @@ M.ITEM = hash("item")
 M.MOVE = hash("move")
 M.CHANGE_HP = hash("change_hp")
 M.RESET = hash("reset")
+
+M.STORAGE_UPDATED = hash("storage_updated")
+M.INVENTORY_UPDATED = hash("inventory_updated")
+
+
+-- Used for debugging, makes sure that our message is in this table
+--[[
+setmetatable(M, {
+	__index = function(t, i)
+		if rawget(t, i) == nil then
+			log.error("Check up for value that does not exist in messages.lua: " .. i)
+		end
+	end
+})
+--]]
+
 
 return M

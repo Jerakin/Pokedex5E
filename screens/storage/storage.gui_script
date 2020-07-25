@@ -84,7 +84,7 @@ local function on_item_selected(self, list)
 							eventId = "Navigation:Transfer",
 							value = tracking_id[monarch.top()]
 						}
-						monarch.show(screens.TRANSFER_POKEMON, {}, {id=pokemon_id, to="PARTY"})
+						monarch.show(screens.TRANSFER_POKEMON, {}, {id=pokemon_id, to=messages.LOCATION_PARTY})
 					end
 				end
 			end

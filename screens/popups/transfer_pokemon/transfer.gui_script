@@ -247,7 +247,7 @@ function init(self)
 	gui.set_text(n, "MOVE TO " .. self.to)
 
 	self.move_button_enabled = true
-	if self.to == messages.PC and #storage.list_of_ids_in_inventory() == 1 then
+	if self.to == messages.LOCATION_PC and #storage.list_of_ids_in_inventory() == 1 then
 		self.move_button_enabled = false
 		gui.set_enabled(gui.get_node("btn_move"), false)
 		gui.set_enabled(gui.get_node("btn_release"), false)
@@ -260,7 +260,7 @@ end
 
 
 local function move(self)
-	if self.to == messages.PARTY then
+	if self.to == messages.LOCATION_PARTY then
 		if storage.free_space_in_inventory() then
 			notify.notify(self.nickname .. " MOVED TO " .. self.to)
 			storage.move_to_inventory(self.pokemon_id)
@@ -271,7 +271,7 @@ local function move(self)
 			gui.set_enabled(self.swap, true)
 			gui.set_enabled(self.move, false)
 		end
-	elseif self.to == messages.PC then
+	elseif self.to == messages.LOCATION_PC then
 		if #storage.list_of_ids_in_inventory() ~= 1 then
 			notify.notify(self.nickname .. " MOVED TO " .. self.to)
 			storage.move_to_storage(self.pokemon_id)

@@ -10,6 +10,7 @@ local tracking_id = require "utils.tracking_id"
 local scrollhandler = require "screens.party.components.scrollhandler"
 local movedex = require "pokedex.moves"
 local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local M = {}
 
