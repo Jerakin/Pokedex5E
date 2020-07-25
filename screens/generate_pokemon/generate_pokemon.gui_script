@@ -10,7 +10,6 @@ local gooey_buttons = require "utils.gooey_buttons"
 local gooey_scrolling_list = require "utils.gooey_scrolling_list"
 local gooey = require "gooey.gooey"
 local dropdown = require "screens.generate_pokemon.dropdown"
-local tracking_id = require "utils.tracking_id"
 local gui_utils = require "utils.gui"
 local gui_extra_functions = require "gui_extra_functions.gui_extra_functions"
 local dex_data = require "pokedex.dex_data"
@@ -308,10 +307,6 @@ function on_input(self, action_id, action)
 	end, gooey_buttons.plus_button)
 
 	gooey.button("btn_back", action_id, action, function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Back",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.back()
 	end)
 	

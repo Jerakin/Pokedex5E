@@ -10,7 +10,6 @@ local gui_colors = require "utils.gui_colors"
 local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
 local notify = require "utils.notify"
-local tracking_id = require "utils.tracking_id"
 local dex = require "pokedex.dex"
 local screens = require "utils.screens"
 
@@ -22,33 +21,16 @@ local function exit(self)
 	local stack = monarch.get_stack()
 	for i=#monarch.get_stack(), 1, -1 do
 		if stack[i] == screens.STORAGE then
-			gameanalytics.addDesignEvent {
-				eventId = "Navigation:PC",
-				value = tracking_id[monarch.top()]
-			}
 			monarch.show(screens.STORAGE)
 		elseif stack[i] == screens.PARTY or stack[i] == screens.PROFILES then
-			gameanalytics.addDesignEvent {
-				eventId = "Navigation:Party",
-				value = tracking_id[monarch.top()]
-			}
 			monarch.show(screens.PARTY)
 		end
 	end
 
-	gameanalytics.addDesignEvent {
-		eventId = "Navigation:Party",
-		value = tracking_id[monarch.top()]
-	}
 	monarch.show(screens.PARTY)
 end
 
 local function add_pokemon(self)
-	gameanalytics.addDesignEvent {
-		eventId = "Pokemon:Add",
-		value = _pokemon.get_index_number(self.pokemon)
-	}
-
 	self.pokemon.level.caught = _pokemon.get_current_level(self.pokemon)
 	self.pokemon.hp.current = _pokemon.get_total_max_hp(self.pokemon)
 	dex.set(self.pokemon.species.current, dex.states.CAUGHT)

@@ -75,10 +75,6 @@ function M.set(species, state)
 		return
 	end
 
-	gameanalytics.addDesignEvent {
-		eventId = "Pokedex:Set",
-		value = state
-	}
 	if state == M.states.UNENCOUNTERED then
 		state = nil
 	end
