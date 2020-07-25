@@ -10,7 +10,6 @@ local gui_colors = require "utils.gui_colors"
 local gooey_buttons = require "utils.gooey_buttons"
 local gooey_scrolling_list = require "utils.gooey_scrolling_list"
 local searchbar = require "screens.storage.searchbar"
-local tracking_id = require "utils.tracking_id"
 local gui_utils = require "utils.gui"
 local screens = require "utils.screens"
 local messages = require "utils.messages"
@@ -80,10 +79,6 @@ local function on_item_selected(self, list)
 				if gui.pick_node(sprite_node, self.action_position.x, self.action_position.y) then
 					local pokemon_id = self.filtered_list[(list.selected_item-1)*3 + i]
 					if pokemon_id then
-						gameanalytics.addDesignEvent {
-							eventId = "Navigation:Transfer",
-							value = tracking_id[monarch.top()]
-						}
 						monarch.show(screens.TRANSFER_POKEMON, {}, {id=pokemon_id, to=messages.LOCATION_PARTY})
 					end
 				end
@@ -120,24 +115,12 @@ function on_input(self, action_id, action)
 	end
 
 	gooey.button("btn_party", action_id, action, function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:PartyByButton",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.show(screens.PARTY)
 	end)
 	gooey.button("btn_sort", action_id, action, function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Sorting",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.show(screens.SORTING)
 	end, gooey_buttons.pokemon_sort_button)
 	gooey.button("btn_add", action_id, action, function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:AddByButton",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.show(screens.ADD) end)
 	searchbar.on_input(self, action_id, action)
 end

@@ -6,7 +6,6 @@ local trainer = require "pokedex.trainer"
 local gro = require "utils.gui_render_order"
 local url = require "utils.url"
 local gooey_buttons = require "utils.gooey_buttons"
-local tracking_id = require "utils.tracking_id"
 local dex = require "pokedex.dex"
 local screens = require "utils.screens"
 local messages = require "utils.messages"
@@ -91,11 +90,6 @@ local function cancel()
 	if existing_profile ~= nil then
 		profiles.delete(slot)
 	end
-		
-	gameanalytics.addDesignEvent {
-		eventId = "Navigation:Back",
-		value = tracking_id[monarch.top()]
-	}
 	monarch.back()
 end
 
