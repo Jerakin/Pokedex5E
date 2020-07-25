@@ -180,7 +180,7 @@ function M.init()
 
 		server_member_data = net_members_settings.server_member_data
 
-		settings.set("net_members", server_member_data)
+		settings.set("net_members", net_members_settings)
 
 		profiles.register_active_profile_changing_cb(on_active_profile_changing)
 		profiles.register_active_profile_changed_cb(on_active_profile_changed)
