@@ -7,8 +7,17 @@ local dex = require "pokedex.dex"
 local pokedex = require "pokedex.pokedex"
 local statuses = require "pokedex.statuses"
 local _file = require "utils.file"
+local platform = require "utils.platform"
 
 local M = {}
+
+-- For checking if sharing is enabled
+M.ENABLED = {
+	CLIPBOARD = clipboard ~= nil,
+	QRCODE_GENERATE = true,
+	QRCODE_READ = platform.PHONE or platform.MACOS,
+}
+M.ENABLED.ANY = M.ENABLED.CLIPBOARD or M.ENABLED.QRCODE_READ
 
 
 function M.validate(pokemon)

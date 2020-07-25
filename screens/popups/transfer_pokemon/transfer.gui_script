@@ -17,6 +17,8 @@ local gui_utils = require "utils.gui"
 local share = require "pokedex.share"
 local screens = require "utils.screens"
 local messages = require "utils.messages"
+local platform = require "utils.platform"
+local _share = require "pokedex.share"
 
 -- Because the "swap pokemon" popup isn't actually its own screen, it doesn't re-init and reset positions of everything
 -- every time it shows up. Therefore, I can't dynamically adjust things for it each time, I need to store their initial values
@@ -231,10 +233,10 @@ function init(self)
 	self.pokemon_id = d.id
 	self.index = _pokemon.get_index_number(storage.get_copy(d.id))
 	setup_info(self)
-	if not clipboard then
+	if not _share.ENABLED.CLIPBOARD then
 		gui.set_enabled(gui.get_node("btn_clipboard_share"), false)
 	end
-	if not qrcode then
+	if not _share.ENABLED.QRCODE_GENERATE then
 		gui.set_enabled(gui.get_node("btn_qr_share"), false)
 	end
 	self.swap = gui.get_node("swap")

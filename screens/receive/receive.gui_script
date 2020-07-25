@@ -6,14 +6,16 @@ local version = require "screens.popups.version_dialog.version"
 local gooey_buttons = require "utils.gooey_buttons"
 local log = require "utils.log"
 local messages = require "utils.messages"
+local platform = require "utils.platform"
+local _share = require "pokedex.share"
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	msg.post(url.MENU, messages.SHOW)
-	if not clipboard then
+	if _share.ENABLED.CLIPBOARD then
 		gui.set_enabled(gui.get_node("btn_clipboard"), false)
 	end
-	if not qrcode then
+	if _share.ENABLED.QRCODE_READ then
 		gui.set_enabled(gui.get_node("btn_qr"), false)
 	end
 end
