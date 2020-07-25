@@ -3,6 +3,8 @@ local utils = require "utils.utils"
 local log = require "utils.log"
 local fakemon = require "fakemon.fakemon"
 local pokedex = require "pokedex.pokedex"
+local dex_data = require "pokedex.dex_data"
+local constants = require "utils.constants"
 
 local M = {}
 
@@ -18,6 +20,7 @@ local generations
 
 local _pokedex
 
+local SR_GROUPING = {}
 
 local function compare(a,b)
 	return a < b
@@ -26,10 +29,10 @@ end
 local function species_rating()
 	for pokemon, data in pairs(_pokedex) do
 		local cr = tostring(data.SR)
-		if sr[cr] then 
-			table.insert(sr[cr], pokemon)
+		if SR_GROUPING[cr] then 
+			table.insert(SR_GROUPING[cr], pokemon)
 		else 
-			sr[cr] = {pokemon}
+			SR_GROUPING[cr] = {pokemon}
 		end
 	end
 end
@@ -69,25 +72,22 @@ local function _trainer_classes_list()
 end
 
 local function generation_list()
-	local dex_indexes = {[1]=151, [2]=251, [3]=386, [4]=493, [5]=649, [6]=721}
-	local gen = {[1]={}, [2]={}, [3]={}, [4]={}, [5]={}, [6]={}}
+	local dex_indexes = dex_data.max_index
+	local output = {}
 	for pokemon, data in pairs(_pokedex) do
 		local index = data.index
-		if index <= dex_indexes[1] then
-			table.insert(gen[1], pokemon)
-		elseif index <= dex_indexes[2] then
-			table.insert(gen[2], pokemon)
-		elseif index <= dex_indexes[3] then
-			table.insert(gen[3], pokemon)
-		elseif index <= dex_indexes[4] then
-			table.insert(gen[4], pokemon)
-		elseif index <= dex_indexes[5] then
-			table.insert(gen[5], pokemon)
-		elseif index <= dex_indexes[6] then
-			table.insert(gen[6], pokemon)
+		for _, gen in pairs(dex_data.order) do
+			local max = dex_indexes[gen]
+			if index <= max then
+				if output[gen] == nil then
+					output[gen] = {}
+				end
+				table.insert(output[gen], pokemon)
+				break
+			end
 		end
 	end
-	return gen
+	return output
 end
 
 function M.init()
@@ -159,7 +159,7 @@ end
 local function SR_list(min, max)
 	local n = {}
 
-	for cr, list in pairs(sr) do 
+	for cr, list in pairs(SR_GROUPING) do 
 		cr = tonumber(cr)
 		if cr <= max and cr >= min then
 			for _, l in pairs(list) do
@@ -170,8 +170,6 @@ local function SR_list(min, max)
 	return n
 end
 
-local number_map = {["1/8"]=0.125, ["1/4"]=0.25, ["1/2"]=0.5, ["1"]=1, ["2"]=2, ["3"]=3, ["4"]=4, ["5"]=5, ["6"]=6, ["7"]=7,["8"]=8,
-["9"]=9, ["10"]=10, ["11"]=11, ["12"]=12, ["13"]=13, ["14"]=14, ["15"]=15}
 
 local function minimum_level_list(lvl)
 	local n = {}

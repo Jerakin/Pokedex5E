@@ -1,38 +1,40 @@
--- Put functions in this file to use them in several other scripts.
--- To get access to the functions, you need to put:
--- require "my_directory.my_file"
--- in any script using the functions.
-
+local screens = require "utils.screens"
 
 local M = {
 
 	--Navigation Events
-	[hash("debug")] = 201,
-	[hash("are_you_sure")] = 202,
-	[hash("info")] = 203,
-	[hash("input")] = 204,
-	[hash("move_info")] = 205,
-	[hash("moves_scrollist")] = 206,
-	[hash("pick_name")] = 207,
-	[hash("random_pokemon")] = 208,
-	[hash("scrollist")] = 209,
-	[hash("sorting")] = 210,
-	[hash("transfer_pokemon")] = 211,
-	[hash("about")] = 212,
-	[hash("add")] = 213,
-	[hash("edit")] = 214,
-	[hash("party")] = 215,
-	[hash("profiles")] = 216,
-	[hash("splash")] = 217,
-	[hash("storage")] = 218,
-	[hash("generate_pokemon")] = 219,
-	[hash("status_effects")] = 220,
-	[hash("import_pokemon")] = 221,
-	[hash("pokedex")] = 222,
-	[hash("settings")] = 223,
-	[hash("fakemon")] = 224,
-	[hash("moves_confirm")] = 225,
-	[hash("receive")] = 226,
+	[screens.DEBUG] = 201,
+	[screens.ARE_YOU_SURE] = 202,
+	[screens.INFO] = 203,
+	[screens.INPUT] = 204,
+	[screens.MOVE_INFO] = 205,
+	[screens.MOVES_SCROLLIST] = 206,
+	[screens.PICK_NAME] = 207,
+	[screens.RANDOM_POKEMON] = 208,
+	[screens.SCROLLIST] = 209,
+	[screens.SORTING] = 210,
+	[screens.TRANSFER_POKEMON] = 211,
+	[screens.ABOUT] = 212,
+	[screens.ADD] = 213,
+	[screens.EDIT] = 214,
+	[screens.PARTY] = 215,
+	[screens.PROFILES] = 216,
+	[screens.SPLASH] = 217,
+	[screens.STORAGE] = 218,
+	[screens.GENERATE_POKEMON] = 219,
+	[screens.STATUS_EFFECTS] = 220,
+	[screens.IMPORT_POKEMON] = 221,
+	[screens.POKEDEX] = 222,
+	[screens.SETTINGS] = 223,
+	[screens.FAKEMON] = 224,
+	[screens.MOVES_CONFIRM] = 225,
+	[screens.VERSION] = 226,
+	[screens.IMPORT] = 227,
+	[screens.TRAINER] = 228,
+	[screens.POKEDEX_POKEMON] = 229,
+	[screens.SPLASH] = 230,
+	[screens.NATURES_SCROLLIST] = 231,
 }
+
 
 return M

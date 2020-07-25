@@ -9,12 +9,13 @@ local status_effects = require "screens.party.components.status_effects"
 local storage = require "pokedex.storage"
 local tracking_id = require "utils.tracking_id"
 local statuses = require "pokedex.statuses"
+local messages = require "utils.messages"
 
 local pokemon_id
 
 function init(self)
 	gui.set_render_order(gro.POPUP)
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	self.lock = true
 	timer.delay(0.1, false, function() self.lock = false end)
 	data = monarch.data("status_effects")
@@ -47,7 +48,7 @@ local function close()
 		eventId = "Navigation:Back",
 		value = tracking_id[monarch.top()]
 	}
-	msg.post(url.MENU, "show")
+	msg.post(url.MENU, messages.SHOW)
 	monarch.back()
 end
 
@@ -91,7 +92,7 @@ function on_input(self, action_id, action)
 		self.start.x = action.x
 		self.start.y = action.y
 	end
-	if action_id == hash("touch") and gui.pick_node(self.scroll_area, action.x, action.y) and math.abs(self.start.y - action.y) > 10 then
+	if action_id == messages.TOUCH and gui.pick_node(self.scroll_area, action.x, action.y) and math.abs(self.start.y - action.y) > 10 then
 		self.is_scrolling = true
 		if action.dy < 0 or gui.get_screen_position(self.scroll_stop).y < 0 then
 			self.scroll_position.y = math.max(self.scroll_position.y + action.dy, 0)

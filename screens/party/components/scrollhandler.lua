@@ -1,5 +1,6 @@
 local gui_utils = require "utils.gui"
 local gui_extra_functions = require "gui_extra_functions.gui_extra_functions"
+local messages = require "utils.messages"
 
 local M = {}
 
@@ -55,7 +56,7 @@ function M.on_input(action_id, action)
 		start.x = action.x
 		start.y = action.y
 	end
-	if action_id == hash("touch") then
+	if action_id == messages.TOUCH then
 		if math.abs(start.y - action.y) > 10 then
 			old_y = gui.get_position(scroll_distance[active_index].node).y
 			max_scroll = scroll_distance[active_index][scroll_distance[active_index].active]
