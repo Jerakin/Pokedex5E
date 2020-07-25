@@ -134,16 +134,18 @@ local function server_ensure_client_info(client_id, is_local)
 	return known_client_info
 end
 
-local function client_ensure_server_info(server_id)
-	local known_server_info = client_known_server_info[server_id]
+local function client_ensure_server_info(this_server_id)
+	local known_server_info = client_known_server_info[this_server_id]
 	if not known_server_info then
 		known_server_info =
 		{
-			latest_sent_message_id = 0,
-			latest_received_message_id = 0,
 			outgoing_messages = {},
 		}
-		client_known_server_info[server_id] = known_server_info
+		if server_id ~= this_server_id then
+			known_server_info.latest_sent_message_id = 0
+			known_server_info.latest_received_message_id = 0
+		end
+		client_known_server_info[this_server_id] = known_server_info
 	end
 	return known_server_info
 end
@@ -174,7 +176,7 @@ local function server_send_client_connect_cbs(client_id)
 end
 
 local function send_local_outgoing_messages()
-	local known_client_info = client_ensure_server_info(profile_id, true)
+	local known_client_info = server_ensure_client_info(profile_id, true)
 	local messages = known_client_info.outgoing_messages
 	if #messages > 0 then
 		known_client_info.outgoing_messages = {}

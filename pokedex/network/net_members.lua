@@ -94,7 +94,7 @@ local function on_client_members_data(new_members_data)
 	end
 end
 
-local function on_server_cient_connect(client_id)
+local function on_server_client_connect(client_id)
 	local other_members_data = {}
 	for k,v in pairs(server_member_data) do		
 		if k ~= client_id then
@@ -166,7 +166,7 @@ function M.init()
 		netcore.register_connection_change_cb(on_connection_change)
 		netcore.register_client_data_callback(MEMBER_DATA_KEY, on_client_members_data)
 		netcore.register_server_data_callback(MEMBER_DATA_KEY, on_server_members_data)
-		netcore.register_server_client_connect(on_server_cient_connect)
+		netcore.register_server_client_connect(on_server_client_connect)
 		
 		netcore.register_client_data_callback(MEMBER_MESSAGE_KEY, on_client_member_message, true)
 		netcore.register_server_data_callback(MEMBER_MESSAGE_KEY, on_server_member_message, true)
