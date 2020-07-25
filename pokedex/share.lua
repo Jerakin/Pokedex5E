@@ -69,28 +69,20 @@ local function decode_status(pokemon)
 	pokemon.statuses = new
 end
 
-local function get_pokemon_json(pokemon)
-	gameanalytics.addDesignEvent {
-		eventId = "Share:Pokemon",
-		value = pokedex.get_index_number(pokemon.species.current)
-	}
+local function serialize_pokemon(pokemon)
 	decode_status(pokemon)
 	return ljson.encode(pokemon)
 end
 
 function M.generate_qr(id)
 	local pokemon = storage.get_copy(id)
-	gameanalytics.addDesignEvent {
-		eventId = "Share:GeneratedQR"
-	}
-	return qrcode.generate(get_pokemon_json(pokemon))
+	return qrcode.generate(serialize_pokemon(pokemon))
 end
 
 function M.export(id)
 	local pokemon = storage.get_copy(id)
-	clipboard.copy(get_pokemon_json(pokemon))
+	clipboard.copy(serialize_pokemon(pokemon))
 	notify.notify((pokemon.nickname or pokemon.species.current) .. " copied to clipboard!")
-
 end
 
 return M
