@@ -82,9 +82,7 @@ function init(self)
 	msg.post(url.MENU, messages.HIDE)
 	
 	window.set_listener(window_resized)
-	local system = sys.get_sys_info().system_name
-	
-	local ga_config = sys.get_config(gameanalytics_keys[system])
+	local ga_config = sys.get_config(gameanalytics_keys[platform.CURRENT])
 	if not gameanalytics or ga_config == nil or ga_config == "" then
 		gameanalytics = require "utils.mock_gameanalytics"
 		log.info("Skipping GameAnalytics")
