@@ -163,7 +163,10 @@ function init(self)
         gui.set_position(self.tabs[i].bg, vmath.vector3(0, -140, 0))
         gui.set_enabled(self.tabs[i].bg, false)
     end
-    activate_tab(self, 1)
+
+    gui.play_flipbook(self.tabs[1].tab, "common_down")
+    gui.set_color(self.tabs[1].text, gui_colors.BUTTON_TEXT_PRESSED)
+    gui.set_enabled(self.tabs[1].bg, true)
     redraw()
 end
 
