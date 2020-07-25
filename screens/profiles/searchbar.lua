@@ -1,6 +1,7 @@
 local gooey = require "gooey.gooey"
 local gui_colors = require "utils.gui_colors"
 local url = require "utils.url"
+local platform = require "utils.platform"
 
 local M = {}
 
@@ -59,10 +60,10 @@ end
 
 local enabled = vmath.vector3(0)
 local disabled = vmath.vector3(0, -449, 0)
-local system  = sys.get_sys_info().system_name
+
 local function keyboard_toggle(self, toggle)
 	local pos = disabled
-	if system == "Android" or system == "iPhone OS" then
+	if platform.MOBILE_PHONE then
 		gui.set_enabled(self.seach_background, false)
 		if toggle then
 			pos = enabled

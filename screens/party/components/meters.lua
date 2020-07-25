@@ -7,6 +7,8 @@ local storage = require "pokedex.storage"
 local information = require "screens.party.components.information"
 local monarch = require "monarch.monarch"
 local gui_colors = require "utils.gui_colors"
+local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local M = {}
 
@@ -83,10 +85,10 @@ end
 
 function M.show_hp_selector(id)
 	local hp = storage.get_pokemon_current_hp(id)
-	monarch.show("input", {},
+	monarch.show(screens.INPUT, {},
 	{
 		sender=msg.url(),
-		message="update_hp",
+		message=messages.UPDATE_HP,
 		allowed_characters="[%d%+%-]",
 		default_text=hp,
 		help_text="Specify new HP (55), subtract (-2), or add (+2)"
@@ -95,10 +97,10 @@ end
 
 function M.show_temp_hp_selector(id)
 	local temp_hp = storage.get_pokemon_temp_hp(id)
-	monarch.show("input", {},
+	monarch.show(screens.INPUT, {},
 	{
 		sender=msg.url(),
-		message="update_temp_hp",
+		message=messages.UPDATE_TEMP_HP,
 		allowed_characters="[%d]",
 		default_text=temp_hp,
 		help_text="Specify temporary HP.\n\nReminder: Temporary HP does not stack!"
@@ -286,7 +288,7 @@ local function parse_number(str, current)
 end
 
 function M.on_message(message_id, message)
-	if message_id == hash("update_exp") then
+	if message_id == messages.UPDATE_EXP then
 		local active_pokemon_id = storage.list_of_ids_in_inventory()[message.active_index]
 		local current_exp = storage.get_pokemon_exp(active_pokemon_id)
 		local min = pokedex.get_experience_for_level(storage.get_pokemon_current_level(active_pokemon_id) - 1)
@@ -304,7 +306,7 @@ function M.on_message(message_id, message)
 				value = exp
 			}
 		end
-	elseif message_id == hash("update_hp") then
+	elseif message_id == messages.UPDATE_HP then
 		local active_pokemon_id = storage.list_of_ids_in_inventory()[message.active_index]
 		local current_hp = storage.get_pokemon_current_hp(active_pokemon_id)
 		local hp, expr = parse_number(message.str, current_hp)
@@ -321,9 +323,9 @@ function M.on_message(message_id, message)
 				value = hp
 			}
 		end
-	elseif message_id == hash("refresh_hp") then
+	elseif message_id == messages.REFRESH_HP then
 		M.setup_hp(active_nodes, active_pokemon_id)
-	elseif message_id == hash("update_temp_hp") then
+	elseif message_id == messages.UPDATE_TEMP_HP then
 		local active_pokemon_id = storage.list_of_ids_in_inventory()[message.active_index]
 		local temp_hp, expr = parse_number(message.str, 0)
 		if not expr then

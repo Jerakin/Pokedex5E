@@ -4,6 +4,7 @@ local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
 local _pokemon = require "pokedex.pokemon"
 local share = require "pokedex.share"
+local screens = require "utils.screens"
 
 function init(self)
 	gooey.acquire_input()
@@ -62,7 +63,7 @@ end
 
 local function confirm(self)
 	if self.pokemon then
-		monarch.show("import_pokemon", nil, {pokemon=self.pokemon})
+		monarch.show(screens.IMPORT_POKEMON, nil, {pokemon=self.pokemon})
 	else
 		exit()
 	end

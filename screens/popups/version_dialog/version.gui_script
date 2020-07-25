@@ -1,8 +1,9 @@
 local monarch = require "monarch.monarch"
 local gooey = require "gooey.gooey"
+local messages = require "utils.messages"
 
 function init(self)
-    msg.post(".", "acquire_input_focus")
+    msg.post(".", messages.ACQUIRE_INPUT_FOCUS)
     self.data = monarch.data("version")
     local text = ""
     if self.data.up_to_date then

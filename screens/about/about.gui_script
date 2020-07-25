@@ -6,18 +6,19 @@ local flow = require "utils.flow"
 local version = require "screens.popups.version_dialog.version"
 local gooey_buttons = require "utils.gooey_buttons"
 local log = require "utils.log"
+local screens = require "utils.screens"
+local messages = require "utils.messages"
+local platform = require "utils.platform"
 
 function init(self)
-	msg.post(".", "acquire_input_focus")
-	msg.post(url.MENU, "hide")
+	msg.post(".", messages.ACQUIRE_INPUT_FOCUS)
+	msg.post(url.MENU, messages.HIDE)
 	gui.set_text(gui.get_node("version"), "Version: " .. sys.get_config("project.version"))
 	gui.set_text(gui.get_node("version_android"), "Version: " .. sys.get_config("project.version"))
 	self.lock = true
 	timer.delay(0.1, false, function() self.lock = false end)
 
-	self.sysinfo = sys.get_sys_info()
-
-	if self.sysinfo.system_name == "Android" then
+	if platform.ANDROID then
 		gui.set_enabled(gui.get_node("version"), false)
 	else
 		gui.set_enabled(gui.get_node("version_btn"), false)
@@ -32,14 +33,14 @@ function on_input(self, action_id, action)
 		flow.start(function()
 			local up_to_date, versions_behind, url = version.check_version()
 			if up_to_date ~= nil then
-				monarch.show("version", {}, {up_to_date=up_to_date, versions_behind=versions_behind, url=url})
+				monarch.show(screens.VERSION, {}, {up_to_date=up_to_date, versions_behind=versions_behind, url=url})
 			else
 				log.info("Version got nil")
 			end
 		end, function(b) gooey_buttons.common_button(b, gui.get_node("version_android")) end)
 		
 	end)
-	if not b.over and not a.over and not self.lock and action_id == hash("touch") and action.released then
+	if not b.over and not a.over and not self.lock and action_id == messages.TOUCH and action.released then
 		gameanalytics.addDesignEvent {
 			eventId = "Navigation:Back",
 			value = tracking_id[monarch.top()]

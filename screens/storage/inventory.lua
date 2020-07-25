@@ -5,6 +5,8 @@ local monarch = require "monarch.monarch"
 local flow = require "utils.flow"
 local gui_colors = require "utils.gui_colors"
 local tracking_id = require "utils.tracking_id"
+local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local M = {}
 
@@ -33,7 +35,7 @@ local function inventory_button(node, id)
 			eventId = "Navigation:Transfer",
 			value = tracking_id[monarch.top()]
 		}
-		monarch.show("transfer_pokemon", {}, {id=id, to="PC"})
+		monarch.show(screens.TRANSFER_POKEMON, {}, {id=id, to=messages.LOCATION_PC})
 	end, {no_shake=true})
 end
 
