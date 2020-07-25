@@ -15,7 +15,6 @@ local movedex = require "pokedex.moves"
 local selected_item
 local flow = require "utils.flow"
 local gooey_buttons = require "utils.gooey_buttons"
-local tracking_id = require "utils.tracking_id"
 local gui_utils = require "utils.gui"
 local constants = require "utils.constants"
 local screens = require "utils.screens"
@@ -662,10 +661,6 @@ end
 function M.on_input(self, action_id, action)
 	button.on_input(action_id, action)
 	gooey.button("change_pokemon/btn_close", action_id, action, function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Back",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.back()
 	end, gooey_buttons.close_button)
 	if M.block then

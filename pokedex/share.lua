@@ -36,10 +36,6 @@ function M.import()
 			msg.post(url.STORAGE, "storage_updated")
 		end
 		notify.notify("Welcome " .. (pokemon.nickname or pokemon.species.current) .. "!")
-		gameanalytics.addDesignEvent {
-			eventId = "Share:Import",
-			value = pokedex.get_index_number(pokemon.species.current)
-		}
 	else
 		notify.notify("Could not parse pokemon data")
 		notify.notify(clipboard.paste())
@@ -93,9 +89,6 @@ end
 function M.export(id)
 	local pokemon = storage.get_copy(id)
 	clipboard.copy(get_pokemon_json(pokemon))
-	gameanalytics.addDesignEvent {
-		eventId = "Share:CopiedToClipboard"
-	}
 	notify.notify((pokemon.nickname or pokemon.species.current) .. " copied to clipboard!")
 
 end

@@ -73,9 +73,6 @@ function M.load_package()
 			M.DATA = file.load_file(package_path)
 			log.info("Found and loaded file " .. index_path)
 			M.LOCAL_INDEX = file.load_file(index_path)
-			gameanalytics.addDesignEvent {
-				eventId = "Fakemon:Load:" .. M.LOCAL_INDEX.name
-			}
 		else
 			log.info("No Fakemon Package found")
 		end
@@ -139,9 +136,6 @@ function M.remove_package()
 	flow.start(function() 
 		local exists, _ = lfs.exists(M.UNZIP_PATH)
 		if exists then
-			gameanalytics.addDesignEvent {
-				eventId = "Fakemon:Remove:" .. M.LOCAL_INDEX.name
-			}
 			lfs.rmdirs(M.UNZIP_PATH)
 		end
 		M.BUSY = false

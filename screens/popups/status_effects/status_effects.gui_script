@@ -7,7 +7,6 @@ local url = require "utils.url"
 local gui_utils = require "utils.gui"
 local status_effects = require "screens.party.components.status_effects"
 local storage = require "pokedex.storage"
-local tracking_id = require "utils.tracking_id"
 local statuses = require "pokedex.statuses"
 local messages = require "utils.messages"
 
@@ -44,34 +43,13 @@ function init(self)
 end
 
 local function close()
-	gameanalytics.addDesignEvent {
-		eventId = "Navigation:Back",
-		value = tracking_id[monarch.top()]
-	}
 	msg.post(url.MENU, messages.SHOW)
 	monarch.back()
-end
-
-local function reset()
-	gameanalytics.addDesignEvent {
-		eventId = "Party:Status:Reset"
-	}
 end
 
 local function on_checked(checkbox, status)
 	local statuses = storage.get_status_effects(pokemon_id)
 	storage.set_status_effect(pokemon_id, status, not statuses[status])
-	if statuses[status] then
-		gameanalytics.addDesignEvent {
-			eventId = "Party:Status:Add",
-			value = status
-		}
-	else
-		gameanalytics.addDesignEvent {
-			eventId = "Party:Status:Remove",
-			value = status
-		}
-	end
 	msg.post(url.PARTY, "refresh_status")
 end
 

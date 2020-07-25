@@ -1,6 +1,5 @@
 local monarch = require "monarch.monarch"
 local defsave = require "defsave.defsave"
-local tracking_id = require "utils.tracking_id"
 local movedex = require "pokedex.moves"
 local natures = require "pokedex.natures"
 local pokedex = require "pokedex.pokedex"
@@ -179,28 +178,12 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == messages.SHOW_PROFILE then
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Profiles",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.show(screens.PROFILES)
 	elseif message_id == messages.SHOW_PARTY then
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Party",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.show(screens.PARTY)
 	elseif message_id == messages.SHOW_SPLASH then
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Splash",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.show(screens.SPLASH)
 	elseif message_id == messages.SHOW_STORAGE then
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:PC",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.show(screens.STORAGE)
 	end
 end

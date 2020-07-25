@@ -8,7 +8,6 @@ local _pokemon = require "pokedex.pokemon"
 local storage = require "pokedex.storage"
 local gooey = require "gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
-local tracking_id = require "utils.tracking_id"
 local share = require "pokedex.share"
 local screens = require "utils.screens"
 local messages = require "utils.messages"
@@ -88,91 +87,51 @@ function init(self)
 
 	
 	button.register(self.btn_party, function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:PartyByMenu",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.show(screens.PARTY)
 		toggle(self)
 	end, {no_shake=true})
 
 	button.register(self.btn_storage, function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:PCByMenu",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.show(screens.STORAGE)
 		toggle(self)
 	end, {no_shake=true})
 
 	button.register(self.btn_about , function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:AboutByMenu",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.show(screens.ABOUT)
 		toggle(self)
 	end, {no_shake=true})
 
 	button.register(self.btn_generate , function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:GenerateByMenu",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.show(screens.GENERATE_POKEMON)
 		toggle(self)
 	end, {no_shake=true})
 
 	button.register(self.btn_profiles, function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:ProfilesByMenu",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.show(screens.PROFILES)
 		toggle(self)
 	end, {no_shake=true})
 
 	button.register("btn_add", function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:AddByMenu",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.show(screens.ADD)
 		toggle(self)
 	end, {no_shake=true})
 	
 	button.register("btn_import", function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Import",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.show(screens.IMPORT)
 		toggle(self)
 	end, {no_shake=true})
 
 	button.register("btn_pokedex", function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Pokedex",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.show(screens.POKEDEX)
 		toggle(self)
 	end, {no_shake=true})
 
 	button.register("btn_settings", function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Settings",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.show(screens.SETTINGS)
 		toggle(self)
 	end, {no_shake=true})
 
 	button.register("btn_trainer", function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Trainer",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.show(screens.TRAINER)
 		toggle(self)
 	end, {no_shake=true})

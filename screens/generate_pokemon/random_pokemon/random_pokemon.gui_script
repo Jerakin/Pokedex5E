@@ -3,7 +3,6 @@ local gooey = require "gooey.gooey"
 local generate = require "screens.generate_pokemon.generate_pokemon"
 local pokedex = require "pokedex.pokedex"
 local gooey_buttons = require "utils.gooey_buttons"
-local tracking_id = require "utils.tracking_id"
 
 local function update_pokemon(self)
 	local sprite, texture = pokedex.get_sprite(self.species)
@@ -24,10 +23,6 @@ function init(self)
 end
 
 local function back()
-	gameanalytics.addDesignEvent {
-		eventId = "Navigation:Back",
-		value = tracking_id[monarch.top()]
-	}
 	monarch.back()
 end
 
