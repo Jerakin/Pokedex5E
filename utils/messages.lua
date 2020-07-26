@@ -21,6 +21,7 @@ M.UPDATE_TEMP_HP = hash("update_temp_hp")
 M.REFRESH_PP = hash("refresh_pp")
 M.REFRESH_STATUS = hash("refresh_status")
 M.INVENTORY = hash("inventory")
+M.FULL_RESET = hash("full_rest")
 
 -- Pokedex
 M.MARK = hash("mark")

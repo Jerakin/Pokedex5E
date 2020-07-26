@@ -83,7 +83,7 @@ function M.show(index)
 		status_effects.create(nodes, pokemon, active_page)
 		
 		button.register(nodes["pokemon/exp_bg"], function()
-			monarch.show(screens.INPUT, {}, {sender=msg.url(), message="update_exp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_exp(id)})
+			monarch.show(screens.INPUT, {}, {sender=msg.url(), message="update_exp", allowed_characters="[%d%+%-]", default_text=_pokemon.get_exp(pokemon)})
 		end)
 	else
 		local e = "Party can not show pokemon with id: " .. tostring(id) .. "\n" .. debug.traceback()

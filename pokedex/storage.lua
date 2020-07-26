@@ -137,8 +137,14 @@ function M.get_copy(id)
 	
 end
 
+
 local function get(id)
 	return storage[id] and storage[id] or active[id]
+end
+
+
+function M.get_pokemon(id)
+	return get(id)
 end
 
 local function get_party()
@@ -149,16 +155,6 @@ local function get_party()
 	return p
 end
 
-function M.set_nickname(id, nickname)
-	local p = get(id)
-	if not nickname == p.species.current then
-		p.nickname = nickname
-	end
-end
-
-function M.get_nickname(id)
-	return get(id) and get(id).nickname or nil
-end
 
 function M.update_pokemon(pokemon)
 	local id = pokemon.id
@@ -170,19 +166,6 @@ function M.update_pokemon(pokemon)
 	M.save()
 end
 
-function M.set_evolution_at_level(id, level)
-	local p = get(id)
-	if type(p.level.evolved) == "number" then
-		local old = p.level.evolved
-		p.level.evolved = {}
-		if old ~= 0 then
-			table.insert(pokemon.level.evolved, old)
-		end
-	end
-	
-	table.insert(p.level.evolved, level)
-	M.save()
-end
 
 function M.get_sorting_method()
 	if sorting.method == "alphabetical" then
@@ -200,82 +183,6 @@ end
 
 function M.set_sorting_method(method)
 	sorting.method = method
-end
-
-function M.set_pokemon_move_pp(id, move, pp)
-	local p = get(id)
-	p.moves[move].pp = pp
-	M.save()
-	return p.moves[move].pp
-end
-
-function M.set_pokemon_exp(id, exp)
-	local p = get(id)
-	p.exp = exp
-	M.save()
-end
-
-function M.set_pokemon_loyalty(id, loyalty)
-	local p = get(id)
-	local c =  math.min(math.max(loyalty, -3), 3)
-	p.loyalty = c
-	M.save()
-end
-
-function M.get_pokemon_loyalty(id)
-	return get(id).loyalty or 0
-end
-
-function M.get_pokemon_exp(id)
-	return get(id).exp
-end
-
-
-function M.get_status_effects(id)
-	return get(id).statuses or {}
-end
-
-function M.set_status_effect(id, effect, enabled)
-	local pokemon = get(id)
-	if pokemon.statuses == nil then
-		pokemon.statuses = {}
-	end
-	if enabled == false then
-		enabled = nil
-	end
-	pokemon.statuses[effect] = enabled
-	M.save()
-end
-
-function M.get_pokemon_current_hp(id)
-	return get(id).hp.current
-end
-
-function M.set_pokemon_current_hp(id, hp)
-	local p = get(id)
-	p.hp.current = hp
-	M.save()
-end
-
-function M.get_pokemon_temp_hp(id)
-	return get(id).hp.temp or 0
-end
-
-function M.set_pokemon_temp_hp(id, temp_hp)
-	local p = get(id)
-	p.hp.temp = math.max(0, temp_hp)
-	M.save()
-end
-
-function M.get_pokemon_current_level(id)
-	return get(id).level.current
-end
-
-function M.set_pokemon_max_hp(id, hp)
-	local p = get(id)
-	p.hp.max = hp
-	p.hp.edited = true
-	M.save()
 end
 
 function M.release_pokemon(id)

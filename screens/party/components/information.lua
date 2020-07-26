@@ -175,7 +175,7 @@ function M.on_input(action_id, action)
 	end
 
 	gooey.button(rest_button, action_id, action, function() 
-		monarch.show(screens.ARE_YOU_SURE, nil, {title="Pokémon Center", text="We heal your Pokémon back to perfect health!\nShall we heal your Pokémon?", sender=msg.url(), id="full_rest"})
+		monarch.show(screens.ARE_YOU_SURE, nil, {title="Pokémon Center", text="We heal your Pokémon back to perfect health!\nShall we heal your Pokémon?", sender=msg.url(), id=messages.FULL_REST})
 	end)
 end
 
@@ -191,11 +191,11 @@ end
 
 function M.on_message(message_id, message, sender)
 	if message_id == messages.RESPONSE and message.response then
-		if message.id == "full_rest" then
+		if message.id == messages.FULL_REST then
 			_pokemon.reset_in_storage(active_pokemon)
-			msg.post(url.PARTY, "refresh_status")
-			msg.post(url.PARTY, "refresh_hp")
-			msg.post(url.PARTY, "refresh_pp")
+			msg.post(url.PARTY, messages.REFRESH_STATUS)
+			msg.post(url.PARTY, messages.REFRESH_HP)
+			msg.post(url.PARTY, messages.REFRESH_PP)
 		end
 	end
 end

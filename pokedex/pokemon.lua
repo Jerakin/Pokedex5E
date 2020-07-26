@@ -324,6 +324,16 @@ function M.get_status_effects(pokemon)
 	return pokemon.statuses or {}
 end
 
+function M.set_status_effect(pokemon, effect, enabled)
+	if pokemon.statuses == nil then
+		pokemon.statuses = {}
+	end
+	if enabled == false then
+		enabled = nil
+	end
+	pokemon.statuses[effect] = enabled
+end
+
 function M.get_all_speed(pokemon)
 	local species = M.get_current_species(pokemon)
 	local mobile_feet = 0
@@ -591,6 +601,11 @@ function M.get_skills(pokemon)
 	return skills
 end
 
+function M.set_move_pp(pkmn, move, pp)
+	pkmn.moves[move].pp = pp
+	return pkmn.moves[move].pp
+end
+
 function M.get_move_pp(pokemon, move)
 	local pokemon_move = pokemon.moves[move]
 	if pokemon_move then
@@ -794,7 +809,7 @@ function M.set_nickname(pokemon, nickname)
 end
 
 function M.get_nickname(pokemon)
-	return storage.get_nickname(M.get_id(pokemon))
+	return pokemon.nickname
 end
 
 function M.get_AC(pokemon)
