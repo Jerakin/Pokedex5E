@@ -11,7 +11,7 @@ local M = {}
 
 function M.add_pokemon(species, level)
 	notify.notify(species .. " was added to your team!")
-	local all_moves = utils.shuffle2(utils.merge(pokedex.get_starting_moves(species), pokedex.get_pokemons_moves(species, level)))
+	local all_moves = utils.shuffle2(utils.merge(pokedex.get_starting_moves(species), pokedex.get_moves(species, level)))
 
 	local pokemon = _pokemon.new({species=species})
 	local moves = {}
@@ -23,7 +23,7 @@ function M.add_pokemon(species, level)
 	end
 	
 	pokemon.exp = pokedex.get_experience_for_level(level-1)
-	pokemon.abilities = pokedex.get_pokemon_abilities(species)
+	pokemon.abilities = pokedex.get_abilities(species)
 	pokemon.level.caught = pokedex.get_minimum_wild_level(species)
 	pokemon.level.current = level
 	pokemon.moves = moves

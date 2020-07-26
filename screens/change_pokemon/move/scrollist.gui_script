@@ -54,13 +54,13 @@ local function set_all_moves(self)
 end
 
 local function set_current(self)
-	self.all_items = filter_out_current_moves(self, pokedex.get_pokemons_moves(self.species, self.level))
+	self.all_items = filter_out_current_moves(self, pokedex.get_moves(self.species, self.level))
 	refresh_list(self)
 end
 
 
 local function set_max(self)
-	self.all_items = filter_out_current_moves(self, pokedex.get_pokemons_moves(self.species, 20))
+	self.all_items = filter_out_current_moves(self, pokedex.get_moves(self.species, 20))
 	refresh_list(self)
 end
 
@@ -82,7 +82,7 @@ function init(self)
 	self.move_to_replace = d.move_to_replace
 	self.pokemon = d.pokemon
 	self.sub_list = "current"	
-	local starting_moves = pokedex.get_pokemons_moves(self.species, self.level)
+	local starting_moves = pokedex.get_moves(self.species, self.level)
 	self.all_items = filter_out_current_moves(self, starting_moves)
 	self.list_items = utils.shallow_copy(self.all_items)
 	gui.set_text(gui.get_node("scrollist/topbar/title"), "Choose New Move")

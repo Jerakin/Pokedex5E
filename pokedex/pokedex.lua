@@ -242,18 +242,18 @@ function M.get_index_number(pokemon)
 	return M.get_pokemon(pokemon).index
 end
 
-function M.get_pokemon_vulnerabilities(pokemon)
-	local types = M.get_pokemon_type(pokemon)
+function M.get_vulnerabilities(pokemon)
+	local types = M.get_type(pokemon)
 	return ptypes.Model(unpack(types)).vulnerabilities
 end
 
-function M.get_pokemon_immunities(pokemon)
-	local types = M.get_pokemon_type(pokemon)
+function M.get_immunities(pokemon)
+	local types = M.get_type(pokemon)
 	return ptypes.Model(unpack(types)).immunities
 end
 
-function M.get_pokemon_resistances(pokemon)
-	local types = M.get_pokemon_type(pokemon)
+function M.get_resistances(pokemon)
+	local types = M.get_type(pokemon)
 	return ptypes.Model(unpack(types)).resistances
 end
 
@@ -277,7 +277,7 @@ function M.get_burrow_speed(pokemon)
 	return M.get_pokemon(pokemon)["Burrowing Speed"] or 0
 end
 
-function M.get_pokemon_type(pokemon)
+function M.get_type(pokemon)
 	return M.get_pokemon(pokemon).Type
 end
 
@@ -303,15 +303,15 @@ function M.get_ability_description(ability)
 	end
 end
 
-function M.get_pokemon_hidden_ability(pokemon)
+function M.get_hidden_ability(pokemon)
 	return M.get_pokemon(pokemon)["Hidden Ability"]
 end
 
-function M.get_pokemon_abilities(pokemon)
+function M.get_abilities(pokemon)
 	return M.get_pokemon(pokemon).Abilities
 end
 
-function M.get_pokemon_skills(pokemon)
+function M.get_skills(pokemon)
 	return M.get_pokemon(pokemon).Skill
 end
 
@@ -323,7 +323,7 @@ function M.get_base_hp(pokemon)
 end
 
 
-function M.get_pokemon_AC(pokemon)
+function M.get_AC(pokemon)
 	return M.get_pokemon(pokemon).AC
 end
 
@@ -423,15 +423,15 @@ function M.get_saving_throw_proficiencies(pokemon)
 	return M.get_pokemon(pokemon).saving_throws
 end
 
-function M.get_pokemon_hit_dice(pokemon)
+function M.get_hit_dice(pokemon)
 	return M.get_pokemon(pokemon)["Hit Dice"]
 end
 
-function M.get_pokemon_HM_numbers(pokemon)
+function M.get_HM_numbers(pokemon)
 	return M.get_pokemon(pokemon)["Moves"].HM
 end
 
-function M.get_pokemon_TM_numbers(pokemon)
+function M.get_TM_numbers(pokemon)
 	return M.get_pokemon(pokemon)["Moves"].TM
 end
 
@@ -445,15 +445,15 @@ function M.get_move_machines(pokemon)
 	return move_list
 end
 
-function M.get_pokemon_SR(pokemon)
+function M.get_SR(pokemon)
 	return M.get_pokemon(pokemon).SR
 end
 
-function M.get_pokemon_exp_worth(level, sr)
+function M.get_exp_worth(level, sr)
 	return exp_grid[level][sr]
 end
 
-function M.get_pokemons_moves(pokemon, level)
+function M.get_moves(pokemon, level)
 	level = level or 20
 	local moves = M.get_pokemon(pokemon)["Moves"]
 	local pick_from = utils.shallow_copy(moves["Starting Moves"])

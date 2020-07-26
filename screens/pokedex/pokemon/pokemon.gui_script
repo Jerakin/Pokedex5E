@@ -39,7 +39,7 @@ function init(self)
 	local weight = pokedex.get_weight(self.species)
 	local height = pokedex.get_height(self.species)
 	local genus = pokedex.get_genus(self.species)
-	local types = pokedex.get_pokemon_type(self.species)
+	local types = pokedex.get_type(self.species)
 	local sprite, texture = pokedex.get_sprite(self.species)
 	gui.set_texture(gui.get_node("species"), texture)
 	if sprite then
