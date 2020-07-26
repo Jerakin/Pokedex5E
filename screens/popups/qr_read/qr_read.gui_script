@@ -46,8 +46,6 @@ local function start_capture(self)
 			gui.set_text(self.label, "Capture Status: ERROR")
 		elseif status == camera.CAMERA_NOT_PERMITTED then
 			gui.set_text(self.label, "Capture Status: NO PERMISSION")
-		else
-			gui.set_text(self.label, "Capture Status: WHAT THE")
 		end
 	end)
 end
@@ -81,6 +79,7 @@ function update(self, dt)
 				local pokemon = _file.load_json(qrstring)
 				if pokemon then
 					if not share.validate(pokemon) then
+						-- We found a QR code and it was a json but we could not validate it as a pokemon
 						return 
 					end
 					share.encode_status(pokemon)
