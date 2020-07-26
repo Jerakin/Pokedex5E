@@ -1,4 +1,5 @@
 local netcore = require "pokedex.network.netcore"
+local net_groups = require "pokedex.network.net_groups"
 local net_members = require "pokedex.network.net_members"
 local net_member_name = require "pokedex.network.net_member_name"
 local send_pokemon = require "pokedex.network.send_pokemon"
@@ -11,9 +12,10 @@ function M.init()
 	if not initialized then
 		netcore.init()
 
+		net_groups.init()
 		net_members.init()
 		net_member_name.init()
-		
+
 		send_pokemon.init()
 
 		local profile = profiles.get_active()

@@ -9,7 +9,7 @@ local member_list = require "screens.network.member_list"
 local net_members = require "pokedex.network.net_members"
 
 local function refresh_member_list()
-	local enabled = net_members.has_other_members()
+	local enabled = net_members.has_any_members()
 
 	gui.set_enabled(gui.get_node("txt_group_members"), enabled)
 	gui.set_enabled(gui.get_node("list_group_members/root"), enabled)
@@ -83,7 +83,7 @@ function init(self)
 		netcore.find_nearby_server()
 	end
 
-	self.list_group_members = member_list.create("list_group_members")
+	self.list_group_members = member_list.create("list_group_members", {show_self=true})
 
 	refresh()
 	
@@ -113,7 +113,7 @@ end
 
 function on_input(self, action_id, action)
 	gooey.button("btn_host", action_id, action, function()
-		netcore.start_server()
+		monarch.show("network_start_hosting")
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_host")) end)
 
 	gooey.button("btn_join", action_id, action, function()

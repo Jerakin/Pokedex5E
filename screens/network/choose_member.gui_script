@@ -29,7 +29,7 @@ function init(self)
 	local prompt = data.prompt or ""
 	gui.set_text(gui.get_node("txt_prompt"), prompt)
 
-	self.list_group_members = member_list.create("list_group_members", function(id) on_member_chosen(self, id) end)
+	self.list_group_members = member_list.create("list_group_members", {fn_member_chosen=function(id) on_member_chosen(self, id) end})
 
 	broadcast.register(net_members.MEMBERS_CHANGED_MESSAGE)
 end

@@ -95,8 +95,13 @@ local function on_client_members_data(new_members_data)
 end
 
 local function on_server_client_connect(client_id)
+	local server_id = netcore.get_server_id()
+	if not server_member_data[server_id] then
+		server_member_data[server_id] = {}
+	end	
+	
 	local other_members_data = {}
-	for k,v in pairs(server_member_data) do		
+	for k,v in pairs(server_member_data[server_id]) do		
 		if k ~= client_id then
 			table.insert(other_members_data, {id=k, data=v})
 		end
@@ -107,10 +112,14 @@ local function on_server_client_connect(client_id)
 end
 
 local function on_server_members_data(member_id, payload)
-	if not server_member_data[member_id] then
-		server_member_data[member_id] = {}
+	local server_id = netcore.get_server_id()
+	if not server_member_data[server_id] then
+		server_member_data[server_id] = {}
 	end
-	utils.deep_merge_into(server_member_data[member_id], payload.member_data)
+	if not server_member_data[server_id][member_id] then
+		server_member_data[server_id][member_id] = {}
+	end
+	utils.deep_merge_into(server_member_data[server_id][member_id], payload.member_data)
 	settings.save()
 
 	-- Send the new member's data to everyone else
@@ -174,13 +183,12 @@ function M.init()
 		local_member_data = {}
 
 		local net_members_settings = settings.get("net_members") or {}
+		settings.set("net_members", net_members_settings)
+		
 		if not net_members_settings.server_member_data then
 			net_members_settings.server_member_data = {}
 		end
-
 		server_member_data = net_members_settings.server_member_data
-
-		settings.set("net_members", net_members_settings)
 
 		profiles.register_active_profile_changing_cb(on_active_profile_changing)
 		profiles.register_active_profile_changed_cb(on_active_profile_changed)
@@ -215,15 +223,37 @@ function M.is_local_member_host()
 	return netcore.get_current_state() == netcore.STATE_SERVING
 end
 
+function M.has_any_members()
+	return netcore.is_connected()
+end
+
 function M.has_other_members()
-	return #get_members_list() > 0
+	return netcore.is_connected() and #get_members_list() > 0
+end
+
+function M.get_all_members()
+	if netcore.is_connected() then
+		local ret = M.get_other_members()
+		table.insert(ret, local_member_data)
+		return ret
+	end
+	return {}
 end
 
 function M.get_other_members()
-	return get_members_list()
+	if netcore.is_connected() then
+		local list = get_members_list()
+		local ret = {}	
+		for i=1,#list do
+			table.insert(ret, list[i])
+		end
+		return ret
+	end
+	return {}
 end
 
 function M.update_member_data(key, data)
+	assert(type(key) == "string", "Keys for member data cannot be hashes - they must be strings as they are used as keys in a table saved to disk")
 	local_member_data[key] = data
 	send_local_data()
 end
@@ -233,7 +263,7 @@ function M.get_member_id(member_obj)
 end
 
 function M.get_data_for_member(key, member_id)
-	if member_id == nil or member_id == netcore.get_local_id() then
+	if member_id == nil or member_id == netcore.get_client_profile_id() then
 		return local_member_data[key]
 	else
 		local index = get_members_id_map()[member_id]

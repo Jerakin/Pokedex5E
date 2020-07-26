@@ -27,6 +27,7 @@ local ordered_screens =
 	"moves_confirm",
 	"network_connect",
 	"network_choose_member",
+	"network_start_hosting",
 }
 
 local M = {}

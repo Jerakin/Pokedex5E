@@ -1,4 +1,4 @@
-script: "/screens/network/connect.gui_script"
+script: "/screens/network/start_hosting.gui_script"
 fonts {
   name: "title"
   font: "/assets/fonts/title.font"
@@ -258,7 +258,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "CONNECT"
+  text: "HOST"
   font: "title"
   id: "template/title"
   xanchor: XANCHOR_NONE
@@ -291,8 +291,63 @@ nodes {
 }
 nodes {
   position {
+    x: -310.0
+    y: 605.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
     x: 0.0
-    y: 340.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 60.0
+    y: 60.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/close_up"
+  id: "btn_back"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 495.0
     z: 0.0
     w: 1.0
   }
@@ -310,7 +365,7 @@ nodes {
   }
   size {
     x: 400.0
-    y: 100.0
+    y: 60.0
     z: 0.0
     w: 1.0
   }
@@ -323,7 +378,7 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/common_up"
-  id: "btn_join_nearby"
+  id: "btn_start_hosting"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_TOP
   pivot: PIVOT_CENTER
@@ -377,11 +432,9 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "JOIN NEARBY HOST:\n"
-  "127.0.0.1\n"
-  ""
+  text: "START HOSTING"
   font: "script_bold"
-  id: "txt_join_nearby"
+  id: "txt_start_hosting"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -399,7 +452,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "btn_join_nearby"
+  parent: "btn_start_hosting"
   layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
@@ -411,8 +464,8 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: 440.0
+    x: 180.0
+    y: -580.0
     z: 0.0
     w: 1.0
   }
@@ -443,7 +496,7 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/common_up"
-  id: "btn_join"
+  id: "btn_create_new"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_TOP
   pivot: PIVOT_CENTER
@@ -497,9 +550,9 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "JOIN"
+  text: "NEW GROUP"
   font: "script_bold"
-  id: "txt_join"
+  id: "txt_create_new"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -517,7 +570,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "btn_join"
+  parent: "btn_create_new"
   layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
@@ -529,8 +582,8 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: 520.0
+    x: 59.0
+    y: 406.0
     z: 0.0
     w: 1.0
   }
@@ -548,7 +601,7 @@ nodes {
   }
   size {
     x: 300.0
-    y: 60.0
+    y: 70.0
     z: 0.0
     w: 1.0
   }
@@ -560,20 +613,20 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/common_up"
-  id: "btn_host"
+  texture: "gui/add_backing"
+  id: "btn_port"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_TOP
+  yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
   layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 10.0
-    y: 10.0
-    z: 10.0
-    w: 10.0
+    x: 18.0
+    y: 18.0
+    z: 18.0
+    w: 30.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -585,7 +638,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 0.0
+    y: 5.0
     z: 0.0
     w: 1.0
   }
@@ -602,203 +655,22 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
-    y: 100.0
+    x: 280.0
+    y: 45.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
     w: 1.0
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "HOST"
-  font: "script_bold"
-  id: "txt_host"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "btn_host"
-  layer: "script_bold"
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 1.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 0.0
-    y: 440.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 300.0
-    y: 60.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/common_up"
-  id: "btn_disconnect"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_TOP
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "root"
-  layer: "gui"
-  inherit_alpha: true
-  slice9 {
-    x: 10.0
-    y: 10.0
-    z: 10.0
-    w: 10.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-}
-nodes {
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "DISCONNECT"
-  font: "script_bold"
-  id: "txt_disconnect"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "btn_disconnect"
-  layer: "script_bold"
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 1.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: 0.0
-    y: 520.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "CURRENT STATUS"
+  text: "123456"
   font: "script"
-  id: "txt_status"
+  id: "txt_port"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -816,9 +688,9 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "root"
-  layer: "script_bold"
-  inherit_alpha: true
+  parent: "btn_port"
+  layer: "script"
+  inherit_alpha: false
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
@@ -829,109 +701,6 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 204.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "GROUP MEMBERS:"
-  font: "script"
-  id: "txt_group_members"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "root"
-  layer: "script_bold"
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 1.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
-    x: -1.0
-    y: -273.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_TEMPLATE
-  id: "list_group_members"
-  parent: "root"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  template: "/screens/network/member_list.gui"
-  template_node_child: false
-}
-nodes {
-  position {
-    x: 0.0
     y: 0.0
     z: 0.0
     w: 1.0
@@ -949,45 +718,344 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 2.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.9411765
-    y: 0.9411765
-    z: 0.9411765
+    x: 0.0
+    y: 0.0
+    z: 0.0
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/square"
-  id: "list_group_members/root"
+  id: "port_cursor"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_SW
-  adjust_mode: ADJUST_MODE_STRETCH
-  parent: "list_group_members"
-  layer: ""
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "btn_port"
+  layer: "gui"
   inherit_alpha: true
   slice9 {
-    x: 2.0
-    y: 2.0
-    z: 2.0
-    w: 2.0
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 113.0
+    y: 4.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.7
+    y: 0.7
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 55.0
+    y: 49.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.8
+    y: 0.8
+    z: 0.8
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/edit_up"
+  id: "port_edit_box"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "btn_port"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: -155.0
+    y: 8.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "PORT:"
+  font: "script"
+  id: "txt_port_title"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_E
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "btn_port"
+  layer: "script_bold"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 231.0
+    y: 411.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 40.0
+    y: 40.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/common_up"
+  id: "btn_port_info"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 10.0
+    y: 10.0
+    z: 10.0
+    w: 10.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
     x: 0.0
-    y: 444.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "?"
+  font: "script_bold"
+  id: "txt_port_info"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "btn_port_info"
+  layer: "script_bold"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 0.0
+    y: 301.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "GROUPS:"
+  font: "script"
+  id: "txt_groups"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "root"
+  layer: "script_bold"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 0.0
+    y: 270.0
     z: 0.0
     w: 1.0
   }
@@ -1018,12 +1086,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/details_backing"
-  id: "list_group_members/scroll_area"
+  id: "group_list"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_TOP
   pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_STRETCH
-  parent: "list_group_members/root"
+  parent: "root"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -1036,7 +1104,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -1073,12 +1141,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/add_backing"
-  id: "list_group_members/btn_item"
+  id: "btn_item"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "list_group_members/scroll_area"
+  parent: "group_list"
   layer: "gui"
   inherit_alpha: false
   slice9 {
@@ -1091,7 +1159,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
@@ -1129,7 +1197,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "<text>"
   font: "script"
-  id: "list_group_members/txt_item"
+  id: "txt_item"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -1147,20 +1215,20 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "list_group_members/btn_item"
+  parent: "btn_item"
   layer: "script"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
   shadow_alpha: 1.0
-  template_node_child: true
+  template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
 }
 nodes {
   position {
     x: 346.0
-    y: -556.0
+    y: -730.0
     z: 0.0
     w: 1.0
   }
@@ -1189,13 +1257,13 @@ nodes {
     w: 1.0
   }
   type: TYPE_TEMPLATE
-  id: "list_group_members/scrollbar"
-  parent: "list_group_members/root"
+  id: "scrollbar"
+  parent: "root"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
   template: "/templates/scrollbar.gui"
-  template_node_child: true
+  template_node_child: false
 }
 nodes {
   position {
@@ -1231,12 +1299,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/scroll_bar"
-  id: "list_group_members/scrollbar/bar"
+  id: "scrollbar/bar"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_S
   adjust_mode: ADJUST_MODE_STRETCH
-  parent: "list_group_members/scrollbar"
+  parent: "scrollbar"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -1249,6 +1317,8 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
+  overridden_fields: 1
+  overridden_fields: 4
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -1286,12 +1356,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/transparent"
-  id: "list_group_members/scrollbar/handle"
+  id: "scrollbar/handle"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "list_group_members/scrollbar/bar"
+  parent: "scrollbar/bar"
   layer: "gui"
   inherit_alpha: true
   slice9 {
@@ -1304,6 +1374,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
+  overridden_fields: 1
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -1341,12 +1412,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gui/scroll_bar"
-  id: "list_group_members/scrollbar/visual"
+  id: "scrollbar/visual"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "list_group_members/scrollbar/handle"
+  parent: "scrollbar/handle"
   layer: "gui"
   inherit_alpha: false
   slice9 {
@@ -1361,6 +1432,124 @@ nodes {
   alpha: 1.0
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: -240.0
+    y: -580.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 180.0
+    y: 60.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/common_up"
+  id: "btn_delete_group"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "root"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 10.0
+    y: 10.0
+    z: 10.0
+    w: 10.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "DELETE"
+  font: "script_bold"
+  id: "txt_delete_group"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "btn_delete_group"
+  layer: "script_bold"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
 }
 layers {
   name: "gui"
