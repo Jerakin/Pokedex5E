@@ -3,6 +3,7 @@ local share = require "pokedex.share"
 local url = require "utils.url"
 local _file = require "utils.file"
 local messages = require "utils.messages"
+local screens = require "utils.screens"
 
 local function stop_capture(self)
 	if self.cameraframe == nil then
@@ -52,9 +53,9 @@ end
 
 
 function init(self)
-	msg.post(".", "acquire_input_focus")
+	msg.post(".", messages.ACQUIRE_INPUT_FOCUS)
 	gui.set_render_order(14)
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	self.label = gui.get_node("message")
 	gui.set_text(self.label, "Capture Status: NOTHING")
 	self.view_node = gui.get_node("camera_view")
@@ -84,7 +85,7 @@ function update(self, dt)
 					end
 					share.encode_status(pokemon)
 					camera.stop_capture()
-					monarch.show("import_pokemon", nil, {pokemon=pokemon})
+					monarch.show(screens.IMPORT_POKEMON, nil, {pokemon=pokemon})
 				end
 			end
 		end
@@ -93,7 +94,7 @@ end
 
 
 function on_input(self, action_id, action)
-	if action_id == hash("touch") and action.pressed then
+	if action_id == messages.TOUCH and action.pressed then
 		stop_capture(self)
 		monarch.back()
 	end
