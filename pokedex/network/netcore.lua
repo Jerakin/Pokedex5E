@@ -144,7 +144,7 @@ local function client_ensure_server_info(this_server_id)
 		{
 			outgoing_messages = {},
 		}
-		if server_current_info.id ~= this_server_id then
+		if current_state ~= M.STATE_SERVING or server_current_info.id ~= this_server_id then
 			known_server_info.latest_sent_message_id = 0
 			known_server_info.latest_received_message_id = 0
 		end
@@ -812,7 +812,7 @@ end
 
 function M.send_to_server(key, payload)	
 	if client_latest_server_info.id then
-		if client_latest_server_info.id ~= server_current_info.id then
+		if current_state ~= M.STATE_SERVING or client_latest_server_info.id ~= server_current_info.id then
 			local server_info = client_known_server_info[client_latest_server_info.id]
 			if server_info then
 				
