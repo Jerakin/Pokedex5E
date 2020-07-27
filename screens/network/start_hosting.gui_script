@@ -6,6 +6,7 @@ local button = require "utils.button"
 local netcore = require "pokedex.network.netcore"
 local broadcast = require "utils.broadcast"
 local net_groups = require "pokedex.network.net_groups"
+local net_ip = require "pokedex.network.net_ip"
 local gooey_input_text = require "utils.gooey_input_text"
 local gooey_scrolling_list = require "utils.gooey_scrolling_list"
 local gui_colors = require "utils.gui_colors"
@@ -110,8 +111,11 @@ function init(self)
 	self.group_list = gooey_scrolling_list.create_vertical_dynamic("start_hosting_group_list", "group_list", "btn_item", "scrollbar/handle", "scrollbar/bar", "scrollbar/visual", function(list, item) update_item(self, list, item) end, function(list) on_item_selected(self, list) end)
 	self.group_ids = net_groups.get_group_ids()
 	self.group_list.refresh(self.group_ids)
-
+	
 	broadcast.register(net_groups.MSG_GROUPS_CHANGED)
+
+	-- We don't care about this on this screen, but we might as well kick off a refresh now in case we do start serving
+	net_ip.refresh_global_ip()
 
 	redraw(self)
 
@@ -187,9 +191,15 @@ function on_input(self, action_id, action)
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_create_new")) end)	
 
 	gooey.button("btn_port_info", action_id, action, function()
+		local text = "Players joining must connect to your device's address and port.\n\nIf they are far away, you may need to set up TCP Port Forwarding through your router.\n\nTo learn more about how to do this, please search for \"How to Port Forward\" and/or look at your router's instructions.\n\nThis is a common practice when hosting many games, so you should be able to find plenty of info about it!"
+		net_ip.refresh_local_ip()
+		local local_ip = net_ip.get_local_ip()
+		if local_ip then
+			text = text .. "\n\nYour local IP for port forwarding is " .. local_ip
+		end
 		monarch.show("info", nil,
 		{
-			text="Players joining must connect to your device's address and port.\n\nIf they are far away, you may need to set up TCP Port Forwarding through your router.\n\nTo learn more about how to do this, please search for \"How to Port Forward\" and/or look at your router's instructions.\n\nThis is a common practice when hosting many games, so you should be able to find plenty of info about it!",
+			text=text,
 			btn_text="SOUNDS GOOD!",
 		})
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_port_info")) end)	

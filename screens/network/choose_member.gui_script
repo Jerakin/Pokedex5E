@@ -33,11 +33,11 @@ function init(self)
 
 	self.list_group_members = member_list.create("list_group_members", {fn_member_chosen=function(id) on_member_chosen(self, id) end})
 
-	broadcast.register(net_members.MEMBERS_CHANGED_MESSAGE)
+	broadcast.register(net_members.MSG_MEMBERS_CHANGED)
 end
 
 function final(self)
-	broadcast.unregister(net_members.MEMBERS_CHANGED_MESSAGE)
+	broadcast.unregister(net_members.MSG_MEMBERS_CHANGED)
 end
 
 function on_message(self, message_id, message)

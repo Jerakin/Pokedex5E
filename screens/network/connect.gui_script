@@ -7,12 +7,10 @@ local netcore = require "pokedex.network.netcore"
 local broadcast = require "utils.broadcast"
 local member_list = require "screens.network.member_list"
 local netcore = require "pokedex.network.netcore"
+local net_ip = require "pokedex.network.net_ip"
 local net_members = require "pokedex.network.net_members"
 local screens = require "utils.screens"
 local messages = require "utils.messages"
-
--- https://forum.defold.com/t/how-to-get-global-ip-address-solved/63597
-local GLOBAL_IP_URL = "https://api.ipify.org?format=json"
 
 local function redraw_ip(self)
 	local enabled = netcore.get_current_state() == netcore.STATE_SERVING
@@ -25,10 +23,15 @@ local function redraw_ip(self)
 		gui.set_text(node_port, tostring(port))
 
 		local ip = "<unknown>"
-		if self.global_ip then
-			ip = tostring(self.global_ip)
-		elseif self.local_ip then
-			ip = tostring(self.local_ip) .. "    (local)"
+
+		local global_ip = net_ip.get_global_ip()
+		if global_ip then
+			ip = tostring(global_ip)
+		else
+			local local_ip = net_ip.get_local_ip()
+			if local_ip then
+				ip = tostring(local_ip) .. "    (local)"
+			end
 		end
 		gui.set_text(node_ip, ip)
 	end
@@ -121,37 +124,24 @@ function init(self)
 
 	self.list_group_members = member_list.create("list_group_members", {show_self=true})
 
-	-- Find both local and global IP. We'll try to display one of them
-	local local_ip_info = sys.get_ifaddrs()
-	for i=1,#local_ip_info do
-		local t = local_ip_info[i]
-		if t.running and t.up then
-			self.local_ip = t.address
-			break
-		end
+	if netcore.get_current_state() == netcore.STATE_SERVING then
+		net_ip.refresh_local_ip()
+		net_ip.refresh_global_ip()
 	end
 
-	http.request(GLOBAL_IP_URL, "GET", function(self, id, res)		
-		print("http.request returned = " .. tostring(res.response))
-		if res.status == 200 or res.status == 304 then
-			self.global_ip = json.decode(res.response)
-			redraw_ip(self)
-		else
-			-- oh well, we'll use local instead
-		end
-	end)
-	
 	redraw(self)
 	
 	broadcast.register(netcore.MSG_NEARBY_SERVER_FOUND)
 	broadcast.register(netcore.MSG_STATE_CHANGED)
-	broadcast.register(net_members.MEMBERS_CHANGED_MESSAGE)
+	broadcast.register(net_members.MSG_MEMBERS_CHANGED)
+	broadcast.register(net_ip.MSG_IPS_UPDATED)
 end
 
 function final(self)
 	broadcast.unregister(netcore.MSG_NEARBY_SERVER_FOUND)
 	broadcast.unregister(netcore.MSG_STATE_CHANGED)
-	broadcast.unregister(net_members.MEMBERS_CHANGED_MESSAGE)
+	broadcast.unregister(net_members.MSG_MEMBERS_CHANGED)
+	broadcast.unregister(net_ip.MSG_IPS_UPDATED)
 end
 
 function on_message(self, message_id, message)
@@ -160,8 +150,10 @@ function on_message(self, message_id, message)
 	elseif message_id == netcore.MSG_STATE_CHANGED then
 		redraw(self)
 		netcore.find_nearby_server()
-	elseif message_id == net_members.MEMBERS_CHANGED_MESSAGE then
+	elseif message_id == net_members.MSG_MEMBERS_CHANGED then
 		redraw_member_list()
+	elseif message__ip == net_ip.MSG_IPS_UPDATED then
+		redraw_ip(self)
 	end
 	
 	self.list_group_members.on_message(message_id, message)

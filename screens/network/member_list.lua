@@ -29,7 +29,7 @@ end
 local MEMBER_LIST = {}
 
 function MEMBER_LIST.on_message(data, message_id, message)
-	if message_id == net_members.MEMBERS_CHANGED_MESSAGE then
+	if message_id == net_members.MSG_MEMBERS_CHANGED then
 		refresh_list(data)
 	end
 end

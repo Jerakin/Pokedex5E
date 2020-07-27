@@ -305,11 +305,11 @@ function init(self)
 	y_pos_tutorial = gui.get_position(gui.get_node("max_active_pokemon_tutorial")).y
 
 	refresh_send_button(self)
-	broadcast.register(net_members.MEMBERS_CHANGED_MESSAGE)
+	broadcast.register(net_members.MSG_MEMBERS_CHANGED)
 end
 
 function final(self)
-	broadcast.unregister(net_members.MEMBERS_CHANGED_MESSAGE)
+	broadcast.unregister(net_members.MSG_MEMBERS_CHANGED)
 end
 
 local function move(self)
@@ -358,7 +358,7 @@ function on_message(self, message_id, message, sender)
 				update_storage()
 			end)
 		end
-	elseif message_id == hash(net_members.MEMBERS_CHANGED_MESSAGE) then
+	elseif message_id == hash(net_members.MSG_MEMBERS_CHANGED) then
 		refresh_send_button(self)
 	end
 end

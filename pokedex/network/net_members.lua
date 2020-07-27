@@ -18,7 +18,7 @@ local MEMBER_MESSAGE_KEY = "NET_MEMBERS_MESSAGE"
 
 local M = {}
 
-M.MEMBERS_CHANGED_MESSAGE = hash("net_members_members_changed")
+M.MSG_MEMBERS_CHANGED = hash("net_members_members_changed")
 
 local function ensure_server_known(server_id)
 	if not member_info_by_server[server_id] then
@@ -65,7 +65,7 @@ local function on_connection_change()
 		server_member_clients = {}		
 	end
 
-	broadcast.send(M.MEMBERS_CHANGED_MESSAGE)
+	broadcast.send(M.MSG_MEMBERS_CHANGED)
 end
 
 local function on_client_members_data(new_members_data)
@@ -90,7 +90,7 @@ local function on_client_members_data(new_members_data)
 
 	if made_change then
 		M.save()
-		broadcast.send(M.MEMBERS_CHANGED_MESSAGE)
+		broadcast.send(M.MSG_MEMBERS_CHANGED)
 	end
 end
 
