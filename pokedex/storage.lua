@@ -15,9 +15,6 @@ local sorting = {}
 local initialized = false
 local max_active_pokemon = 6
 
-function M.is_initialized()
-	return initialized
-end
 
 local function get_id(pokemon)
 	local m = md5.new()
@@ -26,6 +23,7 @@ local function get_id(pokemon)
 	m:update(json.encode(p))
 	return md5.tohex(m:finish())
 end
+
 
 local function getKeysSortedByValue(tbl, sortFunction)
 	local keys = {}
@@ -40,34 +38,6 @@ local function getKeysSortedByValue(tbl, sortFunction)
 	return keys
 end
 
-function M.get_max_active_pokemon_range()
-	return 2,6
-end
-
-function M.get_max_active_pokemon()
-	return max_active_pokemon
-end
-
-function M.set_max_active_pokemon(new_max)
-	new_max = M.clamp_max_active_pokemon(new_max)
-	if new_max ~= max_active_pokemon then
-		max_active_pokemon = new_max
-		M.save()
-	end
-end
-
-function M.clamp_max_active_pokemon(new_max)
-	local range_min, range_max = M.get_max_active_pokemon_range()
-	return math.max(range_min, math.max(range_min, new_max))
-end
-
-function M.is_party_full()
-	local counter = 0
-	for _, _ in pairs(active) do
-		counter = counter + 1
-	end
-	return counter >= M.get_max_active_pokemon()
-end
 
 local function sort_on_index(a, b)
 	return function(a, b) 
@@ -77,32 +47,76 @@ local function sort_on_index(a, b)
 	end
 end
 
+
 local function sort_on_caught(a, b)
 	return function(a, b) 
 		return a.number < b.number  
 	end
 end
 
+
 local function sort_on_level(a, b)
 	return function(a, b) return a.level.current > b.level.current end
 end
 
+
 local function sort_alphabetical(a, b)
 	return function(a, b) return a.species.current < b.species.current end
 end
+
+
+local function sort_on_slot(a, b)
+	return function(a, b) return (a.slot or 7) < (b.slot or 7) end
+end
+
+
+function M.is_initialized()
+	return initialized
+end
+
+
+function M.get_max_active_pokemon_range()
+	return 2,6
+end
+
+
+function M.get_max_active_pokemon()
+	return max_active_pokemon
+end
+
+
+function M.set_max_active_pokemon(new_max)
+	new_max = M.clamp_max_active_pokemon(new_max)
+	if new_max ~= max_active_pokemon then
+		max_active_pokemon = new_max
+	end
+end
+
+function M.clamp_max_active_pokemon(new_max)
+	local range_min, range_max = M.get_max_active_pokemon_range()
+	return math.max(range_min, math.max(range_min, new_max))
+end
+
+
+function M.is_party_full()
+	local counter = 0
+	for _, _ in pairs(active) do
+		counter = counter + 1
+	end
+	return counter >= M.get_max_active_pokemon()
+end
+
 
 function M.list_of_ids_in_storage()
 	local f = M.get_sorting_method()
 	return getKeysSortedByValue(storage, f(a, b))
 end
 
-local function sort_on_slot(a, b)
-	return function(a, b) return (a.slot or 7) < (b.slot or 7) end
-end
 
 function M.list_of_ids_in_inventory()
 	return getKeysSortedByValue(active, sort_on_slot(a, b))
 end
+
 
 function M.is_inventory_pokemon(id)
 	for x, _ in pairs(active) do
@@ -113,12 +127,14 @@ function M.is_inventory_pokemon(id)
 	return false
 end
 
+
 function M.is_in_storage(id)
 	if storage[id] or active[id] then
 		return true
 	end
 	return false
 end
+
 
 function M.get_copy(id)
 	if storage[id] then
@@ -147,6 +163,7 @@ function M.get_pokemon(id)
 	return get(id)
 end
 
+
 local function get_party()
 	local p = {}
 	for _, pokemon in pairs(active) do
@@ -163,7 +180,6 @@ function M.update_pokemon(pokemon)
 	elseif active[id] then
 		active[id] = pokemon
 	end
-	M.save()
 end
 
 
@@ -181,9 +197,11 @@ function M.get_sorting_method()
 	end
 end
 
+
 function M.set_sorting_method(method)
 	sorting.method = method
 end
+
 
 function M.release_pokemon(id)
 	storage[id] = nil
@@ -191,12 +209,13 @@ function M.release_pokemon(id)
 	counters.released = next(counters) ~= nil and counters.released + 1 or 1
 	profiles.update(profiles.get_active_slot(), counters)
 	profiles.set_party(get_party())
-	M.save()
 end
+
 
 function M.get_total()
 	return counters.caught - counters.released
 end
+
 
 function M.add(pokemon)
 	for i=#pokemon.moves, 1, -1 do
@@ -218,9 +237,9 @@ function M.add(pokemon)
 	end
 
 	profiles.set_party(get_party())
-	M.save()
 	profiles.save()
 end
+
 
 function M.save()
 	if profiles.get_active_slot() then
@@ -234,10 +253,10 @@ function M.save()
 			max_active_pokemon = max_active_pokemon
 		}
 		defsave.set(profile, "settings", settings)
-		
 		defsave.save(profile)
 	end
 end
+
 
 function M.load(profile)
 	initialized = false
@@ -259,6 +278,7 @@ function M.load(profile)
 	end
 end
 
+
 function M.init()
 	if not initialized then
 		local profile = profiles.get_active()
@@ -269,6 +289,7 @@ function M.init()
 	end
 end
 
+
 local function assign_slot_numbers()
 	log.info("Assigning slot numbers")
 	local index = 1
@@ -277,6 +298,7 @@ local function assign_slot_numbers()
 		index = index + 1
 	end
 end
+
 
 function M.swap(storage_id, inventory_id)
 	local storage_pokemon = utils.deep_copy(storage[storage_id])
@@ -294,8 +316,8 @@ function M.swap(storage_id, inventory_id)
 	active[storage_id] = storage_pokemon
 	storage[storage_id] = nil
 	profiles.set_party(get_party())
-	M.save()
 end
+
 
 function M.move_to_storage(id)
 	local pokemon = utils.deep_copy(active[id])
@@ -310,8 +332,8 @@ function M.move_to_storage(id)
 	storage[id] = pokemon
 	active[id] = nil
 	profiles.set_party(get_party())
-	M.save()
 end
+
 
 function M.free_space_in_inventory()
 	local index = 0
@@ -321,6 +343,7 @@ function M.free_space_in_inventory()
 	return index < M.get_max_active_pokemon(), index + 1
 end
 
+
 function M.move_to_inventory(id)
 	local free, slot = M.free_space_in_inventory()
 	if free then
@@ -329,10 +352,10 @@ function M.move_to_inventory(id)
 		active[id] = pokemon
 		storage[id] = nil
 		profiles.set_party(get_party())
-		M.save()
 	else
 		assert(false, "Your party is full")
 	end
 end
+
 
 return M

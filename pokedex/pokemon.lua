@@ -297,10 +297,6 @@ function M.set_increased_attribute(pkmn, attribute, value)
 	pkmn.attributes.increased[attribute] = value
 end
 
-function M.save(pkmn)
-	return storage.update_pokemon(pkmn)
-end
-
 function M.get_speed_of_type(pkmn)
 	local species = M.get_current_species(pkmn)
 	local type = pokedex.get_type(species)[1]

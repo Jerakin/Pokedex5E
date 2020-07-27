@@ -25,7 +25,7 @@ end
 
 local function save_pokemon(self)
 	_pokemon.set_nickname(self.pokemon, self.nickname)
-	_pokemon.save(self.pokemon)
+	storage.update_pokemon(self.pokemon)
 
 	monarch.show(screens.PARTY)
 end
