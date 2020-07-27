@@ -8,22 +8,23 @@ local _pokemon = require "pokedex.pokemon"
 local storage = require "pokedex.storage"
 local gooey = require "gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
-local tracking_id = require "utils.tracking_id"
 local share = require "pokedex.share"
+local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local map = {
-	[hash("party")] = "btn_party",
-	[hash("storage")] = "btn_storage",
-	[hash("add")] = "btn_add",
-	[hash("profiles")] = "btn_profiles",
-	[hash("about")] = "btn_about",
-	[hash("debug")] = "btn_debug",
-	[hash("generate_pokemon")] = "btn_generate",
-	[hash("import")] = "btn_import",
-	[hash("pokedex")] = "btn_pokedex",
-	[hash("settings")] = "btn_settings",
-	[hash("trainer")] = "btn_trainer",
-	[hash("connect")] = "btn_connect",
+	[screens.PARTY] = "btn_party",
+	[screens.STORAGE] = "btn_storage",
+	[screens.ADD] = "btn_add",
+	[screens.PROFILES] = "btn_profiles",
+	[screens.ABOUT] = "btn_about",
+	[screens.DEBUG] = "btn_debug",
+	[screens.GENERATE_POKEMON] = "btn_generate",
+	[screens.IMPORT] = "btn_import",
+	[screens.POKEDEX] = "btn_pokedex",
+	[screens.SETTINGS] = "btn_settings",
+	[screens.TRAINER] = "btn_trainer",
+	[screens.CONNECT] = "btn_connect",
 }
 
 local function hide(self)
@@ -88,92 +89,52 @@ function init(self)
 
 	
 	button.register(self.btn_party, function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:PartyByMenu",
-			value = tracking_id[monarch.top()]
-		}
-		monarch.show("party")
+		monarch.show(screens.PARTY)
 		toggle(self)
 	end, {no_shake=true})
 
 	button.register(self.btn_storage, function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:PCByMenu",
-			value = tracking_id[monarch.top()]
-		}
-		monarch.show("storage")
+		monarch.show(screens.STORAGE)
 		toggle(self)
 	end, {no_shake=true})
 
 	button.register(self.btn_about , function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:AboutByMenu",
-			value = tracking_id[monarch.top()]
-		}
-		monarch.show("about")
+		monarch.show(screens.ABOUT)
 		toggle(self)
 	end, {no_shake=true})
 
 	button.register(self.btn_generate , function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:GenerateByMenu",
-			value = tracking_id[monarch.top()]
-		}
-		monarch.show("generate_pokemon")
+		monarch.show(screens.GENERATE_POKEMON)
 		toggle(self)
 	end, {no_shake=true})
 
 	button.register(self.btn_profiles, function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:ProfilesByMenu",
-			value = tracking_id[monarch.top()]
-		}
-		monarch.show("profiles")
+		monarch.show(screens.PROFILES)
 		toggle(self)
 	end, {no_shake=true})
 
 	button.register("btn_add", function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:AddByMenu",
-			value = tracking_id[monarch.top()]
-		}
-		monarch.show("add")
+		monarch.show(screens.ADD)
 		toggle(self)
 	end, {no_shake=true})
 	
 	button.register("btn_import", function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Import",
-			value = tracking_id[monarch.top()]
-		}
-		monarch.show("import")
+		monarch.show(screens.IMPORT)
 		toggle(self)
 	end, {no_shake=true})
 
 	button.register("btn_pokedex", function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Pokedex",
-			value = tracking_id[monarch.top()]
-		}
-		monarch.show("pokedex")
+		monarch.show(screens.POKEDEX)
 		toggle(self)
 	end, {no_shake=true})
 
 	button.register("btn_settings", function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Settings",
-			value = tracking_id[monarch.top()]
-		}
-		monarch.show("settings")
+		monarch.show(screens.SETTINGS)
 		toggle(self)
 	end, {no_shake=true})
 
 	button.register("btn_trainer", function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Trainer",
-			value = tracking_id[monarch.top()]
-		}
-		monarch.show("trainer")
+		monarch.show(screens.TRAINER)
 		toggle(self)
 	end, {no_shake=true})
 
@@ -188,7 +149,7 @@ function init(self)
 	
 	if sys.get_engine_info().is_debug then
 		button.register("btn_debug", function()
-			monarch.show("debug")
+			monarch.show(screens.DEBUG)
 			toggle(self)
 		end, {no_shake=true})
 	else
@@ -208,7 +169,7 @@ function on_input(self, action_id, action)
 	
 	if b or g.over_now then return self.toggle end
 
-	if self.toggle and not b and gui.pick_node(gui.get_node("menu"), action.x, action.y) and action_id == hash("touch") and action.pressed then
+	if self.toggle and not b and gui.pick_node(gui.get_node("menu"), action.x, action.y) and action_id == messages.TOUCH and action.pressed then
 		toggle(self)
 		return true
 	end
@@ -216,11 +177,11 @@ function on_input(self, action_id, action)
 end
 
 function on_message(self, message_id, message)
-	if message_id == hash("show") then
+	if message_id == messages.SHOW then
 		local name = profiles.get_active_name() or "Someone"
 		gui.set_text(self.btn_storage, name .. "'s PC")
 		show(self)
-	elseif message_id == hash("hide") then
+	elseif message_id == messages.HIDE then
 		hide(self)
 	end
 end

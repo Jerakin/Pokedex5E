@@ -4,13 +4,9 @@ local monarch = require "monarch.monarch"
 local url = require "utils.url"
 local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
-local tracking_id = require "utils.tracking_id"
+local messages = require "utils.messages"
 
 local function back()
-	gameanalytics.addDesignEvent {
-		eventId = "Navigation:Back",
-		value = tracking_id[monarch.top()]
-	}
 	monarch.back()
 end
 
@@ -22,7 +18,7 @@ end
 
 function init(self)
 	button.acquire()
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 
 	self.btn_icon = gui.get_node("back_graphic")
 	button.register("btn_alphabetical", function() 
@@ -39,7 +35,7 @@ function init(self)
 end
 
 function final(self)
-	msg.post(url.MENU, "show")
+	msg.post(url.MENU, messages.SHOW)
 	button.unregister()
 end
 
@@ -47,7 +43,7 @@ function on_input(self, action_id, action)
 	local b = button.on_input(action_id, action)
 	gooey.button("btn_close", action_id, action, function() back() end, function(b) gooey_buttons.common_button(b, self.btn_icon) end)
 	
-	if not b and gui.pick_node(gui.get_node("menu"), action.x, action.y) and action_id == hash("touch") and action.pressed then
+	if not b and gui.pick_node(gui.get_node("menu"), action.x, action.y) and action_id == messages.TOUCH and action.pressed then
 		back()
 	end
 end

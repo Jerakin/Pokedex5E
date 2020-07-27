@@ -9,6 +9,8 @@ local gui_utils = require "utils.gui"
 local search_bar =  require "screens.pokedex.search"
 local url = require "utils.url"
 local dex_data = require "pokedex.dex_data"
+local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local pokedex_data = {}
 local action_position = vmath.vector3()
@@ -157,7 +159,7 @@ local function scroll_list_click(self, list)
 						update_pokedex_info(self)
 						pokedex_data[list.selected_item][i].state = state_map[mark_as]
 					elseif species and mark_as == nil then
-						monarch.show("pokedex_pokemon", nil, {species=species, row=list.selected_item, index=i, sender=msg.url()})
+						monarch.show(screens.POKEDEX_POKEMON, nil, {species=species, row=list.selected_item, index=i, sender=msg.url()})
 					end
 				end
 			end
@@ -177,7 +179,7 @@ function init(self)
 	}
 
 	url.POKEDEX = msg.url()
-	msg.post(url.MENU, "show")
+	msg.post(url.MENU, messages.SHOW)
 	self.all_pokemons = pokedex.unique
 	self.filtered_list = pokedex.unique
 	local rows = math.ceil(#self.all_pokemons/5)
@@ -285,12 +287,12 @@ function on_input(self, action_id, action)
 end
 
 function on_message(self, message_id, message)
-	if message_id == hash("mark") then
+	if message_id == messages.MARK then
 		pokedex_data[message.row][message.index].state = state_map[message.state]
 		update_dex_data(self)
 		self.scrolling_list.refresh(self.pokemon_rows)
 		update_pokedex_info(self)
-	elseif message_id == hash("search") then
+	elseif message_id == messages.SEARCH then
 		update_dex_data(self)
 		is_searching = #pokedex.unique ~= #self.filtered_list
 		self.scrolling_list.refresh(self.pokemon_rows)

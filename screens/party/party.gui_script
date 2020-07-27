@@ -1,17 +1,18 @@
 local party = require "screens.party.party"
 local inventory = require "screens.party.components.inventory"
 local url = require "utils.url"
-local tracking_id = require "utils.tracking_id"
 local storage = require "pokedex.storage"
 local gooey = require "gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
 local monarch = require "monarch.monarch"
 local screeninfo = require "utils.screeninfo"
+local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 function init(self)
-	msg.post(".", "acquire_input_focus")
-	msg.post(url.MENU, "show")
-	url.set("PARTY", msg.url())
+	msg.post(".", messages.ACQUIRE_INPUT_FOCUS)
+	msg.post(url.MENU, messages.SHOW)
+	url.PARTY = msg.url()
 	local index = storage.list_of_ids_in_inventory()[party.get_active_index()] == nil and 1 or party.get_active_index()
 
 	inventory.set_active(index, true)
@@ -25,22 +26,14 @@ function on_input(self, action_id, action)
 	local consume = inventory.on_input(action_id, action)
 	
 	local edit_button = gooey.button("btn_edit", action_id, action, function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:EditByButton",
-			value = tracking_id[monarch.top()]
-		}
 		local id = storage.list_of_ids_in_inventory()[party.get_active_index()]
-		monarch.show("edit", {}, {id=id})
+		monarch.show(screens.EDIT, {}, {id=id})
 	end)
 	if edit_button.consumed then
 		return
 	end
 	local storage_b = gooey.button("btn_storage", action_id, action, function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:PCByButton",
-			value = tracking_id[monarch.top()]
-		}
-		monarch.show("storage")
+		monarch.show(screens.STORAGE)
 	end)
 	if storage_b.over then
 		return true
@@ -49,15 +42,15 @@ function on_input(self, action_id, action)
 end
 
 function final(self)
-	url.set("PARTY", nil)
+	url.PARTY = nil
 	party.final()
 end
 
 function on_message(self, message_id, message)
 	party.on_message(message_id, message)
-	if message_id == hash("inventory") then
+	if message_id == messages.INVENTORY then
 		inventory.set_active(message.index, message.instant)
-	elseif message_id == hash("refresh") then
+	elseif message_id == messages.REFRESH then
 		inventory.create()
 	end
 end

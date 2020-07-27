@@ -16,6 +16,8 @@ local meters = require "screens.party.components.meters"
 local status_effects = require "screens.party.components.status_effects"
 local gesture = require "utils.gesture"
 local gui_utils = require "utils.gui"
+local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local M = {}
 
@@ -81,7 +83,7 @@ function M.show(index)
 		status_effects.create(nodes, pokemon, active_page)
 		
 		button.register(nodes["pokemon/exp_bg"], function()
-			monarch.show("input", {}, {sender=msg.url(), message="update_exp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_exp(id)})
+			monarch.show(screens.INPUT, {}, {sender=msg.url(), message="update_exp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_exp(id)})
 		end)
 	else
 		local e = "Party can not show pokemon with id: " .. tostring(id) .. "\n" .. debug.traceback()
@@ -115,7 +117,7 @@ function M.switch_to_slot(index)
 
 	M.show(active_index)
 	scrollhandler.set_active_index(active_page)
-	msg.post(".", "inventory", {index=active_index})
+	msg.post(".", messages.INVENTORY, {index=active_index})
 	gui.set_position(new, vmath.vector3(720*pos_index, 0, 0))
 	gui.animate(active, "position.x", (-1*pos_index)*720, gui.EASING_OUTCUBIC, 0.35, 0, function()
 		switching = false

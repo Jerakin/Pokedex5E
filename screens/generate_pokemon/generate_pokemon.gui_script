@@ -10,9 +10,12 @@ local gooey_buttons = require "utils.gooey_buttons"
 local gooey_scrolling_list = require "utils.gooey_scrolling_list"
 local gooey = require "gooey.gooey"
 local dropdown = require "screens.generate_pokemon.dropdown"
-local tracking_id = require "utils.tracking_id"
 local gui_utils = require "utils.gui"
 local gui_extra_functions = require "gui_extra_functions.gui_extra_functions"
+local dex_data = require "pokedex.dex_data"
+local constants = require "utils.constants"
+local messages = require "utils.messages"
+local screens = require "utils.screens"
 
 local storage_data = {}
 local action_position = vmath.vector3()
@@ -24,10 +27,12 @@ local img_map = {["Water's-edge"] = "Waters-edge", Forest = "Forest", Cave = "Ca
 				Rare = "Rare", All = "All"
 }
 
-local number_map = {["1/8"]=0.125, ["1/4"]=0.25, ["1/2"]=0.5, ["1"]=1, ["2"]=2, ["3"]=3, ["4"]=4, ["5"]=5, ["6"]=6, ["7"]=7,["8"]=8,
-["9"]=9, ["10"]=10, ["11"]=11, ["12"]=12, ["13"]=13, ["14"]=14, ["15"]=15}
-local sr = {"1/8", "1/4", "1/2", "1", "2", "3", "4", "5", "6", "7","8", "9", "10", "11", "12", "13", "14", "15"}
-local generations = {"1", "2", "3", "4", "5", "6"}
+local MAX_SR = constants.SR_TO_NUMBER[constants.SR_LIST[#constants.SR_LIST]]
+local MIN_SR = constants.SR_TO_NUMBER[constants.SR_LIST[1]]
+
+-- Generations but remove the 'other'
+local GENERATIONS = dex_data.order
+GENERATIONS[0] = nil
 
 function final(self)
 	selected_pokemon = {}
@@ -139,13 +144,13 @@ local function update_colors(self)
 		gui.set_color(gui.get_node("txt_type"), gui_colors.HERO_TEXT)
 	end
 	
-	if self.min_sr == 0.125 then
+	if self.min_sr == MIN_SR then
 		gui.set_color(gui.get_node("txt_min_sr"), gui_colors.HERO_TEXT_FADED)
 	else
 		gui.set_color(gui.get_node("txt_min_sr"), gui_colors.HERO_TEXT)
 	end
 	
-	if self.max_sr == 15 then
+	if self.max_sr == MAX_SR then
 		gui.set_color(gui.get_node("txt_max_sr"), gui_colors.HERO_TEXT_FADED)
 	else
 		gui.set_color(gui.get_node("txt_max_sr"), gui_colors.HERO_TEXT)
@@ -155,7 +160,7 @@ local function update_colors(self)
 	else
 		gui.set_color(gui.get_node("txt_min_generation"), gui_colors.HERO_TEXT)
 	end
-	if self.max_generation == 6 then
+	if self.max_generation == #GENERATIONS then
 		gui.set_color(gui.get_node("txt_max_generation"), gui_colors.HERO_TEXT_FADED)
 	else
 		gui.set_color(gui.get_node("txt_max_generation"), gui_colors.HERO_TEXT)
@@ -172,18 +177,18 @@ end
 function init(self)
 	gooey.acquire_input()
 	gui_extra_functions.init()
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	self.trainer_class_list = filters.trainer_class_list()
 	self.habitat_list = filters.habitat_list()
 	self.type_list = filters.type_list()
 	self.trainer_class = "Optional"
 	self.habitat = "Optional"
 	self.type = "Optional"
-	self.min_sr = 0.125
-	self.max_sr = 15
+	self.min_sr = MIN_SR
+	self.max_sr = MAX_SR
 	self.level = 0
 	self.min_generation = 0
-	self.max_generation = 6
+	self.max_generation = #GENERATIONS
 	
 	self.filtered_pokemons = get_filtered(self)
 	
@@ -240,11 +245,11 @@ local function reset_filters(self)
 	self.trainer_class = "Optional"
 	self.habitat = "Optional"
 	self.type = "Optional"
-	self.min_sr = 0.125
-	self.max_sr = 15
+	self.min_sr = MIN_SR
+	self.max_sr = MAX_SR
 	self.level = 0
 	self.min_generation = 0
-	self.max_generation = 6
+	self.max_generation = #GENERATIONS
 	
 	gui.set_text(gui.get_node("txt_trainer"), self.trainer_class:upper())
 	gui.set_text(gui.get_node("txt_habitat"), self.habitat:upper())
@@ -302,10 +307,6 @@ function on_input(self, action_id, action)
 	end, gooey_buttons.plus_button)
 
 	gooey.button("btn_back", action_id, action, function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Back",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.back()
 	end)
 	
@@ -322,14 +323,14 @@ function on_input(self, action_id, action)
 
 	gooey.button("btn_clear_generation", action_id, action, function()
 		self.min_generation = 0
-		self.max_generation = 6
+		self.max_generation = #GENERATIONS
 		gui.set_text(gui.get_node("txt_min_generation"), "MIN")
 		gui.set_text(gui.get_node("txt_max_generation"), "MAX")
 		update_pokemons_list_view(self)
 	end)
 	gooey.button("btn_clear_sr", action_id, action, function()
-		self.min_sr = 0.125
-		self.max_sr = 15
+		self.min_sr = MIN_SR
+		self.max_sr = MAX_SR
 		gui.set_text(gui.get_node("txt_min_sr"), "MIN")
 		gui.set_text(gui.get_node("txt_max_sr"), "MAX")
 		update_pokemons_list_view(self)
@@ -366,6 +367,6 @@ function on_input(self, action_id, action)
 	gooey.button("btn_random", action_id, action, function()
 		local index = rnd.range(1, #self.filtered_pokemons)
 		local species = self.filtered_pokemons[index]
-		monarch.show("random_pokemon", {}, {species=species, level=self.level, pokemons=self.filtered_pokemons})
+		monarch.show(screens.RANDOM_POKEMON, {}, {species=species, level=self.level, pokemons=self.filtered_pokemons})
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_random")) end)
 end

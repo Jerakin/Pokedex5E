@@ -26,4 +26,6 @@ M.order = {
 	M.regions.OTHER
 }
 
+M.total_regions = #M.order - 1
+
 return M

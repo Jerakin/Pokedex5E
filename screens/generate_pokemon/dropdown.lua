@@ -1,6 +1,7 @@
 local gooey = require "gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
 local gooey_scrolling_list = require "utils.gooey_scrolling_list"
+local messages = require "utils.messages"
 
 local M = {}
 
@@ -102,7 +103,7 @@ function DROPDOWN.on_input(data, list_items, action_id, action)
 	setup_state(data, action)
 	local active_obj = active[data.name]
 
-	if active_obj.active and not active_obj.scroll_clicked and action_id==hash("touch") and action.released and not active_obj.button_over then
+	if active_obj.active and not active_obj.scroll_clicked and action_id== messages.TOUCH and action.released and not active_obj.button_over then
 		active_obj.active = false
 		active.active = false
 		gui.set_enabled(gui.get_node(data.scroll_bg_id), false)

@@ -7,12 +7,13 @@ local pokedex = require "pokedex.pokedex"
 local gooey_buttons = require "utils.gooey_buttons"
 local url = require "utils.url"
 local move_summary = require "screens.change_pokemon.move.move_summary"
+local screens = require "utils.screens"
 
 function init(self)
 	gui.set_render_order(15)
 	gooey.acquire_input()
 	
-	local d = monarch.data("moves_confirm")
+	local d = monarch.data(screens.MOVES_CONFIRM)
 	
 	self.sender = d.sender
 	self.message_id = d.message_id

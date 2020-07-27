@@ -7,6 +7,7 @@ local gui_colors = require "utils.gui_colors"
 local gui_utils = require "utils.gui"
 local dex = require "pokedex.dex"
 local url = require "utils.url"
+local messages = require "utils.messages"
 
 local POKEMON_SPECIES_TEXT_SCALE = vmath.vector3(1.5)
 
@@ -31,7 +32,7 @@ end
 
 function init(self)
 	gooey.acquire_input()
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	self.species = monarch.data("pokedex_pokemon").species
 	local index = pokedex.get_index_number(self.species)
 	local flavor = pokedex.get_flavor(self.species)
@@ -84,7 +85,7 @@ end
 
 
 function final(self)
-	msg.post(url.MENU, "show")
+	msg.post(url.MENU, messages.SHOW)
 end
 
 

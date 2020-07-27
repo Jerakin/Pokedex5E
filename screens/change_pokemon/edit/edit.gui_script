@@ -10,8 +10,9 @@ local url = require "utils.url"
 local gui_colors = require "utils.gui_colors"
 local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
-local tracking_id = require "utils.tracking_id"
 local gui_utils = require "utils.gui"
+local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local function pokemon_image(species)
 	local pokemon_sprite, texture = pokedex.get_icon(species)
@@ -25,19 +26,11 @@ end
 local function save_pokemon(self)
 	_pokemon.set_nickname(self.pokemon, self.nickname)
 	_pokemon.save(self.pokemon)
-	gameanalytics.addDesignEvent {
-		eventId = "Navigation:Party",
-		value = tracking_id[monarch.top()]
-	}
-	monarch.show("party")
+
+	monarch.show(screens.PARTY)
 end
 
 local function evolve(self, species)
-	gameanalytics.addDesignEvent {
-		eventId = "Pokemon:Evolve",
-		value = pokedex.get_index_number(species)
-	}
-
 	_pokemon.evolve(self.pokemon, species, _pokemon.get_current_level(self.pokemon))
 	dex.set(species, dex.states.CAUGHT)
 	pokemon_edit.redraw(self)
@@ -93,7 +86,7 @@ function init(self)
 	end
 
 	button.register("change_pokemon/txt_max_hp", function()
-		monarch.show("are_you_sure", nil, {sender=msg.url(), text="Reset HP and let the App controll it for you", title="Reset", id="reset"})
+		monarch.show(screens.ARE_YOU_SURE, nil, {sender=msg.url(), text="Reset HP and let the App controll it for you", title="Reset", id="reset"})
 	end)
 end
 
@@ -103,7 +96,7 @@ end
 
 function on_message(self, message_id, message, sender)
 	pokemon_edit.on_message(self, message_id, message, sender)
-	if message_id == hash("response") and message.response then
+	if message_id == messages.RESPONSE and message.response then
 		if message.id == "evolve" then
 			evolve(self, message.data)
 		end
@@ -113,9 +106,9 @@ end
 local function evolve_pokemon(self)
 	local evolve_into = pokedex.get_evolutions(_pokemon.get_current_species(self.pokemon), _pokemon.get_gender(self.pokemon))
 	if #evolve_into == 1 then
-		monarch.show("are_you_sure", nil, {title="Evolve into ".. evolve_into[1] .. " at level ".. _pokemon.get_current_level(self.pokemon) .. "?", text="This will automatically save and exit to Party", sender=msg.url(), data=evolve_into[1], id="evolve"})
+		monarch.show(screens.ARE_YOU_SURE, nil, {title="Evolve into ".. evolve_into[1] .. " at level ".. _pokemon.get_current_level(self.pokemon) .. "?", text="This will automatically save and exit to Party", sender=msg.url(), data=evolve_into[1], id="evolve"})
 	else
-		monarch.show("scrollist", {}, {items=evolve_into, message_id="evolve", sender=msg.url(), title="Pick evolution"})
+		monarch.show(screens.SCROLLIST, {}, {items=evolve_into, message_id="evolve", sender=msg.url(), title="Pick evolution"})
 	end
 end
 

@@ -7,6 +7,7 @@ local gooey_scrolling_list = require "utils.gooey_scrolling_list"
 local gooey = require "gooey.gooey"
 local url = require "utils.url"
 local natures = require "pokedex.natures"
+local messages = require "utils.messages"
 
 local selected_item
 local sender
@@ -38,7 +39,7 @@ local function on_item_selected(list)
 end
 
 function init(self)
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	local d = monarch.data("natures_scrollist")
 	sender = d.sender
 	message_id = d.message_id

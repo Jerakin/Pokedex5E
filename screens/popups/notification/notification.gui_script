@@ -2,6 +2,8 @@ local monarch  = require "monarch.monarch"
 local render_order = require "utils.gui_render_order"
 local transitions = require "utils.transitions"
 local notify = require "utils.notify"
+local messages = require "utils.messages"
+
 local data
 
 local anim_status = {STARTED = 1, INIT = 2, STARTED_DONE = 3, EXIT = 4, EXIT_DONE = 5}
@@ -28,7 +30,7 @@ local function start(self)
 end
 
 function init(self)
-	msg.post(".", "acquire_input_focus")
+	msg.post(".", messages.ACQUIRE_INPUT_FOCUS)
 	self.end_pos = vmath.vector3(0, 500, 0)
 	self.start_pos = vmath.vector3(0, 700, 0)
 	self.instant = nil
@@ -40,7 +42,7 @@ function init(self)
 end
 
 function on_input(self, action_id, action)
-	if action_id == hash("touch") and action.pressed and gui.pick_node(self.root, action.x, action.y) and self.status == anim_status.EXIT then
+	if action_id == messages.TOUCH and action.pressed and gui.pick_node(self.root, action.x, action.y) and self.status == anim_status.EXIT then
 		self.instant = 0
 		gui.cancel_animation(self.root, "position")
 		exit(self)

@@ -8,12 +8,14 @@ local flow = require "utils.flow"
 local fakemon = require "fakemon.fakemon"
 local settings = require "pokedex.settings"
 local log = require "utils.log"
-local tracking_id = require "utils.tracking_id"
+local screens = require "utils.screens"
+local messages = require "utils.messages"
+local platforms = require "utils.platform"
 
 function init(self)
-	msg.post(".", "acquire_input_focus")
-	msg.post(url.MENU, "hide")
-	if sys.get_sys_info().system_name == "HTML5" then
+	msg.post(".", messages.ACQUIRE_INPUT_FOCUS)
+	msg.post(url.MENU, messages.HIDE)
+	if platforms.WEB then
 		gui.set_enabled(gui.get_node("fakemon"), false)
 	else
 		if fakemon.LOCAL_INDEX then
@@ -26,14 +28,10 @@ end
 
 function on_input(self, action_id, action)
 	gooey.button("btn_pick_fakemon", action_id, action, function()
-		monarch.show("fakemon")
+		monarch.show(screens.FAKEMON)
 	end, function(button) gooey_buttons.common_button(button, gui.get_node("txt_paste")) end)
 	
 	gooey.button("btn_close", action_id, action, function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Back",
-			value = tracking_id[monarch.top()]
-		}
 		monarch.back()
 	end, gooey_buttons.close_button)
 	

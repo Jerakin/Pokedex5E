@@ -13,9 +13,10 @@ local inventory_buttons = {}
 local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
 local notify = require "utils.notify"
-local tracking_id = require "utils.tracking_id"
 local gui_utils = require "utils.gui"
 local share = require "pokedex.share"
+local screens = require "utils.screens"
+local messages = require "utils.messages"
 local broadcast = require "utils.broadcast"
 local net_members = require "pokedex.network.net_members"
 local net_member_name = require "pokedex.network.net_member_name"
@@ -35,10 +36,6 @@ local function join_table(title, T, sep)
 end
 
 local function back()
-	gameanalytics.addDesignEvent {
-		eventId = "Navigation:Back",
-		value = tracking_id[monarch.top()]
-	}
 	monarch.back()
 end
 
@@ -298,7 +295,7 @@ function init(self)
 	gui.set_text(n, "MOVE TO " .. self.to)
 
 	self.move_button_enabled = true
-	if self.to == "PC" and #storage.list_of_ids_in_inventory() == 1 then
+	if self.to == messages.LOCATION_PC and #storage.list_of_ids_in_inventory() == 1 then
 		self.move_button_enabled = false
 		gui.set_enabled(gui.get_node("btn_move"), false)
 		gui.set_enabled(gui.get_node("btn_release"), false)
@@ -316,7 +313,7 @@ function final(self)
 end
 
 local function move(self)
-	if self.to == "PARTY" then
+	if self.to == messages.LOCATION_PARTY then
 		if storage.free_space_in_inventory() then
 			notify.notify(self.nickname .. " MOVED TO " .. self.to)
 			storage.move_to_inventory(self.pokemon_id)
@@ -327,7 +324,7 @@ local function move(self)
 			gui.set_enabled(self.swap, true)
 			gui.set_enabled(self.move, false)
 		end
-	elseif self.to == "PC" then
+	elseif self.to == messages.LOCATION_PC then
 		if #storage.list_of_ids_in_inventory() ~= 1 then
 			notify.notify(self.nickname .. " MOVED TO " .. self.to)
 			storage.move_to_storage(self.pokemon_id)
@@ -346,20 +343,16 @@ end
 local function release(self)
 	if not storage.is_inventory_pokemon(self.pokemon_id) or #storage.list_of_ids_in_inventory() > 1 then
 		local title = "RELEASE " .. self.nickname
-		monarch.show("are_you_sure", nil, {title=title, data=self.pokemon_id, sender=msg.url()})
+		monarch.show(screens.ARE_YOU_SURE, nil, {title=title, data=self.pokemon_id, sender=msg.url()})
 	end
 end
 
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("response") then
+	if message_id == messages.RESPONSE then
 		if message.response then
 			flow.start(function()
 				flow.until_true(function() return not monarch.is_busy() end)
-				gameanalytics.addDesignEvent {
-					eventId = "Pokemon:Release",
-					value = self.index
-				}
 				storage.release_pokemon(message.data)
 				notify.notify(self.nickname .. " WAS RELEASED")
 				update_storage()
