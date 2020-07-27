@@ -111,7 +111,7 @@ function M.create(port)
 			while state == STATE_LISTENING do
 				-- POKEDEX5E_START
 				--listener:settimeout(0)
-				listener:settimeout(10)
+				listener:settimeout(0.05)
 				-- POKEDEX5E_END
 				local data, server_ip, server_port = listener:receivefrom()
 				if data and data == message then
