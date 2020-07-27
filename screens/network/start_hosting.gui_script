@@ -213,6 +213,10 @@ function on_input(self, action_id, action)
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_create_new")) end)	
 
 	gooey.button("btn_port_info", action_id, action, function()
-		-- TODO information box
-	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_create_new")) end)	
+		monarch.show("info", nil,
+		{
+			text="Players joining must connect to your device's address and port.\n\nIf they are far away, you may need to set up TCP Port Forwarding through your router.\n\nTo learn more about how to do this, please search for \"How to Port Forward\" and/or look at your router's instructions.\n\nThis is a common practice when hosting many games, so you should be able to find plenty of info about it!",
+			btn_text="SOUNDS GOOD!",
+		})
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_port_info")) end)	
 end
