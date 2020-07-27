@@ -2,7 +2,7 @@ local tcp_server = require "defnet.tcp_server"
 local tcp_client = require "defnet.tcp_client"
 local ljson = require "defsave.json"
 local profiles = require "pokedex.profiles"
-local p2p_discovery = require "defnet.p2p_discovery"
+local p2p_discovery = require "pokedex.network.p2p"
 local notify = require "utils.notify"
 local broadcast = require "utils.broadcast"
 local settings = require "pokedex.settings"
@@ -106,14 +106,18 @@ local function fail_client_connect(reason)
 	change_state_to(M.STATE_IDLE)
 end
 
-local function on_local_server_found(ip, port)
-	nearby_server_info = 
-	{
-		ip=ip,
-	}
-	is_listening = false
-	p2p.stop()
-	broadcast.send(M.MSG_NEARBY_SERVER_FOUND, nearby_server_info)	
+local function on_local_server_found(ip, _, extra_data)
+	if pcall(function() json_data = json.decode(extra_data) end) then
+		nearby_server_info = 
+		{
+			ip=ip,
+			name=json_data.name,
+			port=json_data.port,
+		}
+		is_listening = false
+		p2p.stop()
+		broadcast.send(M.MSG_NEARBY_SERVER_FOUND, nearby_server_info)
+	end
 end
 
 local function server_ensure_client_info(client_id, is_local)
@@ -689,7 +693,12 @@ function M.start_server(server_id, server_name, port)
 
 	is_listening = false
 	p2p = p2p_discovery.create(DISCOVERY_PORT)
-	p2p.broadcast(get_broadcast_name())
+	local extra_data = ljson.encode(
+	{
+		name=server_name,
+		port=port,
+	})
+	p2p.broadcast(get_broadcast_name(), extra_data)
 
 	local data_func = QUEUE_RECEIVED_MESSAGES and server_on_data_queue or server_on_data		
 	server = tcp_server.create(port, data_func, server_on_client_connected, server_on_client_disconnected)
@@ -756,10 +765,11 @@ function M.connect_to_server(ip, port)
 	start_client(ip, port)
 end
 
-function M.connect_to_nearby_server(port)
+function M.connect_to_nearby_server()
 	M.disconnect()
 	if nearby_server_info then
 		local ip = nearby_server_info.ip
+		local port = nearby_server_info.port or (netcore_settings and netcore_settings.default_client_port) or DEFAULT_HOST_PORT
 		nearby_server_info = nil
 
 		start_client(ip, port)

@@ -41,7 +41,8 @@ local function refresh_connect_nearby_button()
 	if netcore.get_current_state() == netcore.STATE_IDLE then
 		local info = netcore.get_nearby_server_info()
 		if info then
-			gui.set_text(gui.get_node("txt_join_nearby"), "JOIN NEARBY HOST:\n" .. tostring(info.ip))
+			local name = tostring(info.name or info.ip)
+			gui.set_text(gui.get_node("txt_join_nearby"), "JOIN NEARBY HOST:\n" .. name)
 			enabled = true
 		end		
 	end
