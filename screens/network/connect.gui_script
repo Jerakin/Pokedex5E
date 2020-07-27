@@ -120,7 +120,7 @@ function on_input(self, action_id, action)
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_host")) end)
 
 	gooey.button("btn_join", action_id, action, function()
-		--NYI: netcore.connect_to_server()
+		monarch.show(screens.NETWORK_JOIN_HOST)
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_join")) end)
 
 	gooey.button("btn_join_nearby", action_id, action, function()

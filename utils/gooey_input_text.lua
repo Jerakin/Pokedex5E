@@ -53,6 +53,7 @@ function M.create(text_field, cursor, initial_text, fn_apply_text, options)
 	}
 	
 	gui.set_text(gui.get_node(text_field), data.current_text)
+	gui.set_enabled(gui.get_node(cursor), false)
 
 	local instance = {}
 	for name,fn in pairs(INPUT_TEXT) do

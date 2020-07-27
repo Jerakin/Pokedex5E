@@ -18,6 +18,8 @@ M.STATE_SERVING = hash("serving")
 M.STATE_CONNECTING = hash("connecting")
 M.STATE_CONNECTED = hash("connected")
 
+M.DEFAULT_HOST_PORT = 9120
+
 local current_state = M.STATE_IDLE
 local is_listening = false
 
@@ -25,7 +27,6 @@ local server
 local version
 local p2p
 local nearby_server_info = nil
-local DEFAULT_HOST_PORT = 9120
 local DISCOVERY_PORT = 50120
 
 -- Whether to take any received messages and push them into a queue to be processed during
@@ -555,10 +556,10 @@ function M.init()
 		netcore_settings.server_known_client_info = {}
 	end	
 	if not netcore_settings.default_host_port then
-		netcore_settings.default_host_port = DEFAULT_HOST_PORT
+		netcore_settings.default_host_port = M.DEFAULT_HOST_PORT
 	end
-	if not netcore_settings.default_client_port then
-		netcore_settings.default_client_port = DEFAULT_HOST_PORT
+	if not netcore_settings.default_connect_port then
+		netcore_settings.default_connect_port = M.DEFAULT_HOST_PORT
 	end
 
 	profiles.register_active_profile_changing_cb(on_active_profile_changing)
@@ -662,8 +663,12 @@ function M.get_default_host_port()
 	return netcore_settings.default_host_port
 end
 
-function M.get_default_client_port()
-	return netcore_settings.default_client_port
+function M.get_default_connect_address()
+	return netcore_settings.default_connect_address
+end
+
+function M.get_default_connect_port()
+	return netcore_settings.default_connect_port
 end
 
 function M.start_server(server_id, server_name, port)
@@ -724,9 +729,20 @@ function M.stop_server()
 end
 
 local function start_client(server_ip, server_port)
-	server_port = server_port or netcore_settings.default_client_port
-	if server_port ~= netcore_settings.default_client_port then
-		netcore_settings.default_client_port = server_port
+	local should_save = false
+	server_ip = server_ip or netcore_settings.default_connect_address
+	if server_ip ~= netcore_settings.default_connect_address then
+		netcore_settings.default_connect_address = server_ip
+		should_save = true
+	end
+	
+	server_port = server_port or netcore_settings.default_connect_port
+	if server_port ~= netcore_settings.default_connect_port then
+		netcore_settings.default_connect_port = server_port
+		should_save = true
+	end
+
+	if should_save then
 		settings.save()
 	end
 	
@@ -769,10 +785,12 @@ function M.connect_to_nearby_server()
 	M.disconnect()
 	if nearby_server_info then
 		local ip = nearby_server_info.ip
-		local port = nearby_server_info.port or (netcore_settings and netcore_settings.default_client_port) or DEFAULT_HOST_PORT
+		local port = nearby_server_info.port
 		nearby_server_info = nil
 
-		start_client(ip, port)
+		if ip and port then
+			start_client(ip, port)
+		end
 	end
 end
 
