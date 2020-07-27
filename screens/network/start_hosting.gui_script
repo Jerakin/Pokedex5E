@@ -7,39 +7,17 @@ local netcore = require "pokedex.network.netcore"
 local broadcast = require "utils.broadcast"
 local net_groups = require "pokedex.network.net_groups"
 local profiles = require "pokedex.profiles"
+local gooey_input_text = require "utils.gooey_input_text"
 local gooey_scrolling_list = require "utils.gooey_scrolling_list"
 local gui_colors = require "utils.gui_colors"
 local flow = require "utils.flow"
 
 local MSG_NEW_GROUP_NAME = hash("new_group_name")
 
--- TODO: This should really be pulled into a utility. This is way too much code to be copy+pasting
-local function refresh_input(self, input)
-	if input.empty and not input.selected then
-		gui.set_text(input.node, tostring(self.port))
-	end
-
-	local node_cursor = gui.get_node("port_cursor")
-	if input.selected then
-		if input.empty then
-			gui.set_text(input.node, "")
-		end
-		gui.set_enabled(node_cursor, true)
-		gui.set_position(node_cursor, vmath.vector3(input.total_width*0.5, 0, 0))
-		gui.cancel_animation(node_cursor, gui.PROP_COLOR)
-		gui.set_color(node_cursor, vmath.vector4(0,0,0,1))
-		gui.animate(node_cursor, gui.PROP_COLOR, vmath.vector4(1,1,1,0), gui.EASING_INSINE, 0.8, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
-	else
-		if gui.is_enabled(node_cursor) then
-			local text = gui.get_text(input.node)
-			local as_number = tonumber(text)
-			if as_number then
-				self.port = as_number
-			end
-			gui.set_text(input.node, self.port)
-		end
-		gui.set_enabled(node_cursor, false)
-		gui.cancel_animation(node_cursor, gui.PROP_COLOR)
+local function apply_port_text(self, text)
+	local as_number = tonumber(text)
+	if as_number then
+		self.port = as_number
 	end
 end
 
@@ -127,7 +105,7 @@ function init(self)
 	self.suspend_group_refresh = false
 
 	self.port = netcore.get_default_host_port()
-	gui.set_text(gui.get_node("txt_port"), tostring(self.port))
+	self.port_input = gooey_input_text.create("txt_port", "port_cursor", tostring(self.port), function(text) return apply_port_text(self, text) end, {max_length = 6, allowed_characters="[%d]"})
 
 	self.selected_group_id = net_groups.get_default_group_id()
 	
@@ -204,9 +182,7 @@ function on_input(self, action_id, action)
 		end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_delete_group")) end)
 	end
 
-	gooey.input("txt_port", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, {max_length = 6, allowed_characters="[%d]", use_marked_text=false}, function(input)
-		refresh_input(self, input)
-	end)
+	self.port_input.on_input(action_id, action)
 
 	gooey.button("btn_create_new", action_id, action, function()
 		on_create_new_group(self)
