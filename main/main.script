@@ -108,9 +108,6 @@ function init(self)
 	msg.post("/popups", "acquire_input_focus")
 	msg.post("/debug", "acquire_input_focus")
 	msg.post("/menu", "acquire_input_focus")
-
-	tracking_id.init()
-
 	
 	if platform.WINDOWS or platform.MACOS then
 		local project = vmath.vector3(640, 1136, 1)

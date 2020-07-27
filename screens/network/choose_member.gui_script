@@ -6,6 +6,8 @@ local button = require "utils.button"
 local broadcast = require "utils.broadcast"
 local member_list = require "screens.network.member_list"
 local net_members = require "pokedex.network.net_members"
+local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local function on_back()
 	monarch.back()
@@ -19,10 +21,10 @@ local function on_member_chosen(self, id)
 end
 
 function init(self)
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	button.acquire()
 	
-	local data = monarch.data("network_choose_member")
+	local data = monarch.data(screens.NETWORK_CHOOSE_MEMBER)
 
 	self.fn_member_chosen = data.fn_member_chosen
 

@@ -11,6 +11,7 @@ local gooey_input_text = require "utils.gooey_input_text"
 local gooey_scrolling_list = require "utils.gooey_scrolling_list"
 local gui_colors = require "utils.gui_colors"
 local flow = require "utils.flow"
+local messages = require "utils.messages"
 
 local MSG_NEW_GROUP_NAME = hash("new_group_name")
 
@@ -96,7 +97,7 @@ local function on_create_new_group(self)
 end
 
 function init(self)
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	button.acquire()
 
 	gui.set_enabled(gui.get_node("port_cursor"), false)

@@ -7,6 +7,8 @@ local netcore = require "pokedex.network.netcore"
 local broadcast = require "utils.broadcast"
 local member_list = require "screens.network.member_list"
 local net_members = require "pokedex.network.net_members"
+local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local function refresh_member_list()
 	local enabled = net_members.has_any_members()
@@ -77,7 +79,7 @@ local function refresh()
 end
 
 function init(self)
-	msg.post(url.MENU, "show")
+	msg.post(url.MENU, messages.SHOW)
 	button.acquire()
 
 	if netcore.get_current_state() == netcore.STATE_IDLE then
@@ -114,7 +116,7 @@ end
 
 function on_input(self, action_id, action)
 	gooey.button("btn_host", action_id, action, function()
-		monarch.show("network_start_hosting")
+		monarch.show(screens.NETWORK_START_HOSTING)
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_host")) end)
 
 	gooey.button("btn_join", action_id, action, function()

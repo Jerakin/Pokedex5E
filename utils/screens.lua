@@ -33,6 +33,9 @@ M.NATURES_SCROLLIST     = hash("natures_scrollist")
 M.MOVES_SCROLLIST       = hash("moves_scrollist")
 M.ABOUT                 = hash("about")
 M.MOVES_CONFIRM         = hash("moves_confirm")
+M.NETWORK_CONNECT       = hash("network_connect")
+M.NETWORK_CHOOSE_MEMBER = hash("network_choose_member")
+M.NETWORK_START_HOSTING = hash("network_start_hosting")
 
 
 return M

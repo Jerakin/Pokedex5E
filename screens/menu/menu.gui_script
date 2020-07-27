@@ -24,7 +24,7 @@ local map = {
 	[screens.POKEDEX] = "btn_pokedex",
 	[screens.SETTINGS] = "btn_settings",
 	[screens.TRAINER] = "btn_trainer",
-	[screens.CONNECT] = "btn_connect",
+	[screens.NETWORK_CONNECT] = "btn_connect",
 }
 
 local function hide(self)
@@ -139,11 +139,7 @@ function init(self)
 	end, {no_shake=true})
 
 	button.register("btn_connect", function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:Connect",
-			value = tracking_id[monarch.top()]
-		}
-		monarch.show("network_connect")
+		monarch.show(screens.NETWORK_CONNECT)
 		toggle(self)
 	end, {no_shake=true})
 	
