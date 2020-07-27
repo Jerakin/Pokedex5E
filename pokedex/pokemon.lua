@@ -578,16 +578,6 @@ function M.get_proficency_bonus(pkmn)
 end
 
 
-function M.update_abilities(pkmn, abilities)
-	pkmn.abilities = abilities
-end
-
-
-function M.update_feats(pkmn, feats)
-	pkmn.feats = feats
-end
-
-
 function M.get_feats(pkmn)
 	return pkmn.feats or {}
 end
