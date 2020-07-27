@@ -773,7 +773,7 @@ local function start_client(server_ip, server_port)
 
 		send_to_server_internal(initial_packet)
 	else
-		fail_client_connect("Could not connect! Host\nmay no longer be active.")
+		fail_client_connect("Could not connect! Did you\nuse the right address/port?")
 	end
 end
 
