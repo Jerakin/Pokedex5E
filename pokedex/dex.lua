@@ -95,7 +95,7 @@ local function get_initial_from_storage()
 		_dex[index] = M.states.CAUGHT
 	end
 	for _, id in pairs(storage.list_of_ids_in_inventory()) do
-		local pokemon = storage.get_copy(id)
+		local pokemon = storage.get_pokemon(id)
 		local index = pokedex.get_index_number(pokemon.species.current)
 		_dex[index] = M.states.CAUGHT
 	end

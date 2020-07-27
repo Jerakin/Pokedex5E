@@ -34,7 +34,7 @@ local function update_storage_data(self)
 		for a=1, 3 do
 			local pokemon_id = storage_ids[(i-1)*3 + a]
 			if pokemon_id then
-				local pokemon = storage.get_copy(pokemon_id)
+				local pokemon = storage.get_pokemon(pokemon_id)
 				local sprite, texture = _pokemon.get_sprite(pokemon)
 				local species = _pokemon.get_current_species(pokemon)
 				local level = _pokemon.get_current_level(pokemon)
@@ -45,6 +45,7 @@ local function update_storage_data(self)
 		end
 	end
 end
+
 
 local function update_item(list, item)
 	for i=1, 3 do

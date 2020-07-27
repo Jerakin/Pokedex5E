@@ -1,9 +1,7 @@
 local utils = require "utils.utils"
 local pokedex = require "pokedex.pokedex"
 local natures = require "pokedex.natures"
-local storage = require "pokedex.storage"
 local movedex = require "pokedex.moves"
-local items = require "pokedex.items"
 local trainer = require "pokedex.trainer"
 
 local M = {}
@@ -101,7 +99,7 @@ local function ASI_points(pkmn)
 end
 
 
-local function M.get_evolution_level(pkmn)
+local function get_evolution_level(pkmn)
 	if type(pkmn.level.evolved) == "number" then
 		local old = pkmn.level.evolved
 		pkmn.level.evolved = {}
@@ -688,12 +686,6 @@ function M.reset(pkmn)
 		M.reset_move_pp(pkmn, name)
 	end
 	pkmn.statuses = {}
-end
-
-
-function M.reset_in_storage(pkmn)
-	M.reset(pkmn)
-	storage.update_pokemon(pkmn)
 end
 
 

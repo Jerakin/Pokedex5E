@@ -74,15 +74,18 @@ end
 local function add_hp(pkmn, hp)
 	local current = _pokemon.get_current_hp(pkmn)
 	_pokemon.set_current_hp(pkmn, current + hp)
+	storage.save()
 end
 
 local function set_temp_hp(pkmn, temp_hp)
 	_pokemon.set_temp_hp(pkmn, temp_hp)
+	storage.save()
 end
 
 local function add_loyalty(pkmn, loyalty)
 	local current = _pokemon.get_loyalty(pkmn)
 	_pokemon.set_loyalty(pkmn, current + loyalty)
+	storage.save()
 end
 
 local function show_hp_selector(pkmn)
@@ -284,6 +287,7 @@ function M.on_message(message_id, message)
 		exp = math.max(min, current_exp + exp)
 		_pokemon.set_exp(pkmn, exp)
 		setup_exp(active_nodes, pkmn)
+		storage.save()
 	elseif message_id == messages.UPDATE_HP then
 		local current_hp = _pokemon.get_current_hp(pkmn)
 		local hp, _ = parse_number(message.str, current_hp)

@@ -63,7 +63,7 @@ local function inventory_button(self, node, id, swap)
 			return
 		end
 		storage.swap(swap, id)
-		local other_pokemon = storage.get_copy(id)
+		local other_pokemon = storage.get_pokemon(id)
 		local other_nickname = _pokemon.get_nickname(other_pokemon)
 		local other_species = _pokemon.get_current_species(other_pokemon)
 		other_nickname = other_nickname or other_species:upper()
@@ -85,7 +85,7 @@ local function setup_inventory(self)
 
 		local pokemon
 		if i <= #inventory then
-			pokemon = storage.get_copy(inventory[i])
+			pokemon = storage.get_pokemon(inventory[i])
 		end
 		local sprite = gui.get_node("row" .. row .."/pokemon" .. p .. "/pokemon_sprite")
 		local text = gui.get_node("row" .. row .."/pokemon" .. p .. "/txt_pokemon")
@@ -168,7 +168,7 @@ local function setup_move(pokemon, name, index)
 end
 
 local function setup_info(self)
-	local pokemon = storage.get_copy(self.pokemon_id)
+	local pokemon = storage.get_pokemon(self.pokemon_id)
 	local pokemon_sprite, texture = _pokemon.get_sprite(pokemon)
 	gui.set_texture(gui.get_node("pokemon_sprite"), texture)
 	if pokemon_sprite then
@@ -229,7 +229,7 @@ function init(self)
 	local d = monarch.data("transfer_pokemon")
 	self.to = d.to
 	self.pokemon_id = d.id
-	self.index = _pokemon.get_index_number(storage.get_copy(d.id))
+	self.index = _pokemon.get_index_number(storage.get_pokemon(d.id))
 	setup_info(self)
 	if not clipboard then
 		gui.set_enabled(gui.get_node("btn_share"), false)

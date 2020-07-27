@@ -74,7 +74,7 @@ function M.show(index)
 	local id = inventory_ids[index]
 	
 	if storage.is_in_storage(id) then
-		local pokemon = storage.get_copy(id)
+		local pokemon = storage.get_pokemon(id)
 		local nodes = pokemon_pages[active_page].nodes
 		information.create(nodes, pokemon, active_page)
 		meters.create(nodes, id)

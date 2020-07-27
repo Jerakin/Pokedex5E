@@ -63,7 +63,7 @@ end
 
 
 function M.refresh(pokemon_id)
-	local pokemon = storage.get_copy(pokemon_id)
+	local pokemon = storage.get_pokemon(pokemon_id)
 	gui.set_text(active["pokemon/traits/txt_catch"], _pokemon.get_catch_rate(pokemon))
 	local st_attributes = _pokemon.get_saving_throw_modifier(pokemon)
 	for i, stat in pairs(constants.ABILITY_LIST) do

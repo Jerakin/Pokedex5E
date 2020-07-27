@@ -81,7 +81,7 @@ end
 
 
 function M.export(id)
-	local pokemon = storage.get_copy(id)
+	local pokemon = storage.get_pokemon(id)
 	decode_status(pokemon)
 	local p_json = ljson.encode(pokemon)
 	clipboard.copy(p_json)

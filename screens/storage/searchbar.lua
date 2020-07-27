@@ -15,7 +15,7 @@ end
 
 local function filter_type(self, search_string)
 	for i=#self.all_pokemons, 1, -1 do
-		local p = storage.get_copy(self.all_pokemons[i])
+		local p = storage.get_pokemon(self.all_pokemons[i])
 		for _, type in pairs(_pokemon.get_type(p)) do
 			if type:lower() == search_string:lower() then
 				table.insert(self.filtered_list, 1, self.all_pokemons[i])
@@ -26,7 +26,7 @@ end
 
 local function filter_species(self, search_string)
 	for i=#self.all_pokemons, 1, -1 do
-		local p = storage.get_copy(self.all_pokemons[i])
+		local p = storage.get_pokemon(self.all_pokemons[i])
 		if starts_with(_pokemon.get_current_species(p), search_string) then
 			table.insert(self.filtered_list, 1, self.all_pokemons[i])
 		end
@@ -35,7 +35,7 @@ end
 
 local function filter_index(self, search_string)
 	for i=#self.all_pokemons, 1, -1 do
-		local p = storage.get_copy(self.all_pokemons[i])
+		local p = storage.get_pokemon(self.all_pokemons[i])
 		if starts_with(_pokemon.get_index_number(p), search_string) then
 			table.insert(self.filtered_list, 1, self.all_pokemons[i])
 		end

@@ -74,6 +74,7 @@ local function bind_buttons(nodes, name)
 		local pp = _pokemon.decrease_move_pp(current_pokemon, name)
 		if pp ~= nil then
 			_pokemon.set_move_pp(current_pokemon, name, pp)
+			storage.save()
 			update_pp(current_pokemon, name)
 		end			
 	end, refresh=gooey_buttons.minus_button
@@ -83,6 +84,7 @@ local function bind_buttons(nodes, name)
 		local pp = _pokemon.increase_move_pp(current_pokemon, name)
 		if pp ~= nil then
 			_pokemon.set_move_pp(current_pokemon, name, pp)
+			storage.save()
 			update_pp(current_pokemon, name)
 		end
 	end, refresh=gooey_buttons.plus_button

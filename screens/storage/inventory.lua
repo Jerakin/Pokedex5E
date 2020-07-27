@@ -43,7 +43,7 @@ function M.setup()
 		local id = inventory[i]
 		gui.set_scale(sprite, vmath.vector3(1))
 		if storage.is_in_storage(id) then
-			local pokemon = storage.get_copy(id)
+			local pokemon = storage.get_pokemon(id)
 			gui.set_scale(sprite, vmath.vector3(2.5))
 			set_pokemon_sprite(sprite, pokemon)
 			table.insert(inventory_buttons, inventory_button(sprite, inventory[i]))
