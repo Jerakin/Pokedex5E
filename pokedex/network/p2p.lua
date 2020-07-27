@@ -114,7 +114,7 @@ function M.create(port)
 				end
 				-- POKEDEX5E_START
 				if string.sub(data, 1, extra_msg_len) == extra_msg then
-					local extra = string.sub(data, extra_msg_len)
+					local extra = string.sub(data, extra_msg_len+1)
 					callback(server_ip, server_port, extra)
 					state = STATE_DISCONNECTED
 					break
