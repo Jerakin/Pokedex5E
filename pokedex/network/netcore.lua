@@ -890,6 +890,10 @@ function M.get_server_id()
 	return client_latest_server_info.id
 end
 
+function M.get_current_server_port()
+	return server_current_info and server_current_info.port
+end
+
 function M.get_known_server_ids()
 	local ret = {}
 	for k,_ in pairs(client_known_server_info) do

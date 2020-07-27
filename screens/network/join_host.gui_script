@@ -76,7 +76,7 @@ function on_input(self, action_id, action)
 	gooey.button("btn_info", action_id, action, function()
 		monarch.show("info", nil,
 		{
-			text="Both the address and the port to connect to should be provided by your host.\n\nThe address is usually an IP address like 192.168.0.100, but it can also be a network name.\n\nThe default port is " .. netcore.DEFAULT_HOST_PORT,
+			text="The address and port should be provided by your host. They can be found on your host's \"CONNECT\" screen.\n\nThe address is usually an IP like 192.168.0.100, but can be a network name.",
 		})
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_info")) end)	
 end
