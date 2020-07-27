@@ -58,8 +58,10 @@ function M.create(port)
 			message = message .. "|" .. extra_str
 		end
 		-- POKEDEX5E_END
-		
-		print("Broadcasting " .. message .. " on port " .. port)
+
+		-- POKEDEX5E_START
+		--print("Broadcasting " .. message .. " on port " .. port)
+		-- POKEDEX5E_END
 		state = STATE_BROADCASTING
 		broadcast_co = coroutine.create(function()
 			while state == STATE_BROADCASTING do
@@ -101,11 +103,16 @@ function M.create(port)
 		local extra_msg_len = string.len(extra_msg)
 		-- POKEDEX5E_END
 
-		print("Listening for " .. message .. " on port ".. port)
+		-- POKEDEX5E_START
+		--print("Listening for " .. message .. " on port ".. port)
+		-- POKEDEX5E_END
 		state = STATE_LISTENING
 		listen_co = coroutine.create(function()
 			while state == STATE_LISTENING do
-				listener:settimeout(0)
+				-- POKEDEX5E_START
+				--listener:settimeout(0)
+				listener:settimeout(10)
+				-- POKEDEX5E_END
 				local data, server_ip, server_port = listener:receivefrom()
 				if data and data == message then
 					callback(server_ip, server_port)
