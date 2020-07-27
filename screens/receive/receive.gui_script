@@ -12,10 +12,10 @@ local _share = require "pokedex.share"
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	msg.post(url.MENU, messages.SHOW)
-	if _share.ENABLED.CLIPBOARD then
+	if not _share.ENABLED.CLIPBOARD then
 		gui.set_enabled(gui.get_node("btn_clipboard"), false)
 	end
-	if _share.ENABLED.QRCODE_READ then
+	if not _share.ENABLED.QRCODE_READ then
 		gui.set_enabled(gui.get_node("btn_qr"), false)
 	end
 end
