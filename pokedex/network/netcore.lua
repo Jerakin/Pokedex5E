@@ -70,6 +70,10 @@ local function change_state_to(new_state)
 
 		local old_state_connected = is_connected_state(current_state)
 		local new_state_connected = is_connected_state(new_state)
+
+		if current_state == M.STATE_IDLE then
+			M.stop_find_nearby_server()
+		end
 		
 		if new_state == M.STATE_SERVING then
 			if current_state == M.STATE_CONNECTING or current_state == M.STATE_CONNECTED then
@@ -79,9 +83,6 @@ local function change_state_to(new_state)
 			if current_state == M.STATE_SERVING then
 				M.stop_server()
 			end
-		elseif new_state == M.STATE_CONNECTED then
-			is_listening = false
-			p2p.stop()
 		elseif new_state == M.STATE_IDLE then
 			if current_state == M.STATE_CONNECTING or current_state == M.STATE_CONNECTED then
 				M.stop_client()
@@ -116,8 +117,7 @@ local function on_local_server_found(ip, _, extra_data)
 			name=json_data.name,
 			port=json_data.port,
 		}
-		is_listening = false
-		p2p.stop()
+		M.stop_find_nearby_server()
 		broadcast.send(M.MSG_NEARBY_SERVER_FOUND, nearby_server_info)
 	end
 end
@@ -697,7 +697,7 @@ function M.start_server(server_id, server_name, port)
 		netcore_settings.server_known_client_info[server_current_info.id] = {}
 	end
 
-	is_listening = false
+	M.stop_find_nearby_server()
 	p2p = p2p_discovery.create(DISCOVERY_PORT)
 	local extra_data = ljson.encode(
 	{
@@ -912,6 +912,16 @@ function M.find_nearby_server()
 		is_listening = true
 		p2p = p2p_discovery.create(DISCOVERY_PORT)
 		p2p.listen(get_broadcast_name(), on_local_server_found)
+	end
+end
+
+function M.stop_find_nearby_server()
+	if is_listening then
+		is_listening = false
+		if p2p then
+			p2p.stop()
+			p2p = nil
+		end
 	end
 end
 

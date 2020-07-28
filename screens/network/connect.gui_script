@@ -118,10 +118,6 @@ function init(self)
 	msg.post(url.MENU, messages.SHOW)
 	button.acquire()
 
-	if netcore.get_current_state() == netcore.STATE_IDLE then
-		netcore.find_nearby_server()
-	end
-
 	self.list_group_members = member_list.create("list_group_members", {show_self=true})
 
 	if netcore.get_current_state() == netcore.STATE_SERVING then
@@ -135,9 +131,13 @@ function init(self)
 	broadcast.register(netcore.MSG_STATE_CHANGED)
 	broadcast.register(net_members.MSG_MEMBERS_CHANGED)
 	broadcast.register(net_ip.MSG_IPS_UPDATED)
+
+	netcore.find_nearby_server()
 end
 
 function final(self)
+	netcore.stop_find_nearby_server()
+
 	broadcast.unregister(netcore.MSG_NEARBY_SERVER_FOUND)
 	broadcast.unregister(netcore.MSG_STATE_CHANGED)
 	broadcast.unregister(net_members.MSG_MEMBERS_CHANGED)
