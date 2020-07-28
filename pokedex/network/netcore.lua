@@ -6,6 +6,7 @@ local p2p_discovery = require "pokedex.network.p2p"
 local notify = require "utils.notify"
 local broadcast = require "utils.broadcast"
 local settings = require "pokedex.settings"
+local log = require "utils.log"
 
 local M = {}
 
@@ -422,7 +423,7 @@ local function server_on_data(data, ip, port, client)
 	end
 
 	if not success then
-		print("Server received unknown data: " .. tostring(data) .. " from client: " .. tostring(ip) .. ", removing it!")
+		log.warn("Server received unknown data: " .. tostring(data) .. " from client: " .. tostring(ip) .. ", removing it!")
 		server.remove_client(client)
 	end
 end
@@ -488,7 +489,7 @@ local function client_on_data(data)
 	end
 
 	if not success then
-		print("Client received unknown data from server: " .. tostring(data))
+		log.warn("Client received unknown data from server: " .. tostring(data))
 		M.stop_client()
 	end
 end
@@ -501,14 +502,14 @@ local function client_on_data_queue(data)
 end
 
 local function server_on_client_connected(ip, port, client)
-	--print("Client", ip, "connected")
+	--log.info("Client", ip, "connected")
 	-- Server will wait for client to send info about its version before deciding the
 	-- client if officially recognized. If it sends anything other than the version
 	-- message, it'll get booted when it sends a message
 end
 
 local function server_on_client_disconnected(ip, port, client)
-	--print("Client", ip, "disconnected")
+	--log.info("Client", ip, "disconnected")
 
 	local unique_id = server_client_to_unique_id[client]
 	if unique_id then
