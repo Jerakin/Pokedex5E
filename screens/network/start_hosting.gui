@@ -325,7 +325,7 @@ nodes {
   texture: "gui/close_up"
   id: "btn_back"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
+  yanchor: YANCHOR_TOP
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
@@ -420,7 +420,7 @@ nodes {
   }
   size {
     x: 200.0
-    y: 100.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -538,7 +538,7 @@ nodes {
   }
   size {
     x: 200.0
-    y: 100.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -616,7 +616,7 @@ nodes {
   texture: "gui/add_backing"
   id: "btn_port"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
+  yanchor: YANCHOR_TOP
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
   parent: "root"
@@ -672,7 +672,7 @@ nodes {
   font: "script"
   id: "txt_port"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
+  yanchor: YANCHOR_TOP
   pivot: PIVOT_CENTER
   outline {
     x: 1.0
@@ -829,7 +829,7 @@ nodes {
   }
   size {
     x: 200.0
-    y: 100.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -845,7 +845,7 @@ nodes {
   font: "script_bold"
   id: "txt_port_title"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
+  yanchor: YANCHOR_TOP
   pivot: PIVOT_E
   outline {
     x: 1.0
@@ -946,8 +946,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
-    y: 100.0
+    x: 35.0
+    y: 35.0
     z: 0.0
     w: 1.0
   }
@@ -963,7 +963,7 @@ nodes {
   font: "script_bold"
   id: "txt_port_info"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
+  yanchor: YANCHOR_TOP
   pivot: PIVOT_CENTER
   outline {
     x: 1.0
@@ -1010,7 +1010,7 @@ nodes {
   }
   size {
     x: 200.0
-    y: 100.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -1022,11 +1022,11 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "GROUPS:"
+  text: "GROUPS"
   font: "script_bold"
   id: "txt_groups"
   xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
+  yanchor: YANCHOR_TOP
   pivot: PIVOT_CENTER
   outline {
     x: 1.0
@@ -1078,9 +1078,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.9411765
-    y: 0.9411765
-    z: 0.9411765
+    x: 0.9019608
+    y: 0.9019608
+    z: 0.9019608
     w: 1.0
   }
   type: TYPE_BOX
@@ -1140,7 +1140,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gui/add_backing"
+  texture: "gui/details_backing"
   id: "btn_item"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -1150,10 +1150,10 @@ nodes {
   layer: "gui"
   inherit_alpha: false
   slice9 {
-    x: 15.0
-    y: 15.0
-    z: 15.0
-    w: 30.0
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
   }
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
@@ -1183,7 +1183,7 @@ nodes {
   }
   size {
     x: 200.0
-    y: 100.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
@@ -1509,7 +1509,7 @@ nodes {
   }
   size {
     x: 200.0
-    y: 100.0
+    y: 40.0
     z: 0.0
     w: 1.0
   }
