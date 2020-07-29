@@ -10,7 +10,9 @@ local gui_colors = require "utils.gui_colors"
 local url = require "utils.url"
 local constants = require "utils.constants"
 local messages = require "utils.messages"
+local screens = require "utils.screens"
 
+local MSG_UPDATE_PROFILE_NAME = hash("UPDATE_PROFILE_NAME")
 
 local type_buttons = {
     normal = "Normal",
@@ -95,11 +97,11 @@ local function activate_tab(self, tab_number)
 end
 
 local function update_profile_name(self)
-    monarch.show(screens.INPUT, {}, {sender=msg.url(), message=messages.UPDATE_PROFILE_NAME, help_text="Input new profile name.", default_text=profiles.get_active_name()})
+    monarch.show(screens.INPUT, {}, {sender=msg.url(), message=MSG_UPDATE_PROFILE_NAME, help_text="Input new profile name.", default_text=profiles.get_active_name()})
 end
 
 function on_message(self, message_id, message)
-    if message_id == messages.UPDATE_PROFILE_NAME then
+    if message_id == MSG_UPDATE_PROFILE_NAME then
         local new_name = message.str
         profiles.set_active_name(new_name)
         gui.set_text(gui.get_node("top_divider/title"), new_name)
