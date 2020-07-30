@@ -16,31 +16,28 @@ local function redraw_ip(self)
 	local enabled = netcore.get_current_state() == netcore.STATE_SERVING
 
 	local node_ip = gui.get_node("txt_ip")
+	local node_local_ip = gui.get_node("txt_local_ip")
 	local node_port = gui.get_node("txt_port")
+	local global_ip
+	local local_ip
 
 	if enabled then
 		local port = netcore.get_current_server_port()
 		gui.set_text(node_port, tostring(port))
-
-		local ip = "<unknown>"
-
-		local global_ip = net_ip.get_global_ip()
-		if global_ip then
-			ip = tostring(global_ip)
-		else
-			local local_ip = net_ip.get_local_ip()
-			if local_ip then
-				ip = tostring(local_ip) .. "    (local)"
-			end
-		end
-		gui.set_text(node_ip, ip)
+		
+		global_ip = net_ip.get_global_ip()
+		local_ip = net_ip.get_local_ip()
+		gui.set_text(node_ip, global_ip or "unknown")
+		gui.set_text(node_local_ip, local_ip or "unknown")
 	end
 
-	gui.set_enabled(node_port, enabled)	
-	gui.set_enabled(node_ip, enabled)	
+	gui.set_enabled(node_port, enabled)
+	gui.set_enabled(node_ip, enabled and global_ip)
+	gui.set_enabled(node_local_ip, enabled and local_ip)
 	gui.set_enabled(gui.get_node("txt_port_title"), enabled)
 	gui.set_enabled(gui.get_node("txt_ip_title"), enabled)
 	gui.set_enabled(gui.get_node("btn_info"), enabled)
+	gui.set_enabled(gui.get_node("txt_local_ip_title"), enabled)
 end
 
 local function redraw_member_list()

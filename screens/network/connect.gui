@@ -1421,7 +1421,7 @@ nodes {
 nodes {
   position {
     x: -91.0
-    y: 359.0
+    y: 329.0
     z: 0.0
     w: 1.0
   }
@@ -1451,7 +1451,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "IP:"
+  text: "GLOBAL IP:"
   font: "script_bold"
   id: "txt_ip_title"
   xanchor: XANCHOR_NONE
@@ -1484,7 +1484,7 @@ nodes {
 nodes {
   position {
     x: -71.0
-    y: 359.0
+    y: 329.0
     z: 0.0
     w: 1.0
   }
@@ -1547,7 +1547,7 @@ nodes {
 nodes {
   position {
     x: -91.0
-    y: 288.0
+    y: 273.0
     z: 0.0
     w: 1.0
   }
@@ -1610,7 +1610,7 @@ nodes {
 nodes {
   position {
     x: -71.0
-    y: 288.0
+    y: 273.0
     z: 0.0
     w: 1.0
   }
@@ -1672,7 +1672,7 @@ nodes {
 }
 nodes {
   position {
-    x: -171.0
+    x: -301.0
     y: 357.0
     z: 0.0
     w: 1.0
@@ -1745,7 +1745,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 40.0
     y: 40.0
     z: 0.0
     w: 1.0
@@ -1779,6 +1779,132 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "btn_info"
+  layer: "script_bold"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: -91.0
+    y: 380.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 40.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "LOCAL IP:"
+  font: "script_bold"
+  id: "txt_local_ip_title"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_E
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "root"
+  layer: "script_bold"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: -71.0
+    y: 380.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 40.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "192.168.1.1"
+  font: "script"
+  id: "txt_local_ip"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_W
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "root"
   layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
