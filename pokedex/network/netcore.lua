@@ -540,15 +540,7 @@ end
 
 function M.init()
 	local system = sys.get_sys_info().system_name
-	if system == "Windows" then
-		version = sys.get_config("gameanalytics.build_windows", nil)
-	elseif system == "iPhone OS" then
-		version = sys.get_config("gameanalytics.build_ios", nil)
-	elseif system == "Android" then
-		version = sys.get_config("gameanalytics.build_android", nil)
-	elseif system == "HTML5" then
-		version = sys.get_config("gameanalytics.build_html5", nil)
-	end
+	version = sys.get_config("project.version", "unknown")
 
 	netcore_settings = settings.get("netcore") or {}
 	settings.set("netcore", netcore_settings)
