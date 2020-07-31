@@ -347,7 +347,7 @@ local function client_process_initial_packet_response(packet)
 
 			-- Look through the outgoing messages and send any messages later than what the server got last, removing anything we already received.
 			local i=1
-			while i < #known_server_info.outgoing_messages+1 do
+			while i <= #known_server_info.outgoing_messages do
 				local this_message = known_server_info.outgoing_messages[i]
 				if this_message.message_id > latest_message_received then
 					send_to_server_internal(this_message)
