@@ -134,7 +134,6 @@ function M.get_copy(id)
 		log.error(e)
 		return nil
 	end
-	
 end
 
 local function get(id)

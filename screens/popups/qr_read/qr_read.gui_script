@@ -1,0 +1,101 @@
+local monarch = require "monarch.monarch"
+local share = require "pokedex.share"
+local url = require "utils.url"
+local _file = require "utils.file"
+local messages = require "utils.messages"
+local screens = require "utils.screens"
+
+local function stop_capture(self)
+	if self.cameraframe == nil then
+		return
+	end
+
+	self.cameraframe = nil
+	camera.stop_capture()
+end
+
+
+local function start_capture(self)
+	if not camera then
+		gui.set_text(self.label, "Capture Status: UNAVAILABLE")
+		return
+	end
+
+	local quality = camera.CAPTURE_QUALITY_HIGH
+	local type = camera.CAMERA_TYPE_BACK
+	
+	camera.start_capture(type, quality, function(self, status)
+		if status == camera.CAMERA_STARTED then
+			self.cameraframe = camera.get_frame()
+			self.camerainfo = camera.get_info()
+			self.cameratextureheader = {
+				name="camera",
+				width=self.camerainfo.width,
+				height=self.camerainfo.height,
+				type=resource.TEXTURE_TYPE_2D,
+				format="rgb",
+				num_mip_maps=1
+			}
+
+			local image = buffer.get_bytes(self.cameraframe, "rgb")
+			self.texture = gui.new_texture(self.cameratextureheader.name, self.cameratextureheader.width, self.cameratextureheader.height, self.cameratextureheader.format, image)
+			gui.set_texture(self.view_node , self.cameratextureheader.name)
+			gui.set_text(self.label, "Capture Status: ON")
+		elseif status == camera.CAMERA_STOPPED then
+			gui.set_text(self.label, "Capture Status: OFF")
+		elseif status == camera.CAMERA_ERROR then
+			gui.set_text(self.label, "Capture Status: ERROR")
+		elseif status == camera.CAMERA_NOT_PERMITTED then
+			gui.set_text(self.label, "Capture Status: NO PERMISSION")
+		end
+	end)
+end
+
+
+function init(self)
+	msg.post(".", messages.ACQUIRE_INPUT_FOCUS)
+	gui.set_render_order(14)
+	msg.post(url.MENU, messages.HIDE)
+	self.label = gui.get_node("message")
+	gui.set_text(self.label, "Capture Status: NOTHING")
+	self.view_node = gui.get_node("camera_view")
+	start_capture(self)
+end
+
+
+function final(self)
+	msg.post(url.MENU, messages.SHOW)
+end
+
+
+function update(self, dt)
+	if self.cameraframe then
+		if self.texture then
+			local buffer = buffer.get_bytes(self.cameraframe, "rgb")
+			gui.set_texture_data(self.cameratextureheader.name, self.cameratextureheader.width, self.cameratextureheader.height, self.cameratextureheader.format, buffer)
+
+			local qrstring = qrcode.scan(self.cameraframe, self.cameratextureheader.width, self.cameratextureheader.height, 0) -- 0 is flip_x
+			if qrstring ~= nil then
+				-- qr code found, can exit loop and check if it's a pokemon string
+				local pokemon = _file.load_json(qrstring)
+				if pokemon then
+					if not share.validate(pokemon) then
+						-- We found a QR code and it was a json but we could not validate it as a pokemon
+						return 
+					end
+					share.encode_status(pokemon)
+					camera.stop_capture()
+					monarch.show(screens.IMPORT_POKEMON, nil, {pokemon=pokemon})
+				end
+			end
+		end
+	end
+end
+
+
+function on_input(self, action_id, action)
+	if action_id == messages.TOUCH and action.pressed then
+		stop_capture(self)
+		monarch.back()
+	end
+end

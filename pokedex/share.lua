@@ -7,18 +7,18 @@ local dex = require "pokedex.dex"
 local pokedex = require "pokedex.pokedex"
 local statuses = require "pokedex.statuses"
 local messages = require "utils.messages"
+local _file = require "utils.file"
+local platform = require "utils.platform"
 
 local M = {}
 
-local function load_json(j)
-	local json_data = nil
-	-- Use pcall to catch possible parse errors so that we can print out the name of the file that we failed to parse
-	if pcall(function() json_data = json.decode(j) end) then
-		return json_data
-	else
-		return nil
-	end
-end
+-- For checking if sharing is enabled
+M.ENABLED = {
+	CLIPBOARD = clipboard ~= nil,
+	QRCODE_GENERATE = true,
+	QRCODE_READ = platform.MOBILE_PHONE or platform.MACOS,
+}
+M.ENABLED.ANY = M.ENABLED.CLIPBOARD or M.ENABLED.QRCODE_READ
 
 function M.add_new_pokemon(pokemon)
 	storage.add(pokemon)
@@ -31,8 +31,16 @@ function M.add_new_pokemon(pokemon)
 	end
 end
 
+function M.validate(pokemon)
+	if pokemon and type(pokemon) == "table" and pokemon.species and pokemon.species.current and
+	pokemon.hp and pokemon.hp.current then
+		return true
+	end
+	return nil
+end
+
 function M.import()
-	local pokemon = load_json(clipboard.paste())
+	local pokemon = _file.load_json(clipboard.paste())
 	if pokemon then
 		if not M.validate(pokemon) then
 			notify.notify("Pokemon data is incomplete")
@@ -46,7 +54,7 @@ function M.import()
 		notify.notify(clipboard.paste())
 	end
 end
-local function encode_status(pokemon)
+function M.encode_status(pokemon)
 	local new = {}
 	for s, _ in pairs(pokemon.statuses or {}) do
 		new[statuses.string_to_state[s]] = true
@@ -55,18 +63,16 @@ local function encode_status(pokemon)
 end
 
 function M.get_clipboard()
-	local pokemon = load_json(clipboard.paste())
+	local pokemon = _file.load_json(clipboard.paste())
 	if pokemon then
 		if not M.validate(pokemon) then
 			return 
 		end
-		encode_status(pokemon)
+		M.encode_status(pokemon)
 		return pokemon
 	end
 	return
 end
-
-
 
 local function decode_status(pokemon)
 	local new = {}
@@ -76,12 +82,14 @@ local function decode_status(pokemon)
 	pokemon.statuses = new
 end
 
-function M.validate(pokemon)
-	if pokemon and type(pokemon) == "table" and pokemon.species and pokemon.species.current and
-	pokemon.hp and pokemon.hp.current then
-		return true
-	end
-	return nil
+local function serialize_pokemon(pokemon)
+	decode_status(pokemon)
+	return ljson.encode(pokemon)
+end
+
+function M.generate_qr(id)
+	local pokemon = storage.get_copy(id)
+	return qrcode.generate(serialize_pokemon(pokemon))
 end
 
 function M.get_sendable_pokemon_copy(id)
@@ -91,10 +99,8 @@ function M.get_sendable_pokemon_copy(id)
 end
 
 function M.export(id)
-	local pokemon = M.get_sendable_pokemon_copy(id)
-	
-	local p_json = ljson.encode(pokemon)
-	clipboard.copy(p_json)
+	local pokemon = storage.get_copy(id)
+	clipboard.copy(serialize_pokemon(pokemon))
 	notify.notify((pokemon.nickname or pokemon.species.current) .. " copied to clipboard!")
 end
 
