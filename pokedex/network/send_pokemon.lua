@@ -10,7 +10,7 @@ local M = {}
 M.SEND_TYPE_CATCH = "Catch"
 M.SEND_TYPE_GIFT = "Gift"
 
-local function on_pokemon_receieved(from_member_id, message)
+local function on_pokemon_received(from_member_id, message)
 	local pokemon = message.pokemon
 	local send_type = message.send_type
 	local from_name = net_member_name.get_name(from_member_id)
@@ -32,7 +32,7 @@ local function on_pokemon_receieved(from_member_id, message)
 end
 
 function M.init()
-	net_members.register_member_message_callback(KEY, on_pokemon_receieved)
+	net_members.register_member_message_callback(KEY, on_pokemon_received)
 end
 
 function M.send_pokemon(member_id, pokemon_id, send_type)
