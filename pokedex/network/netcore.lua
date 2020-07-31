@@ -10,7 +10,7 @@ local log = require "utils.log"
 
 local M = {}
 
-M.MSG_NEARBY_SERVER_FOUND = hash("netcore_nearby_server_found")
+M.MSG_NEARBY_SERVER_UPDATE = hash("netcore_nearby_server_update")
 M.MSG_STATE_CHANGED = hash("netcore_state_changed")
 
 M.STATE_FINAL = hash("final")
@@ -118,7 +118,7 @@ local function on_local_server_found(ip, _, extra_data)
 			port=json_data.port,
 		}
 		M.stop_find_nearby_server()
-		broadcast.send(M.MSG_NEARBY_SERVER_FOUND, nearby_server_info)
+		broadcast.send(M.MSG_NEARBY_SERVER_UPDATE, nearby_server_info)
 	end
 end
 
@@ -765,13 +765,16 @@ local function start_client(server_ip, server_port)
 		}
 
 		send_to_server_internal(initial_packet)
+		return true
 	else
+		-- TODO: This should not fire a notification message, the caller should instead.
 		fail_client_connect("Could not connect! Did you\nuse the right address/port?")
+		return false
 	end
 end
 
 function M.connect_to_server(ip, port)
-	start_client(ip, port)
+	return start_client(ip, port)
 end
 
 function M.connect_to_nearby_server()
@@ -781,10 +784,13 @@ function M.connect_to_nearby_server()
 		local port = nearby_server_info.port
 		nearby_server_info = nil
 
+		broadcast.send(M.MSG_NEARBY_SERVER_UPDATE, nil)
+		
 		if ip and port then
-			start_client(ip, port)
+			return start_client(ip, port)
 		end
 	end
+	return false
 end
 
 function M.stop_client()
