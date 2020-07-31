@@ -15,7 +15,7 @@ local M = {}
 M.ENABLED = {
 	CLIPBOARD = clipboard ~= nil,
 	QRCODE_GENERATE = true,
-	QRCODE_READ = platform.PHONE or platform.MACOS,
+	QRCODE_READ = platform.MOBILE_PHONE or platform.MACOS,
 }
 M.ENABLED.ANY = M.ENABLED.CLIPBOARD or M.ENABLED.QRCODE_READ
 
