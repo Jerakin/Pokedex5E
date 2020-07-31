@@ -50,7 +50,7 @@ end
 local function on_checked(checkbox, status)
 	local statuses = storage.get_status_effects(pokemon_id)
 	storage.set_status_effect(pokemon_id, status, not statuses[status])
-	msg.post(url.PARTY, "refresh_status")
+	msg.post(url.PARTY, messages.REFRESH_STATUS)
 end
 
 local function update_checkbox(checkbox, _status)
@@ -115,7 +115,7 @@ function on_input(self, action_id, action)
 			update_checkbox(gooey.checkbox("asleep"), statuses.status.ASLEEP)
 			update_checkbox(gooey.checkbox("confused"), statuses.status.CONFUSED)
 
-			msg.post(url.PARTY, "refresh_status")
+			msg.post(url.PARTY, messages.REFRESH_STATUS)
 		end)
 	end
 	if action.released then

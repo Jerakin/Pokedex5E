@@ -26,10 +26,6 @@ M.INVENTORY = hash("inventory")
 M.MARK = hash("mark")
 M.SEARCH = hash("search")
 
--- Notify
-M.NOTIFY = hash("notify")
-M.DONE = hash("done")
-
 -- Locations, also used as strings in the interface
 M.LOCATION_PARTY = "PARTY"
 M.LOCATION_PC = "PC"

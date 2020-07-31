@@ -7,6 +7,7 @@ local gooey = require "gooey.gooey"
 local url = require "utils.url"
 local notify = require "utils.notify"
 local gui_utils = require "utils.gui"
+local messages = require "utils.messages"
 
 local function join_table(title, T, sep)
 	if T then
@@ -92,7 +93,7 @@ local function reset()
 	end	
 	gui.set_text(gui.get_node("txt_pp"), pp_text)
 	notify.notify("PP for " .. data.name .. " has been reset")
-	msg.post(url.PARTY, "refresh_pp")
+	msg.post(url.PARTY, messages.REFRESH_PP)
 end
 
 function on_input(self, action_id, action)
