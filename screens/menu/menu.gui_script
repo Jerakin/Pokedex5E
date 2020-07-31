@@ -11,6 +11,7 @@ local gooey_buttons = require "utils.gooey_buttons"
 local share = require "pokedex.share"
 local screens = require "utils.screens"
 local messages = require "utils.messages"
+local _share = require "pokedex.share"
 
 local map = {
 	[screens.PARTY] = "btn_party",
@@ -20,7 +21,7 @@ local map = {
 	[screens.ABOUT] = "btn_about",
 	[screens.DEBUG] = "btn_debug",
 	[screens.GENERATE_POKEMON] = "btn_generate",
-	[screens.IMPORT] = "btn_import",
+	[screens.RECEIVE] = "btn_receive",
 	[screens.POKEDEX] = "btn_pokedex",
 	[screens.SETTINGS] = "btn_settings",
 	[screens.TRAINER] = "btn_trainer",
@@ -76,14 +77,16 @@ function init(self)
 	self.btn_generate = gui.get_node("btn_generate")
 	self.btn_debug = gui.get_node("btn_debug")
 	self.menu = gui.get_node("menu")
-	self.btn_import = gui.get_node("btn_import")
+	self.btn_receive = gui.get_node("btn_receive")
 	self.btn_trainer = gui.get_node("btn_trainer")
 	gui.set_enabled(self.menu, false)
-	if not clipboard then
-		gui.set_enabled(self.btn_import, false)
+
+	if not _share.ENABLED.ANY then
+		gui.set_enabled(self.btn_receive, false)
 	end
-		local name = profiles.get_active_slot() ~= nil and profiles.get_active_name() or "Someone"
-		gui.set_text(self.btn_storage, name .. "'s PC")
+	
+	local name = profiles.get_active_slot() ~= nil and profiles.get_active_name() or "Someone"
+	gui.set_text(self.btn_storage, name .. "'s PC")
 
 	
 	button.register(self.btn_party, function()
@@ -116,8 +119,8 @@ function init(self)
 		toggle(self)
 	end, {no_shake=true})
 	
-	button.register("btn_import", function()
-		monarch.show(screens.IMPORT)
+	button.register("btn_receive", function()
+		monarch.show(screens.RECEIVE)
 		toggle(self)
 	end, {no_shake=true})
 

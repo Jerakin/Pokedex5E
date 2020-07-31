@@ -33,6 +33,7 @@ M.NATURES_SCROLLIST     = hash("natures_scrollist")
 M.MOVES_SCROLLIST       = hash("moves_scrollist")
 M.ABOUT                 = hash("about")
 M.MOVES_CONFIRM         = hash("moves_confirm")
+M.RECEIVE               = hash("receive")
 
 
 return M

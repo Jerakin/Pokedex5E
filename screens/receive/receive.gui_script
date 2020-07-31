@@ -1,0 +1,30 @@
+local monarch = require "monarch.monarch"
+local url = require "utils.url"
+local gooey = require "gooey.gooey"
+local flow = require "utils.flow"
+local version = require "screens.popups.version_dialog.version"
+local gooey_buttons = require "utils.gooey_buttons"
+local log = require "utils.log"
+local messages = require "utils.messages"
+local platform = require "utils.platform"
+local _share = require "pokedex.share"
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	msg.post(url.MENU, messages.SHOW)
+	if not _share.ENABLED.CLIPBOARD then
+		gui.set_enabled(gui.get_node("btn_clipboard"), false)
+	end
+	if not _share.ENABLED.QRCODE_READ then
+		gui.set_enabled(gui.get_node("btn_qr"), false)
+	end
+end
+
+function on_input(self, action_id, action)
+	gooey.button("btn_qr", action_id, action, function()
+		monarch.show("qr_read")
+	end, gooey_buttons.common_button("btn_qr", "txt_qr"))
+	gooey.button("btn_clipboard", action_id, action, function()
+		monarch.show("import")
+	end, gooey_buttons.common_button("btn_clipboard", "txt_clipboard"))
+end
