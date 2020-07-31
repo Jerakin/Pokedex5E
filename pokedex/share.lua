@@ -6,6 +6,7 @@ local monarch = require "monarch.monarch"
 local dex = require "pokedex.dex"
 local pokedex = require "pokedex.pokedex"
 local statuses = require "pokedex.statuses"
+local messages = require "utils.messages"
 
 local M = {}
 
@@ -23,10 +24,10 @@ function M.add_new_pokemon(pokemon)
 	storage.add(pokemon)
 	dex.set(pokemon.species.current, dex.states.CAUGHT)
 	if url.PARTY then
-		msg.post(url.PARTY, "refresh")
+		msg.post(url.PARTY, messages.REFRESH)
 	elseif url.STORAGE then
-		msg.post(url.STORAGE, "inventory_updated")
-		msg.post(url.STORAGE, "storage_updated")
+		msg.post(url.STORAGE, messages.INVENTORY_UPDATED)
+		msg.post(url.STORAGE, messages.STORAGE_UPDATED)
 	end
 end
 
