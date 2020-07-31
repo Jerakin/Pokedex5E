@@ -193,9 +193,9 @@ function M.on_message(message_id, message, sender)
 	if message_id == messages.RESPONSE and message.response then
 		if message.id == "full_rest" then
 			_pokemon.reset_in_storage(active_pokemon)
-			msg.post(url.PARTY, "refresh_status")
-			msg.post(url.PARTY, "refresh_hp")
-			msg.post(url.PARTY, "refresh_pp")
+			msg.post(url.PARTY, messages.REFRESH_STATUS)
+			msg.post(url.PARTY, messages.REFRESH_HP)
+			msg.post(url.PARTY, messages.REFRESH_PP)
 		end
 	end
 end

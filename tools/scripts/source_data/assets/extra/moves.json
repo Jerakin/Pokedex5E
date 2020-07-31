@@ -1,6 +1,32 @@
 {
   "Swift": {
-    "auto_hit": true
+    "auto_hit": true,
+    "Damage": {
+      "1": {
+        "amount": 1,
+        "dice_max": 4,
+        "move": false,
+        "times": 2
+      },
+      "10": {
+        "amount": 1,
+        "dice_max": 4,
+        "move": false,
+        "times": 5
+      },
+      "17": {
+        "amount": 1,
+        "dice_max": 4,
+        "move": false,
+        "times": 6
+      },
+      "5": {
+        "amount": 1,
+        "dice_max": 4,
+        "move": false,
+        "times": 4
+      }
+    }
   },
   "Disarming Voice": {
     "auto_hit": true
@@ -64,6 +90,9 @@
   },
   "Precipice Blades": {
     "atk": true
+  },
+  "Overheat": {
+    "Save": "DEX"
   },
   "Struggle": {
     "Damage": {

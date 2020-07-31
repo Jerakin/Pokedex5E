@@ -37,8 +37,8 @@ local function back()
 end
 
 local function update_storage()
-	msg.post(url.STORAGE, "inventory_updated")
-	msg.post(url.STORAGE, "storage_updated")
+	msg.post(url.STORAGE, messages.INVENTORY_UPDATED)
+	msg.post(url.STORAGE, messages.STORAGE_UPDATED)
 end
 
 

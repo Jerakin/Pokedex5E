@@ -20,14 +20,11 @@ M.REFRESH_HP = hash("refresh_hp")
 M.UPDATE_TEMP_HP = hash("update_temp_hp")
 M.REFRESH_PP = hash("refresh_pp")
 M.REFRESH_STATUS = hash("refresh_status")
+M.INVENTORY = hash("inventory")
 
 -- Pokedex
 M.MARK = hash("mark")
 M.SEARCH = hash("search")
-
--- Notify
-M.NOTIFY = hash("notify")
-M.DONE = hash("done")
 
 -- Locations, also used as strings in the interface
 M.LOCATION_PARTY = "PARTY"
