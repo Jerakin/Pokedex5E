@@ -32,6 +32,7 @@ end
 
 local function add_pokemon(self)
 	self.pokemon.level.caught = _pokemon.get_current_level(self.pokemon)
+	self.pokemon.exp = pokedex.get_experience_for_level(self.pokemon.level.caught-1)
 	self.pokemon.hp.current = _pokemon.get_total_max_hp(self.pokemon)
 	dex.set(self.pokemon.species.current, dex.states.CAUGHT)
 	if storage.is_party_full() then
