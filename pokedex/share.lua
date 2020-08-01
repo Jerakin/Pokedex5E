@@ -15,6 +15,7 @@ local M = {}
 -- For checking if sharing is enabled
 M.ENABLED = {
 	CLIPBOARD = clipboard ~= nil,
+	NETWORK = platform.MOBILE_PHONE or platform.MACOS or platform.WINDOWS,
 	QRCODE_GENERATE = true,
 	QRCODE_READ = platform.MOBILE_PHONE or platform.MACOS,
 }
