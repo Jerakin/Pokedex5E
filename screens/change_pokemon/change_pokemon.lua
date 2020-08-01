@@ -229,8 +229,9 @@ local function redraw_moves(self)
 	local index = 1
 	for move, data in pairs(_pokemon.get_moves(self.pokemon)) do
 		if move_buttons_list[index] then
-			local move_node = move_buttons_list[data.index].text
-			local icon_node = move_buttons_list[data.index].icon
+			local _index = data.index
+			local move_node = move_buttons_list[_index].text
+			local icon_node = move_buttons_list[_index].icon
 			
 			move_buttons_list[data.index].move_name = move
 			gui.set_text(move_node, move:upper())
