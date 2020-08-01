@@ -1068,69 +1068,6 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: 17.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.4
-    y: 0.4
-    z: 0.5
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 40.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.24313726
-    y: 0.24313726
-    z: 0.24313726
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "and healing"
-  font: "script"
-  id: "damage_title2"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "damage_stat"
-  layer: "script"
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 0.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
-}
-nodes {
-  position {
     x: -235.0
     y: -200.0
     z: 0.0
@@ -2856,7 +2793,7 @@ nodes {
 }
 nodes {
   position {
-    x: -180.0
+    x: -255.0
     y: -44.0
     z: 0.0
     w: 1.0
@@ -2923,8 +2860,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.6
-    y: 0.6
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
@@ -2975,8 +2912,8 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
-    y: -44.0
+    x: -255.0
+    y: -111.0
     z: 0.0
     w: 1.0
   }
@@ -3042,8 +2979,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.6
-    y: 0.6
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
@@ -3094,7 +3031,7 @@ nodes {
 }
 nodes {
   position {
-    x: 180.0
+    x: 250.0
     y: -44.0
     z: 0.0
     w: 1.0
@@ -3161,8 +3098,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.55
-    y: 0.55
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
@@ -3212,8 +3149,8 @@ nodes {
 }
 nodes {
   position {
-    x: -180.0
-    y: -112.0
+    x: -86.0
+    y: -44.0
     z: 0.0
     w: 1.0
   }
@@ -3279,8 +3216,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.55
-    y: 0.55
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
@@ -3331,7 +3268,7 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
+    x: -87.0
     y: -111.0
     z: 0.0
     w: 1.0
@@ -3398,8 +3335,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.55
-    y: 0.55
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
@@ -3450,7 +3387,7 @@ nodes {
 }
 nodes {
   position {
-    x: 180.0
+    x: 250.0
     y: -111.0
     z: 0.0
     w: 1.0
@@ -3517,8 +3454,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.55
-    y: 0.55
+    x: 0.5
+    y: 0.5
     z: 1.0
     w: 1.0
   }
@@ -3557,6 +3494,244 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "tab_6"
+  layer: "script_bold"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 0.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 82.0
+    y: -44.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 160.0
+    y: 55.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/common_up"
+  id: "tab_7"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "buttons"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.5
+    y: 0.5
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 45.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "POKEMON \n"
+  "ATTACK DAMAGE"
+  font: "script_bold"
+  id: "text_7"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "tab_7"
+  layer: "script_bold"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 0.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 82.0
+    y: -111.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 160.0
+    y: 55.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/common_up"
+  id: "tab_8"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "buttons"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 8.0
+    y: 8.0
+    z: 8.0
+    w: 8.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.5
+    y: 0.5
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 45.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "MOVE\n"
+  "ATTACK DAMAGE"
+  font: "script_bold"
+  id: "text_8"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "tab_8"
   layer: "script_bold"
   inherit_alpha: true
   alpha: 1.0
