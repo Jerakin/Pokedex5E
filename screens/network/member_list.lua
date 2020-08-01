@@ -2,12 +2,36 @@ local broadcast = require "utils.broadcast"
 local gooey_scrolling_list = require "utils.gooey_scrolling_list"
 local net_members = require "pokedex.network.net_members"
 local net_member_name = require "pokedex.network.net_member_name"
+local net_member_party = require "pokedex.network.net_member_party"
+local pokedex = require "pokedex.pokedex"
 
 local function update_item(data, list, item)
 	local member_id = item.data.id
 	local name = net_member_name.get_name(member_id)
 
 	gui.set_text(item.nodes[data.list_root.."/txt_item"], tostring(name))
+
+	if data.show_party then
+		local party = net_member_party.get_party(member_id)		
+		for i=1,6 do
+			local node_pkmn = item.nodes[data.list_root.."/pokemon"..i]
+			if i <= #party and party[i].species then
+				local sprite, texture = pokedex.get_icon(party[i].species)
+				gui.set_enabled(node_pkmn, true)
+				gui.set_texture(node_pkmn, texture)
+				if sprite then
+					gui.play_flipbook(node_pkmn, sprite)
+				end
+			else
+				gui.set_enabled(node_pkmn, false)
+			end
+		end
+	else
+		for i=1,6 do
+			local node_pkmn = item.nodes[data.list_root.."/pokemon"..i]
+			gui.set_enabled(node_pkmn, false)
+		end
+	end
 end
 
 local function on_item_selected(data, list)
@@ -28,6 +52,9 @@ end
 
 local MEMBER_LIST = {}
 
+function MEMBER_LIST.refresh_list(data)
+end
+
 function MEMBER_LIST.on_message(data, message_id, message)
 	if message_id == net_members.MSG_MEMBERS_CHANGED then
 		refresh_list(data)
@@ -42,8 +69,9 @@ local M = {}
 
 function M.create(str_list_root, options)
 	local data = {}
-
+	
 	data.fn_member_chosen = options.fn_member_chosen
+	data.show_party = options.show_party or false
 	data.list_root = str_list_root
 	data.show_self = options.show_self or false
 	data.scrolling_list = gooey_scrolling_list.create_vertical_dynamic(str_list_root, str_list_root.."/scroll_area", str_list_root.."/btn_item", str_list_root.."/scrollbar/handle", str_list_root.."/scrollbar/bar", str_list_root.."/scrollbar/visual", function(list, item) update_item(data, list, item) end, function(list) on_item_selected(data, list) end)

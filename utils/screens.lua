@@ -38,6 +38,7 @@ M.NETWORK_CONNECT       = hash("network_connect")
 M.NETWORK_CHOOSE_MEMBER = hash("network_choose_member")
 M.NETWORK_START_HOSTING = hash("network_start_hosting")
 M.NETWORK_JOIN_HOST     = hash("network_join_host")
+M.NETWORK_SEND_XP       = hash("network_send_xp")
 
 
 return M

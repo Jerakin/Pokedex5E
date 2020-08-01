@@ -3,6 +3,7 @@ local net_groups = require "pokedex.network.net_groups"
 local net_ip = require "pokedex.network.net_ip"
 local net_members = require "pokedex.network.net_members"
 local net_member_name = require "pokedex.network.net_member_name"
+local net_member_party = require "pokedex.network.net_member_party"
 local send_pokemon = require "pokedex.network.send_pokemon"
 local profiles = require "pokedex.profiles"
 
@@ -17,6 +18,7 @@ function M.init()
 		net_ip.init()
 		net_members.init()
 		net_member_name.init()
+		net_member_party.init()
 
 		send_pokemon.init()
 

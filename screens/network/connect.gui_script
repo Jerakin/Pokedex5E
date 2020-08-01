@@ -44,7 +44,7 @@ local function redraw_ip(self)
 	gui.set_enabled(gui.get_node("txt_local_ip_title"), enabled)
 end
 
-local function redraw_member_list()
+local function redraw_member_list(self)
 	local enabled = net_members.has_any_members()
 
 	gui.set_enabled(gui.get_node("txt_group_members"), enabled)
@@ -88,7 +88,7 @@ local function redraw_connect_nearby_button()
 	gui.set_enabled(gui.get_node("btn_join_nearby"), enabled)
 end
 
-local function redraw_buttons()
+local function redraw_buttons(self)
 	local host_enable = false
 	local join_enable = false
 	local disconnect_enable = false
@@ -106,13 +106,16 @@ local function redraw_buttons()
 	gui.set_enabled(gui.get_node("btn_disconnect"), disconnect_enable)
 
 	redraw_connect_nearby_button()
+
+	local xp_enabled = self.send_xp_allowed and netcore.is_connected()
+	gui.set_enabled(gui.get_node("btn_send_xp"), xp_enabled)
 end
 
 local function redraw(self)
 	redraw_status(self)
 	redraw_ip(self)
-	redraw_buttons()
-	redraw_member_list()
+	redraw_buttons(self)
+	redraw_member_list(self)
 end
 
 local function set_join_state(self, new_status)
@@ -125,6 +128,8 @@ function init(self)
 	button.acquire()
 
 	self.list_group_members = member_list.create("list_group_members", {show_self=true})
+
+	self.send_xp_allowed = sys.get_engine_info().is_debug
 
 	if netcore.get_current_state() == netcore.STATE_SERVING then
 		net_ip.refresh_local_ip()
@@ -204,6 +209,13 @@ function on_input(self, action_id, action)
 				text="You will need to provide the IP and Port to anyone wishing to join your group.\n\nThey can input these values on the \"JOIN\" screen.",
 			})
 		end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_info")) end)	
+
+		local node_xp = gui.get_node("btn_send_xp")
+		if gui.is_enabled(node_xp) then
+			gooey.button("btn_send_xp", action_id, action, function()
+				monarch.show(screens.NETWORK_SEND_XP)
+			end, function(b) gooey_buttons.common_button(b, node_xp) end)
+		end
 		
 		self.list_group_members.on_input(action_id, action)
 	end

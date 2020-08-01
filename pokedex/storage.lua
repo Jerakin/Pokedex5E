@@ -14,9 +14,16 @@ local counters = {}
 local sorting = {}
 local initialized = false
 local max_active_pokemon = 6
+local party_changed_cbs = {}
 
 function M.is_initialized()
 	return initialized
+end
+
+local function fire_party_changed_cbs()
+	for _,cb in ipairs(party_changed_cbs) do
+		cb()
+	end
 end
 
 local function get_id(pokemon)
@@ -165,6 +172,7 @@ function M.update_pokemon(pokemon)
 		storage[id] = pokemon
 	elseif active[id] then
 		active[id] = pokemon
+		fire_party_changed_cbs()
 	end
 	M.save()
 end
@@ -229,6 +237,10 @@ function M.get_pokemon_exp(id)
 	return get(id).exp
 end
 
+function M.get_pokemon_species(id)
+	return get(id).species.current
+end
+
 
 function M.get_status_effects(id)
 	return get(id).statuses or {}
@@ -284,6 +296,7 @@ function M.release_pokemon(id)
 	profiles.update(profiles.get_active_slot(), counters)
 	profiles.set_party(get_party())
 	M.save()
+	fire_party_changed_cbs()
 end
 
 function M.get_total()
@@ -312,6 +325,8 @@ function M.add(pokemon)
 	profiles.set_party(get_party())
 	M.save()
 	profiles.save()
+
+	fire_party_changed_cbs()
 end
 
 function M.save()
@@ -349,6 +364,8 @@ function M.load(profile)
 	if next(counters) == nil then
 		counters = {caught=0, released=0, seen=0}
 	end
+
+	fire_party_changed_cbs()
 end
 
 function M.init()
@@ -368,6 +385,8 @@ local function assign_slot_numbers()
 		pokemon.slot = index
 		index = index + 1
 	end
+
+	fire_party_changed_cbs()
 end
 
 function M.swap(storage_id, inventory_id)
@@ -387,6 +406,8 @@ function M.swap(storage_id, inventory_id)
 	storage[storage_id] = nil
 	profiles.set_party(get_party())
 	M.save()
+
+	fire_party_changed_cbs()
 end
 
 function M.move_to_storage(id)
@@ -403,6 +424,8 @@ function M.move_to_storage(id)
 	active[id] = nil
 	profiles.set_party(get_party())
 	M.save()
+
+	fire_party_changed_cbs()
 end
 
 function M.free_space_in_inventory()
@@ -422,9 +445,15 @@ function M.move_to_inventory(id)
 		storage[id] = nil
 		profiles.set_party(get_party())
 		M.save()
+
+		fire_party_changed_cbs()
 	else
 		assert(false, "Your party is full")
 	end
+end
+
+function M.register_party_changed_cb(cb)
+	table.insert(party_changed_cbs, cb)
 end
 
 return M
