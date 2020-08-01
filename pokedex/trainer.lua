@@ -86,6 +86,10 @@ function M.get_type_attack_bonus(_type)
 	return 0
 end
 
+function M.get_always_use_STAB()
+	return trainer.always_use_STAB
+end
+
 function M.set_move(value)
 	trainer.move = value
 end
@@ -130,6 +134,12 @@ end
 function M.set_pokemon_type_attack_bonus(_type, value)
 	trainer.pokemon_type_ab[_type] = value
 end
+
+
+function M.set_always_use_STAB(value)
+	trainer.always_use_STAB = value
+end
+
 
 function M.load(_profile)
 	local profile = _profile

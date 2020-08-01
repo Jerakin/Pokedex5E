@@ -894,8 +894,11 @@ local function get_damage_mod_stab(pokemon, move)
 		trainer_stab = trainer.get_all_levels_STAB()
 		for _, t in pairs(M.get_type(pokemon)) do
 			trainer_stab = trainer_stab + trainer.get_type_master_STAB(t)
-			if move.Type == t then
-				stab_damage = M.get_STAB_bonus(pokemon) + trainer.get_STAB(t)
+			if move.Type == t or trainer.get_always_use_STAB() then
+				if not stab_damage then
+					stab_damage = 0
+				end
+				stab_damage = math.max(M.get_STAB_bonus(pokemon) + trainer.get_STAB(t), stab_damage)
 			end
 		end
 		extra_damage = extra_damage + (stab_damage or 0 + trainer_stab) + trainer.get_damage()
