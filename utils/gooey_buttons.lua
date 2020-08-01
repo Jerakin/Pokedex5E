@@ -49,8 +49,16 @@ function M.minus_button(button)
 	standard_button(button, hash("minus_down"), hash("minus_up"))
 end
 
-function M.share(button)
-	standard_button(button, hash("share_down"), hash("share_up"))
+function M.clipboard_share(button)
+	standard_button(button, hash("share_clipboard_down"), hash("share_clipboard_up"))
+end
+
+function M.qr_share(button)
+	standard_button(button, hash("share_qr_down"), hash("share_qr_up"))
+end
+
+function M.network_share(button)
+	standard_button(button, hash("share_network_down"), hash("share_network_up"))
 end
 
 function M.pokemon_sort_button(button)
