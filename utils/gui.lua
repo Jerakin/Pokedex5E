@@ -45,14 +45,7 @@ end
 -- of the calls to scale_text_to_fit_size sometimes have text nodes with non-1 scales.
 function M.scale_text_to_fit_size_2(text_node)
 	gui.set_scale(text_node, vmath.vector3(1))
-	local metrics = gui.get_text_metrics_from_node(text_node)
-	local size = gui.get_size(text_node)
-	local text_width = metrics.width
-	local node_width = size.x
-	if text_width > node_width then
-		local new_scale = node_width / text_width
-		gui.set_scale(text_node, vmath.vector3(new_scale))
-	end
+	M.scale_text_to_fit_size(text_node)
 end
 
 function M.adjust_for_text_change_vertical(node_text, text_new, nodes_change_size, nodes_shift_down, nodes_shift_up)
