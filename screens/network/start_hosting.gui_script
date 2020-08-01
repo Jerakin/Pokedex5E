@@ -13,6 +13,7 @@ local gui_colors = require "utils.gui_colors"
 local flow = require "utils.flow"
 local messages = require "utils.messages"
 local profiles = require "pokedex.profiles"
+local gui_utils = require "utils.gui"
 
 local MSG_NEW_GROUP_NAME = hash("new_group_name")
 
@@ -57,6 +58,7 @@ local function update_item(self, list, item)
 		local node_txt = item.nodes["txt_item"]
 
 		gui.set_text(node_txt, group_name)
+		gui_utils.scale_text_to_fit_size_2(node_txt)
 
 		if item.data == self.selected_group_id then
 			gui.set_size(node_btn, vmath.vector3(520, 80, 0))
@@ -92,6 +94,7 @@ local function on_create_new_group(self)
 		sender=msg.url(), 
 		message=MSG_NEW_GROUP_NAME,
 		help_text="What should your group be called?", 
+		max_length=20,
 		default_text=profiles.get_active_name() .. "'s Group",
 		allowed_characters="[%a%d \']",
 	})

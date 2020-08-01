@@ -40,6 +40,21 @@ function M.scale_text_to_fit_size(text_node)
 	end
 end
 
+-- Second function that assumes a base text scale of 1 is acceptable. This is better than the above function
+-- because it cane be called multiple times without ruining the text. We should consolidate, but at the moment some
+-- of the calls to scale_text_to_fit_size sometimes have text nodes with non-1 scales.
+function M.scale_text_to_fit_size_2(text_node)
+	gui.set_scale(text_node, vmath.vector3(1))
+	local metrics = gui.get_text_metrics_from_node(text_node)
+	local size = gui.get_size(text_node)
+	local text_width = metrics.width
+	local node_width = size.x
+	if text_width > node_width then
+		local new_scale = node_width / text_width
+		gui.set_scale(text_node, vmath.vector3(new_scale))
+	end
+end
+
 function M.adjust_for_text_change_vertical(node_text, text_new, nodes_change_size, nodes_shift_down, nodes_shift_up)
 	if type(node_text) == "string" then
 		node_text = gui.get_node(node_text)
