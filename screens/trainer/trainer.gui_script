@@ -201,6 +201,28 @@ function init(self)
             text = gui.get_node("text_6"),
             bg =gui.get_node("tab_6_content"),
             type="general"
+        },
+        [7] = {
+            name = "tab_7",
+            tab = gui.get_node("tab_7"),
+            text = gui.get_node("text_7"),
+            bg =gui.get_node("tab_1_content"),
+            type="move_attack_bonus",
+            title="Pokemon Attack Damage",
+            get=trainer.get_pokemon_type_damage_bonus,
+            set=trainer.set_pokemon_type_damage_bonus,
+            description="Increase damage depending on the pokemon type. Meaning that a Poision/Grass Pokemon would get increased damage on ALL moves if Poision or Grass were increased. This does not double dip, if your Poison is +2 and Grass +3 it would only use the +3."
+        },
+        [8] = {
+            name = "tab_8",
+            tab = gui.get_node("tab_8"),
+            text = gui.get_node("text_8"),
+            bg =gui.get_node("tab_1_content"),
+            type="move_attack_bonus",
+            title="Move Attack Damage",
+            get=trainer.get_move_type_damage_bonus,
+            set=trainer.set_move_type_damage_bonus,
+            description="Increase damage depending on the moves type. All Pokemon would get an increase to their Poison attacks if Poison is increased. Same type is not required."
         }
     }
 

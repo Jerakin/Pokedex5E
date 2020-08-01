@@ -856,6 +856,11 @@ local function level_index(level)
 	end
 end
 
+
+local function max_ignore_zero(value, other)
+	return other and other ~= 0 and math.max(value, other) or value
+end
+
 local function get_damage_mod_stab(pokemon, move)
 	local move_power
 	local dice
@@ -863,6 +868,7 @@ local function get_damage_mod_stab(pokemon, move)
 	local floored_mod
 	local trainer_stab = 0
 	local extra_damage = 0
+	local trainer_pokemon_type_damage
 	local total = M.get_attributes(pokemon)
 	local index = level_index(M.get_current_level(pokemon))
 	local is_attack = (move.atk == true or move.auto_hit == true) and move.Damage ~= nil
@@ -889,10 +895,13 @@ local function get_damage_mod_stab(pokemon, move)
 		end
 	end
 
-	-- Figure out the STAB
+	-- Figure out the STAB and Trainer Pokemon Type Damage
 	if is_attack then
 		trainer_stab = trainer.get_all_levels_STAB()
 		for _, t in pairs(M.get_type(pokemon)) do
+			-- Figure out the highest value of the "pokemon_type_damage_bonus
+			trainer_pokemon_type_damage = max_ignore_zero(trainer.get_pokemon_type_damage_bonus(t), trainer_pokemon_type_damage)
+
 			trainer_stab = trainer_stab + trainer.get_type_master_STAB(t)
 			if move.Type == t or trainer.get_always_use_STAB() then
 				if not stab_damage then
@@ -901,7 +910,8 @@ local function get_damage_mod_stab(pokemon, move)
 				stab_damage = math.max(M.get_STAB_bonus(pokemon) + trainer.get_STAB(t), stab_damage)
 			end
 		end
-		extra_damage = extra_damage + (stab_damage or 0 + trainer_stab) + trainer.get_damage()
+
+		extra_damage = extra_damage + (stab_damage or 0 + trainer_stab) + trainer.get_damage() + (trainer_pokemon_type_damage or 0) + trainer.get_move_type_damage_bonus(move.Type)
 	end
 
 	local move_damage = move.Damage
