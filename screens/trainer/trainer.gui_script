@@ -100,6 +100,19 @@ local function update_profile_name(self)
     monarch.show(screens.INPUT, {}, {sender=msg.url(), message=MSG_UPDATE_PROFILE_NAME, help_text="Input new profile name.", default_text=profiles.get_active_name()})
 end
 
+
+local function update_checkbox(self, checkbox)
+    if checkbox.released_now then
+        gui.set_enabled(self.checkmark_node, checkbox.checked)
+    end
+end
+
+
+local function on_checked(checkbox)
+    trainer.set_always_use_STAB(checkbox.checked)
+end
+
+
 function on_message(self, message_id, message)
     if message_id == MSG_UPDATE_PROFILE_NAME then
         local new_name = message.str
@@ -165,10 +178,13 @@ function init(self)
         gui.set_position(self.tabs[i].bg, vmath.vector3(0, -140, 0))
         gui.set_enabled(self.tabs[i].bg, false)
     end
-
+    self.checkmark_node = gui.get_node("apply_stab_to_all_moves_checkmark")
     gui.play_flipbook(self.tabs[1].tab, "common_down")
     gui.set_color(self.tabs[1].text, gui_colors.BUTTON_TEXT_PRESSED)
     gui.set_enabled(self.tabs[1].bg, true)
+
+    gooey.checkbox("apply_stab_to_all_moves").set_checked(trainer.get_always_use_STAB())
+    gui.set_enabled(gui.get_node("apply_stab_to_all_moves_checkmark"), trainer.get_always_use_STAB())
     redraw()
 end
 
@@ -204,6 +220,8 @@ function on_input(self, action_id, action)
     gooey.button("damage/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_damage(trainer.get_damage() - 1) end) end, gooey_buttons.minus_button)
     gooey.button("damage/btn_plus", action_id, action, function()  redraw_wrap(function() trainer.set_damage(trainer.get_damage() + 1) end) end, gooey_buttons.plus_button)
 
+    gooey.checkbox("apply_stab_to_all_moves", action_id, action, on_checked, function(checkbox) update_checkbox(self, checkbox) end)
+    
     for _, attribute in pairs(constants.ABILITY_LIST) do
         gooey.button("attributes/" .. attribute:lower() .. "/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_attribute(attribute, trainer.get_attribute(attribute) + 1) end) end, gooey_buttons.plus_button)
         gooey.button("attributes/" .. attribute:lower() .. "/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_attribute(attribute, trainer.get_attribute(attribute) - 1) end) end, gooey_buttons.minus_button)
