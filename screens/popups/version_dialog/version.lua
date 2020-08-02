@@ -41,11 +41,11 @@ function M.check_version()
 			if M.releases.latest == M.releases[current_version].number then
 				return true, 0
 			else
-				return false, M.releases.latest - M.releases[current_version].number, M.releases[current_version].url
+				return false, M.releases.latest - M.releases[current_version].number, M.releases[M.releases.latest].url
 			end
 		end
 	else
-		return M.releases.latest - M.releases[current_version].number==0, M.releases.latest - M.releases[current_version].number, M.releases[current_version].url
+		return M.releases.latest - M.releases[current_version].number==0, M.releases.latest - M.releases[current_version].number, M.releases[M.releases.latest].url
 	end
 end
 
