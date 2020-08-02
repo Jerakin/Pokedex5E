@@ -112,14 +112,14 @@ local function update_profile_name(self)
 end
 
 
-local function update_checkbox(checkbox, name)
+local function update_always_apply_stab_checkbox(checkbox, name)
     if checkbox.released_now then
         gui.set_enabled(gui.get_node("always_stab_type/".. name  .."/apply_stab_to_all_moves_checkmark"), checkbox.checked)
     end
 end
 
 
-local function on_checked(checkbox, _type)
+local function on_update_always_apply_stab_checked(checkbox, _type)
     trainer.set_always_use_STAB(_type, checkbox.checked)
 end
 
@@ -293,7 +293,7 @@ function on_input(self, action_id, action)
     end
     
     for name, _type in pairs(type_buttons) do
-        gooey.checkbox("always_stab_type/" .. name .. "/type", action_id, action, function(checkbox) on_checked(checkbox, _type) end, function(checkbox) update_checkbox(checkbox, name) end)
+        gooey.checkbox("always_stab_type/" .. name .. "/type", action_id, action, function(checkbox) on_update_always_apply_stab_checked(checkbox, _type) end, function(checkbox) update_always_apply_stab_checkbox(checkbox, name) end)
         
         local set = self.tabs[self.active_tab].set
         local get = self.tabs[self.active_tab].get
