@@ -12,6 +12,7 @@ local _trainer = {ab=0, dmg=0, evo=0, all_stab=0, asi=0, move=0,
 	pokemon_type_ab = {Normal=0, Fire=0, Water=0, Electric=0, Grass=0, Ice=0, Fighting=0, Poison=0, Ground=0, Flying=0, Psychic=0, Bug=0, Rock=0, Ghost=0, Dragon=0, Dark=0, Steel=0, Fairy=0},
 	move_type_damage = {Normal=0, Fire=0, Water=0, Electric=0, Grass=0, Ice=0, Fighting=0, Poison=0, Ground=0, Flying=0, Psychic=0, Bug=0, Rock=0, Ghost=0, Dragon=0, Dark=0, Steel=0, Fairy=0},
 	pokemon_type_damage = {Normal=0, Fire=0, Water=0, Electric=0, Grass=0, Ice=0, Fighting=0, Poison=0, Ground=0, Flying=0, Psychic=0, Bug=0, Rock=0, Ghost=0, Dragon=0, Dark=0, Steel=0, Fairy=0},
+	always_use_STAB = {Normal=false, Fire=false, Water=false, Electric=false, Grass=false, Ice=false, Fighting=false, Poison=false, Ground=false, Flying=false, Psychic=false, Bug=false, Rock=false, Ghost=false, Dragon=false, Dark=false, Steel=false, Fairy=false},
 	attributes = {STR=0, DEX=0, CON=0, WIS=0, INT=0, CHA=0}
 }
 
@@ -88,8 +89,8 @@ function M.get_type_attack_bonus(_type)
 	return 0
 end
 
-function M.get_always_use_STAB()
-	return trainer.always_use_STAB
+function M.get_always_use_STAB(_type)
+	return trainer.always_use_STAB[_type]
 end
 
 function M.set_move(value)
@@ -138,8 +139,8 @@ function M.set_pokemon_type_attack_bonus(_type, value)
 end
 
 
-function M.set_always_use_STAB(value)
-	trainer.always_use_STAB = value
+function M.set_always_use_STAB(_type, value)
+	trainer.always_use_STAB[_type] = value
 end
 
 

@@ -112,15 +112,15 @@ local function update_profile_name(self)
 end
 
 
-local function update_checkbox(self, checkbox)
+local function update_always_apply_stab_checkbox(checkbox, name)
     if checkbox.released_now then
-        gui.set_enabled(self.checkmark_node, checkbox.checked)
+        gui.set_enabled(gui.get_node("always_stab_type/".. name  .."/apply_stab_to_all_moves_checkmark"), checkbox.checked)
     end
 end
 
 
-local function on_checked(checkbox)
-    trainer.set_always_use_STAB(checkbox.checked)
+local function on_update_always_apply_stab_checked(checkbox, _type)
+    trainer.set_always_use_STAB(_type, checkbox.checked)
 end
 
 
@@ -140,6 +140,10 @@ function init(self)
     gui.set_text(gui.get_node("top_divider/title"), name)
 
     for name, _type in pairs(type_buttons) do
+        local _stab = trainer.get_always_use_STAB(_type)
+        gooey.checkbox("always_stab_type/" .. name .. "/type").set_checked(_stab)
+        gui.set_enabled(gui.get_node("always_stab_type/" .. name .. "/apply_stab_to_all_moves_checkmark"), _stab)
+        gui.set_color(gui.get_node("always_stab_type/" .. name .. "/title"), type_data[_type].color)
         gui.set_color(gui.get_node("tab1/" .. name .. "/title"), type_data[_type].color)
     end
 
@@ -223,21 +227,30 @@ function init(self)
             get=trainer.get_move_type_damage_bonus,
             set=trainer.set_move_type_damage_bonus,
             description="Increase damage depending on the moves type. All Pokemon would get an increase to their Poison attacks if Poison is increased. Same type is not required."
+        },
+        [9] = {
+            name = "tab_9",
+            tab = gui.get_node("tab_9"),
+            text = gui.get_node("text_9"),
+            bg =gui.get_node("tab_4_content"),
+            type="always_stab_type",
+            title="Always Use STAB",
+            get=trainer.get_move_type_damage_bonus,
+            set=trainer.set_move_type_damage_bonus,
+            description="Type Master level 15 feature"
         }
     }
 
     for i=1, #self.tabs do
-        gui.set_position(self.tabs[i].bg, vmath.vector3(0, -140, 0))
+        gui.set_position(self.tabs[i].bg, vmath.vector3(0, 0, 0))
         gui.set_enabled(self.tabs[i].bg, false)
     end
     self.active_tab = 1
-    self.checkmark_node = gui.get_node("apply_stab_to_all_moves_checkmark")
+
     gui.play_flipbook(self.tabs[1].tab, "common_down")
     gui.set_color(self.tabs[1].text, gui_colors.BUTTON_TEXT_PRESSED)
     gui.set_enabled(self.tabs[1].bg, true)
 
-    gooey.checkbox("apply_stab_to_all_moves").set_checked(trainer.get_always_use_STAB())
-    gui.set_enabled(gui.get_node("apply_stab_to_all_moves_checkmark"), trainer.get_always_use_STAB())
     redraw(self)
 end
 
@@ -273,7 +286,6 @@ function on_input(self, action_id, action)
     gooey.button("damage/btn_minus", action_id, action, function() redraw_wrap(self, function() trainer.set_damage(trainer.get_damage() - 1) end) end, gooey_buttons.minus_button)
     gooey.button("damage/btn_plus", action_id, action, function()  redraw_wrap(self, function() trainer.set_damage(trainer.get_damage() + 1) end) end, gooey_buttons.plus_button)
 
-    gooey.checkbox("apply_stab_to_all_moves", action_id, action, on_checked, function(checkbox) update_checkbox(self, checkbox) end)
     
     for _, attribute in pairs(constants.ABILITY_LIST) do
         gooey.button("attributes/" .. attribute:lower() .. "/btn_plus", action_id, action, function() redraw_wrap(self, function() trainer.set_attribute(attribute, trainer.get_attribute(attribute) + 1) end) end, gooey_buttons.plus_button)
@@ -281,11 +293,13 @@ function on_input(self, action_id, action)
     end
     
     for name, _type in pairs(type_buttons) do
+        gooey.checkbox("always_stab_type/" .. name .. "/type", action_id, action, function(checkbox) on_update_always_apply_stab_checked(checkbox, _type) end, function(checkbox) update_always_apply_stab_checkbox(checkbox, name) end)
+        
         local set = self.tabs[self.active_tab].set
         local get = self.tabs[self.active_tab].get
         if set then
             gooey.button("tab1/" .. name .. "/buttons/btn_plus", action_id, action, function() redraw_wrap(self, function() set(_type, get(_type) + 1) end) end, gooey_buttons.plus_button)
-            gooey.button("tab1/" .. name .. "/buttons/btn_minus", action_id, action, function() redraw_wrap(self, function() set(_type, get(_type) - 1) end) end, gooey_buttons.plus_button)
+            gooey.button("tab1/" .. name .. "/buttons/btn_minus", action_id, action, function() redraw_wrap(self, function() set(_type, get(_type) - 1) end) end, gooey_buttons.minus_button)
         end
     end
 
