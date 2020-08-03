@@ -151,7 +151,7 @@ function on_message(self, message_id, message, sender)
 			delete_profile(self, message.data)
 		end
 	elseif message_id == messages.SEARCH then
-		self.scrolling_list.refresH(self.filtered_list)
+		self.scrolling_list.refresh(self.filtered_list)
 	end
 end
 
