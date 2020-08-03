@@ -54,7 +54,7 @@ function init(self)
 	gui.set_enabled(gui.get_node("change_pokemon/cursor"), false)
 	
 	local consumed_eviolite = _pokemon.get_consumed_eviolite(self.pokemon)
-	local evolution_possible = pokedex.get_evolution_possible(_pokemon.get_current_species(self.pokemon), _pokemon.get_gender(self.pokemon)) and not consumed_eviolite
+	local evolution_possible = pokedex.get_evolution_possible(_pokemon.get_current_species(self.pokemon), _pokemon.get_gender(self.pokemon), _pokemon.get_moves(self.pokemon)) and not consumed_eviolite
 	local evolution_level = evolution_possible and pokedex.get_evolution_level(_pokemon.get_current_species(self.pokemon))
 	self.nickname = _pokemon.get_nickname(self.pokemon)
 	self.evolve_button = gui.get_node("btn_evolve")
