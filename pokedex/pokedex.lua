@@ -383,7 +383,7 @@ function M.get_evolution_possible(pokemon, gender, moves)
 	local d = M.get_evolution_data(pokemon)
 	local gender_allow = false
 	local move_allow = true
-	if d.move then
+	if d and d.move then
 		move_allow = false
 		for move, _ in pairs(moves) do
 			if d.move == move then
