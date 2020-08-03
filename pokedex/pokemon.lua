@@ -872,7 +872,7 @@ local function get_damage_mod_stab(pokemon, move)
 	local trainer_stab = 0
 	local total = M.get_attributes(pokemon)
 	local index = level_index(M.get_current_level(pokemon))
-	local is_attack = (move.atk == true or move.auto_hit == true) and move.Damage ~= nil
+	local is_attack = (move.atk == true or move.auto_hit == true) or move.Save ~= nil and move.Damage ~= nil
 
 	-- Pick the highest of the moves powers
 	if move["Move Power"] then
