@@ -903,7 +903,7 @@ local function get_damage_mod_stab(pokemon, move)
 			trainer_pokemon_type_damage = max_ignore_zero(trainer.get_pokemon_type_damage_bonus(t), trainer_pokemon_type_damage)
 
 			trainer_stab = trainer_stab + trainer.get_type_master_STAB(t)
-			if move.Type == t or trainer.get_always_use_STAB(t) then
+			if move.Type == t or (trainer.get_always_use_STAB(t) and move.Type ~= "Typeless") then
 				if not stab_damage then
 					stab_damage = 0
 				end
