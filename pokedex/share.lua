@@ -90,7 +90,9 @@ end
 
 function M.generate_qr(id)
 	local pokemon = storage.get_copy(id)
-	return qrcode.generate(serialize_pokemon(pokemon))
+	if pokemon then
+		return qrcode.generate(serialize_pokemon(pokemon))
+	end
 end
 
 function M.get_sendable_pokemon_copy(id)
