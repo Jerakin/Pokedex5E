@@ -693,7 +693,7 @@ function M.on_input(self, action_id, action)
 			_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) - 1)
 			M.update_hp_counter(self)
 		else
-			monarch.show(screens.ARE_YOU_SURE, nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=-1, id="change_hp"})
+			monarch.show(screens.ARE_YOU_SURE, nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=-1, id=messages.CHANGE_HP})
 		end
 	end, gooey_buttons.minus_button)
 
@@ -707,7 +707,7 @@ function M.on_input(self, action_id, action)
 			_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) + 1)
 			M.update_hp_counter(self)
 		else
-			monarch.show(screens.ARE_YOU_SURE, nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=1, id="change_hp"})
+			monarch.show(screens.ARE_YOU_SURE, nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=1, id=messages.CHANGE_HP})
 		end
 	end, gooey_buttons.plus_button)
 	
