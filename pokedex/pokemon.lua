@@ -949,7 +949,6 @@ function M.get_move_data(pokemon, move_name)
 	local move = movedex.get_move_data(move_name)
 	local dmg, mod, stab = get_damage_mod_stab(pokemon, move)
 	local requires_save = move.Save ~= nil
-	local is_attack = (move.atk == true or move.autohit == true) and move.Damage ~= nil
 
 	local move_data = {}
 	move_data.damage = dmg
@@ -963,7 +962,7 @@ function M.get_move_data(pokemon, move_name)
 	move_data.power = move["Move Power"]
 	move_data.save = move.Save
 	move_data.time = move["Move Time"]
-	if is_attack and not move.autohit then
+	if move.atk == true and not move.autohit then
 		move_data.AB = mod + M.get_proficency_bonus(pokemon) + trainer.get_attack_roll() + trainer.get_move_type_attack_bonus(move_data.type) + trainer.get_pokemon_type_attack_bonus(M.get_type(pokemon))
 	end
 	if requires_save then
