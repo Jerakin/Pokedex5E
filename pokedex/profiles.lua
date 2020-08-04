@@ -57,21 +57,26 @@ function M.get_slot(slot)
 end
 
 function M.update(slot, data)
-	for key, value in pairs(data) do
-		if not profiles.slots[slot] then
-			local e = "Can not find slot '" .. tostring(slot) .. "' in profile\n" .. debug.traceback()
-			gameanalytics.addErrorEvent {
-				severity = "Critical",
-				message = e
-			}
-			log.error(e)
+	if not profiles.slots[slot] then
+		local e = "Can not find slot '" .. tostring(slot) .. "' in profile\n" .. debug.traceback()
+		gameanalytics.addErrorEvent {
+			severity = "Critical",
+			message = e
+		}
+		log.error(e)
+	else
+		for key, value in pairs(data) do
+			profiles.slots[slot][key] = value
 		end
-		profiles.slots[slot][key] = value
+		M.save()
 	end
-	M.save()
 end
 
 function M.delete(slot)
+	if slot == M.get_active_slot() then
+		M.set_active(nil)
+	end
+	
 	local f_name = M.get_file_name(slot)
 	defsave.delete(f_name)
 	for index, profile in pairs(M.get_all_profiles()) do
