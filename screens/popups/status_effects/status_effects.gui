@@ -1800,7 +1800,7 @@ nodes {
   }
   size {
     x: 700.0
-    y: 310.0
+    y: 410.0
     z: 0.0
     w: 1.0
   }
@@ -1933,7 +1933,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "A paralyzed creature has disadvantage on any STR or DEX saving throws, and attacks against it have advantage. After selecting a Move to activate and spend PP on, roll a d4. On a result of 1, it is incapacitated and restrained. The trainer of a fully paralyzed Pok\303\251mon still may take an action. (Electric types are immune to this status condition)"
+  text: "A paralyzed creature has disadvantage on any STR or DEX saving throws, and attacks against it have advantage. After selecting a Move to activate and spend PP on, roll a d4. On a result of 1, it is incapacitated and restrained. The trainer of a fully paralyzed Pok\303\251mon still may take an action. If a creature is Paralyzed and confused/asleep, the paralysis roll comes first. If it fails, the creature\'s action is forfeit and does not roll to wake or be confused. (Electric types are immune to this status condition)"
   font: "script"
   id: "status_paralyzed/description"
   xanchor: XANCHOR_NONE
@@ -1967,7 +1967,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -1244.0
+    y: -1341.0
     z: 0.0
     w: 1.0
   }
@@ -2192,7 +2192,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -1536.0
+    y: -1633.0
     z: 0.0
     w: 1.0
   }
@@ -2417,7 +2417,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -1952.0
+    y: -2063.0
     z: 0.0
     w: 1.0
   }
