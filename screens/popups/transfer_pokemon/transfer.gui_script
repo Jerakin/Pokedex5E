@@ -361,6 +361,7 @@ function on_message(self, message_id, message, sender)
 				storage.release_pokemon(message.data)
 				notify.notify(self.nickname .. " WAS RELEASED")
 				update_storage()
+				monarch.back()
 			end)
 		end
 	elseif message_id == hash(net_members.MSG_MEMBERS_CHANGED) then
