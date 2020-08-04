@@ -862,7 +862,7 @@ local function max_ignore_zero(value, other)
 end
 
 local function get_damage_mod_stab(pokemon, move)
-	local move_power
+	local move_power = 0
 	local dice
 	local stab_damage
 	local floored_mod
@@ -878,14 +878,7 @@ local function get_damage_mod_stab(pokemon, move)
 	if move["Move Power"] then
 		for _, mod in pairs(move["Move Power"]) do
 			if total[mod] then
-				local floored_mod = math.floor((total[mod] - 10) / 2)
-				if move_power then
-					if floored_mod > move_power then
-						move_power = floored_mod
-					end
-				else
-					move_power = floored_mod
-				end
+				move_power = max_ignore_zero(math.floor((total[mod] - 10) / 2), move_power)
 			elseif mod == "Any" then
 				local max = 0
 				for k, v in pairs(total) do
