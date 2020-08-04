@@ -12,6 +12,7 @@ local gooey = require "gooey.gooey"
 local notify = require "utils.notify"
 local dex = require "pokedex.dex"
 local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local HAVE_EVOLVED = false
 
@@ -54,6 +55,9 @@ function init(self)
 	button.acquire()
 	gui.set_enabled(gui.get_node("change_pokemon/cursor"), false)
 
+	-- Delay the message 1 frame
+	timer.delay(0, false, function() msg.post(url.MENU, messages.HIDE) end)
+	
 	self.pokemon = monarch.data("import_pokemon").pokemon
 	pokemon_edit.init(self)
 	pokemon_edit.redraw(self)
