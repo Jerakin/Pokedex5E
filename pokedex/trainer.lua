@@ -157,6 +157,13 @@ function M.set_move_type_damage_bonus(_type, value)
 	trainer.move_type_damage[_type] = value
 end
 
+function M.test()
+	trainer = (trainer == nil or next(trainer) == nil) and utils.deep_copy(_trainer) or trainer
+end
+
+function M.reset()
+	trainer = utils.deep_copy(_trainer)
+end
 
 function M.load(_profile)
 	local profile = _profile
