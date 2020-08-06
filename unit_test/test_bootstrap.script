@@ -1,0 +1,16 @@
+local tests = require "unit_test.tester"
+
+local pokedex = require "pokedex.pokedex"
+local movedex = require "pokedex.moves"
+local natures = require "pokedex.natures"
+local trainer = require "pokedex.trainer"
+
+function init(self)
+	movedex.init()
+	natures.init()
+	pokedex.init()
+	trainer.test()
+
+	
+	tests.run()
+end
