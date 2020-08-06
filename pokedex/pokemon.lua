@@ -862,7 +862,7 @@ local function max_ignore_zero(value, other)
 end
 
 local function get_damage_mod_stab(pokemon, move)
-	local move_power = 0
+	local move_power = -9999 -- Will be determined by ability mods later, or set to 0
 	local dice
 	local stab_damage
 	local floored_mod
@@ -878,7 +878,8 @@ local function get_damage_mod_stab(pokemon, move)
 	if move["Move Power"] then
 		for _, mod in pairs(move["Move Power"]) do
 			if total[mod] then
-				move_power = max_ignore_zero(math.floor((total[mod] - 10) / 2), move_power)
+				local this_bonus = math.floor((total[mod] - 10) / 2)
+				move_power = math.max(move_power, this_bonus)
 			elseif mod == "Any" then
 				local max = 0
 				for k, v in pairs(total) do
@@ -887,6 +888,8 @@ local function get_damage_mod_stab(pokemon, move)
 				move_power = math.floor((max - 10) / 2)
 			end
 		end
+	else
+		move_power = 0
 	end
 
 	-- Figure out the STAB and Trainer Pokemon Type Damage
