@@ -11,7 +11,7 @@ DEFAULT_HEADER = ("Index Number", "Evo Stages with Eviolite", "Evo Stages w/o Ev
                   "Hit Dice", "HP", "", "", "WSp", "Ssp", "Fsp", "Senses", "STR", "DEX", "CON", "INT", "WIS", "CHA",
                   "MIN LVL FD", "Ev", "Evolve", "Evo Stages", "ST1", "ST2", "ST3", "Skill", "Res", "Vul", "Imm",
                   "Ability1", "Ability2", "HiddenAbility", "Moves", "Evolution for sheet", "Evolve Bonus",
-                  "Climbing Speed", "Burrowing Speed", "Description 17")
+                  "Climbing Speed", "Burrowing Speed", "Description 17", "Size")
 
 
 def clean_file_name(value):
@@ -72,6 +72,9 @@ class Pokemon:
 
     def setup_skill(self, csv_row):
         self.output_data["Skill"] = util.ensure_list(csv_row[self.header.index("Skill")])
+
+    def setup_size(self, csv_row):
+        self.output_data["size"] = util.ensure_string(csv_row[self.header.index("Size")])
 
     def setup_saving_throws(self, csv_row):
         self.output_data["saving_throws"] = []
@@ -139,6 +142,7 @@ class Pokemon:
         self.setup_skill(csv_row)
         self.setup_speed(csv_row)
         self.setup_type(csv_row)
+        self.setup_size(csv_row)
 
         if self.name in util.MERGE_POKEMON_DATA:
             util.merge(self.output_data, util.MERGE_POKEMON_DATA[self.name])
