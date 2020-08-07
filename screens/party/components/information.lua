@@ -1,5 +1,4 @@
 local _pokemon = require "pokedex.pokemon"
-local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
 local items = require "pokedex.items"
 local party_utils = require "screens.party.utils"
@@ -97,7 +96,7 @@ local function setup_info_tab(nodes, pokemon)
 	end
 	gui.set_text(nodes["pokemon/traits/txt_skills"], skill_string)
 
-	local sr = pokedex.get_SR(_pokemon.get_current_species(pokemon))
+	local sr = _pokemon.get_SR(pokemon)
 	gui.set_text(nodes["pokemon/traits/txt_sr"], constants.NUMBER_TO_SR[sr])
 
 	gui.set_text(nodes["pokemon/traits/txt_size"], _pokemon.get_size(pokemon):upper())

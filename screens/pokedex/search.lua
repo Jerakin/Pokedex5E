@@ -15,7 +15,7 @@ end
 
 local function filter_type(self, search_string)
 	for i=#self.all_pokemons, 1, -1 do
-		for _, type in pairs(pokedex.get_type(self.all_pokemons[i])) do
+		for _, type in pairs(pokedex.get_pokemon_type(self.all_pokemons[i])) do
 			if type:lower() == search_string:lower() then
 				table.insert(self.filtered_list, 1, self.all_pokemons[i])
 			end

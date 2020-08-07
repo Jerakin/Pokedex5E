@@ -255,19 +255,19 @@ end
 
 
 function M.get_vulnerabilities(pokemon)
-	local types = M.get_type(pokemon)
+	local types = M.get_pokemon_type(pokemon)
 	return ptypes.Model(unpack(types)).vulnerabilities
 end
 
 
 function M.get_immunities(pokemon)
-	local types = M.get_type(pokemon)
+	local types = M.get_pokemon_type(pokemon)
 	return ptypes.Model(unpack(types)).immunities
 end
 
 
 function M.get_resistances(pokemon)
-	local types = M.get_type(pokemon)
+	local types = M.get_pokemon_type(pokemon)
 	return ptypes.Model(unpack(types)).resistances
 end
 

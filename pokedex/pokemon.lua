@@ -99,7 +99,7 @@ local function ASI_points(pkmn)
 end
 
 
-local function get_evolution_level(pkmn)
+local function get_evolved_at_level(pkmn)
 	if type(pkmn.level.evolved) == "number" then
 		local old = pkmn.level.evolved
 		pkmn.level.evolved = {}
@@ -117,7 +117,7 @@ local function get_evolution_points(pkmn)
 	local evolution_points = 0
 
 	if current ~= caught then
-		local evolutions = utils.deep_copy(get_evolution_level(pkmn))
+		local evolutions = utils.deep_copy(get_evolved_at_level(pkmn))
 
 		while next(evolutions) ~= nil do
 			table.remove(evolutions)
@@ -335,7 +335,7 @@ end
 
 function M.get_speed_of_type(pkmn)
 	local species = M.get_current_species(pkmn)
-	local type = pokedex.get_type(species)[1]
+	local type = pokedex.get_pokemon_type(species)[1]
 	local mobile_feet = 0
 	if M.have_feat(pkmn, "Mobile") then
 		mobile_feet = 10
@@ -429,6 +429,9 @@ function M.get_max_hp(pkmn)
 	return pkmn.hp.max
 end
 
+function M.get_evolution_level(pkmn)
+	return pokedex.get_evolution_level(M.get_current_specie(pkmn))
+end
 
 function M.get_defaut_max_hp(pkmn)
 	if M.have_ability(pkmn, "Paper Thin") then
@@ -439,7 +442,7 @@ function M.get_defaut_max_hp(pkmn)
 	local at_level = M.get_current_level(pkmn)
 	
 	if current ~= caught then
-		local evolutions = utils.shallow_copy(get_evolution_level(pkmn))
+		local evolutions = utils.shallow_copy(get_evolved_at_level(pkmn))
 		local evolution_hp = 0
 
 		while next(evolutions) ~= nil do
@@ -458,7 +461,7 @@ function M.get_defaut_max_hp(pkmn)
 			current = from_pkmn
 		end
 
-		evolutions = get_evolution_level(pkmn)
+		evolutions = get_evolved_at_level(pkmn)
 		local hit_dice = pokedex.get_hit_dice(M.get_current_species(pkmn))
 		local hit_dice_avg = math.ceil((hit_dice + 1) / 2)
 		return pokedex.get_base_hp(caught) + evolution_hp + ((M.get_current_level(pkmn) - evolutions[#evolutions]) * hit_dice_avg)
@@ -552,8 +555,8 @@ function M.get_moves(pkmn, options)
 	end
 end
 
-function M.get_size(pokemon)
-	return pokedex.get_pokemon_size(M.get_current_species(pokemon))
+function M.get_size(pkmn)
+	return pokedex.get_pokemon_size(M.get_current_species(pkmn))
 end
 
 
@@ -568,7 +571,7 @@ end
 
 
 function M.get_type(pkmn)
-	return pokedex.get_type(M.get_current_species(pkmn))
+	return pokedex.get_pokemon_type(M.get_current_species(pkmn))
 end
 
 
@@ -856,6 +859,9 @@ function M.get_exp_worth(pkmn)
 	return pokedex.get_exp_worth(level, sr)
 end
 
+function M.get_evolution_possible(pkmn)
+	return pokedex.get_evolution_possible(M.get_current_species(pkmn), M.get_gender(pkmn), M.get_moves(pkmn)) and not M.get_consumed_eviolite(pkmn)
+end
 
 function M.get_catch_rate(pkmn)
 	local l = M.get_current_level(pkmn)
@@ -870,6 +876,10 @@ function M.get_icon(pkmn)
 	return pokedex.get_icon(species)
 end
 
+function M.get_SR(pkmn)
+	local species = M.get_current_species(pkmn)
+	return pokedex.get_SR(species)
+end
 
 function M.get_sprite(pkmn)
 	local species = M.get_current_species(pkmn)
@@ -903,6 +913,8 @@ local function get_damage_mod_stab(pkmn, move)
 	local trainer_pokemon_type_damage
 	local type_master_STAB
 	local trainer_stab = 0
+	local total = M.get_attributes(pkmn)
+	local index = level_index(M.get_current_level(pkmn))
 	local is_attack = (move.atk == true or move.auto_hit == true) or move.Save ~= nil and move.Damage ~= nil
 
 	-- Pick the highest of the moves powers
@@ -931,7 +943,7 @@ local function get_damage_mod_stab(pkmn, move)
 
 			type_master_STAB = max_ignore_zero(trainer.get_type_master_STAB(t), type_master_STAB)
 			if move.Type == t or (trainer.get_always_use_STAB(t) and move.Type ~= "Typeless") then
-				stab_damage = M.get_STAB_bonus(pokemon)
+				stab_damage = M.get_STAB_bonus(pkmn)
 				trainer_stab = trainer.get_STAB(move.Type)
 			end
 		end
