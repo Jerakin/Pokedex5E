@@ -510,6 +510,10 @@ function M.get_moves(pokemon, options)
 	end
 end
 
+function M.get_size(pokemon)
+	return pokedex.get_pokemon_size(M.get_current_species(pokemon))
+end
+
 function M.get_nature(pokemon)
 	return pokemon.nature
 end

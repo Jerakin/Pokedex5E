@@ -281,6 +281,10 @@ function M.get_pokemon_type(pokemon)
 	return M.get_pokemon(pokemon).Type
 end
 
+function M.get_pokemon_size(pokemon)
+	return M.get_pokemon(pokemon).size or ""
+end
+
 function M.ability_list()
 	local l = {}
 	for a, _ in pairs(abilities) do 
