@@ -31,8 +31,11 @@ local MAX_SR = constants.SR_TO_NUMBER[constants.SR_LIST[#constants.SR_LIST]]
 local MIN_SR = constants.SR_TO_NUMBER[constants.SR_LIST[1]]
 
 -- Generations but remove the 'other'
-local GENERATIONS = dex_data.order
-GENERATIONS[0] = nil
+local GENERATIONS = {}
+for i=1, dex_data.total_regions do
+	table.insert(GENERATIONS, tostring(i))
+end
+
 
 function final(self)
 	selected_pokemon = {}
@@ -213,13 +216,13 @@ function init(self)
 
 	self.dropdown_sr_min = dropdown.create("sr_min", "min_sr", "txt_min_sr", "scroll_selection", "scroll_bg", "scroll_text", function()
 		local t = gui.get_text(gui.get_node("txt_min_sr"))
-		self.min_sr = number_map[t]
+		self.min_sr = constants.SR_TO_NUMBER[t]
 		update_pokemons_list_view(self)
 	end)
 
 	self.dropdown_sr_max = dropdown.create("sr_max", "max_sr", "txt_max_sr", "scroll_selection", "scroll_bg", "scroll_text", function()
 		local t = gui.get_text(gui.get_node("txt_max_sr"))
-		self.max_sr = number_map[t]
+		self.max_sr = constants.SR_TO_NUMBER[t]
 		update_pokemons_list_view(self)
 	end)
 
@@ -268,19 +271,19 @@ end
 function on_input(self, action_id, action)
 	action_position.x = action.x
 	action_position.y = action.y
-	if self.dropdown_generation_min.on_input(generations, action_id, action) then
+	if self.dropdown_generation_min.on_input(GENERATIONS, action_id, action) then
 		return true
 	end
 
-	if self.dropdown_generation_max.on_input(generations, action_id, action) then
+	if self.dropdown_generation_max.on_input(GENERATIONS, action_id, action) then
 		return true
 	end
 	
-	if self.dropdown_sr_min.on_input(sr, action_id, action) then
+	if self.dropdown_sr_min.on_input(constants.SR_LIST, action_id, action) then
 		return true
 	end
 
-	if self.dropdown_sr_max.on_input(sr, action_id, action) then
+	if self.dropdown_sr_max.on_input(constants.SR_LIST, action_id, action) then
 		return true
 	end
 	

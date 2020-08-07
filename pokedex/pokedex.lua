@@ -296,11 +296,13 @@ function M.get_burrow_speed(pokemon)
 	return M.get_pokemon(pokemon)["Burrowing Speed"] or 0
 end
 
-
-function M.get_type(pokemon)
+function M.get_pokemon_type(pokemon)
 	return M.get_pokemon(pokemon).Type
 end
 
+function M.get_pokemon_size(pokemon)
+	return M.get_pokemon(pokemon).size or ""
+end
 
 function M.ability_list()
 	local l = {}
@@ -408,10 +410,19 @@ function M.get_evolved_from(pokemon)
 	return "MissingNo"
 end
 
-
-function M.get_evolution_possible(pokemon, gender)
+function M.get_evolution_possible(pokemon, gender, moves)
 	local d = M.get_evolution_data(pokemon)
 	local gender_allow = false
+	local move_allow = true
+	if d and d.move then
+		move_allow = false
+		for move, _ in pairs(moves) do
+			if d.move == move then
+				move_allow = true
+			end
+		end
+	end
+
 	if d and d.into then
 		for _, species in pairs(d.into) do
 			if genders[species] == nil or (genders[species] and genders[species] == gender) then
@@ -419,12 +430,16 @@ function M.get_evolution_possible(pokemon, gender)
 			end
 		end
 	end
-	return (d and d.level and gender_allow) and true or false
+	return (d and (d.level or move_allow) and gender_allow) and true or false
 end
 
 
 function M.get_evolution_level(pokemon)
-	return M.get_evolution_data(pokemon).level + trainer.get_evolution_level()
+	local d = M.get_evolution_data(pokemon)
+	
+	-- Pokemon can evolve at any level (set it to 1) as long as they have the move
+	-- if they do not evolve based on move then use the standard level
+	return (d.level == nil and d.move ~= ni) and 1 or d.level + trainer.get_evolution_level()
 end
 
 

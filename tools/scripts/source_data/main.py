@@ -46,4 +46,7 @@ if __name__ == '__main__':
             else:
                 print("Error: Access file or folder not found, please provide a valid path")
     else:
-        print("Please provide either a access file or a folder with the Download DATA sheets in")
+        if (Path(__file__).parent / "data").exists:
+            convert_all(Path(__file__).parent / "data")
+        else:
+            print("Please provide either a access file or a folder with the Download DATA sheets in")

@@ -53,6 +53,15 @@ local SCROLLING_LIST = {}
 
 function SCROLLING_LIST.refresh(data, items, scroll_to_top)
 	local list = gooey.dynamic_list(data.list_id, data.list_stencil, data.list_item_template, items)
+
+	if #items == 0 then
+		-- Bug in gooey if no items - it was keeping the item.data property around but invalid
+		-- https://github.com/britzl/gooey/issues/59
+		for i=1,#list.items do
+			list.items[i].data = nil
+		end		
+	end
+	
 	if scroll_to_top then
 		list.scroll_to(0, 0)
 	end

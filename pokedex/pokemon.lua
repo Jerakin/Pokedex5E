@@ -552,6 +552,10 @@ function M.get_moves(pkmn, options)
 	end
 end
 
+function M.get_size(pokemon)
+	return pokedex.get_pokemon_size(M.get_current_species(pokemon))
+end
+
 
 function M.get_nature(pkmn)
 	return pkmn.nature
@@ -886,29 +890,27 @@ local function level_index(level)
 end
 
 
+local function max_ignore_zero(value, other)
+	return other and other ~= 0 and math.max(value, other) or value
+end
+
 local function get_damage_mod_stab(pkmn, move)
-	local move_power
+	local move_power = -9999 -- Will be determined by ability mods later, or set to 0
 	local dice
 	local stab_damage
 	local floored_mod
-	local trainer_stab = 0
 	local extra_damage = 0
-	local total = M.get_attributes(pkmn)
-	local index = level_index(M.get_current_level(pkmn))
-	local is_attack = (move.atk == true or move.auto_hit == true) and move.Damage ~= nil
+	local trainer_pokemon_type_damage
+	local type_master_STAB
+	local trainer_stab = 0
+	local is_attack = (move.atk == true or move.auto_hit == true) or move.Save ~= nil and move.Damage ~= nil
 
 	-- Pick the highest of the moves powers
 	if move["Move Power"] then
 		for _, mod in pairs(move["Move Power"]) do
 			if total[mod] then
-				local floored_mod = math.floor((total[mod] - 10) / 2)
-				if move_power then
-					if floored_mod > move_power then
-						move_power = floored_mod
-					end
-				else
-					move_power = floored_mod
-				end
+				local this_bonus = math.floor((total[mod] - 10) / 2)
+				move_power = math.max(move_power, this_bonus)
 			elseif mod == "Any" then
 				local max = 0
 				for k, v in pairs(total) do
@@ -917,18 +919,27 @@ local function get_damage_mod_stab(pkmn, move)
 				move_power = math.floor((max - 10) / 2)
 			end
 		end
+	else
+		move_power = 0
 	end
 
-	-- Figure out the STAB
+	-- Figure out the STAB and Trainer Pokemon Type Damage
 	if is_attack then
-		trainer_stab = trainer.get_all_levels_STAB()
 		for _, t in pairs(M.get_type(pkmn)) do
-			trainer_stab = trainer_stab + trainer.get_type_master_STAB(t)
-			if move.Type == t then
-				stab_damage = M.get_STAB_bonus(pkmn) + trainer.get_STAB(t)
+			-- Figure out the highest value of the "pokemon_type_damage_bonus
+			trainer_pokemon_type_damage = max_ignore_zero(trainer.get_pokemon_type_damage_bonus(t), trainer_pokemon_type_damage)
+
+			type_master_STAB = max_ignore_zero(trainer.get_type_master_STAB(t), type_master_STAB)
+			if move.Type == t or (trainer.get_always_use_STAB(t) and move.Type ~= "Typeless") then
+				stab_damage = M.get_STAB_bonus(pokemon)
+				trainer_stab = trainer.get_STAB(move.Type)
 			end
 		end
-		extra_damage = extra_damage + (stab_damage or 0 + trainer_stab) + trainer.get_damage()
+		local apply_stab = stab_damage ~= nil
+		type_master_STAB = apply_stab and (type_master_STAB or 0) or 0
+		local all_level_stab = apply_stab and trainer.get_all_levels_STAB() or 0
+		local trainer_damage = trainer_stab + type_master_STAB + all_level_stab + trainer.get_damage() + (trainer_pokemon_type_damage or 0) + trainer.get_move_type_damage_bonus(move.Type)
+		extra_damage = extra_damage + (stab_damage or 0) + trainer_damage
 	end
 
 	local move_damage = move.Damage
@@ -967,7 +978,6 @@ function M.get_move_data(pkmn, move_name)
 	local move = movedex.get_move_data(move_name)
 	local dmg, mod, stab = get_damage_mod_stab(pkmn, move)
 	local requires_save = move.Save ~= nil
-	local is_attack = (move.atk == true or move.autohit == true) and move.Damage ~= nil
 
 	local move_data = {}
 	move_data.damage = dmg
@@ -981,7 +991,7 @@ function M.get_move_data(pkmn, move_name)
 	move_data.power = move["Move Power"]
 	move_data.save = move.Save
 	move_data.time = move["Move Time"]
-	if is_attack and not move.autohit then
+	if move.atk == true and not move.autohit then
 		move_data.AB = mod + M.get_proficency_bonus(pkmn) + trainer.get_attack_roll() + trainer.get_move_type_attack_bonus(move_data.type) + trainer.get_pokemon_type_attack_bonus(M.get_type(pkmn))
 	end
 	if requires_save then

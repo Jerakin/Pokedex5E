@@ -229,8 +229,9 @@ local function redraw_moves(self)
 	local index = 1
 	for move, data in pairs(_pokemon.get_moves(self.pokemon)) do
 		if move_buttons_list[index] then
-			local move_node = move_buttons_list[data.index].text
-			local icon_node = move_buttons_list[data.index].icon
+			local _index = data.index
+			local move_node = move_buttons_list[_index].text
+			local icon_node = move_buttons_list[_index].icon
 			
 			move_buttons_list[data.index].move_name = move
 			gui.set_text(move_node, move:upper())
@@ -692,7 +693,7 @@ function M.on_input(self, action_id, action)
 			_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) - 1)
 			M.update_hp_counter(self)
 		else
-			monarch.show(screens.ARE_YOU_SURE, nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=-1, id="change_hp"})
+			monarch.show(screens.ARE_YOU_SURE, nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=-1, id=messages.CHANGE_HP})
 		end
 	end, gooey_buttons.minus_button)
 
@@ -706,7 +707,7 @@ function M.on_input(self, action_id, action)
 			_pokemon.set_max_hp(self.pokemon, _pokemon.get_max_hp(self.pokemon) + 1)
 			M.update_hp_counter(self)
 		else
-			monarch.show(screens.ARE_YOU_SURE, nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=1, id="change_hp"})
+			monarch.show(screens.ARE_YOU_SURE, nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=1, id=messages.CHANGE_HP})
 		end
 	end, gooey_buttons.plus_button)
 	

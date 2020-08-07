@@ -14,6 +14,7 @@ local seachbar = require "screens.profiles.searchbar"
 local utils = require "utils.utils"
 local screens = require "utils.screens"
 local messages = require "utils.messages"
+local network = require "pokedex.network.network"
 
 local function delete(profile)
 	profiles.delete(profile)
@@ -47,11 +48,13 @@ local function activate(slot)
 	storage.load(profiles.get_active())
 	trainer.load(profiles.get_active())
 	dex.load(profiles.get_active())
+	network.load_profile(profiles.get_active())
 	if #storage.list_of_ids_in_inventory() > 0 then
 		monarch.show(screens.PARTY)
 	else
 		monarch.show(screens.ADD)
 	end
+	profiles.set_active_complete()
 end
 
 
@@ -91,6 +94,7 @@ end
 local function delete_profile(self, slot)
 	if profiles.get_active_slot() == slot then
 		profiles.set_active(nil)
+		profiles.set_active_complete()
 	end
 	profiles.delete(slot)
 	gui.set_text(self.seach_text, "")
@@ -147,7 +151,7 @@ function on_message(self, message_id, message, sender)
 			delete_profile(self, message.data)
 		end
 	elseif message_id == messages.SEARCH then
-		self.scrolling_list.refresH(self.filtered_list)
+		self.scrolling_list.refresh(self.filtered_list)
 	end
 end
 

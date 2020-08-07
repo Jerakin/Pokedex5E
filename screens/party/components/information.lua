@@ -100,6 +100,7 @@ local function setup_info_tab(nodes, pokemon)
 	local sr = pokedex.get_SR(_pokemon.get_current_species(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_sr"], constants.NUMBER_TO_SR[sr])
 
+	gui.set_text(nodes["pokemon/traits/txt_size"], _pokemon.get_size(pokemon):upper())
 	gui.set_text(nodes["pokemon/traits/txt_nature"], _pokemon.get_nature(pokemon):upper())
 	gui.set_text(nodes["pokemon/traits/txt_stab"], _pokemon.get_STAB_bonus(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_prof"], _pokemon.get_proficency_bonus(pokemon))

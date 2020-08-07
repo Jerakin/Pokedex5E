@@ -9,6 +9,7 @@ local gooey_buttons = require "utils.gooey_buttons"
 local dex = require "pokedex.dex"
 local screens = require "utils.screens"
 local messages = require "utils.messages"
+local network = require "pokedex.network.network"
 
 local slot
 
@@ -77,10 +78,12 @@ local function okay()
 			profiles.update(slot, { name = name })
 		end
 		profiles.set_active(profile.slot)
+		network.load_profile(profiles.get_active())
 		storage.load(profiles.get_active())
 		trainer.load(profiles.get_active())
 		dex.load(profiles.get_active())
 		storage.set_max_active_pokemon(3) -- default value for new profiles
+		profiles.set_active_complete()
 		monarch.show(screens.ADD)
 	end
 end

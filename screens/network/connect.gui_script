@@ -1,0 +1,210 @@
+local monarch = require "monarch.monarch"
+local url = require "utils.url"
+local gooey = require "gooey.gooey"
+local gooey_buttons = require "utils.gooey_buttons"
+local button = require "utils.button"
+local netcore = require "pokedex.network.netcore"
+local broadcast = require "utils.broadcast"
+local member_list = require "screens.network.member_list"
+local netcore = require "pokedex.network.netcore"
+local net_ip = require "pokedex.network.net_ip"
+local net_members = require "pokedex.network.net_members"
+local screens = require "utils.screens"
+local messages = require "utils.messages"
+
+local JOIN_STATE_IDLE = 0
+local JOIN_STATE_REQUESTED = 1
+local JOIN_STATE_IN_PROGRESS = 2
+
+local function redraw_ip(self)
+	local enabled = netcore.get_current_state() == netcore.STATE_SERVING
+
+	local node_ip = gui.get_node("txt_ip")
+	local node_local_ip = gui.get_node("txt_local_ip")
+	local node_port = gui.get_node("txt_port")
+	local global_ip
+	local local_ip
+
+	if enabled then
+		local port = netcore.get_current_server_port()
+		gui.set_text(node_port, tostring(port))
+		
+		global_ip = net_ip.get_global_ip()
+		local_ip = net_ip.get_local_ip()
+		gui.set_text(node_ip, global_ip or "unknown")
+		gui.set_text(node_local_ip, local_ip or "unknown")
+	end
+
+	gui.set_enabled(node_port, enabled)
+	gui.set_enabled(node_ip, enabled and global_ip)
+	gui.set_enabled(node_local_ip, enabled and local_ip)
+	gui.set_enabled(gui.get_node("txt_port_title"), enabled)
+	gui.set_enabled(gui.get_node("txt_ip_title"), enabled)
+	gui.set_enabled(gui.get_node("btn_info"), enabled)
+	gui.set_enabled(gui.get_node("txt_local_ip_title"), enabled)
+end
+
+local function redraw_member_list()
+	local enabled = net_members.has_any_members()
+
+	gui.set_enabled(gui.get_node("txt_group_members"), enabled)
+	gui.set_enabled(gui.get_node("list_group_members/root"), enabled)
+end
+
+local function redraw_status(self)
+	local enabled = true
+	local text = ""
+
+	local cur_status = netcore.get_current_state()
+	if cur_status == netcore.STATE_SERVING then
+		text = "HOSTING"				
+	elseif cur_status == netcore.STATE_CONNECTING then
+		text = "JOINING"
+	elseif cur_status == netcore.STATE_CONNECTED then
+		text = "JOINED"
+	else
+		enabled = false
+	end
+
+	local node_status = gui.get_node("txt_status")
+	gui.set_text(node_status, text)
+	gui.set_enabled(node_status, enabled)
+
+	redraw_ip(self)
+end
+
+local function redraw_connect_nearby_button()
+	local enabled = false
+
+	if netcore.get_current_state() == netcore.STATE_IDLE then
+		local info = netcore.get_nearby_server_info()
+		if info then
+			local name = tostring(info.name or info.ip)
+			gui.set_text(gui.get_node("txt_join_nearby"), "JOIN NEARBY HOST:\n" .. name)
+			enabled = true
+		end		
+	end
+
+	gui.set_enabled(gui.get_node("btn_join_nearby"), enabled)
+end
+
+local function redraw_buttons()
+	local host_enable = false
+	local join_enable = false
+	local disconnect_enable = false
+
+	local state = netcore.get_current_state()
+	if state == netcore.STATE_IDLE then
+		host_enable = true
+		join_enable = true
+	elseif state == netcore.STATE_SERVING or state == netcore.STATE_CONNECTING or state == netcore.STATE_CONNECTED then
+		disconnect_enable = true
+	end
+
+	gui.set_enabled(gui.get_node("btn_host"), host_enable)
+	gui.set_enabled(gui.get_node("btn_join"), join_enable)
+	gui.set_enabled(gui.get_node("btn_disconnect"), disconnect_enable)
+
+	redraw_connect_nearby_button()
+end
+
+local function redraw(self)
+	redraw_status(self)
+	redraw_ip(self)
+	redraw_buttons()
+	redraw_member_list()
+end
+
+local function set_join_state(self, new_status)
+	self.join_state = new_status
+	gui.set_enabled(gui.get_node("txt_connecting"), new_status ~= JOIN_STATE_IDLE)	
+end
+
+function init(self)
+	msg.post(url.MENU, messages.SHOW)
+	button.acquire()
+
+	self.list_group_members = member_list.create("list_group_members", {show_self=true})
+
+	if netcore.get_current_state() == netcore.STATE_SERVING then
+		net_ip.refresh_local_ip()
+		net_ip.refresh_global_ip()
+	end
+
+	set_join_state(self, JOIN_STATE_IDLE)
+
+	redraw(self)
+	
+	broadcast.register(netcore.MSG_NEARBY_SERVER_UPDATE)
+	broadcast.register(netcore.MSG_STATE_CHANGED)
+	broadcast.register(net_members.MSG_MEMBERS_CHANGED)
+	broadcast.register(net_ip.MSG_IPS_UPDATED)
+
+	netcore.find_nearby_server()
+end
+
+function final(self)
+	netcore.stop_find_nearby_server()
+
+	broadcast.unregister(netcore.MSG_NEARBY_SERVER_UPDATE)
+	broadcast.unregister(netcore.MSG_STATE_CHANGED)
+	broadcast.unregister(net_members.MSG_MEMBERS_CHANGED)
+	broadcast.unregister(net_ip.MSG_IPS_UPDATED)
+end
+
+function update(self, dt)
+	if self.join_state == JOIN_STATE_REQUESTED then
+		-- Giving it a frame to show the "please wait" text
+		set_join_state(self, JOIN_STATE_IN_PROGRESS)
+	elseif self.join_state == JOIN_STATE_IN_PROGRESS then
+		set_join_state(self, JOIN_STATE_IDLE)
+		if not netcore.connect_to_nearby_server() then
+			netcore.find_nearby_server()
+		end
+	end
+end
+
+function on_message(self, message_id, message)
+	if message_id == netcore.MSG_NEARBY_SERVER_UPDATE then
+		redraw_connect_nearby_button()
+	elseif message_id == netcore.MSG_STATE_CHANGED then
+		redraw(self)
+		netcore.find_nearby_server()
+	elseif message_id == net_members.MSG_MEMBERS_CHANGED then
+		redraw_member_list()
+	elseif message__ip == net_ip.MSG_IPS_UPDATED then
+		redraw_ip(self)
+	end
+	
+	self.list_group_members.on_message(message_id, message)
+end
+
+function on_input(self, action_id, action)
+	if self.join_state == JOIN_STATE_IDLE then
+		gooey.button("btn_host", action_id, action, function()
+			monarch.show(screens.NETWORK_START_HOSTING)
+		end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_host")) end)
+
+		gooey.button("btn_join", action_id, action, function()
+			monarch.show(screens.NETWORK_JOIN_HOST)
+		end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_join")) end)
+
+		gooey.button("btn_join_nearby", action_id, action, function()
+			set_join_state(self, JOIN_STATE_REQUESTED)
+		end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_join_nearby")) end)
+
+		gooey.button("btn_disconnect", action_id, action, function()
+			netcore.disconnect()
+			netcore.find_nearby_server()
+		end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_disconnect")) end)	
+
+		gooey.button("btn_info", action_id, action, function()
+			monarch.show("info", nil,
+			{
+				text="You will need to provide the IP and Port to anyone wishing to join your group.\n\nThey can input these values on the \"JOIN\" screen.",
+			})
+		end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_info")) end)	
+		
+		self.list_group_members.on_input(action_id, action)
+	end
+end

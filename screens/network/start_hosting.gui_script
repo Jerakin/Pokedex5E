@@ -1,0 +1,210 @@
+local monarch = require "monarch.monarch"
+local url = require "utils.url"
+local gooey = require "gooey.gooey"
+local gooey_buttons = require "utils.gooey_buttons"
+local button = require "utils.button"
+local netcore = require "pokedex.network.netcore"
+local broadcast = require "utils.broadcast"
+local net_groups = require "pokedex.network.net_groups"
+local net_ip = require "pokedex.network.net_ip"
+local gooey_input_text = require "utils.gooey_input_text"
+local gooey_scrolling_list = require "utils.gooey_scrolling_list"
+local gui_colors = require "utils.gui_colors"
+local flow = require "utils.flow"
+local messages = require "utils.messages"
+local profiles = require "pokedex.profiles"
+local gui_utils = require "utils.gui"
+
+local MSG_NEW_GROUP_NAME = hash("new_group_name")
+
+local function apply_port_text(self, text)
+	local as_number = tonumber(text)
+	if as_number then
+		self.port = as_number
+	end
+end
+
+local function redraw_group_area(self)
+	local enabled = #self.group_ids > 0
+	gui.set_enabled(gui.get_node("txt_groups"), enabled)
+	gui.set_enabled(gui.get_node("group_list"), enabled)
+	gui.set_enabled(gui.get_node("scrollbar/bar"), enabled)
+end
+
+local function redraw_buttons(self)
+	self.has_selected_group = self.selected_group_id ~= nil	
+	
+	local color_txt = gui_colors.BUTTON_TEXT_DISABLED
+	local flipbook = "common_disabled"	
+	if self.has_selected_group then
+		color_txt = gui_colors.BUTTON_TEXT
+		flipbook = "common_up"
+	end
+	
+	gui.set_color(gui.get_node("txt_start_hosting"), color_txt)
+	gui.play_flipbook(gui.get_node("btn_start_hosting"), flipbook)
+	
+	gui.set_color(gui.get_node("txt_delete_group"), color_txt)
+	gui.play_flipbook(gui.get_node("btn_delete_group"), flipbook)
+end
+
+local function update_item(self, list, item)
+	-- I have not yet figured out why, but I seem to sometimes get invalid item.data. I think 
+	-- there is a bug with gooey. I found this bug: https://github.com/britzl/gooey/issues/59
+	--  but there seem to be others (like when deleting items from a full list)
+	local group_name = net_groups.get_group_name(item.data)
+	if group_name ~= nil then	
+		local node_btn = item.nodes["btn_item"]
+		local node_txt = item.nodes["txt_item"]
+
+		gui.set_text(node_txt, group_name)
+		gui_utils.scale_text_to_fit_size_2(node_txt)
+
+		if item.data == self.selected_group_id then
+			gui.set_size(node_btn, vmath.vector3(520, 80, 0))
+			gui.set_color(node_txt, gui_colors.HERO_TEXT)
+		else
+			gui.set_size(node_btn, vmath.vector3(500, 75, 0))
+			gui.set_color(node_txt, gui_colors.HERO_TEXT_FADED)
+		end
+	end
+end
+
+local function on_item_selected(self, list)
+	for i,item in ipairs(list.items) do
+		if item.data and item.index == list.selected_item then
+			if self.selected_group_id ~= item.data then
+				self.selected_group_id = item.data
+				net_groups.set_default_group_id(self.selected_group_id)
+				redraw_buttons(self)
+			end
+			break
+		end
+	end
+end
+
+local function redraw(self)
+	redraw_buttons(self)
+	redraw_group_area(self)
+end
+
+local function on_create_new_group(self)
+	monarch.show("input", {},
+	{
+		sender=msg.url(), 
+		message=MSG_NEW_GROUP_NAME,
+		help_text="What should your group be called?", 
+		max_length=20,
+		default_text=profiles.get_active_name() .. "'s Group",
+		allowed_characters="[%a%d \']",
+	})
+end
+
+function init(self)
+	msg.post(url.MENU, messages.HIDE)
+	button.acquire()
+
+	self.has_selected_group = false
+	self.suspend_group_refresh = false
+
+	self.port = netcore.get_default_host_port()
+	self.port_input = gooey_input_text.create("txt_port", "port_cursor", tostring(self.port), function(text) return apply_port_text(self, text) end, {max_length = 6, allowed_characters="[%d]"})
+
+	self.selected_group_id = net_groups.get_default_group_id()
+	
+	self.group_list = gooey_scrolling_list.create_vertical_dynamic("start_hosting_group_list", "group_list", "btn_item", "scrollbar/handle", "scrollbar/bar", "scrollbar/visual", function(list, item) update_item(self, list, item) end, function(list) on_item_selected(self, list) end)
+	self.group_ids = net_groups.get_group_ids()
+	self.group_list.refresh(self.group_ids)
+	
+	broadcast.register(net_groups.MSG_GROUPS_CHANGED)
+
+	-- We don't care about this on this screen, but we might as well kick off a refresh now in case we do start serving
+	net_ip.refresh_global_ip()
+
+	redraw(self)
+
+	if #self.group_ids == 0 then
+		flow.start(function()
+			flow.until_true( function() return not monarch.is_busy() end)
+			on_create_new_group(self)
+		end)
+	end
+end
+
+function final(self)
+	broadcast.unregister(net_groups.MSG_GROUPS_CHANGED)
+end
+
+function on_message(self, message_id, message)
+	if message_id == net_groups.MSG_GROUPS_CHANGED then
+		if not self.suspend_group_refresh then
+			self.group_ids = net_groups.get_group_ids()
+			self.group_list.refresh(self.group_ids)
+			redraw(self)
+		end
+	elseif message_id == MSG_NEW_GROUP_NAME then
+		local group_name = message.str
+		self.suspend_group_refresh = true
+		self.selected_group_id = net_groups.add_group(group_name)
+		net_groups.set_default_group_id(self.selected_group_id)
+		self.suspend_group_refresh = false
+		self.group_ids = net_groups.get_group_ids()
+		self.group_list.refresh(self.group_ids)
+		redraw(self)
+	end
+end
+
+function on_input(self, action_id, action)
+	self.group_list.on_input(self.group_ids, action_id, action)
+	
+	gooey.button("btn_back", action_id, action, function()
+		monarch.back()
+	end)
+
+	if self.has_selected_group then
+		gooey.button("btn_start_hosting", action_id, action, function()
+			net_groups.start_server(self.selected_group_id, self.port)
+			monarch.back()
+		end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_start_hosting")) end)
+		
+		gooey.button("btn_delete_group", action_id, action, function()
+			local are_you_sure_cb = function(accepted)
+				if accepted then
+					local selected_id = self.selected_group_id
+					self.selected_group_id = nil
+					net_groups.delete_group(selected_id)
+				end
+			end
+
+			local group_name = net_groups.get_group_name(self.selected_group_id)
+
+			monarch.show("are_you_sure", nil,
+			{
+				title="Delete " .. group_name .. "?",
+				text="Any messages pending delivery (such as sent Pokemon) will be lost!",
+				cb=are_you_sure_cb,
+			})
+			
+		end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_delete_group")) end)
+	end
+
+	self.port_input.on_input(action_id, action)
+
+	gooey.button("btn_create_new", action_id, action, function()
+		on_create_new_group(self)
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_create_new")) end)	
+
+	gooey.button("btn_port_info", action_id, action, function()
+		local text = "Players joining must connect to your device's address and port.\n\nIf they are far away, you may need to set up TCP Port Forwarding through your router.\n\nTo learn more about how to do this, please search for \"How to Port Forward\" and/or look at your router's instructions.\n\nThis is a common practice when hosting many games, so you should be able to find plenty of info about it!"
+		net_ip.refresh_local_ip()
+		local local_ip = net_ip.get_local_ip()
+		if local_ip then
+			text = text .. "\n\nYour local IP for port forwarding is " .. local_ip
+		end
+		monarch.show("info", nil,
+		{
+			text=text,
+			btn_text="SOUNDS GOOD!",
+		})
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_port_info")) end)	
+end

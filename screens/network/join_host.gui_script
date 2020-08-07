@@ -1,0 +1,113 @@
+local monarch = require "monarch.monarch"
+local url = require "utils.url"
+local utils = require "utils.utils"
+local gooey = require "gooey.gooey"
+local gooey_buttons = require "utils.gooey_buttons"
+local button = require "utils.button"
+local netcore = require "pokedex.network.netcore"
+local gooey_input_text = require "utils.gooey_input_text"
+local gui_colors = require "utils.gui_colors"
+local messages = require "utils.messages"
+
+local JOIN_STATE_IDLE = 0
+local JOIN_STATE_REQUESTED = 1
+local JOIN_STATE_IN_PROGRESS = 2
+
+local function redraw_buttons(self)
+	self.has_selected_ip = self.ip ~= nil and next(self.ip) ~= nil
+	
+	local color_txt = gui_colors.BUTTON_TEXT_DISABLED
+	local flipbook = "common_disabled"
+	if self.has_selected_ip then
+		color_txt = gui_colors.BUTTON_TEXT
+		flipbook = "common_up"
+	end
+	
+	gui.set_color(gui.get_node("txt_join_host"), color_txt)
+	gui.play_flipbook(gui.get_node("btn_join_host"), flipbook)
+end
+
+local function apply_port_text(self, text)
+	local as_number = tonumber(text)
+	if as_number then
+		self.port = as_number
+	end
+end
+
+local function apply_ip_text(self, text, index)
+	self.ip[index] = text
+	redraw_buttons(self)
+end
+
+local function redraw(self)
+	redraw_buttons(self)
+end
+
+local function set_join_state(self, new_status)
+	self.join_state = new_status
+	gui.set_enabled(gui.get_node("txt_connecting"), new_status ~= JOIN_STATE_IDLE)	
+end
+
+function init(self)
+	msg.post(url.MENU, messages.HIDE)
+	button.acquire()
+
+	set_join_state(self, JOIN_STATE_IDLE)
+	
+	self.has_selected_ip = false
+	local _ip = netcore.get_default_connect_address()
+	self.ip = _ip and utils.split(_ip, ".") or {"0", "0", "0", "0"}
+	self.port = netcore.get_default_connect_port()
+	self.ip_input1 = gooey_input_text.create("txt_ip1", "ip_cursor1", tostring(self.ip[1]), function(text) return apply_ip_text(self, text, 1) end, {max_length = 3, allowed_characters="[%d]"})
+	self.ip_input2 = gooey_input_text.create("txt_ip2", "ip_cursor2", tostring(self.ip[2]), function(text) return apply_ip_text(self, text, 2) end, {max_length = 3, allowed_characters="[%d]"})
+	self.ip_input3 = gooey_input_text.create("txt_ip3", "ip_cursor3", tostring(self.ip[3]), function(text) return apply_ip_text(self, text, 3) end, {max_length = 3, allowed_characters="[%d]"})
+	self.ip_input4 = gooey_input_text.create("txt_ip4", "ip_cursor4", tostring(self.ip[4]), function(text) return apply_ip_text(self, text, 4) end, {max_length = 3, allowed_characters="[%d]"})
+	self.port_input = gooey_input_text.create("txt_port", "port_cursor", tostring(self.port), function(text) return apply_port_text(self, text) end, {max_length = 6, allowed_characters="[%d]"})
+
+	redraw(self)
+end
+
+function final(self)
+end
+
+function update(self, dt)
+	if self.join_state == JOIN_STATE_REQUESTED then
+		-- Giving it a frame to show the "please wait" text
+		set_join_state(self, JOIN_STATE_IN_PROGRESS)
+	elseif self.join_state == JOIN_STATE_IN_PROGRESS then
+		set_join_state(self, JOIN_STATE_IDLE)
+		if netcore.connect_to_server(table.concat(self.ip, "."), self.port) then
+			monarch.back()
+		end
+	end
+end
+
+function on_message(self, message_id, message)
+end
+
+function on_input(self, action_id, action)
+	if self.join_state == JOIN_STATE_IDLE then
+		gooey.button("btn_back", action_id, action, function()
+			monarch.back()
+		end)
+
+		if self.has_selected_ip then
+			gooey.button("btn_join_host", action_id, action, function()
+				set_join_state(self, JOIN_STATE_REQUESTED)
+			end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_join_host")) end)
+		end
+
+		self.ip_input1.on_input(action_id, action)
+		self.ip_input2.on_input(action_id, action)
+		self.ip_input3.on_input(action_id, action)
+		self.ip_input4.on_input(action_id, action)
+		self.port_input.on_input(action_id, action)
+
+		gooey.button("btn_info", action_id, action, function()
+			monarch.show("info", nil,
+			{
+				text="The address and port should be provided by your host. They can be found on your host's \"CONNECT\" screen.",
+			})
+		end, function(b) gooey_buttons.common_button(b, gui.get_node("btn_info")) end)	
+	end
+end

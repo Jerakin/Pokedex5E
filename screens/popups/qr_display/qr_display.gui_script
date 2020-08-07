@@ -1,0 +1,51 @@
+local monarch = require "monarch.monarch"
+local share = require "pokedex.share"
+local url = require "utils.url"
+local notify = require "utils.notify"
+
+function init(self)
+	gui.set_render_order(13)
+	self.qr_node = gui.get_node("qr_code")
+	self.dimmer = gui.get_node("dimmer")
+	local screen_data = monarch.data("qr_display")
+	local qrcode, qrsize = share.generate_qr(screen_data.id)
+
+	if qrcode then
+		self.qr_texture = {
+			name="qr",
+			width=qrsize,
+			height=qrsize,
+			format="l",
+			image=buffer.get_bytes(qrcode, "data")
+		}
+		self.delay_lock = true
+		timer.delay(0.4, false, function(self) self.delay_lock = false end)
+		local texture = gui.new_texture(self.qr_texture.name, self.qr_texture.width, self.qr_texture.height, self.qr_texture.format, self.qr_texture.image)
+		
+		if texture then
+			self.qr_texture.created = true
+			gui.set_texture(self.qr_node, self.qr_texture.name)
+		end
+	else
+		notify.notify("Could not create a QR code, please report this on Discord.")
+		-- Wait 1 frame and then back out of the screen
+		timer.delay(0, false, function() monarch.back() end)
+	end
+end
+
+function final(self)
+	if self.qr_texture and self.qr_texture.created then
+		gui.delete_texture(self.qr_texture.name)
+	end
+end
+
+function on_input(self, action_id, action)
+	if gui.pick_node(self.qr_node, action.x, action.y) then
+		return
+	elseif gui.pick_node(self.dimmer, action.x, action.y) then
+		if action.released and not self.delay_lock then
+			monarch.back()
+		end
+	end
+	return true
+end

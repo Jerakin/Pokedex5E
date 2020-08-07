@@ -10,6 +10,7 @@ local storage = require "pokedex.storage"
 local profiles = require "pokedex.profiles"
 local filters = require "pokedex.filters"
 local trainer = require "pokedex.trainer"
+local network = require "pokedex.network.network"
 local flow = require "utils.flow"
 local gui_colors = require "utils.gui_colors"
 local notify = require "utils.notify"
@@ -107,11 +108,9 @@ function init(self)
 	msg.post("/popups", "acquire_input_focus")
 	msg.post("/debug", "acquire_input_focus")
 	msg.post("/menu", "acquire_input_focus")
-
 	
 	if platform.WINDOWS or platform.MACOS then
-		local project = vmath.vector3(640, 1136, 1)
-		local project2 = vmath.vector3(719, 1280, 1)
+		local project = vmath.vector3(720, 1280, 1)
 		local pixel = vmath.vector3(1440, 2560, 0.3)
 		local galaxya8 = vmath.vector3(1080, 2220, 0.45)
 		local tab8 = vmath.vector3(800, 1280, 0.75)
@@ -120,7 +119,7 @@ function init(self)
 		local iphonese = vmath.vector3(640, 1136, 1)
 		local umx = vmath.vector3(480, 854, 1)
 		
-		local using = tab8
+		local using = project
 		
 		msg.post("@render:", "resize", { width = using.x*using.z, height = using.y*using.z } )
 	end
@@ -148,7 +147,7 @@ function init(self)
 		items.init()
 		filters.init()
 		feats.init()
-		
+		network.init()
 
 		if profiles.is_new_game() then 
 			monarch.show(screens.PICK_NAME, nil, {sender=msg.url(), slot=1})
@@ -176,6 +175,10 @@ function init(self)
 	end)
 end
 
+function update(self, dt)
+	network.update()
+end
+
 function on_message(self, message_id, message, sender)
 	if message_id == messages.SHOW_PROFILE then
 		monarch.show(screens.PROFILES)
@@ -191,6 +194,7 @@ end
 
 function final(self)
 	if not debug.loaded_backup then
+		network.save()
 		storage.save()
 		settings.save()
 	end
