@@ -55,6 +55,15 @@ return function()
 				assert_true(acid_spray.save_dc == 16)
 
 			end)
+			test("pkmn_test_using_right_ability_bonus_when_zero", function()
+				--https://github.com/Jerakin/Pokedex5E/issues/536
+				local pkmn = pokemon.new({species="Spinarak"})
+				pokemon.set_move(pkmn, "Poison Sting", 1)
+
+				local acid_spray = pokemon.get_move_data(pkmn, "Poison Sting")
+				assert_true(acid_spray.damage == "1d4+1")
+
+			end)
 		end)
 	end)
 end
