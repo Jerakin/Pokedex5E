@@ -426,7 +426,8 @@ function M.get_evolutions(pokemon, gender)
 end
 
 function M.evolve_points(pokemon)
-	return M.get_evolution_data(pokemon).points
+	local d = M.get_evolution_data(pokemon)
+	return d and d.points or 0
 end
 
 function M.get_starting_moves(pokemon)
