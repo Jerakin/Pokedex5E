@@ -11,6 +11,8 @@ local M = {}
 -- All of these tables are saved out to a file, so be sure they are raw data only (no functions, userdata, that sort of thing)
 local storage_data = {} -- contains all the below tables
 local player_pokemon = {}
+local pokemon_by_location = {}
+
 local counters = {}
 local sorting = {}
 local storage_settings = {}
@@ -105,23 +107,17 @@ end
 
 
 function M.is_party_full()
-	local counter = 0
-	for _, pkmn in pairs(player_pokemon) do
-		if pkmn.location == LOCATION_PARTY then
-			counter = counter + 1
-		end
-	end
-	return counter >= M.get_max_active_pokemon()
+	return #pokemon_by_location.party >= M.get_max_active_pokemon()
 end
 
 
 function M.list_of_ids_in_storage()
 	local f = M.get_sorting_method()
 	local tmp = {}
-	for id, pkmn in pairs(player_pokemon) do
-		if pkmn.location == LOCATION_PC then
-			tmp[id] = pkmn
-		end
+	local id 
+	for n=1, #pokemon_by_location.pc do
+		id = pokemon_by_location.pc[n]
+		tmp[id] = player_pokemon[id]
 	end
 	return getKeysSortedByValue(tmp, f(a, b))
 end
@@ -129,30 +125,22 @@ end
 
 function M.list_of_ids_in_inventory()
 	local tmp = {}
-	for id, pkmn in pairs(player_pokemon) do
-		if pkmn.location == LOCATION_PARTY then
-			tmp[id] = pkmn
-		end
+	local id 
+	for n=1, #pokemon_by_location.party do
+		id = pokemon_by_location.party[n]
+		tmp[id] = player_pokemon[id]
 	end
 	return getKeysSortedByValue(tmp, sort_on_slot(a, b))
 end
 
 
 function M.is_inventory_pokemon(id)
-	for x, _ in pairs(active) do
-		if x == id then
-			return true
-		end
-	end
-	return false
+	return player_pokemon[id].location == LOCATION_PARTY
 end
 
 
 function M.is_in_storage(id)
-	if player_pokemon[id] then
-		return true
-	end
-	return false
+	return player_pokemon[id] ~= nil
 end
 
 
@@ -183,10 +171,10 @@ end
 
 local function get_party()
 	local p = {}
-	for _, pokemon in pairs(player_pokemon) do
-		if pokemon.location == LOCATION_PARTY then
-			table.insert(p, pokemon.species.current)
-		end
+	local id 
+	for n=1, #pokemon_by_location.party do
+		id = pokemon_by_location.party[n]
+		table.insert(p, player_pokemon[id].species.current)
 	end
 	return p
 end
@@ -247,9 +235,11 @@ function M.add(pokemon)
 	profiles.update(profiles.get_active_slot(), counters)
 	if M.is_party_full() then
 		pokemon.location = LOCATION_PC
+		table.insert(pokemon_by_location.pc, id)
 	else
 		pokemon.location = LOCATION_PARTY
 		pokemon.slot = #M.list_of_ids_in_inventory() + 1
+		table.insert(pokemon_by_location.party, id)
 	end
 	player_pokemon[id] = pokemon
 
@@ -346,7 +336,18 @@ function M.load(profile)
 	sorting = storage_data.sorting
 	storage_settings = storage_data.settings
 
+		
+	-- create the pokemon id lists
+	for _id, pkmn in pairs(player_pokemon) do
+		if pkmn.location == LOCATION_PC then
+			table.insert(pokemon_by_location.pc, _id)
+		else
+			table.insert(pokemon_by_location.party, _id)
+		end
+	end
+	
 	return needs_save -- TODO: whoever kicks off the load should save after this, as it means there was a data upgrade
+	
 end
 
 
@@ -361,22 +362,28 @@ function M.init()
 end
 
 
-local function assign_slot_numbers()
-	log.info("Assigning slot numbers")
-	local index = 1
-	for id, pokemon in pairs(player_pokemon) do
-		if pokemon.location == LOCATION_PARTY then
-			pokemon.slot = index
-			index = index + 1
-		end
-	end
-end
-
-
 function M.swap(pc_pokemon_id, party_pokemon_id)
 	local pc_pokemon = player_pokemon[pc_pokemon_id]
 	local party_pokemon = player_pokemon[party_pokemon_id]
+	local id
 
+	-- Update location id
+	for n=1, #pokemon_by_location.party do
+		id = pokemon_by_location.party[n]
+		if id == party_pokemon_id then
+			pokemon_by_location.party[n] = pc_pokemon_id
+			break
+		end
+	end
+
+	for n=1, #pokemon_by_location.pc do
+		id = pokemon_by_location.pc[n]
+		if id == pc_pokemon_id then
+			pokemon_by_location.pc[n] = party_pokemon_id
+			break
+		end
+	end
+	
 	-- Set new locations
 	pc_pokemon.location = LOCATION_PARTY
 	party_pokemon.location = LOCATION_PC
@@ -388,33 +395,49 @@ function M.swap(pc_pokemon_id, party_pokemon_id)
 end
 
 
-function M.move_to_storage(id)
-	local pokemon = player_pokemon[id]
+function M.move_to_storage(pokemon_id)
+	local pokemon = player_pokemon[pokemon_id]
 	pokemon.slot = nil
 	pokemon.location = LOCATION_PC
-	
 	profiles.set_party(get_party())
+	
+	-- Update location id
+	local id
+	table.insert(pokemon_by_location.pc, pokemon_id)
+	for n=1, #pokemon_by_location.party do
+		id = pokemon_by_location.party[n]
+		if id == pokemon_id then
+			table.remove(pokemon_by_location.party, n)
+			break
+		end
+	end
 end
 
 
 function M.free_space_in_inventory()
-	local index = 0
-	for _, pokemon in pairs(player_pokemon) do
-		if pokemon.location == LOCATION_PC then
-			index = index + 1
-		end
-	end
+	local index = #pokemon_by_location.party
 	return index < M.get_max_active_pokemon(), index + 1
 end
 
 
-function M.move_to_inventory(id)
+function M.move_to_inventory(pokemon_id)
 	local free, slot = M.free_space_in_inventory()
 	if free then
-		local pokemon = player_pokemon[id]
+		local pokemon = player_pokemon[pokemon_id]
 		pokemon.slot = slot
 		pokemon.location = LOCATION_PARTY
 		profiles.set_party(get_party())
+
+		-- Update location id
+		table.insert(pokemon_by_location.party, pokemon_id)
+		local id
+		for n=1, #pokemon_by_location.pc do
+			id = pokemon_by_location.pc[n]
+			if id == pokemon_id then
+				table.remove(pokemon_by_location.pc, n)
+				break
+			end
+		end
 	else
 		assert(false, "Your party is full")
 	end

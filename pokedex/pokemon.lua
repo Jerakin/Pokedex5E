@@ -430,7 +430,7 @@ function M.get_max_hp(pkmn)
 end
 
 function M.get_evolution_level(pkmn)
-	return pokedex.get_evolution_level(M.get_current_specie(pkmn))
+	return pokedex.get_evolution_level(M.get_current_species(pkmn))
 end
 
 function M.get_defaut_max_hp(pkmn)
