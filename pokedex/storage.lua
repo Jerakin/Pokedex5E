@@ -8,11 +8,15 @@ local log = require "utils.log"
 
 local M = {}
 
+-- All of these tables are saved out to a file, so be sure they are raw data only (no functions, userdata, that sort of thing)
+local storage_data = {} -- contains all the below tables
 local player_pokemon = {}
 local counters = {}
 local sorting = {}
+local storage_settings = {}
+
 local initialized = false
-local max_active_pokemon = 6
+
 
 LOCATION_PC = 0
 LOCATION_PARTY = 1
@@ -82,14 +86,15 @@ end
 
 
 function M.get_max_active_pokemon()
-	return max_active_pokemon
+	return storage_settings.max_party_pokemon
 end
 
 
 function M.set_max_active_pokemon(new_max)
 	new_max = M.clamp_max_active_pokemon(new_max)
-	if new_max ~= max_active_pokemon then
-		max_active_pokemon = new_max
+	if new_max ~= storage_settings.max_party_pokemon then
+		storage_settings.max_party_pokemon = new_max
+		M.save()
 	end
 end
 
@@ -102,7 +107,7 @@ end
 function M.is_party_full()
 	local counter = 0
 	for _, pkmn in pairs(player_pokemon) do
-		if pkmn.location == LOCATION_PART then
+		if pkmn.location == LOCATION_PARTY then
 			counter = counter + 1
 		end
 	end
@@ -247,8 +252,9 @@ function M.add(pokemon)
 		pokemon.slot = #M.list_of_ids_in_inventory() + 1
 	end
 	player_pokemon[id] = pokemon
-	
+
 	profiles.set_party(get_party())
+	M.save()
 	profiles.save()
 end
 
@@ -256,18 +262,73 @@ end
 function M.save()
 	if profiles.get_active_slot() then
 		local profile = profiles.get_active_file_name()
-		defsave.set(profile, "player_pokemon", player_pokemon)
-		defsave.set(profile, "counters", counters)
-		defsave.set(profile, "sorting", sorting)
-
-		local settings = {
-			max_active_pokemon = max_active_pokemon
-		}
-		defsave.set(profile, "settings", settings)
+		defsave.set(profile, "storage_data", storage_data)
 		defsave.save(profile)
 	end
 end
 
+function M.upgrade_data(file_name, storage_data)
+	local version = storage_data and storage_data.version or 1
+
+	local LATEST_VERSION = 2
+	local needs_upgrade = version ~= LATEST_VERSION
+	
+	if needs_upgrade then		
+		for i=version,LATEST_VERSION-1 do
+			if false then
+
+			-- NOTE: If a new data upgrade is needed, update the above LATEST_VERSION value and add a new block here like so:
+			--elseif i == ??? then
+				
+			elseif i == 1 then
+				
+				-- Old data was storage in different sections of file, need to pull out that data, upgrade it, and clear out the old stuff
+				assert(next(storage_data) == nil, "Assumed that version 1 did not have storage data saved")
+
+				-- Counters needs initialization if it didn't exist before
+				storage_data.counters = defsave.get(file_name, "counters")
+				if next(storage_data.counters) == nil then
+					storage_data.counters = {caught=0, released=0, seen=0}
+				end
+				
+				storage_data.sorting = defsave.get(file_name, "sorting")
+
+				-- Settings were stored in a separate section because MagRoader didn't understand the system very well at the time
+				local settings = defsave.get(file_name, "settings")
+				storage_data.settings = 
+				{
+					max_party_pokemon = settings.max_active_pokemon or 6
+				}
+
+				-- Storage and Active == PC and Party
+				local pc_pokemon = defsave.get(file_name, "storage") or {}
+				local party_pokemon = defsave.get(file_name, "active") or {}
+
+				storage_data.player_pokemon = {}
+				for id,data in pairs(pc_pokemon) do
+					data.location = LOCATION_PC
+					storage_data.player_pokemon[id] = data
+				end
+				for id,data in pairs(party_pokemon) do
+					data.location = LOCATION_PARTY
+					storage_data.player_pokemon[id] = data
+				end
+
+				-- Remove old style of data
+				defsave.set(file_name, "storage", nil)
+				defsave.set(file_name, "active", nil)
+				defsave.set(file_name, "counters", nil)
+				defsave.set(file_name, "settings", nil)
+			else
+				assert(false, "Unknown storage data version " .. storage_data.version)
+			end
+		end
+
+		storage_data.version = LATEST_VERSION
+	end
+
+	return storage_data, needs_upgrade
+end
 
 function M.load(profile)
 	initialized = false
@@ -275,17 +336,17 @@ function M.load(profile)
 	if not defsave.is_loaded(file_name) then
 		local loaded = defsave.load(file_name)
 	end
-	player_pokemon = defsave.get(file_name, "player_pokemon")
-	counters = defsave.get(file_name, "counters")
-	sorting = defsave.get(file_name, "sorting")
 
-	local settings = defsave.get(file_name, "settings")
-	max_active_pokemon = M.clamp_max_active_pokemon(settings.max_active_pokemon or 6)
-	
-	-- Default counters
-	if next(counters) == nil then
-		counters = {caught=0, released=0, seen=0}
-	end
+	local loaded_data, needs_save = M.upgrade_data(file_name, defsave.get(file_name, "storage_data"))
+	storage_data = loaded_data
+
+	-- Extract everything we need from saved data
+	player_pokemon = storage_data.player_pokemon
+	counters = storage_data.counters
+	sorting = storage_data.sorting
+	storage_settings = storage_data.settings
+
+	return needs_save -- TODO: whoever kicks off the load should save after this, as it means there was a data upgrade
 end
 
 
@@ -304,7 +365,7 @@ local function assign_slot_numbers()
 	log.info("Assigning slot numbers")
 	local index = 1
 	for id, pokemon in pairs(player_pokemon) do
-		if pokemon.location == LOCATION_PART then
+		if pokemon.location == LOCATION_PARTY then
 			pokemon.slot = index
 			index = index + 1
 		end
@@ -352,7 +413,7 @@ function M.move_to_inventory(id)
 	if free then
 		local pokemon = player_pokemon[id]
 		pokemon.slot = slot
-		pokemon.location = LOCATION_PART
+		pokemon.location = LOCATION_PARTY
 		profiles.set_party(get_party())
 	else
 		assert(false, "Your party is full")
