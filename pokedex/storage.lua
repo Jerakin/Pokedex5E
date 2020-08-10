@@ -73,7 +73,7 @@ end
 
 
 local function sort_on_slot(a, b)
-	return function(a, b) return (a.slot or 7) < (b.slot or 7) end
+	return function(a, b) return a.slot < b.slot end
 end
 
 
