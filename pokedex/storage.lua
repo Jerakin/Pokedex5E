@@ -76,42 +76,41 @@ local function sort_on_slot(a, b)
 	return function(a, b) return a.slot < b.slot end
 end
 
+local function clamp_max_party_pokemon(new_max)
+	local range_min, range_max = M.get_max_party_pokemon_range()
+	return math.max(range_min, math.max(range_min, new_max))
+end
 
 function M.is_initialized()
 	return initialized
 end
 
 
-function M.get_max_active_pokemon_range()
+function M.get_max_party_pokemon_range()
 	return 2,6
 end
 
 
-function M.get_max_active_pokemon()
+function M.get_max_party_pokemon()
 	return storage_settings.max_party_pokemon
 end
 
 
-function M.set_max_active_pokemon(new_max)
-	new_max = M.clamp_max_active_pokemon(new_max)
+function M.set_max_party_pokemon(new_max)
+	new_max = clamp_max_party_pokemon(new_max)
 	if new_max ~= storage_settings.max_party_pokemon then
 		storage_settings.max_party_pokemon = new_max
 		M.save()
 	end
 end
 
-function M.clamp_max_active_pokemon(new_max)
-	local range_min, range_max = M.get_max_active_pokemon_range()
-	return math.max(range_min, math.max(range_min, new_max))
-end
-
 
 function M.is_party_full()
-	return #pokemon_by_location.party >= M.get_max_active_pokemon()
+	return #pokemon_by_location.party >= M.get_max_party_pokemon()
 end
 
 
-function M.list_of_ids_in_storage()
+function M.list_of_ids_in_pc()
 	local f = M.get_sorting_method()
 	local tmp = {}
 	local id 
@@ -123,7 +122,7 @@ function M.list_of_ids_in_storage()
 end
 
 
-function M.list_of_ids_in_inventory()
+function M.list_of_ids_in_party()
 	local tmp = {}
 	local id 
 	for n=1, #pokemon_by_location.party do
@@ -134,7 +133,7 @@ function M.list_of_ids_in_inventory()
 end
 
 
-function M.is_inventory_pokemon(id)
+function M.is_party_pokemon(id)
 	return player_pokemon[id].location == LOCATION_PARTY
 end
 
@@ -211,7 +210,7 @@ end
 function M.release_pokemon(id)
 	player_pokemon[id] = nil
 	counters.released = next(counters) ~= nil and counters.released + 1 or 1
-	profiles.update(profiles.get_active_slot(), counters)
+	profiles.update(profiles.get_party_slot(), counters)
 	profiles.set_party(get_party())
 end
 
@@ -238,7 +237,7 @@ function M.add(pokemon)
 		table.insert(pokemon_by_location.pc, id)
 	else
 		pokemon.location = LOCATION_PARTY
-		pokemon.slot = #M.list_of_ids_in_inventory() + 1
+		pokemon.slot = #M.list_of_ids_in_party() + 1
 		table.insert(pokemon_by_location.party, id)
 	end
 	player_pokemon[id] = pokemon
@@ -396,7 +395,7 @@ function M.swap(pc_pokemon_id, party_pokemon_id)
 end
 
 
-function M.move_to_storage(pokemon_id)
+function M.move_to_pc(pokemon_id)
 	local pokemon = player_pokemon[pokemon_id]
 	pokemon.slot = nil
 	pokemon.location = LOCATION_PC
@@ -415,14 +414,14 @@ function M.move_to_storage(pokemon_id)
 end
 
 
-function M.free_space_in_inventory()
+function M.free_space_in_party()
 	local index = #pokemon_by_location.party
-	return index < M.get_max_active_pokemon(), index + 1
+	return index < M.get_max_party_pokemon(), index + 1
 end
 
 
-function M.move_to_inventory(pokemon_id)
-	local free, slot = M.free_space_in_inventory()
+function M.move_to_party(pokemon_id)
+	local free, slot = M.free_space_in_party()
 	if free then
 		local pokemon = player_pokemon[pokemon_id]
 		pokemon.slot = slot

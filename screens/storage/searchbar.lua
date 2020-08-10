@@ -75,7 +75,7 @@ local function refresh_input(self, input, node_id)
 		if input.empty then
 			gui.set_text(self.text_node, "")
 		end
-		self.all_pokemons = storage.list_of_ids_in_storage()
+		self.all_pokemons = storage.list_of_ids_in_pc()
 		gui.set_enabled(cursor, true)
 		gui.set_position(cursor, vmath.vector3(input.total_width, 0, 0))
 		gui.cancel_animation(cursor, gui.PROP_COLOR)

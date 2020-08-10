@@ -35,8 +35,8 @@ local function inventory_button(node, id)
 end
 
 function M.setup()
-	local inventory = storage.list_of_ids_in_inventory()
-	local left_in_storage = #storage.list_of_ids_in_storage()
+	local inventory = storage.list_of_ids_in_party()
+	local left_in_storage = #storage.list_of_ids_in_pc()
 	inventory_buttons = {}
 	for i=1, 6 do
 		local sprite = gui.get_node("inventory_pokemon_" .. i .. "/pokemon_sprite")
@@ -49,7 +49,7 @@ function M.setup()
 			table.insert(inventory_buttons, inventory_button(sprite, inventory[i]))
 		else
 			gui.set_texture(sprite, "gui")
-			if left_in_storage > 0 and i <= storage.get_max_active_pokemon() then
+			if left_in_storage > 0 and i <= storage.get_max_party_pokemon() then
 				gui.play_flipbook(sprite, "menu_add")
 				gui.set_color(sprite, vmath.vector4(1))
 			else

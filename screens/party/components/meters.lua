@@ -277,7 +277,7 @@ local function parse_number(str, current)
 end
 
 function M.on_message(message_id, message)
-	local active_pokemon_id = storage.list_of_ids_in_inventory()[message.active_index]
+	local active_pokemon_id = storage.list_of_ids_in_party()[message.active_index]
 	local pkmn = storage.get_pokemon(active_pokemon_id)
 	
 	if message_id == messages.UPDATE_EXP then

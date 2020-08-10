@@ -82,7 +82,7 @@ end
 
 
 local function setup_inventory(self)
-	local inventory = storage.list_of_ids_in_inventory()
+	local inventory = storage.list_of_ids_in_party()
 
 	
 	local has_second_row = false
@@ -130,8 +130,8 @@ local function setup_inventory(self)
 	end
 
 	-- Hide the "you can increase your max slots" text if user is already at max
-	local _, max_slots_range_max = storage.get_max_active_pokemon_range()
-	local max_slots = storage.get_max_active_pokemon()
+	local _, max_slots_range_max = storage.get_max_party_pokemon_range()
+	local max_slots = storage.get_max_party_pokemon()
 	if max_slots >= max_slots_range_max then
 		gui.set_enabled(node_tutorial_bg, false)
 	end
@@ -273,7 +273,7 @@ local function on_send_pokemon(self)
 end
 
 local function refresh_send_button(self)
-	local has_enough_left = not storage.is_inventory_pokemon(self.pokemon_id) or #storage.list_of_ids_in_inventory() > 1
+	local has_enough_left = not storage.is_party_pokemon(self.pokemon_id) or #storage.list_of_ids_in_party() > 1
 	self.send_button_enabled = has_enough_left and net_members.has_other_members()
 	gui.set_enabled(gui.get_node("btn_network_share"), self.send_button_enabled)
 end
@@ -300,7 +300,7 @@ function init(self)
 	gui.set_text(n, "MOVE TO " .. self.to)
 
 	self.move_button_enabled = true
-	if self.to == messages.LOCATION_PC and #storage.list_of_ids_in_inventory() == 1 then
+	if self.to == messages.LOCATION_PC and #storage.list_of_ids_in_party() == 1 then
 		self.move_button_enabled = false
 		gui.set_enabled(gui.get_node("btn_move"), false)
 		gui.set_enabled(gui.get_node("btn_release"), false)
@@ -319,9 +319,9 @@ end
 
 local function move(self)
 	if self.to == messages.LOCATION_PARTY then
-		if storage.free_space_in_inventory() then
+		if storage.free_space_in_party() then
 			notify.notify(self.nickname .. " MOVED TO " .. self.to)
-			storage.move_to_inventory(self.pokemon_id)
+			storage.move_to_party(self.pokemon_id)
 			update_storage()
 			back()
 		else
@@ -330,9 +330,9 @@ local function move(self)
 			gui.set_enabled(self.move, false)
 		end
 	elseif self.to == messages.LOCATION_PC then
-		if #storage.list_of_ids_in_inventory() ~= 1 then
+		if #storage.list_of_ids_in_party() ~= 1 then
 			notify.notify(self.nickname .. " MOVED TO " .. self.to)
-			storage.move_to_storage(self.pokemon_id)
+			storage.move_to_pc(self.pokemon_id)
 			update_storage()
 			back()
 		end
@@ -346,7 +346,7 @@ local function cancel_swap(self)
 end
 
 local function release(self)
-	if not storage.is_inventory_pokemon(self.pokemon_id) or #storage.list_of_ids_in_inventory() > 1 then
+	if not storage.is_party_pokemon(self.pokemon_id) or #storage.list_of_ids_in_party() > 1 then
 		local title = "RELEASE " .. self.nickname
 		monarch.show(screens.ARE_YOU_SURE, nil, {title=title, data=self.pokemon_id, sender=msg.url()})
 	end

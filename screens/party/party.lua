@@ -66,7 +66,7 @@ function M.final()
 end
 
 function M.show(index)
-	local inventory_ids = storage.list_of_ids_in_inventory()
+	local inventory_ids = storage.list_of_ids_in_party()
 	if not inventory_ids[index] then
 		index = #inventory_ids
 		msg.post(".", "inventory", {index=index, instant=true})
@@ -184,7 +184,7 @@ function M.on_input(action_id, action, consume)
 	local g = gesture.on_input("Party", action_id, action)
 	if g then
 		if g.swipe_left then
-			return M.switch_to_slot(math.min(active_index + 1, #storage.list_of_ids_in_inventory()))
+			return M.switch_to_slot(math.min(active_index + 1, #storage.list_of_ids_in_party()))
 		elseif g.swipe_right then
 			return M.switch_to_slot(math.max(active_index - 1, 1))
 		end

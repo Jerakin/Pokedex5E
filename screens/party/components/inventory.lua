@@ -60,7 +60,7 @@ end
 
 function M.create()
 	buttons = {}
-	local party_pokemons = storage.list_of_ids_in_inventory()
+	local party_pokemons = storage.list_of_ids_in_party()
 	create_party_indicators(party_pokemons)
 end
 
