@@ -204,16 +204,25 @@ function M.set_held_item(pkmn, item)
 	pkmn.item = item
 end
 
+local function get_move_count(pkmn)
+	local i = 0
+	for _,_ in ipairs(M.get_moves(pkmn)) do
+		i = i + 1
+	end
+	return i
+end
 
 function M.remove_feat(pkmn, feat)
 	for i, name in pairs(M.get_feats(pkmn)) do
 		if name == feat then
 			if name == "Extra Move" then
-				M.remove_move(pkmn, M.get_moves_count(pkmn))
-				table.remove(pkmn.feats, i)
-				break
+				local c = get_move_count(pkmn)
+				if c > 4 then
+					M.remove_move(pkmn, c)
+				end
 			end
 			table.remove(pkmn.feats, i)
+			break
 		end
 	end
 end
