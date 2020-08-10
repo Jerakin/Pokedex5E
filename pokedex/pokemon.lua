@@ -540,10 +540,7 @@ function M.set_move(pkmn, new_move, index)
 end
 
 function M.get_moves(pkmn, options)
-	local append_known_to_all = false
-	if options ~= nil then
-		append_known_to_all = options.append_known_to_all == true
-	end
+	local append_known_to_all = options ~= nil and options.append_known_to_all == true or false
 
 	if append_known_to_all then
 		local ret = {}
