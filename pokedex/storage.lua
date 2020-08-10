@@ -336,7 +336,8 @@ function M.load(profile)
 	sorting = storage_data.sorting
 	storage_settings = storage_data.settings
 
-		
+	pokemon_by_location.pc = {}
+	pokemon_by_location.party = {}
 	-- create the pokemon id lists
 	for _id, pkmn in pairs(player_pokemon) do
 		if pkmn.location == LOCATION_PC then
