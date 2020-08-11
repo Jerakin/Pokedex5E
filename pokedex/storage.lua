@@ -203,6 +203,11 @@ end
 
 function M.release_pokemon(id)
 	player_pokemon[id] = nil
+	if pokemon_by_location.party[id] then
+		pokemon_by_location.party[id] = nil
+	else
+		pokemon_by_location.pc[id] = nil
+	end
 	counters.released = next(counters) ~= nil and counters.released + 1 or 1
 	profiles.update(profiles.get_party_slot(), counters)
 	profiles.set_party(get_party())
@@ -228,11 +233,11 @@ function M.add(pokemon)
 	profiles.update(profiles.get_active_slot(), counters)
 	if M.is_party_full() then
 		pokemon.location = LOCATION_PC
-		table.insert(pokemon_by_location.pc, id)
+		pokemon_by_location.pc[id] = true
 	else
 		pokemon.location = LOCATION_PARTY
 		pokemon.slot = #M.list_of_ids_in_party() + 1
-		table.insert(pokemon_by_location.party, id)
+		pokemon_by_location.party[id] = true
 	end
 	player_pokemon[id] = pokemon
 
@@ -256,7 +261,7 @@ function M.upgrade_data(file_name, storage_data)
 	local LATEST_VERSION = 2
 	local needs_upgrade = version ~= LATEST_VERSION
 	
-	if needs_upgrade then		
+	if needs_upgrade then
 		for i=version,LATEST_VERSION-1 do
 			if false then
 
@@ -336,7 +341,7 @@ function M.load(profile)
 		if pkmn.location == LOCATION_PC then
 			pokemon_by_location.pc[_id] = true
 		else
-			pokemon_by_location.party[id] = true
+			pokemon_by_location.party[_id] = true
 		end
 	end
 	
