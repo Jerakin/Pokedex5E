@@ -9,7 +9,7 @@ local statuses = require "pokedex.statuses"
 local messages = require "utils.messages"
 local _file = require "utils.file"
 local platform = require "utils.platform"
-
+local sjson = require "utils.json"
 local M = {}
 
 -- For checking if sharing is enabled
@@ -85,7 +85,7 @@ end
 
 local function serialize_pokemon(pokemon)
 	decode_status(pokemon)
-	return ljson.encode(pokemon)
+	return sjson:encode(pokemon)
 end
 
 function M.generate_qr(id)

@@ -456,7 +456,8 @@ end
 
 
 function M.evolve_points(pokemon)
-	return M.get_evolution_data(pokemon).points
+	local d = M.get_evolution_data(pokemon)
+	return d and d.points or 0
 end
 
 
