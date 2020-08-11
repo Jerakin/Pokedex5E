@@ -113,9 +113,7 @@ end
 function M.list_of_ids_in_pc()
 	local f = M.get_sorting_method()
 	local tmp = {}
-	local id 
-	for n=1, #pokemon_by_location.pc do
-		id = pokemon_by_location.pc[n]
+	for id, _ in #pokemon_by_location.pc do
 		tmp[id] = player_pokemon[id]
 	end
 	return getKeysSortedByValue(tmp, f(a, b))
@@ -124,9 +122,7 @@ end
 
 function M.list_of_ids_in_party()
 	local tmp = {}
-	local id 
-	for n=1, #pokemon_by_location.party do
-		id = pokemon_by_location.party[n]
+	for id, _ in #pokemon_by_location.party do
 		tmp[id] = player_pokemon[id]
 	end
 	return getKeysSortedByValue(tmp, sort_on_slot(a, b))
@@ -170,9 +166,7 @@ end
 
 local function get_party()
 	local p = {}
-	local id 
-	for n=1, #pokemon_by_location.party do
-		id = pokemon_by_location.party[n]
+	for id, _ in #pokemon_by_location.party do
 		table.insert(p, player_pokemon[id].species.current)
 	end
 	return p
@@ -340,9 +334,9 @@ function M.load(profile)
 	-- create the pokemon id lists
 	for _id, pkmn in pairs(player_pokemon) do
 		if pkmn.location == LOCATION_PC then
-			table.insert(pokemon_by_location.pc, _id)
+			pokemon_by_location.pc[_id] = true
 		else
-			table.insert(pokemon_by_location.party, _id)
+			pokemon_by_location.party[id] = true
 		end
 	end
 	
@@ -368,21 +362,11 @@ function M.swap(pc_pokemon_id, party_pokemon_id)
 	local id
 
 	-- Update location id
-	for n=1, #pokemon_by_location.party do
-		id = pokemon_by_location.party[n]
-		if id == party_pokemon_id then
-			pokemon_by_location.party[n] = pc_pokemon_id
-			break
-		end
-	end
+	pokemon_by_location.party[party_pokemon] = nil
+	pokemon_by_location.pc[party_pokemon] = true
 
-	for n=1, #pokemon_by_location.pc do
-		id = pokemon_by_location.pc[n]
-		if id == pc_pokemon_id then
-			pokemon_by_location.pc[n] = party_pokemon_id
-			break
-		end
-	end
+	pokemon_by_location.party[pc_pokemon_id] = true
+	pokemon_by_location.pc[pc_pokemon_id] = nil
 	
 	-- Set new locations
 	pc_pokemon.location = LOCATION_PARTY
@@ -402,15 +386,8 @@ function M.move_to_pc(pokemon_id)
 	profiles.set_party(get_party())
 	
 	-- Update location id
-	local id
-	table.insert(pokemon_by_location.pc, pokemon_id)
-	for n=1, #pokemon_by_location.party do
-		id = pokemon_by_location.party[n]
-		if id == pokemon_id then
-			table.remove(pokemon_by_location.party, n)
-			break
-		end
-	end
+	pokemon_by_location.party[pokemon_id] = nil
+	pokemon_by_location.pc[pokemon_id] = true
 end
 
 
@@ -429,15 +406,8 @@ function M.move_to_party(pokemon_id)
 		profiles.set_party(get_party())
 
 		-- Update location id
-		table.insert(pokemon_by_location.party, pokemon_id)
-		local id
-		for n=1, #pokemon_by_location.pc do
-			id = pokemon_by_location.pc[n]
-			if id == pokemon_id then
-				table.remove(pokemon_by_location.pc, n)
-				break
-			end
-		end
+		pokemon_by_location.party[pokemon_id] = true
+		pokemon_by_location.pc[pokemon_id] = nil
 	else
 		assert(false, "Your party is full")
 	end
