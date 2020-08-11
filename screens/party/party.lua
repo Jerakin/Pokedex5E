@@ -117,7 +117,7 @@ function M.switch_to_slot(index)
 
 	M.show(active_index)
 	scrollhandler.set_active_index(active_page)
-	msg.post(".", messages.INVENTORY, {index=active_index})
+	msg.post(".", messages.PARTY_SET_ACTIVE, {index=active_index})
 	gui.set_position(new, vmath.vector3(720*pos_index, 0, 0))
 	gui.animate(active, "position.x", (-1*pos_index)*720, gui.EASING_OUTCUBIC, 0.35, 0, function()
 		switching = false

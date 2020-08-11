@@ -48,7 +48,7 @@ end
 
 function on_message(self, message_id, message)
 	party.on_message(message_id, message)
-	if message_id == messages.INVENTORY then
+	if message_id == messages.PARTY_SET_ACTIVE then
 		inventory.set_active(message.index, message.instant)
 	elseif message_id == messages.REFRESH then
 		inventory.create()

@@ -42,8 +42,8 @@ local function back()
 end
 
 local function update_storage()
-	msg.post(url.STORAGE, messages.INVENTORY_UPDATED)
-	msg.post(url.STORAGE, messages.STORAGE_UPDATED)
+	msg.post(url.STORAGE, messages.PARTY_UPDATED)
+	msg.post(url.STORAGE, messages.PC_UPDATED)
 end
 
 

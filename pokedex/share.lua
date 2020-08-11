@@ -27,8 +27,8 @@ function M.add_new_pokemon(pokemon)
 	if url.PARTY then
 		msg.post(url.PARTY, messages.REFRESH)
 	elseif url.STORAGE then
-		msg.post(url.STORAGE, messages.INVENTORY_UPDATED)
-		msg.post(url.STORAGE, messages.STORAGE_UPDATED)
+		msg.post(url.STORAGE, messages.PARTY_UPDATED)
+		msg.post(url.STORAGE, messages.PC_UPDATED)
 	end
 end
 

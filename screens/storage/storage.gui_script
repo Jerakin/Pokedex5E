@@ -131,7 +131,7 @@ function final(self)
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == messages.STORAGE_UPDATED then
+	if message_id == messages.PC_UPDATED then
 		local t = gui.get_text(gui.get_node("search_text"))
 		if t ~= "search" then
 			self.all_pokemons = storage.list_of_ids_in_pc()
@@ -141,7 +141,7 @@ function on_message(self, message_id, message, sender)
 		end
 		update_storage_data(self)
 		self.scrolling_list.refresh(self.pokemon_rows)
-	elseif message_id == messages.INVENTORY_UPDATED then
+	elseif message_id == messages.PARTY_UPDATED then
 		inventory.redraw()
 	elseif message_id == messages.SEARCH then
 		update_storage_data(self)
