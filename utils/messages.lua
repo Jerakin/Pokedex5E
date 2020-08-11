@@ -51,7 +51,7 @@ M.RESET = hash("reset")
 
 M.PC_UPDATED = hash("pc_updated")
 M.PARTY_UPDATED = hash("party_updated")
-
+M.COUNTERS_UPDATED = hash("counters_updated")
 
 -- Used for debugging, makes sure that our message is in this table
 --[[

@@ -142,7 +142,7 @@ function init(self)
 		flow.until_true( function() return not monarch.is_busy() end)
 
 		trainer.load()
-		storage.init()
+		storage.init(profiles.get_active())
 		dex.init()
 		items.init()
 		filters.init()

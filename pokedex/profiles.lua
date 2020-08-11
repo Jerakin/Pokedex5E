@@ -3,6 +3,7 @@ local defsave = require "defsave.defsave"
 local md5 = require "utils.md5"
 local log = require "utils.log"
 local broadcast = require "utils.broadcast"
+local messages = require "utils.messages"
 
 local M = {}
 
@@ -218,7 +219,17 @@ local function convert_to_rolling_profile_slot()
 	profiles.last_used = nil
 end
 
+local function on_party_updated(message)
+	M.set_party(message.party)
+end
+
+local function on_counters_updated(message)
+	M.update(M.get_active_slot(), message.counters)
+end
+
 function M.init()
+	broadcast.register(messages.PARTY_UPDATED, on_party_updated)
+	broadcast.register(messages.COUNTERS_UPDATED, on_counters_updated)
 	load_profiles()
 	convert_to_rolling_profile_slot()
 	local latest = M.get_latest()

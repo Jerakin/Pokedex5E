@@ -5,6 +5,8 @@ local utils = require "utils.utils"
 local profiles = require "pokedex.profiles"
 local pokedex = require "pokedex.pokedex"
 local log = require "utils.log"
+local broadcast = require "utils.broadcast"
+local messages = require "utils.messages"
 
 local M = {}
 
@@ -79,6 +81,14 @@ end
 local function clamp_max_party_pokemon(new_max)
 	local range_min, range_max = M.get_max_party_pokemon_range()
 	return math.max(range_min, math.max(range_min, new_max))
+end
+
+local function get_party()
+	local p = {}
+	for id, _ in #pokemon_by_location.party do
+		table.insert(p, player_pokemon[id].species.current)
+	end
+	return p
 end
 
 function M.is_initialized()
@@ -165,14 +175,6 @@ function M.get_pokemon(id)
 end
 
 
-local function get_party()
-	local p = {}
-	for id, _ in pairs(pokemon_by_location.party) do
-		table.insert(p, player_pokemon[id].species.current)
-	end
-	return p
-end
-
 
 function M.update_pokemon(pokemon)
 	local id = pokemon.id
@@ -206,12 +208,13 @@ function M.release_pokemon(id)
 	player_pokemon[id] = nil
 	if pokemon_by_location.party[id] then
 		pokemon_by_location.party[id] = nil
+		broadcast.send(messages.PARTY_UPDATED, {party=get_party()})
 	else
 		pokemon_by_location.pc[id] = nil
+		broadcast.send(messages.PC_UPDATED)
 	end
 	counters.released = next(counters) ~= nil and counters.released + 1 or 1
-	profiles.update(profiles.get_active_slot(), counters)
-	profiles.set_party(get_party())
+	broadcast.send(messages.COUNTERS_UPDATED, {counters=counters})
 end
 
 
@@ -231,29 +234,29 @@ function M.add(pokemon)
 
 	local id = get_id(pokemon)
 	pokemon.id = id
-	profiles.update(profiles.get_active_slot(), counters)
+
 	if M.is_party_full() then
 		pokemon.location = LOCATION_PC
 		pokemon_by_location.pc[id] = true
+		broadcast.send(messages.PC_UPDATED)
 	else
 		pokemon.location = LOCATION_PARTY
 		pokemon.slot = #M.list_of_ids_in_party() + 1
 		pokemon_by_location.party[id] = true
+		broadcast.send(messages.PARTY_UPDATED, {party=get_party()})
 	end
 	player_pokemon[id] = pokemon
 
-	profiles.set_party(get_party())
-	M.save()
-	profiles.save()
+	broadcast.send(messages.COUNTERS_UPDATED, {counters=counters})
 end
 
 
 function M.save()
-	if profiles.get_active_slot() then
+	--[[if profiles.get_active_slot() then
 		local profile = profiles.get_active_file_name()
 		defsave.set(profile, "storage_data", storage_data)
 		defsave.save(profile)
-	end
+	end--]]
 end
 
 function M.upgrade_data(file_name, storage_data)
@@ -351,9 +354,8 @@ function M.load(profile)
 end
 
 
-function M.init()
+function M.init(profile)
 	if not initialized then
-		local profile = profiles.get_active()
 		if profile then
 			M.load(profile)
 		end
@@ -381,7 +383,8 @@ function M.swap(pc_pokemon_id, party_pokemon_id)
 	pc_pokemon.slot = party_pokemon.slot
 	party_pokemon.slot = nil
 
-	profiles.set_party(get_party())
+	broadcast.send(messages.PARTY_UPDATED, {party=get_party()})
+	broadcast.send(messages.PC_UPDATED)
 end
 
 
@@ -389,11 +392,13 @@ function M.move_to_pc(pokemon_id)
 	local pokemon = player_pokemon[pokemon_id]
 	pokemon.slot = nil
 	pokemon.location = LOCATION_PC
-	profiles.set_party(get_party())
-	
+
 	-- Update location id
 	pokemon_by_location.party[pokemon_id] = nil
 	pokemon_by_location.pc[pokemon_id] = true
+
+	broadcast.send(messages.PARTY_UPDATED, {party=get_party()})
+	broadcast.send(messages.PC_UPDATED)
 end
 
 
@@ -412,11 +417,13 @@ function M.move_to_party(pokemon_id)
 		local pokemon = player_pokemon[pokemon_id]
 		pokemon.slot = slot
 		pokemon.location = LOCATION_PARTY
-		profiles.set_party(get_party())
 
 		-- Update location id
 		pokemon_by_location.party[pokemon_id] = true
 		pokemon_by_location.pc[pokemon_id] = nil
+
+		broadcast.send(messages.PARTY_UPDATED, {party=get_party()})
+		broadcast.send(messages.PC_UPDATED)
 	else
 		assert(false, "Your party is full")
 	end
