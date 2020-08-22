@@ -21,7 +21,7 @@
       "move": true
     }
   },
-  "Description": "You create a 40 foot line of freezing ice, 5 feet wide. Any creature caught in the line must succeed on a DEX save or take ice damage and be frozen.",
+  "Description": "You send a concentrated beam of freezing ice at a single creature in range. Make a ranged attack roll, doing ice damage on a hit, and forcing the target to make a CON save against your Move DC or become frozen.",
   "Duration": "Instantaneous",
   "Move Power": [
     "STR",
@@ -30,6 +30,7 @@
   "Move Time": "1 action",
   "PP": 10,
   "Range": "40ft line",
-  "Save": "DEX",
-  "Type": "Ice"
+  "Save": "CON",
+  "Type": "Ice",
+  "atk": true
 }
