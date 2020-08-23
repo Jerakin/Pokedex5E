@@ -273,9 +273,7 @@ def convert_pdata(input_csv, header=DEFAULT_HEADER):
         reader = csv.reader(fp, delimiter=",", quotechar='"')
 
         pokemon_list = PokemonList(header)
-        total = 0
         for row in reader:
-            total += 1
             if not row:
                 continue
             pokemon_list.append(row)
@@ -292,7 +290,6 @@ def convert_pdata(input_csv, header=DEFAULT_HEADER):
         for index, row in enumerate(reader, 1):
             if not row:
                 continue
-            util.update_progress(index / total)
 
             # Each row is one Pokemon
             poke = Pokemon(header)

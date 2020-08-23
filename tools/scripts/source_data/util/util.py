@@ -1,8 +1,15 @@
 import json
 from pathlib import Path
 import sys
+import logging
 
+# Add some colors to the logging output
+logging.addLevelName(logging.DEBUG, "\x1b[38;21m%s\033[1;0m" % logging.getLevelName(logging.DEBUG))
+logging.addLevelName(logging.INFO, "\x1b[1;32m%s\033[1;0m" % logging.getLevelName(logging.INFO))
+logging.addLevelName(logging.WARNING, "\x1b[33;21m%s\033[1;0m" % logging.getLevelName(logging.WARNING))
+logging.addLevelName(logging.ERROR, "\x1b[31;21m%s\033[1;0m" % logging.getLevelName(logging.ERROR))
 
+# Paths
 ROOT = Path(__file__).parent.parent
 DATA = ROOT / "data"
 ASSETS = ROOT / "assets"
@@ -11,6 +18,7 @@ OUTPUT = ROOT.parent.parent.parent / "assets" / "datafiles"
 POKEMON_OUTPUT = OUTPUT / "pokemon"
 MOVES_OUTPUT = OUTPUT / "moves"
 
+# Constants
 ATTRIBUTES = ["STR", "CON", "DEX", "INT", "WIS", "CHA"]
 
 
@@ -25,6 +33,7 @@ def load_extra(name):
     return __load(p)
 
 
+# Data holders that's read in to memory for simplicity
 MERGE_POKEMON_DATA = load_extra("pokemon")
 MERGE_EVOLVE_DATA = load_extra("evolve")
 MERGE_FILTER_DATA = load_extra("filter_data")

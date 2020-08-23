@@ -1,5 +1,7 @@
 from pathlib import Path
 import sys
+import logging
+
 from gspread.exceptions import SpreadsheetNotFound
 
 try:
@@ -25,11 +27,16 @@ data_sheets = {
 def convert_all(folder):
     for file_path in Path(folder).iterdir():
         if file_path.name in data_sheets:
+            logging.debug(f"Starting converting {file_path.stem}")
             data_sheets[file_path.name](file_path)
-            print(f"Converted {file_path.name}")
+            logging.debug(f"Finished converting {file_path.stem}")
+
+
 
 
 if __name__ == '__main__':
+    logging.getLogger().setLevel(logging.DEBUG)
+    logging.info("Convertion started")
     if len(sys.argv) == 2:
         argument = Path(sys.argv[1])
         if argument.exists():
@@ -37,16 +44,17 @@ if __name__ == '__main__':
                 try:
                     _folder = fetch.main(cred_file=argument)
                 except SpreadsheetNotFound:
-                    print("SpreadsheetNotFound: Could not find the spreadsheet on the service account")
+                    logging.error("SpreadsheetNotFound: Could not find the spreadsheet on the service account")
                     sys.exit(1)
                 convert_all(_folder)
 
             elif argument.is_dir():
                 convert_all(argument)
             else:
-                print("Error: Access file or folder not found, please provide a valid path")
+                logging.error("Access file or folder not found, please provide a valid path")
     else:
         if (Path(__file__).parent / "data").exists:
             convert_all(Path(__file__).parent / "data")
         else:
-            print("Please provide either a access file or a folder with the Download DATA sheets in")
+            logging.warning("Please provide either a access file or a folder with the Download DATA sheets in")
+    logging.info("Convertion finished")

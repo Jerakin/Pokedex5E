@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-import gspread
 import csv
 import json
 import os
 import sys
 from pathlib import Path
+import logging
 
+import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 try:
@@ -49,10 +50,12 @@ def get_worksheet(cred_file):
 
 
 def main(cred_file):
+    logging.info("Starting downloading spreadsheets")
     wks = get_worksheet(cred_file)
     for worksheet in wks.worksheets():
         if worksheet.title in DATA_SHEETS:
             save_worksheet(worksheet)
+    logging.info("Finished downloading spreadsheets")
     return util.DATA
 
 

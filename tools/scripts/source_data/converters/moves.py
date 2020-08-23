@@ -1,7 +1,7 @@
 import re
 import csv
 import json
-
+import logging
 try:
     import scripts.source_data.util.util as util
     import scripts.source_data.util.remove_dice_in_description as remove_dice_in_description
@@ -142,20 +142,11 @@ def convert_mdata(input_csv, header=DEFAULT_HEADER):
     # convert and export all moves from the CSV
     with open(input_csv, "r", encoding="utf-8") as fp:
         reader = csv.reader(fp, delimiter=",", quotechar='"')
-
-        total = 0
-        for _ in reader:
-            total += 1
-
-        # Rewind the csv file and create all the json files
-        fp.seek(0)
-        reader = csv.reader(fp, delimiter=",", quotechar='"')
         next(reader)
 
         for index, row in enumerate(reader, 1):
             if not row:
                 continue
-            util.update_progress(index / total)
 
             # Each row is one Pokemon
             move = Move(header)
