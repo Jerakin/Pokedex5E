@@ -33,7 +33,7 @@ function M.refresh_local_ip()
 		local local_ip_info = sys.get_ifaddrs()
 		for i=1,#local_ip_info do
 			local t = local_ip_info[i]
-			if t.running and t.up then
+			if t.running and t.up and t.family == "ipv4" then
 				found_ip = t.address
 				break
 			end

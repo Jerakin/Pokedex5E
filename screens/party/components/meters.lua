@@ -253,7 +253,18 @@ local function parse_number(str, current)
 	local err
 	local expr
 	if string.find(str, "[+-]") ~= nil then
-		value, err = loadstring("return " .. current .. str)()
+		local fnc = loadstring("return " .. current .. str)
+		if fnc == nil then
+			-- Loadstring didn't compile, this shouldn't happen but tracking have shown it does, report the error.
+			local e = string.format("Could not compile the load string: 'return " .. tostring(current) .. tostring(str) .. "'")
+			gameanalytics.addErrorEvent {
+				severity = "Critical",
+				message = e
+			}
+			log.error(e)
+			return current
+		end
+		value, err = fnc()
 		if value ~= nil then
 			value = value - current
 		else
