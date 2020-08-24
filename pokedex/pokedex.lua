@@ -376,7 +376,7 @@ function M.get_evolved_from(pokemon)
 			end
 		end
 	end
-	return "MissingNo"
+	return nil
 end
 
 function M.get_evolution_possible(pokemon, gender, moves)
