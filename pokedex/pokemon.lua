@@ -43,6 +43,8 @@ M.GENDERLESS = pokedex.GENDERLESS
 M.MALE = pokedex.MALE
 M.FEMALE = pokedex.FEMALE
 
+M.DEFAULT_MAX_MOVES = 4
+
 local loyalty_hp = {
 	[-3] = {HP=0},
 	[-2] = {HP=0},
@@ -161,14 +163,24 @@ function M.set_held_item(pokemon, item)
 end
 
 function M.remove_feat(pokemon, feat)
-	for i, name in pairs(M.get_feats(pokemon)) do
-		if name == feat then
-			if name == "Extra Move" then
-				M.remove_move(pokemon, M.get_moves_count(pokemon))
-				table.remove(pokemon.feats, i)
-				break
-			end
-			table.remove(pokemon.feats, i)
+	local removed = 0
+	local feats = M.get_feats(pokemon)
+
+	-- Remove every instance of the feat with this name
+	local i = 1
+	while i <= #feats do
+		if feats[i] == feat then
+			removed = removed + 1
+			table.remove(feats, i)
+		else
+			i = i+1			
+		end
+	end
+
+	-- If the feat was extra move, also remove moves with the high indices. There was previously a bug here where if there was a gap in the move set, the move in the last slot would not be removed.
+	if feat == "Extra Move" then
+		for i=1,removed do
+			M.remove_move(pokemon, M.DEFAULT_MAX_MOVES + i)
 		end
 	end
 end

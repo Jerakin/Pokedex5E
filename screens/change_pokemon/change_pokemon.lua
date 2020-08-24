@@ -201,7 +201,7 @@ end
 local function redraw_moves(self)
 	local position = vmath.vector3()
 	local _, c = _pokemon.have_feat(self.pokemon, "Extra Move")
-	local moves_count = 4 + c
+	local moves_count = _pokemon.DEFAULT_MAX_MOVES + c
 
 	-- There was a bug with the Extra Moves feat that allowed you to accidentally get moves in slots you should not have been able to get. Preventing a crash, though this does mean you will see more move slots than you SHOULD have
 	local moves =_pokemon.get_moves(self.pokemon)
