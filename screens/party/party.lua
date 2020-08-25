@@ -66,7 +66,7 @@ function M.final()
 end
 
 function M.show(index)
-	local inventory_ids = storage.list_of_ids_in_inventory()
+	local inventory_ids = storage.list_of_ids_in_party()
 	if not inventory_ids[index] then
 		index = #inventory_ids
 		msg.post(".", "inventory", {index=index, instant=true})
@@ -74,7 +74,7 @@ function M.show(index)
 	local id = inventory_ids[index]
 	
 	if storage.is_in_storage(id) then
-		local pokemon = storage.get_copy(id)
+		local pokemon = storage.get_pokemon(id)
 		local nodes = pokemon_pages[active_page].nodes
 		information.create(nodes, pokemon, active_page)
 		meters.create(nodes, id)
@@ -83,7 +83,7 @@ function M.show(index)
 		status_effects.create(nodes, pokemon, active_page)
 		
 		button.register(nodes["pokemon/exp_bg"], function()
-			monarch.show(screens.INPUT, {}, {sender=msg.url(), message="update_exp", allowed_characters="[%d%+%-]", default_text=storage.get_pokemon_exp(id)})
+			monarch.show(screens.INPUT, {}, {sender=msg.url(), message="update_exp", allowed_characters="[%d%+%-]", default_text=_pokemon.get_exp(pokemon)})
 		end)
 	else
 		local e = "Party can not show pokemon with id: " .. tostring(id) .. "\n" .. debug.traceback()
@@ -117,7 +117,7 @@ function M.switch_to_slot(index)
 
 	M.show(active_index)
 	scrollhandler.set_active_index(active_page)
-	msg.post(".", messages.INVENTORY, {index=active_index})
+	msg.post(".", messages.PARTY_SET_ACTIVE, {index=active_index})
 	gui.set_position(new, vmath.vector3(720*pos_index, 0, 0))
 	gui.animate(active, "position.x", (-1*pos_index)*720, gui.EASING_OUTCUBIC, 0.35, 0, function()
 		switching = false
@@ -184,7 +184,7 @@ function M.on_input(action_id, action, consume)
 	local g = gesture.on_input("Party", action_id, action)
 	if g then
 		if g.swipe_left then
-			return M.switch_to_slot(math.min(active_index + 1, #storage.list_of_ids_in_inventory()))
+			return M.switch_to_slot(math.min(active_index + 1, #storage.list_of_ids_in_party()))
 		elseif g.swipe_right then
 			return M.switch_to_slot(math.max(active_index - 1, 1))
 		end

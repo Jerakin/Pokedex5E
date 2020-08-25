@@ -8,16 +8,20 @@ local log = require "utils.log"
 
 local M = {}
 
-local storage = {}
-local active = {}
+-- All of these tables are saved out to a file, so be sure they are raw data only (no functions, userdata, that sort of thing)
+local storage_data = {} -- contains all the below tables
+local player_pokemon = {}
+local pokemon_by_location = {}
+
 local counters = {}
 local sorting = {}
-local initialized = false
-local max_active_pokemon = 6
+local storage_settings = {}
 
-function M.is_initialized()
-	return initialized
-end
+local initialized = false
+
+
+LOCATION_PC = 0
+LOCATION_PARTY = 1
 
 local function get_id(pokemon)
 	local m = md5.new()
@@ -26,6 +30,7 @@ local function get_id(pokemon)
 	m:update(json.encode(p))
 	return md5.tohex(m:finish())
 end
+
 
 local function getKeysSortedByValue(tbl, sortFunction)
 	local keys = {}
@@ -40,34 +45,6 @@ local function getKeysSortedByValue(tbl, sortFunction)
 	return keys
 end
 
-function M.get_max_active_pokemon_range()
-	return 2,6
-end
-
-function M.get_max_active_pokemon()
-	return max_active_pokemon
-end
-
-function M.set_max_active_pokemon(new_max)
-	new_max = M.clamp_max_active_pokemon(new_max)
-	if new_max ~= max_active_pokemon then
-		max_active_pokemon = new_max
-		M.save()
-	end
-end
-
-function M.clamp_max_active_pokemon(new_max)
-	local range_min, range_max = M.get_max_active_pokemon_range()
-	return math.max(range_min, math.max(range_min, new_max))
-end
-
-function M.is_party_full()
-	local counter = 0
-	for _, _ in pairs(active) do
-		counter = counter + 1
-	end
-	return counter >= M.get_max_active_pokemon()
-end
 
 local function sort_on_index(a, b)
 	return function(a, b) 
@@ -77,54 +54,94 @@ local function sort_on_index(a, b)
 	end
 end
 
+
 local function sort_on_caught(a, b)
 	return function(a, b) 
 		return a.number < b.number  
 	end
 end
 
+
 local function sort_on_level(a, b)
 	return function(a, b) return a.level.current > b.level.current end
 end
+
 
 local function sort_alphabetical(a, b)
 	return function(a, b) return a.species.current < b.species.current end
 end
 
-function M.list_of_ids_in_storage()
-	local f = M.get_sorting_method()
-	return getKeysSortedByValue(storage, f(a, b))
-end
 
 local function sort_on_slot(a, b)
-	return function(a, b) return (a.slot or 7) < (b.slot or 7) end
+	return function(a, b) return a.slot < b.slot end
 end
 
-function M.list_of_ids_in_inventory()
-	return getKeysSortedByValue(active, sort_on_slot(a, b))
+local function clamp_max_party_pokemon(new_max)
+	local range_min, range_max = M.get_max_party_pokemon_range()
+	return math.max(range_min, math.max(range_min, new_max))
 end
 
-function M.is_inventory_pokemon(id)
-	for x, _ in pairs(active) do
-		if x == id then
-			return true
-		end
+function M.is_initialized()
+	return initialized
+end
+
+
+function M.get_max_party_pokemon_range()
+	return 2,6
+end
+
+
+function M.get_max_party_pokemon()
+	return storage_settings.max_party_pokemon
+end
+
+
+function M.set_max_party_pokemon(new_max)
+	new_max = clamp_max_party_pokemon(new_max)
+	if new_max ~= storage_settings.max_party_pokemon then
+		storage_settings.max_party_pokemon = new_max
+		M.save()
 	end
-	return false
 end
+
+
+function M.is_party_full()
+	return #pokemon_by_location.party >= M.get_max_party_pokemon()
+end
+
+
+function M.list_of_ids_in_pc()
+	local f = M.get_sorting_method()
+	local tmp = {}
+	for id, _ in #pokemon_by_location.pc do
+		tmp[id] = player_pokemon[id]
+	end
+	return getKeysSortedByValue(tmp, f(a, b))
+end
+
+
+function M.list_of_ids_in_party()
+	local tmp = {}
+	for id, _ in #pokemon_by_location.party do
+		tmp[id] = player_pokemon[id]
+	end
+	return getKeysSortedByValue(tmp, sort_on_slot(a, b))
+end
+
+
+function M.is_party_pokemon(id)
+	return player_pokemon[id].location == LOCATION_PARTY
+end
+
 
 function M.is_in_storage(id)
-	if storage[id] or active[id] then
-		return true
-	end
-	return false
+	return player_pokemon[id] ~= nil
 end
 
+
 function M.get_copy(id)
-	if storage[id] then
-		return utils.deep_copy(storage[id])
-	elseif active[id] then
-		return utils.deep_copy(active[id])
+	if player_pokemon[id] then
+		return utils.deep_copy(player_pokemon[id])
 	else
 		local e = string.format("Trying to get '" .. tostring(id) .. "' from storage\n\n%s", debug.traceback())
 		gameanalytics.addErrorEvent {
@@ -136,52 +153,33 @@ function M.get_copy(id)
 	end
 end
 
+
 local function get(id)
-	return storage[id] and storage[id] or active[id]
+	return player_pokemon[id]
 end
+
+
+function M.get_pokemon(id)
+	return get(id)
+end
+
 
 local function get_party()
 	local p = {}
-	for _, pokemon in pairs(active) do
-		table.insert(p, pokemon.species.current)
+	for id, _ in #pokemon_by_location.party do
+		table.insert(p, player_pokemon[id].species.current)
 	end
 	return p
 end
 
-function M.set_nickname(id, nickname)
-	local p = get(id)
-	if not nickname == p.species.current then
-		p.nickname = nickname
-	end
-end
-
-function M.get_nickname(id)
-	return get(id) and get(id).nickname or nil
-end
 
 function M.update_pokemon(pokemon)
 	local id = pokemon.id
-	if storage[id] then
-		storage[id] = pokemon
-	elseif active[id] then
-		active[id] = pokemon
+	if player_pokemon[id] then
+		player_pokemon[id] = pokemon
 	end
-	M.save()
 end
 
-function M.set_evolution_at_level(id, level)
-	local p = get(id)
-	if type(p.level.evolved) == "number" then
-		local old = p.level.evolved
-		p.level.evolved = {}
-		if old ~= 0 then
-			table.insert(pokemon.level.evolved, old)
-		end
-	end
-	
-	table.insert(p.level.evolved, level)
-	M.save()
-end
 
 function M.get_sorting_method()
 	if sorting.method == "alphabetical" then
@@ -197,98 +195,29 @@ function M.get_sorting_method()
 	end
 end
 
+
 function M.set_sorting_method(method)
 	sorting.method = method
 end
 
-function M.set_pokemon_move_pp(id, move, pp)
-	local p = get(id)
-	p.moves[move].pp = pp
-	M.save()
-	return p.moves[move].pp
-end
-
-function M.set_pokemon_exp(id, exp)
-	local p = get(id)
-	p.exp = exp
-	M.save()
-end
-
-function M.set_pokemon_loyalty(id, loyalty)
-	local p = get(id)
-	local c =  math.min(math.max(loyalty, -3), 3)
-	p.loyalty = c
-	M.save()
-end
-
-function M.get_pokemon_loyalty(id)
-	return get(id).loyalty or 0
-end
-
-function M.get_pokemon_exp(id)
-	return get(id).exp
-end
-
-
-function M.get_status_effects(id)
-	return get(id).statuses or {}
-end
-
-function M.set_status_effect(id, effect, enabled)
-	local pokemon = get(id)
-	if pokemon.statuses == nil then
-		pokemon.statuses = {}
-	end
-	if enabled == false then
-		enabled = nil
-	end
-	pokemon.statuses[effect] = enabled
-	M.save()
-end
-
-function M.get_pokemon_current_hp(id)
-	return get(id).hp.current
-end
-
-function M.set_pokemon_current_hp(id, hp)
-	local p = get(id)
-	p.hp.current = hp
-	M.save()
-end
-
-function M.get_pokemon_temp_hp(id)
-	return get(id).hp.temp or 0
-end
-
-function M.set_pokemon_temp_hp(id, temp_hp)
-	local p = get(id)
-	p.hp.temp = math.max(0, temp_hp)
-	M.save()
-end
-
-function M.get_pokemon_current_level(id)
-	return get(id).level.current
-end
-
-function M.set_pokemon_max_hp(id, hp)
-	local p = get(id)
-	p.hp.max = hp
-	p.hp.edited = true
-	M.save()
-end
 
 function M.release_pokemon(id)
-	storage[id] = nil
-	active[id] = nil
+	player_pokemon[id] = nil
+	if pokemon_by_location.party[id] then
+		pokemon_by_location.party[id] = nil
+	else
+		pokemon_by_location.pc[id] = nil
+	end
 	counters.released = next(counters) ~= nil and counters.released + 1 or 1
-	profiles.update(profiles.get_active_slot(), counters)
+	profiles.update(profiles.get_party_slot(), counters)
 	profiles.set_party(get_party())
-	M.save()
 end
+
 
 function M.get_total()
 	return counters.caught - counters.released
 end
+
 
 function M.add(pokemon)
 	for i=#pokemon.moves, 1, -1 do
@@ -298,37 +227,95 @@ function M.add(pokemon)
 	end
 	counters.caught = next(counters) ~= nil and counters.caught + 1 or 1
 	pokemon.number = counters.caught
-	
+
 	local id = get_id(pokemon)
 	pokemon.id = id
 	profiles.update(profiles.get_active_slot(), counters)
 	if M.is_party_full() then
-		storage[id] = pokemon
+		pokemon.location = LOCATION_PC
+		pokemon_by_location.pc[id] = true
 	else
-		pokemon.slot = #M.list_of_ids_in_inventory() + 1
-		active[id] = pokemon
+		pokemon.location = LOCATION_PARTY
+		pokemon.slot = #M.list_of_ids_in_party() + 1
+		pokemon_by_location.party[id] = true
 	end
+	player_pokemon[id] = pokemon
 
 	profiles.set_party(get_party())
 	M.save()
 	profiles.save()
 end
 
+
 function M.save()
 	if profiles.get_active_slot() then
 		local profile = profiles.get_active_file_name()
-		defsave.set(profile, "storage", storage)
-		defsave.set(profile, "active", active)
-		defsave.set(profile, "counters", counters)
-		defsave.set(profile, "sorting", sorting)
-
-		local settings = {
-			max_active_pokemon = max_active_pokemon
-		}
-		defsave.set(profile, "settings", settings)
-		
+		defsave.set(profile, "storage_data", storage_data)
 		defsave.save(profile)
 	end
+end
+
+function M.upgrade_data(file_name, storage_data)
+	local version = storage_data and storage_data.version or 1
+
+	local LATEST_VERSION = 2
+	local needs_upgrade = version ~= LATEST_VERSION
+	
+	if needs_upgrade then
+		for i=version,LATEST_VERSION-1 do
+			if false then
+
+			-- NOTE: If a new data upgrade is needed, update the above LATEST_VERSION value and add a new block here like so:
+			--elseif i == ??? then
+				
+			elseif i == 1 then
+				
+				-- Old data was storage in different sections of file, need to pull out that data, upgrade it, and clear out the old stuff
+				assert(next(storage_data) == nil, "Assumed that version 1 did not have storage data saved")
+
+				-- Counters needs initialization if it didn't exist before
+				storage_data.counters = defsave.get(file_name, "counters")
+				if next(storage_data.counters) == nil then
+					storage_data.counters = {caught=0, released=0, seen=0}
+				end
+				
+				storage_data.sorting = defsave.get(file_name, "sorting")
+
+				-- Settings were stored in a separate section because MagRoader didn't understand the system very well at the time
+				local settings = defsave.get(file_name, "settings")
+				storage_data.settings = 
+				{
+					max_party_pokemon = settings.max_active_pokemon or 6
+				}
+
+				-- Storage and Active == PC and Party
+				local pc_pokemon = defsave.get(file_name, "storage") or {}
+				local party_pokemon = defsave.get(file_name, "active") or {}
+
+				storage_data.player_pokemon = {}
+				for id,data in pairs(pc_pokemon) do
+					data.location = LOCATION_PC
+					storage_data.player_pokemon[id] = data
+				end
+				for id,data in pairs(party_pokemon) do
+					data.location = LOCATION_PARTY
+					storage_data.player_pokemon[id] = data
+				end
+
+				-- Remove old style of data
+				defsave.set(file_name, "storage", nil)
+				defsave.set(file_name, "active", nil)
+				defsave.set(file_name, "counters", nil)
+				defsave.set(file_name, "settings", nil)
+			else
+				assert(false, "Unknown storage data version " .. storage_data.version)
+			end
+		end
+
+		storage_data.version = LATEST_VERSION
+	end
+
+	return storage_data, needs_upgrade
 end
 
 function M.load(profile)
@@ -337,19 +324,31 @@ function M.load(profile)
 	if not defsave.is_loaded(file_name) then
 		local loaded = defsave.load(file_name)
 	end
-	storage = defsave.get(file_name, "storage")
-	active = defsave.get(file_name, "active")
-	counters = defsave.get(file_name, "counters")
-	sorting = defsave.get(file_name, "sorting")
 
-	local settings = defsave.get(file_name, "settings")
-	max_active_pokemon = M.clamp_max_active_pokemon(settings.max_active_pokemon or 6)
-	
-	-- Default counters
-	if next(counters) == nil then
-		counters = {caught=0, released=0, seen=0}
+	local loaded_data, needs_save = M.upgrade_data(file_name, defsave.get(file_name, "storage_data"))
+	storage_data = loaded_data
+
+	-- Extract everything we need from saved data
+	player_pokemon = storage_data.player_pokemon
+	counters = storage_data.counters
+	sorting = storage_data.sorting
+	storage_settings = storage_data.settings
+
+	pokemon_by_location.pc = {}
+	pokemon_by_location.party = {}
+	-- create the pokemon id lists
+	for _id, pkmn in pairs(player_pokemon) do
+		if pkmn.location == LOCATION_PC then
+			pokemon_by_location.pc[_id] = true
+		else
+			pokemon_by_location.party[_id] = true
+		end
 	end
+	
+	return needs_save -- TODO: whoever kicks off the load should save after this, as it means there was a data upgrade
+	
 end
+
 
 function M.init()
 	if not initialized then
@@ -361,70 +360,63 @@ function M.init()
 	end
 end
 
-local function assign_slot_numbers()
-	log.info("Assigning slot numbers")
-	local index = 1
-	for id, pokemon in pairs(active) do
-		pokemon.slot = index
-		index = index + 1
-	end
-end
 
-function M.swap(storage_id, inventory_id)
-	local storage_pokemon = utils.deep_copy(storage[storage_id])
-	local inventory_pokemon = utils.deep_copy(active[inventory_id])
-	local slot = inventory_pokemon.slot 
-	if not slot then
-		assign_slot_numbers()
-		inventory_pokemon = utils.deep_copy(active[inventory_id])
-		slot = inventory_pokemon.slot 
-	end
-	storage_pokemon.slot = slot
-	storage[inventory_id] = inventory_pokemon
-	active[inventory_id] = nil
+function M.swap(pc_pokemon_id, party_pokemon_id)
+	local pc_pokemon = player_pokemon[pc_pokemon_id]
+	local party_pokemon = player_pokemon[party_pokemon_id]
+	local id
+
+	-- Update location id
+	pokemon_by_location.party[party_pokemon] = nil
+	pokemon_by_location.pc[party_pokemon] = true
+
+	pokemon_by_location.party[pc_pokemon_id] = true
+	pokemon_by_location.pc[pc_pokemon_id] = nil
 	
-	active[storage_id] = storage_pokemon
-	storage[storage_id] = nil
+	-- Set new locations
+	pc_pokemon.location = LOCATION_PARTY
+	party_pokemon.location = LOCATION_PC
+
+	pc_pokemon.slot = party_pokemon.slot
+	party_pokemon.slot = nil
+
 	profiles.set_party(get_party())
-	M.save()
 end
 
-function M.move_to_storage(id)
-	local pokemon = utils.deep_copy(active[id])
-	if not pokemon.slot then
-		assign_slot_numbers()
-	end
-	
-	for p_id, data in pairs(active) do
-		data.slot = data.slot - 1
-	end
+
+function M.move_to_pc(pokemon_id)
+	local pokemon = player_pokemon[pokemon_id]
 	pokemon.slot = nil
-	storage[id] = pokemon
-	active[id] = nil
+	pokemon.location = LOCATION_PC
 	profiles.set_party(get_party())
-	M.save()
+	
+	-- Update location id
+	pokemon_by_location.party[pokemon_id] = nil
+	pokemon_by_location.pc[pokemon_id] = true
 end
 
-function M.free_space_in_inventory()
-	local index = 0
-	for _, _ in pairs(active) do
-		index = index + 1
-	end
-	return index < M.get_max_active_pokemon(), index + 1
+
+function M.free_space_in_party()
+	local index = #pokemon_by_location.party
+	return index < M.get_max_party_pokemon(), index + 1
 end
 
-function M.move_to_inventory(id)
-	local free, slot = M.free_space_in_inventory()
+
+function M.move_to_party(pokemon_id)
+	local free, slot = M.free_space_in_party()
 	if free then
-		local pokemon = utils.deep_copy(storage[id])
+		local pokemon = player_pokemon[pokemon_id]
 		pokemon.slot = slot
-		active[id] = pokemon
-		storage[id] = nil
+		pokemon.location = LOCATION_PARTY
 		profiles.set_party(get_party())
-		M.save()
+
+		-- Update location id
+		pokemon_by_location.party[pokemon_id] = true
+		pokemon_by_location.pc[pokemon_id] = nil
 	else
 		assert(false, "Your party is full")
 	end
 end
+
 
 return M

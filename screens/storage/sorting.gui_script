@@ -12,7 +12,7 @@ end
 
 local function set_sorting(sorting)
 	storage.set_sorting_method(sorting)
-	msg.post(url.STORAGE, messages.STORAGE_UPDATED)
+	msg.post(url.STORAGE, messages.PC_UPDATED)
 	back()
 end
 

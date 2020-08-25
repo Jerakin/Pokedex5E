@@ -180,7 +180,7 @@ end
 function M.update_hp_counter(self)
 	local stored_pokemon = self.pokemon
 	if storage.is_in_storage(id) then
-		stored_pokemon = storage.get_copy(id)
+		stored_pokemon = storage.get_pokemon(id)
 	end
 	local max_hp_node = gui.get_node("change_pokemon/txt_max_hp")
 	local mod_hp_node = gui.get_node("change_pokemon/txt_max_hp_mod")
@@ -266,7 +266,7 @@ local function redraw(self)
 	local id = _pokemon.get_id(self.pokemon)
 	local stored_pokemon = self.pokemon
 	if storage.is_in_storage(id) then
-		stored_pokemon = storage.get_copy(id)
+		stored_pokemon = storage.get_pokemon(id)
 	end
 
 	local nickname = _pokemon.get_nickname(self.pokemon)

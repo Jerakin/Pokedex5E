@@ -37,7 +37,8 @@ function M.create(nodes, pokemon, page)
 end
 
 function M.update(nodes, pokemon_id)
-	local effects = storage.get_status_effects(pokemon_id)
+	local pkmn = storage.get_pokemon(pokemon_id)
+	local effects = _pokemon.get_status_effects(pkmn)
 	gui.set_enabled(no_status_txt, true)
 	
 	for status, node in pairs(status_nodes) do

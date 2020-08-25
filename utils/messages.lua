@@ -20,7 +20,8 @@ M.REFRESH_HP = hash("refresh_hp")
 M.UPDATE_TEMP_HP = hash("update_temp_hp")
 M.REFRESH_PP = hash("refresh_pp")
 M.REFRESH_STATUS = hash("refresh_status")
-M.INVENTORY = hash("inventory")
+M.PARTY_SET_ACTIVE = hash("party_set_active")
+M.FULL_RESET = hash("full_rest")
 
 -- Pokedex
 M.MARK = hash("mark")
@@ -48,8 +49,8 @@ M.MOVE = hash("move")
 M.CHANGE_HP = hash("change_hp")
 M.RESET = hash("reset")
 
-M.STORAGE_UPDATED = hash("storage_updated")
-M.INVENTORY_UPDATED = hash("inventory_updated")
+M.PC_UPDATED = hash("pc_updated")
+M.PARTY_UPDATED = hash("party_updated")
 
 
 -- Used for debugging, makes sure that our message is in this table

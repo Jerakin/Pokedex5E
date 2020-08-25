@@ -27,8 +27,8 @@ function M.add_new_pokemon(pokemon)
 	if url.PARTY then
 		msg.post(url.PARTY, messages.REFRESH)
 	elseif url.STORAGE then
-		msg.post(url.STORAGE, messages.INVENTORY_UPDATED)
-		msg.post(url.STORAGE, messages.STORAGE_UPDATED)
+		msg.post(url.STORAGE, messages.PARTY_UPDATED)
+		msg.post(url.STORAGE, messages.PC_UPDATED)
 	end
 end
 
@@ -96,7 +96,7 @@ function M.generate_qr(id)
 end
 
 function M.get_sendable_pokemon_copy(id)
-	local pokemon = storage.get_copy(id)
+	local pokemon = storage.get_pokemon(id)
 	decode_status(pokemon)
 	return pokemon
 end

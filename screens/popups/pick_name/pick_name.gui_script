@@ -82,7 +82,7 @@ local function okay()
 		storage.load(profiles.get_active())
 		trainer.load(profiles.get_active())
 		dex.load(profiles.get_active())
-		storage.set_max_active_pokemon(3) -- default value for new profiles
+		storage.set_max_party_pokemon(3) -- default value for new profiles
 		profiles.set_active_complete()
 		monarch.show(screens.ADD)
 	end
