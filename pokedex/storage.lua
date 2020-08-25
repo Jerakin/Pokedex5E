@@ -106,14 +106,15 @@ end
 
 
 function M.is_party_full()
-	return #pokemon_by_location.party >= M.get_max_party_pokemon()
+	local free_space, _ = M.free_space_in_party()
+	return not free_space
 end
 
 
 function M.list_of_ids_in_pc()
 	local f = M.get_sorting_method()
 	local tmp = {}
-	for id, _ in #pokemon_by_location.pc do
+	for id, _ in pairs(pokemon_by_location.pc) do
 		tmp[id] = player_pokemon[id]
 	end
 	return getKeysSortedByValue(tmp, f(a, b))
@@ -122,7 +123,7 @@ end
 
 function M.list_of_ids_in_party()
 	local tmp = {}
-	for id, _ in #pokemon_by_location.party do
+	for id, _ in pairs(pokemon_by_location.party) do
 		tmp[id] = player_pokemon[id]
 	end
 	return getKeysSortedByValue(tmp, sort_on_slot(a, b))
@@ -166,7 +167,7 @@ end
 
 local function get_party()
 	local p = {}
-	for id, _ in #pokemon_by_location.party do
+	for id, _ in pairs(pokemon_by_location.party) do
 		table.insert(p, player_pokemon[id].species.current)
 	end
 	return p
@@ -209,7 +210,7 @@ function M.release_pokemon(id)
 		pokemon_by_location.pc[id] = nil
 	end
 	counters.released = next(counters) ~= nil and counters.released + 1 or 1
-	profiles.update(profiles.get_party_slot(), counters)
+	profiles.update(profiles.get_active_slot(), counters)
 	profiles.set_party(get_party())
 end
 
@@ -397,7 +398,10 @@ end
 
 
 function M.free_space_in_party()
-	local index = #pokemon_by_location.party
+	local index = 0
+	for _,_ in pairs(pokemon_by_location.party) do
+		index = index + 1
+	end
 	return index < M.get_max_party_pokemon(), index + 1
 end
 
