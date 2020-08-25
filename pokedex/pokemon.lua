@@ -162,25 +162,17 @@ function M.set_held_item(pokemon, item)
 	pokemon.item = item
 end
 
-function M.remove_feat(pokemon, feat)
-	local removed = 0
+function M.remove_feat(pokemon, position)
 	local feats = M.get_feats(pokemon)
 
-	-- Remove every instance of the feat with this name
-	local i = 1
-	while i <= #feats do
-		if feats[i] == feat then
-			removed = removed + 1
-			table.remove(feats, i)
-		else
-			i = i+1			
-		end
-	end
+	if position >= 1 and position <= #feats then
+		local feat_name = feats[position]
+		table.remove(feats, position)
 
-	-- If the feat was extra move, also remove moves with the high indices. There was previously a bug here where if there was a gap in the move set, the move in the last slot would not be removed.
-	if feat == "Extra Move" then
-		for i=1,removed do
-			M.remove_move(pokemon, M.DEFAULT_MAX_MOVES + i)
+		-- If the feat was extra move, also remove the move with the highest possible index, accounting for the fact that the pokemon may have more copies of that same feat
+		if feat_name == "Extra Move" then
+			local _,count = M.have_feat(pokemon, feat_name)
+			M.remove_move(pokemon, M.DEFAULT_MAX_MOVES + 1 + count)
 		end
 	end
 end

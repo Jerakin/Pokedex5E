@@ -533,8 +533,8 @@ local function delete_ability(self, ability)
 	redraw(self)
 end
 
-local function delete_feat(self, feat)
-	_pokemon.remove_feat(self.pokemon, feat)
+local function delete_feat(self, position)
+	_pokemon.remove_feat(self.pokemon, position)
 	redraw(self)
 end
 
@@ -562,7 +562,7 @@ local function feats_buttons(self, action_id, action)
 		if data.name == "Add Other" then
 			gooey.button(data.button, action_id, action, function() add_feat(self) end)
 		else
-			gooey.button(data.delete, action_id, action, function(c) delete_feat(self, data.name) end, gooey_buttons.cross_button)
+			gooey.button(data.delete, action_id, action, function(c) delete_feat(self, data.position) end, gooey_buttons.cross_button)
 		end
 	end
 end
