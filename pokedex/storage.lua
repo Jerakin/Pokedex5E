@@ -2,13 +2,14 @@ local defsave = require "defsave.defsave"
 local json = require "defsave.json"
 local md5 = require "utils.md5"
 local utils = require "utils.utils"
-local profiles = require "pokedex.profiles"
 local pokedex = require "pokedex.pokedex"
 local log = require "utils.log"
 local broadcast = require "utils.broadcast"
 local messages = require "utils.messages"
 
 local M = {}
+
+
 
 -- All of these tables are saved out to a file, so be sure they are raw data only (no functions, userdata, that sort of thing)
 local storage_data = {} -- contains all the below tables
@@ -22,8 +23,13 @@ local storage_settings = {}
 local initialized = false
 
 
-LOCATION_PC = 0
-LOCATION_PARTY = 1
+local LOCATION_PC = 0
+local LOCATION_PARTY = 1
+
+local LATEST_VERSION = 2
+
+-- Default storage data
+local _storage_data = {player_pokemon={}, counters={}, sorting={}, settings={max_party_pokemon=3}, version=LATEST_VERSION}
 
 local function get_id(pokemon)
 	local m = md5.new()
@@ -85,7 +91,7 @@ end
 
 local function get_party()
 	local p = {}
-	for id, _ in #pokemon_by_location.party do
+	for id, _ in pairs(pokemon_by_location.party) do
 		table.insert(p, player_pokemon[id].species.current)
 	end
 	return p
@@ -110,7 +116,6 @@ function M.set_max_party_pokemon(new_max)
 	new_max = clamp_max_party_pokemon(new_max)
 	if new_max ~= storage_settings.max_party_pokemon then
 		storage_settings.max_party_pokemon = new_max
-		M.save()
 	end
 end
 
@@ -235,6 +240,7 @@ function M.add(pokemon)
 	local id = get_id(pokemon)
 	pokemon.id = id
 
+	player_pokemon[id] = pokemon
 	if M.is_party_full() then
 		pokemon.location = LOCATION_PC
 		pokemon_by_location.pc[id] = true
@@ -245,24 +251,18 @@ function M.add(pokemon)
 		pokemon_by_location.party[id] = true
 		broadcast.send(messages.PARTY_UPDATED, {party=get_party()})
 	end
-	player_pokemon[id] = pokemon
 
+	broadcast.send(messages.SAVE_POKEMON)
 	broadcast.send(messages.COUNTERS_UPDATED, {counters=counters})
 end
 
-
-function M.save()
-	--[[if profiles.get_active_slot() then
-		local profile = profiles.get_active_file_name()
-		defsave.set(profile, "storage_data", storage_data)
-		defsave.save(profile)
-	end--]]
+function M.get_data()
+	return storage_data
 end
 
-function M.upgrade_data(file_name, storage_data)
+local function upgrade_data(file_name, storage_data)
 	local version = storage_data and storage_data.version or 1
 
-	local LATEST_VERSION = 2
 	local needs_upgrade = version ~= LATEST_VERSION
 	
 	if needs_upgrade then
@@ -322,14 +322,9 @@ function M.upgrade_data(file_name, storage_data)
 	return storage_data, needs_upgrade
 end
 
-function M.load(profile)
-	initialized = false
-	local file_name = profile.file_name
-	if not defsave.is_loaded(file_name) then
-		local loaded = defsave.load(file_name)
-	end
-
-	local loaded_data, needs_save = M.upgrade_data(file_name, defsave.get(file_name, "storage_data"))
+function M.load(data)
+	data = data or utils.deep_copy(_storage_data)
+	local loaded_data, needs_save = upgrade_data(file_name, data)
 	storage_data = loaded_data
 
 	-- Extract everything we need from saved data
@@ -338,9 +333,10 @@ function M.load(profile)
 	sorting = storage_data.sorting
 	storage_settings = storage_data.settings
 
+
+	-- create the pokemon id lists
 	pokemon_by_location.pc = {}
 	pokemon_by_location.party = {}
-	-- create the pokemon id lists
 	for _id, pkmn in pairs(player_pokemon) do
 		if pkmn.location == LOCATION_PC then
 			pokemon_by_location.pc[_id] = true
@@ -348,19 +344,7 @@ function M.load(profile)
 			pokemon_by_location.party[_id] = true
 		end
 	end
-	
 	return needs_save -- TODO: whoever kicks off the load should save after this, as it means there was a data upgrade
-	
-end
-
-
-function M.init(profile)
-	if not initialized then
-		if profile then
-			M.load(profile)
-		end
-		initialized = true
-	end
 end
 
 

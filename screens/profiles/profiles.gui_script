@@ -45,8 +45,6 @@ end
 
 local function activate(slot)
 	profiles.set_active(slot)
-	storage.load(profiles.get_active())
-	trainer.load(profiles.get_active())
 	dex.load(profiles.get_active())
 	network.load_profile(profiles.get_active())
 	if #storage.list_of_ids_in_party() > 0 then

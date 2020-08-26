@@ -24,6 +24,7 @@ local backup = require "utils.backup"
 local screens = require "utils.screens"
 local messages = require "utils.messages"
 local platform = require "utils.platform"
+local broadcast = require "utils.broadcast"
 
 local function send_crash_on_start()
 	crash.write_dump()
@@ -141,8 +142,6 @@ function init(self)
 		flow.delay(1) -- Extra timeout for loading screen
 		flow.until_true( function() return not monarch.is_busy() end)
 
-		trainer.load()
-		storage.init(profiles.get_active())
 		dex.init()
 		items.init()
 		filters.init()
@@ -180,6 +179,7 @@ function update(self, dt)
 end
 
 function on_message(self, message_id, message, sender)
+	broadcast.on_message(message_id, message, sender)
 	if message_id == messages.SHOW_PROFILE then
 		monarch.show(screens.PROFILES)
 	elseif message_id == messages.SHOW_PARTY then
@@ -195,7 +195,6 @@ end
 function final(self)
 	if not debug.loaded_backup then
 		network.save()
-		storage.save()
 		settings.save()
 	end
 	log.info("Clean Exit")

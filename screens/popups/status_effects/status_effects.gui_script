@@ -9,6 +9,7 @@ local status_effects = require "screens.party.components.status_effects"
 local storage = require "pokedex.storage"
 local statuses = require "pokedex.statuses"
 local messages = require "utils.messages"
+local broadcast = require "utils.broadcast"
 
 local pokemon_id
 
@@ -51,8 +52,8 @@ local function on_checked(checkbox, status)
 	local pkmn = storage.get_pokemon(pokemon_id)
 	local status = _pokemon.get_status_effects(pkmn)
 	_pokemon.set_status_effect(pkmn, status, not statuses[status])
-	storage.save()
 	msg.post(url.PARTY, messages.REFRESH_STATUS)
+	broadcast.send(messages.SAVE_POKEMON)
 end
 
 local function update_checkbox(checkbox, _status)
@@ -105,8 +106,11 @@ function on_input(self, action_id, action)
 			local status = _pokemon.get_status_effects(pkmn)
 			for s, _ in pairs(status) do
 				_pokemon.set_status_effect(pkmn, s, false)
-				storage.save()
 			end
+			if next(status) then
+				broadcast.send(messages.SAVE_POKEMON)
+			end
+			
 			gooey.checkbox("poisoned").set_checked(false)
 			gooey.checkbox("frozen").set_checked(false)
 			gooey.checkbox("paralyzed").set_checked(false)

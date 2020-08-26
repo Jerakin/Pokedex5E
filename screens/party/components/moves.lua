@@ -10,6 +10,7 @@ local scrollhandler = require "screens.party.components.scrollhandler"
 local movedex = require "pokedex.moves"
 local screens = require "utils.screens"
 local messages = require "utils.messages"
+local broadcast = require "utils.broadcast"
 
 local M = {}
 
@@ -74,9 +75,9 @@ local function bind_buttons(nodes, name)
 		local pp = _pokemon.decrease_move_pp(current_pokemon, name)
 		if pp ~= nil then
 			_pokemon.set_move_pp(current_pokemon, name, pp)
-			storage.save()
 			update_pp(current_pokemon, name)
-		end			
+			broadcast.send(messages.SAVE_POKEMON)
+		end
 	end, refresh=gooey_buttons.minus_button
 	}
 
@@ -84,8 +85,8 @@ local function bind_buttons(nodes, name)
 		local pp = _pokemon.increase_move_pp(current_pokemon, name)
 		if pp ~= nil then
 			_pokemon.set_move_pp(current_pokemon, name, pp)
-			storage.save()
 			update_pp(current_pokemon, name)
+			broadcast.send(messages.SAVE_POKEMON)
 		end
 	end, refresh=gooey_buttons.plus_button
 	}

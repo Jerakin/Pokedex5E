@@ -1,4 +1,3 @@
-local profiles = require "pokedex.profiles"
 local defsave = require "defsave.defsave"
 local utils = require "utils.utils"
 local M = {}
@@ -165,22 +164,12 @@ function M.reset()
 	trainer = utils.deep_copy(_trainer)
 end
 
-function M.load(_profile)
-	local profile = _profile
-	local file_name
-	if profile == nil then
-		file_name = profiles.get_active_file_name()
-	else
-		file_name = _profile.file_name
-	end
-	if file_name == nil then
-		return
-	end
-	if not defsave.is_loaded(file_name) then
-		local loaded = defsave.load(file_name)
-	end
-	trainer = defsave.get(file_name, "trainer")
-	trainer = next(trainer) == nil and utils.deep_copy(_trainer) or trainer
+function M.get_data()
+	return trainer
+end
+
+function M.load(data)
+	trainer = (data == nil or next(data) == nil) and utils.deep_copy(_trainer) or data
 
 	for key, value in pairs(_trainer) do
 		if trainer[key] == nil then
@@ -189,11 +178,5 @@ function M.load(_profile)
 	end
 end
 
-function M.save()
-	if profiles.get_active_slot() then
-		local profile = profiles.get_active_file_name()
-		defsave.set(profile, "trainer", trainer)
-	end
-end
 
 return M

@@ -11,6 +11,7 @@ local url = require "utils.url"
 local constants = require "utils.constants"
 local messages = require "utils.messages"
 local screens = require "utils.screens"
+local broadcast = require "utils.broadcast"
 
 local MSG_UPDATE_PROFILE_NAME = hash("UPDATE_PROFILE_NAME")
 
@@ -36,7 +37,7 @@ local type_buttons = {
 }
 
 function final(self)
-    trainer.save()
+    broadcast.send(messages.SAVE_TRAINER)
 end
 
 local function redraw(self)

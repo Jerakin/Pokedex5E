@@ -5,6 +5,9 @@ local log = require "utils.log"
 local broadcast = require "utils.broadcast"
 local messages = require "utils.messages"
 
+local storage = require "pokedex.storage"
+local trainer = require "pokedex.trainer"
+
 local M = {}
 
 local profiles = {}
@@ -200,6 +203,7 @@ local function load_profiles()
 	profiles = defsave.get("profiles", "profiles")
 end
 
+
 local function convert_to_rolling_profile_slot()
 	if profiles.slots or next(profiles) == nil then
 		return
@@ -218,7 +222,7 @@ local function convert_to_rolling_profile_slot()
 	profiles = new_profiles
 	profiles.last_used = nil
 end
-
+	
 local function on_party_updated(message)
 	M.set_party(message.party)
 end
@@ -227,15 +231,72 @@ local function on_counters_updated(message)
 	M.update(M.get_active_slot(), message.counters)
 end
 
+--------- Save Other
+local function save_storage()
+	local profile_name = M.get_active_file_name()
+	local storage_data = storage.get_data()
+	defsave.set(profile_name, "storage_data", storage_data)
+	defsave.save(profile_name)
+end
+
+local function save_trainer()
+	local file_name = M.get_active_file_name()
+	local trainer_data = trainer.get_data()
+	pprint(trainer_data)
+	defsave.set(file_name, "trainer", trainer_data)
+	defsave.save(file_name)
+end
+
+
+local function load_storage()
+	local file_name = M.get_active_file_name()
+	local file_loaded = true
+	local loaded_data
+	if file_name and not defsave.is_loaded(file_name) then
+		file_loaded = defsave.load(file_name)
+	end
+	if file_loaded then
+		loaded_data = defsave.get(file_name, "storage_data")
+	end
+
+	local requires_save = storage.load(loaded_data)
+	if requires_save then
+		save_storage()
+	end
+end
+
+
+local function load_trainer()
+	local file_name = M.get_active_file_name()
+	local file_loaded = true
+	local loaded_data
+	if file_name and not defsave.is_loaded(file_name) then
+		file_loaded = defsave.load(file_name)
+	end
+	if file_loaded then
+		loaded_data = defsave.get(file_name, "trainer")
+	end
+	trainer.load(loaded_data)
+end
+
+--------------
 function M.init()
 	broadcast.register(messages.PARTY_UPDATED, on_party_updated)
 	broadcast.register(messages.COUNTERS_UPDATED, on_counters_updated)
+	broadcast.register(messages.SAVE_POKEMON, save_storage)
+	broadcast.register(messages.SAVE_TRAINER, save_trainer)
+	
+	M.register_active_profile_changed_cb(load_trainer)
+	M.register_active_profile_changed_cb(load_storage)
+	
 	load_profiles()
 	convert_to_rolling_profile_slot()
 	local latest = M.get_latest()
 	if latest then
 		M.set_active(latest)
 	end
-end
 
+	load_storage()
+	load_trainer()
+end
 return M

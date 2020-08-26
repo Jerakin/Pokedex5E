@@ -53,6 +53,9 @@ M.PC_UPDATED = hash("pc_updated")
 M.PARTY_UPDATED = hash("party_updated")
 M.COUNTERS_UPDATED = hash("counters_updated")
 
+M.SAVE_POKEMON = hash("save_pokemon")
+M.SAVE_TRAINER = hash("save_trainer")
+
 -- Used for debugging, makes sure that our message is in this table
 --[[
 setmetatable(M, {
