@@ -14,6 +14,7 @@ local pokedex
 local pokedex_extra
 local abilities = {}
 local evolvedata
+local evolve_from_data = {}
 local leveldata
 local exp_grid
 local genders
@@ -65,6 +66,15 @@ local function list()
 	
 end
 
+local function cache_evolve_from_data()
+	for species, data in pairs(evolvedata) do
+		if data.into then
+			for _, into in pairs(data.into) do
+				evolve_from_data[into] = species
+			end
+		end
+	end
+end
 
 function M.init()
 	if not initialized then
@@ -73,6 +83,7 @@ function M.init()
 		pokedex_extra = file.load_json_from_resource("/assets/datafiles/pokedex_extra.json")
 		abilities = file.load_json_from_resource("/assets/datafiles/abilities.json")
 		evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
+		cache_evolve_from_data()
 		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
 		exp_grid = file.load_json_from_resource("/assets/datafiles/exp_grid.json")
 		genders = file.load_json_from_resource("/assets/datafiles/gender.json")
@@ -398,16 +409,7 @@ end
 
 
 function M.get_evolved_from(pokemon)
-	for species, data in pairs(evolvedata) do
-		if data.into then
-			for _, into in pairs(data.into) do
-				if into == pokemon then
-					return species
-				end
-			end
-		end
-	end
-	return "MissingNo"
+	return evolve_from_data[pokemon]
 end
 
 function M.get_evolution_possible(pokemon, gender, moves)

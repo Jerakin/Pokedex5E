@@ -73,8 +73,9 @@ function M.update(slot, data)
 end
 
 function M.delete(slot)
-	if slot == M.get_active_slot() then
+	if M.get_active_slot() then
 		M.set_active(nil)
+		M.set_active_complete()
 	end
 	
 	local f_name = M.get_file_name(slot)
