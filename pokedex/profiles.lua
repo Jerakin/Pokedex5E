@@ -247,8 +247,7 @@ local function save_trainer()
 	defsave.save(file_name)
 end
 
-
-local function load_storage()
+local function load_profile_data(data_name)
 	local file_name = M.get_active_file_name()
 	local file_loaded = true
 	local loaded_data
@@ -258,7 +257,11 @@ local function load_storage()
 	if file_loaded then
 		loaded_data = defsave.get(file_name, "storage_data")
 	end
+	return loaded_data
+end
 
+local function load_storage()
+	local loaded_data = load_profile_data("storage_data")
 	local requires_save = storage.load(loaded_data)
 	if requires_save then
 		save_storage()
@@ -267,15 +270,7 @@ end
 
 
 local function load_trainer()
-	local file_name = M.get_active_file_name()
-	local file_loaded = true
-	local loaded_data
-	if file_name and not defsave.is_loaded(file_name) then
-		file_loaded = defsave.load(file_name)
-	end
-	if file_loaded then
-		loaded_data = defsave.get(file_name, "trainer")
-	end
+	local loaded_data = load_profile_data("trainer")
 	trainer.load(loaded_data)
 end
 
