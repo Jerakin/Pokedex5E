@@ -43,6 +43,8 @@ M.GENDERLESS = pokedex.GENDERLESS
 M.MALE = pokedex.MALE
 M.FEMALE = pokedex.FEMALE
 
+M.DEFAULT_MAX_MOVES = 4
+
 local loyalty_hp = {
 	[-3] = {HP=0},
 	[-2] = {HP=0},
@@ -160,15 +162,17 @@ function M.set_held_item(pokemon, item)
 	pokemon.item = item
 end
 
-function M.remove_feat(pokemon, feat)
-	for i, name in pairs(M.get_feats(pokemon)) do
-		if name == feat then
-			if name == "Extra Move" then
-				M.remove_move(pokemon, M.get_moves_count(pokemon))
-				table.remove(pokemon.feats, i)
-				break
-			end
-			table.remove(pokemon.feats, i)
+function M.remove_feat(pokemon, position)
+	local feats = M.get_feats(pokemon)
+
+	if position >= 1 and position <= #feats then
+		local feat_name = feats[position]
+		table.remove(feats, position)
+
+		-- If the feat was extra move, also remove the move with the highest possible index, accounting for the fact that the pokemon may have more copies of that same feat
+		if feat_name == "Extra Move" then
+			local _,count = M.have_feat(pokemon, feat_name)
+			M.remove_move(pokemon, M.DEFAULT_MAX_MOVES + 1 + count)
 		end
 	end
 end
@@ -391,18 +395,20 @@ function M.get_defaut_max_hp(pokemon)
 
 		while next(evolutions) ~= nil do
 			local from_pokemon = pokedex.get_evolved_from(current)
-			at_level = table.remove(evolutions)
-			local _, from_level = next(evolutions)
-			from_level = from_level or M.get_caught_level(pokemon)
-			local hit_dice = pokedex.get_pokemon_hit_dice(from_pokemon)
-			local hit_dice_current = pokedex.get_pokemon_hit_dice(current)
-			local levels_gained = at_level - from_level
-			local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
-			local hp_evo = at_level * 2
-			-- Offset of current hit dice and the new one
-			local hp_offset = math.ceil((hit_dice_current + 1) / 2) - math.ceil((hit_dice + 1) / 2)
-			evolution_hp = evolution_hp + hp_hit_dice + hp_evo + hp_offset
-			current = from_pokemon
+			if from_pokemon then
+				at_level = table.remove(evolutions)
+				local _, from_level = next(evolutions)
+				from_level = from_level or M.get_caught_level(pokemon)
+				local hit_dice = pokedex.get_pokemon_hit_dice(from_pokemon)
+				local hit_dice_current = pokedex.get_pokemon_hit_dice(current)
+				local levels_gained = at_level - from_level
+				local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
+				local hp_evo = at_level * 2
+				-- Offset of current hit dice and the new one
+				local hp_offset = math.ceil((hit_dice_current + 1) / 2) - math.ceil((hit_dice + 1) / 2)
+				evolution_hp = evolution_hp + hp_hit_dice + hp_evo + hp_offset
+				current = from_pokemon
+			end
 		end
 
 		evolutions = M.get_evolution_level(pokemon)
@@ -431,7 +437,9 @@ function M.get_evolution_points(pokemon)
 		while next(evolutions) ~= nil do
 			table.remove(evolutions)
 			current = pokedex.get_evolved_from(current)
-			evolution_points = evolution_points + pokedex.evolve_points(current)
+			if current then
+				evolution_points = evolution_points + pokedex.evolve_points(current)
+			end
 		end
 	end
 	return evolution_points

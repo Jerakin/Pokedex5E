@@ -201,7 +201,14 @@ end
 local function redraw_moves(self)
 	local position = vmath.vector3()
 	local _, c = _pokemon.have_feat(self.pokemon, "Extra Move")
-	local moves_count = 4 + c
+	local moves_count = _pokemon.DEFAULT_MAX_MOVES + c
+
+	-- There was a bug with the Extra Moves feat that allowed you to accidentally get moves in slots you should not have been able to get. Preventing a crash, though this does mean you will see more move slots than you SHOULD have
+	local moves =_pokemon.get_moves(self.pokemon)
+	for _,data in pairs(moves) do
+		moves_count = math.max(moves_count, data.index)
+	end
+	
 	M.config[hash("change_pokemon/moves")].open.y = M.config[hash("change_pokemon/moves")].closed.y + math.ceil(moves_count/ 2) * 70
 
 	for _, b in pairs(move_buttons_list) do
@@ -226,21 +233,17 @@ local function redraw_moves(self)
 		position.x = math.mod(i, 2) * 320
 		position.y = math.ceil((i-1)/2) * -70
 	end
-	local index = 1
-	for move, data in pairs(_pokemon.get_moves(self.pokemon)) do
-		if move_buttons_list[index] then
-			local _index = data.index
-			local move_node = move_buttons_list[_index].text
-			local icon_node = move_buttons_list[_index].icon
-			
-			move_buttons_list[data.index].move_name = move
-			gui.set_text(move_node, move:upper())
-			gui.set_scale(move_node, vmath.vector3(0.8))
-			gui_utils.scale_text_to_fit_size(move_node)
-			gui.set_color(move_node, movedex.get_move_color(move))
-			gui.play_flipbook(icon_node, movedex.get_move_icon(move))
-			index = index + 1
-		end
+	for move, data in pairs(moves) do
+		local _index = data.index
+		local move_node = move_buttons_list[_index].text
+		local icon_node = move_buttons_list[_index].icon
+		
+		move_buttons_list[_index].move_name = move
+		gui.set_text(move_node, move:upper())
+		gui.set_scale(move_node, vmath.vector3(0.8))
+		gui_utils.scale_text_to_fit_size(move_node)
+		gui.set_color(move_node, movedex.get_move_color(move))
+		gui.play_flipbook(icon_node, movedex.get_move_icon(move))
 	end
 end
 
@@ -530,8 +533,8 @@ local function delete_ability(self, ability)
 	redraw(self)
 end
 
-local function delete_feat(self, feat)
-	_pokemon.remove_feat(self.pokemon, feat)
+local function delete_feat(self, position)
+	_pokemon.remove_feat(self.pokemon, position)
 	redraw(self)
 end
 
@@ -559,7 +562,7 @@ local function feats_buttons(self, action_id, action)
 		if data.name == "Add Other" then
 			gooey.button(data.button, action_id, action, function() add_feat(self) end)
 		else
-			gooey.button(data.delete, action_id, action, function(c) delete_feat(self, data.name) end, gooey_buttons.cross_button)
+			gooey.button(data.delete, action_id, action, function(c) delete_feat(self, data.position) end, gooey_buttons.cross_button)
 		end
 	end
 end
