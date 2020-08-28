@@ -28,8 +28,7 @@ local LOCATION_PARTY = 1
 
 local LATEST_VERSION = 2
 
--- Default storage data
-local _storage_data = {player_pokemon={}, counters={}, sorting={}, settings={max_party_pokemon=3}, version=LATEST_VERSION}
+local DEFAULT_STORAGE_DATA = {player_pokemon={}, counters={caught=0, released=0, seen=0}, sorting={}, settings={max_party_pokemon=3}, version=LATEST_VERSION}
 
 local function get_id(pokemon)
 	local m = md5.new()
@@ -269,7 +268,8 @@ local function upgrade_data(file_name, storage_data)
 		for i=version,LATEST_VERSION-1 do
 			if false then
 
-			-- NOTE: If a new data upgrade is needed, update the above LATEST_VERSION value and add a new block here like so:
+			-- NOTE: If a new data upgrade is needed then update the LATEST_VERSION at the top of the file add a new block here like so:
+
 			--elseif i == ??? then
 				
 			elseif i == 1 then
@@ -323,7 +323,7 @@ local function upgrade_data(file_name, storage_data)
 end
 
 function M.load(data)
-	data = data or utils.deep_copy(_storage_data)
+	data = data or utils.deep_copy(DEFUALT_STORAGE_DATA)
 	local loaded_data, needs_save = upgrade_data(file_name, data)
 	storage_data = loaded_data
 
