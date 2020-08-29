@@ -36,7 +36,11 @@ local function setup_main_information(nodes, pokemon)
 		gui.play_flipbook(nodes["pokemon/pokemon_sprite"], pokemon_sprite)
 	end
 
-	gui.set_text(nodes["pokemon/index"], string.format("#%03d %s", _pokemon.get_index_number(pokemon), species))
+	local species_text = species
+	if pokemon.variant then
+		species_text = species .. " - " .. pokemon.variant
+	end
+	gui.set_text(nodes["pokemon/index"], string.format("#%03d %s", _pokemon.get_index_number(pokemon), species_text))
 	
 	gui.set_text(nodes["pokemon/species"], nickname)
 	gui.set_text(nodes["pokemon/level"], "Lv. " ..  _pokemon.get_current_level(pokemon))

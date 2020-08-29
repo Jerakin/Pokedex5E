@@ -194,13 +194,17 @@ local function setup_info(self)
 	update_hp_meter(m, c)
 	
 	self.nickname = _pokemon.get_nickname(pokemon)
-	local species = _pokemon.get_current_species(pokemon):upper()
-	if self.nickname then
-		gui.set_text(gui.get_node("txt_index"), string.format("#%03d", _pokemon.get_index_number(pokemon)) .. " " .. species)
+	local species = _pokemon.get_current_species(pokemon)
+	if self.nickname or pokemon.variant then
+		local species_text = species
+		if pokemon.variant then
+			species_text = species_text .. " - " .. pokemon.variant
+		end
+		gui.set_text(gui.get_node("txt_index"), string.format("#%03d", _pokemon.get_index_number(pokemon)) .. " " .. species_text)
 	else
 		gui.set_text(gui.get_node("txt_index"), string.format("#%03d", _pokemon.get_index_number(pokemon)))
 	end
-	self.nickname = self.nickname or species
+	self.nickname = self.nickname or species:upper()
 	gui.set_text(gui.get_node("txt_species"), self.nickname)
 	gui_utils.scale_text_to_fit_size(gui.get_node("txt_species"))
 	

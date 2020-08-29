@@ -362,7 +362,7 @@ function on_input(self, action_id, action)
 	gooey.button("btn_add", action_id, action, function()
 		for p, _ in pairs(selected_pokemon) do
 			local level = self.level == 0 and pokedex.get_minimum_wild_level(p) or self.level
-			generate.add_pokemon(p, level)
+			generate.add_pokemon(p, self.variant, level)
 		end
 		selected_pokemon = {}
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_add")) end)
@@ -370,6 +370,13 @@ function on_input(self, action_id, action)
 	gooey.button("btn_random", action_id, action, function()
 		local index = rnd.range(1, #self.filtered_pokemons)
 		local species = self.filtered_pokemons[index]
-		monarch.show(screens.RANDOM_POKEMON, {}, {species=species, level=self.level, pokemons=self.filtered_pokemons})
+
+		local variants = pokedex.get_variants(species)
+		local variant = nil
+		if variants and #variants > 0 then
+			variant = variants[rnd.range(1, #variants)]
+		end
+		
+		monarch.show(screens.RANDOM_POKEMON, {}, {species=species, level=self.level, variant=variant, pokemons=self.filtered_pokemons})
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_random")) end)
 end
