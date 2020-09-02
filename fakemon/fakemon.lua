@@ -68,7 +68,7 @@ function M.load_package()
 	flow.start(function()
 		local package_path = M.UNZIP_PATH .. "data.json"
 		local index_path = M.UNZIP_PATH .. "index.json"
-		if file_exists(package_path) then
+		if file_exists(package_path) and file_exists(index_path) then
 			log.info("Found and loaded file " .. package_path)
 			M.DATA = file.load_file(package_path)
 			log.info("Found and loaded file " .. index_path)
