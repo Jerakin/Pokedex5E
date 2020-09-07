@@ -193,6 +193,19 @@ function M.get_variants(pokemon)
 end
 
 
+function M.get_default_variant(pokemon)
+	local raw = M.get_pokemon_raw(pokemon)
+	if raw.Variants then
+		for k,v in pairs(raw.Variants) do
+			if v.Default then
+				return k
+			end
+		end
+	end
+	return nil
+end
+
+
 function M.get_species_display(pokemon, variant)
 	if variant then
 		local raw = M.get_pokemon_raw(pokemon)

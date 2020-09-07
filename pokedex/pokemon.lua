@@ -37,6 +37,8 @@ local feat_to_attribute = {
 	Acrobat="DEX"
 }
 
+local LATEST_POKEMON_VERSION = 2
+
 M.GENDERLESS = pokedex.GENDERLESS
 M.MALE = pokedex.MALE
 M.FEMALE = pokedex.FEMALE
@@ -1045,6 +1047,36 @@ local function get_starting_moves(pkmn, number_of_moves)
 end
 
 
+function M.upgrade_pokemon(pkmn)
+	local version = pkmn and pkmn.version or 1
+
+	local needs_upgrade = version ~= LATEST_POKEMON_VERSION
+
+	if needs_upgrade then
+		for i=version,LATEST_POKEMON_VERSION-1 do
+			if false then
+
+				-- NOTE: If a new data upgrade is needed, update the above LATEST_POKEMON_VERSION value and add a new block here like so:
+				--elseif i == ??? then
+
+			elseif i == 1 then
+
+				-- Any pokemon whose species includes variants (Pumkpaboo and Gourgeist) needs to have its current variant set to the default
+				-- variant (Small). NOTE: If tuture variants are added, another version upgrade will be required to upgrade those.
+				if not pkmn.variant then
+					pkmn.variant = pokedex.get_default_variant(M.get_current_species(pkmn))
+				end
+				
+			else
+				assert(false, "Unknown pokemon data version " .. pkmn.version)
+			end
+		end
+
+		pkmn.version = LATEST_POKEMON_VERSION
+	end
+end
+
+
 function M.new(data)
 	local this = {}
 	this.species = {}
@@ -1078,6 +1110,8 @@ function M.new(data)
 	this.hp.edited = false
 
 	this.moves = get_starting_moves(this, data.number_of_moves)
+
+	this.version = LATEST_POKEMON_VERSION
 	
 	return this
 end
