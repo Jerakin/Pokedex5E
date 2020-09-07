@@ -9,10 +9,7 @@ local function update_pokemon(self)
 	gui.set_texture(gui.get_node("pokemon_sprite"), texture)
 	gui.play_flipbook(gui.get_node("pokemon_sprite"), sprite)
 	local level = self.level == 0 and pokedex.get_minimum_wild_level(self.species) or self.level
-	local species_text = self.species
-	if self.variant then
-		species_text = species_text .. " - " .. self.variant
-	end
+	local species_text = pokedex.get_species_display(self.species, self.variant)
 	gui.set_text(gui.get_node("txt_pokemon"), species_text:upper() .. "\nLv. " .. level)
 end
 

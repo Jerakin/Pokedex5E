@@ -193,6 +193,20 @@ function M.get_variants(pokemon)
 end
 
 
+function M.get_species_display(pokemon, variant)
+	if variant then
+		local raw = M.get_pokemon_raw(pokemon)
+		if raw.Variants then
+			var_data = raw.Variants[variant]
+			if var_data and var_data.Display then
+				return var_data.Display
+			end
+		end
+	end
+	return pokemon
+end
+
+
 function M.get_icon(pokemon, variant)
 	local data = M.get_pokemon(pokemon, variant)
 	local sprite = M.get_sprite(pokemon)

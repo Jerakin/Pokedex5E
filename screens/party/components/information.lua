@@ -12,6 +12,7 @@ local scrollhandler = require "screens.party.components.scrollhandler"
 local constants = require "utils.constants"
 local screens = require "utils.screens"
 local messages = require "utils.messages"
+local pokedex = require "pokedex.pokedex"
 
 local M = {}
 local active = {}
@@ -36,10 +37,7 @@ local function setup_main_information(nodes, pokemon)
 		gui.play_flipbook(nodes["pokemon/pokemon_sprite"], pokemon_sprite)
 	end
 
-	local species_text = species
-	if pokemon.variant then
-		species_text = species .. " - " .. pokemon.variant
-	end
+	local species_text = pokedex.get_species_display(species, pokemon.variant)
 	gui.set_text(nodes["pokemon/index"], string.format("#%03d %s", _pokemon.get_index_number(pokemon), species_text))
 	
 	gui.set_text(nodes["pokemon/species"], nickname)
