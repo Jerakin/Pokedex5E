@@ -69,6 +69,54 @@
     "Dragon",
     "Ground"
   ],
+  "Variants": {
+    "10% Forme": {
+      "Default": true,
+      "Display": "Zygarde 10% Forme",
+      "SpriteSuffix": "Zygarde 10% Forme"
+    },
+    "50% Forme": {
+      "Default": false,
+      "Diff": {
+        "AC": 18,
+        "HP": 250,
+        "WSp": 40,
+        "attributes": {
+          "CHA": 16,
+          "CON": 20,
+          "DEX": 18,
+          "INT": 16,
+          "STR": 19,
+          "WIS": 16
+        },
+        "size": "Huge"
+      },
+      "Display": "Zygarde 50% Forme",
+      "SpriteSuffix": "Zygarde 50% Forme"
+    },
+    "Complete Forme": {
+      "Default": false,
+      "Diff": {
+        "AC": 20,
+        "Abilities": [
+          "Power Construct"
+        ],
+        "HP": 300,
+        "WSp": 50,
+        "attributes": {
+          "CHA": 18,
+          "CON": 30,
+          "DEX": 17,
+          "INT": 18,
+          "STR": 19,
+          "WIS": 18
+        },
+        "size": "Huge"
+      },
+      "Display": "Zygarde Complete Forme",
+      "SpriteSuffix": "Zygarde Complete Forme"
+    }
+  },
   "WSp": 35,
   "attributes": {
     "CHA": 14,

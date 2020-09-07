@@ -221,8 +221,8 @@ end
 
 
 function M.get_icon(pokemon, variant)
-	local data = M.get_pokemon(pokemon, variant)
-	local sprite = M.get_sprite(pokemon)
+	local data = M.get_pokemon_raw(pokemon)
+	local sprite = M.get_sprite(pokemon, variant)
 	if data.fakemon then
 		if data.icon and data.icon ~= "" then
 			local path = fakemon.UNZIP_PATH .. utils.os_sep .. data.icon 
@@ -252,16 +252,22 @@ function M.get_sprite(pokemon, variant)
 	if pokemon_index == -1 then
 		return "-1MissingNo", "pokemon0"
 	end
-	local pokemon_sprite = pokemon_index .. pokemon
+	
+	local data = M.get_pokemon_raw(pokemon)
+
+	local sprite_suffix = pokemon
+	if data.sprite_suffix then
+		sprite_suffix = data.sprite_suffix
+	elseif data.Variants and data.Variants[variant] and data.Variants[variant].SpriteSuffix then
+		sprite_suffix = data.Variants[variant].SpriteSuffix
+	end	
+	local pokemon_sprite = pokemon_index .. sprite_suffix
 	
 	if pokemon_index == 32 or pokemon_index == 29 or pokemon_index == 678 then
 		pokemon_sprite = pokemon_sprite:gsub(" ♀", "-f")
 		pokemon_sprite = pokemon_sprite:gsub(" ♂", "-m")
-	elseif pokemon_index == 493 then
-		return "493Arceus", "pokemon0"
 	end
 
-	local data = M.get_pokemon(pokemon, variant)
 	if data.fakemon then
 		if data.sprite and data.sprite ~= "" then
 			local path = fakemon.UNZIP_PATH .. utils.os_sep .. data.sprite 

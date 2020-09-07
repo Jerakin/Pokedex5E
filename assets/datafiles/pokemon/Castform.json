@@ -77,6 +77,43 @@
   "Type": [
     "Normal"
   ],
+  "Variants": {
+    "Normal": {
+      "Default": true,
+      "Display": "Castform",
+      "SpriteSuffix": "Castform"
+    },
+    "Rainy": {
+      "Default": false,
+      "Diff": {
+        "Type": [
+          "Water"
+        ]
+      },
+      "Display": "Rainy Castform",
+      "SpriteSuffix": "Castform Rainy"
+    },
+    "Snowy": {
+      "Default": false,
+      "Diff": {
+        "Type": [
+          "Ice"
+        ]
+      },
+      "Display": "Snowy Castform",
+      "SpriteSuffix": "Castform Snowy"
+    },
+    "Sunny": {
+      "Default": false,
+      "Diff": {
+        "Type": [
+          "Fire"
+        ]
+      },
+      "Display": "Sunny Castform",
+      "SpriteSuffix": "Castform Sunny"
+    }
+  },
   "attributes": {
     "CHA": 13,
     "CON": 13,

@@ -64,6 +64,51 @@
   "Type": [
     "Grass"
   ],
+  "Variants": {
+    "Land": {
+      "Default": true,
+      "Display": "Shaymin Land",
+      "SpriteSuffix": "Shaymin Land"
+    },
+    "Sky": {
+      "Default": false,
+      "Diff": {
+        "AC": 16,
+        "Fsp": 30,
+        "Moves": {
+          "Level": {
+            "18": [
+              "Worry Seed",
+              "Air Slash",
+              "Energy Ball",
+              "Sweet Kiss",
+              "Leaf Storm",
+              "Seed Flare"
+            ]
+          },
+          "Starting Moves": [
+            "Growth",
+            "Magical Leaf",
+            "Leech Seed",
+            "Quick Attack",
+            "Sweet Scent",
+            "Natural Gift"
+          ]
+        },
+        "Type": [
+          "Grass",
+          "Flying"
+        ],
+        "attributes": {
+          "DEX": 16,
+          "STR": 20,
+          "WIS": 20
+        }
+      },
+      "Display": "Shaymin Sky",
+      "SpriteSuffix": "Shaymin Sky"
+    }
+  },
   "WSp": 30,
   "attributes": {
     "CHA": 18,

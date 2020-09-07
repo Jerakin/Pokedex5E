@@ -116,8 +116,8 @@ local function update_sections(instant)
 	collapse_buttons()
 end
 
-local function pokemon_image(species)
-	local pokemon_sprite, texture = pokedex.get_icon(species)
+local function pokemon_image(species, variant)
+	local pokemon_sprite, texture = pokedex.get_icon(species, variant)
 	gui.set_texture(gui.get_node("change_pokemon/pokemon_sprite"), texture)
 	if pokemon_sprite then 
 		gui.play_flipbook(gui.get_node("change_pokemon/pokemon_sprite"), pokemon_sprite)
