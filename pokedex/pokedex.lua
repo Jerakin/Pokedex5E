@@ -77,6 +77,33 @@ local function cache_evolve_from_data()
 	end
 end
 
+local warning_list = {}
+local function get_pokemon_raw(pokemon)
+	if pokedex[pokemon] then
+		return utils.deep_copy(pokedex[pokemon])
+	else
+		local pokemon_species = pokemon:gsub(" ♀", "-f")
+		pokemon_species = pokemon_species:gsub(" ♂", "-m")
+		pokemon_species = pokemon_species:gsub("é", "e")
+		local pokemon_json = file.load_json_from_resource("/assets/datafiles/pokemon/".. pokemon_species .. ".json")
+		if pokemon_json ~= nil then
+			pokedex[pokemon] = pokemon_json
+			return utils.deep_copy(pokedex[pokemon])
+		else
+			local e = string.format("Can not find Pokemon: '%s'\n%s", tostring(pokemon), debug.traceback())
+			if not warning_list[tostring(pokemon)] then
+				gameanalytics.addErrorEvent {
+					severity = "Critical",
+					message = e
+				}
+				log.error(e)
+			end
+			warning_list[tostring(pokemon)] = true
+			return pokedex["MissingNo"]
+		end
+	end
+end
+
 function M.init()
 	if not initialized then
 		pokedex = {}
@@ -181,7 +208,7 @@ end
 
 
 function M.get_variants(pokemon)
-	local raw = M.get_pokemon_raw(pokemon)
+	local raw = get_pokemon_raw(pokemon)
 	if raw.variant_data and raw.variant_data.variants then
 		local ret = {}
 		for k,_ in pairs(raw.variant_data.variants) do
@@ -194,14 +221,14 @@ end
 
 
 function M.get_default_variant(pokemon)
-	local raw = M.get_pokemon_raw(pokemon)
+	local raw = get_pokemon_raw(pokemon)
 	return raw.variant_data and raw.variant_data.default or nil
 end
 
 
 function M.get_species_display(pokemon, variant)
 	if variant then
-		local raw = M.get_pokemon_raw(pokemon)
+		local raw = get_pokemon_raw(pokemon)
 		if raw.variant_data and raw.variant_data.variants then
 			var_data = raw.variant_data.variants[variant]
 			if var_data and var_data.display then
@@ -214,7 +241,7 @@ end
 
 
 function M.get_icon(pokemon, variant)
-	local data = M.get_pokemon_raw(pokemon)
+	local data = get_pokemon_raw(pokemon)
 	local sprite = M.get_sprite(pokemon, variant)
 	if data.fakemon then
 		if data.icon and data.icon ~= "" then
@@ -246,7 +273,7 @@ function M.get_sprite(pokemon, variant)
 		return "-1MissingNo", "pokemon0"
 	end
 	
-	local data = M.get_pokemon_raw(pokemon)
+	local data = get_pokemon_raw(pokemon)
 
 	local sprite_suffix = pokemon
 	if data.variant_data then
@@ -410,35 +437,8 @@ function M.get_AC(pokemon, variant)
 end
 
 
-local warning_list = {}
-function M.get_pokemon_raw(pokemon)
-	if pokedex[pokemon] then
-		return utils.deep_copy(pokedex[pokemon])
-	else
-		local pokemon_species = pokemon:gsub(" ♀", "-f")
-		pokemon_species = pokemon_species:gsub(" ♂", "-m")
-		pokemon_species = pokemon_species:gsub("é", "e")
-		local pokemon_json = file.load_json_from_resource("/assets/datafiles/pokemon/".. pokemon_species .. ".json")
-		if pokemon_json ~= nil then
-			pokedex[pokemon] = pokemon_json
-			return utils.deep_copy(pokedex[pokemon])
-		else
-			local e = string.format("Can not find Pokemon: '%s'\n%s", tostring(pokemon), debug.traceback())
-			if not warning_list[tostring(pokemon)] then
-				gameanalytics.addErrorEvent {
-					severity = "Critical",
-					message = e
-				}
-				log.error(e)
-			end
-			warning_list[tostring(pokemon)] = true
-			return pokedex["MissingNo"]
-		end
-	end
-end
-
 function M.get_pokemon(pokemon, variant)
-	local raw = M.get_pokemon_raw(pokemon)
+	local raw = get_pokemon_raw(pokemon)
 
 	-- Default case: no variant provided, pokemon has no variants, or pokemon does not have provided variant
 	if not variant or not raw.variant_data or not raw.variant_data.variants or not raw.variant_data.variants[variant] then
