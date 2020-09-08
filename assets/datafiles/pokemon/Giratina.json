@@ -87,28 +87,6 @@
     "Ghost",
     "Dragon"
   ],
-  "Variants": {
-    "Altered Forme": {
-      "Default": true,
-      "Display": "Giratina Altered Forme",
-      "SpriteSuffix": "Giratina Altered Forme"
-    },
-    "Origin Forme": {
-      "Default": false,
-      "Diff": {
-        "AC": 20,
-        "Abilities": [
-          "Levitate"
-        ],
-        "attributes": {
-          "DEX": 18,
-          "STR": 22
-        }
-      },
-      "Display": "Giratina Origin Forme",
-      "SpriteSuffix": "Giratina Origin Forme"
-    }
-  },
   "WSp": 40,
   "attributes": {
     "CHA": 16,
@@ -124,5 +102,30 @@
     "CON",
     "WIS"
   ],
-  "size": "Huge"
+  "size": "Huge",
+  "variant_data": {
+    "create_mode": "default",
+    "default": "Altered Forme",
+    "permanent": false,
+    "variants": {
+      "Altered Forme": {
+        "display": "Giratina Altered Forme",
+        "original_species": "Giratina Altered Forme"
+      },
+      "Origin Forme": {
+        "diff": {
+          "AC": 20,
+          "Abilities": [
+            "Levitate"
+          ],
+          "attributes": {
+            "DEX": 18,
+            "STR": 22
+          }
+        },
+        "display": "Giratina Origin Forme",
+        "original_species": "Giratina Origin Forme"
+      }
+    }
+  }
 }

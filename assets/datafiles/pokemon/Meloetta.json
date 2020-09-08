@@ -92,33 +92,6 @@
     "Normal",
     "Psychic"
   ],
-  "Variants": {
-    "Aria": {
-      "Default": true,
-      "Display": "Meloetta (Aria)",
-      "SpriteSuffix": "Meloetta - Aria"
-    },
-    "Pirouette": {
-      "Default": false,
-      "Diff": {
-        "AC": 17,
-        "Type": [
-          "Normal",
-          "Fighting"
-        ],
-        "attributes": {
-          "CHA": 10,
-          "CON": 17,
-          "DEX": 19,
-          "INT": 16,
-          "STR": 20,
-          "WIS": 16
-        }
-      },
-      "Display": "Meloetta (Pirouette)",
-      "SpriteSuffix": "Meloetta - Pirouette"
-    }
-  },
   "WSp": 30,
   "attributes": {
     "CHA": 18,
@@ -133,5 +106,35 @@
     "WIS",
     "DEX"
   ],
-  "size": "Tiny"
+  "size": "Tiny",
+  "variant_data": {
+    "create_mode": "default",
+    "default": "Aria",
+    "permanent": false,
+    "variants": {
+      "Aria": {
+        "display": "Meloetta (Aria)",
+        "original_species": "Meloetta - Aria"
+      },
+      "Pirouette": {
+        "diff": {
+          "AC": 17,
+          "Type": [
+            "Normal",
+            "Fighting"
+          ],
+          "attributes": {
+            "CHA": 10,
+            "CON": 17,
+            "DEX": 19,
+            "INT": 16,
+            "STR": 20,
+            "WIS": 16
+          }
+        },
+        "display": "Meloetta (Pirouette)",
+        "original_species": "Meloetta - Pirouette"
+      }
+    }
+  }
 }

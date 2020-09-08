@@ -88,42 +88,6 @@
     "Ghost",
     "Grass"
   ],
-  "Variants": {
-    "Average": {
-      "Default": false,
-      "Diff": {
-        "attributes": {
-          "CON": 18,
-          "DEX": 13
-        }
-      },
-      "Display": "Gourgeist (Average)"
-    },
-    "Large": {
-      "Default": false,
-      "Diff": {
-        "attributes": {
-          "CON": 19,
-          "DEX": 12
-        }
-      },
-      "Display": "Gourgeist (Large)"
-    },
-    "Small": {
-      "Default": true,
-      "Display": "Gourgeist (Small)"
-    },
-    "Supersize": {
-      "Default": false,
-      "Diff": {
-        "attributes": {
-          "CON": 20,
-          "DEX": 11
-        }
-      },
-      "Display": "Gourgeist (Supersize)"
-    }
-  },
   "WSp": 25,
   "attributes": {
     "CHA": 10,
@@ -139,5 +103,46 @@
     "WIS"
   ],
   "size": "Varies",
-  "sprite_suffix": "Gourgeist"
+  "variant_data": {
+    "create_mode": "choose",
+    "default": "Small",
+    "permanent": true,
+    "sprite_suffix": "Gourgeist",
+    "variants": {
+      "Average": {
+        "diff": {
+          "attributes": {
+            "CON": 18,
+            "DEX": 13
+          }
+        },
+        "display": "Gourgeist (Average)",
+        "original_species": "Gourgeist - Average"
+      },
+      "Large": {
+        "diff": {
+          "attributes": {
+            "CON": 19,
+            "DEX": 12
+          }
+        },
+        "display": "Gourgeist (Large)",
+        "original_species": "Gourgeist - Large"
+      },
+      "Small": {
+        "display": "Gourgeist (Small)",
+        "original_species": "Gourgeist - Small"
+      },
+      "Supersize": {
+        "diff": {
+          "attributes": {
+            "CON": 20,
+            "DEX": 11
+          }
+        },
+        "display": "Gourgeist (Supersize)",
+        "original_species": "Gourgeist- Supersize"
+      }
+    }
+  }
 }

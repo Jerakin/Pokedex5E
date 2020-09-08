@@ -81,80 +81,6 @@
     "Bug",
     "Grass"
   ],
-  "Variants": {
-    "Plant Cloak": {
-      "Default": true,
-      "Display": "Wormadam (Plant Cloak)",
-      "SpriteSuffix": "Wormadam Plant Cloak"
-    },
-    "Sand Cloak": {
-      "Default": false,
-      "Diff": {
-        "AC": 16,
-        "Moves": {
-          "Level": {
-            "10": [
-              "Rock Blast",
-              "Harden",
-              "Psybeam"
-            ],
-            "18": [
-              "Psychic",
-              "Fissure",
-              "Bug Buzz"
-            ]
-          }
-        },
-        "Type": [
-          "Bug",
-          "Ground"
-        ],
-        "attributes": {
-          "CON": 16,
-          "DEX": 11
-        }
-      },
-      "Display": "Wormadam (Sand Cloak)",
-      "SpriteSuffix": "Wormadam Sand Cloak"
-    },
-    "Trash Cloak": {
-      "Default": false,
-      "Diff": {
-        "Moves": {
-          "Level": {
-            "10": [
-              "Mirror Shot",
-              "Metal Sound",
-              "Psybeam"
-            ],
-            "18": [
-              "Psychic",
-              "Iron Head",
-              "Bug Buzz"
-            ]
-          },
-          "Starting Moves": [
-            "Metal Burst",
-            "Bug Bite",
-            "Protect",
-            "Quiver Dance",
-            "Sucker Punch",
-            "Tackle"
-          ]
-        },
-        "Type": [
-          "Bug",
-          "Steel"
-        ],
-        "attributes": {
-          "CON": 14,
-          "DEX": 13
-        }
-      },
-      "Display": "Wormadam (Trash Cloak)",
-      "SpriteSuffix": "Wormadam Trash Cloak"
-    }
-  },
   "WSp": 15,
   "attributes": {
     "CHA": 10,
@@ -168,5 +94,81 @@
   "saving_throws": [
     "CON"
   ],
-  "size": "Tiny"
+  "size": "Tiny",
+  "variant_data": {
+    "create_mode": "choose",
+    "default": "Plant Cloak",
+    "permanent": true,
+    "variants": {
+      "Plant Cloak": {
+        "display": "Wormadam (Plant Cloak)",
+        "original_species": "Wormadam Plant Cloak"
+      },
+      "Sand Cloak": {
+        "diff": {
+          "AC": 16,
+          "Moves": {
+            "Level": {
+              "10": [
+                "Rock Blast",
+                "Harden",
+                "Psybeam"
+              ],
+              "18": [
+                "Psychic",
+                "Fissure",
+                "Bug Buzz"
+              ]
+            }
+          },
+          "Type": [
+            "Bug",
+            "Ground"
+          ],
+          "attributes": {
+            "CON": 16,
+            "DEX": 11
+          }
+        },
+        "display": "Wormadam (Sand Cloak)",
+        "original_species": "Wormadam Sand Cloak"
+      },
+      "Trash Cloak": {
+        "diff": {
+          "Moves": {
+            "Level": {
+              "10": [
+                "Mirror Shot",
+                "Metal Sound",
+                "Psybeam"
+              ],
+              "18": [
+                "Psychic",
+                "Iron Head",
+                "Bug Buzz"
+              ]
+            },
+            "Starting Moves": [
+              "Metal Burst",
+              "Bug Bite",
+              "Protect",
+              "Quiver Dance",
+              "Sucker Punch",
+              "Tackle"
+            ]
+          },
+          "Type": [
+            "Bug",
+            "Steel"
+          ],
+          "attributes": {
+            "CON": 14,
+            "DEX": 13
+          }
+        },
+        "display": "Wormadam (Trash Cloak)",
+        "original_species": "Wormadam Trash Cloak"
+      }
+    }
+  }
 }

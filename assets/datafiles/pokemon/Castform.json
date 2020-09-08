@@ -77,43 +77,6 @@
   "Type": [
     "Normal"
   ],
-  "Variants": {
-    "Normal": {
-      "Default": true,
-      "Display": "Castform",
-      "SpriteSuffix": "Castform"
-    },
-    "Rainy": {
-      "Default": false,
-      "Diff": {
-        "Type": [
-          "Water"
-        ]
-      },
-      "Display": "Rainy Castform",
-      "SpriteSuffix": "Castform Rainy"
-    },
-    "Snowy": {
-      "Default": false,
-      "Diff": {
-        "Type": [
-          "Ice"
-        ]
-      },
-      "Display": "Snowy Castform",
-      "SpriteSuffix": "Castform Snowy"
-    },
-    "Sunny": {
-      "Default": false,
-      "Diff": {
-        "Type": [
-          "Fire"
-        ]
-      },
-      "Display": "Sunny Castform",
-      "SpriteSuffix": "Castform Sunny"
-    }
-  },
   "attributes": {
     "CHA": 13,
     "CON": 13,
@@ -126,5 +89,43 @@
   "saving_throws": [
     "DEX"
   ],
-  "size": "Tiny"
+  "size": "Tiny",
+  "variant_data": {
+    "create_mode": "choose",
+    "default": "Normal",
+    "permanent": false,
+    "variants": {
+      "Normal": {
+        "display": "Castform",
+        "original_species": "Castform"
+      },
+      "Rainy": {
+        "diff": {
+          "Type": [
+            "Water"
+          ]
+        },
+        "display": "Rainy Castform",
+        "original_species": "Castform Rainy"
+      },
+      "Snowy": {
+        "diff": {
+          "Type": [
+            "Ice"
+          ]
+        },
+        "display": "Snowy Castform",
+        "original_species": "Castform Snowy"
+      },
+      "Sunny": {
+        "diff": {
+          "Type": [
+            "Fire"
+          ]
+        },
+        "display": "Sunny Castform",
+        "original_species": "Castform Sunny"
+      }
+    }
+  }
 }

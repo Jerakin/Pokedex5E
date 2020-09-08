@@ -88,42 +88,6 @@
     "Ghost",
     "Grass"
   ],
-  "Variants": {
-    "Average": {
-      "Default": false,
-      "Diff": {
-        "attributes": {
-          "CON": 14,
-          "DEX": 13
-        }
-      },
-      "Display": "Pumpkaboo (Average)"
-    },
-    "Large": {
-      "Default": false,
-      "Diff": {
-        "attributes": {
-          "CON": 15,
-          "DEX": 12
-        }
-      },
-      "Display": "Pumpkaboo (Large)"
-    },
-    "Small": {
-      "Default": true,
-      "Display": "Pumpkaboo (Small)"
-    },
-    "Supersize": {
-      "Default": false,
-      "Diff": {
-        "attributes": {
-          "CON": 16,
-          "DEX": 11
-        }
-      },
-      "Display": "Pumpkaboo (Supersize)"
-    }
-  },
   "WSp": 20,
   "attributes": {
     "CHA": 10,
@@ -138,5 +102,46 @@
     "CON"
   ],
   "size": "Varies",
-  "sprite_suffix": "Pumpkaboo"
+  "variant_data": {
+    "create_mode": "choose",
+    "default": "Small",
+    "permanent": true,
+    "sprite_suffix": "Pumpkaboo",
+    "variants": {
+      "Average": {
+        "diff": {
+          "attributes": {
+            "CON": 14,
+            "DEX": 13
+          }
+        },
+        "display": "Pumpkaboo (Average)",
+        "original_species": "Pumpkaboo - Average"
+      },
+      "Large": {
+        "diff": {
+          "attributes": {
+            "CON": 15,
+            "DEX": 12
+          }
+        },
+        "display": "Pumpkaboo (Large)",
+        "original_species": "Pumpkaboo - Large"
+      },
+      "Small": {
+        "display": "Pumpkaboo (Small)",
+        "original_species": "Pumpkaboo - Small"
+      },
+      "Supersize": {
+        "diff": {
+          "attributes": {
+            "CON": 16,
+            "DEX": 11
+          }
+        },
+        "display": "Pumpkaboo (Supersize)",
+        "original_species": "Pumpkaboo - Supersize"
+      }
+    }
+  }
 }

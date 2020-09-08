@@ -360,7 +360,7 @@ end
 local function increase(self, stat)
 	local max = _pokemon.get_max_attributes(self.pokemon)
 	local added = _pokemon.get_added_attributes(self.pokemon)
-	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon), self.pokemon.variant)
+	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon), _pokemon.get_variant(self.pokemon))
 	local nature_attri = natures.get_nature_attributes(_pokemon.get_nature(self.pokemon))
 	local increased = _pokemon.get_increased_attributes(self.pokemon)
 	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0) + added[stat]
@@ -376,7 +376,7 @@ end
 
 local function decrease(self, stat)
 	local added = _pokemon.get_added_attributes(self.pokemon)
-	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon), self.pokemon.variant)
+	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon), _pokemon.get_variant(self.pokemon))
 	local increased = _pokemon.get_increased_attributes(self.pokemon)
 	local nature_attri = natures.get_nature_attributes(_pokemon.get_nature(self.pokemon))
 	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0) + added[stat]

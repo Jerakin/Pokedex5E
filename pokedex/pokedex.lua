@@ -182,9 +182,9 @@ end
 
 function M.get_variants(pokemon)
 	local raw = M.get_pokemon_raw(pokemon)
-	if raw.Variants then
+	if raw.variant_data and raw.variant_data.variants then
 		local ret = {}
-		for k,_ in pairs(raw.Variants) do
+		for k,_ in pairs(raw.variant_data.variants) do
 			table.insert(ret, k)
 		end
 		return ret
@@ -195,24 +195,17 @@ end
 
 function M.get_default_variant(pokemon)
 	local raw = M.get_pokemon_raw(pokemon)
-	if raw.Variants then
-		for k,v in pairs(raw.Variants) do
-			if v.Default then
-				return k
-			end
-		end
-	end
-	return nil
+	return raw.variant_data and raw.variant_data.default or nil
 end
 
 
 function M.get_species_display(pokemon, variant)
 	if variant then
 		local raw = M.get_pokemon_raw(pokemon)
-		if raw.Variants then
-			var_data = raw.Variants[variant]
-			if var_data and var_data.Display then
-				return var_data.Display
+		if raw.variant_data and raw.variant_data.variants then
+			var_data = raw.variant_data.variants[variant]
+			if var_data and var_data.display then
+				return var_data.display
 			end
 		end
 	end
@@ -256,11 +249,13 @@ function M.get_sprite(pokemon, variant)
 	local data = M.get_pokemon_raw(pokemon)
 
 	local sprite_suffix = pokemon
-	if data.sprite_suffix then
-		sprite_suffix = data.sprite_suffix
-	elseif data.Variants and data.Variants[variant] and data.Variants[variant].SpriteSuffix then
-		sprite_suffix = data.Variants[variant].SpriteSuffix
-	end	
+	if data.variant_data then
+		if data.variant_data.sprite_suffix then
+			sprite_suffix = data.variant_data.sprite_suffix
+		elseif data.variant_data.variants and data.variant_data.variants[variant] and data.variant_data.variants[variant].original_species then
+			sprite_suffix = data.variant_data.variants[variant].original_species
+		end
+	end
 	local pokemon_sprite = pokemon_index .. sprite_suffix
 	
 	if pokemon_index == 32 or pokemon_index == 29 or pokemon_index == 678 then
@@ -446,7 +441,7 @@ function M.get_pokemon(pokemon, variant)
 	local raw = M.get_pokemon_raw(pokemon)
 
 	-- Default case: no variant provided, pokemon has no variants, or pokemon does not have provided variant
-	if not variant or not raw.Variants or not raw.Variants[variant] then
+	if not variant or not raw.variant_data or not raw.variant_data.variants or not raw.variant_data.variants[variant] then
 		return raw
 	end
 
@@ -456,8 +451,8 @@ function M.get_pokemon(pokemon, variant)
 	end
 	if not pokedex_variants[pokemon][variant] then
 		local copy = utils.deep_copy(raw)
-		copy["Variants"] = nil
-		local diff = raw.Variants[variant].Diff
+		copy["variant_data"] = nil
+		local diff = raw.variant_data.variants[variant].diff
 		utils.deep_merge_into(copy, diff)
 		pokedex_variants[pokemon][variant] = copy
 	end

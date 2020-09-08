@@ -169,7 +169,7 @@ end
 
 
 function M.get_attributes(pkmn)
-	local base = pokedex.get_base_attributes(M.get_caught_species(pkmn), pkmn.variant)
+	local base = pokedex.get_base_attributes(M.get_caught_species(pkmn), M.get_variant(pkmn))
 	local increased = M.get_increased_attributes(pkmn) or {}
 	local added = M.get_added_attributes(pkmn) or {}
 	local natures = natures.get_nature_attributes(M.get_nature(pkmn)) or {}
@@ -478,9 +478,9 @@ function M.get_defaut_max_hp(pkmn)
 		evolutions = get_evolved_at_level(pkmn)
 		local hit_dice = pokedex.get_hit_dice(M.get_current_species(pkmn))
 		local hit_dice_avg = math.ceil((hit_dice + 1) / 2)
-		return pokedex.get_base_hp(caught, pkmn.variant) + evolution_hp + ((M.get_current_level(pkmn) - evolutions[#evolutions]) * hit_dice_avg)
+		return pokedex.get_base_hp(caught, M.get_variant(pkmn)) + evolution_hp + ((M.get_current_level(pkmn) - evolutions[#evolutions]) * hit_dice_avg)
 	else
-		local base = pokedex.get_base_hp(current, pkmn.variant)
+		local base = pokedex.get_base_hp(current, M.get_variant(pkmn))
 		local from_level = M.get_caught_level(pkmn)
 		local hit_dice = pokedex.get_hit_dice(current)
 		local levels_gained = at_level - from_level
@@ -514,6 +514,16 @@ end
 
 local function set_species(pkmn, species)
 	pkmn.species.current = species
+end
+
+
+function M.get_variant(pkmn)
+	return pkmn.variant
+end
+
+
+function M.set_variant(pkmn, variant)
+	pkmn.variant = variant
 end
 
 
@@ -876,7 +886,7 @@ end
 
 function M.get_catch_rate(pkmn)
 	local l = M.get_current_level(pkmn)
-	local sr = math.floor(pokedex.get_SR(M.get_current_species(pkmn)))
+	local sr = math.floor(pokedex.get_SR(M.get_current_species(pkmn), M.get_variant(pkmn)))
 	local hp = math.floor(M.get_current_hp(pkmn) / 10)
 	return 10 + l + sr + hp
 end
@@ -884,17 +894,20 @@ end
 
 function M.get_icon(pkmn)
 	local species = M.get_current_species(pkmn)
-	return pokedex.get_icon(species)
+	local variant = M.get_variant(pkmn)
+	return pokedex.get_icon(species, variant)
 end
 
 function M.get_SR(pkmn)
 	local species = M.get_current_species(pkmn)
-	return pokedex.get_SR(species)
+	local variant = M.get_variant(pkmn)
+	return pokedex.get_SR(species, variant)
 end
 
 function M.get_sprite(pkmn)
 	local species = M.get_current_species(pkmn)
-	return pokedex.get_sprite(species)
+	local variant = M.get_variant(pkmn)
+	return pokedex.get_sprite(species, variant)
 end
 
 
@@ -1028,7 +1041,7 @@ end
 local function get_starting_moves(pkmn, number_of_moves)
 	-- We get all moves
 	local number_of_moves = number_of_moves or 4
-	local starting_moves = pokedex.get_starting_moves(M.get_current_species(pkmn), pkmn.variant)
+	local starting_moves = pokedex.get_starting_moves(M.get_current_species(pkmn), M.get_variant(pkmn))
 
 	-- Shuffle the moves around, we want random moves
 	if #starting_moves > number_of_moves then
@@ -1063,8 +1076,8 @@ function M.upgrade_pokemon(pkmn)
 
 				-- Any pokemon whose species includes variants (Pumkpaboo and Gourgeist) needs to have its current variant set to the default
 				-- variant (Small). NOTE: If tuture variants are added, another version upgrade will be required to upgrade those.
-				if not pkmn.variant then
-					pkmn.variant = pokedex.get_default_variant(M.get_current_species(pkmn))
+				if not M.get_variant(pkmn) then
+					M.set_variant(pkmn, pokedex.get_default_variant(M.get_current_species(pkmn)))
 				end
 				
 			else
@@ -1085,7 +1098,7 @@ function M.new(data)
 	this.variant = data.variant
 
 	this.level = {}
-	this.level.caught = pokedex.get_minimum_wild_level(this.species.caught, this.variant)
+	this.level.caught = pokedex.get_minimum_wild_level(this.species.caught, data.variant)
 	this.level.current = this.level.caught
 	this.level.evolved = {}
 
