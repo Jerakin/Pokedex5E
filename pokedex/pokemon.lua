@@ -1062,7 +1062,7 @@ function M.new(data)
 	this.nature = "No Nature"
 
 	this.feats = {}
-	this.abilities = pokedex.get_abilities(data.species)
+	this.abilities = {}
 
 	this.exp = pokedex.get_experience_for_level(this.level.caught-1)
 
