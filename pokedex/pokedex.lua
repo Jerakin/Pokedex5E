@@ -435,6 +435,10 @@ function M.get_evolution_possible(pokemon, gender, moves)
 	return (d and (d.level or move_allow) and gender_allow) and true or false
 end
 
+function M.get_species_can_evolve(pokemon)
+	local d = M.get_evolution_data(pokemon)
+	return d and d.into and next(d.into) ~= nil
+end
 
 function M.get_evolution_level(pokemon)
 	local d = M.get_evolution_data(pokemon)
