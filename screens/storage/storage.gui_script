@@ -37,10 +37,12 @@ local function update_storage_data(self)
 				local pokemon = storage.get_pokemon(pokemon_id)
 				local sprite, texture = _pokemon.get_sprite(pokemon)
 				local species = _pokemon.get_current_species(pokemon)
+				local name = _pokemon.get_nickname(pokemon)
+				local display = name or species:upper()
 				local level = _pokemon.get_current_level(pokemon)
 				local holding_item = _pokemon.get_held_item(pokemon) or false
 				local have_status = next(_pokemon.get_status_effects(pokemon)) ~= nil and true or false
-				storage_data[i][a] = {sprite=sprite, texture=texture, species=species, level=level, holding_item=holding_item, have_status=have_status}
+				storage_data[i][a] = {sprite=sprite, texture=texture, display=display, level=level, holding_item=holding_item, have_status=have_status}
 			end
 		end
 	end
@@ -63,7 +65,7 @@ local function update_item(list, item)
 			if data[i].sprite then 
 				gui.play_flipbook(sprite_node, data[i].sprite)
 			end
-			gui.set_text(text_node, data[i].species:upper() .. "\nLv. " .. data[i].level)
+			gui.set_text(text_node, data[i].display .. "\nLv. " .. data[i].level)
 			
 		else
 			gui.set_enabled(background, false)
