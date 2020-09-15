@@ -432,7 +432,7 @@ function M.get_evolution_possible(pokemon, gender, moves)
 			end
 		end
 	end
-	return (d and (d.level or move_allow) and gender_allow) and true or false
+	return (d and move_allow and gender_allow) and true or false
 end
 
 function M.get_species_can_evolve(pokemon)
@@ -441,11 +441,11 @@ function M.get_species_can_evolve(pokemon)
 end
 
 function M.get_evolution_level(pokemon)
-	local d = M.get_evolution_data(pokemon)
-	
 	-- Pokemon can evolve at any level (set it to 1) as long as they have the move
 	-- if they do not evolve based on move then use the standard level
-	return (d.level == nil and d.move ~= ni) and 1 or d.level + trainer.get_evolution_level()
+	
+	local d = M.get_evolution_data(pokemon)
+	return d.level ~= nil and d.level + trainer.get_evolution_level() or 1
 end
 
 
