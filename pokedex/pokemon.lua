@@ -870,6 +870,10 @@ function M.get_exp_worth(pkmn)
 	return pokedex.get_exp_worth(level, sr)
 end
 
+function M.get_species_can_evolve(pkmn)
+	return pokedex.get_species_can_evolve(M.get_current_species(pkmn))
+end
+
 function M.get_evolution_possible(pkmn)
 	return pokedex.get_evolution_possible(M.get_current_species(pkmn), M.get_gender(pkmn), M.get_moves(pkmn)) and not M.get_consumed_eviolite(pkmn)
 end
@@ -1095,7 +1099,7 @@ function M.new(data)
 	this.nature = "No Nature"
 
 	this.feats = {}
-	this.abilities = pokedex.get_abilities(data.species, data.variant)
+	this.abilities = {}
 
 	this.exp = pokedex.get_experience_for_level(this.level.caught-1)
 
