@@ -4,6 +4,7 @@ local md5 = require "utils.md5"
 local utils = require "utils.utils"
 local profiles = require "pokedex.profiles"
 local pokedex = require "pokedex.pokedex"
+local _pokemon = require "pokedex.pokemon"
 local log = require "utils.log"
 
 local M = {}
@@ -142,7 +143,9 @@ end
 
 function M.get_copy(id)
 	if player_pokemon[id] then
-		return utils.deep_copy(player_pokemon[id])
+		local pkmn = player_pokemon[id]
+		_pokemon.upgrade_pokemon(pkmn)
+		return utils.deep_copy(pkmn)
 	else
 		local e = string.format("Trying to get '" .. tostring(id) .. "' from storage\n\n%s", debug.traceback())
 		gameanalytics.addErrorEvent {
@@ -156,7 +159,9 @@ end
 
 
 local function get(id)
-	return player_pokemon[id]
+	local pkmn = player_pokemon[id]
+	_pokemon.upgrade_pokemon(pkmn)
+	return pkmn
 end
 
 
@@ -221,6 +226,8 @@ end
 
 
 function M.add(pokemon)
+	_pokemon.upgrade_pokemon(pokemon)
+	
 	for i=#pokemon.moves, 1, -1 do
 		if pokemon.moves[i] == "" or pokemon.moves[i] == "None" then
 			table.remove(pokemon.moves, i)
