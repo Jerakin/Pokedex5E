@@ -55,6 +55,10 @@ function on_input(self, action_id, action)
 		monarch.back()
 	end, gooey_buttons.close_button)
 
+	gooey.button("btn_info", action_id, action, function()
+		monarch.show(screens.INFO, nil, {text="Enforces genders during evolution as well as restrict some genders that a few Pokemon Species can be."})
+	end, gooey_buttons.info_button)
+	
 	gooey.checkbox("strict_gender/checkmark", action_id, action, function(ck) on_checked(self, ck) end, update_checkbox)
 	gooey.button("strict_gender/bg", action_id, action, function()
 		self.strict_gender = not self.strict_gender
