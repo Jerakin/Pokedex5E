@@ -73,7 +73,24 @@ end
 
 local function add_hp(pkmn, hp)
 	local current = _pokemon.get_current_hp(pkmn)
-	_pokemon.set_current_hp(pkmn, current + hp)
+	local max = _pokemon.get_total_max_hp(pkmn)
+	local temp = _pokemon.get_temp_hp(pkmn)
+	local new_temp
+	local new_hp
+
+	if hp > 0 then
+		new_hp = math.min(current + hp, max)
+		new_temp = temp + new_hp + hp - max
+		if hp > 1 then
+			new_temp = temp
+		end	
+	else
+		new_temp = temp + hp
+		new_hp = current + new_temp
+	end
+	_pokemon.set_temp_hp(pkmn, math.max(new_temp, 0))
+	_pokemon.set_current_hp(pkmn, new_hp)
+
 	storage.save()
 end
 
