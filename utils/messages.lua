@@ -41,6 +41,7 @@ M.SHOW_SPLASH = hash("show_splash")
 -- Change Pokemon
 M.NATURE = hash("nature")
 M.SPECIES = hash("species")
+M.VARIANT = hash("variant")
 M.EVOLVE = hash("evolve")
 M.ABILITIES = hash("abilities")
 M.FEATS = hash("feats")

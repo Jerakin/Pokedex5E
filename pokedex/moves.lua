@@ -34,7 +34,7 @@ function M.get_move_data(move)
 				log.error(e)
 			end
 			warning_list[tostring(move)] = true
-			return movedata["Error"]
+			return M.get_move_data("Error")
 		end
 	end
 end

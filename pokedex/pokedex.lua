@@ -11,9 +11,11 @@ local trainer = require "pokedex.trainer"
 local M = {}
 
 local pokedex
+local pokedex_variants
 local pokedex_extra
 local abilities = {}
 local evolvedata
+local evolve_from_data = {}
 local leveldata
 local exp_grid
 local genders
@@ -65,14 +67,52 @@ local function list()
 	
 end
 
+local function cache_evolve_from_data()
+	for species, data in pairs(evolvedata) do
+		if data.into then
+			for _, into in pairs(data.into) do
+				evolve_from_data[into] = species
+			end
+		end
+	end
+end
+
+local warning_list = {}
+local function get_pokemon_raw(pokemon)
+	if pokedex[pokemon] then
+		return utils.deep_copy(pokedex[pokemon])
+	else
+		local pokemon_species = pokemon:gsub(" ♀", "-f")
+		pokemon_species = pokemon_species:gsub(" ♂", "-m")
+		pokemon_species = pokemon_species:gsub("é", "e")
+		local pokemon_json = file.load_json_from_resource("/assets/datafiles/pokemon/".. pokemon_species .. ".json")
+		if pokemon_json ~= nil then
+			pokedex[pokemon] = pokemon_json
+			return utils.deep_copy(pokedex[pokemon])
+		else
+			local e = string.format("Can not find Pokemon: '%s'\n%s", tostring(pokemon), debug.traceback())
+			if not warning_list[tostring(pokemon)] then
+				gameanalytics.addErrorEvent {
+					severity = "Critical",
+					message = e
+				}
+				log.error(e)
+			end
+			warning_list[tostring(pokemon)] = true
+			return pokedex["MissingNo"]
+		end
+	end
+end
 
 function M.init()
 	if not initialized then
 		pokedex = {}
+		pokedex_variants = {}
 		pokedex["MissingNo"] = file.load_json_from_resource("/assets/datafiles/pokemon/MissingNo.json")
 		pokedex_extra = file.load_json_from_resource("/assets/datafiles/pokedex_extra.json")
 		abilities = file.load_json_from_resource("/assets/datafiles/abilities.json")
 		evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
+		cache_evolve_from_data()
 		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
 		exp_grid = file.load_json_from_resource("/assets/datafiles/exp_grid.json")
 		genders = file.load_json_from_resource("/assets/datafiles/gender.json")
@@ -167,8 +207,48 @@ function M.get_total_evolution_stages(pokemon)
 end
 
 
-function M.get_icon(pokemon)
-	local data = M.get_pokemon(pokemon)
+function M.get_variants(pokemon)
+	local raw = get_pokemon_raw(pokemon)
+	if raw.Variants then
+		local ret = {}
+		for k,_ in pairs(raw.Variants) do
+			table.insert(ret, k)
+		end
+		return ret
+	end
+	return nil
+end
+
+
+function M.get_default_variant(pokemon)
+	local raw = get_pokemon_raw(pokemon)
+	if raw.Variants then
+		for k,v in pairs(raw.Variants) do
+			if v.Default then
+				return k
+			end
+		end
+	end
+	return nil
+end
+
+
+function M.get_species_display(pokemon, variant)
+	if variant then
+		local raw = get_pokemon_raw(pokemon)
+		if raw.Variants then
+			var_data = raw.Variants[variant]
+			if var_data and var_data.Display then
+				return var_data.Display
+			end
+		end
+	end
+	return pokemon
+end
+
+
+function M.get_icon(pokemon, variant)
+	local data = M.get_pokemon(pokemon, variant)
 	local sprite = M.get_sprite(pokemon)
 	if data.fakemon then
 		if data.icon and data.icon ~= "" then
@@ -194,7 +274,7 @@ function M.get_icon(pokemon)
 end
 
 
-function M.get_sprite(pokemon)
+function M.get_sprite(pokemon, variant)
 	local pokemon_index = M.get_index_number(pokemon)
 	if pokemon_index == -1 then
 		return "-1MissingNo", "pokemon0"
@@ -208,7 +288,7 @@ function M.get_sprite(pokemon)
 		return "493Arceus", "pokemon0"
 	end
 
-	local data = M.get_pokemon(pokemon)
+	local data = M.get_pokemon(pokemon, variant)
 	if data.fakemon then
 		if data.sprite and data.sprite ~= "" then
 			local path = fakemon.UNZIP_PATH .. utils.os_sep .. data.sprite 
@@ -244,18 +324,18 @@ function M.get_experience_for_level(level)
 end
 
 
-function M.get_senses(pokemon)
-	return M.get_pokemon(pokemon).Senses or {}
+function M.get_senses(pokemon, variant)
+	return M.get_pokemon(pokemon, variant).Senses or {}
 end
 
 
-function M.get_index_number(pokemon)
-	return M.get_pokemon(pokemon).index
+function M.get_index_number(pokemon, variant)
+	return M.get_pokemon(pokemon, variant).index
 end
 
 
-function M.get_vulnerabilities(pokemon)
-	local types = M.get_pokemon_type(pokemon)
+function M.get_vulnerabilities(pokemon, variant)
+	local types = M.get_pokemon_type(pokemon, variant)
 	return ptypes.Model(unpack(types)).vulnerabilities
 end
 
@@ -272,36 +352,36 @@ function M.get_resistances(pokemon)
 end
 
 
-function M.get_walking_speed(pokemon)
-	return M.get_pokemon(pokemon).WSp or 0
+function M.get_walking_speed(pokemon, variant)
+	return M.get_pokemon(pokemon, variant).WSp or 0
 end
 
 
-function M.get_swimming_speed(pokemon)
-	return M.get_pokemon(pokemon).Ssp or 0
+function M.get_swimming_speed(pokemon, variant)
+	return M.get_pokemon(pokemon, variant).Ssp or 0
 end
 
 
-function M.get_flying_speed(pokemon)
-	return M.get_pokemon(pokemon).Fsp or 0
+function M.get_flying_speed(pokemon, variant)
+	return M.get_pokemon(pokemon, variant).Fsp or 0
 end
 
 
-function M.get_climbing_speed(pokemon)
-	return M.get_pokemon(pokemon)["Climbing Speed"] or 0
+function M.get_climbing_speed(pokemon, variant)
+	return M.get_pokemon(pokemon, variant)["Climbing Speed"] or 0
 end
 
 
-function M.get_burrow_speed(pokemon)
-	return M.get_pokemon(pokemon)["Burrowing Speed"] or 0
+function M.get_burrow_speed(pokemon, variant)
+	return M.get_pokemon(pokemon, variant)["Burrowing Speed"] or 0
 end
 
-function M.get_pokemon_type(pokemon)
-	return M.get_pokemon(pokemon).Type
+function M.get_pokemon_type(pokemon, variant)
+	return M.get_pokemon(pokemon, variant).Type
 end
 
-function M.get_pokemon_size(pokemon)
-	return M.get_pokemon(pokemon).size or ""
+function M.get_pokemon_size(pokemon, variant)
+	return M.get_pokemon(pokemon, variant).size or ""
 end
 
 function M.ability_list()
@@ -328,64 +408,59 @@ function M.get_ability_description(ability)
 end
 
 
-function M.get_hidden_ability(pokemon)
-	return M.get_pokemon(pokemon)["Hidden Ability"]
+function M.get_hidden_ability(pokemon, variant)
+	return M.get_pokemon(pokemon, variant)["Hidden Ability"]
 end
 
 
-function M.get_abilities(pokemon)
-	return M.get_pokemon(pokemon).Abilities
+function M.get_abilities(pokemon, variant)
+	return M.get_pokemon(pokemon, variant).Abilities
 end
 
 
-function M.get_skills(pokemon)
-	return M.get_pokemon(pokemon).Skill
+function M.get_skills(pokemon, variant)
+	return M.get_pokemon(pokemon, variant).Skill
 end
 
 
-function M.get_base_hp(pokemon)
+function M.get_base_hp(pokemon, variant)
 	local min_lvl = M.get_minimum_wild_level(pokemon)
-	local con = M.get_base_attributes(pokemon).CON
+	local con = M.get_base_attributes(pokemon, variant).CON
 	local con_mod = math.floor((con - 10) / 2)
-	return M.get_pokemon(pokemon).HP - (min_lvl * con_mod)
+	return M.get_pokemon(pokemon, variant).HP - (min_lvl * con_mod)
 end
 
 
-function M.get_AC(pokemon)
-	return M.get_pokemon(pokemon).AC
+function M.get_AC(pokemon, variant)
+	return M.get_pokemon(pokemon, variant).AC
 end
 
 
-local warning_list = {}
-function M.get_pokemon(pokemon)
-	if pokedex[pokemon] then
-		return utils.deep_copy(pokedex[pokemon])
-	else
-		local pokemon_species = pokemon:gsub(" ♀", "-f")
-		pokemon_species = pokemon_species:gsub(" ♂", "-m")
-		pokemon_species = pokemon_species:gsub("é", "e")
-		local pokemon_json = file.load_json_from_resource("/assets/datafiles/pokemon/".. pokemon_species .. ".json")
-		if pokemon_json ~= nil then
-			pokedex[pokemon] = pokemon_json
-			return utils.deep_copy(pokedex[pokemon])
-		else
-			local e = string.format("Can not find Pokemon: '%s'\n%s", tostring(pokemon), debug.traceback())
-			if not warning_list[tostring(pokemon)] then
-				gameanalytics.addErrorEvent {
-					severity = "Critical",
-					message = e
-				}
-				log.error(e)
-			end
-			warning_list[tostring(pokemon)] = true
-			return pokedex["MissingNo"]
-		end
+function M.get_pokemon(pokemon, variant)
+	local raw = get_pokemon_raw(pokemon)
+
+	-- Default case: no variant provided, pokemon has no variants, or pokemon does not have provided variant
+	if not variant or not raw.Variants or not raw.Variants[variant] then
+		return raw
 	end
+
+	-- Alright, this pokemon has this variant, we need to get the data for this specific variant, which could have any number of overrides
+	if not pokedex_variants[pokemon] then
+		pokedex_variants[pokemon] = {}
+	end
+	if not pokedex_variants[pokemon][variant] then
+		local copy = utils.deep_copy(raw)
+		copy["Variants"] = nil
+		local diff = raw.Variants[variant].Diff
+		utils.deep_merge_into(copy, diff)
+		pokedex_variants[pokemon][variant] = copy
+	end
+	return pokedex_variants[pokemon][variant]
 end
 
 
-function M.get_minimum_wild_level(pokemon)
-	return M.get_pokemon(pokemon)["MIN LVL FD"]
+function M.get_minimum_wild_level(pokemon, variant)
+	return M.get_pokemon(pokemon, variant)["MIN LVL FD"]
 end
 
 
@@ -398,16 +473,7 @@ end
 
 
 function M.get_evolved_from(pokemon)
-	for species, data in pairs(evolvedata) do
-		if data.into then
-			for _, into in pairs(data.into) do
-				if into == pokemon then
-					return species
-				end
-			end
-		end
-	end
-	return "MissingNo"
+	return evolve_from_data[pokemon]
 end
 
 function M.get_evolution_possible(pokemon, gender, moves)
@@ -425,21 +491,25 @@ function M.get_evolution_possible(pokemon, gender, moves)
 
 	if d and d.into then
 		for _, species in pairs(d.into) do
-			if genders[species] == nil or (genders[species] and genders[species] == gender) then
+			if genders[species] == nil or (genders[species] and genders[species] == (gender or M.GENDERLESS)) then
 				gender_allow = true
 			end
 		end
 	end
-	return (d and (d.level or move_allow) and gender_allow) and true or false
+	return (d and move_allow and gender_allow) and true or false
 end
 
+function M.get_species_can_evolve(pokemon)
+	local d = M.get_evolution_data(pokemon)
+	return d and d.into and next(d.into) ~= nil
+end
 
 function M.get_evolution_level(pokemon)
-	local d = M.get_evolution_data(pokemon)
-	
 	-- Pokemon can evolve at any level (set it to 1) as long as they have the move
 	-- if they do not evolve based on move then use the standard level
-	return (d.level == nil and d.move ~= ni) and 1 or d.level + trainer.get_evolution_level()
+	
+	local d = M.get_evolution_data(pokemon)
+	return d.level ~= nil and d.level + trainer.get_evolution_level() or 1
 end
 
 
@@ -447,7 +517,7 @@ function M.get_evolutions(pokemon, gender)
 	local d = M.get_evolution_data(pokemon)
 	local evolutions = {}
 	for _, species in pairs(d.into) do
-		if  genders[species] == nil or (genders[species] and genders[species] == gender) then
+		if genders[species] == nil or (genders[species] and genders[species] == (gender or M.GENDERLESS)) then
 			table.insert(evolutions, species)
 		end
 	end
@@ -461,40 +531,41 @@ function M.evolve_points(pokemon)
 end
 
 
-function M.get_starting_moves(pokemon)
-	return M.get_pokemon(pokemon)["Moves"]["Starting Moves"]
+function M.get_starting_moves(pokemon, variant)
+	return M.get_pokemon(pokemon, variant)["Moves"]["Starting Moves"]
 end
 
 
-function M.get_base_attributes(pokemon)
-	return M.get_pokemon(pokemon).attributes
+function M.get_base_attributes(pokemon, variant)
+	return M.get_pokemon(pokemon, variant).attributes
 end
 
 
-function M.get_saving_throw_proficiencies(pokemon)
-	return M.get_pokemon(pokemon).saving_throws
+function M.get_saving_throw_proficiencies(pokemon, variant)
+	return M.get_pokemon(pokemon, variant).saving_throws
 end
 
 
-function M.get_hit_dice(pokemon)
-	return M.get_pokemon(pokemon)["Hit Dice"]
+function M.get_hit_dice(pokemon, variant)
+	return M.get_pokemon(pokemon, variant)["Hit Dice"]
 end
 
 
-function M.get_HM_numbers(pokemon)
-	return M.get_pokemon(pokemon)["Moves"].HM
+function M.get_HM_numbers(pokemon, variant)
+	return M.get_pokemon(pokemon, variant)["Moves"].HM
 end
 
 
-function M.get_TM_numbers(pokemon)
-	return M.get_pokemon(pokemon)["Moves"].TM
+function M.get_TM_numbers(pokemon, variant)
+	return M.get_pokemon(pokemon, variant)["Moves"].TM
 end
 
 
-function M.get_move_machines(pokemon)
+function M.get_move_machines(pokemon, variant)
 	local move_list = {}
-	if M.get_pokemon_TM_numbers(pokemon) then
-		for _, n in pairs(M.get_pokemon_TM_numbers(pokemon)) do
+	local tm_numbers = M.get_pokemon_TM_numbers(pokemon, variant)
+	if tm_numbers then
+		for _, n in pairs(tm_numbers) do
 			table.insert(move_list, movedex.get_TM(n))
 		end
 	end
@@ -502,8 +573,8 @@ function M.get_move_machines(pokemon)
 end
 
 
-function M.get_SR(pokemon)
-	return M.get_pokemon(pokemon).SR
+function M.get_SR(pokemon, variant)
+	return M.get_pokemon(pokemon, variant).SR
 end
 
 
@@ -512,7 +583,7 @@ function M.get_exp_worth(level, sr)
 end
 
 
-function M.get_moves(pokemon, level)
+function M.get_moves(pokemon, variant, level)
 	level = level or 20
 	local moves = M.get_pokemon(pokemon)["Moves"]
 	local pick_from = utils.shallow_copy(moves["Starting Moves"])

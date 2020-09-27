@@ -12,6 +12,7 @@ local gooey = require "gooey.gooey"
 local notify = require "utils.notify"
 local dex = require "pokedex.dex"
 local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local HAVE_EVOLVED = false
 
@@ -56,7 +57,7 @@ function init(self)
 	pokemon_edit.block = true
 	pokemon_edit.init(self)
 	function self.register_buttons_after_species(self)
-		pokemon_edit.config[hash("change_pokemon/extra")].active = true
+		pokemon_edit.config[hash("change_pokemon/abilities")].active = true
 		gui.play_flipbook(gui.get_node("btn_add"), "common_up")
 		gui.get_color(gui.get_node("txt_add"), gui_colors.HERO_TEXT)
 		local b = {node="btn_add", func=function() add_pokemon(self) end, refresh=function(b) gooey_buttons.common_button(b, gui.get_node("txt_add")) end}
@@ -64,7 +65,7 @@ function init(self)
 	end
 	
 	button.register("change_pokemon/btn_species", function()
-		monarch.show(screens.SCROLLIST, {}, {items=pokedex.list, message_id="species", sender=msg.url(), title="Pick your Pokemon"})
+		monarch.show(screens.SCROLLIST, {}, {items=pokedex.list, message_id=messages.SPECIES, sender=msg.url(), title="Pick your Pokemon"})
 	end)
 	
 	if storage.is_party_full() then

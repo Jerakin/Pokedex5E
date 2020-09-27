@@ -201,7 +201,14 @@ end
 local function redraw_moves(self)
 	local position = vmath.vector3()
 	local _, c = _pokemon.have_feat(self.pokemon, "Extra Move")
-	local moves_count = 4 + c
+	local moves_count = _pokemon.DEFAULT_MAX_MOVES + c
+
+	-- There was a bug with the Extra Moves feat that allowed you to accidentally get moves in slots you should not have been able to get. Preventing a crash, though this does mean you will see more move slots than you SHOULD have
+	local moves =_pokemon.get_moves(self.pokemon)
+	for _,data in pairs(moves) do
+		moves_count = math.max(moves_count, data.index)
+	end
+	
 	M.config[hash("change_pokemon/moves")].open.y = M.config[hash("change_pokemon/moves")].closed.y + math.ceil(moves_count/ 2) * 70
 
 	for _, b in pairs(move_buttons_list) do
@@ -226,21 +233,17 @@ local function redraw_moves(self)
 		position.x = math.mod(i, 2) * 320
 		position.y = math.ceil((i-1)/2) * -70
 	end
-	local index = 1
-	for move, data in pairs(_pokemon.get_moves(self.pokemon)) do
-		if move_buttons_list[index] then
-			local _index = data.index
-			local move_node = move_buttons_list[_index].text
-			local icon_node = move_buttons_list[_index].icon
-			
-			move_buttons_list[data.index].move_name = move
-			gui.set_text(move_node, move:upper())
-			gui.set_scale(move_node, vmath.vector3(0.8))
-			gui_utils.scale_text_to_fit_size(move_node)
-			gui.set_color(move_node, movedex.get_move_color(move))
-			gui.play_flipbook(icon_node, movedex.get_move_icon(move))
-			index = index + 1
-		end
+	for move, data in pairs(moves) do
+		local _index = data.index
+		local move_node = move_buttons_list[_index].text
+		local icon_node = move_buttons_list[_index].icon
+		
+		move_buttons_list[_index].move_name = move
+		gui.set_text(move_node, move:upper())
+		gui.set_scale(move_node, vmath.vector3(0.8))
+		gui_utils.scale_text_to_fit_size(move_node)
+		gui.set_color(move_node, movedex.get_move_color(move))
+		gui.play_flipbook(icon_node, movedex.get_move_icon(move))
 	end
 end
 
@@ -357,7 +360,7 @@ end
 local function increase(self, stat)
 	local max = _pokemon.get_max_attributes(self.pokemon)
 	local added = _pokemon.get_added_attributes(self.pokemon)
-	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon))
+	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon), self.pokemon.variant)
 	local nature_attri = natures.get_nature_attributes(_pokemon.get_nature(self.pokemon))
 	local increased = _pokemon.get_increased_attributes(self.pokemon)
 	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0) + added[stat]
@@ -373,7 +376,7 @@ end
 
 local function decrease(self, stat)
 	local added = _pokemon.get_added_attributes(self.pokemon)
-	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon))
+	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon), self.pokemon.variant)
 	local increased = _pokemon.get_increased_attributes(self.pokemon)
 	local nature_attri = natures.get_nature_attributes(_pokemon.get_nature(self.pokemon))
 	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0) + added[stat]
@@ -391,6 +394,22 @@ local function pick_move(self)
 	self.return_to_screen = monarch.top()
 	local move_to_replace = move_buttons_list[self.move_button_index].move_name
 	monarch.show(screens.MOVES_SCROLLIST, {}, {species=_pokemon.get_current_species(self.pokemon), level=_pokemon.get_current_level(self.pokemon), pokemon=self.pokemon, current_moves=_pokemon.get_moves(self.pokemon, {append_known_to_all=true}), move_to_replace=move_to_replace, message_id=messages.MOVE, sender=msg.url()})
+end
+
+local function finish_create_flow(self, species, variant)
+	M.block = false
+	self.pokemon = _pokemon.new({species=species, variant=variant})
+
+	pokemon_image(species, variant)
+	gui.set_color(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector4(1))
+	gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.TEXT)
+	gui.set_text(gui.get_node("change_pokemon/species"), _pokemon.get_current_species(self.pokemon):upper())
+	gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
+	gui.set_scale(gui.get_node("change_pokemon/species"), POKEMON_SPECIES_TEXT_SCALE)
+	local g, gender = _pokemon.genderized(self.pokemon)
+	genderized = g
+	set_gender_icon(gender)
+	if self.register_buttons_after_species then self.register_buttons_after_species(self) end
 end
 
 
@@ -447,19 +466,22 @@ function M.on_message(self, message_id, message, sender)
 			if message.item == "" then
 				return
 			end
-			M.block = false
-			self.pokemon = _pokemon.new({species=message.item})
-
-			pokemon_image(message.item)
-			gui.set_color(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector4(1))
-			gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.TEXT)
-			gui.set_text(gui.get_node("change_pokemon/species"), _pokemon.get_current_species(self.pokemon):upper())
-			gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
-			gui.set_scale(gui.get_node("change_pokemon/species"), POKEMON_SPECIES_TEXT_SCALE)
-			local g, gender = _pokemon.genderized(self.pokemon)
-			genderized = g
-			set_gender_icon(gender)
-			if self.register_buttons_after_species then self.register_buttons_after_species(self) end
+			self.species = message.item
+			local variants = pokedex.get_variants(self.species)
+			if not variants or #variants == 0 then
+				finish_create_flow(self, self.species, nil)
+			else
+				-- This pokemon type has variants associated with it, choose one
+				flow.start(function()
+					flow.until_true(function() return not monarch.is_busy() end)
+					monarch.show(screens.SCROLLIST, {}, {items=variants, message_id=messages.VARIANT, sender=msg.url(), title="Choose Variant"})
+				end)
+			end
+		elseif message_id == messages.VARIANT then
+			if message.item == "" then
+				return
+			end
+			finish_create_flow(self, self.species, message.item)
 		elseif message_id == messages.EVOLVE then
 			flow.start(function()
 				flow.until_true(function() return not monarch.is_busy() end)
@@ -530,8 +552,8 @@ local function delete_ability(self, ability)
 	redraw(self)
 end
 
-local function delete_feat(self, feat)
-	_pokemon.remove_feat(self.pokemon, feat)
+local function delete_feat(self, position)
+	_pokemon.remove_feat(self.pokemon, position)
 	redraw(self)
 end
 
@@ -559,7 +581,7 @@ local function feats_buttons(self, action_id, action)
 		if data.name == "Add Other" then
 			gooey.button(data.button, action_id, action, function() add_feat(self) end)
 		else
-			gooey.button(data.delete, action_id, action, function(c) delete_feat(self, data.name) end, gooey_buttons.cross_button)
+			gooey.button(data.delete, action_id, action, function(c) delete_feat(self, data.position) end, gooey_buttons.cross_button)
 		end
 	end
 end

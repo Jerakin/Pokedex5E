@@ -37,10 +37,13 @@ local feat_to_attribute = {
 	Acrobat="DEX"
 }
 
+local LATEST_POKEMON_VERSION = 2
+
 M.GENDERLESS = pokedex.GENDERLESS
 M.MALE = pokedex.MALE
 M.FEMALE = pokedex.FEMALE
 
+M.DEFAULT_MAX_MOVES = 4
 
 local loyalty_hp = {
 	[-3] = {HP=0},
@@ -166,7 +169,7 @@ end
 
 
 function M.get_attributes(pkmn)
-	local base = pokedex.get_base_attributes(M.get_caught_species(pkmn))
+	local base = pokedex.get_base_attributes(M.get_caught_species(pkmn), pkmn.variant)
 	local increased = M.get_increased_attributes(pkmn) or {}
 	local added = M.get_added_attributes(pkmn) or {}
 	local natures = natures.get_nature_attributes(M.get_nature(pkmn)) or {}
@@ -212,17 +215,17 @@ local function get_move_count(pkmn)
 	return i
 end
 
-function M.remove_feat(pkmn, feat)
-	for i, name in pairs(M.get_feats(pkmn)) do
-		if name == feat then
-			if name == "Extra Move" then
-				local c = get_move_count(pkmn)
-				if c > 4 then
-					M.remove_move(pkmn, c)
-				end
-			end
-			table.remove(pkmn.feats, i)
-			break
+function M.remove_feat(pkmn, position)
+	local feats = M.get_feats(pkmn)
+
+	if position >= 1 and position <= #feats then
+		local feat_name = feats[position]
+		table.remove(feats, position)
+
+		-- If the feat was extra move, also remove the move with the highest possible index, accounting for the fact that the pokemon may have more copies of that same feat
+		if feat_name == "Extra Move" then
+			local _,count = M.have_feat(pkmn, feat_name)
+			M.remove_move(pkmn, M.DEFAULT_MAX_MOVES + 1 + count)
 		end
 	end
 end
@@ -456,26 +459,28 @@ function M.get_defaut_max_hp(pkmn)
 
 		while next(evolutions) ~= nil do
 			local from_pkmn = pokedex.get_evolved_from(current)
-			at_level = table.remove(evolutions)
-			local _, from_level = next(evolutions)
-			from_level = from_level or M.get_caught_level(pkmn)
-			local hit_dice = pokedex.get_hit_dice(from_pkmn)
-			local hit_dice_current = pokedex.get_hit_dice(current)
-			local levels_gained = at_level - from_level
-			local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
-			local hp_evo = at_level * 2
-			-- Offset of current hit dice and the new one
-			local hp_offset = math.ceil((hit_dice_current + 1) / 2) - math.ceil((hit_dice + 1) / 2)
-			evolution_hp = evolution_hp + hp_hit_dice + hp_evo + hp_offset
-			current = from_pkmn
+			if from_pkmn then
+				at_level = table.remove(evolutions)
+				local _, from_level = next(evolutions)
+				from_level = from_level or M.get_caught_level(pkmn)
+				local hit_dice = pokedex.get_pokemon_hit_dice(from_pkmn)
+				local hit_dice_current = pokedex.get_pokemon_hit_dice(current)
+				local levels_gained = at_level - from_level
+				local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
+				local hp_evo = at_level * 2
+				-- Offset of current hit dice and the new one
+				local hp_offset = math.ceil((hit_dice_current + 1) / 2) - math.ceil((hit_dice + 1) / 2)
+				evolution_hp = evolution_hp + hp_hit_dice + hp_evo + hp_offset
+				current = from_pkmn
+			end
 		end
 
 		evolutions = get_evolved_at_level(pkmn)
 		local hit_dice = pokedex.get_hit_dice(M.get_current_species(pkmn))
 		local hit_dice_avg = math.ceil((hit_dice + 1) / 2)
-		return pokedex.get_base_hp(caught) + evolution_hp + ((M.get_current_level(pkmn) - evolutions[#evolutions]) * hit_dice_avg)
+		return pokedex.get_base_hp(caught, pkmn.variant) + evolution_hp + ((M.get_current_level(pkmn) - evolutions[#evolutions]) * hit_dice_avg)
 	else
-		local base = pokedex.get_base_hp(current)
+		local base = pokedex.get_base_hp(current, pkmn.variant)
 		local from_level = M.get_caught_level(pkmn)
 		local hit_dice = pokedex.get_hit_dice(current)
 		local levels_gained = at_level - from_level
@@ -865,6 +870,10 @@ function M.get_exp_worth(pkmn)
 	return pokedex.get_exp_worth(level, sr)
 end
 
+function M.get_species_can_evolve(pkmn)
+	return pokedex.get_species_can_evolve(M.get_current_species(pkmn))
+end
+
 function M.get_evolution_possible(pkmn)
 	return pokedex.get_evolution_possible(M.get_current_species(pkmn), M.get_gender(pkmn), M.get_moves(pkmn)) and not M.get_consumed_eviolite(pkmn)
 end
@@ -1023,7 +1032,7 @@ end
 local function get_starting_moves(pkmn, number_of_moves)
 	-- We get all moves
 	local number_of_moves = number_of_moves or 4
-	local starting_moves = pokedex.get_starting_moves(M.get_current_species(pkmn))
+	local starting_moves = pokedex.get_starting_moves(M.get_current_species(pkmn), pkmn.variant)
 
 	-- Shuffle the moves around, we want random moves
 	if #starting_moves > number_of_moves then
@@ -1042,14 +1051,45 @@ local function get_starting_moves(pkmn, number_of_moves)
 end
 
 
+function M.upgrade_pokemon(pkmn)
+	local version = pkmn and pkmn.version or 1
+
+	local needs_upgrade = version ~= LATEST_POKEMON_VERSION
+
+	if needs_upgrade then
+		for i=version,LATEST_POKEMON_VERSION-1 do
+			if false then
+
+				-- NOTE: If a new data upgrade is needed, update the above LATEST_POKEMON_VERSION value and add a new block here like so:
+				--elseif i == ??? then
+
+			elseif i == 1 then
+
+				-- Any pokemon whose species includes variants (Pumkpaboo and Gourgeist) needs to have its current variant set to the default
+				-- variant (Small). NOTE: If tuture variants are added, another version upgrade will be required to upgrade those.
+				if not pkmn.variant then
+					pkmn.variant = pokedex.get_default_variant(M.get_current_species(pkmn))
+				end
+				
+			else
+				assert(false, "Unknown pokemon data version " .. pkmn.version)
+			end
+		end
+
+		pkmn.version = LATEST_POKEMON_VERSION
+	end
+end
+
+
 function M.new(data)
 	local this = {}
 	this.species = {}
 	this.species.caught = data.species
 	this.species.current = data.species
+	this.variant = data.variant
 
 	this.level = {}
-	this.level.caught = pokedex.get_minimum_wild_level(this.species.caught)
+	this.level.caught = pokedex.get_minimum_wild_level(this.species.caught, this.variant)
 	this.level.current = this.level.caught
 	this.level.evolved = {}
 
@@ -1059,7 +1099,7 @@ function M.new(data)
 	this.nature = "No Nature"
 
 	this.feats = {}
-	this.abilities = pokedex.get_abilities(data.species)
+	this.abilities = {}
 
 	this.exp = pokedex.get_experience_for_level(this.level.caught-1)
 
@@ -1069,11 +1109,13 @@ function M.new(data)
 	local con_mod = math.floor((con - 10) / 2)
 
 	this.hp = {}
-	this.hp.max = pokedex.get_base_hp(data.species)
-	this.hp.current = pokedex.get_base_hp(data.species) + this.level.current * math.floor((M.get_attributes(this).CON - 10) / 2)
+	this.hp.max = pokedex.get_base_hp(data.species, data.variant)
+	this.hp.current = pokedex.get_base_hp(data.species, data.variant) + this.level.current * math.floor((M.get_attributes(this).CON - 10) / 2)
 	this.hp.edited = false
 
 	this.moves = get_starting_moves(this, data.number_of_moves)
+
+	this.version = LATEST_POKEMON_VERSION
 	
 	return this
 end

@@ -90,10 +90,6 @@ end
 
 
 local function delete_profile(self, slot)
-	if profiles.get_active_slot() == slot then
-		profiles.set_active(nil)
-		profiles.set_active_complete()
-	end
 	profiles.delete(slot)
 	gui.set_text(self.seach_text, "")
 	self.scrolling_data = {}
