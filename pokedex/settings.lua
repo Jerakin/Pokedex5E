@@ -4,8 +4,9 @@ local M = {}
 
 M.settings = {}
 
-function M.get(name)
-	return M.settings[name]
+function M.get(name, default)
+	default = default == nil and nil or default
+	return M.settings[name] ~= nil and M.settings[name] or default
 end
 
 function M.set(name, value)
