@@ -1,8 +1,33 @@
 {
-  "Description": "You increase your defense, adding + 1 to your AC. This effect can be stacked with multiple Harden moves, to a maximum of + 5 AC. Your AC returns to normal after combat.",
+  "Damage": {
+    "1": {
+      "amount": 1,
+      "dice_max": 4,
+      "move": true
+    },
+    "10": {
+      "amount": 1,
+      "dice_max": 10,
+      "move": true
+    },
+    "17": {
+      "amount": 1,
+      "dice_max": 12,
+      "move": true
+    },
+    "5": {
+      "amount": 1,
+      "dice_max": 8,
+      "move": true
+    }
+  },
+  "Description": "You increase your defense, able to reduce incoming damage. After activating this move, reduce any damage dealt to you by until the beginning of your next turn.",
   "Duration": "Instantaneous",
-  "Move Time": "1 action",
-  "PP": 15,
+  "Move Power": [
+    "CON"
+  ],
+  "Move Time": "1 bonus action",
+  "PP": 5,
   "Range": "Self",
   "Type": "Normal"
 }

@@ -360,7 +360,7 @@ end
 local function increase(self, stat)
 	local max = _pokemon.get_max_attributes(self.pokemon)
 	local added = _pokemon.get_added_attributes(self.pokemon)
-	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon))
+	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon), self.pokemon.variant)
 	local nature_attri = natures.get_nature_attributes(_pokemon.get_nature(self.pokemon))
 	local increased = _pokemon.get_increased_attributes(self.pokemon)
 	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0) + added[stat]
@@ -376,7 +376,7 @@ end
 
 local function decrease(self, stat)
 	local added = _pokemon.get_added_attributes(self.pokemon)
-	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon))
+	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon), self.pokemon.variant)
 	local increased = _pokemon.get_increased_attributes(self.pokemon)
 	local nature_attri = natures.get_nature_attributes(_pokemon.get_nature(self.pokemon))
 	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0) + added[stat]
@@ -394,6 +394,22 @@ local function pick_move(self)
 	self.return_to_screen = monarch.top()
 	local move_to_replace = move_buttons_list[self.move_button_index].move_name
 	monarch.show(screens.MOVES_SCROLLIST, {}, {species=_pokemon.get_current_species(self.pokemon), level=_pokemon.get_current_level(self.pokemon), pokemon=self.pokemon, current_moves=_pokemon.get_moves(self.pokemon, {append_known_to_all=true}), move_to_replace=move_to_replace, message_id=messages.MOVE, sender=msg.url()})
+end
+
+local function finish_create_flow(self, species, variant)
+	M.block = false
+	self.pokemon = _pokemon.new({species=species, variant=variant})
+
+	pokemon_image(species, variant)
+	gui.set_color(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector4(1))
+	gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.TEXT)
+	gui.set_text(gui.get_node("change_pokemon/species"), _pokemon.get_current_species(self.pokemon):upper())
+	gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
+	gui.set_scale(gui.get_node("change_pokemon/species"), POKEMON_SPECIES_TEXT_SCALE)
+	local g, gender = _pokemon.genderized(self.pokemon)
+	genderized = g
+	set_gender_icon(gender)
+	if self.register_buttons_after_species then self.register_buttons_after_species(self) end
 end
 
 
@@ -450,19 +466,22 @@ function M.on_message(self, message_id, message, sender)
 			if message.item == "" then
 				return
 			end
-			M.block = false
-			self.pokemon = _pokemon.new({species=message.item})
-
-			pokemon_image(message.item)
-			gui.set_color(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector4(1))
-			gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.TEXT)
-			gui.set_text(gui.get_node("change_pokemon/species"), _pokemon.get_current_species(self.pokemon):upper())
-			gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
-			gui.set_scale(gui.get_node("change_pokemon/species"), POKEMON_SPECIES_TEXT_SCALE)
-			local g, gender = _pokemon.genderized(self.pokemon)
-			genderized = g
-			set_gender_icon(gender)
-			if self.register_buttons_after_species then self.register_buttons_after_species(self) end
+			self.species = message.item
+			local variants = pokedex.get_variants(self.species)
+			if not variants or #variants == 0 then
+				finish_create_flow(self, self.species, nil)
+			else
+				-- This pokemon type has variants associated with it, choose one
+				flow.start(function()
+					flow.until_true(function() return not monarch.is_busy() end)
+					monarch.show(screens.SCROLLIST, {}, {items=variants, message_id=messages.VARIANT, sender=msg.url(), title="Choose Variant"})
+				end)
+			end
+		elseif message_id == messages.VARIANT then
+			if message.item == "" then
+				return
+			end
+			finish_create_flow(self, self.species, message.item)
 		elseif message_id == messages.EVOLVE then
 			flow.start(function()
 				flow.until_true(function() return not monarch.is_busy() end)
