@@ -491,7 +491,7 @@ function M.get_evolution_possible(pokemon, gender, moves)
 
 	if d and d.into then
 		for _, species in pairs(d.into) do
-			if genders[species] == nil or (genders[species] and genders[species] == gender) then
+			if genders[species] == nil or (genders[species] and genders[species] == (gender or M.GENDERLESS)) then
 				gender_allow = true
 			end
 		end
@@ -517,7 +517,7 @@ function M.get_evolutions(pokemon, gender)
 	local d = M.get_evolution_data(pokemon)
 	local evolutions = {}
 	for _, species in pairs(d.into) do
-		if  genders[species] == nil or (genders[species] and genders[species] == gender) then
+		if genders[species] == nil or (genders[species] and genders[species] == (gender or M.GENDERLESS)) then
 			table.insert(evolutions, species)
 		end
 	end
