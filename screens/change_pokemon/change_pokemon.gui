@@ -5684,7 +5684,7 @@ nodes {
 nodes {
   position {
     x: -135.0
-    y: -128.0
+    y: -121.0
     z: 0.0
     w: 1.0
   }
@@ -5702,7 +5702,7 @@ nodes {
   }
   size {
     x: 250.0
-    y: 30.0
+    y: 25.0
     z: 0.0
     w: 1.0
   }
@@ -5802,7 +5802,7 @@ nodes {
 nodes {
   position {
     x: 136.0
-    y: -128.0
+    y: -121.0
     z: 0.0
     w: 1.0
   }
@@ -5820,7 +5820,7 @@ nodes {
   }
   size {
     x: 250.0
-    y: 30.0
+    y: 25.0
     z: 0.0
     w: 1.0
   }
@@ -7371,6 +7371,69 @@ nodes {
   alpha: 1.0
   template_node_child: false
   size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 11.0
+    y: -316.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.35
+    y: 0.35
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 620.0
+    y: 25.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.3019608
+    y: 0.3019608
+    z: 0.3019608
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "Eviolite does not reflect the core rules, don\'t use if using latest PHB."
+  font: "script"
+  id: "eviolite_warning"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_NW
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: true
+  parent: "top_anchor"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 0.7
+  text_tracking: 0.0
 }
 layers {
   name: "tab_inactive"
