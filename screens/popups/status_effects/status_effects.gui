@@ -1128,7 +1128,7 @@ nodes {
   }
   size {
     x: 700.0
-    y: 270.0
+    y: 295.0
     z: 0.0
     w: 1.0
   }
@@ -1159,6 +1159,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
+  overridden_fields: 4
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -1258,7 +1259,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "A burned creature\'s melee attacks deal half their normal damage. In addition, the creature takes an amount of damage equal to its proficiency bonus at the beginning of each of its turns until it faints or is cured of its burns. (Fire types are immune to this status condition)"
+  text: "A burned creature\'s melee attacks deal half their normal damage, and the range of any non-melee move is cut in half (rounded down to the nearest 5). In addition, the creature takes an amount of damage equal to its proficiency bonus at the beginning of each of its turns until it faints or is cured of its burns. (Fire types are immune to this status condition)"
   font: "script"
   id: "status_burned/description"
   xanchor: XANCHOR_NONE
@@ -1292,7 +1293,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -279.0
+    y: -312.0
     z: 0.0
     w: 1.0
   }
@@ -1517,7 +1518,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -639.0
+    y: -672.0
     z: 0.0
     w: 1.0
   }
@@ -1742,7 +1743,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -921.0
+    y: -954.0
     z: 0.0
     w: 1.0
   }
@@ -1967,7 +1968,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -1373.0
+    y: -1406.0
     z: 0.0
     w: 1.0
   }
@@ -2193,7 +2194,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -1727.0
+    y: -1760.0
     z: 0.0
     w: 1.0
   }
@@ -2418,7 +2419,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -2063.0
+    y: -2210.0
     z: 0.0
     w: 1.0
   }
