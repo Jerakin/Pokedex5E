@@ -12,6 +12,7 @@ local M = {}
 
 local pokedex
 local pokedex_variants
+local pokedex_original_species_map
 local pokedex_extra
 local abilities = {}
 local evolvedata
@@ -223,6 +224,29 @@ end
 function M.get_default_variant(pokemon)
 	local raw = get_pokemon_raw(pokemon)
 	return raw.variant_data and raw.variant_data.default or nil
+end
+
+
+function M.get_variant_from_original_species(pokemon, original_species)
+
+	if not pokedex_original_species_map then
+		pokedex_original_species_map = {}
+	end
+	if not pokedex_original_species_map[pokemon] then
+		pokedex_original_species_map[pokemon] = {}
+
+		-- Cache off a mapping of original species -> variant name
+		local data = get_pokemon_raw(pokemon)
+		if data.variant_data and data.variant_data.variants then
+			for v, var_obj in pairs(data.variant_data.variants) do
+				if var_obj.original_species then
+					pokedex_original_species_map[pokemon][var_obj.original_species] = v
+				end
+			end
+		end
+	end
+
+	return pokedex_original_species_map[pokemon][original_species]
 end
 
 

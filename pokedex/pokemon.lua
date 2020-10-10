@@ -1,3 +1,4 @@
+local file = require "utils.file"
 local utils = require "utils.utils"
 local pokedex = require "pokedex.pokedex"
 local natures = require "pokedex.natures"
@@ -37,7 +38,10 @@ local feat_to_attribute = {
 	Acrobat="DEX"
 }
 
-local LATEST_POKEMON_VERSION = 2
+local initialized = false
+local variant_map = {}
+
+local LATEST_POKEMON_VERSION = 3
 
 M.GENDERLESS = pokedex.GENDERLESS
 M.MALE = pokedex.MALE
@@ -1014,6 +1018,22 @@ local function get_damage_mod_stab(pkmn, move)
 end	
 
 
+function M.init()
+	if not initialized then
+		initialized = true
+
+		-- Load up the variant mapping file. This goes {species : [var1, var2]} 
+		-- Here we change it to {var1: {species: species}, var2: {species: species}}
+		local var_map_file = file.load_json_from_resource("/assets/datafiles/variant_map.json")
+		for s,v in pairs(var_map_file) do
+			for i=1, #v do
+				variant_map[v[i]] = {species=s}
+			end
+		end
+	end
+end
+
+
 function M.get_move_data(pkmn, move_name)
 	local move = movedex.get_move_data(move_name)
 	local dmg, mod, stab = get_damage_mod_stab(pkmn, move)
@@ -1040,6 +1060,17 @@ function M.get_move_data(pkmn, move_name)
 	return move_data
 end
 
+
+local function get_species_variant_for(original_name)
+	local obj = variant_map[original_name]
+	if obj then
+		if not obj.variant then
+			obj.variant = pokedex.get_variant_from_original_species(obj.species, original_name)
+		end
+		return obj.species, obj.variant
+	end
+	return original_name, nil
+end
 
 
 local function get_starting_moves(pkmn, number_of_moves)
@@ -1076,6 +1107,23 @@ function M.upgrade_pokemon(pkmn)
 				-- NOTE: If a new data upgrade is needed, update the above LATEST_POKEMON_VERSION value and add a new block here like so:
 				--elseif i == ??? then
 
+			elseif i == 2 then
+
+				-- Pokemon species that included the variant name have been switched to be just the main species name with the variant
+				-- as an object instead
+				if not pkmn.variant then
+					local s_caught,v_caught = get_species_variant_for(pkmn.species.caught)
+					local s_current,v_current = get_species_variant_for(pkmn.species.current)
+
+					pkmn.species.caught = s_caught
+					pkmn.species.current = s_current
+					if v_current then
+						pkmn.variant = v_current
+					elseif v_caught then
+						pkmn.variant = v_caught
+					end
+				end
+
 			elseif i == 1 then
 
 				-- Any pokemon whose species includes variants (Pumkpaboo and Gourgeist) needs to have its current variant set to the default
@@ -1083,7 +1131,7 @@ function M.upgrade_pokemon(pkmn)
 				if not M.get_variant(pkmn) then
 					M.set_variant(pkmn, pokedex.get_default_variant(M.get_current_species(pkmn)))
 				end
-				
+
 			else
 				assert(false, "Unknown pokemon data version " .. pkmn.version)
 			end
