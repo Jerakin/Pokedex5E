@@ -100,7 +100,10 @@ function M.init()
 		move_machines = file.load_json_from_resource("/assets/datafiles/move_machines.json")
 
 		if fakemon.DATA and fakemon.DATA["moves.json"] then
+			log.info("Merging Move data")
 			for name, data in pairs(fakemon.DATA["moves.json"]) do
+				log.info("    " .. name)
+				index[name] = {}
 				movedata[name] = data
 			end
 		end
