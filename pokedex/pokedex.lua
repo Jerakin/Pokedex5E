@@ -208,6 +208,15 @@ function M.get_total_evolution_stages(pokemon)
 end
 
 
+function M.has_variants(pokemon)
+	local raw = get_pokemon_raw(pokemon)
+	if raw.variant_data and raw.variant_data.variants and next(raw.variant_data.variants) then
+		return true
+	end
+	return false
+end
+
+
 function M.get_variants(pokemon)
 	local raw = get_pokemon_raw(pokemon)
 	if raw.variant_data and raw.variant_data.variants then
