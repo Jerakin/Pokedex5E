@@ -49,8 +49,8 @@ end
 
 local function sort_on_index(a, b)
 	return function(a, b) 
-		local c = pokedex.get_index_number(a.species.current)
-		local d = pokedex.get_index_number(b.species.current)
+		local c = pokedex.get_index_number(_pokemon.get_current_species(a), _pokemon.get_variant(a))
+		local d = pokedex.get_index_number(_pokemon.get_current_species(b), _pokemon.get_variant(a))
 		return c < d  
 	end
 end
@@ -64,12 +64,12 @@ end
 
 
 local function sort_on_level(a, b)
-	return function(a, b) return a.level.current > b.level.current end
+	return function(a, b) return _pokemon.get_current_level(a) > _pokemon.get_current_level(b) end
 end
 
 
 local function sort_alphabetical(a, b)
-	return function(a, b) return a.species.current < b.species.current end
+	return function(a, b) return _pokemon.get_current_species(a) < _pokemon.get_current_species(b) end
 end
 
 
@@ -173,7 +173,10 @@ end
 local function get_party()
 	local p = {}
 	for id, _ in pairs(pokemon_by_location.party) do
-		table.insert(p, player_pokemon[id].species.current)
+		local pkmn = player_pokemon[id]
+		local species = _pokemon.get_current_species(pkmn)
+		local variant = _pokemon.get_variant(pkmn)
+		table.insert(p, {species=species,variant=variant})
 	end
 	return p
 end
@@ -263,7 +266,7 @@ function M.save()
 	end
 end
 
-function M.upgrade_data(file_name, storage_data)
+local function upgrade_data(file_name, storage_data)
 	local version = storage_data and storage_data.version or 1
 
 	local LATEST_VERSION = 2
@@ -323,6 +326,14 @@ function M.upgrade_data(file_name, storage_data)
 		storage_data.version = LATEST_VERSION
 	end
 
+	-- Also loop through all our Pokemon and upgrade them. I don't really want to do this, but
+	-- there are several functions that assume the pokemon are already up-to-date early in the startup
+	-- process. Rather than try to find every instance of looking at pokemon data and ensuring they
+	-- are updated before use, we're just upgrading them all during initialization
+	for _,pkmn in pairs(storage_data.player_pokemon) do
+		needs_upgrade = _pokemon.upgrade_pokemon(pkmn) or needs_upgrade
+	end
+
 	return storage_data, needs_upgrade
 end
 
@@ -333,7 +344,7 @@ function M.load(profile)
 		local loaded = defsave.load(file_name)
 	end
 
-	local loaded_data, needs_save = M.upgrade_data(file_name, defsave.get(file_name, "storage_data"))
+	local loaded_data, needs_save = upgrade_data(file_name, defsave.get(file_name, "storage_data"))
 	storage_data = loaded_data
 
 	-- Extract everything we need from saved data

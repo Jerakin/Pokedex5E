@@ -4,6 +4,7 @@ local pokedex = require "pokedex.pokedex"
 local natures = require "pokedex.natures"
 local movedex = require "pokedex.moves"
 local trainer = require "pokedex.trainer"
+local variants = require "pokedex.variants"
 
 local M = {}
 
@@ -37,9 +38,6 @@ local feat_to_attribute = {
 	Perceptive="WIS",
 	Acrobat="DEX"
 }
-
-local initialized = false
-local variant_map = {}
 
 local LATEST_POKEMON_VERSION = 3
 
@@ -1018,22 +1016,6 @@ local function get_damage_mod_stab(pkmn, move)
 end	
 
 
-function M.init()
-	if not initialized then
-		initialized = true
-
-		-- Load up the variant mapping file. This goes {species : [var1, var2]} 
-		-- Here we change it to {var1: {species: species}, var2: {species: species}}
-		local var_map_file = file.load_json_from_resource("/assets/datafiles/variant_map.json")
-		for s,v in pairs(var_map_file) do
-			for i=1, #v do
-				variant_map[v[i]] = {species=s}
-			end
-		end
-	end
-end
-
-
 function M.get_move_data(pkmn, move_name)
 	local move = movedex.get_move_data(move_name)
 	local dmg, mod, stab = get_damage_mod_stab(pkmn, move)
@@ -1058,18 +1040,6 @@ function M.get_move_data(pkmn, move_name)
 		move_data.save_dc = 8 + mod + M.get_proficency_bonus(pkmn)
 	end
 	return move_data
-end
-
-
-local function get_species_variant_for(original_name)
-	local obj = variant_map[original_name]
-	if obj then
-		if not obj.variant then
-			obj.variant = pokedex.get_variant_from_original_species(obj.species, original_name)
-		end
-		return obj.species, obj.variant
-	end
-	return original_name, nil
 end
 
 
@@ -1112,8 +1082,8 @@ function M.upgrade_pokemon(pkmn)
 				-- Pokemon species that included the variant name have been switched to be just the main species name with the variant
 				-- as an object instead
 				if not pkmn.variant then
-					local s_caught,v_caught = get_species_variant_for(pkmn.species.caught)
-					local s_current,v_current = get_species_variant_for(pkmn.species.current)
+					local s_caught,v_caught = variants.get_species_variant_for(pkmn.species.caught)
+					local s_current,v_current = variants.get_species_variant_for(pkmn.species.current)
 
 					pkmn.species.caught = s_caught
 					pkmn.species.current = s_current
@@ -1133,12 +1103,14 @@ function M.upgrade_pokemon(pkmn)
 				end
 
 			else
-				assert(false, "Unknown pokemon data version " .. pkmn.version)
+				assert(false, "Unknown pokemon data version " .. version)
 			end
 		end
 
 		pkmn.version = LATEST_POKEMON_VERSION
 	end
+
+	return needs_upgrade
 end
 
 
