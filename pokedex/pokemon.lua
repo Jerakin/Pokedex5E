@@ -883,7 +883,7 @@ local function get_damage_mod_stab(pokemon, move)
 	local is_attack = (move.atk == true or move.auto_hit == true) or move.Save ~= nil and move.Damage ~= nil
 
 	-- Pick the highest of the moves powers
-	if move["Move Power"] then
+	if move["Move Power"] and next(move["Move Power"]) then
 		for _, mod in pairs(move["Move Power"]) do
 			if total[mod] then
 				local this_bonus = math.floor((total[mod] - 10) / 2)
@@ -928,7 +928,10 @@ local function get_damage_mod_stab(pokemon, move)
 		end
 
 		-- This is the dice representation i.e. "1d6"
-		dice = times_prefix .. move_damage[index].amount .. "d" .. move_damage[index].dice_max
+		dice = ""
+		if move_damage[index].amount and move_damage[index].dice_max then
+			dice = times_prefix .. move_damage[index].amount .. "d" .. move_damage[index].dice_max
+		end
 		
 		-- Add LEVEL to damage if applicable
 		extra_damage = extra_damage + (move_damage[index].level and M.get_current_level(pokemon) or 0)
@@ -951,11 +954,28 @@ local function get_damage_mod_stab(pokemon, move)
 end	
 
 function M.get_move_data(pokemon, move_name)
+	local move_data = {}
+	move_data.damage = 0
+	move_data.stab = 0
+	move_data.name = move_name
+	move_data.type = "Typeless"
+	move_data.PP = 0
+	move_data.duration = ""
+	move_data.range = ""
+	move_data.description = "<Unable to find information about this move. There may be a problem with the app, the Fakemon package, or the move may have been removed.>"
+	move_data.power = {}
+	move_data.save = ""
+	move_data.time = ""
+	
 	local move = movedex.get_move_data(move_name)
+	if not move then
+		-- Problem with the move, may be an issue with an old Fakemon package or a move that got removed
+		return move_data
+	end
+	
 	local dmg, mod, stab = get_damage_mod_stab(pokemon, move)
 	local requires_save = move.Save ~= nil
 
-	local move_data = {}
 	move_data.damage = dmg
 	move_data.stab = stab
 	move_data.name = move_name
