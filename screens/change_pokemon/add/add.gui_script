@@ -12,6 +12,7 @@ local gooey = require "gooey.gooey"
 local notify = require "utils.notify"
 local dex = require "pokedex.dex"
 local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local HAVE_EVOLVED = false
 
@@ -64,7 +65,7 @@ function init(self)
 	end
 	
 	button.register("change_pokemon/btn_species", function()
-		monarch.show(screens.SCROLLIST, {}, {items=pokedex.list, message_id="species", sender=msg.url(), title="Pick your Pokemon"})
+		monarch.show(screens.SCROLLIST, {}, {items=pokedex.list, message_id=messages.SPECIES, sender=msg.url(), title="Pick your Pokemon"})
 	end)
 	
 	if storage.is_party_full() then

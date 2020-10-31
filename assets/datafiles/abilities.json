@@ -1,6 +1,6 @@
 {
   "Adaptability": {
-    "Description": "This Pokémon's STAB is increased by +1 at all levels."
+    "Description": "This Pokémon's STAB is increased by +1."
   },
   "Aftermath": {
     "Description": "This Pokémon deals damage to an attacker equal to half of the damage received when knocked out by a melee move."
@@ -15,7 +15,7 @@
     "Description": "After this Pokémon misses an attack, its next attack is done at advantage."
   },
   "Anger Point": {
-    "Description": "After suffering a critical hit, this Pokémon adds proficiency to its damage if its next attack hits."
+    "Description": "After suffering a critical hit, this Pokémon doubles the damage dice for a single move it activates on the following turn."
   },
   "Anticipation": {
     "Description": "When this Pokémon enters the battle, an opponent must reveal if it has a move that the Pokémon is vulnerable to. The move does not have to be revealed - only that there is such a move."
@@ -24,7 +24,7 @@
     "Description": "Once per short rest, this Pokémon gains temporary hit points equal to its level when battling in coastal and swampy areas, or in rainy conditions."
   },
   "Arena Trap": {
-    "Description": "Wild Pokémon cannot flee from this Pokémon if it is active in battle, except if they are flying-type or have the Levitate, Magnet Rise, or similar ability."
+    "Description": "Grounded creatures within 50 feet of this Pokémon may not flee or switch out, except by item, Move, or ability."
   },
   "Aroma Veil": {
     "Description": "Any ally within 15 feet of this Pokémon automatically passes any WIS save they are required to make."
@@ -99,7 +99,7 @@
     "Description": "When this Pokémon is subject to a move that gives it a status condition, it has advantage on the next attack."
   },
   "Download": {
-    "Description": "Once per short rest, this Pokémon can choose a different damage type for one of their normal attacks."
+    "Description": "Once per short rest, this Pokémon can change the type of a single normal-type attack that damages a creature."
   },
   "Drizzle": {
     "Description": "When this Pokémon enters an outside battle, the weather immediately changes to light rain for 5 rounds. In the case of another Pokémon with a similar weather ability, the tie goes to the Pokémon with the highest DEX score."
@@ -117,7 +117,7 @@
     "Description": "When hit by a melee attack, roll a d4. On a 4, deal an amount of grass damage equal to your proficiency modifier to your attacker."
   },
   "Fairy Aura": {
-    "Description": "When this Pokémon is in battle, all fairy-type moves by allies or opponents within 100 feet deal double their damage."
+    "Description": "When this Pokémon is in battle, all fairy-type moves within 100 feet of you deal double their damage."
   },
   "Filter": {
     "Description": "When hit by a move type this Pokémon is vulnerable to, it may roll a d4. In a result of 4, it does not take the additional damage."
@@ -165,13 +165,13 @@
     "Description": "This Pokémon gains +1 to AC while in grassy terrain."
   },
   "Guts": {
-    "Description": "When this Pokémon is burned or poisoned, they are not affected by the disadvantage or half damage effects. They still take damage at the end of each of their turns."
+    "Description": "When this Pokémon is burned or poisoned, they are not affected by the disadvantage or half damage/range effects. They still take damage at the end of each of their turns."
   },
   "Harvest": {
     "Description": "At the end of this Pokémon's turn, if it used a berry, roll 1d4. On a result of 3 or 4, it regains that berry as a held item."
   },
   "Healer": {
-    "Description": "As an action, this Pokémon can touch an ally to restore a negative status effect."
+    "Description": "As an action, this Pokemon may touch a creature to heal poison, burn, or paralysis. When it uses this ability, roll a d4. On the a result of 1 or 2, the status effect is moved to itself."
   },
   "Healing Rain": {
     "Description": "This Pokémon can use its action to heal hit points equal to its level, in rainy conditions."
@@ -189,7 +189,7 @@
     "Description": "Once per short rest, this Pokémon may double the damage it does on a single move that requires an attack roll. The player must announce that they are using this ability before the attack roll."
   },
   "Hustle": {
-    "Description": "When this Pokémon scores a critical hit, it may immediately use the same move to attack again at disadvantage."
+    "Description": "When this Pokémon scores a critical hit, it may immediately use the same move to attack again."
   },
   "Hydration": {
     "Description": "This Pokémon is unaffected by negative status ailments in water or during rainy conditions."
@@ -255,7 +255,7 @@
     "Description": "This Pokémon is especially light for its species. Once per long rest, it may impose disadvantage on an attack roll against it."
   },
   "Lightning Rod": {
-    "Description": "If an ally within 30 feet is attacked with an electric type move, this Pokémon can choose to use a reaction to redirect that attack to themselves instead. This does not work on area of effect moves."
+    "Description": "If this Pokemon or an ally within 30 feet is targeted with a direct electric-type, damage-dealing move, the Pokemon may use a reaction to redirect the target to itself and take half damage from it if it hits."
   },
   "Limber": {
     "Description": "This Pokémon is immune to being paralyzed."
@@ -348,7 +348,7 @@
     "Description": "This Pokémon boosts its attack and damage rolls by 2 if an ally also has a Plus or Minus ability"
   },
   "Poison Heal": {
-    "Description": "If this Pokémon is poisoned, the amount of damage dealt by the poison heals the Pokémon instead."
+    "Description": "This Pokémon is not affected by the effects of the Poisoned condition. In addition, when it is hit with a poison-type move while poisoned, it heals an amount of hp equal to its level."
   },
   "Poison Point": {
     "Description": "When this Pokémon is hit with a melee attack, roll a 1d4. On a result of 4, the attacker takes an amount of poison damage equal to this Pokémon’s proficiency modifier."
@@ -411,7 +411,7 @@
     "Description": "When this Pokémon enters an outside battle, the weather immediately changes to a Sandstorm for 5 rounds. In the case of another Pokémon with a similar weather ability, the tie goes to the Pokémon with the highest DEX score."
   },
   "Sand Veil": {
-    "Description": "This Pokémon’s AC increases by 2 in desert terrain, or during a Sandstorm."
+    "Description": "This Pokémon’s AC increases by 2 in desert terrain, or during a Sandstorm (where it becomes immune to sandstorm damage)."
   },
   "Sap Sipper": {
     "Description": "This Pokémon is immune to grass-type moves. If hit by a grass type move, it takes no damage and instead absorbs the energy, granting advantage on its next attack."
@@ -423,7 +423,7 @@
     "Description": "The DC to avoid a negative status condition from this Pokémon is increased by 1."
   },
   "Shadow Tag": {
-    "Description": "Wild Pokémon cannot flee from this Pokémon if it is active in battle."
+    "Description": "Creatures within 50 feet of this Pokémon may not flee or switch out, except by item, Move, or ability."
   },
   "Shed Skin": {
     "Description": "If this Pokémon is affected by a negative status ailment, they can roll a d4 at the end of each of their turns. On a result of 4, they are cured."
@@ -492,7 +492,7 @@
     "Description": "This Pokémon's AC is increased by 2 in rocky terrain, or during a Sandstorm."
   },
   "Storm Drain": {
-    "Description": "If an ally within 30 feet is attacked with a water type move, this Pokémon can use a reaction to choose to redirect that attack to themselves instead, gaining an amount of HP equal to half the damage dealt. This does not work on area of effect moves."
+    "Description": "If this Pokemon or an ally within 30 feet is targeted with a direct water-type, damage-dealing move, the Pokemon may use a reaction to redirect the target to itself and take half damage from it if it hits."
   },
   "Strong Jaw": {
     "Description": "Biting moves made by this Pokémon deal additional damage equal to this Pokémon's proficiency bonus."
@@ -561,7 +561,7 @@
     "Description": "This Pokémon’s moves completely ignore any ability that would hinder or prevent their effect on the target or the user's ability to hit the target."
   },
   "Unaware": {
-    "Description": "When this Pokémon attacks an opponent, it ignores any stat boosts the opponent has been affected with since the start of battle. This includes boosts to AC or saving throws the Pokémon has to make."
+    "Description": "When this Pokémon attacks an opponent, it ignores any stat boosts the opponent has been affected with after the start of battle. This includes boosts to AC or saving throws the Pokémon has to make."
   },
   "Unburden": {
     "Description": "While this Pokémon is active and not holding an item, its trainer gets advantage on initiative rolls."

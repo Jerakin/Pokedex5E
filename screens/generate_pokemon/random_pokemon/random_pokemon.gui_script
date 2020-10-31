@@ -9,7 +9,8 @@ local function update_pokemon(self)
 	gui.set_texture(gui.get_node("pokemon_sprite"), texture)
 	gui.play_flipbook(gui.get_node("pokemon_sprite"), sprite)
 	local level = self.level == 0 and pokedex.get_minimum_wild_level(self.species) or self.level
-	gui.set_text(gui.get_node("txt_pokemon"), self.species:upper() .. "\nLv. " .. level)
+	local species_text = pokedex.get_species_display(self.species, self.variant)
+	gui.set_text(gui.get_node("txt_pokemon"), species_text:upper() .. "\nLv. " .. level)
 end
 
 function init(self)
@@ -18,6 +19,7 @@ function init(self)
 	self.pokemons = data.pokemons
 	self.species = data.species
 	self.level = data.level
+	self.variant = data.variant
 	
 	update_pokemon(self)
 end
@@ -30,12 +32,18 @@ function on_input(self, action_id, action)
 	local a = gooey.button("btn_random", action_id, action, function()
 		local index = rnd.range(1, #self.pokemons)
 		self.species = self.pokemons[index]
+		local variants = pokedex.get_variants(self.species)
+		if variants and #variants > 0 then
+			self.variant = variants[rnd.range(1, #variants)]
+		else
+			self.variant = nil
+		end
 		update_pokemon(self)
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_random")) end)
 
 	local b = gooey.button("btn_add", action_id, action, function()
 		local level = self.level == 0 and pokedex.get_minimum_wild_level(self.species) or self.level
-		generate.add_pokemon(self.species, level)
+		generate.add_pokemon(self.species, self.variant, level)
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_add")) end)
 
 	local c = gooey.button("btn_back", action_id, action, back)

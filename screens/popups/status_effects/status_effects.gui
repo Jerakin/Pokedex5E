@@ -1005,7 +1005,7 @@ nodes {
     z: 0.0
     w: 0.0
   }
-  clipping_mode: CLIPPING_MODE_STENCIL
+  clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: false
   clipping_inverted: false
   alpha: 1.0
@@ -1128,7 +1128,7 @@ nodes {
   }
   size {
     x: 700.0
-    y: 270.0
+    y: 295.0
     z: 0.0
     w: 1.0
   }
@@ -1159,6 +1159,7 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
+  overridden_fields: 4
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
@@ -1258,7 +1259,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "A burned creature\'s melee attacks deal half their normal damage. In addition, the creature takes an amount of damage equal to its proficiency bonus at the beginning of each of its turns until it faints or is cured of its burns. (Fire types are immune to this status condition)"
+  text: "A burned creature\'s melee attacks deal half their normal damage, and the range of any non-melee move is cut in half (rounded down to the nearest 5). In addition, the creature takes an amount of damage equal to its proficiency bonus at the beginning of each of its turns until it faints or is cured of its burns. (Fire types are immune to this status condition)"
   font: "script"
   id: "status_burned/description"
   xanchor: XANCHOR_NONE
@@ -1292,7 +1293,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -279.0
+    y: -312.0
     z: 0.0
     w: 1.0
   }
@@ -1517,7 +1518,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -639.0
+    y: -672.0
     z: 0.0
     w: 1.0
   }
@@ -1742,7 +1743,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -921.0
+    y: -954.0
     z: 0.0
     w: 1.0
   }
@@ -1800,7 +1801,7 @@ nodes {
   }
   size {
     x: 700.0
-    y: 410.0
+    y: 440.0
     z: 0.0
     w: 1.0
   }
@@ -1933,7 +1934,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "A paralyzed creature has disadvantage on any STR or DEX saving throws, and attacks against it have advantage. After selecting a Move to activate and spend PP on, roll a d4. On a result of 1, it is incapacitated and restrained. The trainer of a fully paralyzed Pok\303\251mon still may take an action. If a creature is Paralyzed and confused/asleep, the paralysis roll comes first. If it fails, the creature\'s action is forfeit and does not roll to wake or be confused. (Electric types are immune to this status condition)"
+  text: "A paralyzed creature has disadvantage on any STR or DEX saving throws, moves at half speed, and attacks against it have advantage. After selecting a Move to activate and spend PP on, roll a d4. On a result of 1, it is incapacitated and restrained. The trainer of a fully paralyzed Pok\303\251mon still may take an action. If a creature is Paralyzed and confused/asleep, the paralysis roll comes first. If it fails, the creature\'s action is forfeit and does not roll to wake or be confused. (Electric types are immune to this status condition)"
   font: "script"
   id: "status_paralyzed/description"
   xanchor: XANCHOR_NONE
@@ -1967,7 +1968,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -1341.0
+    y: -1406.0
     z: 0.0
     w: 1.0
   }
@@ -2025,7 +2026,7 @@ nodes {
   }
   size {
     x: 700.0
-    y: 280.0
+    y: 340.0
     z: 0.0
     w: 1.0
   }
@@ -2158,7 +2159,8 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "A creature that is asleep is incapacitated and restrained for a maximum of three rounds, failing all STR and DEX saves during that time. A sleeping creature can roll a d20 as a bonus action at the beginning of each of its turns, waking up on a result of 13 or higher."
+  text: "A creature that is asleep is incapacitated and restrained for a maximum of three rounds. The creature rolls all saving throws with disadvantage during this time. If a Pok\303\251mon is returned to its ball during this time, its round count is paused until released once again. A sleeping creature can roll a d20 when hit with a move AND at the end of each of its turns, waking up on a result of 11 or higher.\n"
+  ""
   font: "script"
   id: "status_asleep/description"
   xanchor: XANCHOR_NONE
@@ -2192,7 +2194,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -1633.0
+    y: -1760.0
     z: 0.0
     w: 1.0
   }
@@ -2417,7 +2419,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -2063.0
+    y: -2210.0
     z: 0.0
     w: 1.0
   }

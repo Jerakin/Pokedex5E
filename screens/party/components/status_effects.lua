@@ -21,9 +21,9 @@ function M.create(nodes, pokemon, page)
 	active_nodes = nodes
 	active_page = page or 1
 	current_pokemon_id = _pokemon.get_id(pokemon)
-	btn_status = nodes["pokemon/btn_status"]
+	btn_status = nodes["pokemon/btn_status_hitbox"]
 	no_status_txt = nodes["pokemon/txt_no_status"]
-	gui.set_id(btn_status, "btn_status" .. active_page)
+	gui.set_id(btn_status, "btn_status_hitbox" .. active_page)
 	
 	status_nodes = {
 		[statuses.status.BURNING] = nodes["pokemon/status_burning"],
@@ -60,7 +60,7 @@ end
 
 function M.on_input(action_id, action)
 	if active_page then
-		gooey.button("btn_status" .. active_page, action_id, action, function() monarch.show(screens.STATUS_EFFECTS, nil, {pokemon_id=current_pokemon_id}) end)
+		gooey.button("btn_status_hitbox" .. active_page, action_id, action, function() monarch.show(screens.STATUS_EFFECTS, nil, {pokemon_id=current_pokemon_id}) end)
 	end
 end
 

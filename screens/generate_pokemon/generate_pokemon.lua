@@ -9,11 +9,11 @@ local dex = require "pokedex.dex"
 
 local M = {}
 
-function M.add_pokemon(species, level)
+function M.add_pokemon(species, variant, level)
 	notify.notify(species .. " was added to your team!")
-	local all_moves = utils.shuffle2(utils.merge(pokedex.get_starting_moves(species), pokedex.get_moves(species, level)))
+	local all_moves = utils.shuffle2(utils.merge(pokedex.get_starting_moves(species), pokedex.get_moves(species, variant, level)))
 
-	local pokemon = _pokemon.new({species=species})
+	local pokemon = _pokemon.new({species=species, variant=variant})
 	local moves = {}
 	for i=1, 4 do
 		if all_moves[i] then
