@@ -6,6 +6,7 @@ local fakemon = require "fakemon.fakemon"
 local dex_data = require "pokedex.dex_data"
 local ptypes = require "ptypes.main"
 local trainer = require "pokedex.trainer"
+local settings = require "pokedex.settings"
 
 
 local M = {}
@@ -23,6 +24,7 @@ local genders
 M.GENDERLESS = 0
 M.MALE = 1
 M.FEMALE = 2
+M.ANY = 3
 
 local initialized = false
 local function list()
@@ -168,12 +170,14 @@ local function dex_extra(pokemon)
 	return mon or pokedex_extra["MissingNo"]
 end
 
-
-function M.genderized(pokemon)
-	local g = genders[pokemon]
-	return g~=nil, g
+function M.enforce_genders()
+	return settings.get("strict_gender", false)
 end
 
+
+function M.get_strict_gender(pokemon)
+	return genders[pokemon] or M.ANY
+end
 
 function M.get_flavor(pokemon)
 	return dex_extra(pokemon).flavor
@@ -488,11 +492,12 @@ function M.get_evolution_possible(pokemon, gender, moves)
 			end
 		end
 	end
-
-	if d and d.into then
-		for _, species in pairs(d.into) do
+	if M.enforce_genders() then
+		if d and d.into then
+			for _, species in pairs(d.into) do
 			if genders[species] == nil or (genders[species] and genders[species] == (gender or M.GENDERLESS)) then
-				gender_allow = true
+					gender_allow = true
+				end
 			end
 		end
 	end
@@ -517,7 +522,9 @@ function M.get_evolutions(pokemon, gender)
 	local d = M.get_evolution_data(pokemon)
 	local evolutions = {}
 	for _, species in pairs(d.into) do
-		if genders[species] == nil or (genders[species] and genders[species] == (gender or M.GENDERLESS)) then
+		if not M.enforce_genders() then
+			table.insert(evolutions, species)
+		elseif genders[species] == nil or (genders[species] and genders[species] == gender) then
 			table.insert(evolutions, species)
 		end
 	end
