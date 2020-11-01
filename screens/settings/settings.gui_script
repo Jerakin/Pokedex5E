@@ -12,9 +12,29 @@ local screens = require "utils.screens"
 local messages = require "utils.messages"
 local platforms = require "utils.platform"
 
+
+local function update_checkbox(checkbox)
+	if checkbox.checked then
+		gui.set_color(checkbox.node, gui_colors.ORANGE)
+	else
+		gui.set_color(checkbox.node, gui_colors.WHITE)
+	end
+end
+
+local function on_checked(self, checkbox)
+	settings.set("strict_gender", checkbox.checked)
+	self.strict_gender = checkbox.checked
+end
+
+
 function init(self)
 	msg.post(".", messages.ACQUIRE_INPUT_FOCUS)
 	msg.post(url.MENU, messages.HIDE)
+	self.strict_gender = settings.get("strict_gender", false)
+	
+	gooey.checkbox("strict_gender/checkmark").set_checked(self.strict_gender)
+	update_checkbox(gooey.checkbox("strict_gender/checkmark"))
+
 	if platforms.WEB then
 		gui.set_enabled(gui.get_node("fakemon"), false)
 	else
@@ -34,7 +54,17 @@ function on_input(self, action_id, action)
 	gooey.button("btn_close", action_id, action, function()
 		monarch.back()
 	end, gooey_buttons.close_button)
+
+	gooey.button("btn_info", action_id, action, function()
+		monarch.show(screens.INFO, nil, {text="Enforces genders during evolution as well as restrict some genders that a few Pokemon Species can be."})
+	end, gooey_buttons.info_button)
 	
+	gooey.checkbox("strict_gender/checkmark", action_id, action, function(ck) on_checked(self, ck) end, update_checkbox)
+	gooey.button("strict_gender/bg", action_id, action, function()
+		self.strict_gender = not self.strict_gender
+		gooey.checkbox("strict_gender/checkmark").set_checked(self.strict_gender)
+		update_checkbox(gooey.checkbox("strict_gender/checkmark"))
+	end)
 	gooey.button("btn_remove_fakemon", action_id, action, function()
 		flow.start(function()
 			fakemon.remove_package()

@@ -42,6 +42,7 @@ local LATEST_POKEMON_VERSION = 2
 M.GENDERLESS = pokedex.GENDERLESS
 M.MALE = pokedex.MALE
 M.FEMALE = pokedex.FEMALE
+M.ANY = pokedex.ANY
 
 M.DEFAULT_MAX_MOVES = 4
 
@@ -152,11 +153,13 @@ function M.get_available_ASI(pkmn)
 end
 
 
-function M.genderized(pkmn)
-	local species = M.get_current_species(pkmn)
-	return pokedex.genderized(species)
+function M.enforce_genders()
+	return pokedex.enforce_genders()
 end
 
+function M.get_strict_gender(pkmn)
+	return pokedex.get_strict_gender(M.get_current_species(pkmn))
+end
 
 function M.get_gender(pkmn)
 	return pkmn.gender

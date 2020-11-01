@@ -52,7 +52,7 @@ local function redraw_member_list()
 end
 
 local function redraw_status(self)
-	local enabled = true
+	local status_enabled = true
 	local text = ""
 
 	local cur_status = netcore.get_current_state()
@@ -63,12 +63,15 @@ local function redraw_status(self)
 	elseif cur_status == netcore.STATE_CONNECTED then
 		text = "JOINED"
 	else
-		enabled = false
+		status_enabled = false
 	end
 
 	local node_status = gui.get_node("txt_status")
 	gui.set_text(node_status, text)
-	gui.set_enabled(node_status, enabled)
+	gui.set_enabled(node_status, status_enabled)
+
+	-- Help is shown other status is not shown
+	gui.set_enabled(gui.get_node("txt_help"), not status_enabled)
 
 	redraw_ip(self)
 end

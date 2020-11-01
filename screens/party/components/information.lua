@@ -152,10 +152,7 @@ local function setup_info_tab(nodes, pokemon)
 		[_pokemon.MALE] = "male",
 		[_pokemon.FEMALE] = "female"
 	}
-	local genderized, gender = _pokemon.genderized(pokemon)
-	if not genderized then
-		gender = _pokemon.get_gender(pokemon)
-	end
+	local gender = _pokemon.get_gender(pokemon)
 	if gender ~= nil then
 		gui.set_enabled(nodes["pokemon/gender_icon"], true)
 		gui.play_flipbook(nodes["pokemon/gender_icon"], g[gender])
