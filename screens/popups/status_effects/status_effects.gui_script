@@ -49,7 +49,7 @@ end
 
 local function on_checked(checkbox, status)
 	local pkmn = storage.get_pokemon(pokemon_id)
-	local status = _pokemon.get_status_effects(pkmn)
+	local statuses = _pokemon.get_status_effects(pkmn) 
 	_pokemon.set_status_effect(pkmn, status, not statuses[status])
 	storage.save()
 	msg.post(url.PARTY, messages.REFRESH_STATUS)
