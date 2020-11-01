@@ -412,9 +412,8 @@ local function finish_create_flow(self, species, variant)
 	gui.set_text(gui.get_node("change_pokemon/species"), _pokemon.get_current_species(self.pokemon):upper())
 	gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
 	gui.set_scale(gui.get_node("change_pokemon/species"), POKEMON_SPECIES_TEXT_SCALE)
-	local g, gender = _pokemon.genderized(self.pokemon)
-	genderized = g
-	set_gender_icon(gender)
+	local gender = _pokemon.get_gender(self.pokemon)
+	set_gender_icon(self, gender)
 	if self.register_buttons_after_species then self.register_buttons_after_species(self) end
 end
 
