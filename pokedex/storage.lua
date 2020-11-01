@@ -429,5 +429,12 @@ function M.move_to_party(pokemon_id)
 	end
 end
 
+function M.heal_party()
+	for id,_ in pairs(pokemon_by_location.party) do
+		local pkmn = get(id)
+		_pokemon.rest(pkmn)
+	end
+	M.save()
+end
 
 return M
