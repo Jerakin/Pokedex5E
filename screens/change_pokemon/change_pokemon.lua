@@ -74,20 +74,23 @@ local function set_gender_icon(self, gender)
 	}
 	local strict = _pokemon.get_strict_gender(self.pokemon)
 	local enforce = _pokemon.enforce_genders()
+
+	-- Reset the colors
 	gui.set_color(gender_node[_pokemon.MALE], gui_colors.HERO_TEXT)
 	gui.set_color(gender_node[_pokemon.FEMALE], gui_colors.HERO_TEXT)
+
+	if gender ~= nil and gender ~= _pokemon.GENDERLESS then
+		gui.set_color(gender_node[gender], gui_colors.ORANGE)
+	end
 	
-	if gender == _pokemon.GENDERLESS or (enforce and strict == _pokemon.GENDERLESS) then
+	if enforce and strict == _pokemon.GENDERLESS then
+		-- If the gender is enforced and the strict gender is genderless, disable both buttons
 		gui.set_enabled(gender_node[_pokemon.MALE], false)
 		gui.set_enabled(gender_node[_pokemon.FEMALE], false)
 	elseif enforce and strict ~= _pokemon.ANY then
+		-- If the gender is enforced and the strict gender isn't ANY (e.i. not enforced)
+		-- Hide the other gender button
 		gui.set_enabled(gender_node[reverse[strict]], false)
-	end
-	
-	if gender ~= nil and strict ~= _pokemon.GENDERLESS then
-		
-		gui.set_enabled(gender_node[gender], true)
-		gui.set_color(gender_node[gender], gui_colors.ORANGE)
 	end
 end
 
