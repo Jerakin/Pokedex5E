@@ -185,16 +185,23 @@ end
 
 function M.update_hp_counter(self)
 	local stored_pokemon = self.pokemon
+	local id = _pokemon.get_id(stored_pokemon)
 	if storage.is_in_storage(id) then
 		stored_pokemon = storage.get_pokemon(id)
 	end
+	
 	local max_hp_node = gui.get_node("change_pokemon/txt_max_hp")
 	local mod_hp_node = gui.get_node("change_pokemon/txt_max_hp_mod")
 	local old_max = _pokemon.get_total_max_hp(stored_pokemon or self.pokemon)
 	local current_max = _pokemon.get_total_max_hp(self.pokemon)
 	local extra_hp = current_max - old_max
-	gui.set_text(mod_hp_node,  "MAX HP: " .. extra_hp)
-	gui.set_text(max_hp_node,  current_max)
+	if extra_hp == 0 then
+		gui.set_enabled(mod_hp_node, false)
+	else
+		gui.set_enabled(mod_hp_node, true)
+	end
+	gui.set_text(mod_hp_node, "CHANGED MAX HP: " .. extra_hp)
+	gui.set_text(max_hp_node, current_max)
 	if extra_hp == 0 then
 		gui.set_color(mod_hp_node, gui_colors.TEXT)
 	elseif extra_hp >= 1 then
