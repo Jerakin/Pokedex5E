@@ -75,7 +75,7 @@ end
 local function add_hp(pkmn, hp)
 	local current = _pokemon.get_current_hp(pkmn)
 	local max = _pokemon.get_total_max_hp(pkmn)
-	broadcast.send(messages.SAVE_POKEMON)
+	local temp = _pokemon.get_temp_hp(pkmn)
 	local new_temp
 	local new_hp
 
@@ -91,7 +91,7 @@ local function add_hp(pkmn, hp)
 	end
 	_pokemon.set_temp_hp(pkmn, math.max(new_temp, 0))
 	_pokemon.set_current_hp(pkmn, new_hp)
-
+	broadcast.send(messages.SAVE_POKEMON) 
 end
 
 local function set_temp_hp(pkmn, temp_hp)
