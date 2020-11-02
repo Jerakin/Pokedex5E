@@ -691,7 +691,7 @@ function M.get_move_pp_max(pkmn, move)
 end
 
 
-function M.reset(pkmn)
+function M.rest(pkmn)
 	M.set_current_hp(pkmn, M.get_total_max_hp(pkmn))
 	for name, move in pairs(M.get_moves(pkmn)) do
 		M.reset_move_pp(pkmn, name)

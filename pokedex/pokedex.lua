@@ -114,7 +114,6 @@ function M.init()
 		pokedex_extra = file.load_json_from_resource("/assets/datafiles/pokedex_extra.json")
 		abilities = file.load_json_from_resource("/assets/datafiles/abilities.json")
 		evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
-		cache_evolve_from_data()
 		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
 		exp_grid = file.load_json_from_resource("/assets/datafiles/exp_grid.json")
 		genders = file.load_json_from_resource("/assets/datafiles/gender.json")
@@ -133,21 +132,28 @@ function M.init()
 				end
 			end
 			if fakemon.DATA["abilities.json"] then
+				log.info("Merging abilities data")
 				for name, data in pairs(fakemon.DATA["abilities.json"]) do
+					log.info("  " .. name)
 					abilities[name] = data
 				end
 			end
 			if fakemon.DATA["evolve.json"] then
+				log.info("Merging evolve data")
 				for name, data in pairs(fakemon.DATA["evolve.json"]) do
+					log.info("  " .. name)
 					evolvedata[name] = data
 				end
 			end
 			if fakemon.DATA["gender.json"] then
+				log.info("Merging gender data")
 				for name, data in pairs(fakemon.DATA["gender.json"]) do
+					log.info("  " .. name)
 					genders[name] = data
 				end
 			end
 		end
+		cache_evolve_from_data()
 		M.list, M.total, M.unique = list()
 		initialized = true
 	else
@@ -500,6 +506,8 @@ function M.get_evolution_possible(pokemon, gender, moves)
 				end
 			end
 		end
+	else
+		gender_allow = true
 	end
 	return (d and move_allow and gender_allow) and true or false
 end
@@ -570,7 +578,7 @@ end
 
 function M.get_move_machines(pokemon, variant)
 	local move_list = {}
-	local tm_numbers = M.get_pokemon_TM_numbers(pokemon, variant)
+	local tm_numbers = M.get_TM_numbers(pokemon, variant)
 	if tm_numbers then
 		for _, n in pairs(tm_numbers) do
 			table.insert(move_list, movedex.get_TM(n))

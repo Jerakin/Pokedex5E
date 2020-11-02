@@ -191,7 +191,7 @@ end
 function M.on_message(message_id, message, sender)
 	if message_id == messages.RESPONSE and message.response then
 		if message.id == messages.FULL_REST then
-			_pokemon.reset_in_storage(active_pokemon)
+			storage.heal_party()
 			msg.post(url.PARTY, messages.REFRESH_STATUS)
 			msg.post(url.PARTY, messages.REFRESH_HP)
 			msg.post(url.PARTY, messages.REFRESH_PP)

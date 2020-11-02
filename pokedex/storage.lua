@@ -361,8 +361,8 @@ function M.swap(pc_pokemon_id, party_pokemon_id)
 	local id
 
 	-- Update location id
-	pokemon_by_location.party[party_pokemon] = nil
-	pokemon_by_location.pc[party_pokemon] = true
+	pokemon_by_location.party[party_pokemon_id] = nil
+	pokemon_by_location.pc[party_pokemon_id] = true
 
 	pokemon_by_location.party[pc_pokemon_id] = true
 	pokemon_by_location.pc[pc_pokemon_id] = nil
@@ -420,5 +420,12 @@ function M.move_to_party(pokemon_id)
 	end
 end
 
+function M.heal_party()
+	for id,_ in pairs(pokemon_by_location.party) do
+		local pkmn = get(id)
+		_pokemon.rest(pkmn)
+	end
+	M.save()
+end
 
 return M
