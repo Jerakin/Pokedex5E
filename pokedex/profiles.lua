@@ -4,22 +4,19 @@ local md5 = require "utils.md5"
 local log = require "utils.log"
 local broadcast = require "utils.broadcast"
 local messages = require "utils.messages"
+local signal = require "utils.signal"
 
 local storage = require "pokedex.storage"
 local trainer = require "pokedex.trainer"
 
 local M = {}
 
+M.SIGNAL_AFTER_PROFILE_CHANGE = signal.create("change_profile")
+M.SIGNAL_BEFORE_PROFILE_CHANGE = signal.create("change_profile_success")
+
 local profiles = {}
 local active_slot
 local profile_changing = false
-
--- TODO: Should probably use broadcast, but I couldn't figure out how to get it to work on a non-UI screen
-local active_profile_changed_cbs = {}
-function M.register_active_profile_changed_cb(cb)
-	table.insert(active_profile_changed_cbs, cb)
-end
-local active_name_changed_cbs = {}
 
 
 local function generate_id()
@@ -100,10 +97,10 @@ function M.get_all_profiles()
 end
 
 function M.set_active(slot)
-	broadcast.send(messages.BEFORE_PROFILE_CHANGE)
+	M.SIGNAL_BEFORE_PROFILE_CHANGE.trigger()
 	active_slot = slot
 	profiles.last_used = slot
-	broadcast.send(messages.AFTER_PROFILE_CHANGE)
+	M.SIGNAL_AFTER_PROFILE_CHANGE.trigger()
 end
 
 function M.save()
@@ -145,7 +142,7 @@ function M.set_active_name(new_name)
 		if profiles.slots[active_slot] ~= new_name then
 			profiles.slots[active_slot].name = new_name
 
-			broadcast.send(messages.AFTER_PROFILE_CHANGE)
+			M.SIGNAL_AFTER_PROFILE_CHANGE.trigger()
 		end
 	else
 		local e = "Can not find active_slot " .. tostring(active_slot) ..  "\n" .. debug.traceback()
@@ -245,17 +242,21 @@ local function load_trainer()
 	trainer.load(loaded_data)
 end
 
+
 --------------
 function M.init()
 	broadcast.register(messages.PARTY_UPDATED, on_party_updated)
 	broadcast.register(messages.COUNTERS_UPDATED, on_counters_updated)
 	broadcast.register(messages.SAVE_POKEMON, save_storage)
 	broadcast.register(messages.SAVE_TRAINER, save_trainer)
-	
-	broadcast.register(messages.AFTER_PROFILE_CHANGE, load_trainer)
-	broadcast.register(messages.AFTER_PROFILE_CHANGE, load_storage)
-	broadcast.register(messages.AFTER_PROFILE_CHANGE, M.save)
 
+	M.SIGNAL_BEFORE_PROFILE_CHANGE.add(save_storage)
+	M.SIGNAL_BEFORE_PROFILE_CHANGE.add(save_trainer)
+	M.SIGNAL_BEFORE_PROFILE_CHANGE.add(M.save)
+	
+	M.SIGNAL_AFTER_PROFILE_CHANGE.add(load_storage)
+	M.SIGNAL_AFTER_PROFILE_CHANGE.add(load_trainer)
+	
 	load_profiles()
 	convert_to_rolling_profile_slot()
 	local latest = M.get_latest()

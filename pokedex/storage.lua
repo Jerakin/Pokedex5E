@@ -21,9 +21,6 @@ local counters = {}
 local sorting = {}
 local storage_settings = {}
 
-local initialized = false
-
-
 local LOCATION_PC = 0
 local LOCATION_PARTY = 1
 
@@ -94,10 +91,6 @@ local function get_party()
 		table.insert(p, player_pokemon[id].species.current)
 	end
 	return p
-end
-
-function M.is_initialized()
-	return initialized
 end
 
 
@@ -329,7 +322,7 @@ local function upgrade_data(file_name, storage_data)
 end
 
 function M.load(data)
-	data = data or utils.deep_copy(DEFAULT_STORAGE_DATA)
+	data = next(data) ~= nil and data or utils.deep_copy(DEFAULT_STORAGE_DATA)
 	local loaded_data, needs_save = upgrade_data(file_name, data)
 	storage_data = loaded_data
 

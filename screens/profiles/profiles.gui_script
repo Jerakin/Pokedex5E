@@ -45,8 +45,6 @@ end
 
 local function activate(slot)
 	profiles.set_active(slot)
-	dex.load(profiles.get_active())
-	network.load_profile(profiles.get_active())
 	if #storage.list_of_ids_in_party() > 0 then
 		monarch.show(screens.PARTY)
 	else

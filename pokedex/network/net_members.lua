@@ -4,7 +4,6 @@ local utils = require "utils.utils"
 local profiles = require "pokedex.profiles"
 local settings = require "pokedex.settings"
 local broadcast = require "utils.broadcast"
-local messages = require "utils.messages"
 
 local initialized = false
 local server_member_data = {}
@@ -192,8 +191,8 @@ function M.init()
 		end
 		server_member_data = net_members_settings.server_member_data
 
-		broadcast.register(messages.BEFORE_PROFILE_CHANGE, on_active_profile_changing)
-		broadcast.register(messages.AFTER_PROFILE_CHANGE, on_active_profile_changed)
+		profiles.SIGNAL_BEFORE_PROFILE_CHANGE.add(on_active_profile_changing)
+		profiles.SIGNAL_AFTER_PROFILE_CHANGE.add(on_active_profile_changed)
 		
 		initialized = true
 	end

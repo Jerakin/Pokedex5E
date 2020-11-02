@@ -137,17 +137,17 @@ function init(self)
 		movedex.init()
 		natures.init()
 		pokedex.init()
-		profiles.init()
-
-		flow.delay(1) -- Extra timeout for loading screen
-		flow.until_true( function() return not monarch.is_busy() end)
 
 		dex.init()
 		items.init()
 		filters.init()
 		feats.init()
 		network.init()
+		profiles.init()
 
+		flow.delay(0.5) -- Extra timeout for loading screen
+		flow.until_true( function() return not monarch.is_busy() end)
+		
 		if profiles.is_new_game() then 
 			monarch.show(screens.PICK_NAME, nil, {sender=msg.url(), slot=1})
 		elseif not profiles.get_active_slot() then

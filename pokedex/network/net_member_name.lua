@@ -1,7 +1,5 @@
 local net_members = require "pokedex.network.net_members"
 local profiles = require "pokedex.profiles"
-local broadcast = require "utils.broadcast"
-local messages = require "utils.messages"
 
 local NAME_KEY = "name"
 
@@ -12,7 +10,7 @@ local function active_profile_name_changed()
 end
 
 function M.init()
-	broadcast.register(messages.AFTER_PROFILE_CHANGE, active_profile_name_changed)
+	profiles.SIGNAL_AFTER_PROFILE_CHANGE.add(active_profile_name_changed)
 	active_profile_name_changed()
 end
 

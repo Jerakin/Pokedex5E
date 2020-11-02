@@ -9,6 +9,13 @@ local profiles = require "pokedex.profiles"
 local initialized = false
 local M = {}
 
+function load_profile()
+	local profile = profiles.get_active()
+	net_members.load_profile(profile)
+
+	netcore.load_profile(profile)
+end
+
 function M.init()
 	if not initialized then
 		netcore.init()
@@ -19,11 +26,7 @@ function M.init()
 		net_member_name.init()
 
 		send_pokemon.init()
-
-		local profile = profiles.get_active()
-		if profile then
-			M.load_profile(profile)
-		end
+		profiles.SIGNAL_AFTER_PROFILE_CHANGE.add(load_profile)
 		initialized = true
 	end
 end
@@ -38,11 +41,7 @@ function M.final()
 	netcore.final()
 end
 
-function M.load_profile(profile)
-	net_members.load_profile(profile)
-	
-	netcore.load_profile(profile)
-end
+
 
 function M.save()
 	net_members.save()

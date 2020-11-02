@@ -129,7 +129,8 @@ local function convert()
 	return _dex
 end
 
-function M.load(profile)
+function load()
+	local profile = profiles.get_active()
 	dex = profile.pokedex
 	if dex == nil then
 		dex = get_initial_from_storage()
@@ -142,10 +143,7 @@ end
 
 function M.init()
 	if not initialized then
-		local profile = profiles.get_active()
-		if profile then
-			M.load(profile)
-		end
+		profiles.SIGNAL_AFTER_PROFILE_CHANGE.add(load)
 		initialized = true
 	end
 end

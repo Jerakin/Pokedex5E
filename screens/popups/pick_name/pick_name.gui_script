@@ -78,10 +78,7 @@ local function okay()
 			profiles.update(slot, { name = name })
 		end
 		profiles.set_active(profile.slot)
-		network.load_profile(profiles.get_active())
-		dex.load(profiles.get_active())
 		storage.set_max_party_pokemon(3) -- default value for new profiles
-		profiles.set_active_complete()
 		monarch.show(screens.ADD)
 	end
 end
