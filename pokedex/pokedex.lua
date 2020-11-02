@@ -500,6 +500,8 @@ function M.get_evolution_possible(pokemon, gender, moves)
 				end
 			end
 		end
+	else
+		gender_allow = true
 	end
 	return (d and move_allow and gender_allow) and true or false
 end
