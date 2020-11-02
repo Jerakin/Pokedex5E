@@ -21,8 +21,8 @@ local storage_settings = {}
 local initialized = false
 
 
-LOCATION_PC = 0
-LOCATION_PARTY = 1
+local LOCATION_PC = 0
+local LOCATION_PARTY = 1
 
 local function get_id(pokemon)
 	local m = md5.new()
