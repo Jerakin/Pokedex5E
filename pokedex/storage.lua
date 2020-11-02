@@ -263,7 +263,7 @@ function M.save()
 	end
 end
 
-function M.upgrade_data(file_name, storage_data)
+local function upgrade_data(file_name, storage_data)
 	local version = storage_data and storage_data.version or 1
 
 	local LATEST_VERSION = 2
@@ -333,7 +333,7 @@ function M.load(profile)
 		local loaded = defsave.load(file_name)
 	end
 
-	local loaded_data, needs_save = M.upgrade_data(file_name, defsave.get(file_name, "storage_data"))
+	local loaded_data, needs_save = upgrade_data(file_name, defsave.get(file_name, "storage_data"))
 	storage_data = loaded_data
 
 	-- Extract everything we need from saved data
