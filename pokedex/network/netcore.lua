@@ -5,6 +5,7 @@ local profiles = require "pokedex.profiles"
 local p2p_discovery = require "pokedex.network.p2p"
 local notify = require "utils.notify"
 local broadcast = require "utils.broadcast"
+local messages = require "utils.messages"
 local settings = require "pokedex.settings"
 local log = require "utils.log"
 
@@ -554,8 +555,8 @@ function M.init()
 	if not netcore_settings.default_connect_port then
 		netcore_settings.default_connect_port = M.DEFAULT_HOST_PORT
 	end
-
-	profiles.register_active_profile_changing_cb(on_active_profile_changing)
+	
+	broadcast.register(messages.BEFORE_PROFILE_CHANGE, on_active_profile_changing)
 end
 
 function M.final()

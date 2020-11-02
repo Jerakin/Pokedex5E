@@ -15,18 +15,12 @@ local active_slot
 local profile_changing = false
 
 -- TODO: Should probably use broadcast, but I couldn't figure out how to get it to work on a non-UI screen
-local active_profile_changing_cbs = {}
-function M.register_active_profile_changing_cb(cb)
-	table.insert(active_profile_changing_cbs, cb)
-end
 local active_profile_changed_cbs = {}
 function M.register_active_profile_changed_cb(cb)
 	table.insert(active_profile_changed_cbs, cb)
 end
 local active_name_changed_cbs = {}
-function M.register_active_name_changed_cb(cb)
-	table.insert(active_name_changed_cbs, cb)
-end
+
 
 local function generate_id()
 	local m = md5.new()
@@ -79,7 +73,6 @@ end
 function M.delete(slot)
 	if M.get_active_slot() then
 		M.set_active(nil)
-		M.set_active_complete()
 	end
 	
 	local f_name = M.get_file_name(slot)
@@ -107,28 +100,10 @@ function M.get_all_profiles()
 end
 
 function M.set_active(slot)
-	for i=1,#active_profile_changing_cbs do
-		active_profile_changing_cbs[i]()
-	end
-	
+	broadcast.send(messages.BEFORE_PROFILE_CHANGE)
 	active_slot = slot
 	profiles.last_used = slot
-	
-	M.save()
-end
-
--- Very hacky but I can't figure out a better way to do this without changing the way profiles
--- work. Currently profiels.gui_script calls set_active, then calls a bunch of load() calls. This
--- means this module isn't actually aware of when it is done switching profiles, because the load
--- is still in progress
-function M.set_active_complete()
-	for i=1,#active_name_changed_cbs do
-		active_name_changed_cbs[i]()
-	end
-	
-	for i=1,#active_profile_changed_cbs do
-		active_profile_changed_cbs[i]()
-	end
+	broadcast.send(messages.AFTER_PROFILE_CHANGE)
 end
 
 function M.save()
@@ -170,11 +145,7 @@ function M.set_active_name(new_name)
 		if profiles.slots[active_slot] ~= new_name then
 			profiles.slots[active_slot].name = new_name
 
-			M.save()
-
-			for i=1,#active_name_changed_cbs do
-				active_name_changed_cbs[i]()
-			end
+			broadcast.send(messages.AFTER_PROFILE_CHANGE)
 		end
 	else
 		local e = "Can not find active_slot " .. tostring(active_slot) ..  "\n" .. debug.traceback()
@@ -243,7 +214,6 @@ end
 local function save_trainer()
 	local file_name = M.get_active_file_name()
 	local trainer_data = trainer.get_data()
-	pprint(trainer_data)
 	defsave.set(file_name, "trainer", trainer_data)
 	defsave.save(file_name)
 end
@@ -282,17 +252,15 @@ function M.init()
 	broadcast.register(messages.SAVE_POKEMON, save_storage)
 	broadcast.register(messages.SAVE_TRAINER, save_trainer)
 	
-	M.register_active_profile_changed_cb(load_trainer)
-	M.register_active_profile_changed_cb(load_storage)
-	
+	broadcast.register(messages.AFTER_PROFILE_CHANGE, load_trainer)
+	broadcast.register(messages.AFTER_PROFILE_CHANGE, load_storage)
+	broadcast.register(messages.AFTER_PROFILE_CHANGE, M.save)
+
 	load_profiles()
 	convert_to_rolling_profile_slot()
 	local latest = M.get_latest()
 	if latest then
 		M.set_active(latest)
 	end
-
-	load_storage()
-	load_trainer()
 end
 return M

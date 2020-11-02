@@ -15,7 +15,7 @@ local M = {}
 -- All of these tables are saved out to a file, so be sure they are raw data only (no functions, userdata, that sort of thing)
 local storage_data = {} -- contains all the below tables
 local player_pokemon = {}
-local pokemon_by_location = {}
+local pokemon_by_location = {pc={}, party={}}
 
 local counters = {}
 local sorting = {}
@@ -329,7 +329,7 @@ local function upgrade_data(file_name, storage_data)
 end
 
 function M.load(data)
-	data = data or utils.deep_copy(DEFUALT_STORAGE_DATA)
+	data = data or utils.deep_copy(DEFAULT_STORAGE_DATA)
 	local loaded_data, needs_save = upgrade_data(file_name, data)
 	storage_data = loaded_data
 

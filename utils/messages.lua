@@ -57,6 +57,9 @@ M.COUNTERS_UPDATED = hash("counters_updated")
 M.SAVE_POKEMON = hash("save_pokemon")
 M.SAVE_TRAINER = hash("save_trainer")
 
+M.BEFORE_PROFILE_CHANGE = hash("before_change_profile")
+M.AFTER_PROFILE_CHANGE = hash("after_change_profile")
+
 -- Used for debugging, makes sure that our message is in this table
 --[[
 setmetatable(M, {
