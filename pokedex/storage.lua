@@ -27,9 +27,6 @@ local initialized = false
 local LOCATION_PC = 0
 local LOCATION_PARTY = 1
 
-local LATEST_VERSION = 2
-
-local DEFAULT_STORAGE_DATA = {player_pokemon={}, counters={caught=0, released=0, seen=0}, sorting={}, settings={max_party_pokemon=3}, version=LATEST_VERSION}
 
 local function get_id(pokemon)
 	local m = md5.new()
@@ -269,6 +266,7 @@ end
 local function upgrade_data(file_name, storage_data)
 	local version = storage_data and storage_data.version or 1
 
+	local LATEST_VERSION = 2
 	local needs_upgrade = version ~= LATEST_VERSION
 	
 	if needs_upgrade then
