@@ -1,4 +1,4 @@
---- Refer to gesture.md for documentation
+--- Refer to https://github.com/britzl/defold-input/blob/master/in/gesture.md for documentation
 
 local M = {}
 

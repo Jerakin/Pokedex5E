@@ -1,3 +1,4 @@
+-- Attribution: https://github.com/britzl/ludobits/blob/master/ludobits/m/broadcast.md
 local M = {}
 
 local receivers = {}

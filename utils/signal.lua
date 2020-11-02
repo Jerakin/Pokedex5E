@@ -1,3 +1,4 @@
+-- Attribution: https://github.com/britzl/ludobits/blob/master/ludobits/m/signal.md
 local M = {}
 
 
