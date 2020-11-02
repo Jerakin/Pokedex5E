@@ -570,7 +570,7 @@ end
 
 function M.get_move_machines(pokemon, variant)
 	local move_list = {}
-	local tm_numbers = M.get_pokemon_TM_numbers(pokemon, variant)
+	local tm_numbers = M.get_TM_numbers(pokemon, variant)
 	if tm_numbers then
 		for _, n in pairs(tm_numbers) do
 			table.insert(move_list, movedex.get_TM(n))
