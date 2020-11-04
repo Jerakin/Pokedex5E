@@ -322,7 +322,9 @@ local function redraw(self)
 				gui.set_color(n, gui_colors.TEXT)
 				gui.set_color(stat_num, gui_colors.TEXT)
 			end
-			gui.set_text(n, "(" .. mod .. (attributes[stat] or 0) ..")")
+			if scope == "asi" then
+				gui.set_text(n, "(" .. mod .. (attributes[stat] or 0) ..")")
+			end
 		end
 	end
 	
