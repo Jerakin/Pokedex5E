@@ -37,7 +37,7 @@ local feat_to_attribute = {
 	Acrobat="DEX"
 }
 
-local LATEST_POKEMON_VERSION = 2
+local LATEST_POKEMON_VERSION = 3
 
 M.GENDERLESS = pokedex.GENDERLESS
 M.MALE = pokedex.MALE
@@ -174,11 +174,12 @@ end
 function M.get_attributes(pkmn)
 	local base = pokedex.get_base_attributes(M.get_caught_species(pkmn), pkmn.variant)
 	local increased = M.get_increased_attributes(pkmn) or {}
+	local custom = M.get_custom_attributes(pkmn) or {}
 	local added = M.get_added_attributes(pkmn) or {}
 	local natures = natures.get_nature_attributes(M.get_nature(pkmn)) or {}
 	local feats = get_attributes_from_feats(pkmn)
 	local trainer_attributes = trainer.get_attributes()
-	return add_tables(add_tables(add_tables(add_tables(add_tables(base, added), natures), increased), feats), trainer_attributes)
+	return add_tables(add_tables(add_tables(add_tables(add_tables(add_tables(base, added), natures), increased), feats), trainer_attributes), custom)
 end
 
 
@@ -193,6 +194,10 @@ end
 
 function M.get_increased_attributes(pkmn)
 	return pkmn.attributes.increased
+end
+
+function M.get_custom_attributes(pkmn)
+	return pkmn.attributes.custom
 end
 
 
@@ -347,6 +352,9 @@ function M.set_increased_attribute(pkmn, attribute, value)
 	pkmn.attributes.increased[attribute] = value
 end
 
+function M.set_custom_attribute(pkmn, attribute, value)
+	pkmn.attributes.custom[attribute] = value
+end
 
 function M.get_speed_of_type(pkmn)
 	local species = M.get_current_species(pkmn)
@@ -1073,7 +1081,8 @@ function M.upgrade_pokemon(pkmn)
 				if not pkmn.variant then
 					pkmn.variant = pokedex.get_default_variant(M.get_current_species(pkmn))
 				end
-				
+			elseif i == 2 then
+				pkmn.attributes.custom = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
 			else
 				assert(false, "Unknown pokemon data version " .. pkmn.version)
 			end
@@ -1098,6 +1107,7 @@ function M.new(data)
 
 	this.attributes = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
 	this.attributes.increased = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
+	this.attributes.custom = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
 
 	this.nature = "No Nature"
 
