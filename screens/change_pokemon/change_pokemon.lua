@@ -464,7 +464,6 @@ function M.init(self, pokemon)
 	gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
 	self.move_node = gui.get_node("change_pokemon/btn_move")
 	gui.set_enabled(self.move_node, false)
-	gui.set_enabled(gui.get_node("change_pokemon/checkmark_eviolite_mark"), false)
 
 	if self.pokemon then
 		local is_shiny =_pokemon.is_shiny(self.pokemon) or false
@@ -699,17 +698,6 @@ local function attribute_buttons(self, action_id, action, scope, _decrease, _inc
 	gooey.button("change_pokemon/" .. scope .. "/cha/btn_plus", action_id, action, function() _increase(self, "CHA") end, gooey_buttons.plus_button)
 end
 
-local function update_eviolite_checkbox(checkbox)
-	gui.set_enabled(gui.get_node("change_pokemon/checkmark_eviolite_mark"), checkbox.checked)
-end
-
-local function on_eviolite_checked(self, checkbox)
-	_pokemon.set_consumed_eviolite(self.pokemon, checkbox.checked)
-	update_ASI(self)
-	if self.redraw then self.redraw(self) end
-end
-
-
 
 function M.on_input(self, action_id, action)
 	button.on_input(action_id, action)
@@ -722,8 +710,6 @@ function M.on_input(self, action_id, action)
 	for _, button in pairs(active_buttons) do
 		gooey.button(button.node, action_id, action, button.func, button.refresh)
 	end
-	
-	gooey.checkbox("change_pokemon/bg_eviolite", action_id, action, function(checkbox) on_eviolite_checked(self, checkbox) end, update_eviolite_checkbox)
 
 	gooey.button("change_pokemon/female", action_id, action, function()
 		set_gender(self, _pokemon.FEMALE)
