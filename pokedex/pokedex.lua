@@ -319,13 +319,16 @@ function M.get_sprite(pokemon, variant)
 	local data = get_pokemon_raw(pokemon)
 
 	local sprite_suffix = pokemon
+	
 	if data.variant_data then
+		current_variant = variant or data.variant_data.default
 		if data.variant_data.sprite_suffix then
 			sprite_suffix = data.variant_data.sprite_suffix
-		elseif data.variant_data.variants and data.variant_data.variants[variant] and data.variant_data.variants[variant].original_species then
-			sprite_suffix = data.variant_data.variants[variant].original_species
+		elseif data.variant_data.variants and data.variant_data.variants[current_variant] and data.variant_data.variants[current_variant].original_species then
+			sprite_suffix = data.variant_data.variants[current_variant].original_species
 		end
 	end
+
 	local pokemon_sprite = pokemon_index .. sprite_suffix
 	
 	if pokemon_index == 32 or pokemon_index == 29 or pokemon_index == 678 then
