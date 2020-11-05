@@ -4,27 +4,28 @@ import requests
 import shutil
 from pathlib import Path
 from PIL import Image
-p = Path(__file__).parent.parent.parent.parent.parent / "assets/datafiles/pokemon.json"
+pokemon_folder = Path(__file__).parent.parent.parent.parent.parent.parent / "assets/datafiles/pokemon"
 
 
 def main():
     indexes = []
-    with open(p, "r") as f:
-        data = json.load(f)
-        for pokemon, data in data.items():
-            index = data["index"]
-            if index in indexes or index < 649:
-                continue
+    for p_path in pokemon_folder.iterdir():
+        pokemon = p_path.stem
+        with p_path.open("r") as f:
+            data = json.load(f)
+        index = data["index"]
+        if index in indexes or index < 722:
+            continue
 
-            indexes.append(index)
-            # raw_url = "https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/{}.png".format(pokemon.lower())
-            # raw_url = "https://img.pokemondb.net/sprites/x-y/normal/{}.png".format(pokemon.lower())
-            print("Downloading", pokemon)
-            raw_url = "https://img.pokemondb.net/sprites/sun-moon/icon/{}.png".format(pokemon.lower())
+        indexes.append(index)
+        # raw_url = "https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/{}.png".format(pokemon.lower())
+        # raw_url = "https://img.pokemondb.net/sprites/x-y/normal/{}.png".format(pokemon.lower())
+        print("Downloading", pokemon)
+        raw_url = "https://img.pokemondb.net/sprites/sun-moon/icon/{}.png".format(pokemon.lower())
 
-            file_name = "images/{}{}.png".format(index, pokemon)
-            download_image(raw_url, file_name)
-            time.sleep(0.5)
+        file_name = "images/{}{}.png".format(index, pokemon)
+        download_image(raw_url, file_name)
+        time.sleep(0.5)
 
 
 def download_image(url, name):
