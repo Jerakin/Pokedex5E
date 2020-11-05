@@ -37,7 +37,7 @@ local function setup_main_information(nodes, pokemon)
 		gui.play_flipbook(nodes["pokemon/pokemon_sprite"], pokemon_sprite)
 	end
 
-	local species_text = pokedex.get_species_display(species, pokemon.variant)
+	local species_text = pokedex.get_species_display(species, _pokemon.get_variant(pokemon))
 	gui.set_text(nodes["pokemon/index"], string.format("#%03d %s", _pokemon.get_index_number(pokemon), species_text))
 	
 	gui.set_text(nodes["pokemon/species"], nickname)
