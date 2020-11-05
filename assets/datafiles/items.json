@@ -18,7 +18,7 @@
     "Effect": "Pokémon takes half damage from a steel-type attack. Activates when hit by steel-type move."
   },
   "Big Root": {
-    "Effect": "HP stealing moves steal an additional 1d12 HP."
+    "Effect": "HP stealing moves restore an additional 1d12 HP (without additional damage to the target)."
   },
   "Black Belt": {
     "Effect": "Holder adds prof. bonus to damage from fighting-type moves (once per move)."
@@ -27,7 +27,7 @@
     "Effect": "Holder adds prof. bonus to damage from dark-type moves (once per move)."
   },
   "Black Sludge": {
-    "Effect": "Restores hp equal to the holder's prof. bonus to poison types at the end of each of their turns."
+    "Effect": "Restores hp equal to the holder's prof. bonus to poison types at the end of each of their turns. Damages non-poison types for the same amount instead of healing."
   },
   "Charcoal": {
     "Effect": "Holder adds prof. bonus to damage from fire-type moves (once per move)."
@@ -145,6 +145,12 @@
   },
   "Mystic Water": {
     "Effect": "Holder adds prof. bonus to damage from water-type moves (once per move)."
+  },
+  "N-Lunarizer": {
+    "Effect": "Allows Necrozma to fuse with Lunala to create Dusk Mane Necrozma|N/A|"
+  },
+  "N-Solarizer": {
+    "Effect": "Allows Necrozma to fuse with Solgaleo to create Dark Wings Necrozma"
   },
   "NeverMelt Ice": {
     "Effect": "Holder adds prof. bonus to damage from ice-type moves (once per move)."
