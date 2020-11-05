@@ -1,5 +1,5 @@
 {
-  "AC": 17,
+  "AC": 18,
   "Abilities": [
     "Serene Grace"
   ],
@@ -90,21 +90,51 @@
   ],
   "Type": [
     "Normal",
-    "Fighting"
+    "Psychic"
   ],
   "WSp": 30,
   "attributes": {
-    "CHA": 10,
-    "CON": 17,
-    "DEX": 19,
-    "INT": 16,
-    "STR": 20,
-    "WIS": 16
+    "CHA": 18,
+    "CON": 19,
+    "DEX": 17,
+    "INT": 14,
+    "STR": 15,
+    "WIS": 18
   },
   "index": 648,
   "saving_throws": [
     "WIS",
     "DEX"
   ],
-  "size": "Tiny"
+  "size": "Tiny",
+  "variant_data": {
+    "create_mode": "default",
+    "default": "Aria",
+    "permanent": false,
+    "variants": {
+      "Aria": {
+        "display": "Meloetta (Aria)",
+        "original_species": "Meloetta - Aria"
+      },
+      "Pirouette": {
+        "diff": {
+          "AC": 17,
+          "Type": [
+            "Normal",
+            "Fighting"
+          ],
+          "attributes": {
+            "CHA": 10,
+            "CON": 17,
+            "DEX": 19,
+            "INT": 16,
+            "STR": 20,
+            "WIS": 16
+          }
+        },
+        "display": "Meloetta (Pirouette)",
+        "original_species": "Meloetta - Pirouette"
+      }
+    }
+  }
 }

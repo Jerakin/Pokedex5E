@@ -14,8 +14,8 @@ local gui_utils = require "utils.gui"
 local screens = require "utils.screens"
 local messages = require "utils.messages"
 
-local function pokemon_image(species)
-	local pokemon_sprite, texture = pokedex.get_icon(species)
+local function pokemon_image(pkmn)
+	local pokemon_sprite, texture = _pokemon.get_icon(pkmn)
 	gui.set_texture(gui.get_node("change_pokemon/pokemon_sprite"), texture)
 	if pokemon_sprite then
 		gui.play_flipbook(gui.get_node("change_pokemon/pokemon_sprite"), pokemon_sprite)
@@ -49,7 +49,7 @@ function init(self)
 	pokemon_edit.init(self)
 	pokemon_edit.redraw(self)
 	
-	pokemon_image(_pokemon.get_current_species(self.pokemon))
+	pokemon_image(self.pokemon)
 	gui.set_enabled(gui.get_node("change_pokemon/cursor"), false)
 
 	self.nickname = _pokemon.get_nickname(self.pokemon)

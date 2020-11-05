@@ -4,10 +4,12 @@ local pokedex = require "pokedex.pokedex"
 local movedex = require "pokedex.moves"
 local natures = require "pokedex.natures"
 local trainer = require "pokedex.trainer"
+local variants = require "pokedex.variants"
 
 function init(self)
 	movedex.init()
 	natures.init()
+	variants.init()
 	pokedex.init()
 	trainer.test()
 

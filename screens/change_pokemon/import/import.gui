@@ -625,7 +625,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Import Pokemon"
+  text: "Pick Pokemon"
   font: "title"
   id: "change_pokemon/top/title"
   xanchor: XANCHOR_NONE
@@ -651,7 +651,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -714,7 +713,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -760.0
+    y: -811.0
     z: 0.0
     w: 1.0
   }
@@ -1511,8 +1510,7 @@ nodes {
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 0.0
-  overridden_fields: 30
+  alpha: 1.0
   template_node_child: true
   size_mode: SIZE_MODE_AUTO
 }
@@ -1574,7 +1572,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -333.0
+    y: -384.0
     z: 0.0
     w: 1.0
   }
@@ -4666,7 +4664,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -965.0
+    y: -1016.0
     z: 0.0
     w: 1.0
   }
@@ -5225,7 +5223,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -183.0
+    y: -234.0
     z: 0.0
     w: 1.0
   }
@@ -6394,7 +6392,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -107.0
+    y: -166.0
     z: 0.0
     w: 1.0
   }
@@ -6567,7 +6565,180 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -1082.0
+    y: -107.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 720.0
+    y: 70.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/transparent"
+  id: "change_pokemon/variant"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_N
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "change_pokemon/top_anchor"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_STENCIL
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: -35.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 350.0
+    y: 58.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/add_backing"
+  id: "change_pokemon/btn_variant"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "change_pokemon/variant"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 18.0
+    y: 18.0
+    z: 18.0
+    w: 30.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 3.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.7
+    y: 0.7
+    z: 6.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "VARIANT"
+  font: "script"
+  id: "change_pokemon/txt_variant"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "change_pokemon/btn_variant"
+  layer: "script"
+  inherit_alpha: false
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: true
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 0.0
+    y: -1133.0
     z: 0.0
     w: 1.0
   }
@@ -7063,7 +7234,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -1191.0
+    y: -1242.0
     z: 0.0
     w: 1.0
   }
@@ -7409,7 +7580,7 @@ nodes {
 nodes {
   position {
     x: 293.0
-    y: -53.0
+    y: -116.0
     z: 0.0
     w: 1.0
   }
