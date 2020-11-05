@@ -88,6 +88,7 @@ local function get_pokemon_raw(pokemon)
 		local pokemon_species = pokemon:gsub(" ♀", "-f")
 		pokemon_species = pokemon_species:gsub(" ♂", "-m")
 		pokemon_species = pokemon_species:gsub("é", "e")
+		pokemon_species = pokemon_species:gsub(":", "")
 		local pokemon_json = file.load_json_from_resource("/assets/datafiles/pokemon/".. pokemon_species .. ".json")
 		if pokemon_json ~= nil then
 			pokedex[pokemon] = pokemon_json
@@ -331,9 +332,10 @@ function M.get_sprite(pokemon, variant)
 
 	local pokemon_sprite = pokemon_index .. sprite_suffix
 	
-	if pokemon_index == 32 or pokemon_index == 29 or pokemon_index == 678 then
+	if pokemon_index == 32 or pokemon_index == 29 or pokemon_index == 678 or pokemon_index == 772 then
 		pokemon_sprite = pokemon_sprite:gsub(" ♀", "-f")
 		pokemon_sprite = pokemon_sprite:gsub(" ♂", "-m")
+		pokemon_sprite = pokemon_sprite:gsub(":", "")
 	end
 
 	if data.fakemon then
