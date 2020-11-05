@@ -5,6 +5,7 @@ local natures = require "pokedex.natures"
 local movedex = require "pokedex.moves"
 local trainer = require "pokedex.trainer"
 local variants = require "pokedex.variants"
+local constants = require "utils.constants"
 
 local M = {}
 
@@ -842,6 +843,7 @@ function M.get_saving_throw_modifier(pkmn)
 		modifiers[name] = math.floor((b[name] - 10) / 2) + loyalty
 	end
 	for _, st in pairs(saving_throws) do
+		st = constants.FULL_ABILITY_TO_ABRIVATION[st] or st
 		modifiers[st] = modifiers[st] + prof
 	end
 	return modifiers
