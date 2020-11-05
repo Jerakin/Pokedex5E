@@ -21,14 +21,14 @@
       "move": true
     }
   },
-  "Description": "You summon a collection of boulders that attempt to surround a foe. Force an opponent in range to make a STR saving throw against your Move DC. On a failure, the opponent takes rock damage and is restrained. The target may make a STR saving throw against your Move DC at the beginning of each of its turns to attempt to release themselves from the rock.",
+  "Description": "You summon a collection of boulders that attempt to surround a target. Force a creature in range to make a STR saving throw against your Move DC, taking rock damage and becoming restrained on a failure, or half as much without being restrained on a success. If it fails, at the beginning of each of its turns, it may attempt to escape with a STR save against your Move DC. While a creature is restrained, you may continue this move, as an action, to deal an automatic rock damage.",
   "Duration": "Instantaneous",
   "Move Power": [
     "STR"
   ],
   "Move Time": "1 action",
   "PP": 10,
-  "Range": "20ft",
+  "Range": "30ft",
   "Save": "STR",
   "Type": "Rock"
 }
