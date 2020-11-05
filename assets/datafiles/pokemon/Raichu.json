@@ -67,5 +67,106 @@
   "saving_throws": [
     "Dexterity"
   ],
-  "size": "Small"
+  "size": "Small",
+  "variant_data": {
+    "create_mode": "default",
+    "default": "Raichu",
+    "permanent": false,
+    "variants": {
+      "Alolan Raichu": {
+        "diff": {
+          "Abilities": [
+            "Surge Surfer"
+          ],
+          "Fsp": 35,
+          "Moves": {
+            "Level": {
+              "10": [
+                "Quick Attack",
+                "Slam",
+                "Spark",
+                "Sweet Kiss",
+                "Tail Whip"
+              ],
+              "18": [
+                "Thunder Shock",
+                "Thunder Wave",
+                "Thunderbolt",
+                "Thunder"
+              ],
+              "6": [
+                "Light Screen",
+                "Nasty Plot",
+                "Nuzzle",
+                "Play Nice",
+                "Psychic"
+              ]
+            },
+            "Starting Moves": [
+              "Agility",
+              "Charm",
+              "Discharge",
+              "Double Team",
+              "Electro Ball",
+              "Feint",
+              "Growl"
+            ],
+            "TM": [
+              3,
+              4,
+              6,
+              10,
+              15,
+              16,
+              17,
+              18,
+              20,
+              21,
+              24,
+              25,
+              27,
+              29,
+              31,
+              32,
+              33,
+              42,
+              44,
+              45,
+              46,
+              48,
+              49,
+              52,
+              56,
+              57,
+              68,
+              87,
+              88,
+              90,
+              93,
+              100
+            ]
+          },
+          "Type": [
+            "Electric",
+            "Psychic"
+          ],
+          "attributes": {
+            "CON": 14,
+            "DEX": 15,
+            "WIS": 16
+          },
+          "saving_throws": [
+            "Dexterity",
+            "Wisdom"
+          ]
+        },
+        "display": "Alolan Raichu",
+        "original_species": "Alolan Raichu"
+      },
+      "Raichu": {
+        "display": "Raichu",
+        "original_species": "Raichu"
+      }
+    }
+  }
 }

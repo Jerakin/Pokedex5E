@@ -97,5 +97,106 @@
   "saving_throws": [
     "Dexterity"
   ],
-  "size": "Small"
+  "size": "Small",
+  "variant_data": {
+    "create_mode": "default",
+    "default": "Raticate",
+    "permanent": false,
+    "variants": {
+      "Alolan Raticate": {
+        "diff": {
+          "Abilities": [
+            "Gluttony",
+            "Hustle"
+          ],
+          "Hidden Ability": "Thick Fat",
+          "Moves": {
+            "Level": {
+              "10": [
+                "Crunch",
+                "Sucker Punch"
+              ],
+              "14": [
+                "Super Fang",
+                "Double-Edge"
+              ],
+              "18": [
+                "Endeavor"
+              ],
+              "6": [
+                "Hyper Fang",
+                "Assurance"
+              ]
+            },
+            "Starting Moves": [
+              "Focus Energy",
+              "Quick Attack",
+              "Scary Face",
+              "Swords Dance",
+              "Tackle",
+              "Tail Whip",
+              "Bite",
+              "Pursuit"
+            ],
+            "TM": [
+              5,
+              6,
+              8,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              17,
+              18,
+              21,
+              27,
+              30,
+              32,
+              34,
+              36,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              48,
+              60,
+              63,
+              65,
+              68,
+              75,
+              86,
+              87,
+              88,
+              89,
+              90,
+              95,
+              97,
+              100
+            ]
+          },
+          "Senses": [
+            "Darkvision 80ft"
+          ],
+          "Type": [
+            "Dark",
+            "Normal"
+          ],
+          "attributes": {
+            "STR": 14,
+            "WIS": 13
+          }
+        },
+        "display": "Alolan Raticate",
+        "original_species": "Alolan Raticate"
+      },
+      "Raticate": {
+        "display": "Raticate",
+        "original_species": "Raticate"
+      }
+    }
+  }
 }

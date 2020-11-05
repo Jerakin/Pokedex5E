@@ -96,5 +96,88 @@
     "Dexterity",
     "Constitution"
   ],
-  "size": "Small"
+  "size": "Small",
+  "variant_data": {
+    "create_mode": "default",
+    "default": "Dugtrio",
+    "permanent": false,
+    "variants": {
+      "Alolan Dugtrio": {
+        "diff": {
+          "Abilities": [
+            "Sand Veil",
+            "Tangling Hair"
+          ],
+          "Moves": {
+            "Level": {
+              "10": [
+                "Mud Bomb",
+                "Earth Power"
+              ],
+              "14": [
+                "Dig",
+                "Iron Head"
+              ],
+              "18": [
+                "Earthquake",
+                "Fissure"
+              ],
+              "6": [
+                "Magnitude",
+                "Bulldoze",
+                "Sucker Punch"
+              ]
+            },
+            "Starting Moves": [
+              "Growl",
+              "Metal Claw",
+              "Night Slash",
+              "Rototiller",
+              "Sand Attack",
+              "Sand Tomb",
+              "Tri Attack",
+              "Growl",
+              "Astonish",
+              "Mud-Slap"
+            ],
+            "TM": [
+              1,
+              6,
+              10,
+              15,
+              17,
+              21,
+              26,
+              27,
+              28,
+              32,
+              36,
+              37,
+              39,
+              40,
+              42,
+              43,
+              44,
+              45,
+              46
+            ]
+          },
+          "Type": [
+            "Ground",
+            "Steel"
+          ],
+          "attributes": {
+            "DEX": 16,
+            "STR": 17
+          }
+        },
+        "display": "Alolan Dugtrio",
+        "original_species": "Alolan Dugtrio"
+      },
+      "Dugtrio": {
+        "display": "Dugtrio",
+        "original_species": "Dugtrio"
+      }
+    }
+  }
 }
