@@ -631,6 +631,20 @@ function M.get_abilities(pkmn, as_raw)
 	return t
 end
 
+function M.remove_skill(pkmn, position)
+	table.remove(pkmn.skills, position)
+end
+
+function M.add_skill(pkmn, value)
+	if pkmn.skills == nil then
+		pkmn.skills = {}
+	end
+	table.insert(pkmn.skills, value)
+end
+
+function M.extra_skills(pkmn)
+	return pkmn.skills or {}
+end
 
 function M.get_skills(pkmn)
 	local skills = pokedex.get_skills(M.get_current_species(pkmn)) or {}
@@ -648,6 +662,9 @@ function M.get_skills(pkmn)
 				table.insert(skills, skill)
 			end
 		end
+	end
+	for _, s in pairs(M.extra_skills(pkmn)) do
+		table.insert(skills, s)
 	end
 	return skills
 end

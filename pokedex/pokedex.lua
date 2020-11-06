@@ -27,6 +27,13 @@ M.MALE = 1
 M.FEMALE = 2
 M.ANY = 3
 
+M.skills = {
+	'Acrobatics', 'Animal Handling', 'Arcana', 'Athletics',
+	'Deception', 'History', 'Insight', 'Intimidation',
+	'Investigation', 'Medicine', 'Nature', 'Perception', 'Performance',
+	'Persuasion', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival'
+}
+
 local initialized = false
 local function list()
 	local _index_list = file.load_json_from_resource("/assets/datafiles/index_order.json")

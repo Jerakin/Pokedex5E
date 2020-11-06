@@ -39,8 +39,9 @@ M.config = {
 		[5]=hash("change_pokemon/moves"),
 		[6]=hash("change_pokemon/abilities"),
 		[7]=hash("change_pokemon/feats"),
-		[8]=hash("change_pokemon/held_item"),
-		[9]=hash("change_pokemon/custom_asi/root")
+		[8]=hash("change_pokemon/skills"),
+		[9]=hash("change_pokemon/held_item"),
+		[10]=hash("change_pokemon/custom_asi/root")
 	},
 	start = vmath.vector3(0, -110, 0),
 	[hash("change_pokemon/asi/root")] = {open=vmath.vector3(720, 420, 0), closed=vmath.vector3(720, 85, 0), active=true},
@@ -48,6 +49,7 @@ M.config = {
 	[hash("change_pokemon/moves")] = {open=vmath.vector3(720, 0, 0), closed=vmath.vector3(720, 50, 0), active=false},
 	[hash("change_pokemon/extra")] = {open=vmath.vector3(720, 150, 0), closed=vmath.vector3(720, 0, 0), active=true},
 	[hash("change_pokemon/feats")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
+	[hash("change_pokemon/skills")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
 	[hash("change_pokemon/nature")] = {open=vmath.vector3(720, 70, 0), closed=vmath.vector3(720, 0, 0), active=true},
 	[hash("change_pokemon/variant")] = {open=vmath.vector3(720, 70, 0), closed=vmath.vector3(720, 0, 0), active=true},
 	[hash("change_pokemon/held_item")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
@@ -66,6 +68,7 @@ local function collapse_buttons()
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_moves"), button_state[M.config[hash("change_pokemon/moves")].active])
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_abilities"), button_state[M.config[hash("change_pokemon/abilities")].active])
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_feats"), button_state[M.config[hash("change_pokemon/feats")].active])
+	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_skills"), button_state[M.config[hash("change_pokemon/skills")].active])
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_item"), button_state[M.config[hash("change_pokemon/held_item")].active])
 	gui.play_flipbook(gui.get_node("change_pokemon/custom_asi/btn_collapse"), button_state[M.config[hash("change_pokemon/custom_asi/root")].active])
 	gui.set_enabled(gui.get_node("change_pokemon/btn_reset_abilities"), M.config[hash("change_pokemon/abilities")].active)
@@ -373,6 +376,14 @@ local function redraw(self)
 	M.config[hash("change_pokemon/feats")].open.y = M.config[hash("change_pokemon/feats")].closed.y + math.ceil((#_pokemon.get_feats(self.pokemon) + 1) / 2) * 50
 	self.feats_data = redraw_list(self.feats_data, _pokemon.get_feats(self.pokemon), text_id, btn_id, del_id, root_id)
 
+	-- skills
+	local root_id = hash("change_pokemon/skill/root")
+	local text_id = hash("change_pokemon/skill/txt")
+	local btn_id = hash("change_pokemon/skill/btn_entry")
+	local del_id = hash("change_pokemon/skill/btn_delete")
+	M.config[hash("change_pokemon/skills")].open.y = M.config[hash("change_pokemon/skills")].closed.y + math.ceil((#_pokemon.extra_skills(self.pokemon) + 1) / 2) * 50
+	self.skills_data = redraw_list(self.skills_data, _pokemon.extra_skills(self.pokemon), text_id, btn_id, del_id, root_id)
+	
 	-- level
 	local current = _pokemon.get_current_level(self.pokemon)
 	gui.set_text(gui.get_node("change_pokemon/txt_level"), current)
@@ -477,12 +488,14 @@ function M.init(self, pokemon)
 
 	self.list_items = {}
 	self.feats_data = {}
+	self.skills_data = {}
 	self.move_buttons = {}
 	self.ability_data = {}
 	self.move_button_index = 0
 	self.root = gui.get_node("root")
 	gui.set_enabled(gui.get_node("change_pokemon/feat/root"), false)
 	gui.set_enabled(gui.get_node("change_pokemon/ability/root"), false)
+	gui.set_enabled(gui.get_node("change_pokemon/skill/root"), false)
 	gui.set_enabled(gui.get_node("change_pokemon/btn_reset_abilities"), false)
 	gui.set_color(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector4(1))
 	gui.set_scale(gui.get_node("change_pokemon/species"), POKEMON_SPECIES_TEXT_SCALE)
@@ -546,6 +559,8 @@ function M.on_message(self, message_id, message, sender)
 			_pokemon.add_ability(self.pokemon, message.item)
 		elseif message_id == messages.FEATS then
 			_pokemon.add_feat(self.pokemon, message.item)
+		elseif message_id == messages.SKILLS then
+			_pokemon.add_skill(self.pokemon, message.item)
 		elseif message_id == messages.ITEM then
 			_pokemon.set_held_item(self.pokemon, message.item)
 			gui.set_text(gui.get_node("change_pokemon/txt_item"), message.item:upper())
@@ -597,8 +612,30 @@ local function add_ability(self)
 	monarch.show(screens.SCROLLIST, {}, {items=filtered, message_id=messages.ABILITIES, sender=msg.url(), title="Pick Ability"})
 end
 
+local function add_skill(self)
+	local skill_list = utils.deep_copy(pokedex.skills)
+	local filtered = {}
+	local add
+	for _, a_skill in pairs(skill_list) do 
+		add = true
+		for _, skill in pairs(_pokemon.get_skills(self.pokemon)) do
+			if a_skill == skill then
+				add = false
+			end
+		end
+		if add then
+			table.insert(filtered, a_skill)
+		end
+	end
+	monarch.show(screens.SCROLLIST, {}, {items=filtered, message_id=messages.SKILLS, sender=msg.url(), title="Pick Skill"})
+end
+
+local function delete_skill(self, skill)
+	_pokemon.remove_skill(self.pokemon, skill)
+	redraw(self)
+end
+
 local function add_feat(self)
-	local a = utils.deep_copy(_feats.list)
 	monarch.show(screens.SCROLLIST, {}, {items=_feats.list, message_id=messages.FEATS, sender=msg.url(), title="Pick Feat"})
 end
 
@@ -637,6 +674,16 @@ local function feats_buttons(self, action_id, action)
 			gooey.button(data.button, action_id, action, function() add_feat(self) end)
 		else
 			gooey.button(data.delete, action_id, action, function(c) delete_feat(self, data.position) end, gooey_buttons.cross_button)
+		end
+	end
+end
+
+local function skills_buttons(self, action_id, action)
+	for _, data in pairs(self.skills_data) do
+		if data.name == "Add Other" then
+			gooey.button(data.button, action_id, action, function() add_skill(self) end)
+		else
+			gooey.button(data.delete, action_id, action, function(c) delete_skill(self, data.position) end, gooey_buttons.cross_button)
 		end
 	end
 end
@@ -779,6 +826,7 @@ function M.on_input(self, action_id, action)
 			M.config[hash("change_pokemon/moves")].active = false
 			M.config[hash("change_pokemon/abilities")].active = false
 			M.config[hash("change_pokemon/feats")].active = false
+			M.config[hash("change_pokemon/skills")].active = false
 			M.config[hash("change_pokemon/held_item")].active = false
 		end
 		update_sections()
@@ -791,6 +839,7 @@ function M.on_input(self, action_id, action)
 			M.config[hash("change_pokemon/moves")].active = false
 			M.config[hash("change_pokemon/abilities")].active = false
 			M.config[hash("change_pokemon/feats")].active = false
+			M.config[hash("change_pokemon/skills")].active = false
 			M.config[hash("change_pokemon/held_item")].active = false
 		end
 		update_sections()
@@ -803,6 +852,7 @@ function M.on_input(self, action_id, action)
 			M.config[hash("change_pokemon/asi/root")].active = false
 			M.config[hash("change_pokemon/custom_asi/root")].active = false
 			M.config[hash("change_pokemon/feats")].active = false
+			M.config[hash("change_pokemon/skills")].active = false
 			M.config[hash("change_pokemon/held_item")].active = false
 		end
 		update_sections()
@@ -815,6 +865,7 @@ function M.on_input(self, action_id, action)
 			M.config[hash("change_pokemon/custom_asi/root")].active = false
 			M.config[hash("change_pokemon/moves")].active = false
 			M.config[hash("change_pokemon/feats")].active = false
+			M.config[hash("change_pokemon/skills")].active = false
 			M.config[hash("change_pokemon/held_item")].active = false
 		end
 		update_sections()
@@ -823,6 +874,7 @@ function M.on_input(self, action_id, action)
 	gooey.button("change_pokemon/btn_collapse_feats", action_id, action, function()
 		M.config[hash("change_pokemon/feats")].active = not M.config[hash("change_pokemon/feats")].active
 		if M.config[hash("change_pokemon/feats")].active then
+			M.config[hash("change_pokemon/skills")].active = false
 			M.config[hash("change_pokemon/abilities")].active = false
 			M.config[hash("change_pokemon/asi/root")].active = false
 			M.config[hash("change_pokemon/custom_asi/root")].active = false
@@ -831,7 +883,20 @@ function M.on_input(self, action_id, action)
 		end
 		update_sections()
 	end)
-
+	
+	gooey.button("change_pokemon/btn_collapse_skills", action_id, action, function()
+		M.config[hash("change_pokemon/skills")].active = not M.config[hash("change_pokemon/skills")].active
+		if M.config[hash("change_pokemon/skills")].active then
+			M.config[hash("change_pokemon/feats")].active = false
+			M.config[hash("change_pokemon/abilities")].active = false
+			M.config[hash("change_pokemon/asi/root")].active = false
+			M.config[hash("change_pokemon/custom_asi/root")].active = false
+			M.config[hash("change_pokemon/moves")].active = false
+			M.config[hash("change_pokemon/held_item")].active = false
+		end
+		update_sections()
+	end)
+	
 	gooey.button("change_pokemon/btn_collapse_item", action_id, action, function()
 		M.config[hash("change_pokemon/held_item")].active = not M.config[hash("change_pokemon/held_item")].active
 		if M.config[hash("change_pokemon/held_item")].active then
@@ -840,6 +905,7 @@ function M.on_input(self, action_id, action)
 			M.config[hash("change_pokemon/custom_asi/root")].active = false
 			M.config[hash("change_pokemon/moves")].active = false
 			M.config[hash("change_pokemon/feats")].active = false
+			M.config[hash("change_pokemon/skills")].active = false
 		end
 		update_sections()
 	end)
@@ -860,6 +926,9 @@ function M.on_input(self, action_id, action)
 	end
 	if M.config[hash("change_pokemon/feats")].active then
 		feats_buttons(self, action_id, action)
+	end
+	if M.config[hash("change_pokemon/skills")].active then
+		skills_buttons(self, action_id, action)
 	end
 	if M.config[hash("change_pokemon/nature")].active then
 		gooey.button("change_pokemon/btn_nature", action_id, action, function()
