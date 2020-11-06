@@ -8405,8 +8405,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 720.0
+    y: 420.0
     z: 0.0
     w: 1.0
   }
@@ -8433,19 +8433,17 @@ nodes {
     z: 0.0
     w: 0.0
   }
-  clipping_mode: CLIPPING_MODE_NONE
+  clipping_mode: CLIPPING_MODE_STENCIL
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 4
-  overridden_fields: 27
   template_node_child: true
   size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
     x: 0.0
-    y: -18.0
+    y: -57.0
     z: 0.0
     w: 1.0
   }
@@ -8462,8 +8460,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 1.0
-    y: 1.0
+    x: 0.0
+    y: 0.0
     z: 0.0
     w: 1.0
   }
@@ -8494,9 +8492,8 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 1
   template_node_child: true
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {
@@ -8574,7 +8571,7 @@ nodes {
   }
   size {
     x: 50.0
-    y: 35.0
+    y: 30.0
     z: 0.0
     w: 1.0
   }
@@ -8586,7 +8583,8 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "0"
+  text: "10\n"
+  ""
   font: "script"
   id: "attributes/STR"
   xanchor: XANCHOR_NONE
@@ -8612,8 +8610,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 4
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -8825,7 +8821,7 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
+    x: -10.0
     y: -30.0
     z: 0.0
     w: 1.0
@@ -8843,7 +8839,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 250.0
     y: 50.0
     z: 0.0
     w: 1.0
@@ -8882,8 +8878,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 1
-  overridden_fields: 4
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -8908,8 +8902,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 50.0
+    y: 50.0
     z: 0.0
     w: 1.0
   }
@@ -8921,7 +8915,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: ""
+  text: "+ 0"
   font: "script"
   id: "attributes/STR_MOD"
   xanchor: XANCHOR_NONE
@@ -8947,8 +8941,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 4
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -9029,7 +9021,7 @@ nodes {
   }
   size {
     x: 50.0
-    y: 35.0
+    y: 30.0
     z: 0.0
     w: 1.0
   }
@@ -9041,7 +9033,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "0"
+  text: "10"
   font: "script"
   id: "attributes/DEX"
   xanchor: XANCHOR_NONE
@@ -9067,8 +9059,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 4
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -9280,7 +9270,7 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
+    x: -10.0
     y: -30.0
     z: 0.0
     w: 1.0
@@ -9298,7 +9288,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 250.0
     y: 50.0
     z: 0.0
     w: 1.0
@@ -9337,8 +9327,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 1
-  overridden_fields: 4
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -9363,8 +9351,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 50.0
+    y: 50.0
     z: 0.0
     w: 1.0
   }
@@ -9376,7 +9364,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: ""
+  text: "+ 0"
   font: "script"
   id: "attributes/DEX_MOD"
   xanchor: XANCHOR_NONE
@@ -9402,8 +9390,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 4
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -9484,7 +9470,7 @@ nodes {
   }
   size {
     x: 50.0
-    y: 35.0
+    y: 30.0
     z: 0.0
     w: 1.0
   }
@@ -9496,7 +9482,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "0"
+  text: "10"
   font: "script"
   id: "attributes/CON"
   xanchor: XANCHOR_NONE
@@ -9522,8 +9508,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 4
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -9735,7 +9719,7 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
+    x: -10.0
     y: -30.0
     z: 0.0
     w: 1.0
@@ -9753,7 +9737,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 250.0
     y: 50.0
     z: 0.0
     w: 1.0
@@ -9792,8 +9776,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 1
-  overridden_fields: 4
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -9818,8 +9800,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 50.0
+    y: 50.0
     z: 0.0
     w: 1.0
   }
@@ -9831,7 +9813,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: ""
+  text: "+ 0"
   font: "script"
   id: "attributes/CON_MOD"
   xanchor: XANCHOR_NONE
@@ -9857,8 +9839,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 4
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -9939,7 +9919,7 @@ nodes {
   }
   size {
     x: 50.0
-    y: 35.0
+    y: 30.0
     z: 0.0
     w: 1.0
   }
@@ -9951,7 +9931,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "0"
+  text: "10"
   font: "script"
   id: "attributes/INT"
   xanchor: XANCHOR_NONE
@@ -9977,8 +9957,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 4
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -10190,7 +10168,7 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
+    x: -10.0
     y: -30.0
     z: 0.0
     w: 1.0
@@ -10208,7 +10186,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 250.0
     y: 50.0
     z: 0.0
     w: 1.0
@@ -10248,8 +10226,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 1
-  overridden_fields: 4
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -10274,8 +10250,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 50.0
+    y: 50.0
     z: 0.0
     w: 1.0
   }
@@ -10287,7 +10263,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: ""
+  text: "+ 0"
   font: "script"
   id: "attributes/INT_MOD"
   xanchor: XANCHOR_NONE
@@ -10313,8 +10289,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 4
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -10395,7 +10369,7 @@ nodes {
   }
   size {
     x: 50.0
-    y: 35.0
+    y: 30.0
     z: 0.0
     w: 1.0
   }
@@ -10407,7 +10381,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "0"
+  text: "10"
   font: "script"
   id: "attributes/WIS"
   xanchor: XANCHOR_NONE
@@ -10433,8 +10407,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 4
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -10646,7 +10618,7 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
+    x: -10.0
     y: -30.0
     z: 0.0
     w: 1.0
@@ -10664,7 +10636,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 250.0
     y: 50.0
     z: 0.0
     w: 1.0
@@ -10704,8 +10676,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 1
-  overridden_fields: 4
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -10730,8 +10700,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 50.0
+    y: 50.0
     z: 0.0
     w: 1.0
   }
@@ -10743,7 +10713,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: ""
+  text: "+ 0"
   font: "script"
   id: "attributes/WIS_MOD"
   xanchor: XANCHOR_NONE
@@ -10769,8 +10739,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 4
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -10851,7 +10819,7 @@ nodes {
   }
   size {
     x: 50.0
-    y: 35.0
+    y: 30.0
     z: 0.0
     w: 1.0
   }
@@ -10863,7 +10831,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "0"
+  text: "10"
   font: "script"
   id: "attributes/CHA"
   xanchor: XANCHOR_NONE
@@ -10889,8 +10857,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 4
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -11102,7 +11068,7 @@ nodes {
 }
 nodes {
   position {
-    x: 0.0
+    x: -10.0
     y: -30.0
     z: 0.0
     w: 1.0
@@ -11120,7 +11086,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 250.0
     y: 50.0
     z: 0.0
     w: 1.0
@@ -11159,8 +11125,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 1
-  overridden_fields: 4
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -11185,8 +11149,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 50.0
+    y: 50.0
     z: 0.0
     w: 1.0
   }
@@ -11198,7 +11162,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: ""
+  text: "+ 0"
   font: "script"
   id: "attributes/CHA_MOD"
   xanchor: XANCHOR_NONE
@@ -11224,8 +11188,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 4
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -11250,8 +11212,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 300.0
+    y: 30.0
     z: 0.0
     w: 1.0
   }
@@ -11263,7 +11225,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: ""
+  text: "Available Points:"
   font: "script"
   id: "attributes/title"
   xanchor: XANCHOR_NONE
@@ -11289,8 +11251,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 4
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -11315,8 +11275,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 50.0
+    y: 30.0
     z: 0.0
     w: 1.0
   }
@@ -11328,7 +11288,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: ""
+  text: "0"
   font: "script"
   id: "attributes/asi_points"
   xanchor: XANCHOR_NONE
@@ -11354,8 +11314,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 4
-  overridden_fields: 8
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -11381,7 +11339,7 @@ nodes {
   }
   size {
     x: 600.0
-    y: 45.0
+    y: 50.0
     z: 0.0
     w: 1.0
   }
@@ -11420,7 +11378,6 @@ nodes {
   alpha: 1.0
   outline_alpha: 0.0
   shadow_alpha: 1.0
-  overridden_fields: 4
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
@@ -11445,8 +11402,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 0.0
-    y: 0.0
+    x: 50.0
+    y: 50.0
     z: 0.0
     w: 1.0
   }
@@ -11477,10 +11434,71 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  overridden_fields: 4
-  overridden_fields: 38
   template_node_child: true
-  size_mode: SIZE_MODE_MANUAL
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 0.0
+    y: -409.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: ""
+  font: "script"
+  id: "attributes/description"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "attributes/root"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: true
+  text_leading: 1.0
+  text_tracking: 0.0
 }
 nodes {
   position {

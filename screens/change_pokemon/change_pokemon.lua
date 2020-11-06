@@ -39,7 +39,8 @@ M.config = {
 		[5]=hash("change_pokemon/moves"),
 		[6]=hash("change_pokemon/abilities"),
 		[7]=hash("change_pokemon/feats"),
-		[8]=hash("change_pokemon/held_item")
+		[8]=hash("change_pokemon/held_item"),
+		[9]=hash("change_pokemon/custom_asi/root")
 	},
 	start = vmath.vector3(0, -110, 0),
 	[hash("change_pokemon/asi/root")] = {open=vmath.vector3(720, 420, 0), closed=vmath.vector3(720, 85, 0), active=true},
@@ -49,7 +50,8 @@ M.config = {
 	[hash("change_pokemon/feats")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
 	[hash("change_pokemon/nature")] = {open=vmath.vector3(720, 70, 0), closed=vmath.vector3(720, 0, 0), active=true},
 	[hash("change_pokemon/variant")] = {open=vmath.vector3(720, 70, 0), closed=vmath.vector3(720, 0, 0), active=true},
-	[hash("change_pokemon/held_item")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false}
+	[hash("change_pokemon/held_item")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
+	[hash("change_pokemon/custom_asi/root")] = {open=vmath.vector3(720, 420, 0), closed=vmath.vector3(720, 50, 0), active=false}
 }
 local node_index = 0
 local function set_id(node)
@@ -65,6 +67,7 @@ local function collapse_buttons()
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_abilities"), button_state[M.config[hash("change_pokemon/abilities")].active])
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_feats"), button_state[M.config[hash("change_pokemon/feats")].active])
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_item"), button_state[M.config[hash("change_pokemon/held_item")].active])
+	gui.play_flipbook(gui.get_node("change_pokemon/custom_asi/btn_collapse"), button_state[M.config[hash("change_pokemon/custom_asi/root")].active])
 	gui.set_enabled(gui.get_node("change_pokemon/btn_reset_abilities"), M.config[hash("change_pokemon/abilities")].active)
 end
 
@@ -315,32 +318,39 @@ local function redraw(self)
 	-- Moves
 	redraw_moves(self)
 
-	-- Natures and attributes
-	local attributes = _pokemon.get_attributes(self.pokemon)
-	local increased = _pokemon.get_increased_attributes(self.pokemon)
-	local old_increased = _pokemon.get_increased_attributes(stored_pokemon)
-	for _, stat in pairs(constants.ABILITY_LIST) do
-		local n = gui.get_node("change_pokemon/asi/" .. stat .. "_MOD")
-		local stat_num = gui.get_node("change_pokemon/asi/" .. stat)
+	local function update_ability_score(label_numbers, attributes, scope)
+		for _, stat in pairs(constants.ABILITY_LIST) do
+			local n = gui.get_node("change_pokemon/".. scope .. "/" .. stat .. "_MOD")
+			local stat_num = gui.get_node("change_pokemon/" .. scope .. "/" .. stat)
 
-		gui.set_text(stat_num, attributes[stat])
-		local mod = ""
-		if (increased[stat] or 0) >= 0 then
-			mod = "+"
+			gui.set_text(stat_num, label_numbers[stat])
+			local mod = ""
+			if (attributes[stat] or 0) >= 0 then
+				mod = "+"
+			end
+			if (attributes[stat] or 0) >= 1 then
+				gui.set_color(n, gui_colors.GREEN)
+				gui.set_color(stat_num, gui_colors.GREEN)
+			elseif (attributes[stat] or 0) <= -1 then
+				gui.set_color(n, gui_colors.RED)
+				gui.set_color(stat_num, gui_colors.RED)
+			else
+				gui.set_color(n, gui_colors.TEXT)
+				gui.set_color(stat_num, gui_colors.TEXT)
+			end
+			if scope == "asi" then
+				gui.set_text(n, "(" .. mod .. (attributes[stat] or 0) ..")")
+			end
 		end
-		if (increased[stat] or 0) >= 1 then
-			gui.set_color(n, gui_colors.GREEN)
-			gui.set_color(stat_num, gui_colors.GREEN)
-		elseif (increased[stat] or 0) <= -1 then
-			gui.set_color(n, gui_colors.RED)
-			gui.set_color(stat_num, gui_colors.RED)
-		else
-			gui.set_color(n, gui_colors.TEXT)
-			gui.set_color(stat_num, gui_colors.TEXT)
-		end
-		gui.set_text(n, "(" .. mod .. (increased[stat] or 0) ..")")
 	end
+	
+	-- Ability Score Increase
+	update_ability_score(_pokemon.get_attributes(self.pokemon), _pokemon.get_increased_attributes(self.pokemon), "asi")
 
+	-- Extra Ability Score
+	local custom_attributes = _pokemon.get_custom_attributes(self.pokemon)
+	update_ability_score(custom_attributes, custom_attributes, "custom_asi")
+	
 	-- ASI
 	update_ASI(self)
 
@@ -384,6 +394,19 @@ end
 function M.redraw(self)
 	redraw(self)
 end
+
+local function custom_increase(self, stat)
+	local custom = _pokemon.get_custom_attributes(self.pokemon)
+	_pokemon.set_custom_attribute(self.pokemon, stat, custom[stat] + 1)
+	redraw(self)
+end
+
+local function custom_decrease(self, stat)
+	local custom = _pokemon.get_custom_attributes(self.pokemon)
+	_pokemon.set_custom_attribute(self.pokemon, stat, custom[stat] - 1)
+	redraw(self)
+end
+
 
 local function increase(self, stat)
 	local max = _pokemon.get_max_attributes(self.pokemon)
@@ -466,7 +489,6 @@ function M.init(self, pokemon)
 	gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
 	self.move_node = gui.get_node("change_pokemon/btn_move")
 	gui.set_enabled(self.move_node, false)
-	gui.set_enabled(gui.get_node("change_pokemon/checkmark_eviolite_mark"), false)
 
 	if self.pokemon then
 		local is_shiny =_pokemon.is_shiny(self.pokemon) or false
@@ -675,43 +697,32 @@ local function move_buttons(self, action_id, action)
 	end
 end
 
-local function attribute_buttons(self, action_id, action)
-	gooey.button("change_pokemon/asi/str/btn_minus", action_id, action, function() decrease(self, "STR") end,gooey_buttons.minus_button)
-	gooey.button("change_pokemon/asi/str/btn_plus", action_id, action, function() increase(self, "STR") end, gooey_buttons.plus_button)
+local function attribute_buttons(self, action_id, action, scope, _decrease, _increase)
+	gooey.button("change_pokemon/" .. scope .. "/str/btn_minus", action_id, action, function() _decrease(self, "STR") end,gooey_buttons.minus_button)
+	gooey.button("change_pokemon/" .. scope .. "/str/btn_plus", action_id, action, function() _increase(self, "STR") end, gooey_buttons.plus_button)
 	
-	gooey.button("change_pokemon/asi/con/btn_minus", action_id, action, function() 
-		decrease(self, "CON")
+	gooey.button("change_pokemon/" .. scope .. "/con/btn_minus", action_id, action, function() 
+		_decrease(self, "CON")
 		M.update_hp_counter(self)
 	end,gooey_buttons.minus_button)
 	
-	gooey.button("change_pokemon/asi/con/btn_plus", action_id, action, function()
-		increase(self, "CON")
+	gooey.button("change_pokemon/" .. scope .. "/con/btn_plus", action_id, action, function()
+		_increase(self, "CON")
 		M.update_hp_counter(self)
 	end, gooey_buttons.plus_button)
 	
-	gooey.button("change_pokemon/asi/dex/btn_minus", action_id, action, function() decrease(self, "DEX") end,gooey_buttons.minus_button)
-	gooey.button("change_pokemon/asi/dex/btn_plus", action_id, action, function() increase(self, "DEX") end, gooey_buttons.plus_button)
+	gooey.button("change_pokemon/" .. scope .. "/dex/btn_minus", action_id, action, function() _decrease(self, "DEX") end,gooey_buttons.minus_button)
+	gooey.button("change_pokemon/" .. scope .. "/dex/btn_plus", action_id, action, function() _increase(self, "DEX") end, gooey_buttons.plus_button)
 	
-	gooey.button("change_pokemon/asi/int/btn_minus", action_id, action, function() decrease(self, "INT") end,gooey_buttons.minus_button)
-	gooey.button("change_pokemon/asi/int/btn_plus", action_id, action, function() increase(self, "INT") end, gooey_buttons.plus_button)
+	gooey.button("change_pokemon/" .. scope .. "/int/btn_minus", action_id, action, function() _decrease(self, "INT") end,gooey_buttons.minus_button)
+	gooey.button("change_pokemon/" .. scope .. "/int/btn_plus", action_id, action, function() _increase(self, "INT") end, gooey_buttons.plus_button)
 	
-	gooey.button("change_pokemon/asi/wis/btn_minus", action_id, action, function() decrease(self, "WIS") end, gooey_buttons.minus_button)
-	gooey.button("change_pokemon/asi/wis/btn_plus", action_id, action, function() increase(self, "WIS") end, gooey_buttons.plus_button)
+	gooey.button("change_pokemon/" .. scope .. "/wis/btn_minus", action_id, action, function() _decrease(self, "WIS") end, gooey_buttons.minus_button)
+	gooey.button("change_pokemon/" .. scope .. "/wis/btn_plus", action_id, action, function() _increase(self, "WIS") end, gooey_buttons.plus_button)
 	
-	gooey.button("change_pokemon/asi/cha/btn_minus", action_id, action, function() decrease(self, "CHA") end, gooey_buttons.minus_button)
-	gooey.button("change_pokemon/asi/cha/btn_plus", action_id, action, function() increase(self, "CHA") end, gooey_buttons.plus_button)
+	gooey.button("change_pokemon/" .. scope .. "/cha/btn_minus", action_id, action, function() _decrease(self, "CHA") end, gooey_buttons.minus_button)
+	gooey.button("change_pokemon/" .. scope .. "/cha/btn_plus", action_id, action, function() _increase(self, "CHA") end, gooey_buttons.plus_button)
 end
-
-local function update_eviolite_checkbox(checkbox)
-	gui.set_enabled(gui.get_node("change_pokemon/checkmark_eviolite_mark"), checkbox.checked)
-end
-
-local function on_eviolite_checked(self, checkbox)
-	_pokemon.set_consumed_eviolite(self.pokemon, checkbox.checked)
-	update_ASI(self)
-	if self.redraw then self.redraw(self) end
-end
-
 
 
 function M.on_input(self, action_id, action)
@@ -725,8 +736,6 @@ function M.on_input(self, action_id, action)
 	for _, button in pairs(active_buttons) do
 		gooey.button(button.node, action_id, action, button.func, button.refresh)
 	end
-	
-	gooey.checkbox("change_pokemon/bg_eviolite", action_id, action, function(checkbox) on_eviolite_checked(self, checkbox) end, update_eviolite_checkbox)
 
 	gooey.button("change_pokemon/female", action_id, action, function()
 		set_gender(self, _pokemon.FEMALE)
@@ -762,10 +771,23 @@ function M.on_input(self, action_id, action)
 			monarch.show(screens.ARE_YOU_SURE, nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=1, id=messages.CHANGE_HP})
 		end
 	end, gooey_buttons.plus_button)
+
+	gooey.button("change_pokemon/custom_asi/btn_collapse", action_id, action, function()
+		M.config[hash("change_pokemon/custom_asi/root")].active = not M.config[hash("change_pokemon/custom_asi/root")].active
+		if M.config[hash("change_pokemon/custom_asi/root")].active then
+			M.config[hash("change_pokemon/asi/root")].active = false
+			M.config[hash("change_pokemon/moves")].active = false
+			M.config[hash("change_pokemon/abilities")].active = false
+			M.config[hash("change_pokemon/feats")].active = false
+			M.config[hash("change_pokemon/held_item")].active = false
+		end
+		update_sections()
+	end)
 	
 	gooey.button("change_pokemon/asi/btn_collapse", action_id, action, function()
 		M.config[hash("change_pokemon/asi/root")].active = not M.config[hash("change_pokemon/asi/root")].active
 		if M.config[hash("change_pokemon/asi/root")].active then
+			M.config[hash("change_pokemon/custom_asi/root")].active = false
 			M.config[hash("change_pokemon/moves")].active = false
 			M.config[hash("change_pokemon/abilities")].active = false
 			M.config[hash("change_pokemon/feats")].active = false
@@ -779,6 +801,7 @@ function M.on_input(self, action_id, action)
 		if M.config[hash("change_pokemon/moves")].active then
 			M.config[hash("change_pokemon/abilities")].active = false
 			M.config[hash("change_pokemon/asi/root")].active = false
+			M.config[hash("change_pokemon/custom_asi/root")].active = false
 			M.config[hash("change_pokemon/feats")].active = false
 			M.config[hash("change_pokemon/held_item")].active = false
 		end
@@ -789,6 +812,7 @@ function M.on_input(self, action_id, action)
 		M.config[hash("change_pokemon/abilities")].active = not M.config[hash("change_pokemon/abilities")].active
 		if M.config[hash("change_pokemon/abilities")].active then
 			M.config[hash("change_pokemon/asi/root")].active = false
+			M.config[hash("change_pokemon/custom_asi/root")].active = false
 			M.config[hash("change_pokemon/moves")].active = false
 			M.config[hash("change_pokemon/feats")].active = false
 			M.config[hash("change_pokemon/held_item")].active = false
@@ -801,6 +825,7 @@ function M.on_input(self, action_id, action)
 		if M.config[hash("change_pokemon/feats")].active then
 			M.config[hash("change_pokemon/abilities")].active = false
 			M.config[hash("change_pokemon/asi/root")].active = false
+			M.config[hash("change_pokemon/custom_asi/root")].active = false
 			M.config[hash("change_pokemon/moves")].active = false
 			M.config[hash("change_pokemon/held_item")].active = false
 		end
@@ -812,17 +837,20 @@ function M.on_input(self, action_id, action)
 		if M.config[hash("change_pokemon/held_item")].active then
 			M.config[hash("change_pokemon/abilities")].active = false
 			M.config[hash("change_pokemon/asi/root")].active = false
+			M.config[hash("change_pokemon/custom_asi/root")].active = false
 			M.config[hash("change_pokemon/moves")].active = false
 			M.config[hash("change_pokemon/feats")].active = false
 		end
 		update_sections()
 	end)
-	
+	if M.config[hash("change_pokemon/custom_asi/root")].active then
+		attribute_buttons(self, action_id, action, "custom_asi", custom_decrease, custom_increase)
+	end
 	if M.config[hash("change_pokemon/abilities")].active then
 		ability_buttons(self, action_id, action)
 	end
 	if M.config[hash("change_pokemon/asi/root")].active then
-		attribute_buttons(self, action_id, action)
+		attribute_buttons(self, action_id, action, "asi", decrease, increase)
 	end
 	if M.config[hash("change_pokemon/moves")].active then
 		move_buttons(self, action_id, action)
