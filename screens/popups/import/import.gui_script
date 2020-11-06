@@ -2,6 +2,7 @@ local monarch  = require "monarch.monarch"
 local render_order = require "utils.gui_render_order"
 local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
+local pokedex = require "pokedex.pokedex"
 local _pokemon = require "pokedex.pokemon"
 local share = require "pokedex.share"
 local screens = require "utils.screens"
@@ -22,7 +23,7 @@ function init(self)
 	local metrics_txt = gui.get_text_metrics_from_node(node_txt)
 	
 	if self.pokemon then		
-		local species = _pokemon.get_nickname(self.pokemon) or _pokemon.get_current_species(self.pokemon)
+		local species = pokedex.get_species_display(_pokemon.get_current_species(self.pokemon), _pokemon.get_variant(self.pokemon))
 		local level = _pokemon.get_current_level(self.pokemon)
 		gui.set_text(node_txt, "Do you want to import level " .. level .. " " .. species .. "?")
 	else		

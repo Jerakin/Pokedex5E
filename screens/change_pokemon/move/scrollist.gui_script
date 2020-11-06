@@ -9,6 +9,7 @@ local gooey_scrolling_list = require "utils.gooey_scrolling_list"
 local url = require "utils.url"
 local messages = require "utils.messages"
 local screens = require "utils.screens"
+local _pokemon = require "pokedex.pokemon"
 
 local selected_item
 local sender
@@ -81,7 +82,7 @@ function init(self)
 	self.current_moves = d.current_moves
 	self.move_to_replace = d.move_to_replace
 	self.pokemon = d.pokemon
-	self.variant = d.pokemon.variant
+	self.variant = _pokemon.get_variant(d.pokemon)
 	self.sub_list = "current"	
 	local starting_moves = pokedex.get_moves(self.species, self.variant, self.level)
 	self.all_items = filter_out_current_moves(self, starting_moves)

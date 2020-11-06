@@ -9,6 +9,7 @@ local M = {}
 local profiles = {}
 local active_slot
 local profile_changing = false
+local LATEST_PROFILE_VERSION = 3
 
 -- TODO: Should probably use broadcast, but I couldn't figure out how to get it to work on a non-UI screen
 local active_profile_changing_cbs = {}
@@ -195,11 +196,6 @@ function M.get_latest()
 	end
 end
 
-local function load_profiles()
-	local loaded = defsave.load("profiles")
-	profiles = defsave.get("profiles", "profiles")
-end
-
 local function convert_to_rolling_profile_slot()
 	if profiles.slots or next(profiles) == nil then
 		return
@@ -219,9 +215,67 @@ local function convert_to_rolling_profile_slot()
 	profiles.last_used = nil
 end
 
+-- HACKY, see caller
+local species_variant_cb
+function M.register_species_variant_cb(cb)
+	species_variant_cb = cb
+end
+
+local function upgrade_profiles()
+	local version = profiles and profiles.version or 1
+
+	local needs_upgrade = version ~= LATEST_PROFILE_VERSION
+	
+	if needs_upgrade then
+		for i=version,LATEST_PROFILE_VERSION-1 do
+			if false then
+
+				-- NOTE: If a new data upgrade is needed, update the above LATEST_PROFILE_VERSION value and add a new block here like so:
+				--elseif i == ??? then
+
+			elseif i == 2 then
+
+				if profiles.slots then
+
+					for s=1,#profiles.slots do
+						local old_party = profiles.slots[s].party
+						local converted_party = {}
+						profiles.slots[s].party = converted_party
+						if old_party then
+							for p=1,#old_party do
+								local new_species,new_variant = species_variant_cb(old_party[p])
+								table.insert(converted_party, {species=new_species, variant=new_variant})
+							end
+						end
+					end
+				end
+
+			elseif i == 1 then
+				convert_to_rolling_profile_slot()				
+			else
+				assert(false, "Unknown profiles data version " .. version)
+			end
+		end
+
+		profiles.version = LATEST_PROFILE_VERSION
+	end
+	
+	return needs_upgrade
+end
+
+local function load_profiles()
+	local loaded = defsave.load("profiles")
+	profiles = defsave.get("profiles", "profiles")
+
+	if not next(profiles) then
+		profiles.version = LATEST_PROFILE_VERSION
+	else
+		upgrade_profiles()
+	end
+end
+
 function M.init()
 	load_profiles()
-	convert_to_rolling_profile_slot()
 	local latest = M.get_latest()
 	if latest then
 		M.set_active(latest)

@@ -5,6 +5,7 @@ local notify = require "utils.notify"
 local monarch = require "monarch.monarch"
 local dex = require "pokedex.dex"
 local pokedex = require "pokedex.pokedex"
+local _pokemon = require "pokedex.pokemon"
 local statuses = require "pokedex.statuses"
 local messages = require "utils.messages"
 local _file = require "utils.file"
@@ -40,21 +41,6 @@ function M.validate(pokemon)
 	return nil
 end
 
-function M.import()
-	local pokemon = _file.load_json(clipboard.paste())
-	if pokemon then
-		if not M.validate(pokemon) then
-			notify.notify("Pokemon data is incomplete")
-			notify.notify(clipboard.paste())
-			return 
-		end
-		M.add_new_pokemon(pokemon)
-		notify.notify("Welcome " .. (pokemon.nickname or pokemon.species.current) .. "!")
-	else
-		notify.notify("Could not parse pokemon data")
-		notify.notify(clipboard.paste())
-	end
-end
 function M.encode_status(pokemon)
 	local new = {}
 	for s, _ in pairs(pokemon.statuses or {}) do
@@ -69,6 +55,7 @@ function M.get_clipboard()
 		if not M.validate(pokemon) then
 			return 
 		end
+		_pokemon.upgrade_pokemon(pokemon)
 		M.encode_status(pokemon)
 		return pokemon
 	end

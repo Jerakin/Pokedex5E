@@ -3,6 +3,7 @@ local defsave = require "defsave.defsave"
 local movedex = require "pokedex.moves"
 local natures = require "pokedex.natures"
 local pokedex = require "pokedex.pokedex"
+local variants = require "pokedex.variants"
 local dex = require "pokedex.dex"
 local items = require "pokedex.items"
 local feats = require "pokedex.feats"
@@ -135,6 +136,7 @@ function init(self)
 		end
 		movedex.init()
 		natures.init()
+		variants.init()
 		pokedex.init()
 		profiles.init()
 

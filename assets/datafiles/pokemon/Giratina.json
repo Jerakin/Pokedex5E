@@ -102,5 +102,30 @@
     "CON",
     "WIS"
   ],
-  "size": "Huge"
+  "size": "Huge",
+  "variant_data": {
+    "create_mode": "default",
+    "default": "Altered Forme",
+    "permanent": false,
+    "variants": {
+      "Altered Forme": {
+        "display": "Giratina Altered Forme",
+        "original_species": "Giratina Altered Forme"
+      },
+      "Origin Forme": {
+        "diff": {
+          "AC": 20,
+          "Abilities": [
+            "Levitate"
+          ],
+          "attributes": {
+            "DEX": 18,
+            "STR": 22
+          }
+        },
+        "display": "Giratina Origin Forme",
+        "original_species": "Giratina Origin Forme"
+      }
+    }
+  }
 }
