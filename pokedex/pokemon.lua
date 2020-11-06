@@ -86,22 +86,9 @@ local function get_attributes_from_feats(pkmn)
 	return m
 end
 
---[[
-A Bulbasaur when gaining ASI would get 2 points. If the Bulbasaur eats an Eviolite he gets 4 instead.
-A Ivysaur when gaining ASI would get 2 points. If the Ivysaur eats an Eviolite he gets 3 instead.
-A Venusaur when gaining ASI would get 2 points. Eating Eviolite have no effect
-A Rattata when gaining ASI would get 3 points. If the Rattata eats an Eviolite he gets 4 points.
-A RAticate when gaining ASI would get 3 points. Eating Eviolite have no effect
-A Kangaskhan when gaining ASI would get 4 points.  Eating Eviolite have no effect--]]
 local function ASI_points(pkmn)
-	local species = M.get_current_species(pkmn)
-	local total = pokedex.get_total_evolution_stages(species)
-	local current = pokedex.get_current_evolution_stage(species)
-	if M.get_consumed_eviolite(pkmn) then
-		return 5 - current
-	else
-		return 5 - total
-	end
+	local total = pokedex.get_total_evolution_stages(M.get_current_species(pkmn))
+	return 5 - total
 end
 
 
@@ -238,16 +225,6 @@ function M.remove_feat(pkmn, position)
 			M.remove_move(pkmn, M.DEFAULT_MAX_MOVES + 1 + count)
 		end
 	end
-end
-
-
-function M.set_consumed_eviolite(pkmn, value)
-	pkmn.eviolite = value == true and true or nil
-end
-
-
-function M.get_consumed_eviolite(pkmn, value)
-	return pkmn.eviolite or false
 end
 
 
@@ -898,7 +875,7 @@ function M.get_species_can_evolve(pkmn)
 end
 
 function M.get_evolution_possible(pkmn)
-	return pokedex.get_evolution_possible(M.get_current_species(pkmn), M.get_gender(pkmn), M.get_moves(pkmn)) and not M.get_consumed_eviolite(pkmn)
+	return pokedex.get_evolution_possible(M.get_current_species(pkmn), M.get_gender(pkmn), M.get_moves(pkmn))
 end
 
 function M.get_catch_rate(pkmn)
