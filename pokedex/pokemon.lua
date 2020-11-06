@@ -39,7 +39,7 @@ local feat_to_attribute = {
 	Acrobat="DEX"
 }
 
-local LATEST_POKEMON_VERSION = 3
+local LATEST_POKEMON_VERSION = 4
 
 M.GENDERLESS = pokedex.GENDERLESS
 M.MALE = pokedex.MALE
