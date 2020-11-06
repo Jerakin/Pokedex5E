@@ -306,8 +306,9 @@ local function redraw(self)
 	pokemon_image(species, variant)
 
 	local has_variants = pokedex.has_variants(species)
-	if has_variants then
-		gui.set_text(gui.get_node("change_pokemon/txt_variant"), _pokemon.get_variant(self.pokemon):upper())
+	local var = _pokemon.get_variant(self.pokemon)
+	if has_variants and var then
+		gui.set_text(gui.get_node("change_pokemon/txt_variant"), var:upper())
 	end
 	gui.set_enabled(gui.get_node("change_pokemon/btn_variant"), has_variants)
 	
