@@ -27,6 +27,16 @@ M.MALE = 1
 M.FEMALE = 2
 M.ANY = 3
 
+M.VARIANT_CREATE_MODE_DEFAULT = "default"
+M.VARIANT_CREATE_MODE_CHOOSE = "choose"
+
+M.skills = {
+	'Acrobatics', 'Animal Handling', 'Arcana', 'Athletics',
+	'Deception', 'History', 'Insight', 'Intimidation',
+	'Investigation', 'Medicine', 'Nature', 'Perception', 'Performance',
+	'Persuasion', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival'
+}
+
 local initialized = false
 local function list()
 	local _index_list = file.load_json_from_resource("/assets/datafiles/index_order.json")
@@ -238,6 +248,17 @@ function M.get_variants(pokemon)
 		return ret
 	end
 	return nil
+end
+
+
+function M.get_variant_create_mode(pokemon)
+	local raw = get_pokemon_raw(pokemon)
+	if raw.variant_data then
+		if raw.variant_data.create_mode == M.VARIANT_CREATE_MODE_CHOOSE then
+			return M.VARIANT_CREATE_MODE_CHOOSE
+		end
+	end
+	return M.VARIANT_CREATE_MODE_DEFAULT
 end
 
 

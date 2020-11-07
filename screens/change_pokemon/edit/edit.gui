@@ -6698,7 +6698,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -1147.0
+    y: -1232.0
     z: 0.0
     w: 1.0
   }
@@ -7194,7 +7194,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -1256.0
+    y: -1480.0
     z: 0.0
     w: 1.0
   }
@@ -7874,7 +7874,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -1357.0
+    y: -1581.0
     z: 0.0
     w: 1.0
   }
@@ -11034,6 +11034,502 @@ nodes {
   template_node_child: true
   text_leading: 1.0
   text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 0.0
+    y: -1335.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 720.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/transparent"
+  id: "change_pokemon/skills"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_N
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "change_pokemon/top_anchor"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_STENCIL
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: -28.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.75
+    y: 0.75
+    z: 0.75
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.24313726
+    y: 0.24313726
+    z: 0.24313726
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "Skills"
+  font: "title"
+  id: "change_pokemon/txt_skills"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "change_pokemon/skills"
+  layer: "title"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 0.0
+  shadow_alpha: 1.0
+  template_node_child: true
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: -170.0
+    y: -78.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: ""
+  id: "change_pokemon/skills_offset"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "change_pokemon/skills"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_TEMPLATE
+  id: "change_pokemon/skill"
+  parent: "change_pokemon/skills_offset"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  template: "/screens/change_pokemon/list_entry.gui"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/add_backing"
+  id: "change_pokemon/skill/root"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "change_pokemon/skill"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 300.0
+    y: 50.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/add_backing"
+  id: "change_pokemon/skill/btn_entry"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "change_pokemon/skill/root"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 18.0
+    y: 18.0
+    z: 18.0
+    w: 30.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 5.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.8
+    y: 0.8
+    z: 0.6
+    w: 1.0
+  }
+  size {
+    x: 280.0
+    y: 40.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.7607843
+    y: 0.62352943
+    z: 0.5568628
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "ABILITY"
+  font: "script_bold"
+  id: "change_pokemon/skill/txt"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "change_pokemon/skill/btn_entry"
+  layer: "script_bold"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 0.0
+  shadow_alpha: 1.0
+  template_node_child: true
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 152.0
+    y: 4.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 42.0
+    y: 42.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/cross_up"
+  id: "change_pokemon/skill/btn_delete"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "change_pokemon/skill/btn_entry"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 257.0
+    y: -30.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.75
+    y: 0.75
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 50.0
+    y: 50.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.45081967
+    y: 0.45081967
+    z: 0.45081967
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/plus"
+  id: "change_pokemon/btn_collapse_skills"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "change_pokemon/skills"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_AUTO
 }
 layers {
   name: "tab_inactive"

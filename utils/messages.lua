@@ -47,6 +47,7 @@ M.ABILITIES = hash("abilities")
 M.FEATS = hash("feats")
 M.ITEM = hash("item")
 M.MOVE = hash("move")
+M.SKILLS = hash("skills")
 M.CHANGE_HP = hash("change_hp")
 M.RESET = hash("reset")
 
