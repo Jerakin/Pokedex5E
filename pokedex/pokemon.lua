@@ -40,7 +40,7 @@ local feat_to_attribute = {
 	Acrobat="DEX"
 }
 
-local LATEST_POKEMON_VERSION = 4
+local LATEST_POKEMON_VERSION = 5
 
 M.GENDERLESS = pokedex.GENDERLESS
 M.MALE = pokedex.MALE
@@ -1072,6 +1072,14 @@ local function get_starting_moves(pkmn, number_of_moves)
 	return moves
 end
 
+local function upgrade_to_default_variant(pkmn)
+	-- Any pokemon whose species includes variants (Pumkpaboo and Gourgeist) needs to have its current variant set to the default
+	-- variant (Small). NOTE: If tuture variants are added, another version upgrade will be required to upgrade those.
+	if not M.get_variant(pkmn) then
+		M.set_variant(pkmn, pokedex.get_default_variant(M.get_current_species(pkmn)))
+	end	
+end
+
 
 function M.upgrade_pokemon(pkmn)
 	local version = pkmn and pkmn.version or 1
@@ -1084,6 +1092,8 @@ function M.upgrade_pokemon(pkmn)
 
 				-- NOTE: If a new data upgrade is needed, update the above LATEST_POKEMON_VERSION value and add a new block here like so:
 				--elseif i == ??? then
+			elseif i == 4 then
+				upgrade_to_default_variant(pkmn)
 			elseif i == 3 then
 				pkmn.attributes.custom = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
 			elseif i == 2 then
@@ -1104,12 +1114,7 @@ function M.upgrade_pokemon(pkmn)
 				end
 
 			elseif i == 1 then
-
-				-- Any pokemon whose species includes variants (Pumkpaboo and Gourgeist) needs to have its current variant set to the default
-				-- variant (Small). NOTE: If tuture variants are added, another version upgrade will be required to upgrade those.
-				if not M.get_variant(pkmn) then
-					M.set_variant(pkmn, pokedex.get_default_variant(M.get_current_species(pkmn)))
-				end
+				upgrade_to_default_variant(pkmn)
 
 				pkmn.attributes.custom = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
 			else
