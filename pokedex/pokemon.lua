@@ -804,7 +804,7 @@ function M.set_current_level(pkmn, level)
 end
 
 
-function M.evolve(pkmn, to_species)
+function M.evolve(pkmn, to_species, to_variant)
 	local level = M.get_current_level(pkmn)
 	if not M.get_max_hp_forced(pkmn) then
 		local current = M.get_max_hp(pkmn)
@@ -817,6 +817,7 @@ function M.evolve(pkmn, to_species)
 	end
 	set_evolution_at_level(pkmn, level)
 	set_species(pkmn, to_species)
+	M.set_variant(pkmn, to_variant)
 end
 
 
