@@ -434,6 +434,7 @@ end
 
 local function finish_create_flow(self, species, variant)
 	M.block = false
+	self.choosing_variant_for_new_species = false
 	self.pokemon = _pokemon.new({species=species, variant=variant})
 	refresh_variant_section(self)
 
@@ -457,6 +458,7 @@ function M.init(self, pokemon)
 	self.move_buttons = {}
 	self.ability_data = {}
 	self.move_button_index = 0
+	self.choosing_variant_for_new_species = false
 	self.root = gui.get_node("root")
 	gui.set_enabled(gui.get_node("change_pokemon/feat/root"), false)
 	gui.set_enabled(gui.get_node("change_pokemon/ability/root"), false)
@@ -506,15 +508,33 @@ function M.on_message(self, message_id, message, sender)
 			if not variants or #variants == 0 then
 				finish_create_flow(self, self.species, nil)
 			else
-				-- This pokemon type has variants associated with it, choose the default
-				finish_create_flow(self, self.species, pokedex.get_default_variant(self.species))
+				-- This pokemon type has variants associated with it
+				if pokedex.get_variant_create_mode(self.species) == pokedex.VARIANT_CREATE_MODE_CHOOSE then
+					-- User must choose the variant
+					self.choosing_variant_for_new_species = true
+					flow.start(function()
+						flow.until_true(function() return not monarch.is_busy() end)
+						monarch.show(screens.SCROLLIST, {}, {items=variants, message_id=messages.VARIANT, sender=msg.url(), title="Choose Variant"})
+					end)
+				else
+					-- Variant is the default
+					finish_create_flow(self, self.species, pokedex.get_default_variant(self.species))
+				end
 			end
 		elseif message_id == messages.VARIANT then
 			if message.item == "" then
 				return
 			end
-			_pokemon.set_variant(self.pokemon, message.item)
-			redraw(self)
+
+			if self.choosing_variant_for_new_species then
+				-- We have not finished creating the pokemon yet after selecting the species. Finish creation
+				finish_create_flow(self, self.species, message.item)
+			else
+				-- We were just changing the variant of an already-chosen pokemon		
+				_pokemon.set_variant(self.pokemon, message.item)
+				redraw(self)
+			end
+			
 		elseif message_id == messages.EVOLVE then
 			flow.start(function()
 				flow.until_true(function() return not monarch.is_busy() end)
