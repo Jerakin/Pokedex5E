@@ -534,12 +534,6 @@ function M.on_message(self, message_id, message, sender)
 				_pokemon.set_variant(self.pokemon, message.item)
 				redraw(self)
 			end
-			
-		elseif message_id == messages.EVOLVE then
-			flow.start(function()
-				flow.until_true(function() return not monarch.is_busy() end)
-				monarch.show(screens.ARE_YOU_SURE, nil, {title="Evolve at level ".. _pokemon.get_current_level(self.pokemon) .. "?", text="This will automatically save and exit to Party", sender=msg.url(), data=message.item, id="evolve"})
-			end)
 		elseif message_id == messages.ABILITIES then
 			_pokemon.add_ability(self.pokemon, message.item)
 		elseif message_id == messages.FEATS then
