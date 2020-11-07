@@ -40,7 +40,7 @@ local feat_to_attribute = {
 	Acrobat="DEX"
 }
 
-local LATEST_POKEMON_VERSION = 5
+local LATEST_POKEMON_VERSION = 6
 
 M.GENDERLESS = pokedex.GENDERLESS
 M.MALE = pokedex.MALE
@@ -1080,6 +1080,23 @@ local function upgrade_to_default_variant(pkmn)
 	end	
 end
 
+local function upgrade_species_to_variant_version(pkmn)
+	-- Pokemon species that included the variant name have been switched to be just the main species name with the variant
+	-- as an object instead
+	if not pkmn.variant then
+		local s_caught,v_caught = variants.get_species_variant_for(pkmn.species.caught)
+		local s_current,v_current = variants.get_species_variant_for(pkmn.species.current)
+
+		pkmn.species.caught = s_caught
+		pkmn.species.current = s_current
+		if v_current then
+			pkmn.variant = v_current
+		elseif v_caught then
+			pkmn.variant = v_caught
+		end
+	end
+end
+
 
 function M.upgrade_pokemon(pkmn)
 	local version = pkmn and pkmn.version or 1
@@ -1092,27 +1109,14 @@ function M.upgrade_pokemon(pkmn)
 
 				-- NOTE: If a new data upgrade is needed, update the above LATEST_POKEMON_VERSION value and add a new block here like so:
 				--elseif i == ??? then
+			elseif i == 5 then
+				upgrade_species_to_variant_version(pkmn)
 			elseif i == 4 then
 				upgrade_to_default_variant(pkmn)
 			elseif i == 3 then
 				pkmn.attributes.custom = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
 			elseif i == 2 then
-
-				-- Pokemon species that included the variant name have been switched to be just the main species name with the variant
-				-- as an object instead
-				if not pkmn.variant then
-					local s_caught,v_caught = variants.get_species_variant_for(pkmn.species.caught)
-					local s_current,v_current = variants.get_species_variant_for(pkmn.species.current)
-
-					pkmn.species.caught = s_caught
-					pkmn.species.current = s_current
-					if v_current then
-						pkmn.variant = v_current
-					elseif v_caught then
-						pkmn.variant = v_caught
-					end
-				end
-
+				upgrade_species_to_variant_version(pkmn)
 			elseif i == 1 then
 				upgrade_to_default_variant(pkmn)
 
