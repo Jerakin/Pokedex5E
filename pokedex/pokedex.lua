@@ -30,6 +30,13 @@ M.ANY = 3
 M.VARIANT_CREATE_MODE_DEFAULT = "default"
 M.VARIANT_CREATE_MODE_CHOOSE = "choose"
 
+M.skills = {
+	'Acrobatics', 'Animal Handling', 'Arcana', 'Athletics',
+	'Deception', 'History', 'Insight', 'Intimidation',
+	'Investigation', 'Medicine', 'Nature', 'Perception', 'Performance',
+	'Persuasion', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival'
+}
+
 local initialized = false
 local function list()
 	local _index_list = file.load_json_from_resource("/assets/datafiles/index_order.json")
