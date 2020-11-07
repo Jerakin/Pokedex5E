@@ -4,10 +4,10 @@ import re
 
 # https://github.com/PokeAPI/api-data
 input_location = Path().home() / "downloads" / "api-data-master" / "data" / "api" / "v2"
-output_location = Path(__file__).parent.parent.parent / "assets" / "datafiles"
+output_location = Path(__file__).parent.parent.parent.parent / "assets" / "datafiles"
 
 output_data = {}
-pokemon_index_cap = 721
+pokemon_index_cap = 809
 
 for index in range(pokemon_index_cap):
     index += 1
@@ -25,7 +25,7 @@ for index in range(pokemon_index_cap):
 
         for flavor in json_data["flavor_text_entries"]:
             if flavor["language"]["name"] == "en" and flavor["version"]["name"] == "omega-ruby":
-                flavor_text = flavor["flavor_text"].replace(species.upper(), species.capitalize()).replace("\n", " ").replace("\x0c", " ").replace("POKéMON", "Pokémon")
+                flavor_text = flavor["flavor_text"].replace(species.upper(), species.capitalize()).replace("\n", " ").replace("\x0c", " ").replace("POKéMON", "Pokémon").replace("“", '\"').replace("”", '\"')
                 break
         for genus in json_data["genera"]:
             if genus["language"]["name"] == "en":
