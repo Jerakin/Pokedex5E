@@ -178,4 +178,43 @@ function M.download_package(package)
 	end)
 end
 
+function M.merge_data(pokedex, pokedex_extra, abilities, evolvedata, genders)
+	if M.DATA then
+		if M.DATA["pokemon.json"] then
+			log.info("Merging Pokemon data")
+			for pokemon, data in pairs(M.DATA["pokemon.json"]) do
+				log.info("  " .. pokemon)
+				data.fakemon = true
+				pokedex[pokemon] = data
+			end
+		end
+		if M.DATA["pokedex_extra.json"] then
+			for name, data in pairs(M.DATA["pokedex_extra.json"]) do
+				pokedex_extra[name] = data
+			end
+		end
+		if M.DATA["abilities.json"] then
+			log.info("Merging abilities data")
+			for name, data in pairs(M.DATA["abilities.json"]) do
+				log.info("  " .. name)
+				abilities[name] = data
+			end
+		end
+		if M.DATA["evolve.json"] then
+			log.info("Merging evolve data")
+			for name, data in pairs(M.DATA["evolve.json"]) do
+				log.info("  " .. name)
+				evolvedata[name] = data
+			end
+		end
+		if M.DATA["gender.json"] then
+			log.info("Merging gender data")
+			for name, data in pairs(M.DATA["gender.json"]) do
+				log.info("  " .. name)
+				genders[name] = data
+			end
+		end
+	end
+end
+
 return M

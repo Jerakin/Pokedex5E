@@ -129,42 +129,7 @@ function M.init()
 		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
 		exp_grid = file.load_json_from_resource("/assets/datafiles/exp_grid.json")
 		genders = file.load_json_from_resource("/assets/datafiles/gender.json")
-		if fakemon.DATA then
-			if fakemon.DATA["pokemon.json"] then
-				log.info("Merging Pokemon data")
-				for pokemon, data in pairs(fakemon.DATA["pokemon.json"]) do
-					log.info("  " .. pokemon)
-					data.fakemon = true
-					pokedex[pokemon] = data
-				end
-			end
-			if fakemon.DATA["pokedex_extra.json"] then
-				for name, data in pairs(fakemon.DATA["pokedex_extra.json"]) do
-					pokedex_extra[name] = data
-				end
-			end
-			if fakemon.DATA["abilities.json"] then
-				log.info("Merging abilities data")
-				for name, data in pairs(fakemon.DATA["abilities.json"]) do
-					log.info("  " .. name)
-					abilities[name] = data
-				end
-			end
-			if fakemon.DATA["evolve.json"] then
-				log.info("Merging evolve data")
-				for name, data in pairs(fakemon.DATA["evolve.json"]) do
-					log.info("  " .. name)
-					evolvedata[name] = data
-				end
-			end
-			if fakemon.DATA["gender.json"] then
-				log.info("Merging gender data")
-				for name, data in pairs(fakemon.DATA["gender.json"]) do
-					log.info("  " .. name)
-					genders[name] = data
-				end
-			end
-		end
+		fakemon.merge_data(pokedex, pokedex_extra, abilities, evolvedata, genders)
 		cache_evolve_from_data()
 		M.list, M.total, M.unique = list()
 		initialized = true
