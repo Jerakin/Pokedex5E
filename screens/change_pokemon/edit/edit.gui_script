@@ -91,7 +91,7 @@ local function evolve_pokemon_confirm(self)
 		local display = pokedex.get_species_display(self.evolve_species, self.evolve_variant)
 		flow.start(function()
 			flow.until_true(function() return not monarch.is_busy() end)
-			monarch.show(screens.ARE_YOU_SURE, nil, {title="Evolve?", text="Evolve into ".. display .. " at level ".. _pokemon.get_current_level(self.pokemon) .. "?\n\nThis will automatically save and exit to Party", sender=msg.url(), id="evolve_confirm"})
+			monarch.show(screens.ARE_YOU_SURE, nil, {title="Confirm Evolve", text="Evolve into ".. display .. " at level ".. _pokemon.get_current_level(self.pokemon) .. "?\n\nThis will automatically save and exit to Party", sender=msg.url(), id="evolve_confirm"})
 		end)
 	end
 end
