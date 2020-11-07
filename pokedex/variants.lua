@@ -2,6 +2,7 @@ local file = require "utils.file"
 local pokedex = require "pokedex.pokedex"
 
 local profiles = require "pokedex.profiles" -- HACK, SEE USAGE
+local fakemon = require "fakemon.fakemon" -- HACK, SEE USAGE
 
 local variant_map = nil
 local initialized = false
@@ -16,6 +17,9 @@ function M.init()
 		-- tell profiles to depend on variants, because that would be a circular reference.
 		-- This is gross but works.
 		profiles.register_species_variant_cb(M.get_species_variant_for)
+
+		-- ANOTHER HACK - man, I need to figure out what the dependencies should truly be for this.
+		fakemon.register_species_variant_cb(M.get_species_variant_for)
 
 		initialized = true
 	end

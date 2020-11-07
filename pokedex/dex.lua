@@ -4,6 +4,7 @@ local dex_data = require "pokedex.dex_data"
 local storage = require "pokedex.storage"
 local utils = require "utils.utils"
 local log = require "utils.log"
+local _pokemon = require "pokedex.pokemon"
 
 local M = {}
 
@@ -91,12 +92,12 @@ local function get_initial_from_storage()
 	local _dex = {}
 	for _, id in pairs(storage.list_of_ids_in_pc()) do
 		local pokemon = storage.get_copy(id)
-		local index = pokedex.get_index_number(pokemon.species.current)
+		local index = pokedex.get_index_number(_pokemon.get_current_species(pokemon))
 		_dex[index] = M.states.CAUGHT
 	end
 	for _, id in pairs(storage.list_of_ids_in_party()) do
 		local pokemon = storage.get_pokemon(id)
-		local index = pokedex.get_index_number(pokemon.species.current)
+		local index = pokedex.get_index_number(_pokemon.get_current_species(pokemon))
 		_dex[index] = M.states.CAUGHT
 	end
 	return _dex

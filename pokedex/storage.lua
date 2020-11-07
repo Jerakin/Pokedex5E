@@ -49,8 +49,8 @@ end
 
 local function sort_on_index(a, b)
 	return function(a, b) 
-		local c = pokedex.get_index_number(_pokemon.get_current_species(a), _pokemon.get_variant(a))
-		local d = pokedex.get_index_number(_pokemon.get_current_species(b), _pokemon.get_variant(b))
+		local c = pokedex.get_index_number(_pokemon.get_current_species(a))
+		local d = pokedex.get_index_number(_pokemon.get_current_species(b))
 		return c < d  
 	end
 end
