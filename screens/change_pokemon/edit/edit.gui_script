@@ -174,7 +174,7 @@ function on_message(self, message_id, message, sender)
 	elseif message_id == hash("evolve_variant") and message.item then
 		self.evolve_variant = message.item
 		evolve_pokemon_confirm(self)
-	elseif message_id == messages.RESPONSE and message.response then
+	elseif message_id == messages.RESPONSE and message.response and message.id == "evolve_confirm" then
 		evolve(self, self.evolve_species, self.evolve_variant)
 	end
 end
