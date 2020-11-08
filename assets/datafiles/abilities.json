@@ -258,7 +258,7 @@
     "Description": "This Pokémon can use Transform as a bonus action."
   },
   "Infiltrator": {
-    "Description": "This Pokémon bypasses Light Screen and Reflect."
+    "Description": "This Pokémon bypasses Light Screen, Reflect, Mist, Safeguard, and Aurora Veil."
   },
   "Innards Out": {
     "Description": "When this Pokémon is knocked out by a damaging move, the attacker takes an amount of typeless damage equal to the amount of HP lost."
@@ -408,13 +408,16 @@
     "Description": "This Pokémon boosts its attack and damage rolls by 2 if an ally also has a Plus or Minus ability"
   },
   "Poison Heal": {
-    "Description": "If this Pokémon is poisoned, the amount of damage dealt by the poison heals the Pokémon instead."
+    "Description": "This Pokémon is not affected by the effects of the Poisoned condition. In addition, when it is hit with a poison-type move while poisoned, it heals an amount of hp equal to its level."
   },
   "Poison Point": {
     "Description": "When this Pokémon is hit with a melee attack, roll a 1d4. On a result of 4, the attacker takes an amount of poison damage equal to this Pokémon’s proficiency modifier."
   },
   "Poison Touch": {
     "Description": "On melee attacks made by this Pokémon, roll a d10 on a hit. On a result of a 10, the target is poisoned."
+  },
+  "Power Construct": {
+    "Description": "When Zygarde 10% is reduced to less than half of its maximum HP, it changes to Zygarde 50% Forme and recovers all hit points. When Zygarde 50% is reduced to less than half of its maximum HP, it changes to Complete Forme and recovers all hit points. When Zygarde Complete Forme is reduced to less than half of its maximum HP, it changes to Complete Forme and stays in that form, regardless of HP changes."
   },
   "Power of Alchemy": {
     "Description": "When switched in after an ally faints, this Pokémon copies the non-hidden ability of the fainted ally until switched out."
@@ -519,7 +522,7 @@
     "Description": "Once per long rest, this Pokémon can ignore a negative status condition that results from an enemy move."
   },
   "Shields Down": {
-    "Description": "This Pokémon is immune to Non-Volatile status effects while in Meteor Form. When this Pokémon falls below 50% of its maximum hp, its outer shell breaks and it changes to Core Form. In Core Form, it switches its DEX score and AC. The Pokémon must complete a short rest to restore itself to Meteor Form."
+    "Description": "This Pokémon is immune to Non-Volatile status effects while in Meteor Form. When this Pokémon falls below 50% of its maximum hp, its outer shell breaks and it changes to Core Form. In Core Form, it adds 6 points to its DEX, but reduces its AC by 4. The Pokémon must complete a short rest to restore itself to Meteor Form."
   },
   "Simple": {
     "Description": "Once per short rest, you may double this Pokémon's Move modifier for a single attack or damage roll."
