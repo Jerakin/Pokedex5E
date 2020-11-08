@@ -457,8 +457,8 @@ function M.get_defaut_max_hp(pkmn)
 				at_level = table.remove(evolutions)
 				local _, from_level = next(evolutions)
 				from_level = from_level or M.get_caught_level(pkmn)
-				local hit_dice = pokedex.get_hit_dice(from_pkmn, variant)
-				local hit_dice_current = pokedex.get_hit_dice(current, variant)
+				local hit_dice = pokedex.get_hit_dice(from_pkmn)
+				local hit_dice_current = pokedex.get_hit_dice(current)
 				local levels_gained = at_level - from_level
 				local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
 				local hp_evo = at_level * 2
@@ -470,13 +470,13 @@ function M.get_defaut_max_hp(pkmn)
 		end
 
 		evolutions = get_evolved_at_level(pkmn)
-		local hit_dice = pokedex.get_hit_dice(M.get_current_species(pkmn), variant)
+		local hit_dice = pokedex.get_hit_dice(M.get_current_species(pkmn))
 		local hit_dice_avg = math.ceil((hit_dice + 1) / 2)
 		return pokedex.get_base_hp(caught, variant) + evolution_hp + ((M.get_current_level(pkmn) - evolutions[#evolutions]) * hit_dice_avg)
 	else
 		local base = pokedex.get_base_hp(current, variant)
 		local from_level = M.get_caught_level(pkmn)
-		local hit_dice = pokedex.get_hit_dice(current, variant)
+		local hit_dice = pokedex.get_hit_dice(current)
 		local levels_gained = at_level - from_level
 		local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
 		return base + hp_hit_dice
@@ -883,7 +883,7 @@ end
 
 
 function M.get_hit_dice(pkmn)
-	return pokedex.get_hit_dice(M.get_current_species(pkmn), M.get_variant(pkmn))
+	return pokedex.get_hit_dice(M.get_current_species(pkmn))
 end
 
 
