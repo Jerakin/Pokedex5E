@@ -41,6 +41,7 @@ local initialized = false
 local function list()
 	local _index_list = file.load_json_from_resource("/assets/datafiles/index_order.json")
 	local index_list = {}
+	local index_table = {}
 	local unique = {}
 	local index = 1
 	while true do
@@ -49,6 +50,10 @@ local function list()
 				unique[index] = _index_list[tostring(index)][1]
 			end
 			index_list[index] = _index_list[tostring(index)]
+			index_table[index] = {}
+			for i=1,#index_list[index] do
+				index_table[index][index_list[index][i]] = true
+			end
 			index = index + 1
 		else
 			break
@@ -61,8 +66,12 @@ local function list()
 			if not index_list[index] then
 				unique[index] = species
 				index_list[index] = {}
+				index_table[index] = {}
 			end
-			table.insert(index_list[index], species)
+			if not index_table[index][species] then
+				index_table[index][species] = true
+				table.insert(index_list[index], species)
+			end
 		end
 	end
 
