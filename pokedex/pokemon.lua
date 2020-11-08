@@ -40,7 +40,7 @@ local feat_to_attribute = {
 	Acrobat="DEX"
 }
 
-local LATEST_POKEMON_VERSION = 6
+local LATEST_POKEMON_VERSION = 7
 
 M.GENDERLESS = pokedex.GENDERLESS
 M.MALE = pokedex.MALE
@@ -438,13 +438,14 @@ function M.get_evolution_level(pkmn)
 	return pokedex.get_evolution_level(M.get_current_species(pkmn))
 end
 
-function M.get_defaut_max_hp(pkmn)
+function M.get_default_max_hp(pkmn)
 	if M.have_ability(pkmn, "Paper Thin") then
 		return 1
 	end
 	local current = M.get_current_species(pkmn)
 	local caught = M.get_caught_species(pkmn)
 	local at_level = M.get_current_level(pkmn)
+	local variant = M.get_variant(pkmn)
 	
 	if current ~= caught then
 		local evolutions = utils.shallow_copy(get_evolved_at_level(pkmn))
@@ -456,8 +457,8 @@ function M.get_defaut_max_hp(pkmn)
 				at_level = table.remove(evolutions)
 				local _, from_level = next(evolutions)
 				from_level = from_level or M.get_caught_level(pkmn)
-				local hit_dice = pokedex.get_pokemon_hit_dice(from_pkmn)
-				local hit_dice_current = pokedex.get_pokemon_hit_dice(current)
+				local hit_dice = pokedex.get_hit_dice(from_pkmn)
+				local hit_dice_current = pokedex.get_hit_dice(current)
 				local levels_gained = at_level - from_level
 				local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
 				local hp_evo = at_level * 2
@@ -471,9 +472,9 @@ function M.get_defaut_max_hp(pkmn)
 		evolutions = get_evolved_at_level(pkmn)
 		local hit_dice = pokedex.get_hit_dice(M.get_current_species(pkmn))
 		local hit_dice_avg = math.ceil((hit_dice + 1) / 2)
-		return pokedex.get_base_hp(caught, M.get_variant(pkmn)) + evolution_hp + ((M.get_current_level(pkmn) - evolutions[#evolutions]) * hit_dice_avg)
+		return pokedex.get_base_hp(caught, variant) + evolution_hp + ((M.get_current_level(pkmn) - evolutions[#evolutions]) * hit_dice_avg)
 	else
-		local base = pokedex.get_base_hp(current, M.get_variant(pkmn))
+		local base = pokedex.get_base_hp(current, variant)
 		local from_level = M.get_caught_level(pkmn)
 		local hit_dice = pokedex.get_hit_dice(current)
 		local levels_gained = at_level - from_level
@@ -882,7 +883,7 @@ end
 
 
 function M.get_hit_dice(pkmn)
-	return pokedex.get_hit_dice(M.get_current_species(pkmn), M.get_variant(pkmn))
+	return pokedex.get_hit_dice(M.get_current_species(pkmn))
 end
 
 
@@ -1099,6 +1100,16 @@ local function upgrade_species_to_variant_version(pkmn)
 	end
 end
 
+local function reset_max_hp_for_hit_dice_change(pkmn)
+	if not M.get_max_hp_forced(pkmn) then
+		local cur_max = M.get_max_hp(pkmn)
+		local default_max = M.get_default_max_hp(pkmn)
+		M.set_max_hp(pkmn, default_max)
+		
+		local hp = M.get_current_hp(pkmn)
+		M.set_current_hp(pkmn, hp + (default_max-cur_max))
+	end
+end
 
 function M.upgrade_pokemon(pkmn)
 	local version = pkmn and pkmn.version or 1
@@ -1111,6 +1122,8 @@ function M.upgrade_pokemon(pkmn)
 
 				-- NOTE: If a new data upgrade is needed, update the above LATEST_POKEMON_VERSION value and add a new block here like so:
 				--elseif i == ??? then
+			elseif i == 6 then
+				reset_max_hp_for_hit_dice_change(pkmn)
 			elseif i == 5 then
 				upgrade_species_to_variant_version(pkmn)
 			elseif i == 4 then

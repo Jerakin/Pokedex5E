@@ -646,8 +646,8 @@ function M.get_saving_throw_proficiencies(pokemon, variant)
 end
 
 
-function M.get_hit_dice(pokemon, variant)
-	return M.get_pokemon(pokemon, variant)["Hit Dice"]
+function M.get_hit_dice(pokemon)
+	return get_pokemon_raw(pokemon)["Hit Dice"]
 end
 
 

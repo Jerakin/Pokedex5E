@@ -597,7 +597,7 @@ function M.on_message(self, message_id, message, sender)
 			_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) + message.data)
 			M.update_hp_counter(self)
 		elseif message.id == messages.RESET then
-			local d_max = _pokemon.get_defaut_max_hp(self.pokemon)
+			local d_max = _pokemon.get_default_max_hp(self.pokemon)
 			_pokemon.set_max_hp(self.pokemon, d_max)
 			_pokemon.set_max_hp_forced(self.pokemon, false)
 			local current = math.min(_pokemon.get_current_hp(self.pokemon), _pokemon.get_total_max_hp(self.pokemon))

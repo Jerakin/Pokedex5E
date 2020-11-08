@@ -75,7 +75,7 @@ function init(self)
 	end
 
 	button.register("change_pokemon/txt_max_hp", function()
-		monarch.show(screens.ARE_YOU_SURE, nil, {sender=msg.url(), text="Reset HP and let the App controll it for you", title="Reset", id=messages.RESET})
+		monarch.show(screens.ARE_YOU_SURE, nil, {sender=msg.url(), text="Reset Max HP and let the app control it for you?", title="Reset", id=messages.RESET})
 	end)
 
 	-- Update evolution button states
