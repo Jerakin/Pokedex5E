@@ -178,4 +178,46 @@ function M.download_package(package)
 	end)
 end
 
+-- HACKY, see caller
+local species_variant_cb
+function M.register_species_variant_cb(cb)
+	species_variant_cb = cb
+end
+
+function M.get_overrides_and_variants()
+	local override_pkmn = {}
+	local variant_pkmn = {}
+	
+	if M.DATA then
+		if M.DATA["pokemon.json"] then
+			-- For each fakemon, figure out if this is a base pokemon or just a variant of an existing pokemon
+			for pokemon, data in pairs(M.DATA["pokemon.json"]) do
+				data.fakemon = true
+
+				-- If this is the original name of a pokemon that now has a variant associated with it,
+				-- we want to switch over to the variant version instead
+				local is_variant_data = false
+				if not data.variant_data then
+					f_species, f_variant = species_variant_cb(pokemon)
+					if f_variant then
+						-- This pokemon is now a variant instead. Let's replace the variant data rather than add a new
+						-- pokemon with this name
+						if not variant_pkmn[f_species] then
+							variant_pkmn[f_species] = {}
+						end
+						variant_pkmn[f_species][f_variant] = data
+						is_variant_data = true
+					end
+				end
+
+				if not is_variant_data then
+					override_pkmn[pokemon] = data
+				end
+			end
+		end
+	end
+
+	return override_pkmn, variant_pkmn
+end
+
 return M
