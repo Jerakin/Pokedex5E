@@ -438,7 +438,7 @@ function M.get_evolution_level(pkmn)
 	return pokedex.get_evolution_level(M.get_current_species(pkmn))
 end
 
-function M.get_defaut_max_hp(pkmn)
+function M.get_default_max_hp(pkmn)
 	if M.have_ability(pkmn, "Paper Thin") then
 		return 1
 	end
@@ -1103,7 +1103,7 @@ end
 local function reset_max_hp_for_hit_dice_change(pkmn)
 	if not M.get_max_hp_forced(pkmn) then
 		local cur_max = M.get_max_hp(pkmn)
-		local default_max = M.get_defaut_max_hp(pkmn)
+		local default_max = M.get_default_max_hp(pkmn)
 		M.set_max_hp(pkmn, default_max)
 		
 		local hp = M.get_current_hp(pkmn)

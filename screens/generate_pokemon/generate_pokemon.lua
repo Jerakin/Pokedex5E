@@ -29,7 +29,7 @@ function M.add_pokemon(species, variant, level)
 	pokemon.moves = moves
 	pokemon.nature = nature.list[rnd.range(1, #nature.list)]
 
-	local max_hp = _pokemon.get_defaut_max_hp(pokemon)
+	local max_hp = _pokemon.get_default_max_hp(pokemon)
 	local con = _pokemon.get_attributes(pokemon).CON
 	local con_mod = math.floor((con - 10) / 2)
 	pokemon.hp.max = max_hp
