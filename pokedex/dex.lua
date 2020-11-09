@@ -45,7 +45,8 @@ function M.update_region_stats()
 		[dex_data.regions.HOENN]={[1]=0, [2]=0}, 
 		[dex_data.regions.SINNOH]={[1]=0, [2]=0}, 
 		[dex_data.regions.UNOVA]={[1]=0, [2]=0},
-		[dex_data.regions.KALOS]={[1]=0, [2]=0}
+		[dex_data.regions.KALOS]={[1]=0, [2]=0},
+		[dex_data.regions.ALOLA]={[1]=0, [2]=0}
 		
 	}
 
