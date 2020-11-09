@@ -62,8 +62,8 @@ function M.import()
 			notify.notify(original)
 			return 
 		end
-		M.add_new_pokemon(pokemon)
-		notify.notify("Welcome " .. (pokemon.nickname or pokemon.species.current) .. "!")
+		M.add_new_pokemon(json)
+		notify.notify("Welcome " .. (json.nickname or json.species.current) .. "!")
 	else
 		notify.notify("Could not parse pokemon data")
 		notify.notify(original)
