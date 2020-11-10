@@ -51,7 +51,7 @@ function M.load_backup()
 end
 
 function M.add_all_moves()
-	local inventory = storage.list_of_ids_in_inventory()
+	local inventory = storage.list_of_ids_in_party()
 	local per_pokemon = 10 --#movedex.list / 6
 	print("Adding " .. per_pokemon .. " moves to each Pokemon")
 	local pkmn = storage.get_copy(inventory[1])

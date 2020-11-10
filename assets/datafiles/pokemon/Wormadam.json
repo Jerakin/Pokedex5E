@@ -1,0 +1,174 @@
+{
+  "AC": 15,
+  "Abilities": [
+    "Anticipation"
+  ],
+  "Climbing Speed": 15,
+  "HP": 50,
+  "Hidden Ability": "Overcoat",
+  "Hit Dice": 10,
+  "MIN LVL FD": 5,
+  "Moves": {
+    "Level": {
+      "10": [
+        "Razor Leaf",
+        "Growth",
+        "Psybeam"
+      ],
+      "14": [
+        "Captivate",
+        "Flail",
+        "Attract"
+      ],
+      "18": [
+        "Psychic",
+        "Leaf Storm",
+        "Bug Buzz"
+      ],
+      "6": [
+        "Hidden Power",
+        "Confusion"
+      ]
+    },
+    "Starting Moves": [
+      "Bug Bite",
+      "Protect",
+      "Quiver Dance",
+      "Sucker Punch",
+      "Tackle"
+    ],
+    "TM": [
+      6,
+      9,
+      10,
+      11,
+      15,
+      17,
+      18,
+      20,
+      21,
+      22,
+      27,
+      29,
+      30,
+      32,
+      42,
+      44,
+      45,
+      46,
+      48,
+      53,
+      68,
+      77,
+      83,
+      85,
+      86,
+      87,
+      88,
+      90,
+      100
+    ]
+  },
+  "SR": 6.0,
+  "Senses": [
+    "Darkvision 30ft"
+  ],
+  "Skill": [
+    "Nature",
+    "Survival"
+  ],
+  "Type": [
+    "Bug",
+    "Grass"
+  ],
+  "WSp": 15,
+  "attributes": {
+    "CHA": 10,
+    "CON": 15,
+    "DEX": 12,
+    "INT": 6,
+    "STR": 12,
+    "WIS": 14
+  },
+  "index": 413,
+  "saving_throws": [
+    "Constitution"
+  ],
+  "size": "Tiny",
+  "variant_data": {
+    "create_mode": "choose",
+    "default": "Plant Cloak",
+    "permanent": true,
+    "variants": {
+      "Plant Cloak": {
+        "display": "Wormadam (Plant Cloak)",
+        "original_species": "Wormadam Plant Cloak"
+      },
+      "Sand Cloak": {
+        "diff": {
+          "AC": 16,
+          "Moves": {
+            "Level": {
+              "10": [
+                "Rock Blast",
+                "Harden",
+                "Psybeam"
+              ],
+              "18": [
+                "Psychic",
+                "Fissure",
+                "Bug Buzz"
+              ]
+            }
+          },
+          "Type": [
+            "Bug",
+            "Ground"
+          ],
+          "attributes": {
+            "CON": 16,
+            "DEX": 11
+          }
+        },
+        "display": "Wormadam (Sand Cloak)",
+        "original_species": "Wormadam Sand Cloak"
+      },
+      "Trash Cloak": {
+        "diff": {
+          "Moves": {
+            "Level": {
+              "10": [
+                "Mirror Shot",
+                "Metal Sound",
+                "Psybeam"
+              ],
+              "18": [
+                "Psychic",
+                "Iron Head",
+                "Bug Buzz"
+              ]
+            },
+            "Starting Moves": [
+              "Metal Burst",
+              "Bug Bite",
+              "Protect",
+              "Quiver Dance",
+              "Sucker Punch",
+              "Tackle"
+            ]
+          },
+          "Type": [
+            "Bug",
+            "Steel"
+          ],
+          "attributes": {
+            "CON": 14,
+            "DEX": 13
+          }
+        },
+        "display": "Wormadam (Trash Cloak)",
+        "original_species": "Wormadam Trash Cloak"
+      }
+    }
+  }
+}

@@ -1,34 +1,34 @@
 {
   "Damage": {
     "1": {
-      "amount": 3,
-      "dice_max": 6,
+      "amount": 1,
+      "dice_max": 8,
       "move": true
     },
     "10": {
-      "amount": 6,
-      "dice_max": 6,
+      "amount": 4,
+      "dice_max": 4,
       "move": true
     },
     "17": {
-      "amount": 7,
-      "dice_max": 8,
+      "amount": 3,
+      "dice_max": 10,
       "move": true
     },
     "5": {
-      "amount": 3,
-      "dice_max": 8,
+      "amount": 2,
+      "dice_max": 6,
       "move": true
     }
   },
-  "Description": "Two pillars of raging hot flames explode out from you and leap towards two unique creatures in range. The creatures targeted must succeed on a DEX save against your Move DC, taking fire damage on a failure, or half as much on a success. Creatures that fail the save by more than 5 become burned.",
+  "Description": "Two pillars of raging hot flames explode out from you and leap towards up to two creature in range. The creature(s) targeted must succeed on a DEX save against your Move DC, taking fire damage on a failure, or half as much on a success. Creatures that fail the save by 5 or more become burned.",
   "Duration": "Instantaneous",
   "Move Power": [
     "STR",
     "DEX"
   ],
   "Move Time": "1 action",
-  "PP": 3,
+  "PP": 5,
   "Range": "40ft",
   "Save": "DEX",
   "Type": "Fire"

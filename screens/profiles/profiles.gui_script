@@ -31,7 +31,8 @@ local function setup_pokemon_images(self, nodes, slot)
 	for i=1, 6 do
 		local img_node = nodes["profile_slot/pokemon" .. i]
 		if self.all_slots[slot].party and self.all_slots[slot].party[i] then
-			local pokemon_sprite, texture = pokedex.get_icon(self.all_slots[slot].party[i])
+			local pkmn_data = self.all_slots[slot].party[i]
+			local pokemon_sprite, texture = pokedex.get_icon(pkmn_data.species, pkmn_data.variant)
 			gui.set_texture(img_node, texture)
 			if pokemon_sprite then
 				gui.play_flipbook(img_node, pokemon_sprite)
@@ -49,7 +50,7 @@ local function activate(slot)
 	trainer.load(profiles.get_active())
 	dex.load(profiles.get_active())
 	network.load_profile(profiles.get_active())
-	if #storage.list_of_ids_in_inventory() > 0 then
+	if #storage.list_of_ids_in_party() > 0 then
 		monarch.show(screens.PARTY)
 	else
 		monarch.show(screens.ADD)

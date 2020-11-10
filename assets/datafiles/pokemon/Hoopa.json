@@ -1,0 +1,160 @@
+{
+  "AC": 17,
+  "Abilities": [
+    "Magician"
+  ],
+  "Fsp": 35,
+  "HP": 326,
+  "Hit Dice": 12,
+  "MIN LVL FD": 20,
+  "Moves": {
+    "Level": {},
+    "Starting Moves": [
+      "Ally Switch",
+      "Confusion",
+      "Destiny Bond",
+      "Trick",
+      "Astonish",
+      "Magic Coat",
+      "Light Screen",
+      "Psybeam",
+      "Skill Swap",
+      "Guard Split",
+      "Power Split",
+      "Phantom Force",
+      "Zen Headbutt",
+      "Trick Room",
+      "Wonder Room",
+      "Shadow Ball",
+      "Nasty Plot",
+      "Psychic",
+      "Hyperspace Hole"
+    ],
+    "TM": [
+      3,
+      4,
+      6,
+      10,
+      11,
+      12,
+      15,
+      16,
+      17,
+      18,
+      20,
+      21,
+      24,
+      27,
+      29,
+      30,
+      31,
+      32,
+      33,
+      41,
+      42,
+      44,
+      46,
+      48,
+      52,
+      53,
+      56,
+      57,
+      60,
+      63,
+      68,
+      73,
+      77,
+      85,
+      86,
+      87,
+      88,
+      90,
+      92,
+      97,
+      100
+    ]
+  },
+  "SR": 15.0,
+  "Senses": [
+    "Darkvision 100ft",
+    "Truesight 100ft"
+  ],
+  "Skill": [
+    "Stealth",
+    "Deception",
+    "Sleight of Hand"
+  ],
+  "Type": [
+    "Psychic",
+    "Ghost"
+  ],
+  "attributes": {
+    "CHA": 16,
+    "CON": 18,
+    "DEX": 17,
+    "INT": 14,
+    "STR": 15,
+    "WIS": 20
+  },
+  "index": 720,
+  "saving_throws": [
+    "Intelligence",
+    "Wisdom"
+  ],
+  "size": "Small",
+  "variant_data": {
+    "create_mode": "default",
+    "default": "Confined",
+    "permanent": false,
+    "variants": {
+      "Confined": {
+        "display": "Hoopa Confined",
+        "original_species": "Hoopa Confined"
+      },
+      "Unbound": {
+        "diff": {
+          "Moves": {
+            "Starting Moves": [
+              "Ally Switch",
+              "Confusion",
+              "Destiny Bond",
+              "Trick",
+              "Astonish",
+              "Magic Coat",
+              "Light Screen",
+              "Psybeam",
+              "Skill Swap",
+              "Guard Split",
+              "Power Split",
+              "Knock Off",
+              "Trick Room",
+              "Wonder Room",
+              "Dark Pulse",
+              "Psychic",
+              "Hyperspace Fury"
+            ]
+          },
+          "Type": [
+            "Psychic",
+            "Dark"
+          ],
+          "WSp": 35,
+          "attributes": {
+            "CON": 19,
+            "DEX": 19,
+            "INT": 16,
+            "STR": 20
+          },
+          "saving_throws": [
+            "Intelligence",
+            "Wisdom",
+            "Strength"
+          ],
+          "size": "Huge"
+        },
+        "display": "Hoopa Unbound",
+        "original_species": "Hoopa Unbound"
+      }
+    }
+  }
+}

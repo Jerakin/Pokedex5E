@@ -4,27 +4,36 @@ import requests
 import shutil
 from pathlib import Path
 from PIL import Image
-p = Path(__file__).parent.parent.parent.parent.parent / "assets/datafiles/pokemon.json"
+pokemon_folder = Path(__file__).parent.parent.parent.parent.parent.parent / "assets/datafiles/pokemon"
 
 
 def main():
     indexes = []
-    with open(p, "r") as f:
-        data = json.load(f)
-        for pokemon, data in data.items():
-            index = data["index"]
-            if index in indexes or index < 649:
-                continue
+    for p_path in pokemon_folder.iterdir():
+        pokemon = p_path.stem
+        with p_path.open("r") as f:
+            data = json.load(f)
+        index = data["index"]
 
-            indexes.append(index)
-            # raw_url = "https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/{}.png".format(pokemon.lower())
-            # raw_url = "https://img.pokemondb.net/sprites/x-y/normal/{}.png".format(pokemon.lower())
-            print("Downloading", pokemon)
-            raw_url = "https://img.pokemondb.net/sprites/sun-moon/icon/{}.png".format(pokemon.lower())
+        if "variant_data" in data and "variants" in data["variant_data"]:
+            for v_name,v_data in  data["variant_data"]["variants"].items():
+                spec = v_data["original_species"]
+                if spec and spec != pokemon:
+                    raw_url = "https://img.pokemondb.net/sprites/sun-moon/icon/{}-{}.png".format(pokemon.lower(), v_name.lower().replace("form", "").replace("style", "").strip().replace(" ", "-").replace("'", ""))
+                    if "Alol" in v_name:
+                        file_name = "images/{}{}n {}.png".format(index, v_name, pokemon)
+                        raw_url = "https://img.pokemondb.net/sprites/sun-moon/icon/{}-{}n.png".format(pokemon.lower(),
+                                                                                                     v_name.lower().replace(
+                                                                                                         "form",
+                                                                                                         "").replace(
+                                                                                                         "style",
+                                                                                                         "").strip().replace(
+                                                                                                         " ",
+                                                                                                         "-").replace(
+                                                                                                         "'", ""))
 
-            file_name = "images/{}{}.png".format(index, pokemon)
-            download_image(raw_url, file_name)
-            time.sleep(0.5)
+                        download_image(raw_url, file_name)
+                        time.sleep(0.5)
 
 
 def download_image(url, name):
@@ -34,7 +43,7 @@ def download_image(url, name):
             r.raw.decode_content = True
             shutil.copyfileobj(r.raw, f)
     else:
-        print("Error ", name)
+        print("Error ", url)
 
 
 def convert(path):

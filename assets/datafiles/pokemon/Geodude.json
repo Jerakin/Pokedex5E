@@ -75,7 +75,7 @@
   },
   "SR": 0.5,
   "Senses": [
-    "Tremorsense 30ft."
+    "Tremorsense 30ft"
   ],
   "Skill": [
     "Athletics",
@@ -96,6 +96,103 @@
   },
   "index": 74,
   "saving_throws": [
-    "CON"
-  ]
+    "Constitution"
+  ],
+  "size": "Tiny",
+  "variant_data": {
+    "create_mode": "choose",
+    "default": "Kanto",
+    "permanent": true,
+    "variants": {
+      "Alola": {
+        "diff": {
+          "Abilities": [
+            "Magnet Pull",
+            "Sturdy"
+          ],
+          "Evolve": "Alolan Graveler",
+          "Hidden Ability": "Galvanize",
+          "Moves": {
+            "Level": {
+              "10": [
+                "Self-Destruct",
+                "Stealth Rock",
+                "Rock Blast"
+              ],
+              "14": [
+                "Discharge",
+                "Explosion",
+                "Double-Edge"
+              ],
+              "18": [
+                "Stone Edge"
+              ],
+              "2": [
+                "Rock Polish",
+                "Rollout",
+                "Spark"
+              ],
+              "6": [
+                "Rock Throw",
+                "Smack Down",
+                "Thunder Punch"
+              ]
+            },
+            "Starting Moves": [
+              "Defense Curl",
+              "Tackle",
+              "Charge"
+            ],
+            "TM": [
+              6,
+              10,
+              11,
+              17,
+              21,
+              23,
+              24,
+              25,
+              26,
+              27,
+              31,
+              32,
+              35,
+              37,
+              38,
+              39,
+              42,
+              44,
+              45,
+              48,
+              56,
+              57,
+              59,
+              64,
+              69,
+              71,
+              72,
+              74,
+              78,
+              80,
+              87,
+              88,
+              90,
+              96,
+              100
+            ]
+          },
+          "Type": [
+            "Rock",
+            "Electric"
+          ]
+        },
+        "display": "Alolan Geodude",
+        "original_species": "Alolan Geodude"
+      },
+      "Kanto": {
+        "display": "Geodude",
+        "original_species": "Geodude"
+      }
+    }
+  }
 }

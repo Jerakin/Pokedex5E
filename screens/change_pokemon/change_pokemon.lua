@@ -28,15 +28,20 @@ M.block = false
 
 local active_buttons = {}
 local move_buttons_list = {}
-local genderized = false
 local button_state = {[true]="minus", [false]="plus"}
 
 M.config = {
 	order={
-		[1]=hash("change_pokemon/nature"), [2]=hash("change_pokemon/extra") ,
-		[3]=hash("change_pokemon/asi/root"), [4]=hash("change_pokemon/moves"),
-		[5]=hash("change_pokemon/abilities"), [6]=hash("change_pokemon/feats"),
-		[7]=hash("change_pokemon/held_item")
+		[1]=hash("change_pokemon/variant"),
+		[2]=hash("change_pokemon/nature"),
+		[3]=hash("change_pokemon/extra") ,
+		[4]=hash("change_pokemon/asi/root"),
+		[5]=hash("change_pokemon/moves"),
+		[6]=hash("change_pokemon/abilities"),
+		[7]=hash("change_pokemon/feats"),
+		[8]=hash("change_pokemon/skills"),
+		[9]=hash("change_pokemon/held_item"),
+		[10]=hash("change_pokemon/custom_asi/root")
 	},
 	start = vmath.vector3(0, -110, 0),
 	[hash("change_pokemon/asi/root")] = {open=vmath.vector3(720, 420, 0), closed=vmath.vector3(720, 85, 0), active=true},
@@ -44,8 +49,11 @@ M.config = {
 	[hash("change_pokemon/moves")] = {open=vmath.vector3(720, 0, 0), closed=vmath.vector3(720, 50, 0), active=false},
 	[hash("change_pokemon/extra")] = {open=vmath.vector3(720, 150, 0), closed=vmath.vector3(720, 0, 0), active=true},
 	[hash("change_pokemon/feats")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
+	[hash("change_pokemon/skills")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
 	[hash("change_pokemon/nature")] = {open=vmath.vector3(720, 70, 0), closed=vmath.vector3(720, 0, 0), active=true},
-	[hash("change_pokemon/held_item")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false}
+	[hash("change_pokemon/variant")] = {open=vmath.vector3(720, 70, 0), closed=vmath.vector3(720, 0, 0), active=true},
+	[hash("change_pokemon/held_item")] = {open=vmath.vector3(720, 200, 0), closed=vmath.vector3(720, 50, 0), active=false},
+	[hash("change_pokemon/custom_asi/root")] = {open=vmath.vector3(720, 420, 0), closed=vmath.vector3(720, 50, 0), active=false}
 }
 local node_index = 0
 local function set_id(node)
@@ -60,38 +68,47 @@ local function collapse_buttons()
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_moves"), button_state[M.config[hash("change_pokemon/moves")].active])
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_abilities"), button_state[M.config[hash("change_pokemon/abilities")].active])
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_feats"), button_state[M.config[hash("change_pokemon/feats")].active])
+	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_skills"), button_state[M.config[hash("change_pokemon/skills")].active])
 	gui.play_flipbook(gui.get_node("change_pokemon/btn_collapse_item"), button_state[M.config[hash("change_pokemon/held_item")].active])
+	gui.play_flipbook(gui.get_node("change_pokemon/custom_asi/btn_collapse"), button_state[M.config[hash("change_pokemon/custom_asi/root")].active])
 	gui.set_enabled(gui.get_node("change_pokemon/btn_reset_abilities"), M.config[hash("change_pokemon/abilities")].active)
 end
 
-local function set_gender_icon(gender)
-	local g = {
+local function set_gender_icon(self, gender)
+	local gender_node = {
 		[_pokemon.MALE] = gui.get_node("change_pokemon/male"),
 		[_pokemon.FEMALE] = gui.get_node("change_pokemon/female")
 	}
-	
-	if gender == _pokemon.GENDERLESS or genderized then
-		gui.set_enabled(g[_pokemon.MALE], false)
-		gui.set_enabled(g[_pokemon.FEMALE], false)
-		if gender == _pokemon.GENDERLESS then
-			return 
-		end
+	local reverse = {
+		[_pokemon.MALE] = _pokemon.FEMALE,
+		[_pokemon.FEMALE] = _pokemon.MALE
+	}
+	local strict = _pokemon.get_strict_gender(self.pokemon)
+	local enforce = _pokemon.enforce_genders()
+
+	-- Reset the colors
+	gui.set_color(gender_node[_pokemon.MALE], gui_colors.HERO_TEXT)
+	gui.set_color(gender_node[_pokemon.FEMALE], gui_colors.HERO_TEXT)
+
+	if gender ~= nil and gender ~= _pokemon.GENDERLESS then
+		gui.set_color(gender_node[gender], gui_colors.ORANGE)
 	end
-	gui.set_color(g[_pokemon.MALE], gui_colors.HERO_TEXT)
-	gui.set_color(g[_pokemon.FEMALE], gui_colors.HERO_TEXT)
 	
-	if genderized then
-		gui.set_enabled(g[gender], true)
-		gui.set_color(g[gender], gui_colors.HERO_TEXT)
-	elseif gender ~= nil then
-		gui.set_color(g[gender], gui_colors.ORANGE)
+	if enforce and strict == _pokemon.GENDERLESS then
+		-- If the gender is enforced and the strict gender is genderless, disable both buttons
+		gui.set_enabled(gender_node[_pokemon.MALE], false)
+		gui.set_enabled(gender_node[_pokemon.FEMALE], false)
+	elseif enforce and strict ~= _pokemon.ANY then
+		-- If the gender is enforced and the strict gender isn't ANY (e.i. not enforced)
+		-- Hide the other gender button
+		gui.set_enabled(gender_node[reverse[strict]], false)
 	end
 end
 
 local function set_gender(self, new_gender)
 	local gender = _pokemon.get_gender(self.pokemon)
 	new_gender = gender ~= new_gender and new_gender or nil
-	set_gender_icon(new_gender)
+	set_gender_icon(self, new_gender)
 	_pokemon.set_gender(self.pokemon, new_gender)
 end
 
@@ -116,8 +133,8 @@ local function update_sections(instant)
 	collapse_buttons()
 end
 
-local function pokemon_image(species)
-	local pokemon_sprite, texture = pokedex.get_icon(species)
+local function pokemon_image(species, variant)
+	local pokemon_sprite, texture = pokedex.get_icon(species, variant)
 	gui.set_texture(gui.get_node("change_pokemon/pokemon_sprite"), texture)
 	if pokemon_sprite then 
 		gui.play_flipbook(gui.get_node("change_pokemon/pokemon_sprite"), pokemon_sprite)
@@ -179,16 +196,23 @@ end
 
 function M.update_hp_counter(self)
 	local stored_pokemon = self.pokemon
+	local id = _pokemon.get_id(stored_pokemon)
 	if storage.is_in_storage(id) then
-		stored_pokemon = storage.get_copy(id)
+		stored_pokemon = storage.get_pokemon(id)
 	end
+	
 	local max_hp_node = gui.get_node("change_pokemon/txt_max_hp")
 	local mod_hp_node = gui.get_node("change_pokemon/txt_max_hp_mod")
 	local old_max = _pokemon.get_total_max_hp(stored_pokemon or self.pokemon)
 	local current_max = _pokemon.get_total_max_hp(self.pokemon)
 	local extra_hp = current_max - old_max
-	gui.set_text(mod_hp_node,  "MAX HP: " .. extra_hp)
-	gui.set_text(max_hp_node,  current_max)
+	if extra_hp == 0 then
+		gui.set_enabled(mod_hp_node, false)
+	else
+		gui.set_enabled(mod_hp_node, true)
+	end
+	gui.set_text(mod_hp_node, "CHANGED MAX HP: " .. extra_hp)
+	gui.set_text(max_hp_node, current_max)
 	if extra_hp == 0 then
 		gui.set_color(mod_hp_node, gui_colors.TEXT)
 	elseif extra_hp >= 1 then
@@ -269,7 +293,7 @@ local function redraw(self)
 	local id = _pokemon.get_id(self.pokemon)
 	local stored_pokemon = self.pokemon
 	if storage.is_in_storage(id) then
-		stored_pokemon = storage.get_copy(id)
+		stored_pokemon = storage.get_pokemon(id)
 	end
 
 	local nickname = _pokemon.get_nickname(self.pokemon)
@@ -283,36 +307,53 @@ local function redraw(self)
 	gui.set_text(gui.get_node("change_pokemon/txt_hit_dice"), "Hit Dice: d" .. _pokemon.get_hit_dice(self.pokemon))
 	gui.set_text(gui.get_node("change_pokemon/pokemon_number"), string.format("#%03d", _pokemon.get_index_number(self.pokemon)))
 	gui.set_text(gui.get_node("change_pokemon/txt_item"), (_pokemon.get_held_item(self.pokemon) or "NO ITEM"):upper())
+
+	local variant = _pokemon.get_variant(self.pokemon)
+	pokemon_image(species, variant)
+
+	local has_variants = pokedex.has_variants(species)
+	local var = _pokemon.get_variant(self.pokemon)
+	if has_variants and var then
+		gui.set_text(gui.get_node("change_pokemon/txt_variant"), var:upper())
+	end
+	gui.set_enabled(gui.get_node("change_pokemon/btn_variant"), has_variants)
 	
 	-- Moves
 	redraw_moves(self)
 
-	-- Natures and attributes
-	local attributes = _pokemon.get_attributes(self.pokemon)
-	local increased = _pokemon.get_increased_attributes(self.pokemon)
-	local old_increased = _pokemon.get_increased_attributes(stored_pokemon)
-	for _, stat in pairs(constants.ABILITY_LIST) do
-		local n = gui.get_node("change_pokemon/asi/" .. stat .. "_MOD")
-		local stat_num = gui.get_node("change_pokemon/asi/" .. stat)
+	local function update_ability_score(label_numbers, attributes, scope)
+		for _, stat in pairs(constants.ABILITY_LIST) do
+			local n = gui.get_node("change_pokemon/".. scope .. "/" .. stat .. "_MOD")
+			local stat_num = gui.get_node("change_pokemon/" .. scope .. "/" .. stat)
 
-		gui.set_text(stat_num, attributes[stat])
-		local mod = ""
-		if (increased[stat] or 0) >= 0 then
-			mod = "+"
+			gui.set_text(stat_num, label_numbers[stat])
+			local mod = ""
+			if (attributes[stat] or 0) >= 0 then
+				mod = "+"
+			end
+			if (attributes[stat] or 0) >= 1 then
+				gui.set_color(n, gui_colors.GREEN)
+				gui.set_color(stat_num, gui_colors.GREEN)
+			elseif (attributes[stat] or 0) <= -1 then
+				gui.set_color(n, gui_colors.RED)
+				gui.set_color(stat_num, gui_colors.RED)
+			else
+				gui.set_color(n, gui_colors.TEXT)
+				gui.set_color(stat_num, gui_colors.TEXT)
+			end
+			if scope == "asi" then
+				gui.set_text(n, "(" .. mod .. (attributes[stat] or 0) ..")")
+			end
 		end
-		if (increased[stat] or 0) >= 1 then
-			gui.set_color(n, gui_colors.GREEN)
-			gui.set_color(stat_num, gui_colors.GREEN)
-		elseif (increased[stat] or 0) <= -1 then
-			gui.set_color(n, gui_colors.RED)
-			gui.set_color(stat_num, gui_colors.RED)
-		else
-			gui.set_color(n, gui_colors.TEXT)
-			gui.set_color(stat_num, gui_colors.TEXT)
-		end
-		gui.set_text(n, "(" .. mod .. (increased[stat] or 0) ..")")
 	end
+	
+	-- Ability Score Increase
+	update_ability_score(_pokemon.get_attributes(self.pokemon), _pokemon.get_increased_attributes(self.pokemon), "asi")
 
+	-- Extra Ability Score
+	local custom_attributes = _pokemon.get_custom_attributes(self.pokemon)
+	update_ability_score(custom_attributes, custom_attributes, "custom_asi")
+	
 	-- ASI
 	update_ASI(self)
 
@@ -335,6 +376,14 @@ local function redraw(self)
 	M.config[hash("change_pokemon/feats")].open.y = M.config[hash("change_pokemon/feats")].closed.y + math.ceil((#_pokemon.get_feats(self.pokemon) + 1) / 2) * 50
 	self.feats_data = redraw_list(self.feats_data, _pokemon.get_feats(self.pokemon), text_id, btn_id, del_id, root_id)
 
+	-- skills
+	local root_id = hash("change_pokemon/skill/root")
+	local text_id = hash("change_pokemon/skill/txt")
+	local btn_id = hash("change_pokemon/skill/btn_entry")
+	local del_id = hash("change_pokemon/skill/btn_delete")
+	M.config[hash("change_pokemon/skills")].open.y = M.config[hash("change_pokemon/skills")].closed.y + math.ceil((#_pokemon.extra_skills(self.pokemon) + 1) / 2) * 50
+	self.skills_data = redraw_list(self.skills_data, _pokemon.extra_skills(self.pokemon), text_id, btn_id, del_id, root_id)
+	
 	-- level
 	local current = _pokemon.get_current_level(self.pokemon)
 	gui.set_text(gui.get_node("change_pokemon/txt_level"), current)
@@ -357,10 +406,23 @@ function M.redraw(self)
 	redraw(self)
 end
 
+local function custom_increase(self, stat)
+	local custom = _pokemon.get_custom_attributes(self.pokemon)
+	_pokemon.set_custom_attribute(self.pokemon, stat, custom[stat] + 1)
+	redraw(self)
+end
+
+local function custom_decrease(self, stat)
+	local custom = _pokemon.get_custom_attributes(self.pokemon)
+	_pokemon.set_custom_attribute(self.pokemon, stat, custom[stat] - 1)
+	redraw(self)
+end
+
+
 local function increase(self, stat)
 	local max = _pokemon.get_max_attributes(self.pokemon)
 	local added = _pokemon.get_added_attributes(self.pokemon)
-	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon))
+	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon), _pokemon.get_variant(self.pokemon))
 	local nature_attri = natures.get_nature_attributes(_pokemon.get_nature(self.pokemon))
 	local increased = _pokemon.get_increased_attributes(self.pokemon)
 	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0) + added[stat]
@@ -376,7 +438,7 @@ end
 
 local function decrease(self, stat)
 	local added = _pokemon.get_added_attributes(self.pokemon)
-	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon))
+	local attributes = pokedex.get_base_attributes(_pokemon.get_caught_species(self.pokemon), _pokemon.get_variant(self.pokemon))
 	local increased = _pokemon.get_increased_attributes(self.pokemon)
 	local nature_attri = natures.get_nature_attributes(_pokemon.get_nature(self.pokemon))
 	local m = attributes[stat] + increased[stat] + (nature_attri[stat] or 0) + added[stat]
@@ -396,39 +458,65 @@ local function pick_move(self)
 	monarch.show(screens.MOVES_SCROLLIST, {}, {species=_pokemon.get_current_species(self.pokemon), level=_pokemon.get_current_level(self.pokemon), pokemon=self.pokemon, current_moves=_pokemon.get_moves(self.pokemon, {append_known_to_all=true}), move_to_replace=move_to_replace, message_id=messages.MOVE, sender=msg.url()})
 end
 
+local function refresh_variant_section(self)
+	local has_variants = false
+	if self.pokemon then
+		has_variants = pokedex.has_variants(_pokemon.get_current_species(self.pokemon))
+	end
+	M.config[hash("change_pokemon/variant")].active = has_variants
+end
+
+local function finish_create_flow(self, species, variant)
+	M.block = false
+	self.choosing_variant_for_new_species = false
+	self.pokemon = _pokemon.new({species=species, variant=variant})
+	refresh_variant_section(self)
+
+	gui.set_color(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector4(1))
+	gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.TEXT)
+	gui.set_text(gui.get_node("change_pokemon/species"), _pokemon.get_current_species(self.pokemon):upper())
+	gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
+	gui.set_scale(gui.get_node("change_pokemon/species"), POKEMON_SPECIES_TEXT_SCALE)
+	local gender = _pokemon.get_gender(self.pokemon)
+	set_gender_icon(self, gender)
+	if self.register_buttons_after_species then self.register_buttons_after_species(self) end
+	
+	update_sections(true)
+end
 
 function M.init(self, pokemon)
 	msg.post(url.MENU, messages.HIDE)
 
 	self.list_items = {}
 	self.feats_data = {}
+	self.skills_data = {}
 	self.move_buttons = {}
 	self.ability_data = {}
 	self.move_button_index = 0
+	self.choosing_variant_for_new_species = false
 	self.root = gui.get_node("root")
 	gui.set_enabled(gui.get_node("change_pokemon/feat/root"), false)
 	gui.set_enabled(gui.get_node("change_pokemon/ability/root"), false)
+	gui.set_enabled(gui.get_node("change_pokemon/skill/root"), false)
 	gui.set_enabled(gui.get_node("change_pokemon/btn_reset_abilities"), false)
 	gui.set_color(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector4(1))
 	gui.set_scale(gui.get_node("change_pokemon/species"), POKEMON_SPECIES_TEXT_SCALE)
 	gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
 	self.move_node = gui.get_node("change_pokemon/btn_move")
 	gui.set_enabled(self.move_node, false)
-	gui.set_enabled(gui.get_node("change_pokemon/checkmark_eviolite_mark"), false)
 
 	if self.pokemon then
 		local is_shiny =_pokemon.is_shiny(self.pokemon) or false
 		gui.set_enabled(gui.get_node("change_pokemon/checkmark_shiny_mark"), is_shiny)
 		gooey.checkbox("change_pokemon/bg_shiny").set_checked(is_shiny)
-		local g, gender = _pokemon.genderized(self.pokemon)
-		genderized = g
-		if gender == nil then
-			gender = _pokemon.get_gender(self.pokemon)
-		end
-		set_gender_icon(gender)
+		gender = _pokemon.get_gender(self.pokemon)
+		set_gender_icon(self, gender)
 	else
 		gui.set_enabled(gui.get_node("change_pokemon/checkmark_shiny_mark"), false)
 	end
+
+	refresh_variant_section(self)
+	
 	update_sections(true)
 end
 
@@ -450,28 +538,43 @@ function M.on_message(self, message_id, message, sender)
 			if message.item == "" then
 				return
 			end
-			M.block = false
-			self.pokemon = _pokemon.new({species=message.item})
+			self.species = message.item
+			local variants = pokedex.get_variants(self.species)
+			if not variants or #variants == 0 then
+				finish_create_flow(self, self.species, nil)
+			else
+				-- This pokemon type has variants associated with it
+				if pokedex.get_variant_create_mode(self.species) == pokedex.VARIANT_CREATE_MODE_CHOOSE then
+					-- User must choose the variant
+					self.choosing_variant_for_new_species = true
+					flow.start(function()
+						flow.until_true(function() return not monarch.is_busy() end)
+						monarch.show(screens.SCROLLIST, {}, {items=variants, message_id=messages.VARIANT, sender=msg.url(), title="Choose Variant"})
+					end)
+				else
+					-- Variant is the default
+					finish_create_flow(self, self.species, pokedex.get_default_variant(self.species))
+				end
+			end
+		elseif message_id == messages.VARIANT then
+			if message.item == "" then
+				return
+			end
 
-			pokemon_image(message.item)
-			gui.set_color(gui.get_node("change_pokemon/pokemon_sprite"), vmath.vector4(1))
-			gui.set_color(gui.get_node("change_pokemon/species"), gui_colors.TEXT)
-			gui.set_text(gui.get_node("change_pokemon/species"), _pokemon.get_current_species(self.pokemon):upper())
-			gui_utils.scale_text_to_fit_size(gui.get_node("change_pokemon/species"))
-			gui.set_scale(gui.get_node("change_pokemon/species"), POKEMON_SPECIES_TEXT_SCALE)
-			local g, gender = _pokemon.genderized(self.pokemon)
-			genderized = g
-			set_gender_icon(gender)
-			if self.register_buttons_after_species then self.register_buttons_after_species(self) end
-		elseif message_id == messages.EVOLVE then
-			flow.start(function()
-				flow.until_true(function() return not monarch.is_busy() end)
-				monarch.show(screens.ARE_YOU_SURE, nil, {title="Evolve at level ".. _pokemon.get_current_level(self.pokemon) .. "?", text="This will automatically save and exit to Party", sender=msg.url(), data=message.item, id="evolve"})
-			end)
+			if self.choosing_variant_for_new_species then
+				-- We have not finished creating the pokemon yet after selecting the species. Finish creation
+				finish_create_flow(self, self.species, message.item)
+			else
+				-- We were just changing the variant of an already-chosen pokemon		
+				_pokemon.set_variant(self.pokemon, message.item)
+				redraw(self)
+			end
 		elseif message_id == messages.ABILITIES then
 			_pokemon.add_ability(self.pokemon, message.item)
 		elseif message_id == messages.FEATS then
 			_pokemon.add_feat(self.pokemon, message.item)
+		elseif message_id == messages.SKILLS then
+			_pokemon.add_skill(self.pokemon, message.item)
 		elseif message_id == messages.ITEM then
 			_pokemon.set_held_item(self.pokemon, message.item)
 			gui.set_text(gui.get_node("change_pokemon/txt_item"), message.item:upper())
@@ -494,7 +597,7 @@ function M.on_message(self, message_id, message, sender)
 			_pokemon.set_current_hp(self.pokemon, _pokemon.get_current_hp(self.pokemon) + message.data)
 			M.update_hp_counter(self)
 		elseif message.id == messages.RESET then
-			local d_max = _pokemon.get_defaut_max_hp(self.pokemon)
+			local d_max = _pokemon.get_default_max_hp(self.pokemon)
 			_pokemon.set_max_hp(self.pokemon, d_max)
 			_pokemon.set_max_hp_forced(self.pokemon, false)
 			local current = math.min(_pokemon.get_current_hp(self.pokemon), _pokemon.get_total_max_hp(self.pokemon))
@@ -523,8 +626,30 @@ local function add_ability(self)
 	monarch.show(screens.SCROLLIST, {}, {items=filtered, message_id=messages.ABILITIES, sender=msg.url(), title="Pick Ability"})
 end
 
+local function add_skill(self)
+	local skill_list = utils.deep_copy(pokedex.skills)
+	local filtered = {}
+	local add
+	for _, a_skill in pairs(skill_list) do 
+		add = true
+		for _, skill in pairs(_pokemon.get_skills(self.pokemon)) do
+			if a_skill == skill then
+				add = false
+			end
+		end
+		if add then
+			table.insert(filtered, a_skill)
+		end
+	end
+	monarch.show(screens.SCROLLIST, {}, {items=filtered, message_id=messages.SKILLS, sender=msg.url(), title="Pick Skill"})
+end
+
+local function delete_skill(self, skill)
+	_pokemon.remove_skill(self.pokemon, skill)
+	redraw(self)
+end
+
 local function add_feat(self)
-	local a = utils.deep_copy(_feats.list)
 	monarch.show(screens.SCROLLIST, {}, {items=_feats.list, message_id=messages.FEATS, sender=msg.url(), title="Pick Feat"})
 end
 
@@ -563,6 +688,16 @@ local function feats_buttons(self, action_id, action)
 			gooey.button(data.button, action_id, action, function() add_feat(self) end)
 		else
 			gooey.button(data.delete, action_id, action, function(c) delete_feat(self, data.position) end, gooey_buttons.cross_button)
+		end
+	end
+end
+
+local function skills_buttons(self, action_id, action)
+	for _, data in pairs(self.skills_data) do
+		if data.name == "Add Other" then
+			gooey.button(data.button, action_id, action, function() add_skill(self) end)
+		else
+			gooey.button(data.delete, action_id, action, function(c) delete_skill(self, data.position) end, gooey_buttons.cross_button)
 		end
 	end
 end
@@ -623,43 +758,32 @@ local function move_buttons(self, action_id, action)
 	end
 end
 
-local function attribute_buttons(self, action_id, action)
-	gooey.button("change_pokemon/asi/str/btn_minus", action_id, action, function() decrease(self, "STR") end,gooey_buttons.minus_button)
-	gooey.button("change_pokemon/asi/str/btn_plus", action_id, action, function() increase(self, "STR") end, gooey_buttons.plus_button)
+local function attribute_buttons(self, action_id, action, scope, _decrease, _increase)
+	gooey.button("change_pokemon/" .. scope .. "/str/btn_minus", action_id, action, function() _decrease(self, "STR") end,gooey_buttons.minus_button)
+	gooey.button("change_pokemon/" .. scope .. "/str/btn_plus", action_id, action, function() _increase(self, "STR") end, gooey_buttons.plus_button)
 	
-	gooey.button("change_pokemon/asi/con/btn_minus", action_id, action, function() 
-		decrease(self, "CON")
+	gooey.button("change_pokemon/" .. scope .. "/con/btn_minus", action_id, action, function() 
+		_decrease(self, "CON")
 		M.update_hp_counter(self)
 	end,gooey_buttons.minus_button)
 	
-	gooey.button("change_pokemon/asi/con/btn_plus", action_id, action, function()
-		increase(self, "CON")
+	gooey.button("change_pokemon/" .. scope .. "/con/btn_plus", action_id, action, function()
+		_increase(self, "CON")
 		M.update_hp_counter(self)
 	end, gooey_buttons.plus_button)
 	
-	gooey.button("change_pokemon/asi/dex/btn_minus", action_id, action, function() decrease(self, "DEX") end,gooey_buttons.minus_button)
-	gooey.button("change_pokemon/asi/dex/btn_plus", action_id, action, function() increase(self, "DEX") end, gooey_buttons.plus_button)
+	gooey.button("change_pokemon/" .. scope .. "/dex/btn_minus", action_id, action, function() _decrease(self, "DEX") end,gooey_buttons.minus_button)
+	gooey.button("change_pokemon/" .. scope .. "/dex/btn_plus", action_id, action, function() _increase(self, "DEX") end, gooey_buttons.plus_button)
 	
-	gooey.button("change_pokemon/asi/int/btn_minus", action_id, action, function() decrease(self, "INT") end,gooey_buttons.minus_button)
-	gooey.button("change_pokemon/asi/int/btn_plus", action_id, action, function() increase(self, "INT") end, gooey_buttons.plus_button)
+	gooey.button("change_pokemon/" .. scope .. "/int/btn_minus", action_id, action, function() _decrease(self, "INT") end,gooey_buttons.minus_button)
+	gooey.button("change_pokemon/" .. scope .. "/int/btn_plus", action_id, action, function() _increase(self, "INT") end, gooey_buttons.plus_button)
 	
-	gooey.button("change_pokemon/asi/wis/btn_minus", action_id, action, function() decrease(self, "WIS") end, gooey_buttons.minus_button)
-	gooey.button("change_pokemon/asi/wis/btn_plus", action_id, action, function() increase(self, "WIS") end, gooey_buttons.plus_button)
+	gooey.button("change_pokemon/" .. scope .. "/wis/btn_minus", action_id, action, function() _decrease(self, "WIS") end, gooey_buttons.minus_button)
+	gooey.button("change_pokemon/" .. scope .. "/wis/btn_plus", action_id, action, function() _increase(self, "WIS") end, gooey_buttons.plus_button)
 	
-	gooey.button("change_pokemon/asi/cha/btn_minus", action_id, action, function() decrease(self, "CHA") end, gooey_buttons.minus_button)
-	gooey.button("change_pokemon/asi/cha/btn_plus", action_id, action, function() increase(self, "CHA") end, gooey_buttons.plus_button)
+	gooey.button("change_pokemon/" .. scope .. "/cha/btn_minus", action_id, action, function() _decrease(self, "CHA") end, gooey_buttons.minus_button)
+	gooey.button("change_pokemon/" .. scope .. "/cha/btn_plus", action_id, action, function() _increase(self, "CHA") end, gooey_buttons.plus_button)
 end
-
-local function update_eviolite_checkbox(checkbox)
-	gui.set_enabled(gui.get_node("change_pokemon/checkmark_eviolite_mark"), checkbox.checked)
-end
-
-local function on_eviolite_checked(self, checkbox)
-	_pokemon.set_consumed_eviolite(self.pokemon, checkbox.checked)
-	update_ASI(self)
-	if self.redraw then self.redraw(self) end
-end
-
 
 
 function M.on_input(self, action_id, action)
@@ -673,19 +797,14 @@ function M.on_input(self, action_id, action)
 	for _, button in pairs(active_buttons) do
 		gooey.button(button.node, action_id, action, button.func, button.refresh)
 	end
-	
-	gooey.checkbox("change_pokemon/bg_eviolite", action_id, action, function(checkbox) on_eviolite_checked(self, checkbox) end, update_eviolite_checkbox)
-	
 
-	if not genderized then
-		gooey.button("change_pokemon/female", action_id, action, function()
-			set_gender(self, _pokemon.FEMALE)
-		end)
-		
-		gooey.button("change_pokemon/male", action_id, action, function()
-			set_gender(self, _pokemon.MALE)
-		end)
-	end
+	gooey.button("change_pokemon/female", action_id, action, function()
+		set_gender(self, _pokemon.FEMALE)
+	end)
+	
+	gooey.button("change_pokemon/male", action_id, action, function()
+		set_gender(self, _pokemon.MALE)
+	end)
 	gooey.button("change_pokemon/hp/btn_minus", action_id, action, function()
 		if _pokemon.have_ability(self.pokemon, "Paper Thin") then
 			monarch.show(screens.INFO, nil, {text="Ability: Paper Thin\nThis Pokemon's max HP is always 1"})
@@ -713,13 +832,28 @@ function M.on_input(self, action_id, action)
 			monarch.show(screens.ARE_YOU_SURE, nil, {title="Are you sure?", text="You will have to track it manually henceforth", sender=msg.url(), data=1, id=messages.CHANGE_HP})
 		end
 	end, gooey_buttons.plus_button)
+
+	gooey.button("change_pokemon/custom_asi/btn_collapse", action_id, action, function()
+		M.config[hash("change_pokemon/custom_asi/root")].active = not M.config[hash("change_pokemon/custom_asi/root")].active
+		if M.config[hash("change_pokemon/custom_asi/root")].active then
+			M.config[hash("change_pokemon/asi/root")].active = false
+			M.config[hash("change_pokemon/moves")].active = false
+			M.config[hash("change_pokemon/abilities")].active = false
+			M.config[hash("change_pokemon/feats")].active = false
+			M.config[hash("change_pokemon/skills")].active = false
+			M.config[hash("change_pokemon/held_item")].active = false
+		end
+		update_sections()
+	end)
 	
 	gooey.button("change_pokemon/asi/btn_collapse", action_id, action, function()
 		M.config[hash("change_pokemon/asi/root")].active = not M.config[hash("change_pokemon/asi/root")].active
 		if M.config[hash("change_pokemon/asi/root")].active then
+			M.config[hash("change_pokemon/custom_asi/root")].active = false
 			M.config[hash("change_pokemon/moves")].active = false
 			M.config[hash("change_pokemon/abilities")].active = false
 			M.config[hash("change_pokemon/feats")].active = false
+			M.config[hash("change_pokemon/skills")].active = false
 			M.config[hash("change_pokemon/held_item")].active = false
 		end
 		update_sections()
@@ -730,7 +864,9 @@ function M.on_input(self, action_id, action)
 		if M.config[hash("change_pokemon/moves")].active then
 			M.config[hash("change_pokemon/abilities")].active = false
 			M.config[hash("change_pokemon/asi/root")].active = false
+			M.config[hash("change_pokemon/custom_asi/root")].active = false
 			M.config[hash("change_pokemon/feats")].active = false
+			M.config[hash("change_pokemon/skills")].active = false
 			M.config[hash("change_pokemon/held_item")].active = false
 		end
 		update_sections()
@@ -740,8 +876,10 @@ function M.on_input(self, action_id, action)
 		M.config[hash("change_pokemon/abilities")].active = not M.config[hash("change_pokemon/abilities")].active
 		if M.config[hash("change_pokemon/abilities")].active then
 			M.config[hash("change_pokemon/asi/root")].active = false
+			M.config[hash("change_pokemon/custom_asi/root")].active = false
 			M.config[hash("change_pokemon/moves")].active = false
 			M.config[hash("change_pokemon/feats")].active = false
+			M.config[hash("change_pokemon/skills")].active = false
 			M.config[hash("change_pokemon/held_item")].active = false
 		end
 		update_sections()
@@ -750,30 +888,49 @@ function M.on_input(self, action_id, action)
 	gooey.button("change_pokemon/btn_collapse_feats", action_id, action, function()
 		M.config[hash("change_pokemon/feats")].active = not M.config[hash("change_pokemon/feats")].active
 		if M.config[hash("change_pokemon/feats")].active then
+			M.config[hash("change_pokemon/skills")].active = false
 			M.config[hash("change_pokemon/abilities")].active = false
 			M.config[hash("change_pokemon/asi/root")].active = false
+			M.config[hash("change_pokemon/custom_asi/root")].active = false
 			M.config[hash("change_pokemon/moves")].active = false
 			M.config[hash("change_pokemon/held_item")].active = false
 		end
 		update_sections()
 	end)
-
+	
+	gooey.button("change_pokemon/btn_collapse_skills", action_id, action, function()
+		M.config[hash("change_pokemon/skills")].active = not M.config[hash("change_pokemon/skills")].active
+		if M.config[hash("change_pokemon/skills")].active then
+			M.config[hash("change_pokemon/feats")].active = false
+			M.config[hash("change_pokemon/abilities")].active = false
+			M.config[hash("change_pokemon/asi/root")].active = false
+			M.config[hash("change_pokemon/custom_asi/root")].active = false
+			M.config[hash("change_pokemon/moves")].active = false
+			M.config[hash("change_pokemon/held_item")].active = false
+		end
+		update_sections()
+	end)
+	
 	gooey.button("change_pokemon/btn_collapse_item", action_id, action, function()
 		M.config[hash("change_pokemon/held_item")].active = not M.config[hash("change_pokemon/held_item")].active
 		if M.config[hash("change_pokemon/held_item")].active then
 			M.config[hash("change_pokemon/abilities")].active = false
 			M.config[hash("change_pokemon/asi/root")].active = false
+			M.config[hash("change_pokemon/custom_asi/root")].active = false
 			M.config[hash("change_pokemon/moves")].active = false
 			M.config[hash("change_pokemon/feats")].active = false
+			M.config[hash("change_pokemon/skills")].active = false
 		end
 		update_sections()
 	end)
-	
+	if M.config[hash("change_pokemon/custom_asi/root")].active then
+		attribute_buttons(self, action_id, action, "custom_asi", custom_decrease, custom_increase)
+	end
 	if M.config[hash("change_pokemon/abilities")].active then
 		ability_buttons(self, action_id, action)
 	end
 	if M.config[hash("change_pokemon/asi/root")].active then
-		attribute_buttons(self, action_id, action)
+		attribute_buttons(self, action_id, action, "asi", decrease, increase)
 	end
 	if M.config[hash("change_pokemon/moves")].active then
 		move_buttons(self, action_id, action)
@@ -784,9 +941,18 @@ function M.on_input(self, action_id, action)
 	if M.config[hash("change_pokemon/feats")].active then
 		feats_buttons(self, action_id, action)
 	end
+	if M.config[hash("change_pokemon/skills")].active then
+		skills_buttons(self, action_id, action)
+	end
 	if M.config[hash("change_pokemon/nature")].active then
 		gooey.button("change_pokemon/btn_nature", action_id, action, function()
 			monarch.show(screens.NATURES_SCROLLIST, {}, {items=natures.list, message_id=messages.NATURE, sender=msg.url()})
+		end)
+	end
+	if M.config[hash("change_pokemon/variant")].active then
+		gooey.button("change_pokemon/btn_variant", action_id, action, function()
+			local variants = pokedex.get_variants(_pokemon.get_current_species(self.pokemon))
+			monarch.show(screens.SCROLLIST, {}, {items=variants, message_id=messages.VARIANT, sender=msg.url(), title="Choose Variant"})
 		end)
 	end
 	if M.config[hash("change_pokemon/held_item")].active then

@@ -1,0 +1,35 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 2,
+      "dice_max": 8,
+      "move": true
+    },
+    "10": {
+      "amount": 3,
+      "dice_max": 10,
+      "move": true
+    },
+    "17": {
+      "amount": 4,
+      "dice_max": 12,
+      "move": true
+    },
+    "5": {
+      "amount": 2,
+      "dice_max": 10,
+      "move": true
+    }
+  },
+  "Description": "You send forth a flurry of pollen at a target in range. Make a ranged attack roll, dealing bug damage on a hit. If the target is an ally, it heals for the amount of damage instead.",
+  "Duration": "Instantaneous",
+  "Move Power": [
+    "DEX",
+    "CON"
+  ],
+  "Move Time": "1 action",
+  "PP": 10,
+  "Range": "30ft",
+  "Type": "Bug",
+  "atk": true
+}

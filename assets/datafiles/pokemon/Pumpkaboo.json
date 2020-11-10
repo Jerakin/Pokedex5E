@@ -99,6 +99,49 @@
   },
   "index": 710,
   "saving_throws": [
-    "CON"
-  ]
+    "Constitution"
+  ],
+  "size": "Varies",
+  "variant_data": {
+    "create_mode": "choose",
+    "default": "Small",
+    "permanent": true,
+    "sprite_suffix": "Pumpkaboo",
+    "variants": {
+      "Average": {
+        "diff": {
+          "attributes": {
+            "CON": 14,
+            "DEX": 13
+          }
+        },
+        "display": "Pumpkaboo (Average)",
+        "original_species": "Pumpkaboo - Average"
+      },
+      "Large": {
+        "diff": {
+          "attributes": {
+            "CON": 15,
+            "DEX": 12
+          }
+        },
+        "display": "Pumpkaboo (Large)",
+        "original_species": "Pumpkaboo - Large"
+      },
+      "Small": {
+        "display": "Pumpkaboo (Small)",
+        "original_species": "Pumpkaboo - Small"
+      },
+      "Supersize": {
+        "diff": {
+          "attributes": {
+            "CON": 16,
+            "DEX": 11
+          }
+        },
+        "display": "Pumpkaboo (Supersize)",
+        "original_species": "Pumpkaboo - Supersize"
+      }
+    }
+  }
 }

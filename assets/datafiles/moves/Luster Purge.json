@@ -1,27 +1,27 @@
 {
   "Damage": {
     "1": {
-      "amount": 1,
-      "dice_max": 12,
+      "amount": 3,
+      "dice_max": 10,
       "move": true
     },
     "10": {
-      "amount": 2,
-      "dice_max": 12,
-      "move": true
-    },
-    "17": {
-      "amount": 6,
+      "amount": 8,
       "dice_max": 6,
       "move": true
     },
+    "17": {
+      "amount": 7,
+      "dice_max": 12,
+      "move": true
+    },
     "5": {
-      "amount": 2,
-      "dice_max": 8,
+      "amount": 6,
+      "dice_max": 6,
       "move": true
     }
   },
-  "Description": "You create a blinding bright light that damages a target's eyes and may lower their defense. Make a ranged attack against an opponent, dealing psychic damage on a hit. On a natural attack roll of 18 or more, any attack against this target has advantage until the end of your next turn.",
+  "Description": "You create a blinding bright light that damages creature's eyes and may lower their defense. Creatures in range must make a CON save against your Move DC, taking psychic damage on a failure, or half as much on a success. For creatures that fail by 5 or more, any attack against them has advantage until the end of your next turn.",
   "Duration": "1 round",
   "Move Power": [
     "DEX",
@@ -29,7 +29,7 @@
   ],
   "Move Time": "1 action",
   "PP": 3,
-  "Range": "30ft",
-  "Type": "Psychic",
-  "atk": true
+  "Range": "Self (30ft radius)",
+  "Save": "CON",
+  "Type": "Psychic"
 }

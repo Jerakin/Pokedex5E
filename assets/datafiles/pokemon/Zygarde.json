@@ -1,0 +1,136 @@
+{
+  "AC": 16,
+  "Abilities": [
+    "Aura Break",
+    "Power Construct"
+  ],
+  "HP": 448,
+  "Hit Dice": 20,
+  "MIN LVL FD": 20,
+  "Moves": {
+    "Level": {},
+    "Starting Moves": [
+      "Bite",
+      "Bulldoze",
+      "Dragon Breath",
+      "Glare",
+      "Safeguard",
+      "Dig",
+      "Bind",
+      "Land's Wrath",
+      "Sandstorm",
+      "Haze",
+      "Crunch",
+      "Earthquake",
+      "Camouflage",
+      "Dragon Pulse",
+      "Coil",
+      "Outrage"
+    ],
+    "TM": [
+      6,
+      10,
+      11,
+      15,
+      17,
+      20,
+      21,
+      26,
+      27,
+      31,
+      32,
+      34,
+      37,
+      42,
+      44,
+      48,
+      52,
+      68,
+      71,
+      78,
+      80,
+      82,
+      86,
+      87,
+      88,
+      90,
+      100
+    ]
+  },
+  "SR": 15.0,
+  "Senses": [
+    "Darkvision 100ft",
+    "Truesight 100ft"
+  ],
+  "Skill": [
+    "All Skills"
+  ],
+  "Type": [
+    "Dragon",
+    "Ground"
+  ],
+  "WSp": 35,
+  "attributes": {
+    "CHA": 14,
+    "CON": 15,
+    "DEX": 19,
+    "INT": 14,
+    "STR": 16,
+    "WIS": 14
+  },
+  "index": 718,
+  "saving_throws": [
+    "Intelligence",
+    "Wisdom",
+    "Strength"
+  ],
+  "size": "Medium",
+  "variant_data": {
+    "create_mode": "default",
+    "default": "10% Forme",
+    "permanent": false,
+    "variants": {
+      "10% Forme": {
+        "display": "Zygarde 10% Forme",
+        "original_species": "Zygarde 10% Forme"
+      },
+      "50% Forme": {
+        "diff": {
+          "AC": 18,
+          "WSp": 40,
+          "attributes": {
+            "CHA": 16,
+            "CON": 20,
+            "DEX": 18,
+            "INT": 16,
+            "STR": 19,
+            "WIS": 16
+          },
+          "size": "Huge"
+        },
+        "display": "Zygarde 50% Forme",
+        "original_species": "Zygarde 50% Forme"
+      },
+      "Complete Forme": {
+        "diff": {
+          "AC": 20,
+          "Abilities": [
+            "Power Construct"
+          ],
+          "WSp": 50,
+          "attributes": {
+            "CHA": 18,
+            "CON": 30,
+            "DEX": 17,
+            "INT": 18,
+            "STR": 19,
+            "WIS": 18
+          },
+          "size": "Huge"
+        },
+        "display": "Zygarde Complete Forme",
+        "original_species": "Zygarde Complete Forme"
+      }
+    }
+  }
+}

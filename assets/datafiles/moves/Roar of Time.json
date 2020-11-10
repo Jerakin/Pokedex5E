@@ -21,15 +21,15 @@
       "move": true
     }
   },
-  "Description": "You unleash a roar that has the power to distort time. All creatures within 40 feet of you must make a WIS save against your Move DC, taking dragon damage on a failure, or half as much on a success. When the initial move is activated, roll and take a number of additional actions equal to the result, before the end of your turn. Roar of Time may not be used as one of the additional actions. This move drains you of energy, and you may not make any attack until after the end of your next turn.",
+  "Description": "You unleash a roar that has the power to distort time. All creatures within 40 feet of you must make a WIS save against your Move DC, taking dragon damage on a failure, or half as much on a success. For any creature that failed the save by 5 or more, you may immediately take another action against them. Roar of Time may not be used as one of the additional actions. This move drains you of energy, and you may not make any attack until after the end of your next turn.",
   "Duration": "Instantaneous",
   "Move Power": [
     "STR",
     "WIS"
   ],
   "Move Time": "1+1d4 actions, recharge",
-  "PP": 5,
-  "Range": "40 foot circle",
+  "PP": 3,
+  "Range": "Self (20ft radius)",
   "Save": "WIS",
   "Type": "Dragon"
 }

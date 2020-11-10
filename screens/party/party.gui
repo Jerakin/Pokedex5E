@@ -3002,13 +3002,13 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.75
-    y: 0.75
+    x: 0.7
+    y: 0.7
     z: 1.0
     w: 1.0
   }
   size {
-    x: 300.0
+    x: 280.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -3049,13 +3049,13 @@ nodes {
   outline_alpha: 1.0
   shadow_alpha: 1.0
   template_node_child: true
-  text_leading: 0.9
+  text_leading: 0.8
   text_tracking: 0.0
 }
 nodes {
   position {
-    x: 170.0
-    y: -5.0
+    x: 65.0
+    y: -6.0
     z: 0.0
     w: 1.0
   }
@@ -3072,7 +3072,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 320.0
+    x: 190.0
     y: 50.0
     z: 0.0
     w: 1.0
@@ -3140,7 +3140,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Hasty"
+  text: "STUBBORN"
   font: "script"
   id: "pokemon/traits/txt_nature"
   xanchor: XANCHOR_NONE
@@ -4077,7 +4077,7 @@ nodes {
 }
 nodes {
   position {
-    x: -170.0
+    x: -195.0
     y: -6.0
     z: 0.0
     w: 1.0
@@ -5003,6 +5003,124 @@ nodes {
   shadow_alpha: 1.0
   template_node_child: true
   text_leading: 0.8
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 260.0
+    y: -6.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 190.0
+    y: 50.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/details_backing"
+  id: "pokemon/traits/size_backing"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_N
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "pokemon/traits/root"
+  layer: "gui"
+  inherit_alpha: true
+  slice9 {
+    x: 10.0
+    y: 10.0
+    z: 10.0
+    w: 10.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: -3.0
+    y: -25.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.7
+    y: 0.7
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 50.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "BIG"
+  font: "script"
+  id: "pokemon/traits/txt_size"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "pokemon/traits/size_backing"
+  layer: "script"
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: true
+  text_leading: 1.0
   text_tracking: 0.0
 }
 nodes {
@@ -7408,6 +7526,61 @@ nodes {
   template_node_child: true
   text_leading: 0.9
   text_tracking: -0.05
+}
+nodes {
+  position {
+    x: 0.0
+    y: 6.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 400.0
+    y: 35.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: ""
+  id: "pokemon/btn_status_hitbox"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "pokemon/btn_status"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
 }
 nodes {
   position {

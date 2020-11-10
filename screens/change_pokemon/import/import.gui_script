@@ -18,8 +18,8 @@ local HAVE_EVOLVED = false
 
 local active_buttons = {}
 
-local function pokemon_image(species)
-	local pokemon_sprite, texture = _pokemon.get_icon(species)
+local function pokemon_image(pkmn)
+	local pokemon_sprite, texture = _pokemon.get_icon(pkmn)
 	gui.set_texture(gui.get_node("change_pokemon/pokemon_sprite"), texture)
 	if pokemon_sprite then
 		gui.play_flipbook(gui.get_node("change_pokemon/pokemon_sprite"), pokemon_sprite)

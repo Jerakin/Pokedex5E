@@ -1,10 +1,11 @@
+local file = require "utils.file"
 local utils = require "utils.utils"
 local pokedex = require "pokedex.pokedex"
 local natures = require "pokedex.natures"
-local storage = require "pokedex.storage"
 local movedex = require "pokedex.moves"
-local items = require "pokedex.items"
 local trainer = require "pokedex.trainer"
+local variants = require "pokedex.variants"
+local constants = require "utils.constants"
 
 local M = {}
 
@@ -39,9 +40,12 @@ local feat_to_attribute = {
 	Acrobat="DEX"
 }
 
+local LATEST_POKEMON_VERSION = 7
+
 M.GENDERLESS = pokedex.GENDERLESS
 M.MALE = pokedex.MALE
 M.FEMALE = pokedex.FEMALE
+M.ANY = pokedex.ANY
 
 M.DEFAULT_MAX_MOVES = 4
 
@@ -55,6 +59,7 @@ local loyalty_hp = {
 	[3] = {HP=10}
 }
 
+
 local function add_tables(T1, T2)
 	local copy = utils.shallow_copy(T1)
 	for k,v in pairs(T2) do
@@ -65,13 +70,15 @@ local function add_tables(T1, T2)
 	return copy
 end
 
-function M.get_senses(pokemon)
-	return pokedex.get_senses(M.get_current_species(pokemon))
+
+function M.get_senses(pkmn)
+	return pokedex.get_senses(M.get_current_species(pkmn), M.get_variant(pkmn))
 end
 
-local function get_attributes_from_feats(pokemon)
+
+local function get_attributes_from_feats(pkmn)
 	local m = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
-	for _, feat in pairs(M.get_feats(pokemon)) do
+	for _, feat in pairs(M.get_feats(pkmn)) do
 		local attr = feat_to_attribute[feat]
 		if attr then
 			m[attr] = m[attr] + 1
@@ -80,90 +87,134 @@ local function get_attributes_from_feats(pokemon)
 	return m
 end
 
---[[
-A Bulbasaur when gaining ASI would get 2 points. If the Bulbasaur eats an Eviolite he gets 4 instead.
-A Ivysaur when gaining ASI would get 2 points. If the Ivysaur eats an Eviolite he gets 3 instead.
-A Venusaur when gaining ASI would get 2 points. Eating Eviolite have no effect
-A Rattata when gaining ASI would get 3 points. If the Rattata eats an Eviolite he gets 4 points.
-A RAticate when gaining ASI would get 3 points. Eating Eviolite have no effect
-A Kangaskhan when gaining ASI would get 4 points.  Eating Eviolite have no effect--]]
-local function ASI_points(pokemon)
-	local species = M.get_current_species(pokemon)
-	local total = pokedex.get_total_evolution_stages(species)
-	local current = pokedex.get_current_evolution_stage(species)
-	if M.get_consumed_eviolite(pokemon) then
-		return 5 - current
-	else
-		return 5 - total
+local function ASI_points(pkmn)
+	local total = pokedex.get_total_evolution_stages(M.get_current_species(pkmn))
+	return 5 - total
+end
+
+
+local function get_evolved_at_level(pkmn)
+	if type(pkmn.level.evolved) == "number" then
+		local old = pkmn.level.evolved
+		pkmn.level.evolved = {}
+		if old ~= 0 then
+			table.insert(pkmn.level.evolved, old)
+		end
 	end
-end
-
-function M.get_available_ASI(pokemon)
-	local available_at_level = pokedex.level_data(M.get_current_level(pokemon)).ASI
-	local available_at_caught = pokedex.level_data(M.get_caught_level(pokemon)).ASI
-	local ASI_gained = M.get_ASI_point_increase(pokemon)
-	return (available_at_level-available_at_caught) * ASI_gained - M.ability_score_points(pokemon) + trainer.get_asi()
+	return pkmn.level.evolved or {}
 end
 
 
-function M.genderized(pokemon)
-	local species = M.get_current_species(pokemon)
-	return pokedex.genderized(species)
+local function get_evolution_points(pkmn)
+	local current = M.get_current_species(pkmn)
+	local caught = M.get_caught_species(pkmn)
+	local evolution_points = 0
+
+	if current ~= caught then
+		local evolutions = utils.deep_copy(get_evolved_at_level(pkmn))
+
+		while next(evolutions) ~= nil do
+			table.remove(evolutions)
+			current = pokedex.get_evolved_from(current)
+			evolution_points = evolution_points + pokedex.evolve_points(current)
+		end
+	end
+	return evolution_points
 end
 
-function M.get_gender(pokemon)
-	return pokemon.gender
+
+local function ability_score_points(pkmn)
+	local amount = 0
+	for _, n in pairs(M.get_increased_attributes(pkmn)) do
+		amount = amount + n
+	end
+	amount = amount + #M.get_feats(pkmn) * 2
+	amount = amount - get_evolution_points(pkmn)
+
+	return amount
 end
 
-function M.set_gender(pokemon, gender)
-	pokemon.gender = gender
+
+function M.get_available_ASI(pkmn)
+	local available_at_level = pokedex.level_data(M.get_current_level(pkmn)).ASI
+	local available_at_caught = pokedex.level_data(M.get_caught_level(pkmn)).ASI
+	local ASI_gained = ASI_points(pkmn)
+	return (available_at_level-available_at_caught) * ASI_gained - ability_score_points(pkmn) + trainer.get_asi()
 end
 
-function M.get_ASI_point_increase(pokemon)
-	return ASI_points(pokemon)
+
+function M.enforce_genders()
+	return pokedex.enforce_genders()
 end
 
-function M.get_attributes(pokemon)
-	local base = pokedex.get_base_attributes(M.get_caught_species(pokemon))
-	local increased = M.get_increased_attributes(pokemon) or {}
-	local added = M.get_added_attributes(pokemon) or {}
-	local natures = natures.get_nature_attributes(M.get_nature(pokemon)) or {}
-	local feats = get_attributes_from_feats(pokemon)
+function M.get_strict_gender(pkmn)
+	return pokedex.get_strict_gender(M.get_current_species(pkmn))
+end
+
+function M.get_gender(pkmn)
+	return pkmn.gender
+end
+
+
+function M.set_gender(pkmn, gender)
+	pkmn.gender = gender
+end
+
+
+function M.get_attributes(pkmn)
+	local base = pokedex.get_base_attributes(M.get_caught_species(pkmn), M.get_variant(pkmn))
+	local increased = M.get_increased_attributes(pkmn) or {}
+	local custom = M.get_custom_attributes(pkmn) or {}
+	local added = M.get_added_attributes(pkmn) or {}
+	local natures = natures.get_nature_attributes(M.get_nature(pkmn)) or {}
+	local feats = get_attributes_from_feats(pkmn)
 	local trainer_attributes = trainer.get_attributes()
-	return add_tables(add_tables(add_tables(add_tables(add_tables(base, added), natures), increased), feats), trainer_attributes)
+	return add_tables(add_tables(add_tables(add_tables(add_tables(add_tables(base, added), natures), increased), feats), trainer_attributes), custom)
 end
 
-function M.get_max_attributes(pokemon)
+
+function M.get_max_attributes(pkmn)
 	local m = {STR= 20,DEX= 20,CON= 20,INT= 20,WIS= 20,CHA= 20}
-	local n = natures.get_nature_attributes(M.get_nature(pokemon)) or {}
+	local n = natures.get_nature_attributes(M.get_nature(pkmn)) or {}
 
 	local t = add_tables(m, n)
 	return t
 end
 
-function M.get_increased_attributes(pokemon)
-	return pokemon.attributes.increased
+
+function M.get_increased_attributes(pkmn)
+	return pkmn.attributes.increased
 end
 
-function M.get_experience_for_level(pokemon)
-	return pokedex.get_experience_for_level(M.get_current_level(pokemon))
+function M.get_custom_attributes(pkmn)
+	return pkmn.attributes.custom
 end
 
-function M.set_loyalty(pokemon, loyalty)
+
+function M.set_loyalty(pkmn, loyalty)
 	local c =  math.min(math.max(loyalty, -3), 3)
-	pokemon.loyalty = c
+	pkmn.loyalty = c
 end
 
-function M.get_held_item(pokemon)
-	return pokemon.item
+function M.get_held_item(pkmn)
+	return pkmn.item
 end
 
-function M.set_held_item(pokemon, item)
-	pokemon.item = item
+
+function M.set_held_item(pkmn, item)
+	pkmn.item = item
 end
 
-function M.remove_feat(pokemon, position)
-	local feats = M.get_feats(pokemon)
+local function get_move_count(pkmn)
+	local i = 0
+	for _,_ in ipairs(M.get_moves(pkmn)) do
+		i = i + 1
+	end
+	return i
+end
+
+function M.remove_feat(pkmn, position)
+	local feats = M.get_feats(pkmn)
 
 	if position >= 1 and position <= #feats then
 		local feat_name = feats[position]
@@ -171,66 +222,56 @@ function M.remove_feat(pokemon, position)
 
 		-- If the feat was extra move, also remove the move with the highest possible index, accounting for the fact that the pokemon may have more copies of that same feat
 		if feat_name == "Extra Move" then
-			local _,count = M.have_feat(pokemon, feat_name)
-			M.remove_move(pokemon, M.DEFAULT_MAX_MOVES + 1 + count)
+			local _,count = M.have_feat(pkmn, feat_name)
+			M.remove_move(pkmn, M.DEFAULT_MAX_MOVES + 1 + count)
 		end
 	end
 end
 
-function M.set_consumed_eviolite(pokemon, value)
-	pokemon.eviolite = value == true and true or nil
-end
 
-function M.get_consumed_eviolite(pokemon, value)
-	return pokemon.eviolite or false
-end
-
-function M.remove_move(pokemon, index)
-	for move, data in pairs(M.get_moves(pokemon)) do
+function M.remove_move(pkmn, index)
+	for move, data in pairs(M.get_moves(pkmn)) do
 		if index == data.index then
-			pokemon.moves[move] = nil
+			pkmn.moves[move] = nil
 			break
 		end
 	end
 end
 
-function M.reset_abilities(pokemon)
-	for i, name in pairs(M.get_abilities(pokemon)) do
-		table.remove(pokemon.abilities, i)
+
+function M.reset_abilities(pkmn)
+	for i, name in pairs(M.get_abilities(pkmn)) do
+		table.remove(pkmn.abilities, i)
 	end
-	for i, name in pairs(pokedex.get_pokemon_abilities(M.get_current_species(pokemon))) do
-		table.insert(pokemon.abilities, name)
+	for i, name in pairs(pokedex.get_abilities(M.get_current_species(pkmn))) do
+		table.insert(pkmn.abilities, name)
 	end
 end
 
-function M.remove_ability(pokemon, ability)
-	for i, name in pairs(M.get_abilities(pokemon)) do
+
+function M.remove_ability(pkmn, ability)
+	for i, name in pairs(M.get_abilities(pkmn)) do
 		if name == ability then
-			table.remove(pokemon.abilities, i)
+			table.remove(pkmn.abilities, i)
 		end
 	end
 end
 
-function M.get_moves_count(pokemon)
-	local c = 0
-	for move, data in pairs(M.get_moves(pokemon)) do
-		c = c + 1
-	end
-	return c
+
+function M.set_nature(pkmn, nature)
+	pkmn.nature = nature
+	pkmn.attributes.nature = natures.get_nature_attributes(nature)
 end
 
-function M.set_nature(pokemon, nature)
-	pokemon.nature = nature
-	pokemon.attributes.nature = natures.get_nature_attributes(nature)
+
+function M.get_loyalty(pkmn)
+	return pkmn.loyalty or 0
 end
 
-function M.get_loyalty(pokemon)
-	return pokemon.loyalty or 0
-end
 
-function M.have_ability(pokemon, ability)
+function M.have_ability(pkmn, ability)
 	local count = 0
-	for _, f in pairs(M.get_abilities(pokemon)) do
+	for _, f in pairs(M.get_abilities(pkmn)) do
 		if f == ability then
 			return true
 		end
@@ -238,9 +279,10 @@ function M.have_ability(pokemon, ability)
 	return false
 end
 
-function M.have_feat(pokemon, feat)
+
+function M.have_feat(pkmn, feat)
 	local count = 0
-	for _, f in pairs(M.get_feats(pokemon)) do
+	for _, f in pairs(M.get_feats(pkmn)) do
 		if f == feat then
 			count = count + 1
 		end
@@ -248,97 +290,101 @@ function M.have_feat(pokemon, feat)
 	return count > 0, count
 end
 
-function M.get_exp(pokemon)
-	return pokemon.exp or 0
+
+function M.get_exp(pkmn)
+	return pkmn.exp or 0
 end
 
-function M.set_exp(pokemon, exp)
-	pokemon.exp = exp
+
+function M.set_exp(pkmn, exp)
+	pkmn.exp = exp
 end
 
-function M.update_increased_attributes(pokemon, increased)
-	local b = M.get_increased_attributes(pokemon)
-	local n = add_tables(increased, b)
-	pokemon.attributes.increased = n
-end
 
-function M.ability_score_points(pokemon)
-	local amount = 0
-	for _, n in pairs(M.get_increased_attributes(pokemon)) do
-		amount = amount + n
-	end
-	amount = amount + #M.get_feats(pokemon) * 2
-	amount = amount - M.get_evolution_points(pokemon)
-	
-	return amount
-end
-
-function M.get_added_attributes(pokemon)
+function M.get_added_attributes(pkmn)
 	return {
-		STR=pokemon.attributes["STR"] or 0,
-		DEX=pokemon.attributes["DEX"] or 0,
-		CON=pokemon.attributes["CON"] or 0,
-		INT=pokemon.attributes["INT"] or 0,
-		WIS=pokemon.attributes["WIS"] or 0,
-		CHA=pokemon.attributes["CHA"] or 0
+		STR=pkmn.attributes["STR"] or 0,
+		DEX=pkmn.attributes["DEX"] or 0,
+		CON=pkmn.attributes["CON"] or 0,
+		INT=pkmn.attributes["INT"] or 0,
+		WIS=pkmn.attributes["WIS"] or 0,
+		CHA=pkmn.attributes["CHA"] or 0
 	}
-
 end
 
-function M.set_shiny(pokemon, value)
-	pokemon.shiny = value == true and true or nil
+
+function M.set_shiny(pkmn, value)
+	pkmn.shiny = value == true and true or nil
 end
 
-function M.is_shiny(pokemon)
-	return pokemon.shiny
+
+function M.is_shiny(pkmn)
+	return pkmn.shiny
 end
 
-function M.set_attribute(pokemon, attribute, value)
-	pokemon.attributes[attribute] = value
+
+function M.set_attribute(pkmn, attribute, value)
+	pkmn.attributes[attribute] = value
 end
 
-function M.set_increased_attribute(pokemon, attribute, value)
-	pokemon.attributes.increased[attribute] = value
+
+function M.set_increased_attribute(pkmn, attribute, value)
+	pkmn.attributes.increased[attribute] = value
 end
 
-function M.save(pokemon)
-	return storage.update_pokemon(pokemon)
+function M.set_custom_attribute(pkmn, attribute, value)
+	pkmn.attributes.custom[attribute] = value
 end
 
-function M.get_speed_of_type(pokemon)
-	local species = M.get_current_species(pokemon)
-	local type = pokedex.get_pokemon_type(species)[1]
+function M.get_speed_of_type(pkmn)
+	local species = M.get_current_species(pkmn)
+	local variant = M.get_variant(pkmn)
+	local type = pokedex.get_pokemon_type(species, variant)[1]
 	local mobile_feet = 0
-	if M.have_feat(pokemon, "Mobile") then
+	if M.have_feat(pkmn, "Mobile") then
 		mobile_feet = 10
 	end
 	if type == "Flying" then
-		local speed = pokedex.get_flying_speed(species) 
+		local speed = pokedex.get_flying_speed(species, variant) 
 		return speed ~= 0 and speed+mobile_feet or speed, "Flying"
 	elseif type == "Water" then
-		local speed = pokedex.get_swimming_speed(species) 
+		local speed = pokedex.get_swimming_speed(species, variant) 
 		return speed ~= 0 and speed+mobile_feet or speed, "Swimming"
 	else
-		local speed = pokedex.get_walking_speed(species) 
+		local speed = pokedex.get_walking_speed(species, variant) 
 		return speed ~= 0 and speed+mobile_feet or speed, "Walking"
 	end
 end
 
-function M.get_status_effects(pokemon)
-	return pokemon.statuses or {}
+
+function M.get_status_effects(pkmn)
+	return pkmn.statuses or {}
 end
 
-function M.get_all_speed(pokemon)
-	local species = M.get_current_species(pokemon)
+
+function M.set_status_effect(pkmn, effect, enabled)
+	if pkmn.statuses == nil then
+		pkmn.statuses = {}
+	end
+	if enabled == false then
+		enabled = nil
+	end
+	pkmn.statuses[effect] = enabled
+end
+
+
+function M.get_all_speed(pkmn)
+	local species = M.get_current_species(pkmn)
+	local variant = M.get_variant(pkmn)
 	local mobile_feet = 0
-	if M.have_feat(pokemon, "Mobile") then
+	if M.have_feat(pkmn, "Mobile") then
 		mobile_feet = 10
 	end
-	local w = pokedex.get_walking_speed(species)
-	local s = pokedex.get_swimming_speed(species)
-	local c = pokedex.get_climbing_speed(species)
-	local f = pokedex.get_flying_speed(species)
-	local b = pokedex.get_burrow_speed(species)
+	local w = pokedex.get_walking_speed(species, variant)
+	local s = pokedex.get_swimming_speed(species, variant)
+	local c = pokedex.get_climbing_speed(species, variant)
+	local f = pokedex.get_flying_speed(species, variant)
+	local b = pokedex.get_burrow_speed(species, variant)
 	return {
 		Walking= w ~= 0 and w+mobile_feet or w,
 		Swimming=s ~= 0 and s+mobile_feet or s, 
@@ -348,77 +394,89 @@ function M.get_all_speed(pokemon)
 	}
 end
 
-function M.set_current_hp(pokemon, hp)
-	pokemon.hp.current = hp
-end
 
-function M.get_current_hp(pokemon)
-	return pokemon.hp.current
-end
-
-function M.set_temp_hp(pokemon, temp_hp)
-	pokemon.hp.temp = math.max(0, temp_hp)
-end
-
-function M.get_temp_hp(pokemon)
-	return pokemon.hp.temp or 0
-end
-
-function M.set_max_hp(pokemon, hp)
-	pokemon.hp.max = hp
-end
-
-function M.set_max_hp_forced(pokemon, forced)
-	pokemon.hp.edited = forced
-end
-
-function M.get_max_hp_forced(pokemon)
-	return pokemon.hp.edited
+function M.set_current_hp(pkmn, hp)
+	pkmn.hp.current = hp
 end
 
 
-function M.get_max_hp(pokemon)
-	return pokemon.hp.max
+function M.get_current_hp(pkmn)
+	return pkmn.hp.current
 end
 
-function M.get_defaut_max_hp(pokemon)
-	if M.have_ability(pokemon, "Paper Thin") then
+
+function M.set_temp_hp(pkmn, temp_hp)
+	pkmn.hp.temp = math.max(0, temp_hp)
+end
+
+
+function M.get_temp_hp(pkmn)
+	return pkmn.hp.temp or 0
+end
+
+
+function M.set_max_hp(pkmn, hp)
+	pkmn.hp.max = hp
+end
+
+
+function M.set_max_hp_forced(pkmn, forced)
+	pkmn.hp.edited = forced
+end
+
+
+function M.get_max_hp_forced(pkmn)
+	return pkmn.hp.edited
+end
+
+
+function M.get_max_hp(pkmn)
+	return pkmn.hp.max
+end
+
+function M.get_evolution_level(pkmn)
+	return pokedex.get_evolution_level(M.get_current_species(pkmn))
+end
+
+function M.get_default_max_hp(pkmn)
+	if M.have_ability(pkmn, "Paper Thin") then
 		return 1
 	end
-	local current = M.get_current_species(pokemon)
-	local caught = M.get_caught_species(pokemon)
-	local at_level = M.get_current_level(pokemon)
+	local current = M.get_current_species(pkmn)
+	local caught = M.get_caught_species(pkmn)
+	local at_level = M.get_current_level(pkmn)
+	local variant = M.get_variant(pkmn)
 	
 	if current ~= caught then
-		local evolutions = utils.shallow_copy(M.get_evolution_level(pokemon))
+		local evolutions = utils.shallow_copy(get_evolved_at_level(pkmn))
 		local evolution_hp = 0
 
 		while next(evolutions) ~= nil do
-			local from_pokemon = pokedex.get_evolved_from(current)
-			if from_pokemon then
+			local from_pkmn = pokedex.get_evolved_from(current)
+			if from_pkmn then
 				at_level = table.remove(evolutions)
 				local _, from_level = next(evolutions)
-				from_level = from_level or M.get_caught_level(pokemon)
-				local hit_dice = pokedex.get_pokemon_hit_dice(from_pokemon)
-				local hit_dice_current = pokedex.get_pokemon_hit_dice(current)
+				from_level = from_level or M.get_caught_level(pkmn)
+				local hit_dice = pokedex.get_hit_dice(from_pkmn)
+				local hit_dice_current = pokedex.get_hit_dice(current)
 				local levels_gained = at_level - from_level
 				local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
 				local hp_evo = at_level * 2
 				-- Offset of current hit dice and the new one
 				local hp_offset = math.ceil((hit_dice_current + 1) / 2) - math.ceil((hit_dice + 1) / 2)
 				evolution_hp = evolution_hp + hp_hit_dice + hp_evo + hp_offset
-				current = from_pokemon
+				current = from_pkmn
 			end
 		end
 
-		evolutions = M.get_evolution_level(pokemon)
-		local hit_dice = pokedex.get_pokemon_hit_dice(M.get_current_species(pokemon))
+		evolutions = get_evolved_at_level(pkmn)
+		local hit_dice = pokedex.get_hit_dice(M.get_current_species(pkmn))
 		local hit_dice_avg = math.ceil((hit_dice + 1) / 2)
-		return pokedex.get_base_hp(caught) + evolution_hp + ((M.get_current_level(pokemon) - evolutions[#evolutions]) * hit_dice_avg)
+		return pokedex.get_base_hp(caught, variant) + evolution_hp + ((M.get_current_level(pkmn) - evolutions[#evolutions]) * hit_dice_avg)
 	else
-		local base = pokedex.get_base_hp(current)
-		local from_level = M.get_caught_level(pokemon)
-		local hit_dice = pokedex.get_pokemon_hit_dice(current)
+		local base = pokedex.get_base_hp(current, variant)
+		local from_level = M.get_caught_level(pkmn)
+		local hit_dice = pokedex.get_hit_dice(current)
 		local levels_gained = at_level - from_level
 		local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
 		return base + hp_hit_dice
@@ -426,84 +484,78 @@ function M.get_defaut_max_hp(pokemon)
 end
 
 
-function M.get_evolution_points(pokemon)
-	local current = M.get_current_species(pokemon)
-	local caught = M.get_caught_species(pokemon)
-	local evolution_points = 0
-	
-	if current ~= caught then
-		local evolutions = utils.deep_copy(M.get_evolution_level(pokemon))
-
-		while next(evolutions) ~= nil do
-			table.remove(evolutions)
-			current = pokedex.get_evolved_from(current)
-			if current then
-				evolution_points = evolution_points + pokedex.evolve_points(current)
-			end
-		end
-	end
-	return evolution_points
-end
-
-function M.get_total_max_hp(pokemon)
-	if M.have_ability(pokemon, "Paper Thin") then
+function M.get_total_max_hp(pkmn)
+	if M.have_ability(pkmn, "Paper Thin") then
 		return 1
 	end
 	
 	local tough_feat = 0
-	if M.have_feat(pokemon, "Tough") then
-		tough_feat = M.get_current_level(pokemon) * 2
+	if M.have_feat(pkmn, "Tough") then
+		tough_feat = M.get_current_level(pkmn) * 2
 	end
 	
-	local con = M.get_attributes(pokemon).CON
+	local con = M.get_attributes(pkmn).CON
 	local con_mod = math.floor((con - 10) / 2)
 
-	return M.get_max_hp(pokemon) + tough_feat + loyalty_hp[M.get_loyalty(pokemon)].HP + M.get_current_level(pokemon) * con_mod
+	return M.get_max_hp(pkmn) + tough_feat + loyalty_hp[M.get_loyalty(pkmn)].HP + M.get_current_level(pkmn) * con_mod
 end
 
-function M.get_current_species(pokemon)
-	return pokemon.species.current
+
+function M.get_current_species(pkmn)
+	return pkmn.species.current
 end
 
-local function set_species(pokemon, species)
-	pokemon.species.current = species
+
+local function set_species(pkmn, species)
+	pkmn.species.current = species
 end
 
-function M.get_caught_species(pokemon)
-	return pokemon.species.caught
+
+function M.get_variant(pkmn)
+	return pkmn.variant
 end
 
-function M.get_current_level(pokemon)
-	return pokemon.level.current
+
+function M.set_variant(pkmn, variant)
+	pkmn.variant = variant
 end
 
-function M.get_caught_level(pokemon)
-	return pokemon.level.caught
+
+function M.get_caught_species(pkmn)
+	return pkmn.species.caught
 end
 
-function M.set_move(pokemon, new_move, index)
+
+function M.get_current_level(pkmn)
+	return pkmn.level.current
+end
+
+
+function M.get_caught_level(pkmn)
+	return pkmn.level.caught
+end
+
+
+function M.set_move(pkmn, new_move, index)
 	local pp = movedex.get_move_pp(new_move)
-	for name, move in pairs(M.get_moves(pokemon)) do
+	for name, move in pairs(M.get_moves(pkmn)) do
 		if move.index == index then
-			pokemon.moves[name] = nil
-			pokemon.moves[new_move] = {pp=pp, index=index}
+			pkmn.moves[name] = nil
+			pkmn.moves[new_move] = {pp=pp, index=index}
 			return
 		end
 	end
-	pokemon.moves[new_move] = {pp=pp, index=index}
+	pkmn.moves[new_move] = {pp=pp, index=index}
 end
 
-function M.get_moves(pokemon, options)
-	local append_known_to_all = false
-	if options ~= nil then
-		append_known_to_all = options.append_known_to_all == true
-	end
+function M.get_moves(pkmn, options)
+	local append_known_to_all = options ~= nil and options.append_known_to_all == true or false
 
 	if append_known_to_all then
 		local ret = {}
 		local count = 1
-		for k,v in pairs(pokemon.moves) do
-			if not movedex.is_move_known_to_all(k) then -- Pokemon has this move in its move set, but ALL Pokemon know this move. We'll ignore this move for now, and tack it on later so it shows up at the end.
+		for k,v in pairs(pkmn.moves) do
+			if not movedex.is_move_known_to_all(k) then -- pkmn has this move in its move set, but ALL pkmn know this move. We'll ignore this move for now, and tack it on later so it shows up at the end.
 				ret[k] = v
 				count = count + 1
 			end
@@ -514,57 +566,61 @@ function M.get_moves(pokemon, options)
 		end
 		return ret
 	else
-		return pokemon.moves
+		return pkmn.moves
 	end
 end
 
-function M.get_nature(pokemon)
-	return pokemon.nature
-end
-
-function M.get_id(pokemon)
-	return pokemon.id
-end
-
-function M.get_type(pokemon)
-	return pokedex.get_pokemon_type(M.get_current_species(pokemon))
-end
-
-function M.get_STAB_bonus(pokemon)
-	return pokedex.level_data(M.get_current_level(pokemon)).STAB
-end
-
-function M.get_proficency_bonus(pokemon)
-	return pokedex.level_data(M.get_current_level(pokemon)).prof
-end
-
-function M.update_abilities(pokemon, abilities)
-	pokemon.abilities = abilities
-end
-
-function M.update_feats(pokemon, feats)
-	pokemon.feats = feats
-end
-
-function M.get_feats(pokemon)
-	return pokemon.feats or {}
+function M.get_size(pkmn)
+	return pokedex.get_pokemon_size(M.get_current_species(pkmn), M.get_variant(pkmn))
 end
 
 
-function M.add_feat(pokemon, feat)
-	table.insert(pokemon.feats, feat)
+function M.get_nature(pkmn)
+	return pkmn.nature
 end
 
-function M.add_ability(pokemon, ability)
-	table.insert(pokemon.abilities, ability)
+
+function M.get_id(pkmn)
+	return pkmn.id
 end
 
-function M.get_abilities(pokemon, as_raw)
-	local species = M.get_current_species(pokemon)
+
+function M.get_type(pkmn)
+	return pokedex.get_pokemon_type(M.get_current_species(pkmn), M.get_variant(pkmn))
+end
+
+
+function M.get_STAB_bonus(pkmn)
+	return pokedex.level_data(M.get_current_level(pkmn)).STAB
+end
+
+
+function M.get_proficency_bonus(pkmn)
+	return pokedex.level_data(M.get_current_level(pkmn)).prof
+end
+
+
+function M.get_feats(pkmn)
+	return pkmn.feats or {}
+end
+
+
+function M.add_feat(pkmn, feat)
+	table.insert(pkmn.feats, feat)
+end
+
+
+function M.add_ability(pkmn, ability)
+	table.insert(pkmn.abilities, ability)
+end
+
+
+function M.get_abilities(pkmn, as_raw)
+	local species = M.get_current_species(pkmn)
 	local t = {}
-	t = pokemon.abilities or pokedex.get_pokemon_abilities(species) or {}
-	if not as_raw and M.have_feat(pokemon, "Hidden Ability") then
-		local hidden = pokedex.get_pokemon_hidden_ability(species)
+	t = pkmn.abilities or pokedex.get_abilities(species) or {}
+	if not as_raw and M.have_feat(pkmn, "Hidden Ability") then
+		local hidden = pokedex.get_hidden_ability(species)
 		local added = false
 		for _, h in pairs(t) do
 			if h == hidden then
@@ -578,11 +634,26 @@ function M.get_abilities(pokemon, as_raw)
 	return t
 end
 
-function M.get_skills(pokemon)
-	local skills = pokedex.get_pokemon_skills(M.get_current_species(pokemon)) or {}
+function M.remove_skill(pkmn, position)
+	table.remove(pkmn.skills, position)
+end
+
+function M.add_skill(pkmn, value)
+	if pkmn.skills == nil then
+		pkmn.skills = {}
+	end
+	table.insert(pkmn.skills, value)
+end
+
+function M.extra_skills(pkmn)
+	return pkmn.skills or {}
+end
+
+function M.get_skills(pkmn)
+	local skills = pokedex.get_skills(M.get_current_species(pkmn), M.get_variant(pkmn)) or {}
 	for feat, skill in pairs(feat_to_skill) do
 		local added = false
-		if M.have_feat(pokemon, feat) then
+		if M.have_feat(pkmn, feat) then
 			for i=#skills, -1, -1 do
 				if skill == skills[i] then
 					table.remove(skills, i)
@@ -595,67 +666,77 @@ function M.get_skills(pokemon)
 			end
 		end
 	end
-
+	for _, s in pairs(M.extra_skills(pkmn)) do
+		table.insert(skills, s)
+	end
 	return skills
 end
 
-function M.get_move_pp(pokemon, move)
-	local pokemon_move = pokemon.moves[move]
-	if pokemon_move then
+
+function M.set_move_pp(pkmn, move, pp)
+	pkmn.moves[move].pp = pp
+	return pkmn.moves[move].pp
+end
+
+
+function M.get_move_pp(pkmn, move)
+	local pkmn_move = pkmn.moves[move]
+	if pkmn_move then
 		-- If the move somehow became nil (which can happen in corrupted data cases due to issue https://github.com/Jerakin/Pokedex5E/issues/407),
 		-- reset it to the move's base pp to avoid exceptions in other places. Ideally the corruption would never happen in the first place, but
 		-- some save data is already corrupt.
-		local pp = pokemon_move.pp
+		local pp = pkmn_move.pp
 		if pp == nil then
-			M.reset_move_pp(pokemon, move)
-			pp = pokemon.moves[move].pp
+			M.reset_move_pp(pkmn, move)
+			pp = pkmn.moves[move].pp
 		end
 		return pp
 	end
-	-- The pokemon doesn't actually "know" this move - likely a "known to all" move. Return pp of the move itself
+	-- The pkmn doesn't actually "know" this move - likely a "known to all" move. Return pp of the move itself
 	return movedex.get_move_pp(move)
 end
 
-function M.get_move_pp_max(pokemon, move)
+
+function M.get_move_pp_max(pkmn, move)
 	local move_pp = movedex.get_move_pp(move)
 	if type(move_pp) == "string" then
 		-- probably move with Unlimited uses, i.e. Struggle
 		return move_pp
 	else
-		local _, pp_extra = M.have_feat(pokemon, "Tireless")
+		local _, pp_extra = M.have_feat(pkmn, "Tireless")
 		return movedex.get_move_pp(move) + pp_extra
 	end
 end
 
-function M.reset(pokemon)
-	M.set_current_hp(pokemon, M.get_total_max_hp(pokemon))
-	for name, move in pairs(M.get_moves(pokemon)) do
-		M.reset_move_pp(pokemon, name)
+
+function M.rest(pkmn)
+	M.set_current_hp(pkmn, M.get_total_max_hp(pkmn))
+	for name, move in pairs(M.get_moves(pkmn)) do
+		M.reset_move_pp(pkmn, name)
 	end
-	pokemon.statuses = {}
+	pkmn.statuses = {}
 end
 
-function M.reset_in_storage(pokemon)
-	M.reset(pokemon)
-	storage.update_pokemon(pokemon)
+
+function M.get_vulnerabilities(pkmn)
+	return pokedex.get_vulnerabilities(M.get_current_species(pkmn), M.get_variant(pkmn))
 end
 
-function M.get_vulnerabilities(pokemon)
-	return pokedex.get_pokemon_vulnerabilities(M.get_current_species(pokemon))
+
+function M.get_immunities(pkmn)
+	return pokedex.get_immunities(M.get_current_species(pkmn), M.get_variant(pkmn))
 end
 
-function M.get_immunities(pokemon)
-	return pokedex.get_pokemon_immunities(M.get_current_species(pokemon))
+
+function M.get_resistances(pkmn)
+	return pokedex.get_resistances(M.get_current_species(pkmn), M.get_variant(pkmn))
 end
 
-function M.get_resistances(pokemon)
-	return pokedex.get_pokemon_resistances(M.get_current_species(pokemon))
-end
 
-function M.can_decrease_move_pp(pokemon, move)
-	local pokemon_move = pokemon.moves[move]
-	if pokemon_move ~= nil then
-		local move_pp = M.get_move_pp(pokemon, move)
+function M.can_decrease_move_pp(pkmn, move)
+	local pkmn_move = pkmn.moves[move]
+	if pkmn_move ~= nil then
+		local move_pp = M.get_move_pp(pkmn, move)
 		if type(move_pp) == "string" then
 			return false
 		end
@@ -664,109 +745,91 @@ function M.can_decrease_move_pp(pokemon, move)
 	return false
 end
 
-function M.decrease_move_pp(pokemon, move)
-	if M.can_decrease_move_pp(pokemon, move) then
-		local move_pp = M.get_move_pp(pokemon, move)
+
+function M.decrease_move_pp(pkmn, move)
+	if M.can_decrease_move_pp(pkmn, move) then
+		local move_pp = M.get_move_pp(pkmn, move)
 		local pp = math.max(move_pp - 1, 0)
-		pokemon.moves[move].pp = pp
+		pkmn.moves[move].pp = pp
 		return pp
 	end
 	return nil
 end
 
-function M.can_increase_move_pp(pokemon, move)
-	local pokemon_move = pokemon.moves[move]
-	if pokemon_move ~= nil then
-		local move_pp = M.get_move_pp(pokemon, move)
+
+function M.can_increase_move_pp(pkmn, move)
+	local pkmn_move = pkmn.moves[move]
+	if pkmn_move ~= nil then
+		local move_pp = M.get_move_pp(pkmn, move)
 		if type(move_pp) == "string" then
 			return false
 		end
-		local max_pp = M.get_move_pp_max(pokemon, move)
+		local max_pp = M.get_move_pp_max(pkmn, move)
 		return move_pp < max_pp
 	end
 	return false
 end
 
-function M.increase_move_pp(pokemon, move)
-	if M.can_increase_move_pp(pokemon, move) then
-		local move_pp = M.get_move_pp(pokemon, move)
-		local max_pp = M.get_move_pp_max(pokemon, move)
+
+function M.increase_move_pp(pkmn, move)
+	if M.can_increase_move_pp(pkmn, move) then
+		local move_pp = M.get_move_pp(pkmn, move)
+		local max_pp = M.get_move_pp_max(pkmn, move)
 		local pp = math.min(move_pp + 1, max_pp)
-		pokemon.moves[move].pp = pp
+		pkmn.moves[move].pp = pp
 		return pp
 	end
 	return nil
 end
 
 
-function M.reset_move_pp(pokemon, move)
-	local pp = M.get_move_pp_max(pokemon, move)
-	pokemon.moves[move].pp = pp
+function M.reset_move_pp(pkmn, move)
+	local pp = M.get_move_pp_max(pkmn, move)
+	pkmn.moves[move].pp = pp
 end
 
-local function set_evolution_at_level(pokemon, level)
-	if type(pokemon.level.evolved) == "number" then
-		local old = pokemon.level.evolved
-		pokemon.level.evolved = {}
+
+local function set_evolution_at_level(pkmn, level)
+	if type(pkmn.level.evolved) == "number" then
+		local old = pkmn.level.evolved
+		pkmn.level.evolved = {}
 		if old ~= 0 then
-			table.insert(pokemon.level.evolved, old)
+			table.insert(pkmn.level.evolved, old)
 		end
 	end
 	
-	table.insert(pokemon.level.evolved, level)
+	table.insert(pkmn.level.evolved, level)
 end
 
-function M.calculate_addition_hp_from_levels(pokemon, levels_gained)
-	local hit_dice = M.get_hit_dice(pokemon)
-	local con = M.get_attributes(pokemon).CON
-	local con_mod = math.floor((con - 10) / 2)
 
-	local from_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
-	local from_con_mod = con_mod * levels_gained
-	return from_hit_dice + from_con_mod
+function M.set_current_level(pkmn, level)
+	pkmn.level.current = level
 end
 
-function M.set_current_level(pokemon, level)
-	pokemon.level.current = level
-end
 
-function M.add_hp_from_levels(pokemon, from_level)
-	if not M.get_max_hp_forced(pokemon) and not M.have_ability(pokemon, "Paper Thin") then
-		local hit_dice = M.get_hit_dice(pokemon)
-		
-		local from_hit_dice = math.ceil((hit_dice + 1) / 2) *  M.get_current_level(pokemon) - from_level
-		
-		local max = M.get_max_hp(pokemon)
-		M.set_max_hp(pokemon, max + from_hit_dice)
-		
-		-- Also increase current hp
-		local c = M.get_current_hp(pokemon)
-		M.set_current_hp(pokemon, c + from_hit_dice)
-	end
-end
-
-function M.evolve(pokemon, to_species)
-	local level = M.get_current_level(pokemon)
-	if not M.get_max_hp_forced(pokemon) then
-		local current = M.get_max_hp(pokemon)
+function M.evolve(pkmn, to_species, to_variant)
+	local level = M.get_current_level(pkmn)
+	if not M.get_max_hp_forced(pkmn) then
+		local current = M.get_max_hp(pkmn)
 		local gained = level * 2
-		M.set_max_hp(pokemon, current + gained)
+		M.set_max_hp(pkmn, current + gained)
 		
 		-- Also increase current hp
-		local c = M.get_current_hp(pokemon)
-		M.set_current_hp(pokemon, c + gained)
+		local c = M.get_current_hp(pkmn)
+		M.set_current_hp(pkmn, c + gained)
 	end
-	set_evolution_at_level(pokemon, level)
-	set_species(pokemon, to_species)
+	set_evolution_at_level(pkmn, level)
+	set_species(pkmn, to_species)
+	M.set_variant(pkmn, to_variant)
 end
 
 
-function M.get_saving_throw_modifier(pokemon)
-	local prof = M.get_proficency_bonus(pokemon)
-	local b = M.get_attributes(pokemon)
-	local saving_throws = pokedex.get_saving_throw_proficiencies(M.get_current_species(pokemon)) or {}
-	local loyalty = M.get_loyalty(pokemon)
-	for _, feat in pairs(M.get_feats(pokemon)) do
+function M.get_saving_throw_modifier(pkmn)
+	local prof = M.get_proficency_bonus(pkmn)
+	local b = M.get_attributes(pkmn)
+	local saving_throws = pokedex.get_saving_throw_proficiencies(M.get_current_species(pkmn), M.get_variant(pkmn)) or {}
+	local loyalty = M.get_loyalty(pkmn)
+	for _, feat in pairs(M.get_feats(pkmn)) do
 		local is_resilient = resilient[feat]
 		local got_save = false
 		if is_resilient then
@@ -786,71 +849,84 @@ function M.get_saving_throw_modifier(pokemon)
 		modifiers[name] = math.floor((b[name] - 10) / 2) + loyalty
 	end
 	for _, st in pairs(saving_throws) do
+		st = constants.FULL_ABILITY_TO_ABRIVATION[st] or st
 		modifiers[st] = modifiers[st] + prof
 	end
-
 	return modifiers
 end
 
-function M.set_nickname(pokemon, nickname)
-	local species = M.get_current_species(pokemon)
+
+function M.set_nickname(pkmn, nickname)
+	local species = M.get_current_species(pkmn)
 	if nickname and species:lower() ~= nickname:lower() then
-		pokemon.nickname = nickname
+		pkmn.nickname = nickname
 	else
-		pokemon.nickname = nil
+		pkmn.nickname = nil
 	end
 end
 
-function M.get_nickname(pokemon)
-	return storage.get_nickname(M.get_id(pokemon))
+
+function M.get_nickname(pkmn)
+	return pkmn.nickname
 end
 
-function M.get_AC(pokemon)
-	local _, AC_UP = M.have_feat(pokemon, "AC Up")
-	return pokedex.get_pokemon_AC(M.get_current_species(pokemon)) + natures.get_AC(M.get_nature(pokemon)) + AC_UP
+
+function M.get_AC(pkmn)
+	local _, AC_UP = M.have_feat(pkmn, "AC Up")
+	return pokedex.get_AC(M.get_current_species(pkmn), M.get_variant(pkmn)) + natures.get_AC(M.get_nature(pkmn)) + AC_UP
 end
 
-function M.get_index_number(pokemon)
-	return pokedex.get_index_number(M.get_current_species(pokemon))
+
+function M.get_index_number(pkmn)
+	return pokedex.get_index_number(M.get_current_species(pkmn))
 end
 
-function M.get_hit_dice(pokemon)
-	return pokedex.get_pokemon_hit_dice(M.get_current_species(pokemon))
+
+function M.get_hit_dice(pkmn)
+	return pokedex.get_hit_dice(M.get_current_species(pkmn))
 end
 
-function M.get_pokemon_exp_worth(pokemon)
-	local level = M.get_current_level(pokemon)
-	local sr = pokedex.get_pokemon_SR(M.get_current_species(pokemon))
-	return pokedex.get_pokemon_exp_worth(level, sr)
+
+function M.get_exp_worth(pkmn)
+	local level = M.get_current_level(pkmn)
+	local sr = pokedex.get_SR(M.get_current_species(pkmn), M.get_variant(pkmn))
+	return pokedex.get_exp_worth(level, sr)
 end
 
-function M.get_catch_rate(pokemon)
-	local l = M.get_current_level(pokemon)
-	local sr = math.floor(pokedex.get_pokemon_SR(M.get_current_species(pokemon)))
-	local hp = math.floor(M.get_current_hp(pokemon) / 10)
+function M.get_species_can_evolve(pkmn)
+	return pokedex.get_species_can_evolve(M.get_current_species(pkmn))
+end
+
+function M.get_evolution_possible(pkmn)
+	return pokedex.get_evolution_possible(M.get_current_species(pkmn), M.get_gender(pkmn), M.get_moves(pkmn))
+end
+
+function M.get_catch_rate(pkmn)
+	local l = M.get_current_level(pkmn)
+	local sr = math.floor(pokedex.get_SR(M.get_current_species(pkmn), M.get_variant(pkmn)))
+	local hp = math.floor(M.get_current_hp(pkmn) / 10)
 	return 10 + l + sr + hp
 end
 
-function M.get_evolution_level(pokemon)
-	if type(pokemon.level.evolved) == "number" then
-		local old = pokemon.level.evolved
-		pokemon.level.evolved = {}
-		if old ~= 0 then
-			table.insert(pokemon.level.evolved, old)
-		end
-	end
-	return pokemon.level.evolved or {}
+
+function M.get_icon(pkmn)
+	local species = M.get_current_species(pkmn)
+	local variant = M.get_variant(pkmn)
+	return pokedex.get_icon(species, variant)
 end
 
-function M.get_icon(pokemon)
-	local species = M.get_current_species(pokemon)
-	return pokedex.get_icon(species)
+function M.get_SR(pkmn)
+	local species = M.get_current_species(pkmn)
+	local variant = M.get_variant(pkmn)
+	return pokedex.get_SR(species, variant)
 end
 
-function M.get_sprite(pokemon)
-	local species = M.get_current_species(pokemon)
-	return pokedex.get_sprite(species)
+function M.get_sprite(pkmn)
+	local species = M.get_current_species(pkmn)
+	local variant = M.get_variant(pkmn)
+	return pokedex.get_sprite(species, variant)
 end
+
 
 local function level_index(level)
 	if level >= 17 then
@@ -869,7 +945,7 @@ local function max_ignore_zero(value, other)
 	return other and other ~= 0 and math.max(value, other) or value
 end
 
-local function get_damage_mod_stab(pokemon, move)
+local function get_damage_mod_stab(pkmn, move)
 	local move_power = -9999 -- Will be determined by ability mods later, or set to 0
 	local dice
 	local stab_damage
@@ -878,8 +954,8 @@ local function get_damage_mod_stab(pokemon, move)
 	local trainer_pokemon_type_damage
 	local type_master_STAB
 	local trainer_stab = 0
-	local total = M.get_attributes(pokemon)
-	local index = level_index(M.get_current_level(pokemon))
+	local total = M.get_attributes(pkmn)
+	local index = level_index(M.get_current_level(pkmn))
 	local is_attack = (move.atk == true or move.auto_hit == true) or move.Save ~= nil and move.Damage ~= nil
 
 	-- Pick the highest of the moves powers
@@ -902,13 +978,13 @@ local function get_damage_mod_stab(pokemon, move)
 
 	-- Figure out the STAB and Trainer Pokemon Type Damage
 	if is_attack then
-		for _, t in pairs(M.get_type(pokemon)) do
+		for _, t in pairs(M.get_type(pkmn)) do
 			-- Figure out the highest value of the "pokemon_type_damage_bonus
 			trainer_pokemon_type_damage = max_ignore_zero(trainer.get_pokemon_type_damage_bonus(t), trainer_pokemon_type_damage)
 
 			type_master_STAB = max_ignore_zero(trainer.get_type_master_STAB(t), type_master_STAB)
 			if move.Type == t or (trainer.get_always_use_STAB(t) and move.Type ~= "Typeless") then
-				stab_damage = M.get_STAB_bonus(pokemon)
+				stab_damage = M.get_STAB_bonus(pkmn)
 				trainer_stab = trainer.get_STAB(move.Type)
 			end
 		end
@@ -934,7 +1010,7 @@ local function get_damage_mod_stab(pokemon, move)
 		end
 		
 		-- Add LEVEL to damage if applicable
-		extra_damage = extra_damage + (move_damage[index].level and M.get_current_level(pokemon) or 0)
+		extra_damage = extra_damage + (move_damage[index].level and M.get_current_level(pkmn) or 0)
 
 		-- Add move power
 		if move_damage[index].move then
@@ -953,7 +1029,7 @@ local function get_damage_mod_stab(pokemon, move)
 	return dice, move_power, stab_damage
 end	
 
-function M.get_move_data(pokemon, move_name)
+function M.get_move_data(pkmn, move_name)
 	local move_data = {}
 	move_data.damage = 0
 	move_data.stab = 0
@@ -973,7 +1049,7 @@ function M.get_move_data(pokemon, move_name)
 		return move_data
 	end
 	
-	local dmg, mod, stab = get_damage_mod_stab(pokemon, move)
+	local dmg, mod, stab = get_damage_mod_stab(pkmn, move)
 	local requires_save = move.Save ~= nil
 
 	move_data.damage = dmg
@@ -988,21 +1064,19 @@ function M.get_move_data(pokemon, move_name)
 	move_data.save = move.Save
 	move_data.time = move["Move Time"]
 	if move.atk == true and not move.autohit then
-		move_data.AB = mod + M.get_proficency_bonus(pokemon) + trainer.get_attack_roll() + trainer.get_move_type_attack_bonus(move_data.type) + trainer.get_pokemon_type_attack_bonus(M.get_type(pokemon))
+		move_data.AB = mod + M.get_proficency_bonus(pkmn) + trainer.get_attack_roll() + trainer.get_move_type_attack_bonus(move_data.type) + trainer.get_pokemon_type_attack_bonus(M.get_type(pkmn))
 	end
 	if requires_save then
-		move_data.save_dc = 8 + mod + M.get_proficency_bonus(pokemon)
+		move_data.save_dc = 8 + mod + M.get_proficency_bonus(pkmn)
 	end
-
 	return move_data
 end
 
 
-
-local function get_starting_moves(pokemon, number_of_moves)
+local function get_starting_moves(pkmn, number_of_moves)
 	-- We get all moves
 	local number_of_moves = number_of_moves or 4
-	local starting_moves = pokedex.get_starting_moves(M.get_current_species(pokemon))
+	local starting_moves = pokedex.get_starting_moves(M.get_current_species(pkmn), M.get_variant(pkmn))
 
 	-- Shuffle the moves around, we want random moves
 	if #starting_moves > number_of_moves then
@@ -1020,24 +1094,99 @@ local function get_starting_moves(pokemon, number_of_moves)
 	return moves
 end
 
+local function upgrade_to_default_variant(pkmn)
+	-- Any pokemon whose species includes variants (Pumkpaboo and Gourgeist) needs to have its current variant set to the default
+	-- variant (Small). NOTE: If tuture variants are added, another version upgrade will be required to upgrade those.
+	if not M.get_variant(pkmn) then
+		M.set_variant(pkmn, pokedex.get_default_variant(M.get_current_species(pkmn)))
+	end	
+end
+
+local function upgrade_species_to_variant_version(pkmn)
+	-- Pokemon species that included the variant name have been switched to be just the main species name with the variant
+	-- as an object instead
+	if not pkmn.variant then
+		local s_caught,v_caught = variants.get_species_variant_for(pkmn.species.caught)
+		local s_current,v_current = variants.get_species_variant_for(pkmn.species.current)
+
+		pkmn.species.caught = s_caught
+		pkmn.species.current = s_current
+		if v_current then
+			pkmn.variant = v_current
+		elseif v_caught then
+			pkmn.variant = v_caught
+		end
+	end
+end
+
+local function reset_max_hp_for_hit_dice_change(pkmn)
+	if not M.get_max_hp_forced(pkmn) then
+		local cur_max = M.get_max_hp(pkmn)
+		local default_max = M.get_default_max_hp(pkmn)
+		M.set_max_hp(pkmn, default_max)
+		
+		local hp = M.get_current_hp(pkmn)
+		M.set_current_hp(pkmn, hp + (default_max-cur_max))
+	end
+end
+
+function M.upgrade_pokemon(pkmn)
+	local version = pkmn and pkmn.version or 1
+
+	local needs_upgrade = version ~= LATEST_POKEMON_VERSION
+
+	if needs_upgrade then
+		for i=version,LATEST_POKEMON_VERSION-1 do
+			if false then
+
+				-- NOTE: If a new data upgrade is needed, update the above LATEST_POKEMON_VERSION value and add a new block here like so:
+				--elseif i == ??? then
+			elseif i == 6 then
+				reset_max_hp_for_hit_dice_change(pkmn)
+			elseif i == 5 then
+				upgrade_species_to_variant_version(pkmn)
+			elseif i == 4 then
+				upgrade_to_default_variant(pkmn)
+			elseif i == 3 then
+				pkmn.attributes.custom = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
+			elseif i == 2 then
+				upgrade_species_to_variant_version(pkmn)
+			elseif i == 1 then
+				upgrade_to_default_variant(pkmn)
+
+				pkmn.attributes.custom = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
+			else
+				assert(false, "Unknown pokemon data version " .. version)
+			end
+		end
+
+		pkmn.version = LATEST_POKEMON_VERSION
+	end
+
+	return needs_upgrade
+end
+
+
 function M.new(data)
 	local this = {}
 	this.species = {}
 	this.species.caught = data.species
 	this.species.current = data.species
+	this.variant = data.variant
 
 	this.level = {}
-	this.level.caught = pokedex.get_minimum_wild_level(this.species.caught)
+	this.level.caught = pokedex.get_minimum_wild_level(this.species.caught, data.variant)
 	this.level.current = this.level.caught
 	this.level.evolved = {}
 
 	this.attributes = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
 	this.attributes.increased = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
+	this.attributes.custom = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
 
 	this.nature = "No Nature"
 
 	this.feats = {}
-	this.abilities = pokedex.get_pokemon_abilities(data.species)
+	this.abilities = {}
 
 	this.exp = pokedex.get_experience_for_level(this.level.caught-1)
 
@@ -1047,11 +1196,13 @@ function M.new(data)
 	local con_mod = math.floor((con - 10) / 2)
 
 	this.hp = {}
-	this.hp.max = pokedex.get_base_hp(data.species)
-	this.hp.current = pokedex.get_base_hp(data.species) + this.level.current * math.floor((M.get_attributes(this).CON - 10) / 2)
+	this.hp.max = pokedex.get_base_hp(data.species, data.variant)
+	this.hp.current = pokedex.get_base_hp(data.species, data.variant) + this.level.current * math.floor((M.get_attributes(this).CON - 10) / 2)
 	this.hp.edited = false
 
 	this.moves = get_starting_moves(this, data.number_of_moves)
+
+	this.version = LATEST_POKEMON_VERSION
 	
 	return this
 end

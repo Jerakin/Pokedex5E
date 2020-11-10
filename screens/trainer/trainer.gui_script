@@ -58,8 +58,8 @@ local function redraw(self)
         gui.set_text(gui.get_node("attributes/" .. attribute), trainer.get_attribute(attribute))
     end
 
-    local max_active_pokemon = storage.get_max_active_pokemon()
-    local max_active_pokemon_range_low, max_active_pokemon_range_high = storage.get_max_active_pokemon_range()
+    local max_active_pokemon = storage.get_max_party_pokemon()
+    local max_active_pokemon_range_low, max_active_pokemon_range_high = storage.get_max_party_pokemon_range()
     gui.set_text(gui.get_node("max_active_pokemon/value"), max_active_pokemon)
     gui.set_enabled(gui.get_node("max_active_pokemon/ctrl/btn_minus"), max_active_pokemon > max_active_pokemon_range_low)
     gui.set_enabled(gui.get_node("max_active_pokemon/ctrl/btn_plus"),  max_active_pokemon < max_active_pokemon_range_high)
@@ -303,8 +303,8 @@ function on_input(self, action_id, action)
         end
     end
 
-    gooey.button("max_active_pokemon/ctrl/btn_plus",  action_id, action, function() redraw_wrap(self, function() storage.set_max_active_pokemon(storage.get_max_active_pokemon() + 1) end) end, gooey_buttons.plus_button)
-    gooey.button("max_active_pokemon/ctrl/btn_minus", action_id, action, function() redraw_wrap(self, function() storage.set_max_active_pokemon(storage.get_max_active_pokemon() - 1) end) end, gooey_buttons.minus_button)
+    gooey.button("max_active_pokemon/ctrl/btn_plus",  action_id, action, function() redraw_wrap(self, function() storage.set_max_party_pokemon(storage.get_max_party_pokemon() + 1) end) end, gooey_buttons.plus_button)
+    gooey.button("max_active_pokemon/ctrl/btn_minus", action_id, action, function() redraw_wrap(self, function() storage.set_max_party_pokemon(storage.get_max_party_pokemon() - 1) end) end, gooey_buttons.minus_button)
 
     gooey.button("change_profile_name", action_id, action, function() update_profile_name(self) end, function(b) gooey_buttons.common_button(b, gui.get_node("text_change_profile_name")) end )
 end

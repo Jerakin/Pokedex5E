@@ -1,0 +1,35 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 4,
+      "dice_max": 6,
+      "move": true
+    },
+    "10": {
+      "amount": 6,
+      "dice_max": 8,
+      "move": true
+    },
+    "17": {
+      "amount": 6,
+      "dice_max": 12,
+      "move": true
+    },
+    "5": {
+      "amount": 5,
+      "dice_max": 6,
+      "move": true
+    }
+  },
+  "Description": "You fill your head with hot fire that explodes around you. Force all creaatures within 15 feet of you to make a DEX save against your Move DC, taking fire damage on a failure, or half as much on a success. After activating this move, you take an amount of typless damage equal to the full damage as if you failed the save.",
+  "Duration": "Instantaneous",
+  "Move Power": [
+    "DEX",
+    "CON"
+  ],
+  "Move Time": "1 action",
+  "PP": 3,
+  "Range": "Self (15ft radius)",
+  "Save": "DEX",
+  "Type": "Fire"
+}

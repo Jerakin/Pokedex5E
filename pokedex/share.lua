@@ -5,11 +5,12 @@ local notify = require "utils.notify"
 local monarch = require "monarch.monarch"
 local dex = require "pokedex.dex"
 local pokedex = require "pokedex.pokedex"
+local _pokemon = require "pokedex.pokemon"
 local statuses = require "pokedex.statuses"
 local messages = require "utils.messages"
 local _file = require "utils.file"
 local platform = require "utils.platform"
-
+local sjson = require "utils.json"
 local M = {}
 
 -- For checking if sharing is enabled
@@ -21,28 +22,14 @@ M.ENABLED = {
 }
 M.ENABLED.ANY = M.ENABLED.CLIPBOARD or M.ENABLED.QRCODE_READ
 
-local function get_clipboard_pokemon()
-	local paste = clipboard.paste()
-	local pokemon = nil
-
-	if paste then
-		-- Ensure the suppposed json ends with a } - Discord mobile seems to have acquired a bug where it sometimes does not end properly
-		local munged = paste:sub(-1) == "}" and paste or (paste .. "}")
-		
-		pokemon = _file.load_json(munged)
-	end
-
-	return pokemon, paste
-end
-
 function M.add_new_pokemon(pokemon)
 	storage.add(pokemon)
 	dex.set(pokemon.species.current, dex.states.CAUGHT)
 	if url.PARTY then
 		msg.post(url.PARTY, messages.REFRESH)
 	elseif url.STORAGE then
-		msg.post(url.STORAGE, messages.INVENTORY_UPDATED)
-		msg.post(url.STORAGE, messages.STORAGE_UPDATED)
+		msg.post(url.STORAGE, messages.PARTY_UPDATED)
+		msg.post(url.STORAGE, messages.PC_UPDATED)
 	end
 end
 
@@ -54,21 +41,6 @@ function M.validate(pokemon)
 	return nil
 end
 
-function M.import()
-	local pokemon, original = get_clipboard_pokemon()
-	if pokemon then
-		if not M.validate(pokemon) then
-			notify.notify("Pokemon data is incomplete")
-			notify.notify(original)
-			return 
-		end
-		M.add_new_pokemon(pokemon)
-		notify.notify("Welcome " .. (pokemon.nickname or pokemon.species.current) .. "!")
-	else
-		notify.notify("Could not parse pokemon data")
-		notify.notify(original)
-	end
-end
 function M.encode_status(pokemon)
 	local new = {}
 	for s, _ in pairs(pokemon.statuses or {}) do
@@ -78,15 +50,16 @@ function M.encode_status(pokemon)
 end
 
 function M.get_clipboard()
-	local pokemon = get_clipboard_pokemon()	
+	local pokemon = _file.load_json(clipboard.paste())
 	if pokemon then
 		if not M.validate(pokemon) then
 			return 
 		end
+		_pokemon.upgrade_pokemon(pokemon)
 		M.encode_status(pokemon)
 		return pokemon
 	end
-	return nil
+	return
 end
 
 local function decode_status(pokemon)
@@ -99,7 +72,7 @@ end
 
 local function serialize_pokemon(pokemon)
 	decode_status(pokemon)
-	return ljson.encode(pokemon)
+	return sjson:encode(pokemon)
 end
 
 function M.generate_qr(id)
@@ -110,7 +83,7 @@ function M.generate_qr(id)
 end
 
 function M.get_sendable_pokemon_copy(id)
-	local pokemon = storage.get_copy(id)
+	local pokemon = storage.get_pokemon(id)
 	decode_status(pokemon)
 	return pokemon
 end

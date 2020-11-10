@@ -1,5 +1,4 @@
 local _pokemon = require "pokedex.pokemon"
-local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
 local items = require "pokedex.items"
 local party_utils = require "screens.party.utils"
@@ -13,6 +12,7 @@ local scrollhandler = require "screens.party.components.scrollhandler"
 local constants = require "utils.constants"
 local screens = require "utils.screens"
 local messages = require "utils.messages"
+local pokedex = require "pokedex.pokedex"
 
 local M = {}
 local active = {}
@@ -37,7 +37,8 @@ local function setup_main_information(nodes, pokemon)
 		gui.play_flipbook(nodes["pokemon/pokemon_sprite"], pokemon_sprite)
 	end
 
-	gui.set_text(nodes["pokemon/index"], string.format("#%03d %s", _pokemon.get_index_number(pokemon), species))
+	local species_text = pokedex.get_species_display(species, _pokemon.get_variant(pokemon))
+	gui.set_text(nodes["pokemon/index"], string.format("#%03d %s", _pokemon.get_index_number(pokemon), species_text))
 	
 	gui.set_text(nodes["pokemon/species"], nickname)
 	gui.set_text(nodes["pokemon/level"], "Lv. " ..  _pokemon.get_current_level(pokemon))
@@ -63,7 +64,7 @@ end
 
 
 function M.refresh(pokemon_id)
-	local pokemon = storage.get_copy(pokemon_id)
+	local pokemon = storage.get_pokemon(pokemon_id)
 	gui.set_text(active["pokemon/traits/txt_catch"], _pokemon.get_catch_rate(pokemon))
 	local st_attributes = _pokemon.get_saving_throw_modifier(pokemon)
 	for i, stat in pairs(constants.ABILITY_LIST) do
@@ -92,18 +93,26 @@ local function setup_info_tab(nodes, pokemon)
 	end	
 
 	local skill_string = ""
-	for _, skill in pairs(_pokemon.get_skills(pokemon)) do
-		skill_string = skill_string .. "• " .. skill .. "\n"
+	local skills = _pokemon.get_skills(pokemon)
+	if #skills > 8 then
+		for _, skill in pairs(skills) do
+			skill_string = skill_string .. skill .. ", "
+		end
+	else
+		for _, skill in pairs(skills) do
+			skill_string = skill_string .. "• " .. skill .. "\n"
+		end
 	end
 	gui.set_text(nodes["pokemon/traits/txt_skills"], skill_string)
 
-	local sr = pokedex.get_pokemon_SR(_pokemon.get_current_species(pokemon))
+	local sr = _pokemon.get_SR(pokemon)
 	gui.set_text(nodes["pokemon/traits/txt_sr"], constants.NUMBER_TO_SR[sr])
 
+	gui.set_text(nodes["pokemon/traits/txt_size"], _pokemon.get_size(pokemon):upper())
 	gui.set_text(nodes["pokemon/traits/txt_nature"], _pokemon.get_nature(pokemon):upper())
 	gui.set_text(nodes["pokemon/traits/txt_stab"], _pokemon.get_STAB_bonus(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_prof"], _pokemon.get_proficency_bonus(pokemon))
-	gui.set_text(nodes["pokemon/traits/txt_exp"], _pokemon.get_pokemon_exp_worth(pokemon))
+	gui.set_text(nodes["pokemon/traits/txt_exp"], _pokemon.get_exp_worth(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_catch"], _pokemon.get_catch_rate(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_hitdice"], "d" .. _pokemon.get_hit_dice(pokemon))
 
@@ -150,10 +159,7 @@ local function setup_info_tab(nodes, pokemon)
 		[_pokemon.MALE] = "male",
 		[_pokemon.FEMALE] = "female"
 	}
-	local genderized, gender = _pokemon.genderized(pokemon)
-	if not genderized then
-		gender = _pokemon.get_gender(pokemon)
-	end
+	local gender = _pokemon.get_gender(pokemon)
 	if gender ~= nil then
 		gui.set_enabled(nodes["pokemon/gender_icon"], true)
 		gui.play_flipbook(nodes["pokemon/gender_icon"], g[gender])
@@ -175,7 +181,7 @@ function M.on_input(action_id, action)
 	end
 
 	gooey.button(rest_button, action_id, action, function() 
-		monarch.show(screens.ARE_YOU_SURE, nil, {title="Pokémon Center", text="We heal your Pokémon back to perfect health!\nShall we heal your Pokémon?", sender=msg.url(), id="full_rest"})
+		monarch.show(screens.ARE_YOU_SURE, nil, {title="Pokémon Center", text="We heal your Pokémon back to perfect health!\nShall we heal your Pokémon?", sender=msg.url(), id=messages.FULL_REST})
 	end)
 end
 
@@ -191,8 +197,8 @@ end
 
 function M.on_message(message_id, message, sender)
 	if message_id == messages.RESPONSE and message.response then
-		if message.id == "full_rest" then
-			_pokemon.reset_in_storage(active_pokemon)
+		if message.id == messages.FULL_REST then
+			storage.heal_party()
 			msg.post(url.PARTY, messages.REFRESH_STATUS)
 			msg.post(url.PARTY, messages.REFRESH_HP)
 			msg.post(url.PARTY, messages.REFRESH_PP)
