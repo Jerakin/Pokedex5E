@@ -22,6 +22,20 @@ M.ENABLED = {
 }
 M.ENABLED.ANY = M.ENABLED.CLIPBOARD or M.ENABLED.QRCODE_READ
 
+local function get_clipboard_pokemon()
+	local paste = clipboard.paste()
+	local pokemon = nil
+
+	if paste then
+		-- Ensure the suppposed json ends with a } - Discord mobile seems to have acquired a bug where it sometimes does not end properly
+		local munged = paste:sub(-1) == "}" and paste or (paste .. "}")
+
+		pokemon = _file.load_json(munged)
+	end
+
+	return pokemon, paste
+end
+
 function M.add_new_pokemon(pokemon)
 	storage.add(pokemon)
 	dex.set(pokemon.species.current, dex.states.CAUGHT)
@@ -50,16 +64,15 @@ function M.encode_status(pokemon)
 end
 
 function M.get_clipboard()
-	local pokemon = _file.load_json(clipboard.paste())
+	local pokemon = get_clipboard_pokemon()
 	if pokemon then
 		if not M.validate(pokemon) then
 			return 
 		end
-		_pokemon.upgrade_pokemon(pokemon)
 		M.encode_status(pokemon)
 		return pokemon
 	end
-	return
+	return nil
 end
 
 local function decode_status(pokemon)
