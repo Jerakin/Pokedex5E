@@ -2,6 +2,15 @@ local M = {}
 
 M.ABILITY_LIST = {"STR", "DEX", "CON", "INT", "WIS", "CHA"}
 
+M.FULL_ABILITY_TO_ABRIVATION = {
+	Strength = "STR",
+	Dexterity = "DEX",
+	Constitution = "CON",
+	Intelligence = "INT",
+	Wisdom = "WIS",
+	Charisma = "CHA"
+}
+
 M.SR_LIST = {"1/8", "1/4", "1/2", "1", "2", "3", "4", "5", "6", "7","8", "9", "10", "11", "12", "13", "14", "15"}
 
 M.SR_TO_NUMBER = {

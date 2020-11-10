@@ -27,10 +27,21 @@ M.MALE = 1
 M.FEMALE = 2
 M.ANY = 3
 
+M.VARIANT_CREATE_MODE_DEFAULT = "default"
+M.VARIANT_CREATE_MODE_CHOOSE = "choose"
+
+M.skills = {
+	'Acrobatics', 'Animal Handling', 'Arcana', 'Athletics',
+	'Deception', 'History', 'Insight', 'Intimidation',
+	'Investigation', 'Medicine', 'Nature', 'Perception', 'Performance',
+	'Persuasion', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival'
+}
+
 local initialized = false
 local function list()
 	local _index_list = file.load_json_from_resource("/assets/datafiles/index_order.json")
 	local index_list = {}
+	local index_table = {}
 	local unique = {}
 	local index = 1
 	while true do
@@ -39,6 +50,10 @@ local function list()
 				unique[index] = _index_list[tostring(index)][1]
 			end
 			index_list[index] = _index_list[tostring(index)]
+			index_table[index] = {}
+			for i=1,#index_list[index] do
+				index_table[index][index_list[index][i]] = true
+			end
 			index = index + 1
 		else
 			break
@@ -51,8 +66,12 @@ local function list()
 			if not index_list[index] then
 				unique[index] = species
 				index_list[index] = {}
+				index_table[index] = {}
 			end
-			table.insert(index_list[index], species)
+			if not index_table[index][species] then
+				index_table[index][species] = true
+				table.insert(index_list[index], species)
+			end
 		end
 	end
 
@@ -88,6 +107,7 @@ local function get_pokemon_raw(pokemon)
 		local pokemon_species = pokemon:gsub(" ♀", "-f")
 		pokemon_species = pokemon_species:gsub(" ♂", "-m")
 		pokemon_species = pokemon_species:gsub("é", "e")
+		pokemon_species = pokemon_species:gsub(":", "")
 		local pokemon_json = file.load_json_from_resource("/assets/datafiles/pokemon/".. pokemon_species .. ".json")
 		if pokemon_json ~= nil then
 			pokedex[pokemon] = pokemon_json
@@ -118,15 +138,26 @@ function M.init()
 		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
 		exp_grid = file.load_json_from_resource("/assets/datafiles/exp_grid.json")
 		genders = file.load_json_from_resource("/assets/datafiles/gender.json")
-		if fakemon.DATA then
-			if fakemon.DATA["pokemon.json"] then
-				log.info("Merging Pokemon data")
-				for pokemon, data in pairs(fakemon.DATA["pokemon.json"]) do
-					log.info("  " .. pokemon)
-					data.fakemon = true
-					pokedex[pokemon] = data
+
+		local f_overrides, f_variants = fakemon.get_overrides_and_variants()
+		if next(f_overrides) or next(f_variants) then
+			log.info("Merging Pokemon data")
+			for pokemon, data in pairs(f_overrides) do
+				log.info("  " .. pokemon)
+				pokedex[pokemon] = data
+			end
+			for pokemon, f_vars in pairs(f_variants) do
+				for variant, data in pairs(f_vars) do
+					log.info("  " .. pokemon .. " - " .. variant)
+					if not pokedex_variants[pokemon] then
+						pokedex_variants[pokemon] = {}
+					end
+					pokedex_variants[pokemon][variant] = data
 				end
 			end
+		end
+
+		if fakemon.DATA then
 			if fakemon.DATA["pokedex_extra.json"] then
 				for name, data in pairs(fakemon.DATA["pokedex_extra.json"]) do
 					pokedex_extra[name] = data
@@ -142,8 +173,12 @@ function M.init()
 			if fakemon.DATA["evolve.json"] then
 				log.info("Merging evolve data")
 				for name, data in pairs(fakemon.DATA["evolve.json"]) do
-					log.info("  " .. name)
-					evolvedata[name] = data
+					if pokedex[name] then
+						log.info("  " .. name)
+						evolvedata[name] = data
+					else
+						log.info("  " .. name .. " (does not exist, skipped)")
+					end
 				end
 			end
 			if fakemon.DATA["gender.json"] then
@@ -154,6 +189,7 @@ function M.init()
 				end
 			end
 		end
+		
 		cache_evolve_from_data()
 		M.list, M.total, M.unique = list()
 		initialized = true
@@ -240,6 +276,17 @@ function M.get_variants(pokemon)
 end
 
 
+function M.get_variant_create_mode(pokemon)
+	local raw = get_pokemon_raw(pokemon)
+	if raw.variant_data then
+		if raw.variant_data.create_mode == M.VARIANT_CREATE_MODE_CHOOSE then
+			return M.VARIANT_CREATE_MODE_CHOOSE
+		end
+	end
+	return M.VARIANT_CREATE_MODE_DEFAULT
+end
+
+
 function M.get_default_variant(pokemon)
 	local raw = get_pokemon_raw(pokemon)
 	return raw.variant_data and raw.variant_data.default or nil
@@ -284,8 +331,7 @@ end
 
 
 function M.get_icon(pokemon, variant)
-	local data = get_pokemon_raw(pokemon)
-	local sprite = M.get_sprite(pokemon, variant)
+	local data = M.get_pokemon(pokemon, variant)
 	if data.fakemon then
 		if data.icon and data.icon ~= "" then
 			local path = fakemon.UNZIP_PATH .. utils.os_sep .. data.icon 
@@ -297,15 +343,15 @@ function M.get_icon(pokemon, variant)
 			file:close()
 			local img = image.load(buffer, true)
 
-			gui.new_texture("icon" .. pokemon, img.width, img.height, img.type, img.buffer, false)
-			return nil, "icon" .. pokemon
-		elseif data.index < dex_data.max_index[#dex_data.order -1] then
-			return sprite, "sprite0"
+			local icon_name = "icon" .. pokemon .. (variant or "")
+			gui.new_texture(icon_name, img.width, img.height, img.type, img.buffer, false)
+			return nil, icon_name
+		elseif data.index >= dex_data.max_index[#dex_data.order -1] then
+			return "-2Pokeball", "sprite0"
 		end
-		return "-2Pokeball", "sprite0"
 	end
 	
-	
+	local sprite = M.get_sprite(pokemon, variant)
 	return sprite, "sprite0"
 end
 
@@ -315,24 +361,28 @@ function M.get_sprite(pokemon, variant)
 	if pokemon_index == -1 then
 		return "-1MissingNo", "pokemon0"
 	end
-	
-	local data = get_pokemon_raw(pokemon)
 
 	local sprite_suffix = pokemon
-	if data.variant_data then
-		if data.variant_data.sprite_suffix then
-			sprite_suffix = data.variant_data.sprite_suffix
-		elseif data.variant_data.variants and data.variant_data.variants[variant] and data.variant_data.variants[variant].original_species then
-			sprite_suffix = data.variant_data.variants[variant].original_species
+
+	local raw_data = get_pokemon_raw(pokemon)
+	if raw_data.variant_data then
+		current_variant = variant or raw_data.variant_data.default
+		if raw_data.variant_data.sprite_suffix then
+			sprite_suffix = raw_data.variant_data.sprite_suffix
+		elseif raw_data.variant_data.variants and raw_data.variant_data.variants[current_variant] and raw_data.variant_data.variants[current_variant].original_species then
+			sprite_suffix = raw_data.variant_data.variants[current_variant].original_species
 		end
 	end
+
 	local pokemon_sprite = pokemon_index .. sprite_suffix
 	
-	if pokemon_index == 32 or pokemon_index == 29 or pokemon_index == 678 then
+	if pokemon_index == 32 or pokemon_index == 29 or pokemon_index == 678 or pokemon_index == 772 then
 		pokemon_sprite = pokemon_sprite:gsub(" ♀", "-f")
 		pokemon_sprite = pokemon_sprite:gsub(" ♂", "-m")
+		pokemon_sprite = pokemon_sprite:gsub(":", "")
 	end
 
+	local data = M.get_pokemon(pokemon, variant)
 	if data.fakemon then
 		if data.sprite and data.sprite ~= "" then
 			local path = fakemon.UNZIP_PATH .. utils.os_sep .. data.sprite 
@@ -344,8 +394,9 @@ function M.get_sprite(pokemon, variant)
 			file:close()
 			local img = image.load(buffer)
 
-			gui.new_texture("sprite" .. pokemon, img.width, img.height, img.type, img.buffer, false)
-			return nil, "sprite" ..  pokemon
+			local sprite_name = "sprite" .. pokemon .. (variant or "")
+			gui.new_texture(sprite_name, img.width, img.height, img.type, img.buffer, false)
+			return nil, sprite_name
 		elseif data.index < dex_data.max_index[#dex_data.order -1] then
 			return pokemon_index .. pokemon, "pokemon0"
 		end
@@ -373,8 +424,8 @@ function M.get_senses(pokemon, variant)
 end
 
 
-function M.get_index_number(pokemon, variant)
-	return M.get_pokemon(pokemon, variant).index
+function M.get_index_number(pokemon)
+	return get_pokemon_raw(pokemon).index
 end
 
 
@@ -384,14 +435,14 @@ function M.get_vulnerabilities(pokemon, variant)
 end
 
 
-function M.get_immunities(pokemon)
-	local types = M.get_pokemon_type(pokemon)
+function M.get_immunities(pokemon, variant)
+	local types = M.get_pokemon_type(pokemon, variant)
 	return ptypes.Model(unpack(types)).immunities
 end
 
 
-function M.get_resistances(pokemon)
-	local types = M.get_pokemon_type(pokemon)
+function M.get_resistances(pokemon, variant)
+	local types = M.get_pokemon_type(pokemon, variant)
 	return ptypes.Model(unpack(types)).resistances
 end
 
@@ -595,8 +646,8 @@ function M.get_saving_throw_proficiencies(pokemon, variant)
 end
 
 
-function M.get_hit_dice(pokemon, variant)
-	return M.get_pokemon(pokemon, variant)["Hit Dice"]
+function M.get_hit_dice(pokemon)
+	return get_pokemon_raw(pokemon)["Hit Dice"]
 end
 
 
@@ -634,7 +685,7 @@ end
 
 function M.get_moves(pokemon, variant, level)
 	level = level or 20
-	local moves = M.get_pokemon(pokemon)["Moves"]
+	local moves = M.get_pokemon(pokemon, variant)["Moves"]
 	local pick_from = utils.shallow_copy(moves["Starting Moves"])
 	for l, move in pairs(moves["Level"]) do
 		if level >= tonumber(l) then

@@ -13,6 +13,7 @@ local gooey = require "gooey.gooey"
 local gui_utils = require "utils.gui"
 local screens = require "utils.screens"
 local messages = require "utils.messages"
+local flow = require "utils.flow"
 
 local function pokemon_image(pkmn)
 	local pokemon_sprite, texture = _pokemon.get_icon(pkmn)
@@ -30,12 +31,11 @@ local function save_pokemon(self)
 	monarch.show(screens.PARTY)
 end
 
-local function evolve(self, species)
-	_pokemon.evolve(self.pokemon, species, _pokemon.get_current_level(self.pokemon))
+local function evolve(self, species, variant)
+	_pokemon.evolve(self.pokemon, species, variant)
 	dex.set(species, dex.states.CAUGHT)
 	pokemon_edit.redraw(self)
-	timer.delay(0.1, false, function() save_pokemon(self)
-	end)
+	timer.delay(0.1, false, function() save_pokemon(self) end)
 end
 
 function init(self)
@@ -75,7 +75,7 @@ function init(self)
 	end
 
 	button.register("change_pokemon/txt_max_hp", function()
-		monarch.show(screens.ARE_YOU_SURE, nil, {sender=msg.url(), text="Reset HP and let the App controll it for you", title="Reset", id=messages.RESET})
+		monarch.show(screens.ARE_YOU_SURE, nil, {sender=msg.url(), text="Reset Max HP and let the app control it for you?", title="Reset", id=messages.RESET})
 	end)
 
 	-- Update evolution button states
@@ -86,24 +86,98 @@ function final(self)
 	pokemon_edit.final(self)
 end
 
-function on_message(self, message_id, message, sender)
-	pokemon_edit.on_message(self, message_id, message, sender)
-	if message_id == messages.RESPONSE and message.response then
-		if message.id == "evolve" then
-			evolve(self, message.data)
+local function evolve_pokemon_confirm(self)
+	if self.evolve_species then
+		local display = pokedex.get_species_display(self.evolve_species, self.evolve_variant)
+		flow.start(function()
+			flow.until_true(function() return not monarch.is_busy() end)
+			monarch.show(screens.ARE_YOU_SURE, nil, {title="Confirm Evolve", text="Evolve into ".. display .. " at level ".. _pokemon.get_current_level(self.pokemon) .. "?\n\nThis will automatically save and exit to Party", sender=msg.url(), id="evolve_confirm"})
+		end)
+	end
+end
+
+local function evolve_pokemon_variant(self)
+	self.evolve_variant = nil
+	
+	if self.evolve_species then
+		if not pokedex.has_variants(self.evolve_species) then
+			-- No variants, just confirm
+			evolve_pokemon_confirm(self)
+		else
+			-- Has variants, should we choose one now?
+			
+			local variant_list = pokedex.get_variants(self.evolve_species)
+			
+			local should_choose = #variant_list > 0
+
+			if should_choose then
+				-- 1 variant? don't choose, just use that variant
+				if #variant_list == 1 then
+					self.evolve_variant = variant_list[1]
+					should_choose = false
+				end
+			end
+
+			if should_choose then
+
+				-- If the pokemon already has a variant, and that variant valid for the evolution, don't choose
+				local current_variant = _pokemon.get_variant(self.pokemon)
+				if current_variant then
+					for i=1,#variant_list do
+						if variant_list[i] == current_variant then
+							self.evolve_variant = current_variant
+							should_choose = false
+							break
+						end
+					end
+				end
+			end
+
+			if should_choose then
+				-- Create mode set to use default, then use default
+				if pokedex.get_variant_create_mode(self.evolve_species) == pokedex.VARIANT_CREATE_MODE_DEFAULT then
+					self.evolve_variant = pokedex.get_default_variant(self.evolve_species)
+					should_choose = false
+				end
+			end
+			
+			if should_choose then
+				flow.start(function()
+					flow.until_true(function() return not monarch.is_busy() end)
+					monarch.show(screens.SCROLLIST, {}, {items=variant_list, message_id="evolve_variant", sender=msg.url(), title="Choose Variant"})
+				end)
+			else
+				evolve_pokemon_confirm(self)
+			end
 		end
 	end
 end
 
-local function evolve_pokemon(self)
+local function evolve_pokemon_species(self)
+	self.evolve_species = nil
+	
 	local evolve_into = pokedex.get_evolutions(_pokemon.get_current_species(self.pokemon), _pokemon.get_gender(self.pokemon))
 	if #evolve_into == 1 then
-		monarch.show(screens.ARE_YOU_SURE, nil, {title="Evolve into ".. evolve_into[1] .. " at level ".. _pokemon.get_current_level(self.pokemon) .. "?", text="This will automatically save and exit to Party", sender=msg.url(), data=evolve_into[1], id="evolve"})
+		self.evolve_species = evolve_into[1]
+		evolve_pokemon_variant(self)
 	else
-		monarch.show(screens.SCROLLIST, {}, {items=evolve_into, message_id="evolve", sender=msg.url(), title="Pick evolution"})
+		monarch.show(screens.SCROLLIST, {}, {items=evolve_into, message_id="evolve_species", sender=msg.url(), title="Pick evolution"})
 	end
 end
 
+function on_message(self, message_id, message, sender)
+	pokemon_edit.on_message(self, message_id, message, sender)
+	
+	if message_id == hash("evolve_species") and message.item then
+		self.evolve_species = message.item
+		evolve_pokemon_variant(self)
+	elseif message_id == hash("evolve_variant") and message.item then
+		self.evolve_variant = message.item
+		evolve_pokemon_confirm(self)
+	elseif message_id == messages.RESPONSE and message.response and message.id == "evolve_confirm" then
+		evolve(self, self.evolve_species, self.evolve_variant)
+	end
+end
 
 local function refresh_input(self, input, node_id)
 	if input.empty and not input.selected then
@@ -143,7 +217,7 @@ function on_input(self, action_id, action)
 	
 	if self.evolve_button_active then
 		gooey.button("btn_evolve", action_id, action, function()
-			evolve_pokemon(self)
+			evolve_pokemon_species(self)
 		end, function(b) gooey_buttons.common_button(b, gui.get_node("txt_evolve")) end)
 	end
 end

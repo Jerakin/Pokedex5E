@@ -6,7 +6,7 @@
   ],
   "HP": 80,
   "Hidden Ability": "Poison Touch",
-  "Hit Dice": 10,
+  "Hit Dice": 12,
   "MIN LVL FD": 8,
   "Moves": {
     "Level": {
@@ -77,9 +77,9 @@
       100
     ]
   },
-  "SR": 8.0,
+  "SR": 10.0,
   "Senses": [
-    "Darkvision 40ft."
+    "Darkvision 40ft"
   ],
   "Skill": [
     "Stealth"
@@ -98,7 +98,114 @@
   },
   "index": 89,
   "saving_throws": [
-    "CON"
+    "Constitution"
   ],
-  "size": "Small"
+  "size": "Medium",
+  "variant_data": {
+    "create_mode": "choose",
+    "default": "Kanto",
+    "permanent": true,
+    "variants": {
+      "Alola": {
+        "diff": {
+          "Abilities": [
+            "Poison Touch",
+            "Gluttony"
+          ],
+          "HP": 75,
+          "Hidden Ability": "Power of Alchemy",
+          "Moves": {
+            "Level": {
+              "10": [
+                "Fling",
+                "Knock Off",
+                "Crunch"
+              ],
+              "14": [
+                "Screech",
+                "Gunk Shot"
+              ],
+              "18": [
+                "Acid Armor",
+                "Belch",
+                "Memento"
+              ]
+            },
+            "Starting Moves": [
+              "Bite",
+              "Harden",
+              "Poison Gas",
+              "Pound",
+              "Venom Drench",
+              "Harden",
+              "Bite",
+              "Disable",
+              "Acid Spray",
+              "Poison Fang",
+              "Minimize"
+            ],
+            "TM": [
+              6,
+              9,
+              10,
+              11,
+              12,
+              15,
+              17,
+              18,
+              21,
+              27,
+              30,
+              31,
+              32,
+              34,
+              35,
+              36,
+              38,
+              39,
+              41,
+              42,
+              44,
+              45,
+              46,
+              48,
+              52,
+              56,
+              59,
+              60,
+              63,
+              64,
+              66,
+              68,
+              69,
+              71,
+              80,
+              83,
+              84,
+              87,
+              88,
+              90,
+              95,
+              97,
+              100
+            ]
+          },
+          "Type": [
+            "Poison",
+            "Dark"
+          ],
+          "attributes": {
+            "STR": 15,
+            "WIS": 14
+          }
+        },
+        "display": "Alolan Muk",
+        "original_species": "Alolan Muk"
+      },
+      "Kanto": {
+        "display": "Muk",
+        "original_species": "Muk"
+      }
+    }
+  }
 }

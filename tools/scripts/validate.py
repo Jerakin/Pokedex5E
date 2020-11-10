@@ -20,7 +20,8 @@ images_path = root.parent / "textures"
 def iter_pokemon_names():
     for f in pokemon_folder.iterdir():
         if f.suffix == ".json":
-            yield f.stem
+            if "." not in f.name.replace(".json", ""):
+                yield f.name.replace(".json", "")
 
 
 def get_json(name):
@@ -127,12 +128,32 @@ def abilities():
 
 
 def images():
+    def check_image(_data, _sprite_suffix):
+        _sprite_suffix = _sprite_suffix.replace(":","").replace(" ♀", "-f").replace(" ♂", "-m")
+        _file_path = images_path / x / "{}{}.png".format(_data["index"], _sprite_suffix)
+        if not os.path.exists(_file_path):
+            print("Can't find image: ", "{}{}.png".format(_data["index"], p), "in", x)
+        else:
+            print(f"Checked {_file_path.stem}")
+
+
     for p in iter_pokemon_names():
         data = get_json(p)
         for x in ["pokemons", "sprites"]:
-            file_path = images_path / x / "{}{}.png".format(data["index"], p)
-            if not os.path.exists(file_path):
-                print("Can't find image: ", "{}{}.png".format(data["index"], p), "in", x)
+            sprite_suffix = p
+            if "variant_data" in data:
+                sprite_suffix = data["variant_data"]["default"]
+                if "sprite_suffix" in data["variant_data"]:
+                    sprite_suffix = data["variant_data"]["sprite_suffix"]
+                    check_image(data, sprite_suffix)
+                elif "variants" in data["variant_data"]:
+                    for variant in data["variant_data"]["variants"]:
+                        sprite_suffix = data["variant_data"]["variants"][variant]["original_species"]
+                        check_image(data, sprite_suffix)
+                else:
+                    check_image(data, sprite_suffix)
+            else:
+                check_image(data, sprite_suffix)
 
 
 def long_vulnerabilities():
@@ -186,4 +207,4 @@ def split():
         with open(pokemon_folder / (species + ".json"), "w", encoding="utf8") as fp:
             json.dump(data, fp, indent="  ", ensure_ascii=False)
 
-print_habitat()
+images()

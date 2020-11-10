@@ -5,6 +5,7 @@ local natures = require "pokedex.natures"
 local movedex = require "pokedex.moves"
 local trainer = require "pokedex.trainer"
 local variants = require "pokedex.variants"
+local constants = require "utils.constants"
 
 local M = {}
 
@@ -39,7 +40,7 @@ local feat_to_attribute = {
 	Acrobat="DEX"
 }
 
-local LATEST_POKEMON_VERSION = 4
+local LATEST_POKEMON_VERSION = 7
 
 M.GENDERLESS = pokedex.GENDERLESS
 M.MALE = pokedex.MALE
@@ -71,7 +72,7 @@ end
 
 
 function M.get_senses(pkmn)
-	return pokedex.get_senses(M.get_current_species(pkmn))
+	return pokedex.get_senses(M.get_current_species(pkmn), M.get_variant(pkmn))
 end
 
 
@@ -337,19 +338,20 @@ end
 
 function M.get_speed_of_type(pkmn)
 	local species = M.get_current_species(pkmn)
-	local type = pokedex.get_pokemon_type(species)[1]
+	local variant = M.get_variant(pkmn)
+	local type = pokedex.get_pokemon_type(species, variant)[1]
 	local mobile_feet = 0
 	if M.have_feat(pkmn, "Mobile") then
 		mobile_feet = 10
 	end
 	if type == "Flying" then
-		local speed = pokedex.get_flying_speed(species) 
+		local speed = pokedex.get_flying_speed(species, variant) 
 		return speed ~= 0 and speed+mobile_feet or speed, "Flying"
 	elseif type == "Water" then
-		local speed = pokedex.get_swimming_speed(species) 
+		local speed = pokedex.get_swimming_speed(species, variant) 
 		return speed ~= 0 and speed+mobile_feet or speed, "Swimming"
 	else
-		local speed = pokedex.get_walking_speed(species) 
+		local speed = pokedex.get_walking_speed(species, variant) 
 		return speed ~= 0 and speed+mobile_feet or speed, "Walking"
 	end
 end
@@ -373,15 +375,16 @@ end
 
 function M.get_all_speed(pkmn)
 	local species = M.get_current_species(pkmn)
+	local variant = M.get_variant(pkmn)
 	local mobile_feet = 0
 	if M.have_feat(pkmn, "Mobile") then
 		mobile_feet = 10
 	end
-	local w = pokedex.get_walking_speed(species)
-	local s = pokedex.get_swimming_speed(species)
-	local c = pokedex.get_climbing_speed(species)
-	local f = pokedex.get_flying_speed(species)
-	local b = pokedex.get_burrow_speed(species)
+	local w = pokedex.get_walking_speed(species, variant)
+	local s = pokedex.get_swimming_speed(species, variant)
+	local c = pokedex.get_climbing_speed(species, variant)
+	local f = pokedex.get_flying_speed(species, variant)
+	local b = pokedex.get_burrow_speed(species, variant)
 	return {
 		Walking= w ~= 0 and w+mobile_feet or w,
 		Swimming=s ~= 0 and s+mobile_feet or s, 
@@ -435,13 +438,14 @@ function M.get_evolution_level(pkmn)
 	return pokedex.get_evolution_level(M.get_current_species(pkmn))
 end
 
-function M.get_defaut_max_hp(pkmn)
+function M.get_default_max_hp(pkmn)
 	if M.have_ability(pkmn, "Paper Thin") then
 		return 1
 	end
 	local current = M.get_current_species(pkmn)
 	local caught = M.get_caught_species(pkmn)
 	local at_level = M.get_current_level(pkmn)
+	local variant = M.get_variant(pkmn)
 	
 	if current ~= caught then
 		local evolutions = utils.shallow_copy(get_evolved_at_level(pkmn))
@@ -453,8 +457,8 @@ function M.get_defaut_max_hp(pkmn)
 				at_level = table.remove(evolutions)
 				local _, from_level = next(evolutions)
 				from_level = from_level or M.get_caught_level(pkmn)
-				local hit_dice = pokedex.get_pokemon_hit_dice(from_pkmn)
-				local hit_dice_current = pokedex.get_pokemon_hit_dice(current)
+				local hit_dice = pokedex.get_hit_dice(from_pkmn)
+				local hit_dice_current = pokedex.get_hit_dice(current)
 				local levels_gained = at_level - from_level
 				local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
 				local hp_evo = at_level * 2
@@ -468,9 +472,9 @@ function M.get_defaut_max_hp(pkmn)
 		evolutions = get_evolved_at_level(pkmn)
 		local hit_dice = pokedex.get_hit_dice(M.get_current_species(pkmn))
 		local hit_dice_avg = math.ceil((hit_dice + 1) / 2)
-		return pokedex.get_base_hp(caught, M.get_variant(pkmn)) + evolution_hp + ((M.get_current_level(pkmn) - evolutions[#evolutions]) * hit_dice_avg)
+		return pokedex.get_base_hp(caught, variant) + evolution_hp + ((M.get_current_level(pkmn) - evolutions[#evolutions]) * hit_dice_avg)
 	else
-		local base = pokedex.get_base_hp(current, M.get_variant(pkmn))
+		local base = pokedex.get_base_hp(current, variant)
 		local from_level = M.get_caught_level(pkmn)
 		local hit_dice = pokedex.get_hit_dice(current)
 		local levels_gained = at_level - from_level
@@ -567,7 +571,7 @@ function M.get_moves(pkmn, options)
 end
 
 function M.get_size(pkmn)
-	return pokedex.get_pokemon_size(M.get_current_species(pkmn))
+	return pokedex.get_pokemon_size(M.get_current_species(pkmn), M.get_variant(pkmn))
 end
 
 
@@ -582,7 +586,7 @@ end
 
 
 function M.get_type(pkmn)
-	return pokedex.get_pokemon_type(M.get_current_species(pkmn))
+	return pokedex.get_pokemon_type(M.get_current_species(pkmn), M.get_variant(pkmn))
 end
 
 
@@ -630,9 +634,23 @@ function M.get_abilities(pkmn, as_raw)
 	return t
 end
 
+function M.remove_skill(pkmn, position)
+	table.remove(pkmn.skills, position)
+end
+
+function M.add_skill(pkmn, value)
+	if pkmn.skills == nil then
+		pkmn.skills = {}
+	end
+	table.insert(pkmn.skills, value)
+end
+
+function M.extra_skills(pkmn)
+	return pkmn.skills or {}
+end
 
 function M.get_skills(pkmn)
-	local skills = pokedex.get_skills(M.get_current_species(pkmn)) or {}
+	local skills = pokedex.get_skills(M.get_current_species(pkmn), M.get_variant(pkmn)) or {}
 	for feat, skill in pairs(feat_to_skill) do
 		local added = false
 		if M.have_feat(pkmn, feat) then
@@ -647,6 +665,9 @@ function M.get_skills(pkmn)
 				table.insert(skills, skill)
 			end
 		end
+	end
+	for _, s in pairs(M.extra_skills(pkmn)) do
+		table.insert(skills, s)
 	end
 	return skills
 end
@@ -698,17 +719,17 @@ end
 
 
 function M.get_vulnerabilities(pkmn)
-	return pokedex.get_vulnerabilities(M.get_current_species(pkmn))
+	return pokedex.get_vulnerabilities(M.get_current_species(pkmn), M.get_variant(pkmn))
 end
 
 
 function M.get_immunities(pkmn)
-	return pokedex.get_immunities(M.get_current_species(pkmn))
+	return pokedex.get_immunities(M.get_current_species(pkmn), M.get_variant(pkmn))
 end
 
 
 function M.get_resistances(pkmn)
-	return pokedex.get_resistances(M.get_current_species(pkmn))
+	return pokedex.get_resistances(M.get_current_species(pkmn), M.get_variant(pkmn))
 end
 
 
@@ -786,7 +807,7 @@ function M.set_current_level(pkmn, level)
 end
 
 
-function M.evolve(pkmn, to_species)
+function M.evolve(pkmn, to_species, to_variant)
 	local level = M.get_current_level(pkmn)
 	if not M.get_max_hp_forced(pkmn) then
 		local current = M.get_max_hp(pkmn)
@@ -799,13 +820,14 @@ function M.evolve(pkmn, to_species)
 	end
 	set_evolution_at_level(pkmn, level)
 	set_species(pkmn, to_species)
+	M.set_variant(pkmn, to_variant)
 end
 
 
 function M.get_saving_throw_modifier(pkmn)
 	local prof = M.get_proficency_bonus(pkmn)
 	local b = M.get_attributes(pkmn)
-	local saving_throws = pokedex.get_saving_throw_proficiencies(M.get_current_species(pkmn)) or {}
+	local saving_throws = pokedex.get_saving_throw_proficiencies(M.get_current_species(pkmn), M.get_variant(pkmn)) or {}
 	local loyalty = M.get_loyalty(pkmn)
 	for _, feat in pairs(M.get_feats(pkmn)) do
 		local is_resilient = resilient[feat]
@@ -827,6 +849,7 @@ function M.get_saving_throw_modifier(pkmn)
 		modifiers[name] = math.floor((b[name] - 10) / 2) + loyalty
 	end
 	for _, st in pairs(saving_throws) do
+		st = constants.FULL_ABILITY_TO_ABRIVATION[st] or st
 		modifiers[st] = modifiers[st] + prof
 	end
 	return modifiers
@@ -850,7 +873,7 @@ end
 
 function M.get_AC(pkmn)
 	local _, AC_UP = M.have_feat(pkmn, "AC Up")
-	return pokedex.get_AC(M.get_current_species(pkmn)) + natures.get_AC(M.get_nature(pkmn)) + AC_UP
+	return pokedex.get_AC(M.get_current_species(pkmn), M.get_variant(pkmn)) + natures.get_AC(M.get_nature(pkmn)) + AC_UP
 end
 
 
@@ -866,7 +889,7 @@ end
 
 function M.get_exp_worth(pkmn)
 	local level = M.get_current_level(pkmn)
-	local sr = pokedex.get_SR(M.get_current_species(pkmn))
+	local sr = pokedex.get_SR(M.get_current_species(pkmn), M.get_variant(pkmn))
 	return pokedex.get_exp_worth(level, sr)
 end
 
@@ -1071,6 +1094,41 @@ local function get_starting_moves(pkmn, number_of_moves)
 	return moves
 end
 
+local function upgrade_to_default_variant(pkmn)
+	-- Any pokemon whose species includes variants (Pumkpaboo and Gourgeist) needs to have its current variant set to the default
+	-- variant (Small). NOTE: If tuture variants are added, another version upgrade will be required to upgrade those.
+	if not M.get_variant(pkmn) then
+		M.set_variant(pkmn, pokedex.get_default_variant(M.get_current_species(pkmn)))
+	end	
+end
+
+local function upgrade_species_to_variant_version(pkmn)
+	-- Pokemon species that included the variant name have been switched to be just the main species name with the variant
+	-- as an object instead
+	if not pkmn.variant then
+		local s_caught,v_caught = variants.get_species_variant_for(pkmn.species.caught)
+		local s_current,v_current = variants.get_species_variant_for(pkmn.species.current)
+
+		pkmn.species.caught = s_caught
+		pkmn.species.current = s_current
+		if v_current then
+			pkmn.variant = v_current
+		elseif v_caught then
+			pkmn.variant = v_caught
+		end
+	end
+end
+
+local function reset_max_hp_for_hit_dice_change(pkmn)
+	if not M.get_max_hp_forced(pkmn) then
+		local cur_max = M.get_max_hp(pkmn)
+		local default_max = M.get_default_max_hp(pkmn)
+		M.set_max_hp(pkmn, default_max)
+		
+		local hp = M.get_current_hp(pkmn)
+		M.set_current_hp(pkmn, hp + (default_max-cur_max))
+	end
+end
 
 function M.upgrade_pokemon(pkmn)
 	local version = pkmn and pkmn.version or 1
@@ -1083,32 +1141,18 @@ function M.upgrade_pokemon(pkmn)
 
 				-- NOTE: If a new data upgrade is needed, update the above LATEST_POKEMON_VERSION value and add a new block here like so:
 				--elseif i == ??? then
+			elseif i == 6 then
+				reset_max_hp_for_hit_dice_change(pkmn)
+			elseif i == 5 then
+				upgrade_species_to_variant_version(pkmn)
+			elseif i == 4 then
+				upgrade_to_default_variant(pkmn)
 			elseif i == 3 then
 				pkmn.attributes.custom = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
 			elseif i == 2 then
-
-				-- Pokemon species that included the variant name have been switched to be just the main species name with the variant
-				-- as an object instead
-				if not pkmn.variant then
-					local s_caught,v_caught = variants.get_species_variant_for(pkmn.species.caught)
-					local s_current,v_current = variants.get_species_variant_for(pkmn.species.current)
-
-					pkmn.species.caught = s_caught
-					pkmn.species.current = s_current
-					if v_current then
-						pkmn.variant = v_current
-					elseif v_caught then
-						pkmn.variant = v_caught
-					end
-				end
-
+				upgrade_species_to_variant_version(pkmn)
 			elseif i == 1 then
-
-				-- Any pokemon whose species includes variants (Pumkpaboo and Gourgeist) needs to have its current variant set to the default
-				-- variant (Small). NOTE: If tuture variants are added, another version upgrade will be required to upgrade those.
-				if not M.get_variant(pkmn) then
-					M.set_variant(pkmn, pokedex.get_default_variant(M.get_current_species(pkmn)))
-				end
+				upgrade_to_default_variant(pkmn)
 
 				pkmn.attributes.custom = {STR=0, DEX=0, CON=0, INT=0, WIS=0, CHA=0}
 			else

@@ -94,7 +94,102 @@
   },
   "index": 27,
   "saving_throws": [
-    "CON"
+    "Constitution"
   ],
-  "size": "Tiny"
+  "size": "Tiny",
+  "variant_data": {
+    "create_mode": "choose",
+    "default": "Kanto",
+    "permanent": true,
+    "variants": {
+      "Alola": {
+        "diff": {
+          "Abilities": [
+            "Snow Cloak"
+          ],
+          "Evolve": "Alolan Sandslash",
+          "Hidden Ability": "Slush Rush",
+          "Moves": {
+            "Level": {
+              "10": [
+                "Iron Defense",
+                "Slash",
+                "Iron Head"
+              ],
+              "14": [
+                "Gyro Ball",
+                "Swords Dance"
+              ],
+              "18": [
+                "Hail",
+                "Blizzard"
+              ],
+              "2": [
+                "Powder Snow",
+                "Ice Ball",
+                "Rapid Spin",
+                "Fury Cutter"
+              ],
+              "6": [
+                "Metal Claw",
+                "Swift",
+                "Fury Swipes"
+              ]
+            },
+            "Starting Moves": [
+              "Defense Curl",
+              "Scratch",
+              "Bide"
+            ],
+            "TM": [
+              1,
+              6,
+              7,
+              10,
+              11,
+              14,
+              17,
+              20,
+              21,
+              26,
+              27,
+              28,
+              31,
+              32,
+              40,
+              42,
+              44,
+              45,
+              46,
+              48,
+              56,
+              65,
+              70,
+              74,
+              75,
+              78,
+              79,
+              80,
+              81,
+              84,
+              87,
+              88,
+              90,
+              100
+            ]
+          },
+          "Type": [
+            "Ice",
+            "Steel"
+          ]
+        },
+        "display": "Alolan Sandshrew",
+        "original_species": "Alolan Sandshrew"
+      },
+      "Kanto": {
+        "display": "Sandshrew",
+        "original_species": "Sandshrew"
+      }
+    }
+  }
 }

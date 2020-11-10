@@ -1,0 +1,35 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 4,
+      "dice_max": 6,
+      "move": true
+    },
+    "10": {
+      "amount": 6,
+      "dice_max": 8,
+      "move": true
+    },
+    "17": {
+      "amount": 6,
+      "dice_max": 12,
+      "move": true
+    },
+    "5": {
+      "amount": 5,
+      "dice_max": 6,
+      "move": true
+    }
+  },
+  "Description": "You succumb to darkness and transport yourself into a creature's shadow. Immediately teleport to a point in range and make a melee attack on a creature. On hit, you steal all positive stat changes affecting the creature (increases to AC, attack rolls, damage bonuses, etc.) and deal ghost damage.",
+  "Duration": "Instantaneous",
+  "Move Power": [
+    "DEX",
+    "WIS"
+  ],
+  "Move Time": "1 action",
+  "PP": 5,
+  "Range": "100ft",
+  "Type": "Ghost",
+  "atk": true
+}

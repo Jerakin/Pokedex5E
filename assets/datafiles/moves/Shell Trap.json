@@ -1,0 +1,35 @@
+{
+  "Damage": {
+    "1": {
+      "amount": 1,
+      "dice_max": 10,
+      "move": true
+    },
+    "10": {
+      "amount": 5,
+      "dice_max": 4,
+      "move": true
+    },
+    "17": {
+      "amount": 4,
+      "dice_max": 8,
+      "move": true
+    },
+    "5": {
+      "amount": 2,
+      "dice_max": 8,
+      "move": true
+    }
+  },
+  "Description": "You set a shell trap that explodes in a 5ft radius. As a bonus action on the initial activation of this move, you set a trap on yourself. Only one trap may be set at a time. When you are hit by an attack, you can use a reaction to detonate the trap. Creatures within 5 feet of you must succeed on a DEX save against your Move DC, rolling at disadvantage, taking fire damage on a failure, or half as much on a success.",
+  "Duration": "Instantaneous",
+  "Move Power": [
+    "STR",
+    "DEX"
+  ],
+  "Move Time": "1 bonus action",
+  "PP": 5,
+  "Range": "Self (5ft radius)",
+  "Save": "DEX",
+  "Type": "Fire"
+}

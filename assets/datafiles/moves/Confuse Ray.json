@@ -1,8 +1,13 @@
 {
-  "Description": "You target an opponent in range with a sinister ray of ghostly light. The target becomes confused.",
+  "Description": "You target a creature in range with a sinister ray of ghostly light. Make a ranged attack against a creature. On a hit, they become confused.",
   "Duration": "Instantaneous",
+  "Move Power": [
+    "INT",
+    "WIS"
+  ],
   "Move Time": "1 action",
   "PP": 5,
-  "Range": "60ft",
-  "Type": "Ghost"
+  "Range": "40ft",
+  "Type": "Ghost",
+  "atk": true
 }

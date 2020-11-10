@@ -1,35 +1,35 @@
 {
   "Damage": {
     "1": {
-      "amount": 2,
-      "dice_max": 12,
+      "amount": 5,
+      "dice_max": 6,
       "move": true
     },
     "10": {
-      "amount": 7,
-      "dice_max": 6,
+      "amount": 6,
+      "dice_max": 10,
       "move": true
     },
     "17": {
       "amount": 8,
-      "dice_max": 8,
+      "dice_max": 12,
       "move": true
     },
     "5": {
-      "amount": 3,
+      "amount": 4,
       "dice_max": 10,
       "move": true
     }
   },
-  "Description": "You send an extremely powerful wave of psychic energy at an opponent in range. Make a ranged attack roll against an opponent, dealing psychic damage on a hit. The power of the move exhausts you, and your next attack is done at disadvantage. If your next attack requires an opponent saving throw, they have advantage.",
+  "Description": "You send an extremely powerful wave of psychic energy at creatures in a 60 foot cone. Creatures in the wave must make a WIS save against your Move DC, taking psychic damage on a failure, or half as much on a success. The power of the move exhausts you, and your next attack is done at disadvantage. If your next attack requires a creature saving throw, they have advantage.",
   "Duration": "Instantaneous",
   "Move Power": [
     "WIS",
     "INT"
   ],
   "Move Time": "1 action",
-  "PP": 3,
-  "Range": "25ft",
-  "Type": "Psychic",
-  "atk": true
+  "PP": 5,
+  "Range": "Self (60ft cone)",
+  "Save": "WIS",
+  "Type": "Psychic"
 }

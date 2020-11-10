@@ -144,6 +144,7 @@ local function update_pokedex_info(self)
 	gui.set_text(gui.get_node("txt_caught_sinnoh"), dex.get_region_caught(dex_data.regions.SINNOH))
 	gui.set_text(gui.get_node("txt_caught_unova"), dex.get_region_caught(dex_data.regions.UNOVA))
 	gui.set_text(gui.get_node("txt_caught_kalos"), dex.get_region_seen(dex_data.regions.KALOS))
+	gui.set_text(gui.get_node("txt_caught_kalos"), dex.get_region_seen(dex_data.regions.ALOLA))
 end
 
 local function scroll_list_click(self, list)
@@ -176,6 +177,7 @@ function init(self)
 		[dex_data.regions.SINNOH]={name="Sinnoh", low=dex_data.max_index[dex_data.regions.HOENN]+1, high=dex_data.max_index[dex_data.regions.SINNOH], button=gui.get_node("btn_region4"), txt=gui.get_node("txt_sinnoh"), scroll=0.55948656797409},
 		[dex_data.regions.UNOVA]={name="Unova", low=dex_data.max_index[dex_data.regions.SINNOH]+1, high=dex_data.max_index[dex_data.regions.UNOVA], button=gui.get_node("btn_region5"), txt=gui.get_node("txt_unova"), scroll=0.71236383914948},
 		[dex_data.regions.KALOS]={name="Kalos", low=dex_data.max_index[dex_data.regions.UNOVA]+1, high=dex_data.max_index[dex_data.regions.KALOS], button=gui.get_node("btn_region6"), txt=gui.get_node("txt_kalos"), scroll=0.93745929002762},
+		[dex_data.regions.ALOLA]={name="Alola", low=dex_data.max_index[dex_data.regions.KALOS]+1, high=dex_data.max_index[dex_data.regions.ALOLA], button=gui.get_node("btn_region7"), txt=gui.get_node("txt_alola"), scroll=0.9},
 	}
 
 	url.POKEDEX = msg.url()
@@ -183,7 +185,7 @@ function init(self)
 	self.all_pokemons = pokedex.unique
 	self.filtered_list = pokedex.unique
 	local rows = math.ceil(#self.all_pokemons/5)
-	if #self.all_pokemons ~= dex_data.max_index[dex_data.regions.KALOS] then
+	if #self.all_pokemons ~= dex_data.max_index[dex_data.total_regions] then
 		for region, data in pairs(region_map) do
 			if region ~= dex_data.regions.KANTO then
 				data.scroll = data.low/#self.all_pokemons
@@ -245,6 +247,9 @@ function on_input(self, action_id, action)
 	end)
 	gooey.button("btn_region6", action_id, action, function()
 		scroll_to_position(self, region_map[dex_data.regions.KALOS].scroll)
+	end)
+	gooey.button("btn_region7", action_id, action, function()
+		scroll_to_position(self, region_map[dex_data.regions.ALOLA].scroll)
 	end)
 	gooey.button("btn_region_other", action_id, action, function()
 		scroll_to_position(self, region_map[dex_data.regions.OTHER].scroll)

@@ -68,7 +68,7 @@
   },
   "SR": 0.5,
   "Senses": [
-    "Tremorsense 80ft."
+    "Tremorsense 80ft"
   ],
   "Skill": [
     "Stealth",
@@ -77,7 +77,6 @@
   "Type": [
     "Ground"
   ],
-  "WSp": 20,
   "attributes": {
     "CHA": 10,
     "CON": 14,
@@ -88,7 +87,99 @@
   },
   "index": 50,
   "saving_throws": [
-    "DEX"
+    "Dexterity"
   ],
-  "size": "Tiny"
+  "size": "Tiny",
+  "variant_data": {
+    "create_mode": "choose",
+    "default": "Kanto",
+    "permanent": true,
+    "variants": {
+      "Alola": {
+        "diff": {
+          "Abilities": [
+            "Sand Veil",
+            "Tangling Hair"
+          ],
+          "Evolve": "Alolan Dugtrio",
+          "Moves": {
+            "Level": {
+              "10": [
+                "Mud Bomb",
+                "Earth Power",
+                "Dig"
+              ],
+              "14": [
+                "Iron Head",
+                "Earthquake"
+              ],
+              "18": [
+                "Fissure"
+              ],
+              "2": [
+                "Astonish",
+                "Mud-Slap"
+              ],
+              "6": [
+                "Magnitude",
+                "Bulldoze",
+                "Sucker Punch"
+              ]
+            },
+            "Starting Moves": [
+              "Metal Claw",
+              "Sand Attack",
+              "Growl"
+            ],
+            "TM": [
+              1,
+              6,
+              10,
+              11,
+              15,
+              17,
+              21,
+              26,
+              27,
+              32,
+              34,
+              36,
+              37,
+              39,
+              40,
+              42,
+              44,
+              45,
+              46,
+              48,
+              49,
+              65,
+              68,
+              71,
+              78,
+              80,
+              87,
+              88,
+              90,
+              91,
+              100
+            ]
+          },
+          "Type": [
+            "Ground",
+            "Steel"
+          ],
+          "attributes": {
+            "DEX": 10
+          }
+        },
+        "display": "Alolan Diglett",
+        "original_species": "Alolan Diglett"
+      },
+      "Kanto": {
+        "display": "Diglett",
+        "original_species": "Diglett"
+      }
+    }
+  }
 }

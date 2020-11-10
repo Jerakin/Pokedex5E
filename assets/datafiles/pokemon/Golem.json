@@ -73,7 +73,7 @@
   },
   "SR": 13.0,
   "Senses": [
-    "Tremorsense 80ft."
+    "Tremorsense 80ft"
   ],
   "Skill": [
     "Athletics",
@@ -94,8 +94,100 @@
   },
   "index": 76,
   "saving_throws": [
-    "CON",
-    "STR"
+    "Constitution",
+    "Strength"
   ],
-  "size": "Medium"
+  "size": "Medium",
+  "variant_data": {
+    "create_mode": "choose",
+    "default": "Kanto",
+    "permanent": true,
+    "variants": {
+      "Alola": {
+        "diff": {
+          "Abilities": [
+            "Magnet Pull",
+            "Sturdy"
+          ],
+          "Hidden Ability": "Galvanize",
+          "Moves": {
+            "Level": {
+              "14": [
+                "Rock Blast",
+                "Discharge"
+              ]
+            },
+            "Starting Moves": [
+              "Charge",
+              "Defense Curl",
+              "Heavy Slam",
+              "Rock Polish",
+              "Tackle",
+              "Charge",
+              "Rock Polish",
+              "Steamroller",
+              "Spark",
+              "Rock Throw",
+              "Smack Down",
+              "Thunder Punch",
+              "Self-Destruct",
+              "Stealth Rock"
+            ],
+            "TM": [
+              5,
+              6,
+              10,
+              11,
+              15,
+              17,
+              21,
+              23,
+              24,
+              25,
+              26,
+              27,
+              31,
+              32,
+              35,
+              37,
+              38,
+              39,
+              42,
+              44,
+              45,
+              48,
+              52,
+              56,
+              57,
+              59,
+              64,
+              68,
+              69,
+              71,
+              72,
+              74,
+              78,
+              80,
+              87,
+              88,
+              90,
+              93,
+              96,
+              100
+            ]
+          },
+          "Type": [
+            "Rock",
+            "Electric"
+          ]
+        },
+        "display": "Alolan Golem",
+        "original_species": "Alolan Golem"
+      },
+      "Kanto": {
+        "display": "Golem",
+        "original_species": "Golem"
+      }
+    }
+  }
 }
