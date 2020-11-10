@@ -363,7 +363,7 @@
     "Description": "This Pokémon's type and form change to match the type of Elemental Plate this Pokémon holds. The Plate cannot be effected by any item-removing ability or move."
   },
   "Mummy": {
-    "Description": "When this Pokémon is hit by a melee attack, one random ability of its attacker changes to Mummy until the remainder of the encounter."
+    "Description": "When this Pokémon is hit by a melee attack, one random ability of its attacker changes to Mummy for the remainder of the encounter."
   },
   "Natural Cure": {
     "Description": "This Pokémon is cured of negative status ailments upon returning to its Pokeball."
@@ -408,7 +408,7 @@
     "Description": "This Pokémon boosts its attack and damage rolls by 2 if an ally also has a Plus or Minus ability"
   },
   "Poison Heal": {
-    "Description": "This Pokémon is not affected by the effects of the Poisoned condition. In addition, when it is hit with a poison-type move while poisoned, it heals an amount of hp equal to its level."
+    "Description": "This Pokémon does not suffer the disadvantage effects of the poisoned status. In addition, this Pokémon recovers half of all poison damage it would take, including the damage at each of the end of its turns."
   },
   "Poison Point": {
     "Description": "When this Pokémon is hit with a melee attack, roll a 1d4. On a result of 4, the attacker takes an amount of poison damage equal to this Pokémon’s proficiency modifier."
@@ -513,7 +513,7 @@
     "Description": "If this Pokémon is affected by a negative status ailment, they can roll a d4 at the end of each of their turns. On a result of 4, they are cured."
   },
   "Sheer Force": {
-    "Description": "This Pokémon adds its proficiency bonus to damage rolls while poisoned, burned, confused, or paralyzed."
+    "Description": "This Pokémon cannot cause additional effects from damaging moves. Instead, on any such move, double the move modifier when calculating damage."
   },
   "Shell Armor": {
     "Description": "This Pokémon is immune to extra damage dealt by a Critical Hit."
@@ -558,7 +558,7 @@
     "Description": "This Pokémon is immune to sound-based moves."
   },
   "Speed Boost": {
-    "Description": "While this Pokémon is active and in an environment related to its type (DM Discretion), its trainer gets advantage on initiative rolls."
+    "Description": "This Pokémon's speed is increased by 10 feet while in an environment related to its type (DM Discretion)."
   },
   "Stakeout": {
     "Description": "When an opponent is switched out in battle, this Pokémon doubles the damage dealt if it targets the replacement on the first turn immediately following the switch."
@@ -612,10 +612,10 @@
     "Description": "This Pokémon adds doubles its STAB bonus when it has 25% or less of its maximum health."
   },
   "Sweet Veil": {
-    "Description": "Any ally within 15 feet of this Pokémon is immune to the sleep condition."
+    "Description": "Any ally within 15 feet of this Pokémon (including itself) is immune to the sleep condition."
   },
   "Swift Swim": {
-    "Description": "This Pokémon's swim speed is doubled in rainy conditions."
+    "Description": "This Pokémon's speed is doubled in rainy conditions."
   },
   "Symbiosis": {
     "Description": "This Pokémon may swap held items with an ally as a free action, as long as they are within 15 feet of each other."
