@@ -673,6 +673,12 @@ function M.get_exp_worth(level, sr)
 	return exp_grid[level][sr]
 end
 
+function M.get_egg_moves(pokemon, variant)
+	local moves = M.get_pokemon(pokemon, variant)["Moves"]
+	local pick_from = utils.shallow_copy(moves["egg"]) or {}
+	return pick_from
+end
+
 
 function M.get_moves(pokemon, variant, level)
 	level = level or 20
