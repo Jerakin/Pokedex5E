@@ -52,7 +52,7 @@ function init(self)
 	gui.play_flipbook(gui.get_node("btn_add"), "common_down")
 	gui.get_color(gui.get_node("txt_add"), gui_colors.HERO_TEXT_FADED)
 	gui.set_enabled(gui.get_node("change_pokemon/cursor"), false)
-	pokemon_edit.config[hash("change_pokemon/extra")].active = false
+	pokemon_edit.config[hash("change_pokemon/extra")].active = true
 	pokemon_edit.config[hash("change_pokemon/asi/root")].active = false
 	pokemon_edit.block = true
 	pokemon_edit.init(self)
