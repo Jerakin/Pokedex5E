@@ -46,7 +46,10 @@ end
 
 local function activate(slot)
 	profiles.set_active(slot)
-	storage.load(profiles.get_active())
+	local needs_save = storage.load(profiles.get_active())
+	if needs_save then
+		storage.save()
+	end
 	trainer.load(profiles.get_active())
 	dex.load(profiles.get_active())
 	network.load_profile(profiles.get_active())
