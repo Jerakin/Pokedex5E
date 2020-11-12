@@ -373,7 +373,10 @@ function M.init()
 	if not initialized then
 		local profile = profiles.get_active()
 		if profile then
-			M.load(profile)
+			local needs_save = M.load(profile)
+			if needs_save then
+				M.save()
+			end
 		end
 		initialized = true
 	end
