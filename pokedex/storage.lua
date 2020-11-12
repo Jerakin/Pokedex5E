@@ -187,6 +187,7 @@ function M.update_pokemon(pokemon)
 	if player_pokemon[id] then
 		player_pokemon[id] = pokemon
 	end
+	M.save()
 end
 
 
@@ -220,6 +221,7 @@ function M.release_pokemon(id)
 	counters.released = next(counters) ~= nil and counters.released + 1 or 1
 	profiles.update(profiles.get_active_slot(), counters)
 	profiles.set_party(get_party())
+	M.save()
 end
 
 
@@ -403,6 +405,7 @@ function M.swap(pc_pokemon_id, party_pokemon_id)
 	party_pokemon.slot = nil
 
 	profiles.set_party(get_party())
+	M.save()
 end
 
 
@@ -415,6 +418,7 @@ function M.move_to_pc(pokemon_id)
 	-- Update location id
 	pokemon_by_location.party[pokemon_id] = nil
 	pokemon_by_location.pc[pokemon_id] = true
+	M.save()
 end
 
 
@@ -438,6 +442,7 @@ function M.move_to_party(pokemon_id)
 		-- Update location id
 		pokemon_by_location.party[pokemon_id] = true
 		pokemon_by_location.pc[pokemon_id] = nil
+		M.save()
 	else
 		assert(false, "Your party is full")
 	end
