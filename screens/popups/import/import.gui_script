@@ -12,7 +12,8 @@ function init(self)
 	gui.set_render_order(render_order.POPUP_ON_POPUP)
 
 	self.pokemon = share.get_clipboard()
-
+	_pokemon.upgrade_pokemon(self.pokemon)
+	
 	local node_txt = gui.get_node("txt")
 	local node_txt_title = gui.get_node("txt_title")
 	local node_btn_exit = gui.get_node("btn_exit")
