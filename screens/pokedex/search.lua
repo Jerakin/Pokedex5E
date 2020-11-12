@@ -10,7 +10,7 @@ local platform = require "utils.platform"
 local M = {}
 
 local function starts_with(str, start)
-	return string.lower(str):sub(1, #start) == string.lower(start)
+	return str ~= nil and string.lower(str):sub(1, #start) == string.lower(start) or false
 end
 
 local function filter_type(self, search_string)

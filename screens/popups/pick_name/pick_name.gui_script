@@ -79,7 +79,10 @@ local function okay()
 		end
 		profiles.set_active(profile.slot)
 		network.load_profile(profiles.get_active())
-		storage.load(profiles.get_active())
+		local needs_save = storage.load(profiles.get_active())
+		if needs_save then
+			storage.save()
+		end
 		trainer.load(profiles.get_active())
 		dex.load(profiles.get_active())
 		storage.set_max_party_pokemon(3) -- default value for new profiles

@@ -67,9 +67,15 @@ end
 
 
 local function set_hm_tm(self)
-	self.all_items = filter_out_current_moves(self,  pokedex.get_move_machines(self.species, self.variant))
+	self.all_items = filter_out_current_moves(self, pokedex.get_move_machines(self.species, self.variant))
 	refresh_list(self)
 end
+
+local function set_egg(self)
+	self.all_items = filter_out_current_moves(self, pokedex.get_egg_moves(self.species, self.variant))
+	refresh_list(self)
+end
+
 
 function init(self)
 	gooey.acquire_input()
@@ -146,6 +152,7 @@ function on_input(self, action_id, action)
 	gooey.button("btn_hm_tm", action_id, action,  function() set_hm_tm(self) end, function(b) gooey_button.common_button(b, gui.get_node("txt_hm_tm")) end)
 	gooey.button("btn_max_lvl", action_id, action,  function() set_max(self) end, function(b) gooey_button.common_button(b, gui.get_node("txt_max_lvl")) end)
 	gooey.button("btn_all", action_id, action,  function() set_all_moves(self) end, function(b) gooey_button.common_button(b, gui.get_node("txt_all")) end)
+	gooey.button("btn_egg", action_id, action,  function() set_egg(self) end, function(b) gooey_button.common_button(b, gui.get_node("txt_egg")) end)
 	gooey.button("scrollist/btn_quit", action_id, action, function()
 		monarch.show(monarch.top(-1), {clear=true})
 	end, gooey_button.close_button)

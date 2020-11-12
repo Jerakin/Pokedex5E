@@ -49,16 +49,6 @@ M.ANY = pokedex.ANY
 
 M.DEFAULT_MAX_MOVES = 4
 
-local loyalty_hp = {
-	[-3] = {HP=0},
-	[-2] = {HP=0},
-	[-1] = {HP=0},
-	[0] = {HP=0},
-	[1] = {HP=0},
-	[2] = {HP=5},
-	[3] = {HP=10}
-}
-
 
 local function add_tables(T1, T2)
 	local copy = utils.shallow_copy(T1)
@@ -483,6 +473,14 @@ function M.get_default_max_hp(pkmn)
 	end
 end
 
+local function get_loyalty_hp(loyalty, level)
+	if loyalty == 2 then
+		return math.ceil(level / 2)
+	elseif loyalty == 3 then
+		return level
+	end
+	return 0
+end
 
 function M.get_total_max_hp(pkmn)
 	if M.have_ability(pkmn, "Paper Thin") then
@@ -493,11 +491,11 @@ function M.get_total_max_hp(pkmn)
 	if M.have_feat(pkmn, "Tough") then
 		tough_feat = M.get_current_level(pkmn) * 2
 	end
-	
+	local current_level = M.get_current_level(pkmn)
 	local con = M.get_attributes(pkmn).CON
 	local con_mod = math.floor((con - 10) / 2)
-
-	return M.get_max_hp(pkmn) + tough_feat + loyalty_hp[M.get_loyalty(pkmn)].HP + M.get_current_level(pkmn) * con_mod
+	local loyalty_hp = get_loyalty_hp(M.get_loyalty(pkmn), current_level)
+	return M.get_max_hp(pkmn) + tough_feat + loyalty_hp + current_level * con_mod
 end
 
 
@@ -825,6 +823,9 @@ end
 
 
 function M.get_saving_throw_modifier(pkmn)
+	local current_loyalty = M.get_loyalty(pkmn)
+	local st_from_loyalty = current_loyalty == 0 and 0 or math.min(current_loyalty, math.max(current_loyalty, 1), -1)
+
 	local prof = M.get_proficency_bonus(pkmn)
 	local b = M.get_attributes(pkmn)
 	local saving_throws = pokedex.get_saving_throw_proficiencies(M.get_current_species(pkmn), M.get_variant(pkmn)) or {}
@@ -846,7 +847,7 @@ function M.get_saving_throw_modifier(pkmn)
 	
 	local modifiers = {}
 	for name, mod in pairs(b) do
-		modifiers[name] = math.floor((b[name] - 10) / 2) + loyalty
+		modifiers[name] = math.floor((b[name] - 10) / 2) + st_from_loyalty
 	end
 	for _, st in pairs(saving_throws) do
 		st = constants.FULL_ABILITY_TO_ABRIVATION[st] or st

@@ -113,15 +113,6 @@ local function get_pokemon_raw(pokemon)
 			pokedex[pokemon] = pokemon_json
 			return utils.deep_copy(pokedex[pokemon])
 		else
-			local e = string.format("Can not find Pokemon: '%s'\n%s", tostring(pokemon), debug.traceback())
-			if not warning_list[tostring(pokemon)] then
-				gameanalytics.addErrorEvent {
-					severity = "Critical",
-					message = e
-				}
-				log.error(e)
-			end
-			warning_list[tostring(pokemon)] = true
 			return pokedex["MissingNo"]
 		end
 	end
@@ -680,6 +671,12 @@ end
 
 function M.get_exp_worth(level, sr)
 	return exp_grid[level][sr]
+end
+
+function M.get_egg_moves(pokemon, variant)
+	local moves = M.get_pokemon(pokemon, variant)["Moves"]
+	local pick_from = utils.shallow_copy(moves["egg"]) or {}
+	return pick_from
 end
 
 

@@ -123,7 +123,7 @@ nodes {
     z: 0.0
     w: 0.0
   }
-  clipping_mode: CLIPPING_MODE_NONE
+  clipping_mode: CLIPPING_MODE_STENCIL
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
@@ -1005,7 +1005,7 @@ nodes {
     z: 0.0
     w: 0.0
   }
-  clipping_mode: CLIPPING_MODE_NONE
+  clipping_mode: CLIPPING_MODE_STENCIL
   clipping_visible: false
   clipping_inverted: false
   alpha: 1.0
@@ -1128,7 +1128,7 @@ nodes {
   }
   size {
     x: 700.0
-    y: 295.0
+    y: 340.0
     z: 0.0
     w: 1.0
   }
@@ -1259,7 +1259,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "A burned creature\'s melee attacks deal half their normal damage, and the range of any non-melee move is cut in half (rounded down to the nearest 5). In addition, the creature takes an amount of damage equal to its proficiency bonus at the beginning of each of its turns until it faints or is cured of its burns. (Fire types are immune to this status condition)"
+  text: "A burned Pok\303\251mon rolls all damage rolls twice and takes the lower result (this bypasses and does not cancel out with things like Savage Attacker, Iron Fist, Weather, etc). In addition, the creature takes an amount of damage equal to its proficiency bonus at the beginning of each of its turns until it faints or is cured of its burns. (Fire types are immune to this status condition)"
   font: "script"
   id: "status_burned/description"
   xanchor: XANCHOR_NONE
@@ -1293,7 +1293,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -312.0
+    y: -344.0
     z: 0.0
     w: 1.0
   }
@@ -1351,7 +1351,7 @@ nodes {
   }
   size {
     x: 700.0
-    y: 350.0
+    y: 265.0
     z: 0.0
     w: 1.0
   }
@@ -1484,7 +1484,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "A poisoned creature has disadvantage on all ability checks and attack rolls, and takes an amount of typeless damage equal to its proficiency bonus at the end of each of its turns until it faints or is cured of its poison. If a poisoned creature uses a move that requires a saving throw, the target(s) have advantage on the roll. (Poison and Steel types are immune to this status condition)"
+  text: "A poisoned creature has disadvantage on all ability checks and attack rolls, and takes an amount of damage equal to its proficiency bonus at the end of each of its turns until it faints or is cured of its poison. (Poison and Steel types are immune to this status condition)"
   font: "script"
   id: "status_poisoned/description"
   xanchor: XANCHOR_NONE
@@ -1518,7 +1518,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -672.0
+    y: -614.0
     z: 0.0
     w: 1.0
   }
@@ -1576,7 +1576,7 @@ nodes {
   }
   size {
     x: 700.0
-    y: 270.0
+    y: 300.0
     z: 0.0
     w: 1.0
   }
@@ -1709,7 +1709,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "A frozen creature is incapacitated and restrained. In combat, it can attempt to break free of the ice with a DC 15 STR save at the end of each of its turns. Outside of combat, the frozen status lasts for one hour. (Ice types are immune to this status condition)"
+  text: "A frozen creature is incapacitated and restrained. In combat, it can attempt to break free of the ice with a STR save at the end of each of its turns against a DC of 10 + the proficiency bonus of the creature that caused this status. Outside of combat, the frozen status lasts for one hour. (Ice types are immune to this status condition)"
   font: "script"
   id: "status_frozen/description"
   xanchor: XANCHOR_NONE
@@ -1743,7 +1743,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -954.0
+    y: -922.0
     z: 0.0
     w: 1.0
   }
@@ -1801,7 +1801,7 @@ nodes {
   }
   size {
     x: 700.0
-    y: 440.0
+    y: 410.0
     z: 0.0
     w: 1.0
   }
@@ -1934,7 +1934,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "A paralyzed creature has disadvantage on any STR or DEX saving throws, moves at half speed, and attacks against it have advantage. After selecting a Move to activate and spend PP on, roll a d4. On a result of 1, it is incapacitated and restrained. The trainer of a fully paralyzed Pok\303\251mon still may take an action. If a creature is Paralyzed and confused/asleep, the paralysis roll comes first. If it fails, the creature\'s action is forfeit and does not roll to wake or be confused. (Electric types are immune to this status condition)"
+  text: "A paralyzed creature has disadvantage on any STR or DEX saving throws and moves at half speed. When a paralyzed Pok\303\251mon begins its turn, it must first roll a d4. On a result of 1, the Pok\303\251mon is incapacitated and restrained until the beginning of their next turn and must forfeit their remaining action and bonus action to their trainer. If a creature is paralyzed and confused/asleep, the paralysis roll comes first. If it fails, it does not roll to wake or be confused. (Electric types are immune to this status condition)"
   font: "script"
   id: "status_paralyzed/description"
   xanchor: XANCHOR_NONE
@@ -1968,7 +1968,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -1406.0
+    y: -1338.0
     z: 0.0
     w: 1.0
   }
@@ -2026,7 +2026,7 @@ nodes {
   }
   size {
     x: 700.0
-    y: 340.0
+    y: 365.0
     z: 0.0
     w: 1.0
   }
@@ -2159,8 +2159,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "A creature that is asleep is incapacitated and restrained for a maximum of three rounds. The creature rolls all saving throws with disadvantage during this time. If a Pok\303\251mon is returned to its ball during this time, its round count is paused until released once again. A sleeping creature can roll a d20 when hit with a move AND at the end of each of its turns, waking up on a result of 11 or higher.\n"
-  ""
+  text: "A creature that falls asleep is affected immediately and for the following three rounds of initiative. During this time, the creature is incapacitated and restrained, and rolls all saving throws with disadvantage. If a Pok\303\251mon is returned to its ball during this time, its round count is paused until released once again. A sleeping creature can roll a d20 when subject to a move AND at the end of each of its turns, ending the status immediately on a result of 11 or higher."
   font: "script"
   id: "status_asleep/description"
   xanchor: XANCHOR_NONE
@@ -2194,7 +2193,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -1760.0
+    y: -1712.0
     z: 0.0
     w: 1.0
   }
@@ -2252,7 +2251,7 @@ nodes {
   }
   size {
     x: 700.0
-    y: 410.0
+    y: 440.0
     z: 0.0
     w: 1.0
   }
@@ -2385,7 +2384,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "A confused creature is affected for 1d4 rounds, as determined by a roll from the attacker at time of confusion. During this time, it loses its ability to take reactions and moves at half speed. After selecting a Move to activate and spend PP on, it must roll a d20. On a result of 9 or lower, the creature hurts itself for an amount of damage equal to its proficiency bonus and may not make an attack, but the trainer of a confused Pok\303\251mon still may take an action. On a roll of 20, the creature is no longer confused."
+  text: "A confused creature is affected immediately for the following 3 rounds of initiative. During this time, it loses its ability to take reactions and moves at half speed. When a Confused Pok\303\251mon attempts to use an action or bonus action on their turn, they must first roll a d20. On a result of 10 or lower, the Pok\303\251mon hurts itself for an amount of typeless damage equal to their proficiency modifier and forfeits their remaining action and bonus action to the trainer for the rest of the turn. On a roll of 16 or higher, the status ends immediately."
   font: "script"
   id: "status_confused/description"
   xanchor: XANCHOR_NONE
@@ -2419,7 +2418,232 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -2210.0
+    y: -2163.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_TEMPLATE
+  id: "status_confused1"
+  parent: "scrolling_root"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  template: "/templates/status.gui"
+  template_node_child: false
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 700.0
+    y: 240.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "gui/details_backing"
+  id: "status_confused1/box"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_N
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "status_confused1"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 10.0
+    y: 10.0
+    z: 10.0
+    w: 10.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  overridden_fields: 4
+  template_node_child: true
+  size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: -331.0
+    y: -40.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 2.0
+    y: 2.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 40.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.2
+    y: 0.2
+    z: 0.2
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "Flinched"
+  font: "script"
+  id: "status_confused1/title"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_W
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "status_confused1/box"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  overridden_fields: 5
+  overridden_fields: 8
+  template_node_child: true
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: -340.0
+    y: -79.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.75
+    y: 0.75
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 906.0
+    y: 200.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "A flinched Pok\303\251mon has disadvantage on any attack roll, skill check, or saving throw it makes before the end of its next turn. If it activates a move that requires a saving throw during that time, the target has advantage on the roll."
+  font: "script"
+  id: "status_confused1/description"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_NW
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: true
+  parent: "status_confused1/box"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  overridden_fields: 8
+  template_node_child: true
+  text_leading: 1.1
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 0.0
+    y: -2436.0
     z: 0.0
     w: 1.0
   }
