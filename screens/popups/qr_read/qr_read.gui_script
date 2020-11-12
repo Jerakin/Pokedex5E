@@ -4,6 +4,7 @@ local url = require "utils.url"
 local _file = require "utils.file"
 local messages = require "utils.messages"
 local screens = require "utils.screens"
+local _pokemon = require "pokedex.pokemon"
 
 local function stop_capture(self)
 	if self.cameraframe == nil then
@@ -84,6 +85,7 @@ function update(self, dt)
 						return 
 					end
 					share.encode_status(pokemon)
+					_pokemon.upgrade_pokemon(pokemon)
 					camera.stop_capture()
 					monarch.show(screens.IMPORT_POKEMON, nil, {pokemon=pokemon})
 				end
