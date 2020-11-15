@@ -623,7 +623,15 @@ local function add_ability(self)
 			table.insert(filtered, new_ability)
 		end
 	end
-	monarch.show(screens.SCROLLIST, {}, {items=filtered, message_id=messages.ABILITIES, sender=msg.url(), title="Pick Ability"})
+	
+	
+	monarch.show(screens.ABILITIES_SCROLLIST, {}, {
+		current_abilities=_pokemon.get_abilities(self.pokemon, false),
+		pokemon=self.pokemon,
+		items=filtered,
+		message_id=messages.ABILITIES,
+		sender=msg.url()
+	})
 end
 
 local function add_skill(self)
