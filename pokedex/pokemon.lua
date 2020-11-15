@@ -6,6 +6,7 @@ local movedex = require "pokedex.moves"
 local trainer = require "pokedex.trainer"
 local variants = require "pokedex.variants"
 local constants = require "utils.constants"
+local log = require "utils.log"
 
 local M = {}
 
@@ -440,23 +441,31 @@ function M.get_default_max_hp(pkmn)
 	if current ~= caught then
 		local evolutions = utils.shallow_copy(get_evolved_at_level(pkmn))
 		local evolution_hp = 0
-
 		while next(evolutions) ~= nil do
 			local from_pkmn = pokedex.get_evolved_from(current)
-			if from_pkmn then
-				at_level = table.remove(evolutions)
-				local _, from_level = next(evolutions)
-				from_level = from_level or M.get_caught_level(pkmn)
-				local hit_dice = pokedex.get_hit_dice(from_pkmn)
-				local hit_dice_current = pokedex.get_hit_dice(current)
-				local levels_gained = at_level - from_level
-				local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
-				local hp_evo = at_level * 2
-				-- Offset of current hit dice and the new one
-				local hp_offset = math.ceil((hit_dice_current + 1) / 2) - math.ceil((hit_dice + 1) / 2)
-				evolution_hp = evolution_hp + hp_hit_dice + hp_evo + hp_offset
-				current = from_pkmn
+			if from_pkmn == nil then
+				from_pkmn = "MissingNo"
+				local e = "Could not find which Pokemon " .. current .. " evolved from."
+				log.error(e)
+
+				gameanalytics.addErrorEvent {
+					severity = "Error",
+					message = e
+				}
 			end
+			
+			at_level = table.remove(evolutions)
+			local _, from_level = next(evolutions)
+			from_level = from_level or M.get_caught_level(pkmn)
+			local hit_dice = pokedex.get_hit_dice(from_pkmn)
+			local hit_dice_current = pokedex.get_hit_dice(current)
+			local levels_gained = at_level - from_level
+			local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
+			local hp_evo = at_level * 2
+			-- Offset of current hit dice and the new one
+			local hp_offset = math.ceil((hit_dice_current + 1) / 2) - math.ceil((hit_dice + 1) / 2)
+			evolution_hp = evolution_hp + hp_hit_dice + hp_evo + hp_offset
+			current = from_pkmn
 		end
 
 		evolutions = get_evolved_at_level(pkmn)
