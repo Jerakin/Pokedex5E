@@ -824,7 +824,7 @@ end
 
 function M.get_saving_throw_modifier(pkmn)
 	local current_loyalty = M.get_loyalty(pkmn)
-	local st_from_loyalty = current_loyalty == 0 and 0 or math.min(current_loyalty, math.max(current_loyalty, 1), -1)
+	local st_from_loyalty = math.max(-1, math.min(1, current_loyalty))
 
 	local prof = M.get_proficency_bonus(pkmn)
 	local b = M.get_attributes(pkmn)
