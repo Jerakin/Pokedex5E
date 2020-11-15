@@ -57,13 +57,14 @@ local function error_handler(source, message, traceback)
 		severity_rating = "Debug"
 	end
 	local error_message = VERSION .. " - " .. source .. " - " .. message .. " - " .. traceback
+	
 	if gameanalytics then
 		gameanalytics.addErrorEvent {
 			severity = severity_rating,
 			message = error_message
-		}	
+		}
 	end
-
+	log.critical(error_message)
 end
 
 
@@ -91,6 +92,8 @@ function init(self)
 		send_crash_on_start()
 		sys.set_error_handler(error_handler)
 	end
+
+	log.outfile = sys.get_save_file("pokedex5E", "log")
 
 	defsave.appname = "pokedex5E"
 	defsave.verbose = false
