@@ -80,7 +80,7 @@ local function add_hp(pkmn, hp)
 
 	if hp > 0 then
 		new_hp = math.min(current + hp, max)
-		new_temp = temp + new_hp + hp - max
+		new_temp = temp + current + hp - max
 		if hp > 1 then
 			new_temp = temp
 		end	

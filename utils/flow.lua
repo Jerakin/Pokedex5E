@@ -28,6 +28,8 @@
 -- 	end
 --
 
+local log = require "utils.log"
+
 local M = {}
 
 local instances = {}
@@ -75,7 +77,13 @@ local function resume(instance)
 		if instance.on_error then
 			instance.on_error(error)
 		else
-			print("Warning: Flow resulted in error", error)
+			local e = "Warning: Flow resulted in error " .. error
+			log.error(e)
+
+			gameanalytics.addErrorEvent {
+				severity = "Error",
+				message = error
+			}
 		end
 	end
 end

@@ -1005,7 +1005,7 @@ nodes {
     z: 0.0
     w: 0.0
   }
-  clipping_mode: CLIPPING_MODE_STENCIL
+  clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: false
   clipping_inverted: false
   alpha: 1.0
@@ -2251,7 +2251,7 @@ nodes {
   }
   size {
     x: 700.0
-    y: 440.0
+    y: 410.0
     z: 0.0
     w: 1.0
   }
@@ -2384,7 +2384,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "A confused creature is affected immediately for the following 3 rounds of initiative. During this time, it loses its ability to take reactions and moves at half speed. When a Confused Pok\303\251mon attempts to use an action or bonus action on their turn, they must first roll a d20. On a result of 10 or lower, the Pok\303\251mon hurts itself for an amount of typeless damage equal to their proficiency modifier and forfeits their remaining action and bonus action to the trainer for the rest of the turn. On a roll of 16 or higher, the status ends immediately."
+  text: "A confused creature is affected immediately for the following 3 rounds of initiative. During this time, it loses its ability to take reactions and its speed is halved. When a Confused Pok\303\251mon uses an action or bonus action on its turn, it must first roll a d20. On a result of 10 or lower, the Pok\303\251mon drops concentration, hurts itself for an amount of typeless damage equal to its proficiency modifier, and can no longer act for the rest of the turn. On a roll of 16 or higher, the status ends immediately."
   font: "script"
   id: "status_confused/description"
   xanchor: XANCHOR_NONE
@@ -2418,7 +2418,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -2163.0
+    y: -2131.0
     z: 0.0
     w: 1.0
   }
@@ -2643,7 +2643,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -2436.0
+    y: -2381.0
     z: 0.0
     w: 1.0
   }
