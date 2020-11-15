@@ -188,7 +188,7 @@ function init(self)
 	local rows = math.ceil(#self.all_pokemons/5)
 	if #self.all_pokemons ~= dex_data.max_index[dex_data.total_regions] then
 		for region, data in pairs(region_map) do
-			if region ~= dex_data.regions.KANTO then
+			if region ~= dex_data.regions.KANTO and region ~= dex_data.regions.OTHER then
 				data.scroll = data.low/#self.all_pokemons
 			end
 		end
