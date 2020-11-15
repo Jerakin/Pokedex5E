@@ -96,6 +96,11 @@ function init(self)
 	gui.set_text(gui.get_node("scrollist/topbar/title"), "Choose New Move")
 	gui.set_enabled(gui.get_node("scrollist/cursor"), false)
 
+	if next(pokedex.get_egg_moves(self.species, _pokemon.get_variant(self.pokemon))) == nil then
+		gui.set_enabled(gui.get_node("btn_egg"), false)
+		gui.set_position(gui.get_node("move_section_2"), vmath.vector3(0, -160, 0))
+	end
+	
 	self.scrolling_list = gooey_scrolling_list.create_vertical_dynamic("scrollist", "scrollist/scroll_area", "scrollist/btn_item", "scrollist/scrollbar/handle", "scrollist/scrollbar/bar", "scrollist/scrollbar/visual", update_listitem, function(list) on_item_selected(self, list) end)
 	self.scrolling_list.refresh(self.list_items, true)
 end

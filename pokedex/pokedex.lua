@@ -674,8 +674,8 @@ function M.get_exp_worth(level, sr)
 end
 
 function M.get_egg_moves(pokemon, variant)
-	local moves = M.get_pokemon(pokemon, variant)["Moves"]
-	local pick_from = utils.shallow_copy(moves["egg"]) or {}
+	local moves = M.get_pokemon(pokemon, variant)["Moves"]["egg"]
+	local pick_from = moves and utils.shallow_copy(moves) or {}
 	return pick_from
 end
 
