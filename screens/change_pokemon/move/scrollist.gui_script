@@ -36,7 +36,7 @@ local function filter_out_current_moves(self, list_of_moves)
 	list_of_moves = utils.shallow_copy(list_of_moves)
 	for move, _ in pairs(self.current_moves) do
 		for i, selected_move in pairs(list_of_moves) do
-			if move == selected_move then
+			if move == selected_move or selected_move == "Error" then
 				table.remove(list_of_moves, i)
 			end
 		end
