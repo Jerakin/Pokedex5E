@@ -41,7 +41,7 @@ local feat_to_attribute = {
 	Acrobat="DEX"
 }
 
-local LATEST_POKEMON_VERSION = 7
+local LATEST_POKEMON_VERSION = 8
 
 M.GENDERLESS = pokedex.GENDERLESS
 M.MALE = pokedex.MALE
@@ -456,7 +456,7 @@ function M.get_default_max_hp(pkmn)
 			
 			at_level = table.remove(evolutions)
 			local _, from_level = next(evolutions)
-			from_level = from_level or M.get_caught_level(pkmn)
+			from_level = from_level or pokedex.get_minimum_wild_level(from_pkmn, variant)
 			local hit_dice = pokedex.get_hit_dice(from_pkmn)
 			local hit_dice_current = pokedex.get_hit_dice(current)
 			local levels_gained = at_level - from_level
@@ -1151,6 +1151,8 @@ function M.upgrade_pokemon(pkmn)
 
 				-- NOTE: If a new data upgrade is needed, update the above LATEST_POKEMON_VERSION value and add a new block here like so:
 				--elseif i == ??? then
+			elseif i == 7 then
+				reset_max_hp_for_hit_dice_change(pkmn)
 			elseif i == 6 then
 				reset_max_hp_for_hit_dice_change(pkmn)
 			elseif i == 5 then
