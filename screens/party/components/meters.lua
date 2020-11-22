@@ -75,20 +75,40 @@ local function add_hp(pkmn, hp)
 	local current = _pokemon.get_current_hp(pkmn)
 	local max = _pokemon.get_total_max_hp(pkmn)
 	local temp = _pokemon.get_temp_hp(pkmn)
-	local new_temp
-	local new_hp
 
+	local new_hp = current
+	local new_temp = temp
+	
 	if hp > 0 then
-		new_hp = math.min(current + hp, max)
-		new_temp = temp + current + hp - max
-		if hp > 1 then
-			new_temp = temp
-		end	
+		if current == max then
+			-- Just add to temp
+			new_temp = new_temp + hp
+		else
+			-- First add to current
+			new_hp = new_hp + hp
+			
+			-- If current went above max, apply to temp instead
+			if new_hp > max then
+				local diff = new_hp - max
+				new_hp = new_hp - diff
+				-- do NOT add to temp, just set to the new value. This is because if you had 100 max, and you set to 105, you want to max out your HP and then set it to 5 TEMP
+				-- this is a bit weird because if you were already at max, it behaves differently... and the only reason that happens is because we're reusing the add_hp
+				-- function for both adding and also setting hp :/
+				new_temp = diff
+			end
+		end
 	else
-		new_temp = temp + hp
-		new_hp = current + new_temp
+		-- First remove from temp
+		new_temp = new_temp + hp
+		
+		-- If temp ran out, apply to current
+		if new_temp < 0 then
+			new_hp = new_hp + new_temp
+			new_temp = 0
+		end
 	end
-	_pokemon.set_temp_hp(pkmn, math.max(new_temp, 0))
+	
+	_pokemon.set_temp_hp(pkmn, new_temp)
 	_pokemon.set_current_hp(pkmn, new_hp)
 
 	storage.save()
