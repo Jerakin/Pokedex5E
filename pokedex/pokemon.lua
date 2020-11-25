@@ -474,7 +474,7 @@ function M.get_default_max_hp(pkmn)
 		return pokedex.get_base_hp(caught, variant) + evolution_hp + ((M.get_current_level(pkmn) - evolutions[#evolutions]) * hit_dice_avg)
 	else
 		local base = pokedex.get_base_hp(current, variant)
-		local from_level = M.get_caught_level(pkmn)
+		local from_level = pokedex.get_minimum_wild_level(current, variant)
 		local hit_dice = pokedex.get_hit_dice(current)
 		local levels_gained = at_level - from_level
 		local hp_hit_dice = math.ceil((hit_dice + 1) / 2) * levels_gained
