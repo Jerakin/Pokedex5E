@@ -23,6 +23,7 @@ local POKEMON_SPECIES_TEXT_SCALE = vmath.vector3(1.5)
 local item_button
 local rest_button
 local active_pokemon
+local skills_button
 
 
 local function setup_main_information(nodes, pokemon)
@@ -94,13 +95,14 @@ local function setup_info_tab(nodes, pokemon)
 
 	local skill_string = ""
 	local skills = _pokemon.get_skills(pokemon)
+	local skills_attributes = _pokemon.get_skills_modifier(pokemon)
 	if #skills > 8 then
 		for _, skill in pairs(skills) do
-			skill_string = skill_string .. skill .. ", "
+			skill_string = skill_string .. skill .. " (" .. skills_attributes[skill] .. ") , "
 		end
 	else
 		for _, skill in pairs(skills) do
-			skill_string = skill_string .. "• " .. skill .. "\n"
+			skill_string = skill_string .. "• " .. skill .. " (" .. skills_attributes[skill] .. ")\n"
 		end
 	end
 	gui.set_text(nodes["pokemon/traits/txt_skills"], skill_string)
@@ -166,6 +168,18 @@ local function setup_info_tab(nodes, pokemon)
 	else
 		gui.set_enabled(nodes["pokemon/gender_icon"], false)
 	end
+
+	skills_button = party_utils.set_id(nodes["pokemon/traits/skills_details"])
+end
+
+local function show_skill_list()
+	local skill_list = utils.deep_copy(pokedex.skills)
+	local tbl = {}
+	local add
+	for skill, value in pairs(_pokemon.get_skills_modifier(active_pokemon)) do 
+		tbl[#tbl+1] = skill .. " (" .. value .. ")"
+	end
+	monarch.show(screens.SCROLLIST, {}, {items=tbl, message_id=messages.SKILLS, sender=msg.url(), title="Skills"})
 end
 
 function M.on_input(action_id, action)
@@ -183,12 +197,20 @@ function M.on_input(action_id, action)
 	gooey.button(rest_button, action_id, action, function() 
 		monarch.show(screens.ARE_YOU_SURE, nil, {title="Pokémon Center", text="We heal your Pokémon back to perfect health!\nShall we heal your Pokémon?", sender=msg.url(), id=messages.FULL_REST})
 	end)
+	
+	if skills_button then
+		gooey.button(skills_button, action_id, action, function() 
+			show_skill_list()
+		end)
+	end
 end
 
 function M.create(nodes, pokemon, index)
 	item_button = nil
+	skills_button = nil
 	active = nodes
 	active_pokemon = pokemon
+	pprint(active)
 	rest_button = gui.get_id(active["pokemon/btn_rest"])
 	setup_main_information(nodes, pokemon)
 	setup_info_tab(nodes, pokemon)
