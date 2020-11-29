@@ -562,11 +562,15 @@ function M.get_evolved_from(pokemon)
 	return evolve_from_data[pokemon]
 end
 
+local function gender_can_evolve_to(gender, species)
+	return genders[species] == nil or (genders[species] and genders[species] == (gender or M.GENDERLESS))
+end
+
 function M.get_evolution_possible(pokemon, gender, moves)
 	local d = M.get_evolution_data(pokemon)
 	local gender_allow = false
 	local move_allow = true
-	if d and d.move then
+	if d and d.move and d.move ~= "" then
 		move_allow = false
 		for move, _ in pairs(moves) do
 			if d.move == move then
@@ -577,7 +581,7 @@ function M.get_evolution_possible(pokemon, gender, moves)
 	if M.enforce_genders() then
 		if d and d.into then
 			for _, species in pairs(d.into) do
-			if genders[species] == nil or (genders[species] and genders[species] == (gender or M.GENDERLESS)) then
+				if gender_can_evolve_to(gender, species) then
 					gender_allow = true
 				end
 			end
@@ -608,7 +612,7 @@ function M.get_evolutions(pokemon, gender)
 	for _, species in pairs(d.into) do
 		if not M.enforce_genders() then
 			table.insert(evolutions, species)
-		elseif genders[species] == nil or (genders[species] and genders[species] == gender) then
+		elseif gender_can_evolve_to(gender, species) then
 			table.insert(evolutions, species)
 		end
 	end
