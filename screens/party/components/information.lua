@@ -210,7 +210,7 @@ function M.create(nodes, pokemon, index)
 	skills_button = nil
 	active = nodes
 	active_pokemon = pokemon
-	pprint(active)
+
 	rest_button = gui.get_id(active["pokemon/btn_rest"])
 	setup_main_information(nodes, pokemon)
 	setup_info_tab(nodes, pokemon)
