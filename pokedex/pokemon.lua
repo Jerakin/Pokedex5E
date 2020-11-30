@@ -641,6 +641,22 @@ function M.get_abilities(pkmn, as_raw)
 	return t
 end
 
+function M.get_skills_modifier(pkmn)
+	local prof = M.get_proficency_bonus(pkmn)
+	local proficencies = M.get_skills(pkmn)
+	local attributes = M.get_attributes(pkmn)
+	local tbl = {}
+	for _, skill in pairs(proficencies) do
+		tbl[skill] = math.floor((attributes[pokedex.skills[skill]] - 10) / 2) + prof
+	end
+	for skill, mod in pairs(pokedex.skills) do
+		if tbl[skill] == nil then
+			tbl[skill] = math.floor((attributes[pokedex.skills[skill]] - 10) / 2)
+		end
+	end
+	return tbl
+end
+
 function M.remove_skill(pkmn, position)
 	table.remove(pkmn.skills, position)
 end

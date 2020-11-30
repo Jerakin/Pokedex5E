@@ -638,7 +638,7 @@ local function add_skill(self)
 	local skill_list = utils.deep_copy(pokedex.skills)
 	local filtered = {}
 	local add
-	for _, a_skill in pairs(skill_list) do 
+	for a_skill, _ in pairs(skill_list) do 
 		add = true
 		for _, skill in pairs(_pokemon.get_skills(self.pokemon)) do
 			if a_skill == skill then
