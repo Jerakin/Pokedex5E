@@ -51,7 +51,7 @@
     "Description": "This Pokémon's AC cannot be reduced by an opponent's moves."
   },
   "Blaze": {
-    "Description": "When this Pokémon falls below 25% of its maximum HP, double the STAB damage for its fire-type moves."
+    "Description": "This Pokémon doubles its STAB bonus when it has 25% or less of its maximum health."
   },
   "Blizzard": {
     "Description": "This Pokémon knows Blizzard as a fifth move. The move is forgotten if it takes any other form."
@@ -90,7 +90,7 @@
     "Description": "This Pokémon gets an additional +1 to attack rolls."
   },
   "Contrary": {
-    "Description": "Moves that affect this Pokémon's stats have the opposite effect. (For example, Defense Curl would lower AC by 4. Growl would increase its attack by +1)"
+    "Description": "Moves that directly increase or decrease this Pokémon's stats have the opposite effect. This ability has no effect on moves that would \"swap\" or \"average\" stats with a target like Heart Swap, Guard Split, etc."
   },
   "Corrosion": {
     "Description": "This Pokémon's moves ignore poison immunity, and can inflict the poisoned status on steel and poison-type Pokémon."
@@ -198,7 +198,7 @@
     "Description": "This Pokémon must eat its held berry when it falls below ½ of its maximum HP."
   },
   "Gooey": {
-    "Description": "When this Pokémon is hit with a melee attack, roll 1d4. On a result of 4, the attacker's speed is reduced to 0 until the end of its next turn."
+    "Description": "When this Pokémon is hit with a melee attack, roll 1d4. On a result of 3 or 4, the attacker's speed is reduced to 0 until the end of its next turn."
   },
   "Grass Pelt": {
     "Description": "This Pokémon gains +1 to AC while in grassy terrain."
@@ -225,10 +225,10 @@
     "Description": "This Pokémon is especially heavy. Once per long rest, after being targeted by an attack, it may increase its AC by 2 if it would cause an attack to miss."
   },
   "Honey Gather": {
-    "Description": "At the end of each battle, this Pokémon may roll a d20. On a result of 20, its trainer adds a Honey to its inventory."
+    "Description": "At the end of each battle, this Pokémon may roll a d20 + its proficiency bonus. On a result of 20 or higher, its trainer adds a Honey to their inventory."
   },
   "Huge Power": {
-    "Description": "Once per short rest, this Pokémon may double the damage it does on a single move that requires an attack roll. The player must announce that they are using this ability before the attack roll."
+    "Description": "Once per short rest, this Pokémon may double the damage dice for a single damage roll. The player must announce that they are using this ability before the attack roll."
   },
   "Hustle": {
     "Description": "When you score a critical hit, you may immediately gain an additional action on your turn. If this action is used to make an attack, you have disadvantage on the roll. You may only ever have one additional action per round."
@@ -258,10 +258,10 @@
     "Description": "This Pokémon can use Transform as a bonus action."
   },
   "Infiltrator": {
-    "Description": "This Pokémon bypasses Light Screen, Reflect, Mist, Safeguard, and Aurora Veil."
+    "Description": "This Pokémon bypasses Light Screen, Reflect, Substitute, Mist, Safeguard, and Aurora Veil."
   },
   "Innards Out": {
-    "Description": "When this Pokémon is knocked out by a damaging move, the attacker takes an amount of typeless damage equal to the amount of HP lost."
+    "Description": "When this Pokémon is knocked out by a damaging move, any creature within 5 feet of it takes an amount of typeless damage equal to the amount of HP lost."
   },
   "Inner Focus": {
     "Description": "This Pokémon is immune to flinching."
@@ -273,7 +273,7 @@
     "Description": "Once per short rest, you can impose disadvantage on an enemy attack roll of your choice."
   },
   "Iron Barbs": {
-    "Description": "When this Pokémon is hit by a melee attack, it may roll a d4. On a 4, deal an amount of damage equal to its proficiency modifier to its attacker."
+    "Description": "When this Pokémon is hit by a melee attack, it may roll a d4. On a 4, deal an amount of steel damage equal to its proficiency modifier to its attacker."
   },
   "Iron Fist": {
     "Description": "When attacking with a punch-based move (Mega Punch, Dynamic Punch, Ice/Fire/Thunder Punch, etc.), this Pokémon may roll the damage twice and choose either total."
@@ -336,7 +336,7 @@
     "Description": "Aura and Pulse moves made by this Pokémon deal additional damage equal to this Pokémon's proficiency bonus."
   },
   "Merciless": {
-    "Description": "This Pokémon doubles their damage dice when dealing damage to an opponent that is poisoned."
+    "Description": "When this Pokémon makes a successful attack roll against a Poisoned Pokemon, treat that attack as a critical hit."
   },
   "Minus": {
     "Description": "This Pokémon boosts its attack and damage rolls by 2 if an ally also has a Plus or Minus ability"
@@ -384,7 +384,7 @@
     "Description": "This Pokémon does not take damage from weather-related moves like Hail, Weather Ball, etc."
   },
   "Overgrow": {
-    "Description": "When this Pokémon falls below 25% of its maximum HP, double the STAB damage for its grass-type moves."
+    "Description": "This Pokémon doubles its STAB bonus when it has 25% or less of its maximum health."
   },
   "Overheat": {
     "Description": "This Pokémon knows Overheat as a fifth move. The move is forgotten if it takes any other form."
@@ -438,7 +438,7 @@
     "Description": "If the move is known, this Pokémon may use the Psychic Terrain move as a bonus action."
   },
   "Pure Power": {
-    "Description": "Once per short rest, this Pokémon may double the damage it does on a single move that requires an attack roll. The player must announce that they are using this ability before the attack roll."
+    "Description": "Once per short rest, this Pokémon may double the damage dice for a single damage roll. The player must announce that they are using this ability before the attack roll."
   },
   "Queen Majesty": {
     "Description": "Bonus action moves activated by any creature within sight of this Pokémon become standard actions."
@@ -474,7 +474,7 @@
     "Description": "This Pokémon takes no recoil damage."
   },
   "Rough Skin": {
-    "Description": "When this Pokémon is hit by a melee attack, it may roll a d4. On a 4, deal an amount of damage equal to its proficiency modifier to its attacker."
+    "Description": "When this Pokémon is hit by a melee attack, it may roll a d4. On a 4, deal an amount of typeless damage equal to its proficiency modifier to its attacker."
   },
   "Run Away": {
     "Description": "This Pokémon cannot be the target of an attack of opportunity."
@@ -498,10 +498,10 @@
     "Description": "Beginning at level 5, this Pokémon may change to School Form as a free action when it begins its turn above 25% of its maximum health. In School Form, the Pokémon adds 5 to its AC and Strength, Dexterity, and Constitution ability scores (Additional CON does not alter this Pokemon's HP in this form). The Pokémon reverts back to Solo Form when it falls below 25% of maximum health, and must complete a short rest before activating this ability again."
   },
   "Scrappy": {
-    "Description": "This Pokémon's Normal and Fighting type moves hit Ghost type Pokémon."
+    "Description": "This Pokémon's Normal and Fighting type moves ignore immunities granted by a Pokémon's type. If a target’s secondary type gives it vulnerability or resistance to the attack, it follows the secondary type for that effect."
   },
   "Serene Grace": {
-    "Description": "The DC to avoid a negative status condition from this Pokémon is increased by 1."
+    "Description": "The Move DC to pass a saving throw against one of this Pokémon's moves is increased by 1."
   },
   "Shadow Shield": {
     "Description": "If this Pokémon is at full health, the first damage dealt to it is halved."
@@ -576,7 +576,7 @@
     "Description": "When this Pokémon is hit by a melee attack, roll a d4. On a result of 4, the attacker takes an amount of electric damage equal to this Pokemon's proficiency bonus."
   },
   "Steadfast": {
-    "Description": "Once per long rest, when this Pokémon fails a saving throw against a negative status condition, it can choose to pass instead."
+    "Description": "Once per long rest, when this Pokémon fails a saving throw against a status condition, it can choose to pass instead."
   },
   "Steelworker": {
     "Description": "This Pokémon adds its proficiency bonus to damage dealt by steel-type moves."
@@ -609,7 +609,7 @@
     "Description": "When this Pokémon begins its turn in the area of effect from Electric Terrain, its speed is doubled."
   },
   "Swarm": {
-    "Description": "This Pokémon adds doubles its STAB bonus when it has 25% or less of its maximum health."
+    "Description": "This Pokémon doubles its STAB bonus when it has 25% or less of its maximum health."
   },
   "Sweet Veil": {
     "Description": "Any ally within 15 feet of this Pokémon (including itself) is immune to the sleep condition."
@@ -627,7 +627,7 @@
     "Description": "Attacks against this Pokémon have disadvantage when it is confused."
   },
   "Tangling Hair": {
-    "Description": "Opponents within melee range of this Pokémon cannot take the Disengage action to move away."
+    "Description": "When this Pokémon is hit with a melee attack, roll 1d4. On a result of 3 or 4, the attacker's speed is reduced to 0 until the end of its next turn."
   },
   "Technician": {
     "Description": "For damaging moves activated by this Pokémon with 15 max PP or more, they may roll the damage twice and choose either total."
@@ -645,7 +645,7 @@
     "Description": "This Pokémon’s moves ignore resistances."
   },
   "Torrent": {
-    "Description": "When this Pokémon falls below 25% of its maximum hp, double the STAB damage for its water-type moves."
+    "Description": "This Pokémon doubles its STAB bonus when it has 25% or less of its maximum health."
   },
   "Tough Claws": {
     "Description": "A successful melee attack by this Pokémon automatically gets STAB, regardless of its type. If it would normally get STAB, double the STAB bonus when adding to damage."
@@ -669,10 +669,10 @@
     "Description": "This Pokémon’s moves completely ignore any ability that would hinder or prevent their effect on the target or the user's ability to hit the target."
   },
   "Unaware": {
-    "Description": "When this Pokémon attacks an opponent, it ignores any stat boosts the opponent has been affected with after the start of battle. This includes boosts to AC or saving throws the Pokémon has to make."
+    "Description": "When this Pokémon attacks an opponent, it ignores any stat changes the opponent has been affected with after the start of battle."
   },
   "Unburden": {
-    "Description": "While this Pokémon is active and not holding an item, its trainer gets advantage on initiative rolls."
+    "Description": "While this Pokémon is not holding an item, it gains 10 feet to its speed."
   },
   "Unnerve": {
     "Description": "Opponents in combat with this Pokémon cannot eat held berries."

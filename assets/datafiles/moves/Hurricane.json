@@ -21,7 +21,7 @@
       "move": true
     }
   },
-  "Description": "You wrap a creature in a fierce wind. Make a ranged attack against a target, dealing flying damage on a hit. If this attack is activated during rain, roll the attack with advantage. If used during harsh sunlight, roll the attack with disadvantage. If the natural attack roll is 15 or higher, the target becomes confused.",
+  "Description": "You whip up a maelstorm of harsh winds. Each creature in a 30 ft radius, centered on a point within range, must make a STR saving throw against your Move DC, taking flying damage and knocked prone on a failure, or half as much damage without being knocked prone on a success. Targets that fail the saving throw by 5 or more become confused. If this attack is activated during rain, the targets roll their saving throws with disadvantage. If used during harsh sunlight, the targets roll their saves with advantage.",
   "Duration": "Instantaneous",
   "Move Power": [
     "STR",
@@ -29,7 +29,7 @@
   ],
   "Move Time": "1 action",
   "PP": 5,
-  "Range": "40ft",
-  "Type": "Flying",
-  "atk": true
+  "Range": "100ft",
+  "Save": "STR",
+  "Type": "Flying"
 }
