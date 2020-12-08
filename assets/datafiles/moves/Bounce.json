@@ -2,32 +2,32 @@
   "Damage": {
     "1": {
       "amount": 2,
-      "dice_max": 6,
+      "dice_max": 8,
       "move": true
     },
     "10": {
-      "amount": 4,
-      "dice_max": 6,
+      "amount": 3,
+      "dice_max": 10,
       "move": true
     },
     "17": {
-      "amount": 6,
-      "dice_max": 6,
+      "amount": 4,
+      "dice_max": 12,
       "move": true
     },
     "5": {
       "amount": 2,
-      "dice_max": 8,
+      "dice_max": 10,
       "move": true
     }
   },
-  "Description": "When you activate this move, you bounce high into the air, disappearing into the Ethereal plane. You may not be targeted by attacks in the Ethereal plane. On your next turn, as an action, you reappear and attempt to slam down on top of a creature. Make a melee attack roll on a creature in range, with advantage, doing flying damage on a hit. On a natural attack roll of 15 or more, the target is paralyzed.",
-  "Duration": "Instantaneous",
+  "Description": "When you activate this move, you use 10 feet of your movement to bounce upwards and disappear, remaining in an invulnerable state until your next turn. During this time, you are immune to the damage and effects of any move. If you have no remaining movement or are grappled/restrained before activating this move, the move fails. On your next turn, as an action, you reappear and attempt to slam down on top of a creature. Make a melee attack roll on a creature in range, with advantage, doing flying damage on a hit. On a natural attack roll of 15 or more, the target is paralyzed.",
+  "Duration": "1 round, charge",
   "Move Power": [
     "DEX"
   ],
   "Move Time": "1 action",
-  "PP": 3,
+  "PP": 5,
   "Range": "80ft",
   "Type": "Flying",
   "atk": true

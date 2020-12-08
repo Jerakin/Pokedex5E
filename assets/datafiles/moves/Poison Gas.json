@@ -2,33 +2,33 @@
   "Damage": {
     "1": {
       "amount": 1,
-      "dice_max": 6,
+      "dice_max": 4,
       "move": true
     },
     "10": {
       "amount": 1,
-      "dice_max": 12,
+      "dice_max": 8,
       "move": true
     },
     "17": {
-      "amount": 4,
-      "dice_max": 4,
+      "amount": 2,
+      "dice_max": 6,
       "move": true
     },
     "5": {
-      "amount": 2,
-      "dice_max": 4,
+      "amount": 1,
+      "dice_max": 6,
       "move": true
     }
   },
-  "Description": "You release a toxic cloud of poisonous gas in a 10 foot radius, centered on a point within range. Any creature that starts their turn in this area must succeed on a CON save against your Move DC, taking poison damage on a failure, or half as much on a success. Creatures that fail this save by 5 or more become poisoned.",
-  "Duration": "1 minute, concentration",
+  "Description": "You create a fog of poisonous gas in a 15 foot radius, centered on a point within range. Creatures that begin their turn in the area take poison damage and must succeed on a CON save against your Move DC or become poisoned. The area of gas is considered difficult terrain, and any attacks made from inside it are done at disadvantage. The gas cloud dissipates at the beginning of your next turn.",
+  "Duration": "1 round",
   "Move Power": [
     "CON"
   ],
   "Move Time": "1 action",
-  "PP": 5,
-  "Range": "40ft",
+  "PP": 10,
+  "Range": "30ft",
   "Save": "CON",
   "Type": "Poison"
 }
