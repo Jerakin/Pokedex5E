@@ -124,11 +124,7 @@ function init(self)
 	end, {no_shake=true})
 
 	button.register(self.btn_encounters, function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:EncountersByMenu",
-			value = tracking_id[monarch.top()]
-		}
-		monarch.show("encounters")
+		monarch.show(screens.ENCOUNTERS)
 		toggle(self)
 	end, {no_shake=true})
 
