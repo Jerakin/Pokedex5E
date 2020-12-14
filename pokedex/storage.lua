@@ -16,6 +16,7 @@ local pokemon_by_location = {}
 
 local counters = {}
 local sorting = {}
+local storage_settings = {}
 local encounters = {}
 
 local initialized = false
