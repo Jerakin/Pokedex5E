@@ -1,5 +1,5 @@
 {
-  "Description": "You release an intimidating roar at a creature in range. The target must make a CHA save against your Move DC, fleeing from battle on fail. You gain no experience from a fleeing creature, and the move automatically fails in trainer battles. A creature that succeeds on this saving throw is unaffected by future attempts during this combat.",
+  "Description": "You release an intimidating roar at all creatures within 15 feet of you. Creatures affected must make a CHA save against your Move DC. On a fail, the creature must immediately Disengage as a free action and move up to its speed in a straight line away from the user, or until met by an impeding force.",
   "Duration": "Instantaneous",
   "Move Power": [
     "STR",
@@ -7,7 +7,7 @@
   ],
   "Move Time": "1 action",
   "PP": 10,
-  "Range": "100ft",
+  "Range": "Self (15ft radius)",
   "Save": "CHA",
   "Type": "Normal"
 }

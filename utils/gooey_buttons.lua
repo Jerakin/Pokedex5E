@@ -15,65 +15,60 @@ function M.common_button(button, text_node)
 	end
 end
 
-function M.cross_button(button)
+local function standard_button(button, down, up)
 	if button.pressed_now then
-		gui.play_flipbook(button.node, hash("cross_down"))
+		gui.play_flipbook(button.node, down)
 	elseif button.released_now then
-		gui.play_flipbook(button.node, hash("cross_up"))
+		gui.play_flipbook(button.node, up)
 	elseif not button.pressed and button.out_now then
-		gui.play_flipbook(button.node, hash("cross_up"))
+		gui.play_flipbook(button.node, up)
 	end
+end
+
+function M.cross_button(button)
+	standard_button(button, hash("cross_down"), hash("cross_up"))
 end
 
 function M.green_button(button)
-	if button.pressed_now then
-		gui.play_flipbook(button.node, hash("common_green_down"))
-	elseif button.released_now then
-		gui.play_flipbook(button.node, hash("common_green_up"))
-	elseif not button.pressed and button.out_now then
-		gui.play_flipbook(button.node, hash("common_green_up"))
-	end
+	standard_button(button, hash("common_green_down"), hash("common_green_up"))
 end
 
 function M.close_button(button)
-	if button.pressed_now then
-		gui.play_flipbook(button.node, hash("close_down"))
-	elseif button.released_now then
-		gui.play_flipbook(button.node, hash("close_up"))
-	elseif not button.pressed and button.out_now then
-		gui.play_flipbook(button.node, hash("close_up"))
-	end
+	standard_button(button, hash("close_down"), hash("close_up"))
 end
 
 function M.edit_button(button)
-	if button.pressed_now then
-		gui.play_flipbook(button.node, hash("edit_down"))
-	elseif button.released_now then
-		gui.play_flipbook(button.node, hash("edit_up"))
-	elseif not button.pressed and button.out_now then
-		gui.play_flipbook(button.node, hash("edit_up"))
-	end
+	standard_button(button, hash("edit_down"), hash("edit_up"))
 end
 
 function M.plus_button(button)
-	if button.pressed_now then
-		gui.play_flipbook(button.node, hash("plus_down"))
-	elseif button.released_now then
-		gui.play_flipbook(button.node, hash("plus_up"))
-	elseif not button.pressed and button.out_now then
-		gui.play_flipbook(button.node, hash("plus_up"))
-	end
+	standard_button(button, hash("plus_down"), hash("plus_up"))
 end
 
 function M.minus_button(button)
-	if button.pressed_now then
-		gui.play_flipbook(button.node, hash("minus_down"))
-	elseif button.released_now then
-		gui.play_flipbook(button.node, hash("minus_up"))
-	elseif not button.pressed and button.out_now then
-		gui.play_flipbook(button.node, hash("minus_up"))
-	end
+	standard_button(button, hash("minus_down"), hash("minus_up"))
 end
+
+function M.clipboard_share(button)
+	standard_button(button, hash("share_clipboard_down"), hash("share_clipboard_up"))
+end
+
+function M.qr_share(button)
+	standard_button(button, hash("share_qr_down"), hash("share_qr_up"))
+end
+
+function M.network_share(button)
+	standard_button(button, hash("share_network_down"), hash("share_network_up"))
+end
+
+function M.pokemon_sort_button(button)
+	standard_button(button, hash("pokemon_sort_down"), hash("pokemon_sort_up"))
+end
+
+function M.pokemon_add_button(button)
+	standard_button(button, hash("pokemon_add_down"), hash("pokemon_add_up"))
+end
+
 
 local MENU_UP_CLOSED = "menu_up"
 local MENU_DOWN_CLOSED = "menu_down"
@@ -95,43 +90,7 @@ function M.set_menu_opened(state)
 end
 
 function M.menu_button(button)
-	if button.pressed_now then
-		gui.play_flipbook(button.node, hash(MENU_DOWN_ACTIVE))
-	elseif button.released_now then
-		gui.play_flipbook(button.node, hash(MENU_UP_ACTIVE))
-	elseif not button.pressed and button.out_now then
-		gui.play_flipbook(button.node, hash(MENU_UP_ACTIVE))
-	end
-end
-
-function M.share(button)
-	if button.pressed_now then
-		gui.play_flipbook(button.node, hash("share_down"))
-	elseif button.released_now then
-		gui.play_flipbook(button.node, hash("share_up"))
-	elseif not button.pressed and button.out_now then
-		gui.play_flipbook(button.node, hash("share_up"))
-	end
-end
-
-function M.pokemon_sort_button(button)
-	if button.pressed_now then
-		gui.play_flipbook(button.node, hash("pokemon_sort_down"))
-	elseif button.released_now then
-		gui.play_flipbook(button.node, hash("pokemon_sort_up"))
-	elseif not button.pressed and button.out_now then
-		gui.play_flipbook(button.node, hash("pokemon_sort_up"))
-	end
-end
-
-function M.pokemon_add_button(button)
-	if button.pressed_now then
-		gui.play_flipbook(button.node, hash("pokemon_add_down"))
-	elseif button.released_now then
-		gui.play_flipbook(button.node, hash("pokemon_add_up"))
-	elseif not button.pressed and button.out_now then
-		gui.play_flipbook(button.node, hash("pokemon_add_up"))
-	end
+	standard_button(button, hash(MENU_DOWN_ACTIVE), hash(MENU_UP_ACTIVE))
 end
 
 return M

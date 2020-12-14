@@ -13,6 +13,7 @@ function init(self)
 	self.allowed_characters = data.allowed_characters or "[%a%d]"
 	self.sender = data.sender
 	self.message = data.message
+	self.max_length = data.max_length or 10
 	self.default_text = data.default_text or ""
 	self.cursor = gui.get_node("cursor")
 	self.text_node = gui.get_node("txt")
@@ -34,13 +35,16 @@ local function refresh_input(self, input, node_id)
 	if input.empty and not input.selected then
 		gui.set_text(self.text_node, self.default_text)
 	end
-
+	gui_utils.scale_text_to_fit_size_2(self.text_node)
+	
 	if input.selected then
 		if input.empty then
 			gui.set_text(self.text_node, "")
 		end
 		gui.set_enabled(self.cursor, true)
-		gui.set_position(self.cursor, vmath.vector3(input.total_width*0.5, 0, 0))
+		local text_scale = gui.get_scale(self.text_node)
+		local text_metrics = gui.get_text_metrics_from_node(self.text_node)
+		gui.set_position(self.cursor, vmath.vector3(text_metrics.width*0.5*text_scale.x, 0, 0))
 		gui.cancel_animation(self.cursor, gui.PROP_COLOR)
 		gui.set_color(self.cursor, vmath.vector4(0,0,0,1))
 		gui.animate(self.cursor, gui.PROP_COLOR, vmath.vector4(1,1,1,0), gui.EASING_INSINE, 0.8, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
@@ -57,7 +61,7 @@ function on_input(self, action_id, action)
 		gooey.button("dimmer", action_id, action, function() monarch.back() end)
 	end
 
-	gooey.input("txt", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, {max_length = 10, allowed_characters=self.allowed_characters, use_marked_text=false}, function(input)
+	gooey.input("txt", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, {max_length = self.max_length, allowed_characters=self.allowed_characters, use_marked_text=false}, function(input)
 		refresh_input(self, input)
 	end)
 end

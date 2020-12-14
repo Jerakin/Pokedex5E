@@ -5,7 +5,12 @@ local gui_colors = require "utils.gui_colors"
 local movedex = require "pokedex.moves"
 local pokedex = require "pokedex.pokedex"
 local gooey_button = require "utils.gooey_buttons"
+local gooey_scrolling_list = require "utils.gooey_scrolling_list"
 local url = require "utils.url"
+local messages = require "utils.messages"
+local screens = require "utils.screens"
+local _pokemon = require "pokedex.pokemon"
+
 local selected_item
 local sender
 local message_id
@@ -19,22 +24,10 @@ local function update_listitem(list, item)
 	end
 end
 
-local function update_list(list)
-	if list.scroll and list.scroll.y ~= 0 then
-		gooey.vertical_scrollbar("scrollist/scrollbar/handle", "scrollist/scrollbar/bar").scroll_to(0, list.scroll.y)
-	end
-	for i,item in ipairs(list.items) do
-		if item.data and item.data ~= "" then
-			update_listitem(list, item)
-		end
-	end
-end
-
-local function on_item_selected(list)
+local function on_item_selected(self, list)
 	for i,item in ipairs(list.items) do
 		if item.data and item.index == list.selected_item then
-			msg.post(sender, message_id, {item=item.data})
-			monarch.back()
+			monarch.show(screens.MOVES_CONFIRM, {}, {message_id=message_id, sender=sender, move_to_replace=self.move_to_replace, replacement_move=item.data, pokemon=self.pokemon})
 		end
 	end
 end
@@ -43,7 +36,7 @@ local function filter_out_current_moves(self, list_of_moves)
 	list_of_moves = utils.shallow_copy(list_of_moves)
 	for move, _ in pairs(self.current_moves) do
 		for i, selected_move in pairs(list_of_moves) do
-			if move == selected_move then
+			if move == selected_move or selected_move == "Error" then
 				table.remove(list_of_moves, i)
 			end
 		end
@@ -53,10 +46,7 @@ end
 
 local function refresh_list(self)
 	self.list_items = utils.shallow_copy(self.all_items)
-	local list = gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items)
-	list.scroll_to(0, 0)
-	update_list(list)
-	gooey.vertical_scrollbar("scrollist/scrollbar/handle", "scrollist/scrollbar/bar").scroll_to(0, 0)
+	self.scrolling_list.refresh(self.list_items, true)
 end
 	
 local function set_all_moves(self)
@@ -65,38 +55,54 @@ local function set_all_moves(self)
 end
 
 local function set_current(self)
-	self.all_items = filter_out_current_moves(self, pokedex.get_pokemons_moves(self.species, self.level))
+	self.all_items = filter_out_current_moves(self, pokedex.get_moves(self.species, self.variant, self.level))
 	refresh_list(self)
 end
 
 
 local function set_max(self)
-	self.all_items = filter_out_current_moves(self, pokedex.get_pokemons_moves(self.species, 20))
+	self.all_items = filter_out_current_moves(self, pokedex.get_moves(self.species, self.variant, 20))
 	refresh_list(self)
 end
 
 
 local function set_hm_tm(self)
-	self.all_items = filter_out_current_moves(self,  pokedex.get_move_machines(self.species))
+	self.all_items = filter_out_current_moves(self, pokedex.get_move_machines(self.species, self.variant))
 	refresh_list(self)
 end
 
+local function set_egg(self)
+	self.all_items = filter_out_current_moves(self, pokedex.get_egg_moves(self.species, self.variant))
+	refresh_list(self)
+end
+
+
 function init(self)
 	gooey.acquire_input()
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	local d = monarch.data("moves_scrollist")
 	sender = d.sender
 	message_id = d.message_id
 	self.level = d.level
 	self.species = d.species
 	self.current_moves = d.current_moves
-	self.sub_list = "current"
-	local starting_moves = pokedex.get_pokemons_moves(self.species, self.level)
+	self.move_to_replace = d.move_to_replace
+	self.pokemon = d.pokemon
+	self.variant = _pokemon.get_variant(d.pokemon)
+	self.sub_list = "current"	
+	local starting_moves = pokedex.get_moves(self.species, self.variant, self.level)
 	self.all_items = filter_out_current_moves(self, starting_moves)
 	self.list_items = utils.shallow_copy(self.all_items)
 	gui.set_text(gui.get_node("scrollist/topbar/title"), "Choose New Move")
 	gui.set_enabled(gui.get_node("scrollist/cursor"), false)
-	update_list(gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items))
+
+	if next(pokedex.get_egg_moves(self.species, _pokemon.get_variant(self.pokemon))) == nil then
+		gui.set_enabled(gui.get_node("btn_egg"), false)
+		gui.set_position(gui.get_node("move_section_2"), vmath.vector3(0, -160, 0))
+	end
+	
+	self.scrolling_list = gooey_scrolling_list.create_vertical_dynamic("scrollist", "scrollist/scroll_area", "scrollist/btn_item", "scrollist/scrollbar/handle", "scrollist/scrollbar/bar", "scrollist/scrollbar/visual", update_listitem, function(list) on_item_selected(self, list) end)
+	self.scrolling_list.refresh(self.list_items, true)
 end
 
 local function filter_list(self, search_string)
@@ -113,7 +119,8 @@ local function filter_list(self, search_string)
 				table.insert(self.list_items, 1, self.all_items[i])
 			end
 		end
-		update_list(gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items))
+
+		self.scrolling_list.refresh(self.list_items, false)
 	else
 		self.list_items = self.all_items
 	end
@@ -141,17 +148,8 @@ local function refresh_input(self, input, node_id)
 	filter_list(self, input.text)
 end
 
-local function on_scrolled(self, scrollbar)
-	gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items).scroll_to(0, scrollbar.scroll.y)
-end
-
 function on_input(self, action_id, action)
-	if next(self.list_items) ~= nil then
-		local list = gooey.dynamic_list("scrollist", "scrollist/scroll_area", "scrollist/btn_item", self.list_items, action_id, action, on_item_selected, update_list)
-		if list.max_y and list.max_y > 0 then
-			gooey.vertical_scrollbar("scrollist/scrollbar/handle", "scrollist/scrollbar/bar", action_id, action, function(scrollbar) on_scrolled(self, scrollbar) end)
-		end
-	end
+	self.scrolling_list.on_input(self.list_items, action_id, action)
 	gooey.input("scrollist/search_text", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, {use_marked_text=false}, function(input)
 		refresh_input(self, input, "search_text")
 	end)
@@ -159,6 +157,7 @@ function on_input(self, action_id, action)
 	gooey.button("btn_hm_tm", action_id, action,  function() set_hm_tm(self) end, function(b) gooey_button.common_button(b, gui.get_node("txt_hm_tm")) end)
 	gooey.button("btn_max_lvl", action_id, action,  function() set_max(self) end, function(b) gooey_button.common_button(b, gui.get_node("txt_max_lvl")) end)
 	gooey.button("btn_all", action_id, action,  function() set_all_moves(self) end, function(b) gooey_button.common_button(b, gui.get_node("txt_all")) end)
+	gooey.button("btn_egg", action_id, action,  function() set_egg(self) end, function(b) gooey_button.common_button(b, gui.get_node("txt_egg")) end)
 	gooey.button("scrollist/btn_quit", action_id, action, function()
 		monarch.show(monarch.top(-1), {clear=true})
 	end, gooey_button.close_button)

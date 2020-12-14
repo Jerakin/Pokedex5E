@@ -1,0 +1,189 @@
+{
+  "AC": 18,
+  "Abilities": [
+    "Prism Armor"
+  ],
+  "Fsp": 50,
+  "HP": 486,
+  "Hit Dice": 20,
+  "MIN LVL FD": 20,
+  "Moves": {
+    "Level": {},
+    "Starting Moves": [
+      "Charge Beam",
+      "Confusion",
+      "Metal Claw",
+      "Mirror Shot",
+      "Moonlight",
+      "Morning Sun",
+      "Slash",
+      "Stored Power",
+      "Rock Blast",
+      "Night Slash",
+      "Gravity",
+      "Psycho Cut",
+      "Power Gem",
+      "Autotomize",
+      "Photon Geyser",
+      "Stealth Rock",
+      "Iron Defense",
+      "Wring Out",
+      "Prismatic Laser"
+    ],
+    "TM": [
+      3,
+      4,
+      6,
+      10,
+      15,
+      16,
+      17,
+      21,
+      22,
+      26,
+      27,
+      29,
+      31,
+      32,
+      33,
+      39,
+      40,
+      42,
+      44,
+      46,
+      48,
+      56,
+      57,
+      59,
+      63,
+      65,
+      67,
+      68,
+      69,
+      71,
+      73,
+      74,
+      75,
+      78,
+      80,
+      81,
+      87,
+      88,
+      90,
+      91,
+      92,
+      97,
+      100
+    ]
+  },
+  "SR": 15.0,
+  "Senses": [
+    "Darkvision 80ft",
+    "Truesight 20ft"
+  ],
+  "Skill": [
+    "Insight",
+    "Arcana",
+    "Deception",
+    "Intimidation"
+  ],
+  "Type": [
+    "Psychic"
+  ],
+  "WSp": 50,
+  "attributes": {
+    "CHA": 18,
+    "CON": 18,
+    "DEX": 18,
+    "INT": 12,
+    "STR": 20,
+    "WIS": 20
+  },
+  "index": 800,
+  "saving_throws": [
+    "Strength",
+    "Dexterity",
+    "Wisdom"
+  ],
+  "size": "Large",
+  "variant_data": {
+    "create_mode": "default",
+    "default": "Regular",
+    "permanent": true,
+    "variants": {
+      "Dawn Wings": {
+        "diff": {
+          "AC": 19,
+          "Senses": [
+            "Darkvision 100ft",
+            "Truesight 30ft"
+          ],
+          "Type": [
+            "Psychic",
+            "Ghost"
+          ],
+          "attributes": {
+            "CHA": 20,
+            "INT": 14,
+            "WIS": 24
+          },
+          "size": "Huge"
+        },
+        "display": "Dawn Wings Necrozma",
+        "original_species": "Dawn Wings Necrozma"
+      },
+      "Dusk Mane": {
+        "diff": {
+          "AC": 19,
+          "Senses": [
+            "Darkvision 100ft",
+            "Truesight 30ft"
+          ],
+          "Type": [
+            "Psychic",
+            "Steel"
+          ],
+          "attributes": {
+            "DEX": 22,
+            "INT": 14,
+            "STR": 22
+          },
+          "size": "Huge"
+        },
+        "display": "Dusk Mane Necrozma",
+        "original_species": "Dusk Mane Necrozma"
+      },
+      "Regular": {
+        "display": "Necrozma",
+        "original_species": "Necrozma"
+      },
+      "Ultra": {
+        "diff": {
+          "AC": 22,
+          "Abilities": [
+            "Neuroforce"
+          ],
+          "Senses": [
+            "Darkvision 150ft",
+            "Truesight 50ft"
+          ],
+          "Type": [
+            "Psychic",
+            "Dragon"
+          ],
+          "attributes": {
+            "CHA": 20,
+            "CON": 20,
+            "DEX": 22,
+            "INT": 16,
+            "STR": 22,
+            "WIS": 24
+          },
+          "size": "Huge"
+        },
+        "display": "Ultra Necrozma",
+        "original_species": "Ultra Necrozma"
+      }
+    }
+  }
+}

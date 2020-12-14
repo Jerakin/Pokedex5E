@@ -6,9 +6,13 @@ local trainer = require "pokedex.trainer"
 local gro = require "utils.gui_render_order"
 local url = require "utils.url"
 local gooey_buttons = require "utils.gooey_buttons"
-local tracking_id = require "utils.tracking_id"
 local dex = require "pokedex.dex"
+local screens = require "utils.screens"
+local messages = require "utils.messages"
+local network = require "pokedex.network.network"
+
 local slot
+
 
 local function refresh_input(self, input, node_id)
 	if input.empty and not input.selected then
@@ -37,7 +41,7 @@ local function refresh_input(self, input, node_id)
 end
 
 function init(self)
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	gui.set_render_order(gro.POPUP)
 	self.sender = monarch.data("pick_name") and monarch.data("pick_name").sender or nil
 	slot = monarch.data("pick_name") and monarch.data("pick_name").slot or nil
@@ -74,11 +78,16 @@ local function okay()
 			profiles.update(slot, { name = name })
 		end
 		profiles.set_active(profile.slot)
-		storage.load(profiles.get_active())
+		network.load_profile(profiles.get_active())
+		local needs_save = storage.load(profiles.get_active())
+		if needs_save then
+			storage.save()
+		end
 		trainer.load(profiles.get_active())
 		dex.load(profiles.get_active())
-		storage.set_max_active_pokemon(3) -- default value for new profiles
-		monarch.show("add")
+		storage.set_max_party_pokemon(3) -- default value for new profiles
+		profiles.set_active_complete()
+		monarch.show(screens.ADD)
 	end
 end
 
@@ -87,11 +96,6 @@ local function cancel()
 	if existing_profile ~= nil then
 		profiles.delete(slot)
 	end
-		
-	gameanalytics.addDesignEvent {
-		eventId = "Navigation:Back",
-		value = tracking_id[monarch.top()]
-	}
 	monarch.back()
 end
 

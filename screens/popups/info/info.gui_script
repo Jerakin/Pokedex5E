@@ -1,5 +1,6 @@
 local monarch  = require "monarch.monarch"
 local render_order = require "utils.gui_render_order"
+local gui_utils = require "utils.gui"
 local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
 
@@ -9,7 +10,10 @@ function init(self)
 	gooey.acquire_input()
 	gui.set_render_order(render_order.POPUP_ON_POPUP)
 	data = monarch.data("info")
-	gui.set_text(gui.get_node("txt_info"), data.text)
+	gui_utils.adjust_for_text_change_vertical("txt_info", data.text, {"info"}, {"btn_close"}, {"txt_info"})
+	if data.btn_text ~= nil then
+		gui.set_text(gui.get_node("txt_close"), data.btn_text)
+	end
 end
 
 local function exit()

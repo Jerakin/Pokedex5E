@@ -1,4 +1,7 @@
 {
+  "Ability Capsule": {
+    "Effect": "A consumable item that allows a Pokémon to switch the non-hidden ability it knows (if two options are available)."
+  },
   "Air Balloon": {
     "Effect": "Pokémon that holds this is immune to ground-type moves. Pops when holder is hit by an attack."
   },
@@ -6,13 +9,16 @@
     "Effect": "Changes the typing of Arceus and the move \"Judgement\""
   },
   "Aspear Berry": {
-    "Effect": "Cures freeze. Activated when a Pokémon is frozen"
+    "Effect": "Cures freeze. Activated when a Pokémon becomes frozen"
+  },
+  "Assault Vest": {
+    "Effect": "Pokémon that hold this gain +1 to their AC, but can only use damaging moves."
   },
   "Babiri Berry": {
     "Effect": "Pokémon takes half damage from a steel-type attack. Activates when hit by steel-type move."
   },
   "Big Root": {
-    "Effect": "HP stealing moves steal an additional 1d12 HP."
+    "Effect": "HP stealing moves restore an additional 1d12 HP (without additional damage to the target)."
   },
   "Black Belt": {
     "Effect": "Holder adds prof. bonus to damage from fighting-type moves (once per move)."
@@ -21,7 +27,7 @@
     "Effect": "Holder adds prof. bonus to damage from dark-type moves (once per move)."
   },
   "Black Sludge": {
-    "Effect": "Restores 1d6 hit points to poison types at the end of each of their turns."
+    "Effect": "Restores hp equal to the holder's prof. bonus to poison types at the end of each of their turns. Damages non-poison types for the same amount instead of healing."
   },
   "Charcoal": {
     "Effect": "Holder adds prof. bonus to damage from fire-type moves (once per move)."
@@ -47,14 +53,14 @@
   "Colbur Berry": {
     "Effect": "Pokémon takes half damage from a dark-type attack. Activates when hit by dark-type move."
   },
+  "DNA Splicer": {
+    "Effect": "Allows Kyerum to fuse into Black or White form."
+  },
   "Deep Sea Scale": {
     "Effect": "While a Clamperl holds this, their AC is increased by 1"
   },
   "Deep Sea Tooth": {
     "Effect": "While a Clamperl holds this, their STAB increases by 1"
-  },
-  "DNA Splicer": {
-    "Effect": "Allows Kyerum to fuse into Black or White form."
   },
   "Dragon Fang": {
     "Effect": "Holder adds prof. bonus to damage from dragon-type moves (once per move)."
@@ -102,7 +108,7 @@
     "Effect": "On natural attack rolls of 19 or 20, the target flinches."
   },
   "Leftovers": {
-    "Effect": "Restores 1d4 HP to the holder at the end of each of their turns"
+    "Effect": "Restores HP equal to the holder's proficiency bonus at the end of each of their turns."
   },
   "Leppa Berry": {
     "Effect": "Restores 10 PP to a move. Activated when Pokémon runs out of PP for a move."
@@ -125,6 +131,9 @@
   "Magnet": {
     "Effect": "Holder adds prof. bonus to damage from electric-type moves (once per move)."
   },
+  "Megalite": {
+    "Effect": "Allows a final-stage Pokémon to \"Mega Evolve\""
+  },
   "Metal Coat": {
     "Effect": "Holder adds prof. bonus to damage from steel-type moves (once per move)."
   },
@@ -136,6 +145,12 @@
   },
   "Mystic Water": {
     "Effect": "Holder adds prof. bonus to damage from water-type moves (once per move)."
+  },
+  "N-Lunarizer": {
+    "Effect": "Allows Necrozma to fuse with Lunala to create Dusk Mane Necrozma|N/A|"
+  },
+  "N-Solarizer": {
+    "Effect": "Allows Necrozma to fuse with Solgaleo to create Dark Wings Necrozma"
   },
   "NeverMelt Ice": {
     "Effect": "Holder adds prof. bonus to damage from ice-type moves (once per move)."
@@ -174,7 +189,7 @@
     "Effect": "Increase initiative roll by +3 while this Pokémon is active."
   },
   "Rawst Berry": {
-    "Effect": "Cures burn. Activated when a Pokémon is burned"
+    "Effect": "Cures burn. Activated when a Pokémon becomes burned"
   },
   "Razz Berry": {
     "Effect": "When held by an active Pokémon, trainer gains +1 to catching attempts."
@@ -247,14 +262,5 @@
   },
   "Yache Berry": {
     "Effect": "Pokémon takes half damage from an ice-type attack. Activates when hit by ice-type move."
-  },
-  "Megalite": {
-    "Effect": "Allows a final-stage Pokémon to \"Mega Evolve\""
-  },
-  "Ability Capsule": {
-    "Effect": "Pokémon that hold this gain access to both their non-hidden abilities."
-  },
-  "Assault Vest": {
-    "Effect": "Pokémon that hold this gain +1 to their AC, but can only use damaging moves."
   }
 }

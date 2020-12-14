@@ -68,14 +68,11 @@ function M.load_package()
 	flow.start(function()
 		local package_path = M.UNZIP_PATH .. "data.json"
 		local index_path = M.UNZIP_PATH .. "index.json"
-		if file_exists(package_path) then
+		if file_exists(package_path) and file_exists(index_path) then
 			log.info("Found and loaded file " .. package_path)
 			M.DATA = file.load_file(package_path)
 			log.info("Found and loaded file " .. index_path)
 			M.LOCAL_INDEX = file.load_file(index_path)
-			gameanalytics.addDesignEvent {
-				eventId = "Fakemon:Load:" .. M.LOCAL_INDEX.name
-			}
 		else
 			log.info("No Fakemon Package found")
 		end
@@ -139,9 +136,6 @@ function M.remove_package()
 	flow.start(function() 
 		local exists, _ = lfs.exists(M.UNZIP_PATH)
 		if exists then
-			gameanalytics.addDesignEvent {
-				eventId = "Fakemon:Remove:" .. M.LOCAL_INDEX.name
-			}
 			lfs.rmdirs(M.UNZIP_PATH)
 		end
 		M.BUSY = false
@@ -182,6 +176,48 @@ function M.download_package(package)
 		end
 		M.BUSY = false
 	end)
+end
+
+-- HACKY, see caller
+local species_variant_cb
+function M.register_species_variant_cb(cb)
+	species_variant_cb = cb
+end
+
+function M.get_overrides_and_variants()
+	local override_pkmn = {}
+	local variant_pkmn = {}
+	
+	if M.DATA then
+		if M.DATA["pokemon.json"] then
+			-- For each fakemon, figure out if this is a base pokemon or just a variant of an existing pokemon
+			for pokemon, data in pairs(M.DATA["pokemon.json"]) do
+				data.fakemon = true
+
+				-- If this is the original name of a pokemon that now has a variant associated with it,
+				-- we want to switch over to the variant version instead
+				local is_variant_data = false
+				if not data.variant_data then
+					f_species, f_variant = species_variant_cb(pokemon)
+					if f_variant then
+						-- This pokemon is now a variant instead. Let's replace the variant data rather than add a new
+						-- pokemon with this name
+						if not variant_pkmn[f_species] then
+							variant_pkmn[f_species] = {}
+						end
+						variant_pkmn[f_species][f_variant] = data
+						is_variant_data = true
+					end
+				end
+
+				if not is_variant_data then
+					override_pkmn[pokemon] = data
+				end
+			end
+		end
+	end
+
+	return override_pkmn, variant_pkmn
 end
 
 return M

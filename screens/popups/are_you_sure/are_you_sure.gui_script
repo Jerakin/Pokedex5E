@@ -3,31 +3,48 @@ local url = require "utils.url"
 local render_order = require "utils.gui_render_order"
 local gooey_buttons = require "utils.gooey_buttons"
 local gooey = require "gooey.gooey"
+local gui_utils = require "utils.gui"
 
 local data
 local sender
 local id
+local cb
 
 function init(self)
 	gooey.acquire_input()
 	gui.set_render_order(render_order.POPUP_ON_POPUP)
 	data = monarch.data("are_you_sure")
+	cb = data.cb
 	sender = data.sender
 	id = data.id
 	gui.set_text(gui.get_node("txt_title"), data.title)
 
 	if data.text then
-		gui.set_text(gui.get_node("txt"), data.text)
+		gui_utils.adjust_for_text_change_vertical("txt", data.text, {"box"}, {"btn_exit", "btn_confirm", "txt_sub"}, {"txt", "txt_title"})
+	end
+	
+	if data.sub_text then
+		gui_utils.adjust_for_text_change_vertical("txt_sub", data.sub_text, nil, nil, {"box"})
 	end
 end
 
 local function confirm()
-	msg.post(sender, "response", {response=true, data=data.data, id=id})
+	if sender then
+		msg.post(sender, "response", {response=true, data=data.data, id=id})
+	end
+	if cb then
+		cb(true)
+	end
 	monarch.back()
 end
 
 local function exit()
-	msg.post(sender, "response", {response=false, data=data.data, id=id})
+	if sender then
+		msg.post(sender, "response", {response=false, data=data.data, id=id})
+	end
+	if cb then
+		cb(false)
+	end
 	monarch.back()
 end
 

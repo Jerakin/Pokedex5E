@@ -1,7 +1,7 @@
 local M = {}
 
 M.SCREENS = 2
-M.MENU = 6
+M.MENU = 9
 
 M.SPLASH = 10
 

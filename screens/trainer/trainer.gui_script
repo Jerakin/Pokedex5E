@@ -8,7 +8,11 @@ local type_data = require "utils.type_data"
 local gesture = require "utils.gesture"
 local gui_colors = require "utils.gui_colors"
 local url = require "utils.url"
+local constants = require "utils.constants"
+local messages = require "utils.messages"
+local screens = require "utils.screens"
 
+local MSG_UPDATE_PROFILE_NAME = hash("UPDATE_PROFILE_NAME")
 
 local type_buttons = {
     normal = "Normal",
@@ -35,7 +39,7 @@ function final(self)
     trainer.save()
 end
 
-local function redraw()
+local function redraw(self)
     gui.set_text(gui.get_node("STAB_value"), trainer.get_all_levels_STAB())
     gui.set_text(gui.get_node("attack_value"), trainer.get_attack_roll())
     gui.set_text(gui.get_node("evolution_level_value"), trainer.get_evolution_level())
@@ -44,21 +48,24 @@ local function redraw()
     gui.set_text(gui.get_node("move_value"), trainer.get_move())
 
     for name, _type in pairs(type_buttons) do
-        gui.set_text(gui.get_node("type_master/" .. name .. "/value"), trainer.get_type_master_STAB(_type))
-        gui.set_text(gui.get_node("stab/" .. name .. "/value"), trainer.get_STAB(_type))
-        gui.set_text(gui.get_node("move_attack_bonus/" .. name .. "/value"), trainer.get_move_type_attack_bonus(_type))
-        gui.set_text(gui.get_node("pokemon_attack_bonus/" .. name .. "/value"), trainer.get_pokemon_type_attack_bonus_single(_type))
+        local get = self.tabs[self.active_tab].get
+        if get then
+            gui.set_text(gui.get_node("tab1/"  .. name .. "/value"), get(_type))
+        end
     end
-    
-    for _, attribute in pairs({"STR", "DEX", "CON", "INT", "WIS", "CHA"}) do
+
+    for _, attribute in pairs(constants.ABILITY_LIST) do
         gui.set_text(gui.get_node("attributes/" .. attribute), trainer.get_attribute(attribute))
     end
 
-    local max_active_pokemon = storage.get_max_active_pokemon()
-    local max_active_pokemon_range_low, max_active_pokemon_range_high = storage.get_max_active_pokemon_range()
+    local max_active_pokemon = storage.get_max_party_pokemon()
+    local max_active_pokemon_range_low, max_active_pokemon_range_high = storage.get_max_party_pokemon_range()
     gui.set_text(gui.get_node("max_active_pokemon/value"), max_active_pokemon)
     gui.set_enabled(gui.get_node("max_active_pokemon/ctrl/btn_minus"), max_active_pokemon > max_active_pokemon_range_low)
     gui.set_enabled(gui.get_node("max_active_pokemon/ctrl/btn_plus"),  max_active_pokemon < max_active_pokemon_range_high)
+
+    local profile_name = profiles.get_active_name()
+    gui.set_text(gui.get_node("text_change_profile_name"), "PROFILE NAME:\n" .. profile_name)
 end
 
 local initial_scale = vmath.vector3(1, 1,0)
@@ -75,6 +82,10 @@ local function shake(node)
 end
 
 local function activate_tab(self, tab_number)
+    self.active_tab = tab_number
+    for i=1, #self.tabs do
+        gui.set_enabled(self.tabs[i].bg, false)
+    end
     for i=1, #self.tabs do
         if tab_number == i then
             gui.play_flipbook(self.tabs[tab_number].tab, "common_down")
@@ -84,22 +95,56 @@ local function activate_tab(self, tab_number)
         else
             gui.play_flipbook(self.tabs[i].tab, "common_up")
             gui.set_color(self.tabs[i].text, gui_colors.BUTTON_TEXT)
-            gui.set_enabled(self.tabs[i].bg, false)
         end
+    end
+
+    local description = self.tabs[self.active_tab].description
+    local title = self.tabs[self.active_tab].title
+    if description then
+        gui.set_text(gui.get_node("description_1"), description)
+        gui.set_text(gui.get_node("tab1/type_master_lbl"), title)
+    end
+    redraw(self)
+end
+
+local function update_profile_name(self)
+    monarch.show(screens.INPUT, {}, {sender=msg.url(), message=MSG_UPDATE_PROFILE_NAME, help_text="Input new profile name.", default_text=profiles.get_active_name()})
+end
+
+
+local function update_always_apply_stab_checkbox(checkbox, name)
+    if checkbox.released_now then
+        gui.set_enabled(gui.get_node("always_stab_type/".. name  .."/apply_stab_to_all_moves_checkmark"), checkbox.checked)
+    end
+end
+
+
+local function on_update_always_apply_stab_checked(checkbox, _type)
+    trainer.set_always_use_STAB(_type, checkbox.checked)
+end
+
+
+function on_message(self, message_id, message)
+    if message_id == MSG_UPDATE_PROFILE_NAME then
+        local new_name = message.str
+        profiles.set_active_name(new_name)
+        gui.set_text(gui.get_node("top_divider/title"), new_name)
+        redraw(self)
     end
 end
 
 function init(self)
-    msg.post(".", "acquire_input_focus")
-    msg.post(url.MENU, "show")
+    msg.post(".", messages.ACQUIRE_INPUT_FOCUS)
+    msg.post(url.MENU, messages.SHOW)
     local name = profiles.get_active_slot() ~= nil and profiles.get_active_name() or "Trainer"
     gui.set_text(gui.get_node("top_divider/title"), name)
 
     for name, _type in pairs(type_buttons) do
-        gui.set_color(gui.get_node("type_master/" .. name .. "/title"), type_data[_type].color)
-        gui.set_color(gui.get_node("stab/" .. name .. "/title"), type_data[_type].color)
-        gui.set_color(gui.get_node("pokemon_attack_bonus/" .. name .. "/title"), type_data[_type].color)
-        gui.set_color(gui.get_node("move_attack_bonus/" .. name .. "/title"), type_data[_type].color)
+        local _stab = trainer.get_always_use_STAB(_type)
+        gooey.checkbox("always_stab_type/" .. name .. "/type").set_checked(_stab)
+        gui.set_enabled(gui.get_node("always_stab_type/" .. name .. "/apply_stab_to_all_moves_checkmark"), _stab)
+        gui.set_color(gui.get_node("always_stab_type/" .. name .. "/title"), type_data[_type].color)
+        gui.set_color(gui.get_node("tab1/" .. name .. "/title"), type_data[_type].color)
     end
 
     self.tabs = {
@@ -107,54 +152,113 @@ function init(self)
             name = "tab_1",
             tab = gui.get_node("tab_1"),
             text = gui.get_node("text_1"),
-            bg =gui.get_node("tab_1_content")
+            bg =gui.get_node("tab_1_content"),
+            type="type_master",
+            title="Pokemon STAB",
+            get=trainer.get_type_master_STAB,
+            set=trainer.set_type_master_STAB,
+            description="Increases STAB depending on your Pokemon type.  Meaning that a Poision/Grass Pokemon with + in Poision would still get a STAB increase on Grass moves."
         },
         [2] = {
             name = "tab_2",
             tab = gui.get_node("tab_2"),
             text = gui.get_node("text_2"),
-            bg =gui.get_node("tab_2_content")
+            bg =gui.get_node("tab_1_content"),
+            type="stab",
+            title="Move STAB",
+            get=trainer.get_STAB,
+            set=trainer.set_STAB,
+            description="Increases STAB on moves.  A Poision/Grass Pokemon with + in Poision would only get the extra STAB on Poison moves."
         },
         [3] = {
             name = "tab_3",
             tab = gui.get_node("tab_3"),
             text = gui.get_node("text_3"),
-            bg =gui.get_node("tab_3_content")
+            bg =gui.get_node("tab_3_content"),
+            type="attributes"
         },
         [4] = {
             name = "tab_4",
             tab = gui.get_node("tab_4"),
             text = gui.get_node("text_4"),
-            bg =gui.get_node("tab_4_content")
+            bg =gui.get_node("tab_1_content"),
+            type="pokemon_attack_bonus",
+            title="Pokemon Attack Bonus",
+            get=trainer.get_pokemon_type_attack_bonus_single,
+            set=trainer.set_pokemon_type_attack_bonus,
+            description="Increases AB depending on your Pokemon type.  Meaning that a Poision/Grass Pokemon would get  increased AB on ALL moves if Poision or Grass were increased. This does not double dip, if your Poison is +2 and Grass +3 it would only use the +3."
         },
         [5] = {
             name = "tab_5",
             tab = gui.get_node("tab_5"),
             text = gui.get_node("text_5"),
-            bg =gui.get_node("tab_5_content")
+            bg =gui.get_node("tab_1_content"),
+            type="move_attack_bonus",
+            title="Move Attack Bonus",
+            get=trainer.get_move_type_attack_bonus,
+            set=trainer.set_move_type_attack_bonus,
+            description="Increase AB depending on the moves type. All Pokemon would get an increase to their Poison attacks if Poison is increased. Same type is not required."
         },
         [6] = {
             name = "tab_6",
             tab = gui.get_node("tab_6"),
             text = gui.get_node("text_6"),
-            bg =gui.get_node("tab_6_content")
+            bg =gui.get_node("tab_6_content"),
+            type="general"
+        },
+        [7] = {
+            name = "tab_7",
+            tab = gui.get_node("tab_7"),
+            text = gui.get_node("text_7"),
+            bg =gui.get_node("tab_1_content"),
+            type="move_attack_bonus",
+            title="Pokemon Attack Damage",
+            get=trainer.get_pokemon_type_damage_bonus,
+            set=trainer.set_pokemon_type_damage_bonus,
+            description="Increase damage depending on the pokemon type. Meaning that a Poision/Grass Pokemon would get increased damage on ALL moves if Poision or Grass were increased. This does not double dip, if your Poison is +2 and Grass +3 it would only use the +3."
+        },
+        [8] = {
+            name = "tab_8",
+            tab = gui.get_node("tab_8"),
+            text = gui.get_node("text_8"),
+            bg =gui.get_node("tab_1_content"),
+            type="move_attack_bonus",
+            title="Move Attack Damage",
+            get=trainer.get_move_type_damage_bonus,
+            set=trainer.set_move_type_damage_bonus,
+            description="Increase damage depending on the moves type. All Pokemon would get an increase to their Poison attacks if Poison is increased. Same type is not required."
+        },
+        [9] = {
+            name = "tab_9",
+            tab = gui.get_node("tab_9"),
+            text = gui.get_node("text_9"),
+            bg =gui.get_node("tab_4_content"),
+            type="always_stab_type",
+            title="Always Use STAB",
+            get=trainer.get_move_type_damage_bonus,
+            set=trainer.set_move_type_damage_bonus,
+            description="Type Master level 15 feature"
         }
     }
 
     for i=1, #self.tabs do
-        gui.set_position(self.tabs[i].bg, vmath.vector3(0, -140, 0))
+        gui.set_position(self.tabs[i].bg, vmath.vector3(0, 0, 0))
         gui.set_enabled(self.tabs[i].bg, false)
     end
-    activate_tab(self, 1)
-    redraw()
+    self.active_tab = 1
+
+    gui.play_flipbook(self.tabs[1].tab, "common_down")
+    gui.set_color(self.tabs[1].text, gui_colors.BUTTON_TEXT_PRESSED)
+    gui.set_enabled(self.tabs[1].bg, true)
+
+    redraw(self)
 end
 
 
-local function redraw_wrap(fnc)
+local function redraw_wrap(self, fnc)
     fnc()
-    redraw()
+    redraw(self)
 end
-
 
 function on_input(self, action_id, action)
     for i=1, #self.tabs do
@@ -164,47 +268,45 @@ function on_input(self, action_id, action)
         end)
     end
     
-    gooey.button("attack/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_attack_roll(trainer.get_attack_roll() - 1) end) end, gooey_buttons.minus_button)
-    gooey.button("attack/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_attack_roll(trainer.get_attack_roll() + 1) end) end, gooey_buttons.plus_button)
+    gooey.button("attack/btn_minus", action_id, action, function() redraw_wrap(self, function() trainer.set_attack_roll(trainer.get_attack_roll() - 1) end) end, gooey_buttons.minus_button)
+    gooey.button("attack/btn_plus", action_id, action, function() redraw_wrap(self, function() trainer.set_attack_roll(trainer.get_attack_roll() + 1) end) end, gooey_buttons.plus_button)
 
-    gooey.button("evolution_level/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_evolution_level(trainer.get_evolution_level() - 1) end) end, gooey_buttons.minus_button)
-    gooey.button("evolution_level/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_evolution_level(trainer.get_evolution_level() + 1) end) end, gooey_buttons.plus_button)
+    gooey.button("evolution_level/btn_minus", action_id, action, function() redraw_wrap(self, function() trainer.set_evolution_level(trainer.get_evolution_level() - 1) end) end, gooey_buttons.minus_button)
+    gooey.button("evolution_level/btn_plus", action_id, action, function() redraw_wrap(self, function() trainer.set_evolution_level(trainer.get_evolution_level() + 1) end) end, gooey_buttons.plus_button)
 
-    gooey.button("move/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_move(trainer.get_move() - 1) end) end, gooey_buttons.minus_button)
-    gooey.button("move/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_move(trainer.get_move() + 1) end) end, gooey_buttons.plus_button)
+    gooey.button("move/btn_minus", action_id, action, function() redraw_wrap(self, function() trainer.set_move(trainer.get_move() - 1) end) end, gooey_buttons.minus_button)
+    gooey.button("move/btn_plus", action_id, action, function() redraw_wrap(self, function() trainer.set_move(trainer.get_move() + 1) end) end, gooey_buttons.plus_button)
     
-    gooey.button("asi/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_asi(trainer.get_asi() - 1) end) end, gooey_buttons.minus_button)
-    gooey.button("asi/btn_plus",  action_id, action, function() redraw_wrap(function() trainer.set_asi(trainer.get_asi() + 1) end) end, gooey_buttons.plus_button)
+    gooey.button("asi/btn_minus", action_id, action, function() redraw_wrap(self, function() trainer.set_asi(trainer.get_asi() - 1) end) end, gooey_buttons.minus_button)
+    gooey.button("asi/btn_plus",  action_id, action, function() redraw_wrap(self, function() trainer.set_asi(trainer.get_asi() + 1) end) end, gooey_buttons.plus_button)
 
-    gooey.button("STAB/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_all_levels_STAB(trainer.get_all_levels_STAB() - 1) end) end, gooey_buttons.minus_button)
-    gooey.button("STAB/btn_plus", action_id, action, function()  redraw_wrap(function() trainer.set_all_levels_STAB(trainer.get_all_levels_STAB() + 1) end) end, gooey_buttons.plus_button)
+    gooey.button("STAB/btn_minus", action_id, action, function() redraw_wrap(self, function() trainer.set_all_levels_STAB(trainer.get_all_levels_STAB() - 1) end) end, gooey_buttons.minus_button)
+    gooey.button("STAB/btn_plus", action_id, action, function()  redraw_wrap(self, function() trainer.set_all_levels_STAB(trainer.get_all_levels_STAB() + 1) end) end, gooey_buttons.plus_button)
 
-    gooey.button("damage/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_damage(trainer.get_damage() - 1) end) end, gooey_buttons.minus_button)
-    gooey.button("damage/btn_plus", action_id, action, function()  redraw_wrap(function() trainer.set_damage(trainer.get_damage() + 1) end) end, gooey_buttons.plus_button)
+    gooey.button("damage/btn_minus", action_id, action, function() redraw_wrap(self, function() trainer.set_damage(trainer.get_damage() - 1) end) end, gooey_buttons.minus_button)
+    gooey.button("damage/btn_plus", action_id, action, function()  redraw_wrap(self, function() trainer.set_damage(trainer.get_damage() + 1) end) end, gooey_buttons.plus_button)
 
-    for _, attribute in pairs({"STR", "DEX", "CON", "INT", "WIS", "CHA"}) do
-        gooey.button("attributes/" .. attribute:lower() .. "/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_attribute(attribute, trainer.get_attribute(attribute) + 1) end) end, gooey_buttons.plus_button)
-        gooey.button("attributes/" .. attribute:lower() .. "/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_attribute(attribute, trainer.get_attribute(attribute) - 1) end) end, gooey_buttons.minus_button)
+    
+    for _, attribute in pairs(constants.ABILITY_LIST) do
+        gooey.button("attributes/" .. attribute:lower() .. "/btn_plus", action_id, action, function() redraw_wrap(self, function() trainer.set_attribute(attribute, trainer.get_attribute(attribute) + 1) end) end, gooey_buttons.plus_button)
+        gooey.button("attributes/" .. attribute:lower() .. "/btn_minus", action_id, action, function() redraw_wrap(self, function() trainer.set_attribute(attribute, trainer.get_attribute(attribute) - 1) end) end, gooey_buttons.minus_button)
     end
     
     for name, _type in pairs(type_buttons) do
-        gooey.button("type_master/" .. name .. "/buttons/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_type_master_STAB(_type, trainer.get_type_master_STAB(_type) + 1) end) end, gooey_buttons.plus_button)
-        gooey.button("type_master/" .. name .."/buttons/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_type_master_STAB(_type, trainer.get_type_master_STAB(_type) - 1) end) end, gooey_buttons.minus_button)
+        gooey.checkbox("always_stab_type/" .. name .. "/type", action_id, action, function(checkbox) on_update_always_apply_stab_checked(checkbox, _type) end, function(checkbox) update_always_apply_stab_checkbox(checkbox, name) end)
         
-        gooey.button("pokemon_attack_bonus/" .. name .."/buttons/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_pokemon_type_attack_bonus(_type, trainer.get_pokemon_type_attack_bonus_single(_type) + 1) end) end, gooey_buttons.plus_button)
-        gooey.button("pokemon_attack_bonus/" .. name .."/buttons/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_pokemon_type_attack_bonus(_type, trainer.get_pokemon_type_attack_bonus_single(_type) - 1) end) end, gooey_buttons.minus_button)
-
-        gooey.button("move_attack_bonus/" .. name .."/buttons/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_move_type_attack_bonus(_type, trainer.get_move_type_attack_bonus(_type) + 1) end) end, gooey_buttons.plus_button)
-        gooey.button("move_attack_bonus/" .. name .."/buttons/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_move_type_attack_bonus(_type, trainer.get_move_type_attack_bonus(_type) - 1) end) end, gooey_buttons.minus_button)
-        
-        gooey.button("stab/" .. name .. "/buttons/btn_plus", action_id, action, function() redraw_wrap(function() trainer.set_STAB(_type, trainer.get_STAB(_type) + 1) end) end, gooey_buttons.plus_button)
-        gooey.button("stab/" .. name .."/buttons/btn_minus", action_id, action, function() redraw_wrap(function() trainer.set_STAB(_type, trainer.get_STAB(_type) - 1) end) end, gooey_buttons.minus_button)
-        
+        local set = self.tabs[self.active_tab].set
+        local get = self.tabs[self.active_tab].get
+        if set then
+            gooey.button("tab1/" .. name .. "/buttons/btn_plus", action_id, action, function() redraw_wrap(self, function() set(_type, get(_type) + 1) end) end, gooey_buttons.plus_button)
+            gooey.button("tab1/" .. name .. "/buttons/btn_minus", action_id, action, function() redraw_wrap(self, function() set(_type, get(_type) - 1) end) end, gooey_buttons.minus_button)
+        end
     end
 
-    gooey.button("max_active_pokemon/ctrl/btn_plus",  action_id, action, function() redraw_wrap(function() storage.set_max_active_pokemon(storage.get_max_active_pokemon() + 1) end) end, gooey_buttons.plus_button)
-    gooey.button("max_active_pokemon/ctrl/btn_minus", action_id, action, function() redraw_wrap(function() storage.set_max_active_pokemon(storage.get_max_active_pokemon() - 1) end) end, gooey_buttons.minus_button)
+    gooey.button("max_active_pokemon/ctrl/btn_plus",  action_id, action, function() redraw_wrap(self, function() storage.set_max_party_pokemon(storage.get_max_party_pokemon() + 1) end) end, gooey_buttons.plus_button)
+    gooey.button("max_active_pokemon/ctrl/btn_minus", action_id, action, function() redraw_wrap(self, function() storage.set_max_party_pokemon(storage.get_max_party_pokemon() - 1) end) end, gooey_buttons.minus_button)
 
+    gooey.button("change_profile_name", action_id, action, function() update_profile_name(self) end, function(b) gooey_buttons.common_button(b, gui.get_node("text_change_profile_name")) end )
 end
 
 function on_reload(self)

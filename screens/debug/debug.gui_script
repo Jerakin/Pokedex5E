@@ -4,6 +4,8 @@ local gooey = require "gooey.gooey"
 local gooey_buttons = require "utils.gooey_buttons"
 local debug = require "screens.debug.debug"
 local gui_utils = require "utils.gui"
+local messages = require "utils.messages"
+local platform = require "utils.platform"
 
 local function game_analyctics()
 	local active = true
@@ -11,29 +13,26 @@ local function game_analyctics()
 	local key = ""
 	local secret = ""
 
-	local sys_info = sys.get_sys_info()
-	local system = sys_info.system_name
-	
 	if gameanalytics.mock then
 		active = false
 	end
-	if system == "Darwin" then
+	if platform.MACOS then
 		version = "Not supported"
 		key = "Not supported"
 		secret = "Not supported"
-	elseif system == "Windows" then
+	elseif platform.WINDOWS then
 		version = sys.get_config("gameanalytics.build_windows", "missing")
 		key = sys.get_config("gameanalytics.game_key_windows", "missing")
 		secret = sys.get_config("gameanalytics.secret_key_windows", "missing")
-	elseif system == "iPhone OS" then
+	elseif platform.IOS then
 		version = sys.get_config("gameanalytics.build_ios", "missing")
 		key = sys.get_config("gameanalytics.game_key_ios", "missing")
 		secret = sys.get_config("gameanalytics.secret_key_windows", "missing")
-	elseif system == "Android" then
+	elseif platform.ANDROID then
 		version = sys.get_config("gameanalytics.build_android", "missing")
 		key = sys.get_config("gameanalytics.game_key_android", "missing")
 		secret = sys.get_config("gameanalytics.secret_key_windows", "missing")
-	elseif system == "HTML5" then
+	elseif platform.WEB then
 		version = sys.get_config("gameanalytics.build_html5", "missing")
 		key = sys.get_config("gameanalytics.game_key_html5", "missing")
 		secret = sys.get_config("gameanalytics.secret_key_windows", "missing")
@@ -48,20 +47,18 @@ local function game_analyctics()
 end
 
 function init(self)
-	msg.post(".", "acquire_input_focus")
-	msg.post(url.MENU, "hide")
+	msg.post(".", messages.ACQUIRE_INPUT_FOCUS)
+	msg.post(url.MENU, messages.HIDE)
 	game_analyctics()
-	local sys_info = sys.get_sys_info()
-	local system = sys_info.system_name
 
 	gui.set_enabled(gui.get_node("load/btn"), false)
-	if system == "Windows" then
+	if platform.WINDOWS then
 		gui.set_enabled(gui.get_node("load/btn"), true)
 	end
 end
 
 function final(self)
-	msg.post(url.MENU, "show")
+	msg.post(url.MENU, messages.SHOW)
 end
 
 function on_input(self, action_id, action)
@@ -84,6 +81,10 @@ function on_input(self, action_id, action)
 	gooey.button("add_all/btn", action_id, action, function()
 		debug.add_all_pokemon()
 	end, function(b) gooey_buttons.common_button(b, gui.get_node("add_all/txt")) end)
+
+	gooey.button("moves/btn", action_id, action, function()
+		debug.add_all_moves()
+	end, function(b) gooey_buttons.common_button(b, gui.get_node("moves/txt")) end)
 	
 	gooey.button("ga_bg", action_id, action, function()
 		local loaded = crash.load_previous()

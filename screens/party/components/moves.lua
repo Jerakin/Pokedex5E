@@ -6,9 +6,10 @@ local type_data = require "utils.type_data"
 local gui_colors = require "utils.gui_colors"
 local gooey_buttons = require "utils.gooey_buttons"
 local monarch = require "monarch.monarch"
-local tracking_id = require "utils.tracking_id"
 local scrollhandler = require "screens.party.components.scrollhandler"
 local movedex = require "pokedex.moves"
+local screens = require "utils.screens"
+local messages = require "utils.messages"
 
 local M = {}
 
@@ -70,37 +71,27 @@ end
 
 local function bind_buttons(nodes, name)
 	local minus = {node="btn_minus_" .. current_index .. name, func=function()
-		gameanalytics.addDesignEvent {
-			eventId = "Party:PP:Decrease"
-		}
-		
 		local pp = _pokemon.decrease_move_pp(current_pokemon, name)
 		if pp ~= nil then
-			storage.set_pokemon_move_pp(_pokemon.get_id(current_pokemon), name, pp)
+			_pokemon.set_move_pp(current_pokemon, name, pp)
+			storage.save()
 			update_pp(current_pokemon, name)
 		end			
 	end, refresh=gooey_buttons.minus_button
 	}
 
 	local plus = {node="btn_plus_" .. current_index .. name, func=function()
-		gameanalytics.addDesignEvent {
-			eventId = "Party:PP:Increase"
-		}
-		
 		local pp = _pokemon.increase_move_pp(current_pokemon, name)
 		if pp ~= nil then
-			storage.set_pokemon_move_pp(_pokemon.get_id(current_pokemon), name, pp)
+			_pokemon.set_move_pp(current_pokemon, name, pp)
+			storage.save()
 			update_pp(current_pokemon, name)
 		end
 	end, refresh=gooey_buttons.plus_button
 	}
 
 	local move = {node="interaction_area_" .. current_index .. name, func=function()
-		gameanalytics.addDesignEvent {
-			eventId = "Navigation:MoveInfo",
-			value = tracking_id[monarch.top()]
-		}
-		monarch.show("move_info", {}, {pokemon=current_pokemon, name=name, data=_pokemon.get_moves(current_pokemon)[name]})
+		monarch.show(screens.MOVE_INFO, {}, {pokemon=current_pokemon, name=name, data=_pokemon.get_moves(current_pokemon)[name]})
 	end
 	}
 
@@ -233,7 +224,7 @@ function M.on_input(action_id, action)
 end
 
 function M.on_message(message_id, message, index)
-	if message_id == hash("refresh_pp") then
+	if message_id == messages.REFRESH_PP then
 		for _, entry in pairs(active_move_lists[index].data) do
 			update_move_data(entry)
 		end

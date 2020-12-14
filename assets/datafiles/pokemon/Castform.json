@@ -68,6 +68,19 @@
       88,
       90,
       100
+    ],
+    "egg": [
+      "Amnesia",
+      "Clear Smog",
+      "Cosmic Power",
+      "Disable",
+      "Future Sight",
+      "Guard Swap",
+      "Hex",
+      "Lucky Chant",
+      "Ominous Wind",
+      "Psych Up",
+      "Reflect Type"
     ]
   },
   "SR": 5.0,
@@ -87,6 +100,45 @@
   },
   "index": 351,
   "saving_throws": [
-    "DEX"
-  ]
+    "Dexterity"
+  ],
+  "size": "Tiny",
+  "variant_data": {
+    "create_mode": "choose",
+    "default": "Normal",
+    "permanent": false,
+    "variants": {
+      "Normal": {
+        "display": "Castform",
+        "original_species": "Castform"
+      },
+      "Rainy": {
+        "diff": {
+          "Type": [
+            "Water"
+          ]
+        },
+        "display": "Rainy Castform",
+        "original_species": "Castform Rainy"
+      },
+      "Snowy": {
+        "diff": {
+          "Type": [
+            "Ice"
+          ]
+        },
+        "display": "Snowy Castform",
+        "original_species": "Castform Snowy"
+      },
+      "Sunny": {
+        "diff": {
+          "Type": [
+            "Fire"
+          ]
+        },
+        "display": "Sunny Castform",
+        "original_species": "Castform Sunny"
+      }
+    }
+  }
 }

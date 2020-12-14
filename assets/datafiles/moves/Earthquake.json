@@ -21,14 +21,14 @@
       "move": true
     }
   },
-  "Description": "You create a tremor in the ground in a 10 foot radius, centered on you. Each creature in the area must succeed on a DEX save against your Move DC, taking ground damage on a fail and be knocked prone. On a success, they take half as much damage and are not knocked prone. The area becomes difficult terrain. Flying creature are immune to this attack.",
+  "Description": "You create a tremor in the ground in a 20 foot radius, centered on you. Each creature in the area must succeed on a DEX save against your Move DC, taking ground damage on a fail and be knocked prone. On a success, they take half as much damage and are not knocked prone. Creatures in range that are burrowed or in the invulnerable stage of Dig take double damage from this move. After the move is activated, the area becomes difficult terrain. Raised creatures are immune to the effects and damage of this move.",
   "Duration": "Instantaneous",
   "Move Power": [
     "STR"
   ],
   "Move Time": "1 action",
   "PP": 5,
-  "Range": "10ft",
+  "Range": "Self (20ft radius)",
   "Save": "DEX",
   "Type": "Ground"
 }

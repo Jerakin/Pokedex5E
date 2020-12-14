@@ -1,11 +1,12 @@
 local monarch = require "monarch.monarch"
-local gooey = require "gooey.gooey"
 local utils = require "utils.utils"
 local gui_colors = require "utils.gui_colors"
 local gooey_buttons = require "utils.gooey_buttons"
+local gooey_scrolling_list = require "utils.gooey_scrolling_list"
 local gooey = require "gooey.gooey"
 local url = require "utils.url"
 local gui_utils = require "utils.gui"
+local messages = require "utils.messages"
 
 local selected_item
 local sender
@@ -15,15 +16,6 @@ local function update_listitem(list, item)
 	gui.set_text(item.nodes["txt_item"], tostring(item.data or "-"):upper())
 	if item.index == list.selected_item then
 		selected_item = item.data
-	end
-end
-
-local function update_list(list)
-	gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar").scroll_to(0, list.scroll.y)
-	for i,item in ipairs(list.items) do
-		if item.data then
-			update_listitem(list, item)
-		end
 	end
 end
 
@@ -37,14 +29,15 @@ local function on_item_selected(list)
 end
 
 function init(self)
-	msg.post(url.MENU, "hide")
+	msg.post(url.MENU, messages.HIDE)
 	local d = monarch.data("scrollist")
 	sender = d.sender
 	message_id = d.message_id
 	gui.set_text(gui.get_node("topbar/title"), d.title)
 	self.all_items = utils.shallow_copy(d.items)
 	self.list_items = utils.shallow_copy(d.items)
-	update_list(gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.list_items))
+	self.scrolling_list = gooey_scrolling_list.create_vertical_dynamic("scrollist", "scroll_area", "btn_item", "scrollbar/handle", "scrollbar/bar", "scrollbar/visual", update_listitem, on_item_selected)
+	self.scrolling_list.refresh(self.list_items)
 	gui.set_enabled(gui.get_node("cursor"), false)
 	--gui_utils.scale_text_to_fit_size(gui.get_node("topbar/title"))
 end
@@ -63,7 +56,7 @@ local function filter_list(self, search_string)
 				table.insert(self.list_items, 1, self.all_items[i])
 			end
 		end
-		update_list(gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.list_items))
+		self.scrolling_list.refresh(self.list_items)
 	else
 		self.list_items = self.all_items
 	end
@@ -95,16 +88,9 @@ local function close()
 	monarch.show(monarch.top(-1), {clear=true})
 end
 
-local function on_scrolled(self, scrollbar)
-	gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.list_items).scroll_to(0, scrollbar.scroll.y)
-end
-
 function on_input(self, action_id, action)
 	if next(self.list_items) ~= nil then
-		local list = gooey.dynamic_list("scrollist", "scroll_area", "btn_item", self.list_items, action_id, action, on_item_selected, update_list)
-		if list.max_y and list.max_y > 0 then
-			gooey.vertical_scrollbar("scrollbar/handle", "scrollbar/bar", action_id, action, function(scrollbar) on_scrolled(self, scrollbar) end)
-		end
+		self.scrolling_list.on_input(self.list_items, action_id, action)
 	end
 	gooey.input("search_text", gui.KEYBOARD_TYPE_DEFAULT, action_id, action, {use_marked_text=false}, function(input)
 		refresh_input(self, input, "search_text")

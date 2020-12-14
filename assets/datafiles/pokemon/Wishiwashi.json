@@ -1,0 +1,118 @@
+{
+  "AC": 13,
+  "Abilities": [
+    "Schooling"
+  ],
+  "HP": 18,
+  "Hit Dice": 8,
+  "MIN LVL FD": 1,
+  "Moves": {
+    "Level": {
+      "10": [
+        "Take Down",
+        "Dive"
+      ],
+      "14": [
+        "Beat Up",
+        "Aqua Tail",
+        "Double-Edge"
+      ],
+      "18": [
+        "Soak",
+        "Endeavor",
+        "Hydro Pump"
+      ],
+      "2": [
+        "Helping Hand",
+        "Feint Attack"
+      ],
+      "6": [
+        "Brine",
+        "Aqua Ring",
+        "Tearful Look"
+      ]
+    },
+    "Starting Moves": [
+      "Growl",
+      "Water Gun"
+    ],
+    "TM": [
+      6,
+      7,
+      10,
+      13,
+      17,
+      18,
+      21,
+      26,
+      27,
+      32,
+      42,
+      44,
+      45,
+      48,
+      55,
+      78,
+      87,
+      88,
+      89,
+      90,
+      94,
+      98,
+      100
+    ],
+    "egg": [
+      "Mist",
+      "Muddy Water",
+      "Water Pulse",
+      "Water Sport",
+      "Whirlpool"
+    ]
+  },
+  "SR": 5.0,
+  "Ssp": 25,
+  "Type": [
+    "Water"
+  ],
+  "WSp": 5,
+  "attributes": {
+    "CHA": 10,
+    "CON": 10,
+    "DEX": 9,
+    "INT": 6,
+    "STR": 8,
+    "WIS": 10
+  },
+  "index": 746,
+  "size": "Tiny",
+  "variant_data": {
+    "create_mode": "default",
+    "default": "Solo Form",
+    "permanent": false,
+    "variants": {
+      "School Form": {
+        "diff": {
+          "AC": 18,
+          "Skill": [
+            "Intimidation"
+          ],
+          "attributes": {
+            "CON": 15,
+            "DEX": 14,
+            "STR": 13
+          },
+          "saving_throws": [
+            "Constitution"
+          ],
+          "size": "Huge"
+        },
+        "display": "Wishiwashi (School Form)",
+        "original_species": "Wishiwashi School Form"
+      },
+      "Solo Form": {
+        "display": "Wishiwashi",
+        "original_species": "Wishiwashi Solo Form"
+      }
+    }
+  }
+}

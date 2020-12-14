@@ -5,6 +5,7 @@ local gui_colors = require "utils.gui_colors"
 local url = require "utils.url"
 local dex = require "pokedex.dex"
 local type_data = require "utils.type_data"
+local platform = require "utils.platform"
 
 local M = {}
 
@@ -14,7 +15,7 @@ end
 
 local function filter_type(self, search_string)
 	for i=#self.all_pokemons, 1, -1 do
-		local p = storage.get_copy(self.all_pokemons[i])
+		local p = storage.get_pokemon(self.all_pokemons[i])
 		for _, type in pairs(_pokemon.get_type(p)) do
 			if type:lower() == search_string:lower() then
 				table.insert(self.filtered_list, 1, self.all_pokemons[i])
@@ -25,7 +26,7 @@ end
 
 local function filter_species(self, search_string)
 	for i=#self.all_pokemons, 1, -1 do
-		local p = storage.get_copy(self.all_pokemons[i])
+		local p = storage.get_pokemon(self.all_pokemons[i])
 		if starts_with(_pokemon.get_current_species(p), search_string) then
 			table.insert(self.filtered_list, 1, self.all_pokemons[i])
 		end
@@ -34,7 +35,7 @@ end
 
 local function filter_index(self, search_string)
 	for i=#self.all_pokemons, 1, -1 do
-		local p = storage.get_copy(self.all_pokemons[i])
+		local p = storage.get_pokemon(self.all_pokemons[i])
 		if starts_with(_pokemon.get_index_number(p), search_string) then
 			table.insert(self.filtered_list, 1, self.all_pokemons[i])
 		end
@@ -74,7 +75,7 @@ local function refresh_input(self, input, node_id)
 		if input.empty then
 			gui.set_text(self.text_node, "")
 		end
-		self.all_pokemons = storage.list_of_ids_in_storage()
+		self.all_pokemons = storage.list_of_ids_in_pc()
 		gui.set_enabled(cursor, true)
 		gui.set_position(cursor, vmath.vector3(input.total_width, 0, 0))
 		gui.cancel_animation(cursor, gui.PROP_COLOR)
@@ -89,10 +90,10 @@ end
 
 local enabled = vmath.vector3(0)
 local disabled = vmath.vector3(41, -517, 0)
-local system  = sys.get_sys_info().system_name
+
 local function keyboard_toggle(toggle)
 	local pos = disabled
-	if system == "Android" or system == "iPhone OS" then
+	if platform.MOBILE_PHONE then
 		if toggle then
 			pos = enabled
 		end

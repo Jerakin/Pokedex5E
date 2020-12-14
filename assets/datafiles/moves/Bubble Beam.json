@@ -21,7 +21,7 @@
       "move": true
     }
   },
-  "Description": "You shoot a concentrated stream of bubbles in an 80 foot line, 5 feet wide. Any creature caught in the line must succeed on a DEX save against your Move DC, taking water damage on a failed save, and half as much on a success.",
+  "Description": "You shoot a concentrated stream of bubbles at a single creature in range. Make a ranged attack roll, doing water damage on a hit.",
   "Duration": "Instantaneous",
   "Move Power": [
     "STR",
@@ -29,7 +29,7 @@
   ],
   "Move Time": "1 action",
   "PP": 10,
-  "Range": "80ft line",
-  "Save": "DEX",
-  "Type": "Water"
+  "Range": "80ft",
+  "Type": "Water",
+  "atk": true
 }

@@ -1,5 +1,4 @@
 local _pokemon = require "pokedex.pokemon"
-local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
 local items = require "pokedex.items"
 local party_utils = require "screens.party.utils"
@@ -10,17 +9,21 @@ local gui_colors = require "utils.gui_colors"
 local monarch = require "monarch.monarch"
 local url = require "utils.url"
 local scrollhandler = require "screens.party.components.scrollhandler"
+local constants = require "utils.constants"
+local screens = require "utils.screens"
+local messages = require "utils.messages"
+local pokedex = require "pokedex.pokedex"
 
 local M = {}
 local active = {}
 local touching = false
 local _action = vmath.vector3(0)
 local POKEMON_SPECIES_TEXT_SCALE = vmath.vector3(1.5)
-local number_map = {[0.125]="1/8", [0.25]="1/4", [0.5]="1/2"}
 
 local item_button
 local rest_button
 local active_pokemon
+local skills_button
 
 
 local function setup_main_information(nodes, pokemon)
@@ -35,7 +38,8 @@ local function setup_main_information(nodes, pokemon)
 		gui.play_flipbook(nodes["pokemon/pokemon_sprite"], pokemon_sprite)
 	end
 
-	gui.set_text(nodes["pokemon/index"], string.format("#%03d %s", _pokemon.get_index_number(pokemon), species))
+	local species_text = pokedex.get_species_display(species, _pokemon.get_variant(pokemon))
+	gui.set_text(nodes["pokemon/index"], string.format("#%03d %s", _pokemon.get_index_number(pokemon), species_text))
 	
 	gui.set_text(nodes["pokemon/species"], nickname)
 	gui.set_text(nodes["pokemon/level"], "Lv. " ..  _pokemon.get_current_level(pokemon))
@@ -61,10 +65,10 @@ end
 
 
 function M.refresh(pokemon_id)
-	local pokemon = storage.get_copy(pokemon_id)
+	local pokemon = storage.get_pokemon(pokemon_id)
 	gui.set_text(active["pokemon/traits/txt_catch"], _pokemon.get_catch_rate(pokemon))
 	local st_attributes = _pokemon.get_saving_throw_modifier(pokemon)
-	for i, stat in pairs({"STR", "DEX", "CON", "INT", "WIS", "CHA"}) do
+	for i, stat in pairs(constants.ABILITY_LIST) do
 		local save_node = "pokemon/txt_" .. stat:lower() .. "_save"
 		gui.set_text(active[save_node], party_utils.add_operation(st_attributes[stat]))
 	end	
@@ -79,7 +83,7 @@ local function setup_info_tab(nodes, pokemon)
 
 	local st_attributes = _pokemon.get_saving_throw_modifier(pokemon)
 	local total_attributes = _pokemon.get_attributes(pokemon)
-	for i, stat in pairs({"STR", "DEX", "CON", "INT", "WIS", "CHA"}) do
+	for i, stat in pairs(constants.ABILITY_LIST) do
 		local mod_node = "pokemon/txt_" .. stat:lower() .. "_mod"
 		local score_node = "pokemon/txt_" .. stat:lower() .. "_score"
 		local save_node = "pokemon/txt_" .. stat:lower() .. "_save"
@@ -90,18 +94,27 @@ local function setup_info_tab(nodes, pokemon)
 	end	
 
 	local skill_string = ""
-	for _, skill in pairs(_pokemon.get_skills(pokemon)) do
-		skill_string = skill_string .. "• " .. skill .. "\n"
+	local skills = _pokemon.get_skills(pokemon)
+	local skills_attributes = _pokemon.get_skills_modifier(pokemon)
+	if #skills > 8 then
+		for _, skill in pairs(skills) do
+			skill_string = skill_string .. skill .. " (" .. skills_attributes[skill] .. ") , "
+		end
+	else
+		for _, skill in pairs(skills) do
+			skill_string = skill_string .. "• " .. skill .. " (" .. skills_attributes[skill] .. ")\n"
+		end
 	end
 	gui.set_text(nodes["pokemon/traits/txt_skills"], skill_string)
 
-	local sr = pokedex.get_pokemon_SR(_pokemon.get_current_species(pokemon))
-	gui.set_text(nodes["pokemon/traits/txt_sr"], number_map[sr] or sr)
+	local sr = _pokemon.get_SR(pokemon)
+	gui.set_text(nodes["pokemon/traits/txt_sr"], constants.NUMBER_TO_SR[sr])
 
+	gui.set_text(nodes["pokemon/traits/txt_size"], _pokemon.get_size(pokemon):upper())
 	gui.set_text(nodes["pokemon/traits/txt_nature"], _pokemon.get_nature(pokemon):upper())
 	gui.set_text(nodes["pokemon/traits/txt_stab"], _pokemon.get_STAB_bonus(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_prof"], _pokemon.get_proficency_bonus(pokemon))
-	gui.set_text(nodes["pokemon/traits/txt_exp"], _pokemon.get_pokemon_exp_worth(pokemon))
+	gui.set_text(nodes["pokemon/traits/txt_exp"], _pokemon.get_exp_worth(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_catch"], _pokemon.get_catch_rate(pokemon))
 	gui.set_text(nodes["pokemon/traits/txt_hitdice"], "d" .. _pokemon.get_hit_dice(pokemon))
 
@@ -148,16 +161,25 @@ local function setup_info_tab(nodes, pokemon)
 		[_pokemon.MALE] = "male",
 		[_pokemon.FEMALE] = "female"
 	}
-	local genderized, gender = _pokemon.genderized(pokemon)
-	if not genderized then
-		gender = _pokemon.get_gender(pokemon)
-	end
+	local gender = _pokemon.get_gender(pokemon)
 	if gender ~= nil then
 		gui.set_enabled(nodes["pokemon/gender_icon"], true)
 		gui.play_flipbook(nodes["pokemon/gender_icon"], g[gender])
 	else
 		gui.set_enabled(nodes["pokemon/gender_icon"], false)
 	end
+
+	skills_button = party_utils.set_id(nodes["pokemon/traits/skills_details"])
+end
+
+local function show_skill_list()
+	local skill_list = utils.deep_copy(pokedex.skills)
+	local tbl = {}
+	local add
+	for skill, value in pairs(_pokemon.get_skills_modifier(active_pokemon)) do 
+		tbl[#tbl+1] = skill .. " (" .. value .. ")"
+	end
+	monarch.show(screens.SCROLLIST, {}, {items=tbl, message_id=messages.SKILLS, sender=msg.url(), title="Skills"})
 end
 
 function M.on_input(action_id, action)
@@ -168,19 +190,27 @@ function M.on_input(action_id, action)
 	if item_button then
 		gooey.button(item_button, action_id, action, function()
 			local item = _pokemon.get_held_item(active_pokemon)
-			monarch.show("info", nil, {text=items.get_description(item)})
+			monarch.show(screens.INFO, nil, {text=items.get_description(item)})
 		end)
 	end
 
 	gooey.button(rest_button, action_id, action, function() 
-		monarch.show("are_you_sure", nil, {title="Pokémon Center", text="We heal your Pokémon back to perfect health!\nShall we heal your Pokémon?", sender=msg.url(), id="full_rest"})
+		monarch.show(screens.ARE_YOU_SURE, nil, {title="Pokémon Center", text="We heal your Pokémon back to perfect health!\nShall we heal your Pokémon?", sender=msg.url(), id=messages.FULL_REST})
 	end)
+	
+	if skills_button then
+		gooey.button(skills_button, action_id, action, function() 
+			show_skill_list()
+		end)
+	end
 end
 
 function M.create(nodes, pokemon, index)
 	item_button = nil
+	skills_button = nil
 	active = nodes
 	active_pokemon = pokemon
+
 	rest_button = gui.get_id(active["pokemon/btn_rest"])
 	setup_main_information(nodes, pokemon)
 	setup_info_tab(nodes, pokemon)
@@ -188,12 +218,12 @@ function M.create(nodes, pokemon, index)
 end
 
 function M.on_message(message_id, message, sender)
-	if message_id == hash("response") and message.response then
-		if message.id == "full_rest" then
-			_pokemon.reset_in_storage(active_pokemon)
-			msg.post(url.PARTY, "refresh_status")
-			msg.post(url.PARTY, "refresh_hp")
-			msg.post(url.PARTY, "refresh_pp")
+	if message_id == messages.RESPONSE and message.response then
+		if message.id == messages.FULL_REST then
+			storage.heal_party()
+			msg.post(url.PARTY, messages.REFRESH_STATUS)
+			msg.post(url.PARTY, messages.REFRESH_HP)
+			msg.post(url.PARTY, messages.REFRESH_PP)
 		end
 	end
 end

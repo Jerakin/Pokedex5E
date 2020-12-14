@@ -5,7 +5,7 @@
     "Frisk"
   ],
   "Fsp": 25,
-  "HP": 76,
+  "HP": 84,
   "Hidden Ability": "Insomnia",
   "Hit Dice": 10,
   "MIN LVL FD": 8,
@@ -99,7 +99,50 @@
   },
   "index": 711,
   "saving_throws": [
-    "CON",
-    "WIS"
-  ]
+    "Constitution",
+    "Wisdom"
+  ],
+  "size": "Varies",
+  "variant_data": {
+    "create_mode": "choose",
+    "default": "Small",
+    "permanent": true,
+    "sprite_suffix": "Gourgeist",
+    "variants": {
+      "Average": {
+        "diff": {
+          "attributes": {
+            "CON": 18,
+            "DEX": 13
+          }
+        },
+        "display": "Gourgeist (Average)",
+        "original_species": "Gourgeist - Average"
+      },
+      "Large": {
+        "diff": {
+          "attributes": {
+            "CON": 19,
+            "DEX": 12
+          }
+        },
+        "display": "Gourgeist (Large)",
+        "original_species": "Gourgeist - Large"
+      },
+      "Small": {
+        "display": "Gourgeist (Small)",
+        "original_species": "Gourgeist - Small"
+      },
+      "Supersize": {
+        "diff": {
+          "attributes": {
+            "CON": 20,
+            "DEX": 11
+          }
+        },
+        "display": "Gourgeist (Supersize)",
+        "original_species": "Gourgeist- Supersize"
+      }
+    }
+  }
 }

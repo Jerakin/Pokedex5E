@@ -34,13 +34,14 @@ function M.get_move_data(move)
 				log.error(e)
 			end
 			warning_list[tostring(move)] = true
-			return movedata["Error"]
+			return M.get_move_data("Error")
 		end
 	end
 end
 
 function M.get_move_pp(move)
-	return M.get_move_data(move).PP
+	local move = M.get_move_data(move)
+	return move and move.PP or 0
 end
 
 function M.get_known_to_all_moves()
@@ -52,7 +53,8 @@ function M.is_move_known_to_all(move)
 end
 
 function M.get_move_type(move)
-	return M.get_move_data(move).Type
+	local move = M.get_move_data(move)
+	return move and move.Type or "Typeless"
 end
 
 local function get_type_data(move)
@@ -100,7 +102,10 @@ function M.init()
 		move_machines = file.load_json_from_resource("/assets/datafiles/move_machines.json")
 
 		if fakemon.DATA and fakemon.DATA["moves.json"] then
+			log.info("Merging Move data")
 			for name, data in pairs(fakemon.DATA["moves.json"]) do
+				log.info("    " .. name)
+				index[name] = {}
 				movedata[name] = data
 			end
 		end

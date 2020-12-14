@@ -3,7 +3,7 @@
   "Abilities": [
     "Levitate"
   ],
-  "Fsp": 25,
+  "Fsp": 30,
   "HP": 44,
   "Hit Dice": 8,
   "MIN LVL FD": 5,
@@ -84,6 +84,128 @@
   },
   "index": 479,
   "saving_throws": [
-    "DEX"
-  ]
+    "Dexterity"
+  ],
+  "size": "Tiny",
+  "variant_data": {
+    "create_mode": "choose",
+    "default": "Regular",
+    "permanent": false,
+    "variants": {
+      "Fan": {
+        "diff": {
+          "AC": 16,
+          "Abilities": [
+            "Levitate",
+            "Air Slash"
+          ],
+          "Type": [
+            "Electric",
+            "Flying"
+          ],
+          "attributes": {
+            "DEX": 16,
+            "INT": 10,
+            "STR": 16,
+            "WIS": 12
+          },
+          "size": "Small"
+        },
+        "display": "Rotom Fan",
+        "original_species": "Rotom Fan"
+      },
+      "Frost": {
+        "diff": {
+          "AC": 16,
+          "Abilities": [
+            "Levitate",
+            "Blizzard"
+          ],
+          "Type": [
+            "Electric",
+            "Ice"
+          ],
+          "attributes": {
+            "DEX": 16,
+            "INT": 10,
+            "STR": 16,
+            "WIS": 12
+          },
+          "size": "Small"
+        },
+        "display": "Rotom Frost",
+        "original_species": "Rotom Frost"
+      },
+      "Heat": {
+        "diff": {
+          "AC": 16,
+          "Abilities": [
+            "Levitate",
+            "Overheat"
+          ],
+          "Type": [
+            "Electric",
+            "Fire"
+          ],
+          "attributes": {
+            "DEX": 16,
+            "INT": 10,
+            "STR": 16,
+            "WIS": 12
+          },
+          "size": "Small"
+        },
+        "display": "Rotom Heat",
+        "original_species": "Rotom Heat"
+      },
+      "Mow": {
+        "diff": {
+          "AC": 16,
+          "Abilities": [
+            "Levitate",
+            "Leaf Storm"
+          ],
+          "Type": [
+            "Electric",
+            "Grass"
+          ],
+          "attributes": {
+            "DEX": 16,
+            "INT": 10,
+            "STR": 16,
+            "WIS": 12
+          },
+          "size": "Small"
+        },
+        "display": "Rotom Mow",
+        "original_species": "Rotom Mow"
+      },
+      "Regular": {
+        "display": "Rotom",
+        "original_species": "Rotom"
+      },
+      "Wash": {
+        "diff": {
+          "AC": 16,
+          "Abilities": [
+            "Levitate",
+            "Hydro Pump"
+          ],
+          "Type": [
+            "Electric",
+            "Water"
+          ],
+          "attributes": {
+            "DEX": 16,
+            "INT": 10,
+            "STR": 16,
+            "WIS": 12
+          },
+          "size": "Small"
+        },
+        "display": "Rotom Wash",
+        "original_species": "Rotom Wash"
+      }
+    }
+  }
 }

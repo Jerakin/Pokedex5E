@@ -8,11 +8,11 @@ end
 
 
 function on_message(self, message_id, message)
-	if message_id == hash("notify") then
+	if message_id == notify.MSG_NOTIFY then
 		if not notify_factory then
 			notify_factory = collectionfactory.create("/notification#collectionfactory")
 		end
-	elseif message_id == hash("done") then
+	elseif message_id == notify.MSG_DONE then
 		if notify_factory then
 			go.delete(notify_factory)
 			notify_factory = nil

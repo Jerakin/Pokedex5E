@@ -21,7 +21,7 @@
       "move": true
     }
   },
-  "Description": "You attempt a forceful grapple on a target. Make a melee attack, doing fighting damage on a hit, but taking a quarter of the damage dealt in recoil. On a hit, the target is grappled. As long as the target is grappled on your subsequent turns, this move can be activated again as a bonus action with an automatic hit, dealing fighting damage with a quarter of the damage dealt in recoil.",
+  "Description": "You attempt a forceful grapple on a target. Make a melee attack, doing fighting damage on a hit, but taking a quarter of the damage dealt in recoil. On a hit, the target is grappled. At the beginning of each of its turns, it may attempt to escape with a STR save against your Move DC. While a creature is grappled, this move can be activated again as a bonus action with an automatic hit, dealing fighting damage with a quarter of the damage dealt in typeless recoil.",
   "Duration": "Instantaneous",
   "Move Power": [
     "STR"
@@ -29,6 +29,7 @@
   "Move Time": "1 action",
   "PP": 10,
   "Range": "Melee",
+  "Save": "STR",
   "Type": "Fighting",
   "atk": true
 }
