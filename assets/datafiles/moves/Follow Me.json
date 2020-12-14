@@ -1,9 +1,13 @@
 {
-  "Description": "You entice all enemies to attack you. All ranged and melee attacks by any opponent in range must target you until the beginning of your next turn.",
-  "Duration": "1 round",
-  "Move Time": "1 action",
-  "PP": 10,
+  "Description": "You act quickly to entice an enemy to attack you. When a creature in range activates a Move, you may use your reaction to force the creature to make a CHA save against your Move DC. On a fail, the Move must target you. If the target's Move cannot target a creature other than itself, it fails. If the Move's range is melee, the creature is forced to immediately use their remaining movement to move in a straight line towards you before making the attack (does not provoke attacks of opportunity).",
+  "Duration": "Instantaneous",
+  "Move Power": [
+    "WIS",
+    "CHA"
+  ],
+  "Move Time": "1 reaction",
+  "PP": 5,
   "Range": "50ft",
-  "Type": "Normal",
-  "atk": true
+  "Save": "CHA",
+  "Type": "Normal"
 }

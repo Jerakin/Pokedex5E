@@ -41,7 +41,7 @@ local feat_to_attribute = {
 	Acrobat="DEX"
 }
 
-local LATEST_POKEMON_VERSION = 8
+local LATEST_POKEMON_VERSION = 9
 
 M.GENDERLESS = pokedex.GENDERLESS
 M.MALE = pokedex.MALE
@@ -234,7 +234,7 @@ function M.reset_abilities(pkmn)
 	for i, name in pairs(M.get_abilities(pkmn)) do
 		table.remove(pkmn.abilities, i)
 	end
-	for i, name in pairs(pokedex.get_abilities(M.get_current_species(pkmn))) do
+	for i, name in pairs(pokedex.get_abilities(M.get_current_species(pkmn), M.get_variant(pkmn))) do
 		table.insert(pkmn.abilities, name)
 	end
 end
@@ -624,10 +624,11 @@ end
 
 function M.get_abilities(pkmn, as_raw)
 	local species = M.get_current_species(pkmn)
+	local variant = M.get_variant(pkmn)
 	local t = {}
-	t = pkmn.abilities or pokedex.get_abilities(species) or {}
+	t = pkmn.abilities or pokedex.get_abilities(species, variant) or {}
 	if not as_raw and M.have_feat(pkmn, "Hidden Ability") then
-		local hidden = pokedex.get_hidden_ability(species)
+		local hidden = pokedex.get_hidden_ability(species, variant)
 		local added = false
 		for _, h in pairs(t) do
 			if h == hidden then
@@ -1167,6 +1168,23 @@ function M.upgrade_pokemon(pkmn)
 
 				-- NOTE: If a new data upgrade is needed, update the above LATEST_POKEMON_VERSION value and add a new block here like so:
 				--elseif i == ??? then
+			elseif i == 8 then
+				-- There was a bug in the prior version where a pokemon with the feat Hidden Ability and a Variant which provided a different
+				-- hidden ability would accidentally get the base variant's hidden ability
+				if M.have_feat(pkmn, "Hidden Ability") then
+					local variant = M.get_variant(pkmn)
+					if variant then
+						local species = M.get_current_species(pkmn)
+						local hidden_no_var = pokedex.get_hidden_ability(species)
+						local hidden_var = pokedex.get_hidden_ability(species, variant)
+						if hidden_no_var ~= hidden_var then
+							M.remove_ability(pkmn, hidden_no_var)
+							if not M.have_ability(pkmn, hidden_var) then
+								M.add_ability(pkmn, hidden_var)
+							end
+						end
+					end
+				end
 			elseif i == 7 then
 				reset_max_hp_for_hit_dice_change(pkmn)
 			elseif i == 6 then
