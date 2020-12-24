@@ -658,7 +658,7 @@ function M.extra_skills(pkmn)
 end
 
 function M.get_skills(pkmn)
-	local skills = pokedex.get_skills(M.get_current_species(pkmn), M.get_variant(pkmn)) or {}
+	local skills = utils.deep_copy(pokedex.get_skills(M.get_current_species(pkmn), M.get_variant(pkmn)) or {})
 	for feat, skill in pairs(feat_to_skill) do
 		local added = false
 		if M.have_feat(pkmn, feat) then
