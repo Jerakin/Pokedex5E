@@ -16,9 +16,6 @@ function init(self)
 	gui.set_text(gui.get_node("version_android"), "Version: " .. sys.get_config("project.version"))
 	self.lock = true
 	timer.delay(0.1, false, function() self.lock = false end)
-	if not (platform.IOS or platform.ANDROID or platform.OSX) then
-		gui.set_enabled(gui.get_node("send_log"), false)
-	end
 	if platform.ANDROID then
 		gui.set_enabled(gui.get_node("version"), false)
 	else

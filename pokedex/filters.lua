@@ -92,7 +92,7 @@ end
 
 function M.init()
 	if not initialized then
-		_pokedex =file.load_json_from_resource("/assets/datafiles/filter_data.json")
+		_pokedex =file.load_json_from_resource("/p5e-data/data/filter_data.json")
 		trainer_classes = file.load_json_from_resource("/assets/datafiles/trainer_classes.json")
 		trainer_classes_list = _trainer_classes_list()
 		habitats = file.load_json_from_resource("/assets/datafiles/habitat.json")

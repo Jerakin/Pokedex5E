@@ -53,7 +53,7 @@ M.skills = {
 
 local initialized = false
 local function list()
-	local _index_list = file.load_json_from_resource("/assets/datafiles/index_order.json")
+	local _index_list = file.load_json_from_resource("/p5e-data/data/index_order.json")
 	local index_list = {}
 	local index_table = {}
 	local unique = {}
@@ -122,7 +122,7 @@ local function get_pokemon_raw(pokemon)
 		pokemon_species = pokemon_species:gsub(" ♂", "-m")
 		pokemon_species = pokemon_species:gsub("é", "e")
 		pokemon_species = pokemon_species:gsub(":", "")
-		local pokemon_json = file.load_json_from_resource("/assets/datafiles/pokemon/".. pokemon_species .. ".json")
+		local pokemon_json = file.load_json_from_resource("/p5e-data/data/pokemon/".. pokemon_species .. ".json")
 		if pokemon_json ~= nil then
 			pokedex[pokemon] = pokemon_json
 			return utils.deep_copy(pokedex[pokemon])
@@ -136,10 +136,10 @@ function M.init()
 	if not initialized then
 		pokedex = {}
 		pokedex_variants = {}
-		pokedex["MissingNo"] = file.load_json_from_resource("/assets/datafiles/pokemon/MissingNo.json")
+		pokedex["MissingNo"] = file.load_json_from_resource("/p5e-data/data/pokemon/MissingNo.json")
 		pokedex_extra = file.load_json_from_resource("/assets/datafiles/pokedex_extra.json")
-		abilities = file.load_json_from_resource("/assets/datafiles/abilities.json")
-		evolvedata = file.load_json_from_resource("/assets/datafiles/evolve.json")
+		abilities = file.load_json_from_resource("/p5e-data/data/abilities.json")
+		evolvedata = file.load_json_from_resource("/p5e-data/data/evolve.json")
 		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
 		exp_grid = file.load_json_from_resource("/assets/datafiles/exp_grid.json")
 		genders = file.load_json_from_resource("/assets/datafiles/gender.json")
