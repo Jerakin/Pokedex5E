@@ -32,7 +32,7 @@ function M.get_species_variant_for(original_name)
 		variant_map = {}
 		-- Load up the variant mapping file. This goes {species : [var1, var2]} 
 		-- Here we change it to {var1: {species: species}, var2: {species: species}}
-		local var_map_file = file.load_json_from_resource("/assets/datafiles/variant_map.json")
+		local var_map_file = file.load_json_from_resource("/p5e-data/data/variant_map.json")
 		for s,v in pairs(var_map_file) do
 			for i=1, #v do
 				variant_map[v[i]] = {species=s}
