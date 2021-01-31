@@ -52,6 +52,16 @@ platforms:
             excludeSymbols: ["ProfilerExt","FacebookExt","DefaultSoundDevice","AudioDecoderWav","AudioDecoderStbVorbis","AudioDecoderTremolo"]
             libs: ["physics_null","record_null","profilerext_null","sound_null"]
             linkFlags: []
+            jetifier: true
+
+    arm64-android:
+        context:
+            excludeLibs: ["physics","LinearMath","BulletDynamics","BulletCollision","Box2D","record","vpx","profilerext","facebookext","sound","tremolo"]
+            excludeJars: ["(.*)/facebooksdk.jar","(.*)/facebook_android.jar"]
+            excludeSymbols: ["ProfilerExt","FacebookExt","DefaultSoundDevice","AudioDecoderWav","AudioDecoderStbVorbis","AudioDecoderTremolo"]
+            libs: ["physics_null","record_null","profilerext_null","sound_null"]
+            linkFlags: []
+            jetifier: true
 
     armv7-ios:
         context:
