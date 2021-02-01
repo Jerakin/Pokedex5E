@@ -100,7 +100,7 @@ function M.init()
 		movedata = {}
 		index = file.load_json_from_resource("/p5e-data/data/move_index.json")
 		move_machines = file.load_json_from_resource("/assets/datafiles/move_machines.json")
-		movedata["Error"] = file.load_json_from_resource("/p5e-data/data/Error_move.json")
+		movedata["Error"] = file.load_json_from_resource("/assets/datafiles/Error_move.json")
 		if fakemon.DATA and fakemon.DATA["moves.json"] then
 			log.info("Merging Move data")
 			for name, data in pairs(fakemon.DATA["moves.json"]) do
