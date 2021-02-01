@@ -94,7 +94,7 @@ end
 
 function M.shuffle2(T)
 	size = #T
-	for i = size, 1, -1 do
+	for i = size, 1+1, -1 do
 		local rand = rnd.range(1, i)
 		T[i], T[rand] = T[rand], T[i]
 	end
