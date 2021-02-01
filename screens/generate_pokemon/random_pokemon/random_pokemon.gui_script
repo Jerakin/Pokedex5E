@@ -30,7 +30,10 @@ end
 
 function on_input(self, action_id, action)
 	local a = gooey.button("btn_random", action_id, action, function()
-		local index = rnd.range(1, #self.pokemons)
+		local index = 1
+		if #self.pokemons > 1 then
+			index = rnd.range(1, #self.pokemons)
+		end
 		self.species = self.pokemons[index]
 		local variants = pokedex.get_variants(self.species)
 		if variants and #variants > 0 then

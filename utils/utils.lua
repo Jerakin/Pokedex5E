@@ -84,10 +84,12 @@ end
 
 
 function M.shuffle(T)
-	for i = 1, 10 do
-		local random1 = rnd.range(1, #T)
-		local random2 = rnd.range(1, #T)
-		T[random1], T[random2] = T[random2], T[random1]
+	if #T > 1 then
+		for i = 1, 10 do
+			local random1 = rnd.range(1, #T)
+			local random2 = rnd.range(1, #T)
+			T[random1], T[random2] = T[random2], T[random1]
+		end
 	end
 	return T
 end
