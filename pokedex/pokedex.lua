@@ -136,7 +136,7 @@ function M.init()
 	if not initialized then
 		pokedex = {}
 		pokedex_variants = {}
-		pokedex["MissingNo"] = file.load_json_from_resource("/p5e-data/data/pokemon/MissingNo.json")
+		pokedex["MissingNo"] = file.load_json_from_resource("/assets/datafiles/MissingNo.json")
 		pokedex_extra = file.load_json_from_resource("/assets/datafiles/pokedex_extra.json")
 		abilities = file.load_json_from_resource("/p5e-data/data/abilities.json")
 		evolvedata = file.load_json_from_resource("/p5e-data/data/evolve.json")
