@@ -374,7 +374,11 @@ function on_input(self, action_id, action)
 		local variants = pokedex.get_variants(species)
 		local variant = nil
 		if variants and #variants > 0 then
-			variant = variants[rnd.range(1, #variants)]
+			if #variants > 1 then
+				variant = variants[rnd.range(1, #variants)]
+			else
+				variant = variants[1]
+			end
 		end
 		
 		monarch.show(screens.RANDOM_POKEMON, {}, {species=species, level=self.level, variant=variant, pokemons=self.filtered_pokemons})
