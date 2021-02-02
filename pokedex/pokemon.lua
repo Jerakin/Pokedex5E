@@ -648,10 +648,12 @@ function M.get_skills_modifier(pkmn)
 	local attributes = M.get_attributes(pkmn)
 	local tbl = {}
 	for _, skill in pairs(proficencies) do
-		tbl[skill] = math.floor((attributes[pokedex.skills[skill]] - 10) / 2) + prof
+		if pokedex.skills[skill] ~= nil then
+			tbl[skill] = math.floor((attributes[pokedex.skills[skill]] - 10) / 2) + prof
+		end
 	end
 	for skill, mod in pairs(pokedex.skills) do
-		if tbl[skill] == nil then
+		if tbl[skill] == nil and pokedex.skills[skill] ~= nil then
 			tbl[skill] = math.floor((attributes[pokedex.skills[skill]] - 10) / 2)
 		end
 	end
