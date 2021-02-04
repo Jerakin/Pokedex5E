@@ -98,11 +98,19 @@ local function setup_info_tab(nodes, pokemon)
 	local skills_attributes = _pokemon.get_skills_modifier(pokemon)
 	if #skills > 8 then
 		for _, skill in pairs(skills) do
-			skill_string = skill_string .. skill .. " (" .. skills_attributes[skill] .. ") , "
+			skill_string = skill_string .. skill
+			if skills_attributes[skill] ~= nil then
+				skill_string = skill_string .. " (" .. skills_attributes[skill] .. ")"
+			end
+			skill_string = skill_string .. " , "
 		end
 	else
 		for _, skill in pairs(skills) do
-			skill_string = skill_string .. "• " .. skill .. " (" .. skills_attributes[skill] .. ")\n"
+			skill_string = skill_string .. "• " .. skill
+			if skills_attributes[skill] ~= nil then
+				skill_string = skill_string .. " (" .. skills_attributes[skill] .. ")"
+			end
+			skill_string = skill_string .. "\n"
 		end
 	end
 	gui.set_text(nodes["pokemon/traits/txt_skills"], skill_string)

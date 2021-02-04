@@ -647,14 +647,28 @@ function M.get_skills_modifier(pkmn)
 	local proficencies = M.get_skills(pkmn)
 	local attributes = M.get_attributes(pkmn)
 	local tbl = {}
-	for _, skill in pairs(proficencies) do
-		tbl[skill] = math.floor((attributes[pokedex.skills[skill]] - 10) / 2) + prof
-	end
-	for skill, mod in pairs(pokedex.skills) do
-		if tbl[skill] == nil then
-			tbl[skill] = math.floor((attributes[pokedex.skills[skill]] - 10) / 2)
+
+	-- Determine which skills pkmn is proficient in
+	local is_proficient = {}
+	local proficient_in_all = false
+	if #proficencies == 1 and proficencies[1] == "All Skills" then
+		-- Some pokemon are proficient in everything
+		proficient_in_all = true
+	else
+		for _, skill in pairs(proficencies) do
+			is_proficient[skill] = true
 		end
 	end
+
+	-- Determine modifier for every avaialble skill
+	for skill, mod in pairs(pokedex.skills) do
+		local score = math.floor((attributes[pokedex.skills[skill]] - 10) / 2)
+		if proficient_in_all or is_proficient[skill] then
+			score = score + prof
+		end
+		tbl[skill] = score
+	end
+
 	return tbl
 end
 
