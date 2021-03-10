@@ -262,10 +262,17 @@ local function redraw_moves(self)
 		gui.set_enabled(btn, true)
 		gui.set_color(txt, gui_colors.HERO_TEXT_FADED)
 		gui.set_color(pp_txt, gui_colors.HERO_TEXT_FADED)
-		table.insert(move_buttons_list, {node="move_btn" .. i, text=txt, icon=icon, pp_text=pp_txt})
+		table.insert(move_buttons_list, {node="move_btn" .. i, text=txt, icon=icon, pp_text=pp_txt, pp_plus=pp_plus, pp_minus=pp_minus, delete=del})
 		table.insert(self.move_buttons.delete, {node="delete_move_btn" .. i, text=txt})
 		table.insert(self.move_buttons.pp_plus, {node="pp_plus_move_btn" .. i, text=txt})
 		table.insert(self.move_buttons.pp_minus, {node="pp_minus_move_btn" .. i, text=txt})
+
+		-- Set nodes disabled until we confirm there's actually a move there, which we will do in the below loop
+		gui.set_enabled(del, false)
+		gui.set_enabled(pp_plus, false)
+		gui.set_enabled(pp_minus, false)
+		gui.set_enabled(pp_txt, false)
+		
 		position.y = i * -70
 	end
 	for move, data in pairs(moves) do
@@ -281,7 +288,14 @@ local function redraw_moves(self)
 		gui.set_color(move_node, movedex.get_move_color(move))
 		gui.play_flipbook(icon_node, movedex.get_move_icon(move))
 
+		gui.set_enabled(pp_node, true)
+		gui.set_enabled(move_buttons_list[_index].delete, true)
+
 		local pp_boost = _pokemon.get_move_pp_boost(self.pokemon, move)
+		local max_pp_boost = movedex.get_move_max_pp_boost(move)
+		gui.set_enabled(move_buttons_list[_index].pp_plus, pp_boost < max_pp_boost)
+		gui.set_enabled(move_buttons_list[_index].pp_minus, pp_boost > 0)
+
 		gui.set_text(pp_node, "PP: +" .. pp_boost)
 	end
 end
