@@ -44,6 +44,11 @@ function M.get_move_pp(move)
 	return move and move.PP or 0
 end
 
+function M.get_move_max_pp_boost(move)
+	local pp = M.get_move_pp(move)
+	return pp and pp or 0
+end
+
 function M.get_known_to_all_moves()
 	return known_to_all_moves
 end
