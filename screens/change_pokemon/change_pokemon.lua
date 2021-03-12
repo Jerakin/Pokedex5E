@@ -296,7 +296,7 @@ local function redraw_moves(self)
 		gui.set_enabled(move_buttons_list[_index].pp_plus, pp_boost < max_pp_boost)
 		gui.set_enabled(move_buttons_list[_index].pp_minus, pp_boost > 0)
 
-		gui.set_text(pp_node, "PP: +" .. pp_boost)
+		gui.set_text(pp_node, (pp_boost <= 0) and "PP Up" or "PP +" .. pp_boost)
 	end
 end
 
