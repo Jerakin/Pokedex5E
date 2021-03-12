@@ -807,19 +807,19 @@ end
 local function move_buttons(self, action_id, action)
 	for index, data in pairs(self.move_buttons.delete) do
 		local a = gooey.button(data.node, action_id, action, function(c) delete_move(self, index) end, gooey_buttons.cross_button)
-		if a.over then
+		if a.enabled and a.over then
 			return
 		end
 	end
 	for index, data in pairs(self.move_buttons.pp_plus) do
 		local a = gooey.button(data.node, action_id, action, function(c) move_pp_plus(self, index) end, gooey_buttons.plus_button)
-		if a.over then
+		if a.enabled and a.over then
 			return
 		end
 	end
 	for index, data in pairs(self.move_buttons.pp_minus) do
 		local a = gooey.button(data.node, action_id, action, function(c) move_pp_minus(self, index) end, gooey_buttons.minus_button)
-		if a.over then
+		if a.enabled and a.over then
 			return
 		end
 	end
