@@ -282,7 +282,7 @@ local function redraw_moves(self)
 		local icon_node = move_buttons_list[_index].icon
 		
 		move_buttons_list[_index].move_name = move
-		gui.set_text(move_node, move:upper())		
+		gui.set_text(move_node, move:upper())
 		gui.set_scale(move_node, vmath.vector3(0.8))
 		gui_utils.scale_text_to_fit_size(move_node)
 		gui.set_color(move_node, movedex.get_move_color(move))
