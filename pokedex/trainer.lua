@@ -44,6 +44,16 @@ function M.get_type_master_STAB(_type)
 	return trainer.tm_stab[_type] or 0
 end
 
+function M.getPokemonStabModifier(pkmonTypes)
+	local modifier = 0
+
+	for _, t in pairs(pkmonTypes) do
+		modifier = modifier + trainer.tm_stab[t]
+	end
+
+	return modifier
+end
+
 function M.get_STAB(_type)
 	return trainer.stab[_type] or 0
 end
@@ -147,6 +157,18 @@ end
 function M.get_pokemon_type_damage_bonus(_type)
 	return trainer.pokemon_type_damage[_type]
 end
+
+function M.getHighestTypeDmgBonus(type)
+	local dmg = 0
+	for _, t in pairs(type) do
+		if dmg < trainer.pokemon_type_damage[t] then
+			dmg = trainer.pokemon_type_damage[t]
+		end
+	end
+
+	return dmg
+end
+
 function M.set_pokemon_type_damage_bonus(_type, value)
 	trainer.pokemon_type_damage[_type] = value
 end
