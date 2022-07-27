@@ -11,12 +11,6 @@ local settings = require "pokedex.settings"
 
 local M = {}
 
-_error_to_string = {
-	[gui.RESULT_TEXTURE_ALREADY_EXISTS] = "gui.RESULT_TEXTURE_ALREADY_EXISTS",
-	[gui.RESULT_OUT_OF_RESOURCES] = "gui.RESULT_OUT_OF_RESOURCES",
-	[gui.RESULT_DATA_ERROR] = "gui.RESULT_DATA_ERROR"
-}
-
 local pokedex
 local pokedex_variants
 local pokedex_original_species_map
@@ -106,7 +100,7 @@ local function list()
 	end
 
 	return order, #order, unique
-	
+
 end
 
 local function cache_evolve_from_data()
@@ -200,7 +194,7 @@ function M.init()
 				end
 			end
 		end
-		
+
 		cache_evolve_from_data()
 		M.list, M.total, M.unique = list()
 		initialized = true
@@ -355,16 +349,16 @@ function M.get_icon(pokemon, variant)
 			local img = image.load(buffer, true)
 
 			local icon_name = "icon" .. pokemon .. (variant or "")
-			local success, status = gui.new_texture(icon_name, img.width, img.height, img.type, img.buffer, false)
-			if not success then
-				log.info("Can not create texture: " .. icon_name .. "| Reason:" .. _error_to_string[status])
+			local ok, reason = gui.new_texture(icon_name, img.width, img.height, img.type, img.buffer, false)
+			if not ok then
+				return "-2Pokeball", "sprite0"
 			end
 			return nil, icon_name
 		elseif data.index >= dex_data.max_index[#dex_data.order -1] then
 			return "-2Pokeball", "sprite0"
 		end
 	end
-	
+
 	local sprite = M.get_sprite(pokemon, variant)
 	return sprite, "sprite0"
 end
@@ -389,7 +383,7 @@ function M.get_sprite(pokemon, variant)
 	end
 
 	local pokemon_sprite = pokemon_index .. sprite_suffix
-	
+
 	if pokemon_index == 32 or pokemon_index == 29 or pokemon_index == 678 or pokemon_index == 772 then
 		pokemon_sprite = pokemon_sprite:gsub(" ♀", "-f")
 		pokemon_sprite = pokemon_sprite:gsub(" ♂", "-m")
@@ -407,10 +401,11 @@ function M.get_sprite(pokemon, variant)
 			local buffer = file:read("*all")
 			file:close()
 			local img = image.load(buffer)
+
 			local sprite_name = "sprite" .. pokemon .. (variant or "")
-			local success, status = gui.new_texture(sprite_name, img.width, img.height, img.type, img.buffer, false)
-			if not success then
-				log.info("Can not create texture: " .. sprite_name .. "| Reason:" .. _error_to_string[status])
+			local ok, reason = gui.new_texture(sprite_name, img.width, img.height, img.type, img.buffer, false)
+			if not ok then
+				return "-2Pokeball", "pokemon0"
 			end
 			return nil, sprite_name
 		elseif data.index < dex_data.max_index[#dex_data.order -1] then
@@ -625,7 +620,7 @@ end
 function M.get_evolution_level(pokemon)
 	-- Pokemon can evolve at any level (set it to 1) as long as they have the move
 	-- if they do not evolve based on move then use the standard level
-	
+
 	local d = M.get_evolution_data(pokemon)
 	return d.level ~= nil and d.level + trainer.get_evolution_level() or 1
 end
