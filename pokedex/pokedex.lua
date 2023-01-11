@@ -7,7 +7,7 @@ local dex_data = require "pokedex.dex_data"
 local ptypes = require "ptypes.main"
 local trainer = require "pokedex.trainer"
 local settings = require "pokedex.settings"
-
+local exp_grid = require "assets.datafiles.exp_grid"
 
 local M = {}
 
@@ -19,7 +19,7 @@ local abilities = {}
 local evolvedata
 local evolve_from_data = {}
 local leveldata
-local exp_grid
+
 local genders
 
 M.GENDERLESS = 0
@@ -141,7 +141,6 @@ function M.init()
 		abilities = file.load_json_from_resource("/p5e-data/data/abilities.json")
 		evolvedata = file.load_json_from_resource("/p5e-data/data/evolve.json")
 		leveldata = file.load_json_from_resource("/assets/datafiles/leveling.json")
-		exp_grid = file.load_json_from_resource("/assets/datafiles/exp_grid.json")
 		genders = file.load_json_from_resource("/assets/datafiles/gender.json")
 
 		local f_overrides, f_variants = fakemon.get_overrides_and_variants()

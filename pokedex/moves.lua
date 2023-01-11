@@ -3,13 +3,14 @@ local file = require "utils.file"
 local utils = require "utils.utils"
 local log = require "utils.log"
 local fakemon = require "fakemon.fakemon"
+local move_machines = require "assets.datafiles.move_machines"
 
 local M = {}
 
 local index = {}
 local movedata = {}
 local known_to_all_moves = {}
-local move_machines
+
 
 local initialized = false
 
@@ -99,7 +100,6 @@ function M.init()
 	if not initialized then
 		movedata = {}
 		index = file.load_json_from_resource("/p5e-data/data/move_index.json")
-		move_machines = file.load_json_from_resource("/assets/datafiles/move_machines.json")
 		movedata["Error"] = file.load_json_from_resource("/assets/datafiles/Error_move.json")
 		if fakemon.DATA and fakemon.DATA["moves.json"] then
 			log.info("Merging Move data")
