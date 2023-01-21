@@ -1,7 +1,7 @@
 [project]
 title = Pokedex5E
 custom_resources = assets/datafiles, p5e-data
-version = 1.13.11
+version = 1.13.12
 dependencies#0 = https://github.com/britzl/monarch/archive/2.20.0.zip
 dependencies#1 = https://github.com/Jerakin/gooey/archive/scale_with_layout_scrollbar.zip
 dependencies#2 = https://github.com/defold/extension-safearea/archive/1.0.0.zip
@@ -27,8 +27,6 @@ dependencies#20 = https://github.com/Jerakin/deftest/archive/master.zip
 [gameanalytics]
 custom_dimensions_01 = live,debug
 auto_detect_app_version = 1
-build_windows = 1.11.4
-build_html5 = 1.11.4
 game_key_windows = 
 secret_key_windows = 
 game_key_android = 
@@ -37,6 +35,8 @@ game_key_html5 =
 secret_key_html5 = 
 game_key_ios = 
 secret_key_ios = 
+build_windows = 1.13.12
+build_html5 = 1.13.12
 
 [bootstrap]
 main_collection = /main/main.collectionc
@@ -93,7 +93,7 @@ app_icon_192x192 = /assets/app_icons/icon_192.png
 input_method = HiddenInputField
 package = com.jerakin.pokedex
 manifest = /config/manifests/android/AndroidManifest.xml
-version_code = 74
+version_code = 75
 target_sdk_version = 29
 immersive_mode = 1
 minimum_sdk_version = 16
