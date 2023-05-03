@@ -8,6 +8,8 @@
 -- To Public License, Version 2, as published by Sam Hocevar. See
 -- the COPYING file or http://www.wtfpl.net/ for more details.
 
+-- Source https://github.com/zerkman/zzlib
+
 
 local zzlib = {}
 
