@@ -1,15 +1,15 @@
 [project]
 title = Pokedex5E
 custom_resources = assets/datafiles, p5e-data
-version = 1.13.12
+version = 1.13.13
 dependencies#0 = https://github.com/britzl/monarch/archive/2.20.0.zip
 dependencies#1 = https://github.com/Jerakin/gooey/archive/scale_with_layout_scrollbar.zip
-dependencies#2 = https://github.com/defold/extension-safearea/archive/1.0.0.zip
+dependencies#2 = https://github.com/defold/extension-safearea/archive/1.3.1.zip
 dependencies#3 = https://github.com/GameAnalytics/GA-SDK-DEFOLD/archive/4.2.6.zip
 dependencies#4 = https://github.com/selimanac/defold-random/archive/v1.2.6.zip
 dependencies#5 = https://github.com/Jerakin/defsave/archive/master.zip
 dependencies#6 = https://github.com/britzl/defold-clipboard/archive/1.3.0.zip
-dependencies#7 = https://github.com/britzl/defold-lfs/archive/1.0.1.zip
+dependencies#7 = https://github.com/britzl/defold-lfs/archive/1.1.0.zip
 dependencies#8 = https://github.com/Jerakin/editor-script-components/archive/master.zip
 dependencies#9 = https://github.com/Jerakin/editor-script-atlas/archive/master.zip
 dependencies#10 = https://github.com/Jerakin/editor-script-cleanup/archive/master.zip
@@ -18,9 +18,9 @@ dependencies#12 = https://github.com/Jerakin/PokemonTypes/archive/v1.0.2.zip
 dependencies#13 = https://github.com/GameAnalytics/defold-openssl/archive/1.0.0.zip
 dependencies#14 = https://github.com/britzl/defold-sharing/archive/4.3.0.zip
 dependencies#15 = https://github.com/andsve/def-diags/archive/master.zip
-dependencies#16 = https://github.com/britzl/defnet/archive/5.1.0.zip
+dependencies#16 = https://github.com/britzl/defnet/archive/6.3.0.zip
 dependencies#17 = https://github.com/britzl/defold-luasocket/archive/0.11.1.zip
-dependencies#18 = https://github.com/defold/extension-camera/archive/2.1.1.zip
+dependencies#18 = https://github.com/defold/extension-camera/archive/2.2.2.zip
 dependencies#19 = https://github.com/defold/extension-qrcode/archive/f14e2b85be3bd92db92fd6e2e4b80d25413312f5.zip
 dependencies#20 = https://github.com/Jerakin/deftest/archive/master.zip
 
@@ -93,10 +93,8 @@ app_icon_192x192 = /assets/app_icons/icon_192.png
 input_method = HiddenInputField
 package = com.jerakin.pokedex
 manifest = /config/manifests/android/AndroidManifest.xml
-version_code = 75
-target_sdk_version = 29
+version_code = 76
 immersive_mode = 1
-minimum_sdk_version = 16
 display_cutout = 0
 
 [script]
