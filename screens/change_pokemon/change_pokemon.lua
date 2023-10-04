@@ -5,6 +5,7 @@ local natures = require "pokedex.natures"
 local _pokemon = require "pokedex.pokemon"
 local _feats = require "pokedex.feats"
 local items = require "pokedex.items"
+local statuses = require "pokedex.statuses"
 local pokedex = require "pokedex.pokedex"
 local storage = require "pokedex.storage"
 local gui_colors = require "utils.gui_colors"
@@ -576,7 +577,16 @@ function M.on_message(self, message_id, message, sender)
 		elseif message_id == messages.SKILLS then
 			_pokemon.add_skill(self.pokemon, message.item)
 		elseif message_id == messages.ITEM then
+			if(_pokemon.get_held_item(self.pokemon) == "Toxic Orb") then _pokemon.set_status_effect(self.pokemon, statuses.status.POISONED, false)
+			elseif(_pokemon.get_held_item(self.pokemon) == "Flame Orb") then _pokemon.set_status_effect(self.pokemon, statuses.status.BURNING, false)
+			end
+
 			_pokemon.set_held_item(self.pokemon, message.item)
+
+			if(_pokemon.get_held_item(self.pokemon) == "Toxic Orb") then _pokemon.set_status_effect(self.pokemon, statuses.status.POISONED, true)
+			elseif(_pokemon.get_held_item(self.pokemon) == "Flame Orb") then _pokemon.set_status_effect(self.pokemon, statuses.status.BURNING, true)
+			end
+
 			gui.set_text(gui.get_node("change_pokemon/txt_item"), message.item:upper())
 		elseif message_id == messages.MOVE then
 			if message.item ~= "" then

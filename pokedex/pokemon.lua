@@ -5,6 +5,7 @@ local natures = require "pokedex.natures"
 local movedex = require "pokedex.moves"
 local trainer = require "pokedex.trainer"
 local variants = require "pokedex.variants"
+local items = require "pokedex.items"
 local constants = require "utils.constants"
 local log = require "utils.log"
 
@@ -914,7 +915,11 @@ end
 
 function M.get_AC(pkmn)
 	local _, AC_UP = M.have_feat(pkmn, "AC Up")
-	return pokedex.get_AC(M.get_current_species(pkmn), M.get_variant(pkmn)) + natures.get_AC(M.get_nature(pkmn)) + AC_UP
+	local itemAc = 0
+
+	if(M.get_held_item(pkmn) == "Assault Vest" or (M.get_held_item(pkmn) == "Deep Sea Scale" and M.get_current_species(pkmn) == "Clamperl")) then itemAc = 1 end
+
+	return pokedex.get_AC(M.get_current_species(pkmn), M.get_variant(pkmn)) + natures.get_AC(M.get_nature(pkmn)) + AC_UP + itemAc
 end
 
 
@@ -987,27 +992,28 @@ local function max_ignore_zero(value, other)
 end
 
 local function get_damage_mod_stab(pkmn, move)
-	local move_power = -9999 -- Will be determined by ability mods later, or set to 0
-	local dice
-	local stab_damage
-	local floored_mod
-	local extra_damage = 0
-	local trainer_pokemon_type_damage
-	local type_master_STAB
-	local trainer_stab = 0
-	local total = M.get_attributes(pkmn)
+	local isDamagingMove = (move.atk == true or move.auto_hit == true) or move.Save ~= nil and move.Damage ~= nil
+	local stab = 0
+	local move_power = -5 --this variable can be between -5 and 5
+	local atributes = M.get_attributes(pkmn)
+	local move_damage = move.Damage
 	local index = level_index(M.get_current_level(pkmn))
-	local is_attack = (move.atk == true or move.auto_hit == true) or move.Save ~= nil and move.Damage ~= nil
+	local dice
+	local finalModifier = 0
+	local trainerPkmonAtckBonus = trainer.getHighestTypeDmgBonus(M.get_type(pkmn))
+	local item = M.get_held_item(pkmn)
+	local hasDmgItem = false
+	local itemDmg = 0
 
 	-- Pick the highest of the moves powers
 	if move["Move Power"] and next(move["Move Power"]) then
 		for _, mod in pairs(move["Move Power"]) do
-			if total[mod] then
-				local this_bonus = math.floor((total[mod] - 10) / 2)
+			if atributes[mod] then
+				local this_bonus = math.floor((atributes[mod] - 10) / 2)
 				move_power = math.max(move_power, this_bonus)
 			elseif mod == "Any" then
 				local max = 0
-				for k, v in pairs(total) do
+				for k, v in pairs(atributes) do
 					max = math.max(v, max)
 				end
 				move_power = math.floor((max - 10) / 2)
@@ -1017,27 +1023,48 @@ local function get_damage_mod_stab(pkmn, move)
 		move_power = 0
 	end
 
-	-- Figure out the STAB and Trainer Pokemon Type Damage
-	if is_attack then
+	if isDamagingMove then
 		for _, t in pairs(M.get_type(pkmn)) do
-			-- Figure out the highest value of the "pokemon_type_damage_bonus
-			trainer_pokemon_type_damage = max_ignore_zero(trainer.get_pokemon_type_damage_bonus(t), trainer_pokemon_type_damage)
+			local isSameType = t==move.Type or (trainer.get_always_use_STAB(t) and move.Type ~= "Typeless")
+			if(isSameType) then
+				local trainerPkmonStab = trainer.getPokemonStabModifier(M.get_type(pkmn))
+				local trainerMoveStab = trainer.get_STAB(t)
+				local trainerAllStab = trainer.get_all_levels_STAB()
+				stab = M.get_STAB_bonus(pkmn) + trainerPkmonStab + trainerMoveStab + trainerAllStab
 
-			type_master_STAB = max_ignore_zero(trainer.get_type_master_STAB(t), type_master_STAB)
-			if move.Type == t or (trainer.get_always_use_STAB(t) and move.Type ~= "Typeless") then
-				stab_damage = M.get_STAB_bonus(pkmn)
-				trainer_stab = trainer.get_STAB(move.Type)
+				if (M.get_held_item(pkmn) == "Thick Club" and (M.get_current_species(pkmn) == "Cubone" or M.get_current_species(pkmn) == "Marowak")) then
+					stab = stab*2
+				elseif (M.get_held_item(pkmn) == "Deep Sea Tooth" and M.get_current_species(pkmn) == "Clamperl") then
+					stab = stab+1
+				end
+
+				break
 			end
 		end
-		local apply_stab = stab_damage ~= nil
-		type_master_STAB = apply_stab and (type_master_STAB or 0) or 0
-		local all_level_stab = apply_stab and trainer.get_all_levels_STAB() or 0
-		local trainer_damage = trainer_stab + type_master_STAB + all_level_stab + trainer.get_damage() + (trainer_pokemon_type_damage or 0) + trainer.get_move_type_damage_bonus(move.Type)
-		extra_damage = extra_damage + (stab_damage or 0) + trainer_damage
-	end
 
-	local move_damage = move.Damage
-	if move_damage then
+		if ((M.get_held_item(pkmn) == "Black Belt" or M.get_held_item(pkmn) == "Fist Plate") and move.Type == "Fighting") then hasDmgItem = true
+		elseif ((M.get_held_item(pkmn) == "Charcoal" or M.get_held_item(pkmn) == "Flame Plate") and move.Type == "Fire") then hasDmgItem = true
+		elseif ((M.get_held_item(pkmn) == "Black Glasses" or M.get_held_item(pkmn) == "Dread Plate") and move.Type == "Dark") then hasDmgItem = true
+		elseif ((M.get_held_item(pkmn) == "Dragon Gang" or M.get_held_item(pkmn) == "Draco Plate") and move.Type == "Dragon") then hasDmgItem = true
+		elseif ((M.get_held_item(pkmn) == "Hard Stone" or M.get_held_item(pkmn) == "Stone Plate") and move.Type == "Rock") then hasDmgItem = true
+		elseif ((M.get_held_item(pkmn) == "Magnet" or M.get_held_item(pkmn) == "Zap Plate") and move.Type == "Eletric") then hasDmgItem = true
+		elseif ((M.get_held_item(pkmn) == "Metal Cloat" or M.get_held_item(pkmn) == "Iron Plate") and move.Type == "Steel") then hasDmgItem = true
+		elseif ((M.get_held_item(pkmn) == "Miracle Seed" or M.get_held_item(pkmn) == "Meadow Plate") and move.Type == "Grass") then hasDmgItem = true
+		elseif ((M.get_held_item(pkmn) == "Mystic Water" or M.get_held_item(pkmn) == "Splash Plate") and move.Type == "Water") then hasDmgItem = true
+		elseif ((M.get_held_item(pkmn) == "NeverMelt Ice" or M.get_held_item(pkmn) == "Icicle Plate") and move.Type == "Ice") then hasDmgItem = true
+		elseif (M.get_held_item(pkmn) == "Pink Bow" and move.Type == "Normal") then hasDmgItem = true
+		elseif ((M.get_held_item(pkmn) == "Posion Barb" or M.get_held_item(pkmn) == "Toxic Plate") and move.Type == "Poison") then hasDmgItem = true
+		elseif ((M.get_held_item(pkmn) == "Polkadot Bow" or M.get_held_item(pkmn) == "Pixie Plate") and move.Type == "Fairy") then hasDmgItem = true
+		elseif ((M.get_held_item(pkmn) == "Sharp Beak" or M.get_held_item(pkmn) == "Sky Plate") and move.Type == "Flying") then hasDmgItem = true
+		elseif ((M.get_held_item(pkmn) == "Silver Powder" or M.get_held_item(pkmn) == "Insect Plate") and move.Type == "Bug") then hasDmgItem = true
+		elseif ((M.get_held_item(pkmn) == "Soft Sand" or M.get_held_item(pkmn) == "Earth Plate") and move.Type == "Ground") then hasDmgItem = true
+		elseif ((M.get_held_item(pkmn) == "Spell Tag" or M.get_held_item(pkmn) == "Spooky Plate") and move.Type == "Ghost") then hasDmgItem = true
+		elseif ((M.get_held_item(pkmn) == "Twisted Spoon" or M.get_held_item(pkmn) == "Mind Plate") and move.Type == "Psychic") then hasDmgItem = true
+		elseif (M.get_held_item(pkmn) == "Life Orb") then hasDmgItem = true
+		end
+
+		if hasDmgItem then itemDmg = M.get_proficency_bonus(pkmn) end
+
 		-- Some moves uses 5x1d4
 		local times_prefix = ""
 		if move_damage[index].times then
@@ -1049,26 +1076,38 @@ local function get_damage_mod_stab(pkmn, move)
 		if move_damage[index].amount and move_damage[index].dice_max then
 			dice = times_prefix .. move_damage[index].amount .. "d" .. move_damage[index].dice_max
 		end
-		
-		-- Add LEVEL to damage if applicable
-		extra_damage = extra_damage + (move_damage[index].level and M.get_current_level(pkmn) or 0)
 
-		-- Add move power
+		-- Add move modifier
 		if move_damage[index].move then
-			extra_damage = extra_damage + move_power + trainer.get_move()
+			local lightBallDmg = 0
+			if (M.get_held_item(pkmn) == "Light Ball" and M.get_current_species(pkmn) == "Pikachu") then
+				lightBallDmg = 1
+			end
+			finalModifier = move_power + trainer.get_move() + trainer.get_damage() + lightBallDmg
+			
+		else
+			local lvlDmg = 0
+			-- Add LEVEL to damage if applicable
+			if move_damage[index].level then
+				lvlDmg = M.get_current_level(pkmn)
+			end
+
+			finalModifier = lvlDmg
 		end
+		finalModifier = finalModifier + stab + trainerPkmonAtckBonus + trainer.get_move_type_damage_bonus(move.Type) + itemDmg
 
 		-- Combine the different parts into one string
-		if extra_damage ~= 0 then
+		if finalModifier ~= 0 then
 			local symbol = ""
-			if extra_damage > 0 then
+			if finalModifier > 0 then
 				symbol = "+"
 			end
-			dice = dice .. symbol .. extra_damage
+			dice = dice .. symbol .. finalModifier
 		end
 	end
-	return dice, move_power, stab_damage
-end	
+
+	return dice, move_power, stab
+end
 
 function M.get_move_data(pkmn, move_name)
 	local move_data = {}
@@ -1105,7 +1144,11 @@ function M.get_move_data(pkmn, move_name)
 	move_data.save = move.Save
 	move_data.time = move["Move Time"]
 	if move.atk == true and not move.autohit then
-		move_data.AB = mod + M.get_proficency_bonus(pkmn) + trainer.get_attack_roll() + trainer.get_move_type_attack_bonus(move_data.type) + trainer.get_pokemon_type_attack_bonus(M.get_type(pkmn))
+		if(M.get_held_item(pkmn) == "Wide Lens") then
+			move_data.AB = mod + M.get_proficency_bonus(pkmn) + trainer.get_attack_roll() + trainer.get_move_type_attack_bonus(move_data.type) + trainer.get_pokemon_type_attack_bonus(M.get_type(pkmn)) +1
+		else
+			move_data.AB = mod + M.get_proficency_bonus(pkmn) + trainer.get_attack_roll() + trainer.get_move_type_attack_bonus(move_data.type) + trainer.get_pokemon_type_attack_bonus(M.get_type(pkmn))
+		end
 	end
 	if requires_save then
 		move_data.save_dc = 8 + mod + M.get_proficency_bonus(pkmn)
