@@ -220,12 +220,21 @@ function M.remove_feat(pkmn, position)
 end
 
 
-function M.remove_move(pkmn, index)
+function M.get_move_at_index(pkmn, index)
 	for move, data in pairs(M.get_moves(pkmn)) do
 		if index == data.index then
-			pkmn.moves[move] = nil
-			break
+			return move
 		end
+	end
+	return nil
+end
+
+
+function M.remove_move(pkmn, index)
+	local move = M.get_move_at_index(pkmn, index)
+	if move then
+		M.reset_move_pp_boost(pkmn, move)
+		pkmn.moves[move] = nil
 	end
 end
 
@@ -548,6 +557,7 @@ function M.set_move(pkmn, new_move, index)
 	for name, move in pairs(M.get_moves(pkmn)) do
 		if move.index == index then
 			pkmn.moves[name] = nil
+			M.reset_move_pp_boost(pkmn, name)
 			pkmn.moves[new_move] = {pp=pp, index=index}
 			return
 		end
@@ -735,6 +745,28 @@ function M.get_move_pp(pkmn, move)
 end
 
 
+function M.get_move_pp_boost(pkmn, move)
+	if pkmn.pp_boost and pkmn.pp_boost[move] then
+		return pkmn.pp_boost[move]
+	end
+	return 0
+end
+
+
+function M.set_move_pp_boost(pkmn, move, boost)
+	if not pkmn.pp_boost then
+		pkmn.pp_boost = {}
+	end
+	boost = math.min(math.max(0, boost), movedex.get_move_max_pp_boost(move))
+	pkmn.pp_boost[move] = (boost > 0) and boost or nil
+end
+
+
+function M.reset_move_pp_boost(pkmn, move)
+	M.set_move_pp_boost(pkmn, move, 0)
+end
+
+
 function M.get_move_pp_max(pkmn, move)
 	local move_pp = movedex.get_move_pp(move)
 	if type(move_pp) == "string" then
@@ -742,6 +774,7 @@ function M.get_move_pp_max(pkmn, move)
 		return move_pp
 	else
 		local _, pp_extra = M.have_feat(pkmn, "Tireless")
+		pp_extra = pp_extra + M.get_move_pp_boost(pkmn, move)
 		return movedex.get_move_pp(move) + pp_extra
 	end
 end
