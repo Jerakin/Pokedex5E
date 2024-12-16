@@ -2,10 +2,11 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Pokedex5E"
-#define MyAppVersion "1.12.6"
+#define MyAppVersion "1.13.13"
 #define MyAppPublisher "Jerakin"
 #define MyAppURL "pokemon5e.com"
 #define MyAppExeName "Pokedex5E.exe"
+#define OutputDir "H:\build\x86_64-win32\Pokedex5E"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -21,7 +22,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputDir=C:\Users\Jerakin\Desktop\builds
+OutputDir=H:\build\x86_64-win32\Pokedex5E
 OutputBaseFilename=pokedex5e-setup
 Compression=lzma
 SolidCompression=yes
@@ -33,14 +34,14 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\Jerakin\Downloads\Pokedex5E-windows-{#MyAppVersion}\Pokedex5E\Pokedex5E.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Jerakin\Downloads\Pokedex5E-windows-{#MyAppVersion}\Pokedex5E\game.arcd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Jerakin\Downloads\Pokedex5E-windows-{#MyAppVersion}\Pokedex5E\game.arci"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Jerakin\Downloads\Pokedex5E-windows-{#MyAppVersion}\Pokedex5E\game.dmanifest"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Jerakin\Downloads\Pokedex5E-windows-{#MyAppVersion}\Pokedex5E\game.projectc"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Jerakin\Downloads\Pokedex5E-windows-{#MyAppVersion}\Pokedex5E\game.public.der"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Jerakin\Downloads\Pokedex5E-windows-{#MyAppVersion}\Pokedex5E\OpenAL32.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Jerakin\Downloads\Pokedex5E-windows-{#MyAppVersion}\Pokedex5E\wrap_oal.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#OutputDir}\Pokedex5E.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#OutputDir}\game.arcd"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#OutputDir}\game.arci"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#OutputDir}\game.dmanifest"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#OutputDir}\game.projectc"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#OutputDir}\game.public.der"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#OutputDir}\OpenAL32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#OutputDir}\wrap_oal.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
