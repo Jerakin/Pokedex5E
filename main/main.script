@@ -1,39 +1,39 @@
-local monarch = require "monarch.monarch"
-local defsave = require "defsave.defsave"
-local movedex = require "pokedex.moves"
-local natures = require "pokedex.natures"
-local pokedex = require "pokedex.pokedex"
-local variants = require "pokedex.variants"
-local dex = require "pokedex.dex"
-local items = require "pokedex.items"
-local feats = require "pokedex.feats"
-local storage = require "pokedex.storage"
-local profiles = require "pokedex.profiles"
-local filters = require "pokedex.filters"
-local trainer = require "pokedex.trainer"
-local network = require "pokedex.network.network"
-local flow = require "utils.flow"
-local gui_colors = require "utils.gui_colors"
-local notify = require "utils.notify"
-local screeninfo = require "utils.screeninfo"
-local log = require "utils.log"
-local fakemon = require "fakemon.fakemon"
-local settings = require "pokedex.settings"
-local url = require "utils.url"
-local version = require "screens.popups.version_dialog.version"
-local backup = require "utils.backup"
-local screens = require "utils.screens"
-local messages = require "utils.messages"
-local platform = require "utils.platform"
+local monarch = require("monarch.monarch")
+local defsave = require("defsave.defsave")
+local movedex = require("pokedex.moves")
+local natures = require("pokedex.natures")
+local pokedex = require("pokedex.pokedex")
+local variants = require("pokedex.variants")
+local dex = require("pokedex.dex")
+local items = require("pokedex.items")
+local feats = require("pokedex.feats")
+local storage = require("pokedex.storage")
+local profiles = require("pokedex.profiles")
+local filters = require("pokedex.filters")
+local trainer = require("pokedex.trainer")
+local network = require("pokedex.network.network")
+local flow = require("utils.flow")
+local gui_colors = require("utils.gui_colors")
+local notify = require("utils.notify")
+local screeninfo = require("utils.screeninfo")
+local log = require("utils.log")
+local fakemon = require("fakemon.fakemon")
+local settings = require("pokedex.settings")
+local url = require("utils.url")
+local version = require("screens.popups.version_dialog.version")
+local backup = require("utils.backup")
+local screens = require("utils.screens")
+local messages = require("utils.messages")
+local platform = require("utils.platform")
 
 local function send_crash_on_start()
 	crash.write_dump()
 	local handle = crash.load_previous()
 	if handle then
-		gameanalytics.addErrorEvent {
+		gameanalytics.addErrorEvent({
 			severity = "Error",
-			message =  crash.get_extra_data(handle)
-		}
+			message = crash.get_extra_data(handle),
+		})
 		crash.release(handle)
 	end
 end
@@ -57,22 +57,21 @@ local function error_handler(source, message, traceback)
 		severity_rating = "Debug"
 	end
 	local error_message = VERSION .. " - " .. source .. " - " .. message .. " - " .. traceback
-	
+
 	if gameanalytics then
-		gameanalytics.addErrorEvent {
+		gameanalytics.addErrorEvent({
 			severity = severity_rating,
-			message = error_message
-		}
+			message = error_message,
+		})
 	end
 	log.critical(error_message)
 end
-
 
 local gameanalytics_keys = {
 	["Windows"] = "gameanalytics.game_key_windows",
 	["Android"] = "gameanalytics.game_key_android",
 	["HTML5"] = "gameanalytics.game_key_html5",
-	["iPhone OS"] = "gameanalytics.game_key_ios"
+	["iPhone OS"] = "gameanalytics.game_key_ios",
 }
 
 local function window_resized()
@@ -82,11 +81,11 @@ end
 function init(self)
 	collectionfactory.create("/menu#collectionfactory")
 	msg.post(url.MENU, messages.HIDE)
-	
+
 	window.set_listener(window_resized)
 	local ga_config = sys.get_config(gameanalytics_keys[platform.CURRENT])
 	if not gameanalytics or ga_config == nil or ga_config == "" then
-		gameanalytics = require "utils.mock_gameanalytics"
+		gameanalytics = require("utils.mock_gameanalytics")
 		log.info("Skipping GameAnalytics")
 	else
 		send_crash_on_start()
@@ -98,21 +97,21 @@ function init(self)
 	defsave.appname = "pokedex5E"
 	defsave.verbose = false
 	defsave.use_default_data = false
-	
+
 	if sys.get_engine_info().is_debug and share and debug.SHARE then
 		backup.save_backup()
 	end
 
 	settings.load()
-	msg.post("@render:", "clear_color", {color=gui_colors.BACKGROUND})
-	
+	msg.post("@render:", "clear_color", { color = gui_colors.BACKGROUND })
+
 	--input order
 	msg.post(".", "acquire_input_focus")
 	msg.post("/screens", "acquire_input_focus")
 	msg.post("/popups", "acquire_input_focus")
 	msg.post("/debug", "acquire_input_focus")
 	msg.post("/menu", "acquire_input_focus")
-	
+
 	if platform.WINDOWS or platform.MACOS then
 		local project = vmath.vector3(720, 1280, 1)
 		local pixel = vmath.vector3(1440, 2560, 0.3)
@@ -122,20 +121,22 @@ function init(self)
 		local iphonex = vmath.vector3(1125, 2436, 0.4)
 		local iphonese = vmath.vector3(640, 1136, 1)
 		local umx = vmath.vector3(480, 854, 1)
-		
+
 		local using = project
-		
-		msg.post("@render:", "resize", { width = using.x*using.z, height = using.y*using.z } )
+
+		msg.post("@render:", "resize", { width = using.x * using.z, height = using.y * using.z })
 	end
 	msg.post("#", messages.SHOW_SPLASH)
-	
+
 	flow.start(function()
 		if platform.WEB then
 			log.info("HTML5: Skipping LuaFileSystem")
 		else
-			require "utils.lfs_extend"
+			require("utils.lfs_extend")
 			fakemon.init()
-			flow.until_true(function() return not fakemon.BUSY end)
+			flow.until_true(function()
+				return not fakemon.BUSY
+			end)
 		end
 		movedex.init()
 		natures.init()
@@ -144,7 +145,9 @@ function init(self)
 		profiles.init()
 
 		flow.delay(1) -- Extra timeout for loading screen
-		flow.until_true( function() return not monarch.is_busy() end)
+		flow.until_true(function()
+			return not monarch.is_busy()
+		end)
 
 		trainer.load()
 		storage.init()
@@ -154,8 +157,8 @@ function init(self)
 		feats.init()
 		network.init()
 
-		if profiles.is_new_game() then 
-			monarch.show(screens.PICK_NAME, nil, {sender=msg.url(), slot=1})
+		if profiles.is_new_game() then
+			monarch.show(screens.PICK_NAME, nil, { sender = msg.url(), slot = 1 })
 		elseif not profiles.get_active_slot() then
 			msg.post("#", messages.SHOW_PROFILE)
 		elseif #storage.list_of_ids_in_party() > 0 then
@@ -173,9 +176,9 @@ function init(self)
 			local up_to_date, versions_behind, _ = version.check_version()
 			if not up_to_date and versions_behind then
 				timer.delay(3, false, function()
-					notify.notify("Pokedex5e is " ..versions_behind .. " versions behind!")
+					notify.notify("Pokedex5e is " .. versions_behind .. " versions behind!")
 				end)
-			end 
+			end
 		end
 	end)
 end
@@ -195,7 +198,6 @@ function on_message(self, message_id, message, sender)
 		monarch.show(screens.STORAGE)
 	end
 end
-
 
 function final(self)
 	if not debug.loaded_backup then
