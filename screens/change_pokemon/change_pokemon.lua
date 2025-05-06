@@ -233,33 +233,52 @@ local function redraw_moves(self)
 		moves_count = math.max(moves_count, data.index)
 	end
 	
-	M.config[hash("change_pokemon/moves")].open.y = M.config[hash("change_pokemon/moves")].closed.y + math.ceil(moves_count/ 2) * 70
+	M.config[hash("change_pokemon/moves")].open.y = M.config[hash("change_pokemon/moves")].closed.y + moves_count * 70
 
 	for _, b in pairs(move_buttons_list) do
 		gui.delete_node(gui.get_node(b.node))
 	end
 	self.move_buttons = {}
+	self.move_buttons.delete = {}
+	self.move_buttons.pp_plus = {}
+	self.move_buttons.pp_minus = {}
 	move_buttons_list = {}
 	for i=1, moves_count do
 		local nodes = gui.clone_tree(self.move_node)
 		local txt = nodes["change_pokemon/txt_move"]
+		local pp_txt = nodes["change_pokemon/txt_move_pp"]		
 		local btn = nodes["change_pokemon/btn_move"]
 		local del = nodes["change_pokemon/btn_move_delete"]
+		local pp_plus = nodes["change_pokemon/btn_move_plus"]
+		local pp_minus = nodes["change_pokemon/btn_move_minus"]
 		local icon = nodes["change_pokemon/icon_move"]
 		gui.set_id(txt, "move_txt" .. i)
+		gui.set_id(pp_txt, "move_txt_pp" .. i)
 		gui.set_id(btn, "move_btn" .. i)
 		gui.set_id(del, "delete_move_btn" .. i)
+		gui.set_id(pp_plus, "pp_plus_move_btn" .. i)
+		gui.set_id(pp_minus, "pp_minus_move_btn" .. i)
 		gui.set_position(btn, position)
 		gui.set_enabled(btn, true)
 		gui.set_color(txt, gui_colors.HERO_TEXT_FADED)
-		table.insert(move_buttons_list, {node="move_btn" .. i, text=txt, icon=icon})
-		table.insert(self.move_buttons, {node="delete_move_btn" .. i, text=txt})
-		position.x = math.mod(i, 2) * 320
-		position.y = math.ceil((i-1)/2) * -70
+		gui.set_color(pp_txt, gui_colors.HERO_TEXT_FADED)
+		table.insert(move_buttons_list, {node="move_btn" .. i, text=txt, icon=icon, pp_text=pp_txt, pp_plus=pp_plus, pp_minus=pp_minus, delete=del})
+		table.insert(self.move_buttons.delete, {node="delete_move_btn" .. i, text=txt})
+		table.insert(self.move_buttons.pp_plus, {node="pp_plus_move_btn" .. i, text=txt})
+		table.insert(self.move_buttons.pp_minus, {node="pp_minus_move_btn" .. i, text=txt})
+
+		-- Set nodes disabled until we confirm there's actually a move there, which we will do in the below loop
+		gui.set_enabled(del, false)
+		gui.set_enabled(pp_plus, false)
+		gui.set_enabled(pp_minus, false)
+		gui.set_enabled(pp_txt, false)
+		
+		position.y = i * -70
 	end
 	for move, data in pairs(moves) do
 		local _index = data.index
 		local move_node = move_buttons_list[_index].text
+		local pp_node = move_buttons_list[_index].pp_text
 		local icon_node = move_buttons_list[_index].icon
 		
 		move_buttons_list[_index].move_name = move
@@ -268,6 +287,16 @@ local function redraw_moves(self)
 		gui_utils.scale_text_to_fit_size(move_node)
 		gui.set_color(move_node, movedex.get_move_color(move))
 		gui.play_flipbook(icon_node, movedex.get_move_icon(move))
+
+		gui.set_enabled(pp_node, true)
+		gui.set_enabled(move_buttons_list[_index].delete, true)
+
+		local pp_boost = _pokemon.get_move_pp_boost(self.pokemon, move)
+		local max_pp_boost = movedex.get_move_max_pp_boost(move)
+		gui.set_enabled(move_buttons_list[_index].pp_plus, pp_boost < max_pp_boost)
+		gui.set_enabled(move_buttons_list[_index].pp_minus, pp_boost > 0)
+
+		gui.set_text(pp_node, (pp_boost <= 0) and "PP Up" or "PP +" .. pp_boost)
 	end
 end
 
@@ -491,6 +520,9 @@ function M.init(self, pokemon)
 	self.feats_data = {}
 	self.skills_data = {}
 	self.move_buttons = {}
+	self.move_buttons.delete = {}
+	self.move_buttons.pp_plus = {}
+	self.move_buttons.pp_minus = {}
 	self.ability_data = {}
 	self.move_button_index = 0
 	self.choosing_variant_for_new_species = false
@@ -676,6 +708,27 @@ local function delete_move(self, index)
 	redraw(self)
 end
 
+local function move_pp_plus(self, index)
+	local move = _pokemon.get_move_at_index(self.pokemon, index)
+	if move then		
+		local boost = _pokemon.get_move_pp_boost(self.pokemon, move)
+		boost = boost + 2
+		_pokemon.set_move_pp_boost(self.pokemon, move, boost)
+		redraw(self)
+	end
+end
+
+local function move_pp_minus(self, index)
+	local move = _pokemon.get_move_at_index(self.pokemon, index)
+	if move then		
+		local boost = _pokemon.get_move_pp_boost(self.pokemon, move)
+		boost = boost - 2
+		boost = math.ceil(boost/2)*2 -- In case the move max was like 5 or something, this should go 0,2,4,5 when increasing, then 5,4,2,0 when decreasing
+		_pokemon.set_move_pp_boost(self.pokemon, move, boost)
+		redraw(self)
+	end
+end
+
 local function ability_buttons(self, action_id, action)
 	gooey.button("change_pokemon/btn_reset_abilities", action_id, action, function()
 		_pokemon.reset_abilities(self.pokemon)
@@ -752,9 +805,21 @@ local function extra_buttons(self, action_id, action)
 end
 
 local function move_buttons(self, action_id, action)
-	for index, data in pairs(self.move_buttons) do
+	for index, data in pairs(self.move_buttons.delete) do
 		local a = gooey.button(data.node, action_id, action, function(c) delete_move(self, index) end, gooey_buttons.cross_button)
-		if a.over then
+		if a.enabled and a.over then
+			return
+		end
+	end
+	for index, data in pairs(self.move_buttons.pp_plus) do
+		local a = gooey.button(data.node, action_id, action, function(c) move_pp_plus(self, index) end, gooey_buttons.plus_button)
+		if a.enabled and a.over then
+			return
+		end
+	end
+	for index, data in pairs(self.move_buttons.pp_minus) do
+		local a = gooey.button(data.node, action_id, action, function(c) move_pp_minus(self, index) end, gooey_buttons.minus_button)
+		if a.enabled and a.over then
 			return
 		end
 	end
