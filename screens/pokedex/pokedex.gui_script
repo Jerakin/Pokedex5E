@@ -144,8 +144,8 @@ local function update_pokedex_info(self)
 	gui.set_text(gui.get_node("txt_caught_hoenn"), dex.get_region_caught(dex_data.regions.HOENN))
 	gui.set_text(gui.get_node("txt_caught_sinnoh"), dex.get_region_caught(dex_data.regions.SINNOH))
 	gui.set_text(gui.get_node("txt_caught_unova"), dex.get_region_caught(dex_data.regions.UNOVA))
-	gui.set_text(gui.get_node("txt_caught_kalos"), dex.get_region_seen(dex_data.regions.KALOS))
-	gui.set_text(gui.get_node("txt_caught_alola"), dex.get_region_seen(dex_data.regions.ALOLA))
+	gui.set_text(gui.get_node("txt_caught_kalos"), dex.get_region_caught(dex_data.regions.KALOS))
+	gui.set_text(gui.get_node("txt_caught_alola"), dex.get_region_caught(dex_data.regions.ALOLA))
 end
 
 local function scroll_list_click(self, list)
